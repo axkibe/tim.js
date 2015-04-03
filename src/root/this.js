@@ -65,7 +65,7 @@ findJionCodeRootDir =
 		{
 			// ignore
 		}
-		
+
 		if( stat ) return path + '/';
 	}
 };
@@ -154,7 +154,7 @@ module.exports =
 				);
 		}
 	}
-	
+
 	// find the filename to find/write this jioncode
 
 	filename = module.filename;
@@ -190,7 +190,7 @@ module.exports =
 		{
 			// ignore
 		}
-	
+
 		if( !outStat || inStat.mtime > outStat.mtime )
 		{
 			console.log(
