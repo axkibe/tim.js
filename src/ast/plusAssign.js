@@ -39,7 +39,7 @@ var
 	prototype;
 
 
-ast_plusAssign = require( '../jion/this' )( module );
+ast_plusAssign = require( '../jion/this' )( module, 'ouroboros' );
 
 prototype = ast_plusAssign.prototype;
 
