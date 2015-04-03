@@ -13,7 +13,7 @@
 /*
 | The jion definition.
 */
-if( JION )
+if( GLOBAL.JION )
 {
 	return{
 		id : 'ast_and',
@@ -38,7 +38,7 @@ var
 	ast_and,
 	prototype;
 
-ast_and = require( '../jion/this' )( module, 'ouroborus' );
+ast_and = require( '../jion/this' )( module, 'ouroboros' );
 
 prototype = ast_and.prototype;
 

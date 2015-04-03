@@ -28,7 +28,7 @@ var
 	tools;
 
 
-ast_objLiteral = require( '../jion/this' )( module );
+ast_objLiteral = require( '../jion/this' )( module, 'ouroboros' );
 
 prototype = ast_objLiteral.prototype;
 

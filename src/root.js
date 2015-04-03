@@ -13,6 +13,11 @@ GLOBAL.NODE = true;
 // FIXME
 GLOBAL.SERVER = true;
 
+// FIXME
+GLOBAL.JION = false;
+
+GLOBAL.CHECK = !!GLOBAL.CHECK;
+
 /*
 | If freezing is unconfigured, default to yes
 */

@@ -29,7 +29,7 @@ if( JION )
 var
 	prototype;
 
-ast_arrayLiteral = require( '../jion/this' )( module, 'ouroborus' );
+ast_arrayLiteral = require( '../jion/this' )( module, 'ouroboros' );
 
 prototype = ast_arrayLiteral.prototype;
 
