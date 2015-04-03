@@ -10,6 +10,9 @@ fs = require( 'fs' );
 */
 GLOBAL.NODE = true;
 
+// FIXME
+GLOBAL.SERVER = true;
+
 /*
 | If freezing is unconfigured, default to yes
 */

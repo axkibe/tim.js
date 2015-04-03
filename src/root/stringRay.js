@@ -15,11 +15,9 @@
 */
 if( JION )
 {
-	return {
-		id :
-			'jion_stringRay',
-		ray :
-			[ 'string' ]
+	return{
+		id : 'jion_stringRay',
+		ray : [ 'string' ]
 	};
 }
 
@@ -27,7 +25,7 @@ if( JION )
 var
 	jion_stringRay;
 
-jion_stringRay = require( '../jion/this' )( module );
+jion_stringRay = require( '../jion/this' )( module, 'ouroboros' );
 
 
 /*

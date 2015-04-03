@@ -3,18 +3,19 @@
 | module that requires this.
 */
 
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
 var
-	findJionCodeDir,
+	findJionCodeRootDir,
+	format_formatter,
+	generateJionCode,
+	generator,
+	requireGenerator,
 	fs,
+	readOptions,
 	vm;
+
 
 fs = require( 'fs' );
 
@@ -25,103 +26,187 @@ vm = require( 'vm' );
 */
 require( './proto' );
 
+readOptions = { encoding : 'utf8' };
+
+if( FREEZE )
+{
+	Object.freeze( readOptions );
+}
 
 /*
-| Returns the first 'jioncode' directory going
-| from a fileame backwards.
+| Returns the first parent directory
+| of a filepath that contains a 'jioncode'
+| subdirectory.
 |
-| Or returns undefined if not found.
+| Or returns undefined if no such exists.
 */
-findJionCodeDir =
+findJionCodeRootDir =
 	function(
-		filename
+		path
 	)
 {
 	var
-		jionCodeDir,
 		slash,
 		stat;
-		
 
 	while( true )
 	{
-		slash = filename.lastIndexOf( '/' );
+		slash = path.lastIndexOf( '/' );
 
 		if( slash < 0 ) return;
 
-		jionCodeDir = filename.substr( 0, slash - 1 );
+		path = path.substr( 0, slash );
 
-		stat = fs.fileStatSync( jionCodeDir );
-
-		if( stat ) return jionCodeDir;
+		try
+		{
+			stat = fs.statSync( path + '/jioncode/' );
+		}
+		catch( e )
+		{
+			// ignore
+		}
+		
+		if( stat ) return path + '/';
 	}
 };
 
 
-module.exports =
+/*
+| Generates the jioncode for a jion
+| defined in 'filename'.
+*/
+generateJionCode =
 	function(
-		module
-		// + arguments
+		filename,  // the file to get the jion definition of
+		jionCodeFilename // the file to write the jioncode to
 	)
 {
 	var
+		ast,
+		global,
+		input,
+		jion,
+		output;
+
+	if( !requireGenerator )
+	{
+		// requires the generator stuff only when needed
+		generator = require( './generator' );
+
+		format_formatter = require( '../format/formatter' );
+	}
+
+	input = fs.readFileSync( filename, readOptions );
+
+	global = { JION : true };
+
+	global.GLOBAL = global;
+
+	jion = vm.runInNewContext( input, global, filename );
+
+	ast = generator.generate( jion );
+
+	output = format_formatter.format( ast );
+
+	fs.writeFileSync( jionCodeFilename, output );
+};
+
+
+/*
+| Creates and requires the jioncode defined in the current module.
+|
+| Additional Arguments:
+|
+| 'ouroboros'
+|    used by jion itself to force loading its own jioncode without
+|    creating it on the fly.
+*/
+module.exports =
+	function(
+		module
+		// + additional arguments
+	)
+{
+	var
+		a,
+		aZ,
+		context,
 		filename,
-		jionCodeDir;
+		inStat,
+		jionCodeRootDir,
+		jionCodeFilename,
+		k,
+		ouroboros,
+		outStat;
+
+	// additional argument parsing
+
+	for( a = 1, aZ = arguments.length; a < aZ; a++ )
+	{
+		switch( arguments[ a ] )
+		{
+			case 'ouroboros' : ouroboros = true; break;
+
+			default :
+
+				throw new Error(
+					'unknown jion.this argument: ' + arguments[ a ]
+				);
+		}
+	}
+	
+	// find the filename to find/write this jioncode
 
 	filename = module.filename;
 
-	jionCodeDir = findJionCodeDir( filename );
+	jionCodeRootDir = findJionCodeRootDir( filename );
 
-	console.log( 'jcd', jionCodeDir );
-
-if( true ) throw new Error( 'TODO' );
-
-	/*
-	si = server.filename.indexOf( separator );
-
-	if( si < 0 )
-	{
-		si = server.filename.indexOf( '/repl' );
-	}
-
-	if( si < 0 )
+	if( !jionCodeRootDir )
 	{
 		throw new Error(
-			'root module ("'
-			+ server.filename
-			+ '") has no "'
-			+ separator
-			+ '" separator'
+			'cannot find a parent directory '
+			+ 'containing a jioncode/ directory for: '
+			+ filename
 		);
 	}
 
-	inFilename = module.filename.substring( si + 1 );
+	jionCodeFilename =
+		jionCodeRootDir
+		+ 'jioncode/'
+		+ filename.substr( jionCodeRootDir.length ).replace( /\//g, '-' );
 
-	outFilename =
-		'jion/'
-		+ ( GLOBAL.APP ? APP + '/' : '' )
-		+ inFilename.replace( /\//g, '-' );
-
-	inStat = fs.statSync( inFilename );
-
-	outStat = fs.statSync( outFilename );
-
-	if( inStat.mtime > outStat.mtime )
+	// test if the jioncode is out of date
+	// or if it isn't existing at all
+	// and create it if so.
+	if( !ouroboros )
 	{
-		if( !GLOBAL.FORCE_JION_LOADING ) // FIXME
+		inStat = fs.statSync( filename );
+
+		try
 		{
-			throw new Error(
-				'Out of date jion: '
-				+ inFilename
+			outStat = fs.statSync( jionCodeFilename );
+		}
+		catch( e )
+		{
+			// ignore
+		}
+	
+		if( !outStat || inStat.mtime > outStat.mtime )
+		{
+			console.log(
+				'Generating jioncode for '
+				+ filename
 				+ ' -> '
-				+ outFilename
+				+ jionCodeFilename
 			);
+
+			generateJionCode( filename, jionCodeFilename );
 		}
 	}
 
 	// loads the jion code.
 
-	// runs the jion code with this module context
+	// runs the jion code within the handed module context
 	// so module.exports match exactly even with
 	// circula references
 	context = { };
@@ -142,6 +227,8 @@ if( true ) throw new Error( 'TODO' );
 	// and the jion require places. However
 	// this might need some path adapting if things
 	// change
+
+	// FIXME fix pathign
 	context.require =
 		function( path )
 	{
@@ -149,14 +236,10 @@ if( true ) throw new Error( 'TODO' );
 	};
 
 	vm.runInNewContext(
-		fs.readFileSync( outFilename ) + '',
+		fs.readFileSync( jionCodeFilename ) + '', // FIXME '' needed?
 		context,
-		outFilename
+		jionCodeFilename
 	);
 
 	return module.exports;
-	*/
 };
-
-
-} )( );
