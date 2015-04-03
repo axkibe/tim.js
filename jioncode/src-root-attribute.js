@@ -137,11 +137,11 @@ if( SERVER )
 
 	ast_var = require( '../../src/ast/var' );
 
-	jion_id = require( '../../src/jion/id' );
+	jion_id = require( '../../src/root/id' );
 
-	jion_idGroup = require( '../../src/jion/idGroup' );
+	jion_idGroup = require( '../../src/root/idGroup' );
 
-	jion_proto = require( '../../src/jion/proto' );
+	jion_proto = require( '../../src/root/proto' );
 }
 
 

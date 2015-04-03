@@ -46,9 +46,9 @@ if( SERVER )
 {
 	jools = require( '../../src/jools/jools' );
 
-	jion_attribute = require( '../../src/jion/attribute' );
+	jion_attribute = require( '../../src/root/attribute' );
 
-	jion_proto = require( '../../src/jion/proto' );
+	jion_proto = require( '../../src/root/proto' );
 }
 
 

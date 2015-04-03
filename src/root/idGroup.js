@@ -15,9 +15,11 @@
 */
 if( JION )
 {
-	return{
-		id : 'jion_idGroup',
-		group : [ 'jion_id' ]
+	return {
+		id :
+			'jion_idGroup',
+		group :
+			[ 'jion_id' ]
 	};
 }
 
@@ -28,7 +30,7 @@ var
 	jools;
 
 
-jion_idGroup = require( '../jion/this' )( module, 'ouroboros' );
+jion_idGroup = require( '../jion/this' )( module );
 
 jion_id = require( './id' );
 

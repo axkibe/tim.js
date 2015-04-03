@@ -13,7 +13,7 @@
 /*
 | The jion definition.
 */
-if( GLOBAL.JION )
+if( JION )
 {
 	return{
 		id : 'jion_id',
@@ -43,7 +43,7 @@ var
 	prototype,
 	shorthand;
 
-jion_id = require( '../jion/this' )( module, 'ouroboros' );
+jion_id = require( '../jion/this' )( module );
 
 prototype = jion_id.prototype;
 

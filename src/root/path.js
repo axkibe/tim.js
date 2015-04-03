@@ -32,7 +32,7 @@ if( JION )
 */
 if( NODE )
 {
-	jion_path = require( '../jion/this' )( module, 'ouroboros' );
+	jion_path = require( '../jion/this' )( module );
 
 	jools = require( '../jools/jools' );
 }
