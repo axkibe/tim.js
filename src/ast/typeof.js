@@ -30,7 +30,8 @@ if( JION )
 
 
 var
-	ast_typeof;
+	ast_typeof,
+	prototype;
 
 ast_typeof = require( '../jion/this' )( module, 'ouroboros' );
 

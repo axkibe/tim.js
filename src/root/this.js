@@ -12,6 +12,7 @@
 
 
 var
+	findJionCodeDir,
 	fs,
 	vm;
 
@@ -20,37 +21,62 @@ fs = require( 'fs' );
 vm = require( 'vm' );
 
 /*
-| needs to set 'pass' global.
+| needs the 'pass' global being set.
 */
 require( './proto' );
+
+
+/*
+| Returns the first 'jioncode' directory going
+| from a fileame backwards.
+|
+| Or returns undefined if not found.
+*/
+findJionCodeDir =
+	function(
+		filename
+	)
+{
+	var
+		jionCodeDir,
+		slash,
+		stat;
+		
+
+	while( true )
+	{
+		slash = filename.lastIndexOf( '/' );
+
+		if( slash < 0 ) return;
+
+		jionCodeDir = filename.substr( 0, slash - 1 );
+
+		stat = fs.fileStatSync( jionCodeDir );
+
+		if( stat ) return jionCodeDir;
+	}
+};
 
 
 module.exports =
 	function(
 		module
+		// + arguments
 	)
 {
 	var
-		context,
-		inFilename,
-		inStat,
-		k,
-		outFilename,
-		outStat,
-		server,
-		separator,
-		si;
+		filename,
+		jionCodeDir;
 
-	server = module;
+	filename = module.filename;
 
-	separator = '/src/';
+	jionCodeDir = findJionCodeDir( filename );
 
-	// gets the server module
-	while( server.parent )
-	{
-		server = server.parent;
-	}
+	console.log( 'jcd', jionCodeDir );
 
+if( true ) throw new Error( 'TODO' );
+
+	/*
 	si = server.filename.indexOf( separator );
 
 	if( si < 0 )
@@ -129,6 +155,7 @@ module.exports =
 	);
 
 	return module.exports;
+	*/
 };
 
 

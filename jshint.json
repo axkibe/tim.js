@@ -17,6 +17,7 @@
 		"CHECK" : true,
 		"FREEZE" : true,
 		"NODE" : true,
+		"SERVER" : true,
 		"JION" : true,
 		"pass" : true,
 		"root" : true
