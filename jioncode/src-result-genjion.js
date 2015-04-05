@@ -34,11 +34,11 @@ var
 */
 		if( SERVER )
 		{
-			jools = require( '../../src/jools/jools' );
+			jools = require( '../src/jools/jools' );
 
 			jion = { };
 
-			jion.proto = require( '../../src/jion/proto' );
+			jion.proto = require( '../src/proto' );
 		}
 
 /*

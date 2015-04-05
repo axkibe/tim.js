@@ -38,7 +38,7 @@ var
 	ast_and,
 	prototype;
 
-ast_and = require( '../jion/this' )( module, 'ouroboros' );
+ast_and = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_and.prototype;
 

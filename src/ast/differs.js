@@ -39,7 +39,7 @@ var
 	prototype;
 
 
-ast_differs = require( '../jion/this' )( module, 'ouroboros' );
+ast_differs = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_differs.prototype;
 

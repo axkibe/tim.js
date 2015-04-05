@@ -33,7 +33,7 @@ var
 	prototype;
 
 
-ast_number = require( '../jion/this' )( module, 'ouroboros' );
+ast_number = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_number.prototype;
 

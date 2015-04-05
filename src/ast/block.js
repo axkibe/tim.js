@@ -32,7 +32,7 @@ var
 	tools;
 
 
-ast_block = require( '../jion/this' )( module, 'ouroboros' );
+ast_block = require( '../this' )( module, 'ouroboros' );
 
 ast_comment = require( './comment' );
 

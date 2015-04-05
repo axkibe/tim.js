@@ -43,13 +43,13 @@ var
 	prototype,
 	shorthand;
 
-jion_id = require( '../jion/this' )( module );
+jion_id = require( './this' )( module, 'ouroboros' );
 
 prototype = jion_id.prototype;
 
-jools = require( '../jools/jools' );
+jools = require( './jools/jools' );
 
-shorthand = require( '../ast/shorthand' );
+shorthand = require( './ast/shorthand' );
 
 
 /*

@@ -45,7 +45,7 @@ var
 	ast_condition,
 	prototype;
 
-ast_condition = require( '../jion/this' )( module, 'ouroboros' );
+ast_condition = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_condition.prototype;
 

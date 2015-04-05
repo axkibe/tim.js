@@ -39,7 +39,7 @@ var
 	ast_varDec,
 	prototype;
 
-ast_varDec = require( '../jion/this' )( module, 'ouroboros' );
+ast_varDec = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_varDec.prototype;
 

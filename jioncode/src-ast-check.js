@@ -44,11 +44,11 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../../src/jools/jools' );
+	jools = require( '../src/jools/jools' );
 
-	ast_block = require( '../../src/ast/block' );
+	ast_block = require( '../src/ast/block' );
 
-	jion_proto = require( '../../src/jion/proto' );
+	jion_proto = require( '../src/proto' );
 }
 
 

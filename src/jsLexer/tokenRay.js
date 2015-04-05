@@ -15,16 +15,14 @@
 */
 if( JION )
 {
-	return {
-		id :
-			'jsLexer_tokenRay',
-		ray :
-			[ 'jsLexer_token' ]
+	return{
+		id : 'jsLexer_tokenRay',
+		ray : [ 'jsLexer_token' ]
 	};
 }
 
 
-require( '../jion/this' )( module );
+require( '../this' )( module, 'ouroboros' );
 
 
 } )( );

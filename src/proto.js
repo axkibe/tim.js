@@ -19,7 +19,7 @@ if( NODE )
 {
 	jion_proto = module.exports;
 
-	jools = require( '../jools/jools' );
+	jools = require( './jools/jools' );
 
 	// global pass flag for creators
 	pass =

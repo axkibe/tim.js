@@ -71,7 +71,7 @@ jion_idGroup = require( './idGroup' );
 
 jion_stringRay = require( './stringRay' );
 
-jools = require( '../jools/jools' );
+jools = require( './jools/jools' );
 
 jion_attribute = require( './attribute' );
 
@@ -79,9 +79,9 @@ jion_attributeGroup = require( './attributeGroup' );
 
 jion_validator = require( './validator' );
 
-parser = require( '../jsParser/parser' );
+parser = require( './jsParser/parser' );
 
-shorthand = require( '../ast/shorthand' );
+shorthand = require( './ast/shorthand' );
 
 /*
 | Shorthanding Shorthands.

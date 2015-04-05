@@ -26,7 +26,7 @@ var
 	ast_null,
 	prototype;
 
-ast_null = require( '../jion/this' )( module, 'ouroboros' );
+ast_null = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_null.prototype;
 

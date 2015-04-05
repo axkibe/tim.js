@@ -93,7 +93,7 @@ generateJionCode =
 		// requires the generator stuff only when needed
 		generator = require( './generator' );
 
-		format_formatter = require( '../format/formatter' );
+		format_formatter = require( './format/formatter' );
 	}
 
 	input = fs.readFileSync( filename, readOptions );

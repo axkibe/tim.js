@@ -26,9 +26,9 @@ if( GLOBAL.FREEZE === undefined ) GLOBAL.FREEZE = true;
 /*
 |  the jion module
 */
-module.exports.this = require( './root/this.js' );
+module.exports.this = require( './this.js' );
 
-module.exports.proto = require( './root/proto.js' );
+module.exports.proto = require( './proto.js' );
 
 
 if( FREEZE )

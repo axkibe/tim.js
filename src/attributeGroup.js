@@ -16,15 +16,13 @@
 if( JION )
 {
 	return {
-		id :
-			'jion_attributeGroup',
-		group :
-			[ 'jion_attribute' ]
+		id : 'jion_attributeGroup',
+		group : [ 'jion_attribute' ]
 	};
 }
 
 
-require( '../jion/this' )( module );
+require( './this' )( module, 'ouroboros' );
 
 
 } )( );

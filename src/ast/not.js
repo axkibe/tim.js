@@ -33,7 +33,7 @@ var
 	ast_not,
 	prototype;
 
-ast_not = require( '../jion/this' )( module, 'ouroboros' );
+ast_not = require( '../this' )( module, 'ouroboros' );
 
 
 /**/if( CHECK )

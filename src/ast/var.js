@@ -38,7 +38,7 @@ var
 	tools;
 
 
-ast_var = require( '../jion/this' )( module, 'ouroboros' );
+ast_var = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_var.prototype;
 

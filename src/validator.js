@@ -36,7 +36,7 @@ var
 	jools,
 	jionWhitelist;
 
-jools = require( '../jools/jools' );
+jools = require( './jools/jools' );
 
 
 /*

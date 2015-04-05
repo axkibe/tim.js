@@ -15,30 +15,23 @@
 */
 if( JION )
 {
-	return {
-		id :
-			'jsLexer_token',
+	return{
+		id : 'jsLexer_token',
 		attributes :
+		{
+			type :
 			{
-				type :
-					{
-						comment :
-							'the token type',
-						type :
-							'string'
-					},
-				value :
-					{
-						comment :
-							'the token value',
-						type :
-							[ 'number', 'boolean', 'string' ],
-						defaultValue :
-							'undefined'
-					}
+				comment : 'the token type',
+				type : 'string'
 			},
-		init :
-			[ ]
+			value :
+			{
+				comment : 'the token value',
+				type : [ 'number', 'boolean', 'string' ],
+				defaultValue : 'undefined'
+			}
+		},
+		init : [ ]
 	};
 }
 
@@ -47,7 +40,7 @@ var
 	token,
 	tokenList;
 
-token = require( '../jion/this' )( module );
+token = require( '../this' )( module, 'ouroboros' );
 
 
 /**/if( CHECK )

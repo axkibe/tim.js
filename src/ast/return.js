@@ -34,7 +34,7 @@ var
 	prototype;
 
 
-ast_return = require( '../jion/this' )( module, 'ouroboros' );
+ast_return = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_return.prototype;
 

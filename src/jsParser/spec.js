@@ -56,7 +56,7 @@ if( JION )
 var
 	tokenSpec;
 
-tokenSpec = require( '../jion/this' )( module, 'ouroboros' );
+tokenSpec = require( '../this' )( module, 'ouroboros' );
 
 
 /*

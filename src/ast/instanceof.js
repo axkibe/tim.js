@@ -38,7 +38,7 @@ var
 	ast_instanceof,
 	prototype;
 
-ast_instanceof = require( '../jion/this' )( module, 'ouroboros' );
+ast_instanceof = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_instanceof.prototype;
 

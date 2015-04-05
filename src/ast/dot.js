@@ -42,7 +42,7 @@ var
 	prototype;
 
 
-ast_dot = require( '../jion/this' )( module, 'ouroboros' );
+ast_dot = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_dot.prototype;
 

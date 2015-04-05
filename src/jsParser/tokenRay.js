@@ -23,7 +23,7 @@ if( JION )
 }
 
 
-require( '../jion/this' )( module );
+require( '../this' )( module, 'ouroboros' );
 
 
 } )( );

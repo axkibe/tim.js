@@ -43,7 +43,7 @@ var
 	ast_func;
 
 
-ast_func = require( '../jion/this' )( module, 'ouroboros' );
+ast_func = require( '../this' )( module, 'ouroboros' );
 
 ast_funcArg = require( './funcArg' );
 

@@ -38,7 +38,7 @@ var
 	ast_multiplyAssign,
 	prototype;
 
-ast_multiplyAssign = require( '../jion/this' )( module, 'ouroboros' );
+ast_multiplyAssign = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_multiplyAssign.prototype;
 

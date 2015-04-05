@@ -45,7 +45,7 @@ var
 	tools;
 
 
-ast_switch = require( '../jion/this' )( module, 'ouroboros' );
+ast_switch = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_switch.prototype;
 

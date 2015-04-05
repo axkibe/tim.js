@@ -36,7 +36,7 @@ var
 	tools;
 
 
-ast_call = require( '../jion/this' )( module, 'ouroboros' );
+ast_call = require( '../this' )( module, 'ouroboros' );
 
 jools = require( '../jools/jools' );
 

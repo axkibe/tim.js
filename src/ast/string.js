@@ -33,7 +33,7 @@ var
 	ast_string,
 	prototype;
 
-ast_string = require( '../jion/this' )( module, 'ouroboros' );
+ast_string = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_string.prototype;
 

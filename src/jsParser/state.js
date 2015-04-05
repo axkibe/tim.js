@@ -44,7 +44,7 @@ var
 	jools,
 	state;
 
-state = require( '../jion/this' )( module );
+state = require( '../this' )( module, 'ouroboros' );
 
 jools = require( '../jools/jools' );
 

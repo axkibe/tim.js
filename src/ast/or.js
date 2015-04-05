@@ -39,7 +39,7 @@ var
 	prototype;
 
 
-ast_or = require( '../jion/this' )( module, 'ouroboros' );
+ast_or = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_or.prototype;
 

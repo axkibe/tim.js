@@ -38,7 +38,7 @@ var
 	ast_lessThan,
 	prototype;
 
-ast_lessThan = require( '../jion/this' )( module, 'ouroboros' );
+ast_lessThan = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_lessThan.prototype;
 

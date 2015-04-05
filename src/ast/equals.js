@@ -37,7 +37,7 @@ if( JION )
 var
 	ast_equals;
 
-ast_equals = require( '../jion/this' )( module, 'ouroboros' );
+ast_equals = require( '../this' )( module, 'ouroboros' );
 
 
 /**/if( CHECK )

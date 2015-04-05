@@ -37,7 +37,7 @@ if( JION )
 var
 	ast_greaterThan;
 
-ast_greaterThan = require( '../jion/this' )( module, 'ouroboros' );
+ast_greaterThan = require( '../this' )( module, 'ouroboros' );
 
 
 /**/if( CHECK )
