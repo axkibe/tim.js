@@ -2707,9 +2707,6 @@ prototype.genJionProto =
 				'jools.lazyValue( prototype, "length", jion_proto.twigLength )'
 			)
 
-			.$comment( 'Creates a new unique identifier.' )
-			.$( 'prototype.newUID = jion_proto.newUID' )
-
 			.$comment( 'Returns the rank of the key.' )
 			.$(
 				'jools.lazyFunctionString( ',

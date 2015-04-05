@@ -3,7 +3,7 @@
 */
 
 var
-	jools,
+	isString,
 	jion_proto,
 	pass;
 
@@ -18,8 +18,6 @@ var
 if( NODE )
 {
 	jion_proto = module.exports;
-
-	jools = require( './jools/jools' );
 
 	// global pass flag for creators
 	pass =
@@ -45,6 +43,17 @@ if( FREEZE )
 {
 	Object.freeze( pass );
 }
+
+
+/*
+| Returns true if o is a String.
+*/
+isString =
+jion_proto.isString  =
+	function( o )
+{
+	return typeof( o ) === 'string' || ( o instanceof String );
+};
 
 
 /*
@@ -193,25 +202,6 @@ jion_proto.getPath =
 
 
 /*
-| Creates a new unique identifier.
-*/
-jion_proto.newUID =
-	function( )
-{
-	var
-		u;
-
-	u = jools.uid( );
-
-	return (
-		( this.twig[ u ] === undefined )
-		?  u
-		: this.newUID( )
-	);
-};
-
-
-/*
 | Returns the group with another group added,
 | overwriting collisions.
 */
@@ -232,7 +222,12 @@ jion_proto.groupAddGroup =
 /**/	}
 /**/}
 
-	g = jools.copy( this.group );
+	g = { };
+
+	for( k in this.group )
+	{
+		g[ k ] = this.group[ k ];
+	}
 
 	for( k in group.group )
 	{
@@ -502,7 +497,7 @@ jion_proto.twigRankOf =
 
 /**/if( CHECK )
 /**/{
-/**/	if( !jools.isString( key ) )
+/**/	if( !isString( key ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}
