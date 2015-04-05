@@ -62,7 +62,7 @@ var _tab = '\t'; // FIXME
 var
 	jools;
 
-format_context = require( '../jion/this' )( module, 'ouroboros' );
+format_context = require( '../this' )( module, 'ouroboros' );
 
 jools = require( '../jools/jools' );
 

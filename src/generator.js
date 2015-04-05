@@ -156,7 +156,7 @@ prototype._init =
 
 	units = jion_idGroup.create( );
 
-	units = units.add( jion_id.createFromString( 'jion_proto' ) );
+//	units = units.add( jion_id.createFromString( 'jion_proto' ) ); FIXME REMOVE
 
 	searchIdWalk =
 		function( node )
@@ -438,10 +438,7 @@ prototype.genImports =
 		result,
 		unitList;
 
-	result =
-		$block( )
-		.$comment( 'Imports.' )
-		.$varDec( 'jools' );
+	result = $block( );
 
 	// FIXME: when type checking is there,
 	// this might become needed always.
@@ -497,9 +494,7 @@ prototype.genNodeIncludes =
 		unitList,
 		unitStr;
 
-	block =
-		$block( )
-		.$( 'jools = require( "../../src/jools/jools" )' );
+	block = $block( );
 
 	// generates the unit objects
 
@@ -2274,7 +2269,7 @@ prototype.genFromJsonCreatorRayProcessing =
 		rZ;
 
 	haveNull = false;
-	
+
 	haveUndefined = false;
 
 	result =

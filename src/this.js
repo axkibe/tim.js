@@ -8,18 +8,22 @@
 
 var
 	findJionCodeRootDir,
+	fs,
 	format_formatter,
 	generateJionCode,
 	generator,
+	jion_proto,
 	requireGenerator,
-	fs,
 	readOptions,
 	vm;
 
 
 fs = require( 'fs' );
 
+jion_proto = require( './proto' );
+
 vm = require( 'vm' );
+
 
 /*
 | needs the 'pass' global being set.
@@ -220,6 +224,8 @@ module.exports =
 
 		context[ k ] = GLOBAL[ k ];
 	}
+
+	context.jion_proto = jion_proto;
 
 	context.module = module;
 
