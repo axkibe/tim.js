@@ -33,10 +33,13 @@ var
 	checkPrepare,
 	checkRay,
 	checkTwig,
-	jools,
+	isString,
+	jion_proto,
 	jionWhitelist;
 
-jools = require( './jools/jools' );
+jion_proto = require( './proto' );
+
+isString = jion_proto.isString;
 
 
 /*
@@ -191,7 +194,7 @@ checkGroup =
 
 	map = { };
 
-	if( jools.isString( group ) )
+	if( isString( group ) )
 	{
 		if( !( /\->[a-zA-Z_-]+/.test( jion.group ) ) )
 		{
@@ -216,7 +219,7 @@ checkGroup =
 	{
 		entry = group[ a ];
 
-		if( !jools.isString( entry ) )
+		if( !isString( entry ) )
 		{
 			throw new Error(
 				'group definition entry not a string'
@@ -257,7 +260,7 @@ checkRay =
 
 	map = { };
 
-	if( jools.isString( ray ) )
+	if( isString( ray ) )
 	{
 		if( !( /\->[a-zA-Z_-]+/.test( jion.ray ) ) )
 		{
@@ -282,7 +285,7 @@ checkRay =
 	{
 		entry = ray[ a ];
 
-		if( !jools.isString( entry ) )
+		if( !isString( entry ) )
 		{
 			throw new Error(
 				'twig definition entry not a string'
@@ -322,7 +325,7 @@ checkTwig =
 
 	map = { };
 
-	if( jools.isString( twig ) )
+	if( isString( twig ) )
 	{
 		if( !( /\->[a-zA-Z_-]+/.test( jion.twig ) ) )
 		{
@@ -347,7 +350,7 @@ checkTwig =
 	{
 		entry = twig[ a ];
 
-		if( !jools.isString( entry ) )
+		if( !isString( entry ) )
 		{
 			throw new Error(
 				'twig definition entry not a string'
@@ -378,7 +381,7 @@ checkAttributeSingleType =
 		type  // the type specifier to check
 	)
 {
-	if( !jools.isString( type ) )
+	if( !isString( type ) )
 	{
 		throw new Error(
 			'attribute "' + name + '" has invalid type: ' + type
@@ -463,7 +466,7 @@ checkAttribute =
 
 	type = attr.type;
 
-	if( jools.isString( type ) )
+	if( isString( type ) )
 	{
 		checkAttributeSingleType( name, type );
 	}
@@ -491,7 +494,7 @@ checkAttribute =
 		{
 			case 'defaultValue' :
 
-				if( !jools.isString( attr.defaultValue ) )
+				if( !isString( attr.defaultValue ) )
 				{
 					throw new Error( 'defaultValue not a string expression' );
 				}
@@ -537,7 +540,7 @@ checkAttribute =
 
 			case 'assign' :
 
-				if( !jools.isString( attr.assign ) )
+				if( !isString( attr.assign ) )
 				{
 					throw new Error( 'assign not a string' );
 				}
@@ -573,7 +576,7 @@ checkAttribute =
 */
 validator.check =
 	function(
-		jion // the jools object definition
+		jion // the jion object definition
 	)
 {
 	var
@@ -596,7 +599,7 @@ validator.check =
 		}
 	}
 
-	if( !jools.isString( jion.id ) )
+	if( !isString( jion.id ) )
 	{
 		throw new Error( 'id missing' );
 	}
