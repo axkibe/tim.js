@@ -28,7 +28,7 @@ jion_lazy.innumerable =
 	function(
 		obj,
 		key,
-		value,
+		value
 	)
 {
 	Object.defineProperty(
