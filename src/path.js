@@ -4,8 +4,8 @@
 
 
 var
-	jion_path,
-	jools;
+	jion,
+	jion_path;
 
 
 /*
@@ -26,22 +26,28 @@ if( JION )
 	};
 }
 
+var
+	lazy;
 
-/*
-| Node imports.
-*/
+
 if( NODE )
 {
 	jion_path = require( './this' )( module, 'ouroboros' );
 
-	jools = require( '../jools/jools' );
+	lazy = require( './lazy' );
+}
+else
+{
+	// in browser take the functions form the jion module.
+
+	lazy = jion;
 }
 
 
 /*
 | Returns a path with key appended
 */
-jools.lazyFunctionString(
+lazy.lazyFunctionString(
 	jion_path.prototype,
 	'append',
 	function( key )
@@ -51,7 +57,7 @@ jools.lazyFunctionString(
 
 		result = this.create( 'ray:append', key );
 
-		jools.aheadValue( result, 'shorten', this );
+		lazy.aheadValue( result, 'shorten', this );
 
 		return result;
 	}
@@ -69,7 +75,7 @@ jion_path.prototype.appendNC =
 
 	result = this.create( 'ray:append', key );
 
-	jools.aheadValue( result, 'shorten', this );
+	lazy.aheadValue( result, 'shorten', this );
 
 	return result;
 };
@@ -78,7 +84,7 @@ jion_path.prototype.appendNC =
 /*
 | Returns a path with the first the entry chopped of.
 */
-jools.lazyValue(
+lazy.lazyValue(
 	jion_path.prototype,
 	'chop',
 	function( )
@@ -108,7 +114,7 @@ jools.lazyValue(
 /*
 | Returns a path with the last entry removed.
 */
-jools.lazyValue(
+lazy.lazyValue(
 	jion_path.prototype,
 	'shorten',
 	function( )
@@ -167,7 +173,7 @@ jion_path.prototype.limit =
 /*
 | Returns a path with an entry prepended.
 */
-jools.lazyFunctionString(
+lazy.lazyFunctionString(
 	jion_path.prototype,
 	'prepend',
 	function( entry )
@@ -177,7 +183,7 @@ jools.lazyFunctionString(
 
 		result = this.create( 'ray:insert', 0, entry );
 
-		jools.aheadValue( result, 'chop', this );
+		lazy.aheadValue( result, 'chop', this );
 
 		return result;
 	}
@@ -239,7 +245,7 @@ jion_path.prototype.subPathOf =
 /*
 | Turns the path to a string.
 */
-jools.lazyValue(
+lazy.lazyValue(
 	jion_path.prototype,
 	'string',
 	function( )
@@ -301,7 +307,7 @@ jion_path.prototype.toJSON =
 /*
 | Returns true is this path is empty.
 */
-jools.lazyValue(
+lazy.lazyValue(
 	jion_path.prototype,
 	'isEmpty',
 	function( )

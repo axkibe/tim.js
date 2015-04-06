@@ -26,7 +26,6 @@ var
 	ast_block,
 	ast_comment,
 	ast_return,
-	jools,
 	parser,
 	shorthand,
 	tools;
@@ -37,8 +36,6 @@ ast_block = require( '../this' )( module, 'ouroboros' );
 ast_comment = require( './comment' );
 
 ast_return = require( './return' );
-
-jools = require( '../jools/jools' );
 
 parser = require( '../jsParser/parser' );
 
