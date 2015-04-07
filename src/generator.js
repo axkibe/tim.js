@@ -61,7 +61,6 @@ var
 	jion_idGroup,
 	jion_stringRay,
 	jion_validator,
-	jools,
 	parser,
 	prototype,
 	shorthand;
@@ -76,8 +75,6 @@ jion_id = require( './id' );
 jion_idGroup = require( './idGroup' );
 
 jion_stringRay = require( './stringRay' );
-
-jools = require( './jools/jools' );
 
 jion_attribute = require( './attribute' );
 
@@ -1060,7 +1057,7 @@ prototype.genCreatorFreeStringsParser =
 			$if(
 				'!groupDup',
 				$block( )
-				.$( 'group = jools.copy( group )' )
+				.$( 'group = jion_proto.copy( group )' )
 				.$( 'groupDup = true' )
 			);
 
@@ -1139,7 +1136,7 @@ prototype.genCreatorFreeStringsParser =
 			$if(
 				'twigDup !== true',
 				$block( )
-				.$( 'twig = jools.copy( twig )' )
+				.$( 'twig = jion_proto.copy( twig )' )
 				.$( 'ranks = ranks.slice( )' )
 				.$( 'twigDup = true' )
 			);
@@ -2637,11 +2634,11 @@ prototype.genJionProto =
 			.$( 'prototype.get = jion_proto.groupGet' )
 
 			.$comment( 'Returns the group keys.')
-			.$( 'jools.lazyValue( prototype, "keys", jion_proto.groupKeys )' )
+			.$( 'jion_proto.lazyValue( prototype, "keys", jion_proto.groupKeys )' )
 
 			.$comment( 'Returns the sorted group keys.')
 			.$(
-				'jools.lazyValue(',
+				'jion_proto.lazyValue(',
 					'prototype,',
 					'"sortedKeys",',
 					'jion_proto.groupSortedKeys',
@@ -2655,7 +2652,7 @@ prototype.genJionProto =
 			.$( 'prototype.set = jion_proto.groupSet' )
 
 			.$comment( 'Returns the size of the group.')
-			.$( 'jools.lazyValue( prototype, "size", jion_proto.groupSize )' );
+			.$( 'jion_proto.lazyValue( prototype, "size", jion_proto.groupSize )' );
 	}
 
 	if( this.ray )
@@ -2670,7 +2667,7 @@ prototype.genJionProto =
 
 			.$comment( 'Returns the length of the ray.')
 			.$(
-				'jools.lazyValue( prototype, "length", jion_proto.rayLength )'
+				'jion_proto.lazyValue( prototype, "length", jion_proto.rayLength )'
 			)
 
 			.$comment( 'Returns one element from the ray.' )
@@ -2701,12 +2698,12 @@ prototype.genJionProto =
 
 			.$comment( 'Returns the length of the twig.')
 			.$(
-				'jools.lazyValue( prototype, "length", jion_proto.twigLength )'
+				'jion_proto.lazyValue( prototype, "length", jion_proto.twigLength )'
 			)
 
 			.$comment( 'Returns the rank of the key.' )
 			.$(
-				'jools.lazyFunctionString( ',
+				'jion_proto.lazyFunctionString( ',
 					'prototype, "rankOf", jion_proto.twigRankOf ',
 				')'
 			)
@@ -2788,7 +2785,7 @@ prototype.genToJson =
 		$block( )
 		.$comment( 'Converts a ' + this.id.name + ' into json.' )
 		.$(
-			'jools.lazyValue( prototype, "toJSON", ', $func( block ), ')'
+			'jion_proto.lazyValue( prototype, "toJSON", ', $func( block ), ')'
 		)
 	);
 };
@@ -3347,7 +3344,7 @@ prototype.genCapsule =
 
 
 /*
-| Generates code from a jools object definition.
+| Generates code from a jion definition.
 */
 generator.generate =
 	function(
