@@ -198,7 +198,7 @@ module.exports =
 		if( !outStat || inStat.mtime > outStat.mtime )
 		{
 			console.log(
-				'Generating jioncode for '
+				'jioncode: '
 				+ filename
 				+ ' -> '
 				+ jionCodeFilename
