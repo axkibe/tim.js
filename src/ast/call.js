@@ -31,14 +31,11 @@ if( JION )
 
 var
 	ast_call,
-	jools,
 	prototype,
 	tools;
 
 
 ast_call = require( '../this' )( module, 'ouroboros' );
-
-jools = require( '../jools/jools' );
 
 prototype = ast_call.prototype;
 

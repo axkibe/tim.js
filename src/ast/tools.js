@@ -22,7 +22,7 @@ var
 	ast_number,
 	ast_null,
 	ast_var,
-	jools,
+	jion_proto,
 	parser,
 	shorthand;
 
@@ -33,7 +33,7 @@ ast_number = require( './number' );
 
 ast_var = require( './var' );
 
-jools = require( '../jools/jools' );
+jion_proto = require( '../proto' );
 
 parser = require( '../jsParser/parser' );
 
@@ -82,7 +82,7 @@ tools.convert =
 		return shorthand.$undefined;
 	}
 
-	if( jools.isString( arg ) )
+	if( jion_proto.isString( arg ) )
 	{
 		return parser.parse( arg );
 	}
