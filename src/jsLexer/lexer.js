@@ -18,12 +18,11 @@ jsLexer = module.exports;
 
 
 var
-	jools,
+	jion_proto,
 	jsLexer_token,
 	jsLexer_tokenRay;
 
-
-jools = require( '../jools/jools' );
+jion_proto = require( '../proto' );
 
 jsLexer_token = require( './token' );
 
@@ -45,7 +44,7 @@ jsLexer.tokenize =
 		value,
 		tokens;
 
-	if( !jools.isString( code ) )
+	if( !jion_proto.isString( code ) )
 	{
 		throw new Error( 'cannot tokenize non-strings' );
 	}

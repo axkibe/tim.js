@@ -262,16 +262,10 @@ jion_proto.lazyFunctionString =
 				return this[ ckey ];
 			}
 
-			return(
-				innumerable(
-					this,
-					ckey,
-					getter.call( this, str )
-				)
-			);
+			return innumerable( this, ckey, getter.call( this, str ) );
 		}
 	};
-}
+};
 
 
 /*
@@ -349,11 +343,7 @@ jion_proto.setPath =
 			this.create(
 				'twig:set',
 				key,
-				this.twig[ key ].setPath(
-					path,
-					value,
-					pos + 2
-				)
+				this.twig[ key ].setPath( path, value, pos + 2 )
 			)
 		);
 	}
@@ -363,16 +353,7 @@ jion_proto.setPath =
 		return this.create( key, value );
 	}
 
-	return(
-		this.create(
-			key,
-			this[ key ].setPath(
-				path,
-				value,
-				pos + 1
-			)
-		)
-	);
+	return this.create( key, this[ key ].setPath( path, value, pos + 1 ) );
 };
 
 
