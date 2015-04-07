@@ -24,7 +24,13 @@ if( GLOBAL.JION )
 				comment : 'the jion definition',
 				type : 'protean',
 				assign : ''
-			}
+			},
+			'ouroboros' :
+			{
+				comment : 'true for building jioncode for jion itself',
+				type : 'boolean',
+				defaultValue : 'true'
+			},
 		},
 		init : [ 'jion' ]
 	};
@@ -156,7 +162,10 @@ prototype._init =
 
 	units = jion_idGroup.create( );
 
-//	units = units.add( jion_id.createFromString( 'jion_proto' ) ); FIXME REMOVE
+	if( this.ourobors )
+	{
+		units = units.add( jion_id.createFromString( 'jion_proto' ) );
+	}
 
 	searchIdWalk =
 		function( node )
@@ -3354,7 +3363,8 @@ prototype.genCapsule =
 */
 generator.generate =
 	function(
-		jion // the jion definition
+		jion, // the jion definition
+		ouroboros // 'ouroboros' if an ouroboros build
 	)
 {
 	var
@@ -3363,14 +3373,14 @@ generator.generate =
 
 	jion_validator.check( jion );
 
-	gi = generator.create( 'jion', jion );
+	gi = generator.create( 'jion', jion, 'ouroboros', !!ouroboros );
 
 	result =
 		$block( )
 		.$comment(
 			'This is an auto generated file.',
 			'',
-			'DO NOT EDIT!'
+			'Editing might turn out rather futile.'
 		)
 		.$( gi.genExport( ) )
 		.$( gi.genImports( ) )

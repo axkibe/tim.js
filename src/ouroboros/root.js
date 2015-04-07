@@ -131,6 +131,7 @@ myDir += '/';
 jionInputRequire =
 	function( inFilename, requireFilename )
 {
+	console.log( 'ARGS', arguments );
 	return(
 		require(
 			myDir
@@ -182,7 +183,7 @@ for(
 
 		global.GLOBAL = global;
 
-		global.require = jionInputRequire.bind( inFilename );
+		global.require = jionInputRequire.bind( undefined, inFilename );
 
 		jion = vm.runInNewContext( input, global, file.inFilename );
 

@@ -76,7 +76,8 @@ var
 
 Constructor =
 	function(
-		v_jion // the jion definition
+		v_jion, // the jion definition
+		v_ouroboros
 	)
 {
 	if( FREEZE )
@@ -86,6 +87,8 @@ Constructor =
 			this.__lazy = { };
 		}
 	}
+
+	this.ouroboros = v_ouroboros;
 
 	this._init( v_jion );
 
@@ -187,7 +190,8 @@ prototype.create =
 		aZ,
 		arg,
 		inherit,
-		v_jion;
+		v_jion,
+		v_ouroboros;
 
 	if( this !== jion_generator )
 	{
@@ -213,6 +217,15 @@ prototype.create =
 
 				break;
 
+			case 'ouroboros' :
+
+				if( arg !== pass )
+				{
+					v_ouroboros = arg;
+				}
+
+				break;
+
 			default :
 
 /**/			if( CHECK )
@@ -234,13 +247,18 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/}
+	
+	if( v_ouroboros === undefined )
+	{
+		return v_ouroboros = false;
+	}
 
 	if( inherit && v_jion === undefined )
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_jion );
+	return new Constructor( v_jion, v_ouroboros );
 };
 
 
