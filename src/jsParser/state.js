@@ -41,18 +41,18 @@ if( JION )
 
 
 var
-	jools,
+	jion_proto,
 	state;
 
 state = require( '../this' )( module, 'ouroboros' );
 
-jools = require( '../jools/jools' );
+jion_proto = require( '../proto' );
 
 
 /*
 | True if pos is at end of the token ray.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	state.prototype,
 	'reachedEnd',
 	function( )
@@ -65,7 +65,7 @@ jools.lazyValue(
 /*
 | The current token.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	state.prototype,
 	'current',
 	function( )
@@ -82,7 +82,7 @@ jools.lazyValue(
 /*
 | The preview token.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	state.prototype,
 	'preview',
 	function( )

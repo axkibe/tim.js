@@ -39,7 +39,7 @@ if( JION )
 
 var
 	jion_id,
-	jools,
+	jion_proto,
 	prototype,
 	shorthand;
 
@@ -47,7 +47,7 @@ jion_id = require( './this' )( module, 'ouroboros' );
 
 prototype = jion_id.prototype;
 
-jools = require( './jools/jools' );
+jion_proto = require( './proto' );
 
 shorthand = require( './ast/shorthand' );
 
@@ -148,7 +148,7 @@ jion_id.compare =
 /*
 | This name as ast string.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	prototype,
 	'$abstractName',
 	function( )
@@ -161,7 +161,7 @@ jools.lazyValue(
 /*
 | This id as abstract as ast string.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	prototype,
 	'$abstractString',
 	function( )
@@ -174,7 +174,7 @@ jools.lazyValue(
 /*
 | This id as global varname
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	prototype,
 	'global',
 	function( )
@@ -191,7 +191,7 @@ jools.lazyValue(
 /*
 | This id as ast variable.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	prototype,
 	'$global',
 	function( )
@@ -204,7 +204,7 @@ jools.lazyValue(
 /*
 | This name as ast string.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	prototype,
 	'$name',
 	function( )
@@ -217,7 +217,7 @@ jools.lazyValue(
 /*
 | This id as string.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	prototype,
 	'string',
 	function( )
@@ -237,7 +237,7 @@ jools.lazyValue(
 /*
 | This id as ast string.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	prototype,
 	'$string',
 	function( )

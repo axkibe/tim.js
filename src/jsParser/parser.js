@@ -53,7 +53,7 @@ var
 	ast_typeof,
 	ast_var,
 	getSpec,
-	jools,
+	jion_proto,
 	jsParser_spec,
 	jsParser_tokenRay,
 	lexer,
@@ -124,11 +124,11 @@ ast_typeof = require( '../ast/typeof' );
 
 ast_var = require( '../ast/var' );
 
-jools = require( '../jools/jools' );
-
 lexer = require( '../jsLexer/lexer' );
 
 state = require( './state' );
+
+jion_proto = require( '../proto' );
 
 jsParser_tokenRay = require( './tokenRay' );
 
@@ -1274,7 +1274,7 @@ parser.parse =
 	{
 		arg = arguments[ a ];
 
-		if( jools.isString( arg ) )
+		if( jion_proto.isString( arg ) )
 		{
 			tokens = tokens.appendRay( lexer.tokenize( arg ) );
 		}

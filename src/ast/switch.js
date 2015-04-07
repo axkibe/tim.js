@@ -40,7 +40,6 @@ var
 	ast_block,
 	ast_case,
 	ast_switch,
-	jools,
 	prototype,
 	tools;
 
@@ -53,9 +52,7 @@ ast_block = require( './block' );
 
 ast_case = require( './case' );
 
-jools = require( '../jools/jools' ),
-
-tools = require( './tools' ),
+tools = require( './tools' );
 
 
 /*

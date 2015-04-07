@@ -61,7 +61,7 @@ var
 	ast_typeof,
 	ast_var,
 	ast_varDec,
-	jools,
+	jion_proto,
 	tools;
 
 
@@ -149,7 +149,7 @@ ast_var = require( './var' );
 
 ast_varDec = require( './varDec' );
 
-jools = require( '../jools/jools' );
+jion_proto = require( '../proto' );
 
 tools = require( './tools' );
 
@@ -467,7 +467,7 @@ shorthand.$fail =
 	{
 		message = undefined;
 	}
-	else if( jools.isString( message ) )
+	else if( jion_proto.isString( message ) )
 	{
 		message = ast_string.create( 'string', message );
 	}
@@ -998,16 +998,6 @@ shorthand.$varDec =
 | Shorthand for 'undefined'
 */
 shorthand.$undefined = ast_var.create( 'name', 'undefined' );
-/*
-jools.lazyValue(
-	shorthand,
-	'$undefined',
-	function( )
-	{
-		return ast_var.create( 'name', 'undefined' );
-	}
-);
-*/
 
 
 } )( );
