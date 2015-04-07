@@ -37,6 +37,7 @@ var
 	inStat,
 	jion,
 	input,
+	jionInputRequire,
 	listing,
 	list,
 	myDir,
@@ -127,6 +128,18 @@ for( a = 0; a < 3; a++ )
 
 myDir += '/';
 
+jionInputRequire =
+	function( inFilename, requireFilename )
+{
+	return(
+		require(
+			myDir
+			+ inFilename.substr( 0, inFilename.lastIndexOf( '/' ) )
+			+ '/'
+			+ requireFilename
+		)
+	);
+};
 
 /*
 | Generates jions if the input file is newer
@@ -169,18 +182,7 @@ for(
 
 		global.GLOBAL = global;
 
-		global.require =
-			function( requireFilename )
-		{
-			return(
-				require(
-					myDir
-					+ inFilename.substr( 0, inFilename.lastIndexOf( '/' ) )
-					+ '/'
-					+ requireFilename
-				)
-			);
-		}
+		global.require = jionInputRequire.bind( inFilename );
 
 		jion = vm.runInNewContext( input, global, file.inFilename );
 

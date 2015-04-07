@@ -52,7 +52,8 @@ var
 	ast_preIncrement,
 	ast_string,
 	ast_typeof,
-	ast_var;
+	ast_var,
+	jion_proto;
 
 
 /*
@@ -125,6 +126,8 @@ if( SERVER )
 	ast_typeof = require( '../../src/ast/typeof' );
 
 	ast_var = require( '../../src/ast/var' );
+
+	jion_proto = require( '../src/proto' );
 }
 
 
