@@ -664,7 +664,7 @@ prototype.appendRay = jion_proto.rayAppendRay;
 /*
 | Returns the length of the ray.
 */
-jools.lazyValue( prototype, 'length', jion_proto.rayLength );
+//jools.lazyValue( prototype, 'length', jion_proto.rayLength );
 
 
 /*
