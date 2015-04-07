@@ -103,7 +103,9 @@ lazy.lazyValue(
 		result = this.create( 'ray:remove', 0 );
 
 		// FIXME
-		// jools.aheadLazyStringFunc( result, 'prepend', this.ray[ 0 ], this );
+		// jion_proto.aheadLazyStringFunc(
+		//	result, 'prepend', this.ray[ 0 ], this
+		// );
 
 		return result;
 	}

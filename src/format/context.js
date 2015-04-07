@@ -53,24 +53,24 @@ if( JION )
 }
 
 
-/*
-| Tabbing format.
-*/
-var _tab = '\t'; // FIXME
-
-
 var
-	jools;
+	jion_proto,
+	tabFormat;
 
 format_context = require( '../this' )( module, 'ouroboros' );
 
-jools = require( '../jools/jools' );
+jion_proto = require( '../proto' );
+
+/*
+| Tabbing format.
+*/
+tabFormat = '\t';
 
 
 /*
 | Seperator is a space when inline otherwise a newline.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	format_context.prototype,
 	'sep',
 	function( )
@@ -83,7 +83,7 @@ jools.lazyValue(
 /*
 | Transforms the context into a tab indentation.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	format_context.prototype,
 	'tab',
 	function( )
@@ -110,7 +110,7 @@ jools.lazyValue(
 
 		for( var a = 0; a < indent; a++ )
 		{
-			tab += _tab;
+			tab += tabFormat;
 		}
 
 		return tab;
@@ -121,7 +121,7 @@ jools.lazyValue(
 /*
 | Increases the indentation.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	format_context.prototype,
 	'inc',
 	function( )
@@ -136,7 +136,7 @@ jools.lazyValue(
 |
 | But keeps root context.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	format_context.prototype,
 	'incSame',
 	function( )
@@ -146,7 +146,7 @@ jools.lazyValue(
 
 		inc = this.create( 'indent', this.indent + 1 );
 
-		jools.aheadValue( inc, 'dec', this );
+		jion_proto.aheadValue( inc, 'dec', this );
 
 		return inc;
 	}
@@ -157,7 +157,7 @@ jools.lazyValue(
 /*
 | Decreases the indentation.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	format_context.prototype,
 	'dec',
 	function( )
@@ -175,7 +175,7 @@ jools.lazyValue(
 
 		dec = this.create( 'indent', this.indent - 1 );
 
-		jools.aheadValue( dec, 'inc', this );
+		jion_proto.aheadValue( dec, 'inc', this );
 
 		return dec;
 	}
@@ -185,7 +185,7 @@ jools.lazyValue(
 /*
 | Sets the context to be inline.
 */
-jools.lazyValue(
+jion_proto.lazyValue(
 	format_context.prototype,
 	'setInline',
 	function( )

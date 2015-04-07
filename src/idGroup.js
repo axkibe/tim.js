@@ -25,14 +25,17 @@ if( JION )
 var
 	jion_id,
 	jion_idGroup,
-	jools;
+	jion_proto,
+	prototype;
 
 
 jion_idGroup = require( './this' )( module, 'ouroboros' );
 
+prototype = jion_idGroup.prototype;
+
 jion_id = require( './id' );
 
-jools = require( './jools/jools' );
+jion_proto = require( './proto' );
 
 
 /*
@@ -99,7 +102,7 @@ jion_idGroup.createFromIDStrings =
 /*
 | Returns an idGroup with an id added.
 */
-jion_idGroup.prototype.add =
+prototype.add =
 	function(
 		id
 	)
@@ -111,8 +114,8 @@ jion_idGroup.prototype.add =
 /*
 | Returns all units as alphasorted list.
 */
-jools.lazyValue(
-	jion_idGroup.prototype,
+jion_proto.lazyValue(
+	prototype,
 	'idList',
 	function( )
 {
@@ -148,8 +151,8 @@ jools.lazyValue(
 /*
 | Returns all units as alphasorted list.
 */
-jools.lazyValue(
-	jion_idGroup.prototype,
+jion_proto.lazyValue(
+	prototype,
 	'unitList',
 	function( )
 {
@@ -195,10 +198,10 @@ jools.lazyValue(
 /*
 | Returns the id names as list of an unit.
 |
-| FIXME jools.lazyStringFunc
+| FIXME jion.proto.lazyStringFunc
 | FIXME make it return an idGroup again
 */
-jion_idGroup.prototype.nameListOfUnit =
+prototype.nameListOfUnit =
 	function(
 		unit
 	)
