@@ -1,0 +1,2 @@
+#!/bin/bash
+node src/ouroboros/root.js $*
