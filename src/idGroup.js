@@ -15,11 +15,9 @@
 */
 if( JION )
 {
-	return {
-		id :
-			'jion_idGroup',
-		group :
-			[ 'jion_id' ]
+	return{
+		id : 'jion_idGroup',
+		group : [ 'jion_id' ]
 	};
 }
 

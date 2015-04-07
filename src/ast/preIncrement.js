@@ -22,7 +22,7 @@ if( JION )
 			expr :
 			{
 				comment : 'the expression to pre increment',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			}
 		}
 	};

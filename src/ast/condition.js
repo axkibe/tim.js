@@ -24,17 +24,17 @@ if( JION )
 			condition :
 			{
 				comment : 'the condition',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			},
 			then :
 			{
 				comment : 'the then expression',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			},
 			elsewise :
 			{
 				comment : 'the else condition',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			}
 		}
 	};

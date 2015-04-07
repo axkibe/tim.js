@@ -27,7 +27,7 @@ if( JION )
 			object :
 			{
 				comment : 'the object expression to iterate over',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			},
 			block :
 			{

@@ -22,12 +22,12 @@ if( JION )
 			left :
 			{
 				comment : 'left-hand side',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			},
 			right :
 			{
 				comment : 'right-hand side',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			}
 		}
 	};

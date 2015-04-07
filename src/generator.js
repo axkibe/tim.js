@@ -516,12 +516,24 @@ prototype.genNodeIncludes =
 				continue;
 			}
 
-			block =
-				block
-				.$(
-					unitStr + '_' + name,
-					' = require( "../../src/' + unitStr + '/' + name + '" )'
-				);
+			if( unitStr !== 'jion' )
+			{
+				block =
+					block
+					.$(
+						unitStr + '_' + name,
+						' = require( "../src/' + unitStr + '/' + name + '" )'
+					);
+			}
+			else
+			{
+				block =
+					block
+					.$(
+						unitStr + '_' + name,
+						' = require( "../src/' + name + '" )'
+					);
+			}
 		}
 	}
 

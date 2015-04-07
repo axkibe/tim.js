@@ -27,7 +27,7 @@ if( JION )
 			assign :
 			{
 				comment : 'Assignment of variable',
-				type : 'require( ../typemaps/astExpression )',
+				type : require( '../typemaps/astExpression' ),
 				defaultValue : 'undefined'
 			}
 		}

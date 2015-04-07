@@ -22,17 +22,17 @@ if( JION )
 			init :
 			{
 				comment : 'the initialization',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			},
 			condition :
 			{
 				comment : 'the continue condition',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			},
 			iterate :
 			{
 				comment : 'the iteration expression',
-				type : 'require( ../typemaps/astExpression )'
+				type : require( '../typemaps/astExpression' )
 			},
 			block :
 			{
