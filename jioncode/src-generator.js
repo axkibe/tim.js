@@ -250,7 +250,7 @@ prototype.create =
 	
 	if( v_ouroboros === undefined )
 	{
-		return v_ouroboros = false;
+		v_ouroboros = false;
 	}
 
 	if( inherit && v_jion === undefined )
