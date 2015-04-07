@@ -229,17 +229,7 @@ module.exports =
 
 	context.module = module;
 
-	// currently paths matches of this.require
-	// and the jion require places. However
-	// this might need some path adapting if things
-	// change
-
-	// FIXME fix pathign
-	context.require =
-		function( path )
-	{
-		return require( path );
-	};
+	context.require = module.require.bind( module );
 
 	vm.runInNewContext(
 		fs.readFileSync( jionCodeFilename ) + '', // FIXME '' needed?

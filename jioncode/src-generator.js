@@ -1,7 +1,7 @@
 /*
 | This is an auto generated file.
 |
-| DO NOT EDIT!
+| Editing might turn out rather futile.
 */
 
 
@@ -22,11 +22,7 @@ else
 }
 
 
-/*
-| Imports.
-*/
 var
-	jools,
 	jion_proto;
 
 
@@ -43,9 +39,7 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../src/jools/jools' );
-
-	jion_proto = require( '../src/proto' );
+	require( './proto' );
 }
 
 
@@ -57,8 +51,15 @@ var
 
 
 AbstractConstructor =
-	function( )
+	function(
+		v_ouroboros // true for building jioncode for jion itself
+	)
 {
+	if( v_ouroboros !== undefined )
+	{
+		this.ouroboros = v_ouroboros;
+	}
+
 	if( FREEZE )
 	{
 		Object.freeze( this );
@@ -77,7 +78,7 @@ var
 Constructor =
 	function(
 		v_jion, // the jion definition
-		v_ouroboros
+		v_ouroboros // true for building jioncode for jion itself
 	)
 {
 	if( FREEZE )
@@ -123,79 +124,14 @@ prototype.abstract =
 		aZ,
 		arg,
 		inherit,
-		v_jion;
-
-	if( this !== jion_generator )
-	{
-		inherit = this;
-	}
-
-	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
-		a += 2
-	)
-	{
-		arg = arguments[ a + 1 ];
-
-		switch( arguments[ a ] )
-		{
-			case 'jion' :
-
-				if( arg !== pass )
-				{
-					v_jion = arg;
-				}
-
-				break;
-
-			default :
-
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
-		}
-	}
-
-/**/if( CHECK )
-/**/{
-/**/	if( v_jion === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	if( inherit && v_jion === undefined )
-	{
-		return inherit;
-	}
-
-	return new AbstractConstructor( );
-};
-
-
-/*
-| Creates a new generator object.
-*/
-jion_generator.create =
-AbstractConstructor.prototype.create =
-prototype.create =
-	function(
-		// free strings
-	)
-{
-	var
-		a,
-		aZ,
-		arg,
-		inherit,
 		v_jion,
 		v_ouroboros;
 
 	if( this !== jion_generator )
 	{
 		inherit = this;
+
+		v_ouroboros = this.ouroboros;
 	}
 
 	for(
@@ -235,6 +171,114 @@ prototype.create =
 		}
 	}
 
+	if( v_ouroboros === undefined )
+	{
+		v_ouroboros = true;
+	}
+
+/**/if( CHECK )
+/**/{
+/**/	if( v_jion === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_ouroboros === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_ouroboros !== undefined )
+/**/	{
+/**/		if( typeof( v_ouroboros ) !== 'boolean' )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/}
+
+	if(
+		inherit
+		&&
+		v_jion === undefined
+		&&
+		v_ouroboros === inherit.ouroboros
+	)
+	{
+		return inherit;
+	}
+
+	return new AbstractConstructor( v_ouroboros );
+};
+
+
+/*
+| Creates a new generator object.
+*/
+jion_generator.create =
+AbstractConstructor.prototype.create =
+prototype.create =
+	function(
+		// free strings
+	)
+{
+	var
+		a,
+		aZ,
+		arg,
+		inherit,
+		v_jion,
+		v_ouroboros;
+
+	if( this !== jion_generator )
+	{
+		inherit = this;
+
+		v_ouroboros = this.ouroboros;
+	}
+
+	for(
+		a = 0, aZ = arguments.length;
+		a < aZ;
+		a += 2
+	)
+	{
+		arg = arguments[ a + 1 ];
+
+		switch( arguments[ a ] )
+		{
+			case 'jion' :
+
+				if( arg !== pass )
+				{
+					v_jion = arg;
+				}
+
+				break;
+
+			case 'ouroboros' :
+
+				if( arg !== pass )
+				{
+					v_ouroboros = arg;
+				}
+
+				break;
+
+			default :
+
+/**/			if( CHECK )
+/**/			{
+/**/				throw new Error( );
+/**/			}
+		}
+	}
+
+	if( v_ouroboros === undefined )
+	{
+		v_ouroboros = true;
+	}
+
 /**/if( CHECK )
 /**/{
 /**/	if( v_jion === undefined )
@@ -246,14 +290,30 @@ prototype.create =
 /**/	{
 /**/		throw new Error( );
 /**/	}
+/**/
+/**/	if( v_ouroboros === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_ouroboros === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_ouroboros ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
 /**/}
-	
-	if( v_ouroboros === undefined )
-	{
-		v_ouroboros = false;
-	}
 
-	if( inherit && v_jion === undefined )
+	if(
+		inherit
+		&&
+		v_jion === undefined
+		&&
+		v_ouroboros === inherit.ouroboros
+	)
 	{
 		return inherit;
 	}
@@ -321,7 +381,7 @@ prototype.equals =
 		return false;
 	}
 
-	return true;
+	return this.ouroboros === obj.ouroboros;
 };
 
 

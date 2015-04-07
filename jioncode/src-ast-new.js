@@ -1,7 +1,7 @@
 /*
 | This is an auto generated file.
 |
-| DO NOT EDIT!
+| Editing might turn out rather futile.
 */
 
 
@@ -22,11 +22,7 @@ else
 }
 
 
-/*
-| Imports.
-*/
 var
-	jools,
 	ast_call,
 	jion_proto;
 
@@ -44,11 +40,9 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../src/jools/jools' );
+	ast_call = require( '../ast/call' );
 
-	ast_call = require( '../src/ast/call' );
-
-	jion_proto = require( '../src/proto' );
+	require( '../proto' );
 }
 
 

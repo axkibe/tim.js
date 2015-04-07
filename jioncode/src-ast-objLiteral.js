@@ -1,7 +1,7 @@
 /*
 | This is an auto generated file.
 |
-| DO NOT EDIT!
+| Editing might turn out rather futile.
 */
 
 
@@ -22,11 +22,7 @@ else
 }
 
 
-/*
-| Imports.
-*/
 var
-	jools,
 	ast_and,
 	ast_arrayLiteral,
 	ast_assign,
@@ -84,89 +80,87 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../src/jools/jools' );
+	ast_and = require( '../ast/and' );
 
-	ast_and = require( '../src/ast/and' );
+	ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
-	ast_arrayLiteral = require( '../src/ast/arrayLiteral' );
+	ast_assign = require( '../ast/assign' );
 
-	ast_assign = require( '../src/ast/assign' );
+	ast_block = require( '../ast/block' );
 
-	ast_block = require( '../src/ast/block' );
+	ast_boolean = require( '../ast/boolean' );
 
-	ast_boolean = require( '../src/ast/boolean' );
+	ast_call = require( '../ast/call' );
 
-	ast_call = require( '../src/ast/call' );
+	ast_check = require( '../ast/check' );
 
-	ast_check = require( '../src/ast/check' );
+	ast_comma = require( '../ast/comma' );
 
-	ast_comma = require( '../src/ast/comma' );
+	ast_comment = require( '../ast/comment' );
 
-	ast_comment = require( '../src/ast/comment' );
+	ast_condition = require( '../ast/condition' );
 
-	ast_condition = require( '../src/ast/condition' );
+	ast_continue = require( '../ast/continue' );
 
-	ast_continue = require( '../src/ast/continue' );
+	ast_delete = require( '../ast/delete' );
 
-	ast_delete = require( '../src/ast/delete' );
+	ast_differs = require( '../ast/differs' );
 
-	ast_differs = require( '../src/ast/differs' );
+	ast_dot = require( '../ast/dot' );
 
-	ast_dot = require( '../src/ast/dot' );
+	ast_equals = require( '../ast/equals' );
 
-	ast_equals = require( '../src/ast/equals' );
+	ast_fail = require( '../ast/fail' );
 
-	ast_fail = require( '../src/ast/fail' );
+	ast_for = require( '../ast/for' );
 
-	ast_for = require( '../src/ast/for' );
+	ast_forIn = require( '../ast/forIn' );
 
-	ast_forIn = require( '../src/ast/forIn' );
+	ast_func = require( '../ast/func' );
 
-	ast_func = require( '../src/ast/func' );
+	ast_greaterThan = require( '../ast/greaterThan' );
 
-	ast_greaterThan = require( '../src/ast/greaterThan' );
+	ast_if = require( '../ast/if' );
 
-	ast_if = require( '../src/ast/if' );
+	ast_instanceof = require( '../ast/instanceof' );
 
-	ast_instanceof = require( '../src/ast/instanceof' );
+	ast_lessThan = require( '../ast/lessThan' );
 
-	ast_lessThan = require( '../src/ast/lessThan' );
+	ast_member = require( '../ast/member' );
 
-	ast_member = require( '../src/ast/member' );
+	ast_multiply = require( '../ast/multiply' );
 
-	ast_multiply = require( '../src/ast/multiply' );
+	ast_multiplyAssign = require( '../ast/multiplyAssign' );
 
-	ast_multiplyAssign = require( '../src/ast/multiplyAssign' );
+	ast_new = require( '../ast/new' );
 
-	ast_new = require( '../src/ast/new' );
+	ast_not = require( '../ast/not' );
 
-	ast_not = require( '../src/ast/not' );
+	ast_null = require( '../ast/null' );
 
-	ast_null = require( '../src/ast/null' );
+	ast_number = require( '../ast/number' );
 
-	ast_number = require( '../src/ast/number' );
+	ast_or = require( '../ast/or' );
 
-	ast_or = require( '../src/ast/or' );
+	ast_plus = require( '../ast/plus' );
 
-	ast_plus = require( '../src/ast/plus' );
+	ast_plusAssign = require( '../ast/plusAssign' );
 
-	ast_plusAssign = require( '../src/ast/plusAssign' );
+	ast_preIncrement = require( '../ast/preIncrement' );
 
-	ast_preIncrement = require( '../src/ast/preIncrement' );
+	ast_return = require( '../ast/return' );
 
-	ast_return = require( '../src/ast/return' );
+	ast_string = require( '../ast/string' );
 
-	ast_string = require( '../src/ast/string' );
+	ast_switch = require( '../ast/switch' );
 
-	ast_switch = require( '../src/ast/switch' );
+	ast_typeof = require( '../ast/typeof' );
 
-	ast_typeof = require( '../src/ast/typeof' );
+	ast_var = require( '../ast/var' );
 
-	ast_var = require( '../src/ast/var' );
+	ast_varDec = require( '../ast/varDec' );
 
-	ast_varDec = require( '../src/ast/varDec' );
-
-	jion_proto = require( '../src/proto' );
+	require( '../proto' );
 }
 
 
@@ -307,7 +301,7 @@ prototype.abstract =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -333,7 +327,7 @@ prototype.abstract =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -357,7 +351,7 @@ prototype.abstract =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -392,7 +386,7 @@ prototype.abstract =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -582,7 +576,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -608,7 +602,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -632,7 +626,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -667,7 +661,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = jools.copy( twig );
+					twig = jion_proto.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -859,19 +853,13 @@ prototype.getKey = jion_proto.twigGetKey;
 /*
 | Returns the length of the twig.
 */
-jools.lazyValue( prototype, 'length', jion_proto.twigLength );
-
-
-/*
-| Creates a new unique identifier.
-*/
-prototype.newUID = jion_proto.newUID;
+jion_proto.lazyValue( prototype, 'length', jion_proto.twigLength );
 
 
 /*
 | Returns the rank of the key.
 */
-jools.lazyFunctionString( prototype, 'rankOf', jion_proto.twigRankOf );
+jion_proto.lazyFunctionString( prototype, 'rankOf', jion_proto.twigRankOf );
 
 
 /*

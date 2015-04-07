@@ -1,7 +1,7 @@
 /*
 | This is an auto generated file.
 |
-| DO NOT EDIT!
+| Editing might turn out rather futile.
 */
 
 
@@ -22,13 +22,9 @@ else
 }
 
 
-/*
-| Imports.
-*/
 var
-	jools,
-	jion_proto,
-	jsLexer_token;
+	jsLexer_token,
+	jion_proto;
 
 
 /*
@@ -44,11 +40,9 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../src/jools/jools' );
+	jsLexer_token = require( '../jsLexer/token' );
 
-	jion_proto = require( '../src/proto' );
-
-	jsLexer_token = require( '../src/jsLexer/token' );
+	require( '../proto' );
 }
 
 
@@ -465,7 +459,7 @@ prototype.appendRay = jion_proto.rayAppendRay;
 /*
 | Returns the length of the ray.
 */
-jools.lazyValue( prototype, 'length', jion_proto.rayLength );
+jion_proto.lazyValue( prototype, 'length', jion_proto.rayLength );
 
 
 /*

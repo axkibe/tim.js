@@ -516,30 +516,62 @@ prototype.genNodeIncludes =
 				continue;
 			}
 
+			// FIXME this is very hackish
 			if( unitStr !== 'jion' )
 			{
-				block =
-					block
-					.$(
-						unitStr + '_' + name,
-						' = require( "../src/' + unitStr + '/' + name + '" )'
-					);
+				if( this.id.unit !== 'jion' )
+				{
+					block =
+						block
+						.$(
+							unitStr + '_' + name,
+							' = require( "../' + unitStr + '/' + name + '" )'
+						);
+				}
+				else
+				{
+					block =
+						block
+						.$(
+							unitStr + '_' + name,
+							' = require( "./' + unitStr + '/' + name + '" )'
+						);
+				}
 			}
 			else
 			{
-				block =
-					block
-					.$(
-						unitStr + '_' + name,
-						' = require( "../src/' + name + '" )'
-					);
+				if( this.id.unit === 'jion' )
+				{
+					block =
+						block
+						.$(
+							unitStr + '_' + name,
+							' = require( "./' + name + '" )'
+						);
+				}
+				else
+				{
+					block =
+						block
+						.$(
+							unitStr + '_' + name,
+							' = require( "../' + name + '" )'
+						);
+				}
 			}
 		}
 	}
 
 	if( this.ouroboros )
 	{
-		block = block.$( 'jion_proto = require( "../src/proto" )' );
+		if( this.id.unit === 'jion' )
+		{
+			block = block.$( 'require( "./proto" )' );
+		}
+		else
+		{
+			block = block.$( 'require( "../proto" )' );
+		}
 	}
 	else
 	{

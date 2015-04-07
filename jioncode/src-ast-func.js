@@ -1,7 +1,7 @@
 /*
 | This is an auto generated file.
 |
-| DO NOT EDIT!
+| Editing might turn out rather futile.
 */
 
 
@@ -22,11 +22,7 @@ else
 }
 
 
-/*
-| Imports.
-*/
 var
-	jools,
 	ast_block,
 	ast_funcArg,
 	jion_proto;
@@ -45,13 +41,11 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../src/jools/jools' );
+	ast_block = require( '../ast/block' );
 
-	ast_block = require( '../src/ast/block' );
+	ast_funcArg = require( '../ast/funcArg' );
 
-	ast_funcArg = require( '../src/ast/funcArg' );
-
-	jion_proto = require( '../src/proto' );
+	require( '../proto' );
 }
 
 
@@ -625,7 +619,7 @@ prototype.appendRay = jion_proto.rayAppendRay;
 /*
 | Returns the length of the ray.
 */
-jools.lazyValue( prototype, 'length', jion_proto.rayLength );
+jion_proto.lazyValue( prototype, 'length', jion_proto.rayLength );
 
 
 /*

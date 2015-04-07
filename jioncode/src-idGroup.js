@@ -1,7 +1,7 @@
 /*
 | This is an auto generated file.
 |
-| DO NOT EDIT!
+| Editing might turn out rather futile.
 */
 
 
@@ -22,11 +22,7 @@ else
 }
 
 
-/*
-| Imports.
-*/
 var
-	jools,
 	jion_id,
 	jion_proto;
 
@@ -44,11 +40,9 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../src/jools/jools' );
+	jion_id = require( './id' );
 
-	jion_id = require( '../src/id' );
-
-	jion_proto = require( '../src/proto' );
+	require( './proto' );
 }
 
 
@@ -172,7 +166,7 @@ prototype.abstract =
 
 				if( !groupDup )
 				{
-					group = jools.copy( group );
+					group = jion_proto.copy( group );
 
 					groupDup = true;
 				}
@@ -185,7 +179,7 @@ prototype.abstract =
 
 				if( !groupDup )
 				{
-					group = jools.copy( group );
+					group = jion_proto.copy( group );
 
 					groupDup = true;
 				}
@@ -281,7 +275,7 @@ prototype.create =
 
 				if( !groupDup )
 				{
-					group = jools.copy( group );
+					group = jion_proto.copy( group );
 
 					groupDup = true;
 				}
@@ -294,7 +288,7 @@ prototype.create =
 
 				if( !groupDup )
 				{
-					group = jools.copy( group );
+					group = jion_proto.copy( group );
 
 					groupDup = true;
 				}
@@ -386,13 +380,13 @@ prototype.get = jion_proto.groupGet;
 /*
 | Returns the group keys.
 */
-jools.lazyValue( prototype, 'keys', jion_proto.groupKeys );
+jion_proto.lazyValue( prototype, 'keys', jion_proto.groupKeys );
 
 
 /*
 | Returns the sorted group keys.
 */
-jools.lazyValue( prototype, 'sortedKeys', jion_proto.groupSortedKeys );
+jion_proto.lazyValue( prototype, 'sortedKeys', jion_proto.groupSortedKeys );
 
 
 /*
@@ -410,7 +404,7 @@ prototype.set = jion_proto.groupSet;
 /*
 | Returns the size of the group.
 */
-jools.lazyValue( prototype, 'size', jion_proto.groupSize );
+jion_proto.lazyValue( prototype, 'size', jion_proto.groupSize );
 
 
 /*
