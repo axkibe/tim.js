@@ -148,7 +148,7 @@ prototype._init =
 		jdv,
 		name,
 		prepare,
-		rayDef,
+		rayDef, // FIXME remove the Defs
 		searchIdWalk,
 		type,
 		twigDef, // twig map to be used (the definition)
@@ -162,10 +162,13 @@ prototype._init =
 
 	units = jion_idGroup.create( );
 
-	if( this.ourobors )
+	/*
+	FIXME remove
+	if( this.ouroboros )
 	{
 		units = units.add( jion_id.createFromString( 'jion_proto' ) );
 	}
+	*/
 
 	searchIdWalk =
 		function( node )
@@ -194,11 +197,6 @@ prototype._init =
 		jAttr = jion.attributes[ name ];
 
 		type = jAttr.type;
-
-		if( jools.isString( type ) && type.substring( 0, 2 ) === '->' )
-		{
-			type = require( '../typemaps/' + type.substring( 2 ) );
-		}
 
 		if( !Array.isArray( type ) )
 		{
@@ -361,14 +359,7 @@ prototype._init =
 
 	if( jion.group )
 	{
-		if( jools.isString( jion.group ) )
-		{
-			groupDef = require( '../typemaps/' + jion.group.substring( 2 ) );
-		}
-		else
-		{
-			groupDef = jion.group;
-		}
+		groupDef = jion.group;
 
 		this.group = jion_idGroup.createFromIDStrings( groupDef );
 
@@ -381,14 +372,7 @@ prototype._init =
 
 	if( jion.ray )
 	{
-		if( jools.isString( jion.ray ) )
-		{
-			rayDef = require( '../typemaps/' + jion.ray.substring( 2 ) );
-		}
-		else
-		{
-			rayDef = jion.ray;
-		}
+		rayDef = jion.ray;
 
 		this.ray = jion_idGroup.createFromIDStrings( rayDef );
 
@@ -401,14 +385,7 @@ prototype._init =
 
 	if( jion.twig )
 	{
-		if( jools.isString( jion.twig ) )
-		{
-			twigDef = require( '../typemaps/' + jion.twig.substring( 2 ) );
-		}
-		else
-		{
-			twigDef = jion.twig;
-		}
+		twigDef = jion.twig;
 
 		this.twig = jion_idGroup.createFromIDStrings( twigDef );
 
@@ -547,6 +524,11 @@ prototype.genNodeIncludes =
 					' = require( "../../src/' + unitStr + '/' + name + '" )'
 				);
 		}
+	}
+
+	if( this.ourobors )
+	{
+		block = block.$( 'jion_proto = require( \'../proto\'' );
 	}
 
 	return(
