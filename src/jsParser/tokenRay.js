@@ -18,7 +18,7 @@ if( JION )
 {
 	return {
 		id : 'jsParser_tokenRay',
-		ray : [ 'jsLexer_token', '->astStatement' ]
+		ray : [ 'jsLexer_token', 'require( ../typemaps/astStatement )' ]
 	};
 }
 

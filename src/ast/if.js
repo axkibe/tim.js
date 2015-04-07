@@ -22,7 +22,7 @@ if( JION )
 			condition :
 			{
 				comment : 'the if condition',
-				type : '->astExpression'
+				type : 'require( ../typemaps/astExpression )'
 			},
 			then :
 			{

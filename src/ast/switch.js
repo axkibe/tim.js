@@ -22,7 +22,7 @@ if( JION )
 			statement :
 			{
 				comment : 'the statement expression',
-				type : '->astExpression'
+				type : 'require( ../typemaps/astExpression )'
 			},
 			defaultCase :
 			{

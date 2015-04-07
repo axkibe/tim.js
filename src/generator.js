@@ -459,6 +459,8 @@ prototype.genImports =
 		}
 	}
 
+	result = result.$varDec( 'jion_proto' );
+
 	return result;
 };
 
@@ -526,9 +528,13 @@ prototype.genNodeIncludes =
 		}
 	}
 
-	if( this.ourobors )
+	if( this.ouroboros )
 	{
-		block = block.$( 'jion_proto = require( \'../proto\'' );
+		block = block.$( 'jion_proto = require( "../src/proto" )' );
+	}
+	else
+	{
+		block = block.$( 'jion_proto = require( "jion" ).proto' );
 	}
 
 	return(

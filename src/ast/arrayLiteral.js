@@ -21,7 +21,7 @@ if( JION )
 {
 	return{
 		id : 'ast_arrayLiteral',
-		ray : '->astExpression'
+		ray : require( '../typemaps/astExpression' )
 	};
 }
 

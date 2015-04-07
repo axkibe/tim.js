@@ -22,7 +22,7 @@ if( JION )
 			expr :
 			{
 				comment : 'the expression to get the member of',
-				type : '->astExpression'
+				type : 'require( ../typemaps/astExpression )'
 			},
 			member :
 			{

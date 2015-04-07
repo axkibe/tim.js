@@ -22,7 +22,7 @@ if( JION )
 			expr :
 			{
 				comment : 'the expression to negate',
-				type : '->astExpression'
+				type : 'require( ../typemaps/astExpression )'
 			}
 		}
 	};

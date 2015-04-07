@@ -131,7 +131,6 @@ myDir += '/';
 jionInputRequire =
 	function( inFilename, requireFilename )
 {
-	console.log( 'ARGS', arguments );
 	return(
 		require(
 			myDir

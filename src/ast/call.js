@@ -22,10 +22,10 @@ if( JION )
 			'func' :
 			{
 				comment : 'the function to call',
-				type : '->astExpression'
+				type : 'require( ../typemaps/astExpression )'
 			},
 		},
-		ray : '->astExpression'
+		ray : 'require( ../typemaps/astExpression )'
 	};
 }
 

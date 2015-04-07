@@ -17,7 +17,7 @@ if( JION )
 {
 	return{
 		id : 'ast_block',
-		ray : '->astStatement'
+		ray : 'require( ../typemaps/astStatement )'
 	};
 }
 

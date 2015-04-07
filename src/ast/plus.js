@@ -23,12 +23,12 @@ if( JION )
 			left :
 			{
 				comment : 'left expression',
-				type : '->astExpression'
+				type : 'require( ../typemaps/astExpression )'
 			},
 			right :
 			{
 				comment : 'right expression',
-				type : '->astExpression'
+				type : 'require( ../typemaps/astExpression )'
 			}
 		}
 	};

@@ -22,7 +22,7 @@ if( JION )
 			message :
 			{
 				comment : 'the error message expression',
-				type : '->astExpression',
+				type : 'require( ../typemaps/astExpression )',
 				defaultValue : 'undefined'
 			}
 		}

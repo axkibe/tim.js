@@ -44,7 +44,7 @@ if( JION )
 			defaultValue :
 			{
 				comment : 'default value',
-				type : '->astExpression',
+				type : 'require( ../typemaps/astExpression )',
 				defaultValue : 'undefined'
 			},
 			json :
