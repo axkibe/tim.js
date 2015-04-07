@@ -39,6 +39,7 @@ var
 	input,
 	listing,
 	list,
+	myDir,
 	outFilename,
 	outStat,
 	output,
@@ -53,7 +54,7 @@ vm = require( 'vm' );
 
 format_formatter = require( '../format/formatter' );
 
-generator = require( '../jion/generator' );
+generator = require( '../generator' );
 
 listing = require( './listing' );
 
@@ -94,14 +95,16 @@ for(
 
 /*
 | Prepares the listings filenames
+|
+| FIXME combine this two loops
 */
 for(
-	a = 0, aZ = listing.list.length;
+	a = 0, aZ = listing.length;
 	a < aZ;
 	a++
 )
 {
-	inFilename = listing.list[ a ];
+	inFilename = listing[ a ];
 
 	outFilename =
 		'./jioncode/'
@@ -114,6 +117,15 @@ for(
 		}
 	);
 }
+
+myDir = module.filename;
+
+for( a = 0; a < 3; a++ )
+{
+	myDir = myDir.substr( 0, myDir.lastIndexOf( '/' ) );
+}
+
+myDir += '/';
 
 
 /*
@@ -128,11 +140,15 @@ for(
 {
 	file = list[ a ];
 
-	inStat = fs.statSync(  file.inFilename );
+	inFilename = file.inFilename;
+
+	outFilename = file.outFilename;
+
+	inStat = fs.statSync(  inFilename );
 
 	try
 	{
-		outStat = fs.statSync( file.outFilename );
+		outStat = fs.statSync( outFilename );
 	}
 	catch( e )
 	{
@@ -145,13 +161,26 @@ for(
 		|| outStat.mtime <= inStat.mtime
 	)
 	{
-		console.log( 'Reading ' + file.inFilename );
+		console.log( 'Reading ' + inFilename );
 
-		input = fs.readFileSync( file.inFilename, readOptions );
+		input = fs.readFileSync( inFilename, readOptions );
 
 		global = { JION : true };
 
 		global.GLOBAL = global;
+
+		global.require =
+			function( requireFilename )
+		{
+			return(
+				require(
+					myDir
+					+ inFilename.substr( 0, inFilename.lastIndexOf( '/' ) )
+					+ '/'
+					+ requireFilename
+				)
+			);
+		}
 
 		jion = vm.runInNewContext( input, global, file.inFilename );
 

@@ -22,11 +22,7 @@ else
 }
 
 
-/*
-| Imports.
-*/
 var
-	jools,
 	ast_and,
 	ast_arrayLiteral,
 	ast_assign,
@@ -56,8 +52,7 @@ var
 	ast_preIncrement,
 	ast_string,
 	ast_typeof,
-	ast_var,
-	jion_proto;
+	ast_var;
 
 
 /*
@@ -73,67 +68,63 @@ function( ) {
 */
 if( SERVER )
 {
-	jools = require( '../src/jools/jools' );
+	ast_arrayLiteral = require( '../../src/ast/arrayLiteral' );
 
-	ast_arrayLiteral = require( '../src/ast/arrayLiteral' );
+	ast_assign = require( '../../src/ast/assign' );
 
-	ast_assign = require( '../src/ast/assign' );
+	ast_boolean = require( '../../src/ast/boolean' );
 
-	ast_boolean = require( '../src/ast/boolean' );
+	ast_call = require( '../../src/ast/call' );
 
-	ast_call = require( '../src/ast/call' );
+	ast_comma = require( '../../src/ast/comma' );
 
-	ast_comma = require( '../src/ast/comma' );
+	ast_condition = require( '../../src/ast/condition' );
 
-	ast_condition = require( '../src/ast/condition' );
+	ast_delete = require( '../../src/ast/delete' );
 
-	ast_delete = require( '../src/ast/delete' );
+	ast_differs = require( '../../src/ast/differs' );
 
-	ast_differs = require( '../src/ast/differs' );
+	ast_dot = require( '../../src/ast/dot' );
 
-	ast_dot = require( '../src/ast/dot' );
+	ast_equals = require( '../../src/ast/equals' );
 
-	ast_equals = require( '../src/ast/equals' );
+	ast_func = require( '../../src/ast/func' );
 
-	ast_func = require( '../src/ast/func' );
+	ast_greaterThan = require( '../../src/ast/greaterThan' );
 
-	ast_greaterThan = require( '../src/ast/greaterThan' );
+	ast_instanceof = require( '../../src/ast/instanceof' );
 
-	ast_instanceof = require( '../src/ast/instanceof' );
+	ast_lessThan = require( '../../src/ast/lessThan' );
 
-	ast_lessThan = require( '../src/ast/lessThan' );
+	ast_member = require( '../../src/ast/member' );
 
-	ast_member = require( '../src/ast/member' );
+	ast_multiply = require( '../../src/ast/multiply' );
 
-	ast_multiply = require( '../src/ast/multiply' );
+	ast_multiplyAssign = require( '../../src/ast/multiplyAssign' );
 
-	ast_multiplyAssign = require( '../src/ast/multiplyAssign' );
+	ast_new = require( '../../src/ast/new' );
 
-	ast_new = require( '../src/ast/new' );
+	ast_not = require( '../../src/ast/not' );
 
-	ast_not = require( '../src/ast/not' );
+	ast_null = require( '../../src/ast/null' );
 
-	ast_null = require( '../src/ast/null' );
+	ast_number = require( '../../src/ast/number' );
 
-	ast_number = require( '../src/ast/number' );
+	ast_objLiteral = require( '../../src/ast/objLiteral' );
 
-	ast_objLiteral = require( '../src/ast/objLiteral' );
+	ast_or = require( '../../src/ast/or' );
 
-	ast_or = require( '../src/ast/or' );
+	ast_plus = require( '../../src/ast/plus' );
 
-	ast_plus = require( '../src/ast/plus' );
+	ast_plusAssign = require( '../../src/ast/plusAssign' );
 
-	ast_plusAssign = require( '../src/ast/plusAssign' );
+	ast_preIncrement = require( '../../src/ast/preIncrement' );
 
-	ast_preIncrement = require( '../src/ast/preIncrement' );
+	ast_string = require( '../../src/ast/string' );
 
-	ast_string = require( '../src/ast/string' );
+	ast_typeof = require( '../../src/ast/typeof' );
 
-	ast_typeof = require( '../src/ast/typeof' );
-
-	ast_var = require( '../src/ast/var' );
-
-	jion_proto = require( '../src/proto' );
+	ast_var = require( '../../src/ast/var' );
 }
 
 

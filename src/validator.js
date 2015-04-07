@@ -194,20 +194,10 @@ checkGroup =
 
 	map = { };
 
-	if( isString( group ) )
-	{
-		if( !( /\->[a-zA-Z_-]+/.test( jion.group ) ) )
-		{
-			throw new Error( 'invalid typemap reference' );
-		}
-
-		group = require( '../typemaps/' + group.substr( 2 ) + '.js' );
-	}
-
 	if( !( Array.isArray( group ) ) )
 	{
 		throw new Error(
-			'group definition must be an Array or a typemap to one'
+			'group definition must be an Array'
 		);
 	}
 
@@ -260,20 +250,10 @@ checkRay =
 
 	map = { };
 
-	if( isString( ray ) )
-	{
-		if( !( /\->[a-zA-Z_-]+/.test( jion.ray ) ) )
-		{
-			throw new Error( 'invalid typemap reference' );
-		}
-
-		ray = require( '../typemaps/' + ray.substr( 2 ) + '.js' );
-	}
-
 	if( !( Array.isArray( ray ) ) )
 	{
 		throw new Error(
-			'ray definition must be an Array or a typemap to one'
+			'ray definition must be an Array'
 		);
 	}
 
@@ -325,20 +305,10 @@ checkTwig =
 
 	map = { };
 
-	if( isString( twig ) )
-	{
-		if( !( /\->[a-zA-Z_-]+/.test( jion.twig ) ) )
-		{
-			throw new Error( 'invalid typemap reference' );
-		}
-
-		twig = require( '../typemaps/' + twig.substr( 2 ) + '.js' );
-	}
-
 	if( !( Array.isArray( twig ) ) )
 	{
 		throw new Error(
-			'twig definition must be an Array or a typemap to one'
+			'twig definition must be an Array'
 		);
 	}
 
@@ -386,11 +356,6 @@ checkAttributeSingleType =
 		throw new Error(
 			'attribute "' + name + '" has invalid type: ' + type
 		);
-	}
-
-	if( type.substring( 0, 2 ) === '->' )
-	{
-		return;
 	}
 
 	if( type.indexOf( '_' ) < 0 )

@@ -35,6 +35,8 @@ var
 
 ast_not = require( '../this' )( module, 'ouroboros' );
 
+prototype = ast_not.prototype;
+
 
 /**/if( CHECK )
 /**/{
