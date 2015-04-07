@@ -232,7 +232,7 @@ module.exports =
 	context.require = module.require.bind( module );
 
 	vm.runInNewContext(
-		fs.readFileSync( jionCodeFilename ) + '', // FIXME '' needed?
+		fs.readFileSync( jionCodeFilename ),
 		context,
 		jionCodeFilename
 	);
