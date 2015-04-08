@@ -35,9 +35,9 @@ var
 	global,
 	inFilename,
 	inStat,
-	jion,
+	jionDef,
+	jionDefRequire,
 	input,
-	jionInputRequire,
 	listing,
 	list,
 	myDir,
@@ -128,7 +128,7 @@ for( a = 0; a < 3; a++ )
 
 myDir += '/';
 
-jionInputRequire =
+jionDefRequire =
 	function( inFilename, requireFilename )
 {
 	return(
@@ -182,11 +182,11 @@ for(
 
 		global.GLOBAL = global;
 
-		global.require = jionInputRequire.bind( undefined, inFilename );
+		global.require = jionDefRequire.bind( undefined, inFilename );
 
-		jion = vm.runInNewContext( input, global, file.inFilename );
+		jionDef = vm.runInNewContext( input, global, file.inFilename );
 
-		ast = generator.generate( jion, 'ouroboros' );
+		ast = generator.generate( jionDef, 'ouroboros' );
 
 		output = format_formatter.format( ast );
 

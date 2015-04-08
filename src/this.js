@@ -82,7 +82,8 @@ findJionCodeRootDir =
 generateJionCode =
 	function(
 		filename,  // the file to get the jion definition of
-		jionCodeFilename // the file to write the jioncode to
+		jionCodeFilename, // the file to write the jioncode to
+		module    // the handed down module
 	)
 {
 	var
@@ -105,6 +106,8 @@ generateJionCode =
 	global = { JION : true };
 
 	global.GLOBAL = global;
+
+	global.require = module.require.bind( module );
 
 	jion = vm.runInNewContext( input, global, filename );
 
@@ -204,7 +207,7 @@ module.exports =
 				+ jionCodeFilename
 			);
 
-			generateJionCode( filename, jionCodeFilename );
+			generateJionCode( filename, jionCodeFilename, module );
 		}
 	}
 

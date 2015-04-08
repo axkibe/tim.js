@@ -1,7 +1,11 @@
 'use strict';
 
 var
-	fs;
+	exports,
+	formatter,
+	fs,
+	generator,
+	proto;
 
 fs = require( 'fs' );
 
@@ -24,14 +28,39 @@ GLOBAL.CHECK = !!GLOBAL.CHECK;
 if( GLOBAL.FREEZE === undefined ) GLOBAL.FREEZE = true;
 
 /*
-|  the jion module
+|  The jion module.
 */
-module.exports.this = require( './this.js' );
+exports = module.exports;
 
-module.exports.proto = require( './proto.js' );
+exports.this = require( './this.js' );
+
+proto =
+exports.proto =
+	require( './proto.js' );
+
+exports.lazyFunctionString = proto.lazyFunctionString;
+
+exports.lazyValue = proto.lazyValue;
+
+
+// FIXME remove/fix
+generator = require( './generator' );
+formatter = require( './format/formatter' );
+exports.makeJionCode =
+	function(
+		jionDef
+	)
+{
+	var
+		ast;
+
+	ast = generator.generate( jionDef );
+
+	return formatter.format( ast );
+};
 
 
 if( FREEZE )
 {
-	Object.freeze( module.exports );
+	Object.freeze( exports );
 }
