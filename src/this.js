@@ -10,10 +10,8 @@ var
 	findJionCodeRootDir,
 	fs,
 	format_formatter,
-	generateJionCode,
 	generator,
 	jion_proto,
-	requireGenerator,
 	readOptions,
 	vm;
 
@@ -76,57 +74,17 @@ findJionCodeRootDir =
 
 
 /*
-| Generates the jioncode for a jion
-| defined in 'filename'.
-*/
-generateJionCode =
-	function(
-		filename,  // the file to get the jion definition of
-		jionCodeFilename, // the file to write the jioncode to
-		module    // the handed down module
-	)
-{
-	var
-		ast,
-		global,
-		input,
-		jion,
-		output;
-
-	if( !requireGenerator )
-	{
-		// requires the generator stuff only when needed
-		generator = require( './generator' );
-
-		format_formatter = require( './format/formatter' );
-	}
-
-	input = fs.readFileSync( filename, readOptions );
-
-	global = { JION : true };
-
-	global.GLOBAL = global;
-
-	global.require = module.require.bind( module );
-
-	jion = vm.runInNewContext( input, global, filename );
-
-	ast = generator.generate( jion );
-
-	output = format_formatter.format( ast );
-
-	fs.writeFileSync( jionCodeFilename, output );
-};
-
-
-/*
 | Creates and requires the jioncode defined in the current module.
 |
 | Additional Arguments:
 |
+| 'source'
+|    sets 'source' and 'jioncode' attributes of module exports.
+|    to be used to forward the code to browser.
+|
 | 'ouroboros'
-|    used by jion itself to force loading its own jioncode without
-|    creating it on the fly.
+|    used by jion itself to force not recreating out of date jioncode
+|    on the fly.
 */
 module.exports =
 	function(
@@ -137,14 +95,20 @@ module.exports =
 	var
 		a,
 		aZ,
+		ast,
 		context,
+		global,
 		filename,
+		input,
 		inStat,
 		jionCodeRootDir,
 		jionCodeFilename,
+		jionDef,
 		k,
 		ouroboros,
-		outStat;
+		output,
+		outStat,
+		source;
 
 	// additional argument parsing
 
@@ -153,6 +117,8 @@ module.exports =
 		switch( arguments[ a ] )
 		{
 			case 'ouroboros' : ouroboros = true; break;
+			
+			case 'source' : source = true; break;
 
 			default :
 
@@ -200,14 +166,28 @@ module.exports =
 
 		if( !outStat || inStat.mtime > outStat.mtime )
 		{
-			console.log(
-				'jioncode: '
-				+ filename
-				+ ' -> '
-				+ jionCodeFilename
-			);
+			console.log( 'jioncode: ' + jionCodeFilename );
 
-			generateJionCode( filename, jionCodeFilename, module );
+			// requires the generator stuff only when needed
+			generator = require( './generator' );
+
+			format_formatter = require( './format/formatter' );
+
+			input = fs.readFileSync( filename, readOptions );
+
+			global = { JION : true };
+
+			global.GLOBAL = global;
+
+			global.require = module.require.bind( module );
+
+			jionDef = vm.runInNewContext( input, global, filename );
+
+			ast = generator.generate( jionDef );
+
+			output = format_formatter.format( ast );
+
+			fs.writeFileSync( jionCodeFilename, output );
 		}
 	}
 
@@ -239,6 +219,13 @@ module.exports =
 		context,
 		jionCodeFilename
 	);
+
+	/*
+	if( source )
+	{
+		module.exports.source = source;
+	}
+	*/
 
 	return module.exports;
 };
