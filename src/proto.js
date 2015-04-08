@@ -3,6 +3,7 @@
 */
 
 var
+	jion,
 	jion_proto,
 	pass;
 
@@ -29,6 +30,7 @@ if( NODE )
 }
 else
 {
+	jion =
 	jion_proto = { };
 
 	// global pass flag for creators

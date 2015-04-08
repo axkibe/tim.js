@@ -220,12 +220,21 @@ module.exports =
 		jionCodeFilename
 	);
 
-	/*
 	if( source )
 	{
-		module.exports.source = source;
+		if( !input )
+		{
+			input = fs.readFileSync( filename, readOptions );
+		}
+
+		if( !output )
+		{
+			output = fs.readFileSync( jionCodeFilename, readOptions );
+		}
+
+		module.exports.source = input;
+		module.exports.jioncode = output;
 	}
-	*/
 
 	return module.exports;
 };
