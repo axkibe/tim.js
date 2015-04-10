@@ -12,7 +12,7 @@ var
 	format_context;
 
 
-if( SERVER )
+if( NODE )
 {
 	format_context = module.exports;
 }
@@ -37,7 +37,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	require( '../proto' );
 }

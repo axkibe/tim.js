@@ -12,7 +12,7 @@ var
 	ast_switch;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_switch = module.exports;
 }
@@ -69,7 +69,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( '../ast/and' );
 

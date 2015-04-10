@@ -12,7 +12,7 @@ var
 	ast_string;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_string = module.exports;
 }
@@ -37,7 +37,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	require( '../proto' );
 }

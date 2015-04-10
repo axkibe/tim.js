@@ -12,7 +12,7 @@ var
 	jion_stringRay;
 
 
-if( SERVER )
+if( NODE )
 {
 	jion_stringRay = module.exports;
 }
@@ -37,7 +37,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	require( './proto' );
 }

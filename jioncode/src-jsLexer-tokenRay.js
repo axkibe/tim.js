@@ -12,7 +12,7 @@ var
 	jsLexer_tokenRay;
 
 
-if( SERVER )
+if( NODE )
 {
 	jsLexer_tokenRay = module.exports;
 }
@@ -38,7 +38,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	jsLexer_token = require( '../jsLexer/token' );
 

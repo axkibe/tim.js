@@ -12,7 +12,7 @@ var
 	ast_and;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_and = module.exports;
 }
@@ -67,7 +67,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_arrayLiteral = require( '../ast/arrayLiteral' );
 

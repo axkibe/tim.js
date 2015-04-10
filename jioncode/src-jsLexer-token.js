@@ -12,7 +12,7 @@ var
 	jsLexer_token;
 
 
-if( SERVER )
+if( NODE )
 {
 	jsLexer_token = module.exports;
 }
@@ -37,7 +37,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	require( '../proto' );
 }

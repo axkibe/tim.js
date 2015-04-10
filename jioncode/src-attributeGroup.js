@@ -12,7 +12,7 @@ var
 	jion_attributeGroup;
 
 
-if( SERVER )
+if( NODE )
 {
 	jion_attributeGroup = module.exports;
 }
@@ -38,7 +38,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	jion_attribute = require( './attribute' );
 

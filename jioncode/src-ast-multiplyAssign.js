@@ -12,7 +12,7 @@ var
 	ast_multiplyAssign;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_multiplyAssign = module.exports;
 }
@@ -67,7 +67,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( '../ast/and' );
 

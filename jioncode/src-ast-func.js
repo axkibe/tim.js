@@ -12,7 +12,7 @@ var
 	ast_func;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_func = module.exports;
 }
@@ -39,7 +39,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_block = require( '../ast/block' );
 

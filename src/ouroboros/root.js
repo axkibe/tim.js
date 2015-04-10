@@ -16,8 +16,6 @@ GLOBAL.JION = false;
 
 GLOBAL.FREEZE = true;
 
-GLOBAL.SERVER = true;  // FIXME
-
 GLOBAL.NODE = true;
 
 

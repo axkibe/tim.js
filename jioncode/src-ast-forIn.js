@@ -12,7 +12,7 @@ var
 	ast_forIn;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_forIn = module.exports;
 }
@@ -68,7 +68,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( '../ast/and' );
 

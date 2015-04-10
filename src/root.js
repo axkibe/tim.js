@@ -15,9 +15,6 @@ fs = require( 'fs' );
 GLOBAL.NODE = true;
 
 // FIXME
-GLOBAL.SERVER = true;
-
-// FIXME
 GLOBAL.JION = false;
 
 GLOBAL.CHECK = !!GLOBAL.CHECK;
@@ -35,8 +32,11 @@ exports = module.exports;
 exports.this = require( './this.js' );
 
 proto =
-exports.proto =
-	require( './proto.js' );
+exports.proto = require( './proto.js' );
+
+exports.copy = proto.copy;
+
+exports.isString = proto.isString;
 
 exports.lazyFunctionString = proto.lazyFunctionString;
 

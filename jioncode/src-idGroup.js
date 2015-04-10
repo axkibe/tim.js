@@ -12,7 +12,7 @@ var
 	jion_idGroup;
 
 
-if( SERVER )
+if( NODE )
 {
 	jion_idGroup = module.exports;
 }
@@ -38,7 +38,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	jion_id = require( './id' );
 

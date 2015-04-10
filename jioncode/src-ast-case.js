@@ -12,7 +12,7 @@ var
 	ast_case;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_case = module.exports;
 }
@@ -68,7 +68,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( '../ast/and' );
 

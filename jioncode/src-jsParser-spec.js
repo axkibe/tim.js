@@ -12,7 +12,7 @@ var
 	jsParser_tokenSpec;
 
 
-if( SERVER )
+if( NODE )
 {
 	jsParser_tokenSpec = module.exports;
 }
@@ -37,7 +37,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	require( '../proto' );
 }

@@ -12,7 +12,7 @@ var
 	jion_attribute;
 
 
-if( SERVER )
+if( NODE )
 {
 	jion_attribute = module.exports;
 }
@@ -69,7 +69,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( './ast/and' );
 

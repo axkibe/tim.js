@@ -12,7 +12,7 @@ var
 	ast_preIncrement;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_preIncrement = module.exports;
 }
@@ -67,7 +67,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( '../ast/and' );
 

@@ -12,7 +12,7 @@ var
 	ast_new;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_new = module.exports;
 }
@@ -38,7 +38,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_call = require( '../ast/call' );
 

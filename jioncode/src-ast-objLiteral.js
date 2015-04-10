@@ -12,7 +12,7 @@ var
 	ast_objLiteral;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_objLiteral = module.exports;
 }
@@ -78,7 +78,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( '../ast/and' );
 

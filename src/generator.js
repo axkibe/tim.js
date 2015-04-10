@@ -581,7 +581,7 @@ prototype.genNodeIncludes =
 	return(
 		$block( )
 		.$comment( 'Node includes.' )
-		.$if( 'SERVER', block )
+		.$if( 'NODE', block )
 	);
 };
 
@@ -3311,7 +3311,7 @@ prototype.genExport =
 		.$comment( 'Export.' )
 		.$varDec( this.id.global )
 		.$if(
-			'SERVER',
+			'NODE',
 			$( this.id.global, ' = module.exports' ),
 			$( this.id.global, ' = { }' )
 		)

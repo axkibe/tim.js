@@ -12,7 +12,7 @@ var
 	jion_id;
 
 
-if( SERVER )
+if( NODE )
 {
 	jion_id = module.exports;
 }
@@ -37,7 +37,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	require( './proto' );
 }

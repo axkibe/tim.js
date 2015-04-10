@@ -12,7 +12,7 @@ var
 	ast_var;
 
 
-if( SERVER )
+if( NODE )
 {
 	ast_var = module.exports;
 }
@@ -37,7 +37,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	require( '../proto' );
 }

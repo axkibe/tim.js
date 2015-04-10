@@ -12,7 +12,7 @@ var
 	jsParser_tokenRay;
 
 
-if( SERVER )
+if( NODE )
 {
 	jsParser_tokenRay = module.exports;
 }
@@ -79,7 +79,7 @@ function( ) {
 /*
 | Node includes.
 */
-if( SERVER )
+if( NODE )
 {
 	ast_and = require( '../ast/and' );
 
