@@ -26,6 +26,13 @@ if( JION )
 				// FIXME should not be allowed undefined
 				defaultValue : 'undefined'
 			},
+			'packet' :
+			{
+				comment : 'the jion is in/from a package',
+				type : 'string',
+				// FIXME should not be allowed undefined
+				defaultValue : 'undefined'
+			},
 			'unit' :
 			{
 				comment : 'the unit part of the id if applicable',
@@ -61,7 +68,17 @@ jion_id.createFromString =
 	)
 {
 	var
+		packet,
 		split;
+	
+	split = string.split( '$' );
+
+	if( split.length > 1 )
+	{
+		packet = split[ 0 ];
+
+		string = split[ 1 ];
+	}
 
 	split = string.split( '_' );
 
@@ -91,6 +108,7 @@ jion_id.createFromString =
 
 	return(
 		jion_id.create(
+			'packet', packet,
 			'unit', split[ 0 ],
 			'name', split[ 1 ]
 		)
@@ -107,22 +125,29 @@ jion_id.compare =
 		o2
 	)
 {
-	if( o1.unit === o2.unit )
+	if( !o1.packet && o2.packet )
 	{
-		if( o1.name === o2.name )
-		{
-			return 0;
-		}
-		else if( o1.name > o2.name )
+		return 1;
+	}
+	
+	if( o1.packet && !o2.packet )
+	{
+		return -1;
+	}
+
+	if( o1.packet && o2.packet )
+	{
+		if( o1.packet > o2.packet )
 		{
 			return 1;
 		}
-		else
+
+		if( o1.packet < o2.packet )
 		{
 			return -1;
 		}
 	}
-
+	
 	if( !o1.unit && o2.unit )
 	{
 		return 1;
@@ -133,7 +158,23 @@ jion_id.compare =
 		return -1;
 	}
 
-	if( o1.unit > o2.unit )
+	if( o1.unit && o2.unit )
+	{
+		if( o1.unit > o2.unit )
+		{
+			return 1;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	if( o1.name === o2.name )
+	{
+		return 0;
+	}
+	else if( o1.name > o2.name )
 	{
 		return 1;
 	}
@@ -180,9 +221,9 @@ jion_proto.lazyValue(
 	function( )
 {
 	return(
-		this.unit
-		? this.unit + '_' + this.name
-		: this.name
+		( this.packet ? this.packet + '$' : '' )
+		+ ( this.unit ? this.unit + '_' : '' )
+		+ this.name
 	);
 }
 );

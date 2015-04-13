@@ -98,6 +98,7 @@ module.exports =
 		ast,
 		attributes,
 		context,
+		force,
 		global,
 		filename,
 		input,
@@ -117,6 +118,8 @@ module.exports =
 	{
 		switch( arguments[ a ] )
 		{
+			case 'force' : force = true; break;
+
 			case 'ouroboros' : ouroboros = true; break;
 
 			case 'source' : source = true; break;
@@ -163,7 +166,7 @@ module.exports =
 	// or if it isn't existing at all
 	// and create it if so.
 
-	if( !ouroboros )
+	if( !ouroboros && !force )
 	{
 		inStat = fs.statSync( filename );
 
@@ -176,7 +179,7 @@ module.exports =
 			// ignore
 		}
 
-		if( !outStat || inStat.mtime > outStat.mtime )
+		if( !outStat || inStat.mtime > outStat.mtime || force )
 		{
 			console.log( 'jioncode: ' + jionCodeFilename );
 

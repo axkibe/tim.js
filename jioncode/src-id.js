@@ -53,12 +53,18 @@ var
 AbstractConstructor =
 	function(
 		v_name, // the name part of the id if applicable
+		v_packet, // the jion is in/from a package
 		v_unit // the unit part of the id if applicable
 	)
 {
 	if( v_name !== undefined )
 	{
 		this.name = v_name;
+	}
+
+	if( v_packet !== undefined )
+	{
+		this.packet = v_packet;
 	}
 
 	if( v_unit !== undefined )
@@ -84,6 +90,7 @@ var
 Constructor =
 	function(
 		v_name, // the name part of the id if applicable
+		v_packet, // the jion is in/from a package
 		v_unit // the unit part of the id if applicable
 	)
 {
@@ -98,6 +105,11 @@ Constructor =
 	if( v_name !== undefined )
 	{
 		this.name = v_name;
+	}
+
+	if( v_packet !== undefined )
+	{
+		this.packet = v_packet;
 	}
 
 	if( v_unit !== undefined )
@@ -137,6 +149,7 @@ prototype.abstract =
 		arg,
 		inherit,
 		v_name,
+		v_packet,
 		v_unit;
 
 	if( this !== jion_id )
@@ -144,6 +157,8 @@ prototype.abstract =
 		inherit = this;
 
 		v_name = this.name;
+
+		v_packet = this.packet;
 
 		v_unit = this.unit;
 	}
@@ -163,6 +178,15 @@ prototype.abstract =
 				if( arg !== pass )
 				{
 					v_name = arg;
+				}
+
+				break;
+
+			case 'packet' :
+
+				if( arg !== pass )
+				{
+					v_packet = arg;
 				}
 
 				break;
@@ -204,6 +228,23 @@ prototype.abstract =
 /**/		}
 /**/	}
 /**/
+/**/	if( v_packet === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_packet !== undefined )
+/**/	{
+/**/		if(
+/**/			typeof( v_packet ) !== 'string'
+/**/			&&
+/**/			!( v_packet instanceof String )
+/**/		)
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_unit === null )
 /**/	{
 /**/		throw new Error( );
@@ -222,12 +263,20 @@ prototype.abstract =
 /**/	}
 /**/}
 
-	if( inherit && v_name === inherit.name && v_unit === inherit.unit )
+	if(
+		inherit
+		&&
+		v_name === inherit.name
+		&&
+		v_packet === inherit.packet
+		&&
+		v_unit === inherit.unit
+	)
 	{
 		return inherit;
 	}
 
-	return new AbstractConstructor( v_name, v_unit );
+	return new AbstractConstructor( v_name, v_packet, v_unit );
 };
 
 
@@ -247,6 +296,7 @@ prototype.create =
 		arg,
 		inherit,
 		v_name,
+		v_packet,
 		v_unit;
 
 	if( this !== jion_id )
@@ -254,6 +304,8 @@ prototype.create =
 		inherit = this;
 
 		v_name = this.name;
+
+		v_packet = this.packet;
 
 		v_unit = this.unit;
 	}
@@ -273,6 +325,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_name = arg;
+				}
+
+				break;
+
+			case 'packet' :
+
+				if( arg !== pass )
+				{
+					v_packet = arg;
 				}
 
 				break;
@@ -314,6 +375,23 @@ prototype.create =
 /**/		}
 /**/	}
 /**/
+/**/	if( v_packet === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_packet !== undefined )
+/**/	{
+/**/		if(
+/**/			typeof( v_packet ) !== 'string'
+/**/			&&
+/**/			!( v_packet instanceof String )
+/**/		)
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_unit === null )
 /**/	{
 /**/		throw new Error( );
@@ -332,12 +410,20 @@ prototype.create =
 /**/	}
 /**/}
 
-	if( inherit && v_name === inherit.name && v_unit === inherit.unit )
+	if(
+		inherit
+		&&
+		v_name === inherit.name
+		&&
+		v_packet === inherit.packet
+		&&
+		v_unit === inherit.unit
+	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_name, v_unit );
+	return new Constructor( v_name, v_packet, v_unit );
 };
 
 
@@ -400,7 +486,13 @@ prototype.equals =
 		return false;
 	}
 
-	return this.name === obj.name && this.unit === obj.unit;
+	return (
+		this.name === obj.name
+		&&
+		this.packet === obj.packet
+		&&
+		this.unit === obj.unit
+	);
 };
 
 
