@@ -500,8 +500,7 @@ prototype.genNodeIncludes =
 			continue;
 		}
 
-		// XXX PACKAGE
-		if( !id.unit )
+		if( !id.unit && id.name !== 'path' ) // XXX
 		{
 			continue;
 		}
@@ -511,12 +510,34 @@ prototype.genNodeIncludes =
 		{
 			if( this.id.unit !== 'jion' )
 			{
-				block =
-					block
-					.$(
-						id.global,
-						' = require( "../' + id.unit + '/' + id.name + '" )'
-					);
+				if(
+					id.packet
+					// XXX && id.packet !== this.id.packet
+					&& id.unit !== 'ast'  //  XXX
+					&& id.unit !== 'format' // XXX
+					&& id.unit !== 'jsParser' // XXX
+					&& id.unit !== 'jsLexer' // XXX
+				)
+				{
+					block =
+						block
+						.$(
+							id.global, '=',
+							'require( "' + id.packet + '" ).',
+							// FIXME id.export
+							( id.unit ? id.unit + '_' : '' )
+							+ id.name
+						);
+				}
+				else
+				{
+					block =
+						block
+						.$(
+							id.global,
+							' = require( "../' + id.unit + '/' + id.name + '" )'
+						);
+				}
 			}
 			else
 			{

@@ -61,7 +61,7 @@ prototype._init =
 /**/if( CHECK )
 /**/{
 /**/	regex =
-/**/		/^([a-zA-Z_])([a-zA-Z0-9_])*$/;
+/**/		/^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
 /**/
 /**/	if( !regex.test( this.member ) )
 /**/	{

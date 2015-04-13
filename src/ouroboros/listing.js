@@ -59,6 +59,7 @@ module.exports =
 	'src/generator.js',
 	'src/id.js',
 	'src/idGroup.js',
+	'src/path.js',
 	'src/stringRay.js',
 	'src/jsLexer/token.js',
 	'src/jsLexer/tokenRay.js',

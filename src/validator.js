@@ -358,6 +358,8 @@ checkAttributeSingleType =
 		);
 	}
 
+	// FIXME
+	/*
 	if( type.indexOf( '_' ) < 0 )
 	{
 		switch( type )
@@ -378,6 +380,7 @@ checkAttributeSingleType =
 				);
 		}
 	}
+	*/
 };
 
 
