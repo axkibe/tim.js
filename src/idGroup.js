@@ -200,6 +200,7 @@ jion_proto.lazyValue(
 |
 | FIXME jion.proto.lazyStringFunc
 | FIXME make it return an idGroup again
+| FIXME XXX remove
 */
 prototype.nameListOfUnit =
 	function(

@@ -149,7 +149,7 @@ prototype._init =
 		searchIdWalk,
 		type,
 		twigDef, // twig map to be used (the definition)
-		units; // units used
+		imports; // foreign ids to be imported
 
 	attributes = jion_attributeGroup.create( );
 
@@ -157,25 +157,22 @@ prototype._init =
 
 	constructorList = [ ];
 
-	units = jion_idGroup.create( );
-
-	/*
-	FIXME remove
-	if( this.ouroboros )
-	{
-		units = units.add( jion_id.createFromString( 'jion_proto' ) );
-	}
-	*/
+	imports = jion_idGroup.create( );
 
 	searchIdWalk =
 		function( node )
 	{
-		if( node.reflect === 'ast_var' )
+		if(
+			node.reflect === 'ast_var'
+			&&
+			(
+				node.name.indexOf( '_' ) >= 0
+				|| node.name.indexOf( '$' ) >= 0
+			)
+		)
 		{
-			if( node.name.indexOf( '_' ) >= 0 )
-			{
-				units = units.add( jion_id.createFromString( node.name ) );
-			}
+			imports =
+				imports.add( jion_id.createFromString( node.name ) );
 		}
 
 		return node;
@@ -199,13 +196,13 @@ prototype._init =
 		{
 			aid = jion_id.createFromString( type );
 
-			units = units.add( aid );
+			imports = imports.add( aid );
 		}
 		else
 		{
 			aid = jion_idGroup.createFromIDStrings( type );
 
-			units = units.addGroup( aid );
+			imports = imports.addGroup( aid );
 		}
 
 		if( jAttr.json )
@@ -360,7 +357,7 @@ prototype._init =
 
 		this.group = jion_idGroup.createFromIDStrings( groupDef );
 
-		units = units.addGroup( this.group );
+		imports = imports.addGroup( this.group );
 	}
 	else
 	{
@@ -373,7 +370,7 @@ prototype._init =
 
 		this.ray = jion_idGroup.createFromIDStrings( rayDef );
 
-		units = units.addGroup( this.ray );
+		imports = imports.addGroup( this.ray );
 	}
 	else
 	{
@@ -386,7 +383,7 @@ prototype._init =
 
 		this.twig = jion_idGroup.createFromIDStrings( twigDef );
 
-		units = units.addGroup( this.twig );
+		imports = imports.addGroup( this.twig );
 
 	}
 	else
@@ -394,7 +391,7 @@ prototype._init =
 		this.twig = undefined;
 	}
 
-	this.units = units;
+	this.imports = imports;
 
 	this.alike = jion.alike;
 
@@ -426,8 +423,9 @@ prototype.genImports =
 	// FIXME: when type checking is there,
 	// this might become needed always.
 
-	unitList = this.units.unitList;
+	unitList = this.imports.unitList;
 
+	// XXX
 	// FIXME this is akward
 	// just put them all together into one simple id list
 	for(
@@ -436,7 +434,7 @@ prototype.genImports =
 		a++
 	)
 	{
-		nameList = this.units.nameListOfUnit( unitList[ a ] );
+		nameList = this.imports.nameListOfUnit( unitList[ a ] );
 
 		for(
 			b = 0, bZ = nameList.length;
@@ -483,7 +481,9 @@ prototype.genNodeIncludes =
 
 	// generates the unit objects
 
-	unitList = this.units.unitList;
+	unitList = this.imports.unitList;
+
+	// XXX
 
 	for(
 		a = 0, aZ = unitList.length;
@@ -493,7 +493,7 @@ prototype.genNodeIncludes =
 	{
 		unitStr = unitList[ a ];
 
-		nameList = this.units.nameListOfUnit( unitStr );
+		nameList = this.imports.nameListOfUnit( unitStr );
 
 		for(
 			b = 0, bZ = nameList.length;
