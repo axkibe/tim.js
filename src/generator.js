@@ -412,46 +412,41 @@ prototype.genImports =
 	var
 		a,
 		aZ,
-		b,
-		bZ,
-		nameList,
-		result,
-		unitList;
+		id,
+		idKey,
+		idKeys,
+		imports,
+		result;
 
 	result = $block( );
 
-	// FIXME: when type checking is there,
-	// this might become needed always.
+	imports = this.imports;	
 
-	unitList = this.imports.unitList;
+	idKeys = imports.sortedKeys;
 
-	// XXX
-	// FIXME this is akward
-	// just put them all together into one simple id list
 	for(
-		a = 0, aZ = unitList.length;
+		a = 0, aZ = idKeys.length;
 		a < aZ;
 		a++
 	)
 	{
-		nameList = this.imports.nameListOfUnit( unitList[ a ] );
+		idKey = idKeys[ a ];
 
-		for(
-			b = 0, bZ = nameList.length;
-			b < bZ;
-			b++
-		)
+		id = imports.get( idKey );
+
+		if( !id.packet && !id.unit )
+		{
+			// this is a primitive
+			continue;
+		}
+
+		if( idKey.indexOf( ':' ) >= 0 )
 		{
 			// FUTURE make this more elegant
-			if( nameList[ b ].indexOf( ':' ) >= 0 )
-			{
-				continue;
-			}
-
-			result =
-				result
-				.$varDec( unitList[ a ] + '_' + nameList[ b ] );
+			continue;
 		}
+
+		result = result.$varDec( id.string );
 	}
 
 	result = result.$varDec( 'jion_proto' );
