@@ -1,2 +1,2 @@
 #!/bin/bash
-node src/ouroboros/root.js $*
+node src/ouroboros/root.js --all

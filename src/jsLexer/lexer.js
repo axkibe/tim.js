@@ -67,12 +67,12 @@ jsLexer.tokenize =
 			continue;
 		}
 
-		if( ch.match(/[a-zA-Z_]/ ) )
+		if( ch.match(/[a-zA-Z_$]/ ) )
 		{
 			value = ch;
 
 			// a name specifier
-			while( c + 1 < cZ && code[ c+ 1 ].match( /[a-zA-Z0-9_]/ ) )
+			while( c + 1 < cZ && code[ c+ 1 ].match( /[a-zA-Z0-9_$]/ ) )
 			{
 				value += code[ ++c ];
 			}

@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion_generator;
+	jion$generator;
 
 
 if( NODE )
 {
-	jion_generator = module.exports;
+	jion$generator = module.exports;
 }
 else
 {
-	jion_generator = { };
+	jion$generator = { };
 }
 
 
@@ -106,13 +106,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion_generator.prototype = prototype;
+jion$generator.prototype = prototype;
 
 
 /*
 | Creates an generator object.
 */
-jion_generator.abstract =
+jion$generator.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -127,7 +127,7 @@ prototype.abstract =
 		v_jion,
 		v_ouroboros;
 
-	if( this !== jion_generator )
+	if( this !== jion$generator )
 	{
 		inherit = this;
 
@@ -215,7 +215,7 @@ prototype.abstract =
 /*
 | Creates a new generator object.
 */
-jion_generator.create =
+jion$generator.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -230,7 +230,7 @@ prototype.create =
 		v_jion,
 		v_ouroboros;
 
-	if( this !== jion_generator )
+	if( this !== jion$generator )
 	{
 		inherit = this;
 
@@ -325,7 +325,7 @@ prototype.create =
 /*
 | Abstract Reflection.
 */
-AbstractConstructor.prototype.reflect = 'jion_generator:abstract';
+AbstractConstructor.prototype.reflect = 'generator:abstract';
 
 
 /*
@@ -337,7 +337,7 @@ AbstractConstructor.prototype.reflectName = 'generator:abstract';
 /*
 | Reflection.
 */
-prototype.reflect = 'jion_generator';
+prototype.reflect = 'generator';
 
 
 /*
@@ -376,7 +376,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jion_generator' )
+	if( obj.reflect !== 'generator' )
 	{
 		return false;
 	}

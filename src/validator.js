@@ -546,7 +546,6 @@ validator.check =
 {
 	var
 		attr,
-		idParts,
 		name;
 
 	if( !jion )
@@ -567,23 +566,6 @@ validator.check =
 	if( !isString( jion.id ) )
 	{
 		throw new Error( 'id missing' );
-	}
-
-	idParts = jion.id.split( /[_.]/g ); // FIXME _ only
-
-	if( idParts.length !== 2 )
-	{
-		throw new Error( 'id must be unit.name' );
-	}
-
-	if( !/[a-z]/.exec(idParts[ 0 ][ 0 ] ) )
-	{
-		throw new Error( 'unit( id ) must start with lowercase letter' );
-	}
-
-	if( !/[a-z]/.exec(idParts[ 1 ][ 0 ] ) )
-	{
-		throw new Error( 'name( id ) must start with lowercase letter' );
 	}
 
 	attr = jion.attributes;

@@ -82,7 +82,7 @@ jion_id.createFromString =
 
 	split = string.split( '_' );
 
-	if( split.length <= 1 )
+	if( !packet && split.length <= 1 )
 	{
 		switch( string )
 		{
@@ -101,18 +101,29 @@ jion_id.createFromString =
 		return jion_id.create( 'name', string );
 	}
 
-	if( split.length !== 2 )
+	if( split.length > 2 )
 	{
 		throw new Error( );
 	}
-
-	return(
-		jion_id.create(
-			'packet', packet,
-			'unit', split[ 0 ],
-			'name', split[ 1 ]
-		)
-	);
+	else if( split.length === 2 )
+	{
+		return(
+			jion_id.create(
+				'packet', packet,
+				'unit', split[ 0 ],
+				'name', split[ 1 ]
+			)
+		);
+	}
+	else
+	{
+		return(
+			jion_id.create(
+				'packet', packet,
+				'name', split[ 0 ]
+			)
+		);
+	}
 };
 
 

@@ -16,7 +16,7 @@
 if( GLOBAL.JION )
 {
 	return{
-		id : 'jion_generator',
+		id : 'jion$generator',
 		attributes :
 		{
 			'jion' :
@@ -554,7 +554,10 @@ prototype.genNodeIncludes =
 	// XXX
 	if( this.ouroboros )
 	{
-		if( this.id.unit === 'jion' )
+		if(
+			this.id.unit === 'jion'
+			|| this.id.packet === 'jion'
+		)
 		{
 			block = block.$( 'require( "./proto" )' );
 		}
