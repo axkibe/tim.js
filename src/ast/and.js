@@ -16,7 +16,7 @@
 if( GLOBAL.JION )
 {
 	return{
-		id : 'ast_and',
+		id : 'jion$ast_and',
 		attributes :
 		{
 			left :

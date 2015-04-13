@@ -3,7 +3,7 @@
 */
 module.exports =
 [
-	'ast_and',
+	'jion$ast_and',
 	'ast_arrayLiteral',
 	'ast_assign',
 	'ast_boolean',

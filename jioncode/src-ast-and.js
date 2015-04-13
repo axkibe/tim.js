@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_and;
+	jion$ast_and;
 
 
 if( NODE )
 {
-	ast_and = module.exports;
+	jion$ast_and = module.exports;
 }
 else
 {
-	ast_and = { };
+	jion$ast_and = { };
 }
 
 
@@ -200,13 +200,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_and.prototype = prototype;
+jion$ast_and.prototype = prototype;
 
 
 /*
 | Creates an and object.
 */
-ast_and.abstract =
+jion$ast_and.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -221,7 +221,7 @@ prototype.abstract =
 		v_left,
 		v_right;
 
-	if( this !== ast_and )
+	if( this !== jion$ast_and )
 	{
 		inherit = this;
 
@@ -442,7 +442,7 @@ prototype.abstract =
 /*
 | Creates a new and object.
 */
-ast_and.create =
+jion$ast_and.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -457,7 +457,7 @@ prototype.create =
 		v_left,
 		v_right;
 
-	if( this !== ast_and )
+	if( this !== jion$ast_and )
 	{
 		inherit = this;
 

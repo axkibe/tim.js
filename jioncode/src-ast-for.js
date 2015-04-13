@@ -70,7 +70,7 @@ function( ) {
 */
 if( NODE )
 {
-	ast_and = require( '../ast/and' );
+	jion$ast_and = require( '../ast/and' );
 
 	ast_arrayLiteral = require( '../ast/arrayLiteral' );
 

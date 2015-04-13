@@ -555,8 +555,12 @@ prototype.genNodeIncludes =
 	if( this.ouroboros )
 	{
 		if(
-			this.id.unit === 'jion'
-			|| this.id.packet === 'jion'
+			this.id.unit === 'jion' // XXX
+			||
+			(
+				!this.id.unit
+				&& this.id.packet === 'jion'
+			)
 		)
 		{
 			block = block.$( 'require( "./proto" )' );
