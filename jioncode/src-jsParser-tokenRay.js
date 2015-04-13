@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jsParser_tokenRay;
+	jion$jsParser_tokenRay;
 
 
 if( NODE )
 {
-	jsParser_tokenRay = module.exports;
+	jion$jsParser_tokenRay = module.exports;
 }
 else
 {
-	jsParser_tokenRay = { };
+	jion$jsParser_tokenRay = { };
 }
 
 
@@ -230,13 +230,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jsParser_tokenRay.prototype = prototype;
+jion$jsParser_tokenRay.prototype = prototype;
 
 
 /*
 | Creates an tokenRay object.
 */
-jsParser_tokenRay.abstract =
+jion$jsParser_tokenRay.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -254,7 +254,7 @@ prototype.abstract =
 		ray,
 		rayDup;
 
-	if( this !== jsParser_tokenRay )
+	if( this !== jion$jsParser_tokenRay )
 	{
 		inherit = this;
 
@@ -469,7 +469,7 @@ prototype.abstract =
 /*
 | Creates a new tokenRay object.
 */
-jsParser_tokenRay.create =
+jion$jsParser_tokenRay.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -487,7 +487,7 @@ prototype.create =
 		ray,
 		rayDup;
 
-	if( this !== jsParser_tokenRay )
+	if( this !== jion$jsParser_tokenRay )
 	{
 		inherit = this;
 

@@ -15,8 +15,8 @@
 */
 if( JION )
 {
-	return {
-		id : 'jsParser_state',
+	return{
+		id : 'jion$jsParser_state',
 		attributes :
 		{
 			ast :

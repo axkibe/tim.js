@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	format_context;
+	jion$format_context;
 
 
 if( NODE )
 {
-	format_context = module.exports;
+	jion$format_context = module.exports;
 }
 else
 {
-	format_context = { };
+	jion$format_context = { };
 }
 
 
@@ -130,13 +130,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-format_context.prototype = prototype;
+jion$format_context.prototype = prototype;
 
 
 /*
 | Creates an context object.
 */
-format_context.abstract =
+jion$format_context.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -153,7 +153,7 @@ prototype.abstract =
 		v_inline,
 		v_root;
 
-	if( this !== format_context )
+	if( this !== jion$format_context )
 	{
 		inherit = this;
 
@@ -317,7 +317,7 @@ prototype.abstract =
 /*
 | Creates a new context object.
 */
-format_context.create =
+jion$format_context.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -334,7 +334,7 @@ prototype.create =
 		v_inline,
 		v_root;
 
-	if( this !== format_context )
+	if( this !== jion$format_context )
 	{
 		inherit = this;
 

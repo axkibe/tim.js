@@ -17,8 +17,10 @@
 if( JION )
 {
 	return {
-		id : 'jsParser_tokenRay',
-		ray : require( '../typemaps/astStatement' ).concat( [ 'jsLexer_token' ] )
+		id : 'jion$jsParser_tokenRay',
+		ray :
+			require( '../typemaps/astStatement' )
+			.concat( [ 'jsLexer_token' ] )
 	};
 }
 

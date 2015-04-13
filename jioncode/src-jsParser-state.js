@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jsParser_state;
+	jion$jsParser_state;
 
 
 if( NODE )
 {
-	jsParser_state = module.exports;
+	jion$jsParser_state = module.exports;
 }
 else
 {
-	jsParser_state = { };
+	jion$jsParser_state = { };
 }
 
 
@@ -250,13 +250,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jsParser_state.prototype = prototype;
+jion$jsParser_state.prototype = prototype;
 
 
 /*
 | Creates an state object.
 */
-jsParser_state.abstract =
+jion$jsParser_state.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -272,7 +272,7 @@ prototype.abstract =
 		v_pos,
 		v_tokens;
 
-	if( this !== jsParser_state )
+	if( this !== jion$jsParser_state )
 	{
 		inherit = this;
 
@@ -485,7 +485,7 @@ prototype.abstract =
 /*
 | Creates a new state object.
 */
-jsParser_state.create =
+jion$jsParser_state.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -501,7 +501,7 @@ prototype.create =
 		v_pos,
 		v_tokens;
 
-	if( this !== jsParser_state )
+	if( this !== jion$jsParser_state )
 	{
 		inherit = this;
 

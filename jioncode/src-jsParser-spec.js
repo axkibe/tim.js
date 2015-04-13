@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jsParser_tokenSpec;
+	jion$jsParser_tokenSpec;
 
 
 if( NODE )
 {
-	jsParser_tokenSpec = module.exports;
+	jion$jsParser_tokenSpec = module.exports;
 }
 else
 {
-	jsParser_tokenSpec = { };
+	jion$jsParser_tokenSpec = { };
 }
 
 
@@ -138,13 +138,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jsParser_tokenSpec.prototype = prototype;
+jion$jsParser_tokenSpec.prototype = prototype;
 
 
 /*
 | Creates an tokenSpec object.
 */
-jsParser_tokenSpec.abstract =
+jion$jsParser_tokenSpec.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -161,7 +161,7 @@ prototype.abstract =
 		v_handler,
 		v_prec;
 
-	if( this !== jsParser_tokenSpec )
+	if( this !== jion$jsParser_tokenSpec )
 	{
 		inherit = this;
 
@@ -322,7 +322,7 @@ prototype.abstract =
 /*
 | Creates a new tokenSpec object.
 */
-jsParser_tokenSpec.create =
+jion$jsParser_tokenSpec.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -339,7 +339,7 @@ prototype.create =
 		v_handler,
 		v_prec;
 
-	if( this !== jsParser_tokenSpec )
+	if( this !== jion$jsParser_tokenSpec )
 	{
 		inherit = this;
 

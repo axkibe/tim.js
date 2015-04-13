@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'jsParser_tokenSpec',
+		id : 'jion$jsParser_tokenSpec',
 		attributes :
 		{
 			associativity :

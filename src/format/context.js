@@ -19,7 +19,7 @@ var
 if( JION )
 {
 	return{
-		id : 'format_context',
+		id : 'jion$format_context',
 		attributes :
 		{
 			indent :
@@ -36,12 +36,9 @@ if( JION )
 			},
 			inline :
 			{
-				comment :
-					'true if to be formated inline',
-				type :
-					'boolean',
-				defaultValue :
-					'false'
+				comment : 'true if to be formated inline',
+				type : 'boolean',
+				defaultValue : 'false'
 			},
 			root :
 			{
