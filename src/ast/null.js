@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_null',
+		id : 'jion$ast_null',
 		singleton : true
 	};
 }

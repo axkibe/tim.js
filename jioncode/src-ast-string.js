@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_string;
+	jion$ast_string;
 
 
 if( NODE )
 {
-	ast_string = module.exports;
+	jion$ast_string = module.exports;
 }
 else
 {
-	ast_string = { };
+	jion$ast_string = { };
 }
 
 
@@ -103,13 +103,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_string.prototype = prototype;
+jion$ast_string.prototype = prototype;
 
 
 /*
 | Creates an string object.
 */
-ast_string.abstract =
+jion$ast_string.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -123,7 +123,7 @@ prototype.abstract =
 		inherit,
 		v_string;
 
-	if( this !== ast_string )
+	if( this !== jion$ast_string )
 	{
 		inherit = this;
 
@@ -190,7 +190,7 @@ prototype.abstract =
 /*
 | Creates a new string object.
 */
-ast_string.create =
+jion$ast_string.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -204,7 +204,7 @@ prototype.create =
 		inherit,
 		v_string;
 
-	if( this !== ast_string )
+	if( this !== jion$ast_string )
 	{
 		inherit = this;
 

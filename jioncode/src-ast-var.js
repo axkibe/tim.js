@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_var;
+	jion$ast_var;
 
 
 if( NODE )
 {
-	ast_var = module.exports;
+	jion$ast_var = module.exports;
 }
 else
 {
-	ast_var = { };
+	jion$ast_var = { };
 }
 
 
@@ -105,13 +105,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_var.prototype = prototype;
+jion$ast_var.prototype = prototype;
 
 
 /*
 | Creates an var object.
 */
-ast_var.abstract =
+jion$ast_var.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -125,7 +125,7 @@ prototype.abstract =
 		inherit,
 		v_name;
 
-	if( this !== ast_var )
+	if( this !== jion$ast_var )
 	{
 		inherit = this;
 
@@ -192,7 +192,7 @@ prototype.abstract =
 /*
 | Creates a new var object.
 */
-ast_var.create =
+jion$ast_var.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -206,7 +206,7 @@ prototype.create =
 		inherit,
 		v_name;
 
-	if( this !== ast_var )
+	if( this !== jion$ast_var )
 	{
 		inherit = this;
 

@@ -15,8 +15,8 @@
 */
 if( JION )
 {
-	return {
-		id : 'ast_func',
+	return{
+		id : 'jion$ast_func',
 		attributes :
 		{
 			block :
@@ -33,7 +33,7 @@ if( JION )
 				defaultValue : 'false'
 			}
 		},
-		ray : [ 'ast_funcArg' ]
+		ray : [ 'jion$ast_funcArg' ]
 	};
 }
 

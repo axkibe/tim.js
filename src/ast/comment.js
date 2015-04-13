@@ -16,7 +16,7 @@
 if( JION )
 {
 	return {
-		id : 'ast_comment',
+		id : 'jion$ast_comment',
 		ray : [ 'string' ]
 	};
 }

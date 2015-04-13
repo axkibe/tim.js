@@ -16,7 +16,7 @@
 if( JION )
 {
 	return {
-		id : 'ast_call',
+		id : 'jion$ast_call',
 		attributes :
 		{
 			'func' :

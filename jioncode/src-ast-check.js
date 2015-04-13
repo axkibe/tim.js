@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_check;
+	jion$ast_check;
 
 
 if( NODE )
 {
-	ast_check = module.exports;
+	jion$ast_check = module.exports;
 }
 else
 {
-	ast_check = { };
+	jion$ast_check = { };
 }
 
 
@@ -106,13 +106,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_check.prototype = prototype;
+jion$ast_check.prototype = prototype;
 
 
 /*
 | Creates an check object.
 */
-ast_check.abstract =
+jion$ast_check.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -126,7 +126,7 @@ prototype.abstract =
 		inherit,
 		v_block;
 
-	if( this !== ast_check )
+	if( this !== jion$ast_check )
 	{
 		inherit = this;
 
@@ -197,7 +197,7 @@ prototype.abstract =
 /*
 | Creates a new check object.
 */
-ast_check.create =
+jion$ast_check.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -211,7 +211,7 @@ prototype.create =
 		inherit,
 		v_block;
 
-	if( this !== ast_check )
+	if( this !== jion$ast_check )
 	{
 		inherit = this;
 

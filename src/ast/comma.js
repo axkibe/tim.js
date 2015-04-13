@@ -16,7 +16,7 @@
 if( JION )
 {
 	return {
-		id : 'ast_comma',
+		id : 'jion$ast_comma',
 		attributes :
 		{
 			left :

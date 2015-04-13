@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_varDec',
+		id: 'jion$ast_varDec',
 		attributes :
 		{
 			name :

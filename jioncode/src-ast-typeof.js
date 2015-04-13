@@ -9,50 +9,50 @@
 | Export.
 */
 var
-	ast_typeof;
+	jion$ast_typeof;
 
 
 if( NODE )
 {
-	ast_typeof = module.exports;
+	jion$ast_typeof = module.exports;
 }
 else
 {
-	ast_typeof = { };
+	jion$ast_typeof = { };
 }
 
 
 var
-	ast_and,
-	ast_arrayLiteral,
-	ast_assign,
-	ast_boolean,
-	ast_call,
-	ast_comma,
-	ast_condition,
-	ast_delete,
-	ast_differs,
-	ast_dot,
-	ast_equals,
-	ast_func,
-	ast_greaterThan,
-	ast_instanceof,
-	ast_lessThan,
-	ast_member,
-	ast_multiply,
-	ast_multiplyAssign,
-	ast_new,
-	ast_not,
-	ast_null,
-	ast_number,
-	ast_objLiteral,
-	ast_or,
-	ast_plus,
-	ast_plusAssign,
-	ast_preIncrement,
-	ast_string,
-	ast_typeof,
-	ast_var,
+	jion$ast_and,
+	jion$ast_arrayLiteral,
+	jion$ast_assign,
+	jion$ast_boolean,
+	jion$ast_call,
+	jion$ast_comma,
+	jion$ast_condition,
+	jion$ast_delete,
+	jion$ast_differs,
+	jion$ast_dot,
+	jion$ast_equals,
+	jion$ast_func,
+	jion$ast_greaterThan,
+	jion$ast_instanceof,
+	jion$ast_lessThan,
+	jion$ast_member,
+	jion$ast_multiply,
+	jion$ast_multiplyAssign,
+	jion$ast_new,
+	jion$ast_not,
+	jion$ast_null,
+	jion$ast_number,
+	jion$ast_objLiteral,
+	jion$ast_or,
+	jion$ast_plus,
+	jion$ast_plusAssign,
+	jion$ast_preIncrement,
+	jion$ast_string,
+	jion$ast_typeof,
+	jion$ast_var,
 	jion_proto;
 
 
@@ -71,61 +71,61 @@ if( NODE )
 {
 	jion$ast_and = require( '../ast/and' );
 
-	ast_arrayLiteral = require( '../ast/arrayLiteral' );
+	jion$ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
-	ast_assign = require( '../ast/assign' );
+	jion$ast_assign = require( '../ast/assign' );
 
-	ast_boolean = require( '../ast/boolean' );
+	jion$ast_boolean = require( '../ast/boolean' );
 
-	ast_call = require( '../ast/call' );
+	jion$ast_call = require( '../ast/call' );
 
-	ast_comma = require( '../ast/comma' );
+	jion$ast_comma = require( '../ast/comma' );
 
-	ast_condition = require( '../ast/condition' );
+	jion$ast_condition = require( '../ast/condition' );
 
-	ast_delete = require( '../ast/delete' );
+	jion$ast_delete = require( '../ast/delete' );
 
-	ast_differs = require( '../ast/differs' );
+	jion$ast_differs = require( '../ast/differs' );
 
-	ast_dot = require( '../ast/dot' );
+	jion$ast_dot = require( '../ast/dot' );
 
-	ast_equals = require( '../ast/equals' );
+	jion$ast_equals = require( '../ast/equals' );
 
-	ast_func = require( '../ast/func' );
+	jion$ast_func = require( '../ast/func' );
 
-	ast_greaterThan = require( '../ast/greaterThan' );
+	jion$ast_greaterThan = require( '../ast/greaterThan' );
 
-	ast_instanceof = require( '../ast/instanceof' );
+	jion$ast_instanceof = require( '../ast/instanceof' );
 
-	ast_lessThan = require( '../ast/lessThan' );
+	jion$ast_lessThan = require( '../ast/lessThan' );
 
-	ast_member = require( '../ast/member' );
+	jion$ast_member = require( '../ast/member' );
 
-	ast_multiply = require( '../ast/multiply' );
+	jion$ast_multiply = require( '../ast/multiply' );
 
-	ast_multiplyAssign = require( '../ast/multiplyAssign' );
+	jion$ast_multiplyAssign = require( '../ast/multiplyAssign' );
 
-	ast_new = require( '../ast/new' );
+	jion$ast_new = require( '../ast/new' );
 
-	ast_not = require( '../ast/not' );
+	jion$ast_not = require( '../ast/not' );
 
-	ast_null = require( '../ast/null' );
+	jion$ast_null = require( '../ast/null' );
 
-	ast_number = require( '../ast/number' );
+	jion$ast_number = require( '../ast/number' );
 
-	ast_objLiteral = require( '../ast/objLiteral' );
+	jion$ast_objLiteral = require( '../ast/objLiteral' );
 
-	ast_or = require( '../ast/or' );
+	jion$ast_or = require( '../ast/or' );
 
-	ast_plus = require( '../ast/plus' );
+	jion$ast_plus = require( '../ast/plus' );
 
-	ast_plusAssign = require( '../ast/plusAssign' );
+	jion$ast_plusAssign = require( '../ast/plusAssign' );
 
-	ast_preIncrement = require( '../ast/preIncrement' );
+	jion$ast_preIncrement = require( '../ast/preIncrement' );
 
-	ast_string = require( '../ast/string' );
+	jion$ast_string = require( '../ast/string' );
 
-	ast_var = require( '../ast/var' );
+	jion$ast_var = require( '../ast/var' );
 
 	require( '../proto' );
 }
@@ -191,13 +191,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_typeof.prototype = prototype;
+jion$ast_typeof.prototype = prototype;
 
 
 /*
 | Creates an typeof object.
 */
-ast_typeof.abstract =
+jion$ast_typeof.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -211,7 +211,7 @@ prototype.abstract =
 		inherit,
 		v_expr;
 
-	if( this !== ast_typeof )
+	if( this !== jion$ast_typeof )
 	{
 		inherit = this;
 
@@ -342,7 +342,7 @@ prototype.abstract =
 /*
 | Creates a new typeof object.
 */
-ast_typeof.create =
+jion$ast_typeof.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -356,7 +356,7 @@ prototype.create =
 		inherit,
 		v_expr;
 
-	if( this !== ast_typeof )
+	if( this !== jion$ast_typeof )
 	{
 		inherit = this;
 

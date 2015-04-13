@@ -18,7 +18,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_condition',
+		id : 'jion$ast_condition',
 		attributes :
 		{
 			condition :

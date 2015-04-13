@@ -15,8 +15,8 @@
 */
 if( JION )
 {
-	return {
-		id : 'ast_or',
+	return{
+		id : 'jion$ast_or',
 		attributes :
 		{
 			left :

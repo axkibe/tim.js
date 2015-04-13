@@ -15,8 +15,8 @@
 */
 if( JION )
 {
-	return {
-		id : 'ast_not',
+	return{
+		id : 'jion$ast_not',
 		attributes :
 		{
 			expr :

@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_continue;
+	jion$ast_continue;
 
 
 if( NODE )
 {
-	ast_continue = module.exports;
+	jion$ast_continue = module.exports;
 }
 else
 {
-	ast_continue = { };
+	jion$ast_continue = { };
 }
 
 
@@ -92,7 +92,7 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_continue.prototype = prototype;
+jion$ast_continue.prototype = prototype;
 
 
 /*
@@ -105,7 +105,7 @@ var
 /*
 | Creates an continue object.
 */
-ast_continue.abstract =
+jion$ast_continue.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -115,7 +115,7 @@ prototype.abstract =
 	var
 		inherit;
 
-	if( this !== ast_continue )
+	if( this !== jion$ast_continue )
 	{
 		inherit = this;
 	}
@@ -137,7 +137,7 @@ prototype.abstract =
 /*
 | Creates a new continue object.
 */
-ast_continue.create =
+jion$ast_continue.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -147,7 +147,7 @@ prototype.create =
 	var
 		inherit;
 
-	if( this !== ast_continue )
+	if( this !== jion$ast_continue )
 	{
 		inherit = this;
 	}

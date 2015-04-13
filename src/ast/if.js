@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_if',
+		id : 'jion$ast_if',
 		attributes :
 		{
 			condition :
@@ -27,12 +27,12 @@ if( JION )
 			then :
 			{
 				comment : 'the then code',
-				type : 'ast_block'
+				type : 'jion$ast_block'
 			},
 			elsewise :
 			{
 				comment : 'the else wise',
-				type : 'ast_block',
+				type : 'jion$ast_block',
 				defaultValue : 'undefined'
 			}
 		}

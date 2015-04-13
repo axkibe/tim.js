@@ -9,22 +9,22 @@
 | Export.
 */
 var
-	ast_func;
+	jion$ast_func;
 
 
 if( NODE )
 {
-	ast_func = module.exports;
+	jion$ast_func = module.exports;
 }
 else
 {
-	ast_func = { };
+	jion$ast_func = { };
 }
 
 
 var
 	ast_block,
-	ast_funcArg,
+	jion$ast_funcArg,
 	jion_proto;
 
 
@@ -43,7 +43,7 @@ if( NODE )
 {
 	ast_block = require( '../ast/block' );
 
-	ast_funcArg = require( '../ast/funcArg' );
+	jion$ast_funcArg = require( '../ast/funcArg' );
 
 	require( '../proto' );
 }
@@ -131,13 +131,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_func.prototype = prototype;
+jion$ast_func.prototype = prototype;
 
 
 /*
 | Creates an func object.
 */
-ast_func.abstract =
+jion$ast_func.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -157,7 +157,7 @@ prototype.abstract =
 		v_block,
 		v_capsule;
 
-	if( this !== ast_func )
+	if( this !== jion$ast_func )
 	{
 		inherit = this;
 
@@ -353,7 +353,7 @@ prototype.abstract =
 /*
 | Creates a new func object.
 */
-ast_func.create =
+jion$ast_func.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -373,7 +373,7 @@ prototype.create =
 		v_block,
 		v_capsule;
 
-	if( this !== ast_func )
+	if( this !== jion$ast_func )
 	{
 		inherit = this;
 

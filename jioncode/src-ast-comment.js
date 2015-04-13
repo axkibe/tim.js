@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_comment;
+	jion$ast_comment;
 
 
 if( NODE )
 {
-	ast_comment = module.exports;
+	jion$ast_comment = module.exports;
 }
 else
 {
-	ast_comment = { };
+	jion$ast_comment = { };
 }
 
 
@@ -104,13 +104,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_comment.prototype = prototype;
+jion$ast_comment.prototype = prototype;
 
 
 /*
 | Creates an comment object.
 */
-ast_comment.abstract =
+jion$ast_comment.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -128,7 +128,7 @@ prototype.abstract =
 		ray,
 		rayDup;
 
-	if( this !== ast_comment )
+	if( this !== jion$ast_comment )
 	{
 		inherit = this;
 
@@ -259,7 +259,7 @@ prototype.abstract =
 /*
 | Creates a new comment object.
 */
-ast_comment.create =
+jion$ast_comment.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -277,7 +277,7 @@ prototype.create =
 		ray,
 		rayDup;
 
-	if( this !== ast_comment )
+	if( this !== jion$ast_comment )
 	{
 		inherit = this;
 

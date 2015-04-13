@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_multiply',
+		id : 'jion$ast_multiply',
 		attributes :
 		{
 			left :

@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_dot',
+		id : 'jion$ast_dot',
 		attributes :
 		{
 			expr :

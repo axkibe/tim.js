@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_string',
+		id : 'jion$ast_string',
 		attributes :
 		{
 			'string' :

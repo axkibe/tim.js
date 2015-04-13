@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_switch',
+		id : 'jion$ast_switch',
 		attributes :
 		{
 			statement :
@@ -27,11 +27,11 @@ if( JION )
 			defaultCase :
 			{
 				comment : 'the default block',
-				type : 'ast_block',
+				type : 'jion$ast_block',
 				defaultValue : 'undefined'
 			}
 		},
-		ray : [ 'ast_case' ]
+		ray : [ 'jion$ast_case' ]
 	};
 }
 

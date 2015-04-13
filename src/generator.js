@@ -446,7 +446,7 @@ prototype.genImports =
 			continue;
 		}
 
-		result = result.$varDec( id.string );
+		result = result.$varDec( id.global );
 	}
 
 	result = result.$varDec( 'jion_proto' );

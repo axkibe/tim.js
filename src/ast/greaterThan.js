@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_greaterThan',
+		id : 'jion$ast_greaterThan',
 		attributes :
 		{
 			left :

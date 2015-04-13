@@ -16,7 +16,7 @@
 if( JION )
 {
 	return {
-		id : 'ast_case',
+		id : 'jion$ast_case',
 		attributes :
 		{
 			block :

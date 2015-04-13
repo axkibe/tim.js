@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_differs',
+		id : 'jion$ast_differs',
 		attributes :
 		{
 			left :

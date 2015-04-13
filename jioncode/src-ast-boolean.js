@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_boolean;
+	jion$ast_boolean;
 
 
 if( NODE )
 {
-	ast_boolean = module.exports;
+	jion$ast_boolean = module.exports;
 }
 else
 {
-	ast_boolean = { };
+	jion$ast_boolean = { };
 }
 
 
@@ -103,13 +103,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_boolean.prototype = prototype;
+jion$ast_boolean.prototype = prototype;
 
 
 /*
 | Creates an boolean object.
 */
-ast_boolean.abstract =
+jion$ast_boolean.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -123,7 +123,7 @@ prototype.abstract =
 		inherit,
 		v_boolean;
 
-	if( this !== ast_boolean )
+	if( this !== jion$ast_boolean )
 	{
 		inherit = this;
 
@@ -186,7 +186,7 @@ prototype.abstract =
 /*
 | Creates a new boolean object.
 */
-ast_boolean.create =
+jion$ast_boolean.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -200,7 +200,7 @@ prototype.create =
 		inherit,
 		v_boolean;
 
-	if( this !== ast_boolean )
+	if( this !== jion$ast_boolean )
 	{
 		inherit = this;
 

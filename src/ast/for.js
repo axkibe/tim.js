@@ -16,7 +16,7 @@
 if( JION )
 {
 	return {
-		id : 'ast_for',
+		id : 'jion$ast_for',
 		attributes :
 		{
 			init :

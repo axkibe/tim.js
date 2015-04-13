@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_number;
+	jion$ast_number;
 
 
 if( NODE )
 {
-	ast_number = module.exports;
+	jion$ast_number = module.exports;
 }
 else
 {
-	ast_number = { };
+	jion$ast_number = { };
 }
 
 
@@ -103,13 +103,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_number.prototype = prototype;
+jion$ast_number.prototype = prototype;
 
 
 /*
 | Creates an number object.
 */
-ast_number.abstract =
+jion$ast_number.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -123,7 +123,7 @@ prototype.abstract =
 		inherit,
 		v_number;
 
-	if( this !== ast_number )
+	if( this !== jion$ast_number )
 	{
 		inherit = this;
 
@@ -186,7 +186,7 @@ prototype.abstract =
 /*
 | Creates a new number object.
 */
-ast_number.create =
+jion$ast_number.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -200,7 +200,7 @@ prototype.create =
 		inherit,
 		v_number;
 
-	if( this !== ast_number )
+	if( this !== jion$ast_number )
 	{
 		inherit = this;
 

@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'ast_objLiteral',
+		id : 'jion$ast_objLiteral',
 		twig : require( '../typemaps/astStatement' )  // FIXME astExpression?
 	};
 }

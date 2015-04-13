@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	ast_funcArg;
+	jion$ast_funcArg;
 
 
 if( NODE )
 {
-	ast_funcArg = module.exports;
+	jion$ast_funcArg = module.exports;
 }
 else
 {
-	ast_funcArg = { };
+	jion$ast_funcArg = { };
 }
 
 
@@ -118,13 +118,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_funcArg.prototype = prototype;
+jion$ast_funcArg.prototype = prototype;
 
 
 /*
 | Creates an funcArg object.
 */
-ast_funcArg.abstract =
+jion$ast_funcArg.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -139,7 +139,7 @@ prototype.abstract =
 		v_comment,
 		v_name;
 
-	if( this !== ast_funcArg )
+	if( this !== jion$ast_funcArg )
 	{
 		inherit = this;
 
@@ -230,7 +230,7 @@ prototype.abstract =
 /*
 | Creates a new funcArg object.
 */
-ast_funcArg.create =
+jion$ast_funcArg.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -245,7 +245,7 @@ prototype.create =
 		v_comment,
 		v_name;
 
-	if( this !== ast_funcArg )
+	if( this !== jion$ast_funcArg )
 	{
 		inherit = this;
 

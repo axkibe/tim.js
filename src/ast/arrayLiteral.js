@@ -20,7 +20,7 @@ var
 if( JION )
 {
 	return{
-		id : 'ast_arrayLiteral',
+		id : 'jion$ast_arrayLiteral',
 		ray : require( '../typemaps/astExpression' )
 	};
 }
