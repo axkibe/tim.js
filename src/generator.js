@@ -2335,7 +2335,7 @@ prototype.genFromJsonCreatorRayProcessing =
 
 			continue;
 		}
-		
+
 		if( rid.string === 'undefined' )
 		{
 			haveUndefined = true;
@@ -2367,7 +2367,7 @@ prototype.genFromJsonCreatorRayProcessing =
 				.$continue( )
 			);
 	}
-	
+
 	if( haveUndefined )
 	{
 		loopBody =
@@ -2427,9 +2427,9 @@ prototype.genFromJsonCreatorTwigProcessing =
 			switchExpr
 			.$case(
 				twigID.$string,
-				$assign(
-					'twig[ key ]',
-					$( twigID.$global, '.createFromJSON( jval )' )
+				$(
+					'twig[ key ] =',
+					twigID.$global, '.createFromJSON( jval )'
 				)
 			);
 	}

@@ -96,6 +96,7 @@ module.exports =
 		a,
 		aZ,
 		ast,
+		attributes,
 		context,
 		global,
 		filename,
@@ -117,7 +118,7 @@ module.exports =
 		switch( arguments[ a ] )
 		{
 			case 'ouroboros' : ouroboros = true; break;
-			
+
 			case 'source' : source = true; break;
 
 			default :
@@ -148,9 +149,20 @@ module.exports =
 		+ 'jioncode/'
 		+ filename.substr( jionCodeRootDir.length ).replace( /\//g, '-' );
 
+	global = { JION : true };
+
+	global.GLOBAL = global;
+
+	global.require = module.require.bind( module );
+
+	input = fs.readFileSync( filename, readOptions );
+
+	jionDef = vm.runInNewContext( input, global, filename );
+
 	// test if the jioncode is out of date
 	// or if it isn't existing at all
 	// and create it if so.
+
 	if( !ouroboros )
 	{
 		inStat = fs.statSync( filename );
@@ -173,16 +185,6 @@ module.exports =
 
 			format_formatter = require( './format/formatter' );
 
-			input = fs.readFileSync( filename, readOptions );
-
-			global = { JION : true };
-
-			global.GLOBAL = global;
-
-			global.require = module.require.bind( module );
-
-			jionDef = vm.runInNewContext( input, global, filename );
-
 			ast = generator.generate( jionDef );
 
 			output = format_formatter.format( ast );
@@ -200,10 +202,7 @@ module.exports =
 
 	for( k in GLOBAL )
 	{
-		if( !GLOBAL.hasOwnProperty( k ) )
-		{
-			continue;
-		}
+		if( !GLOBAL.hasOwnProperty( k ) ) continue;
 
 		context[ k ] = GLOBAL[ k ];
 	}
@@ -233,7 +232,33 @@ module.exports =
 		}
 
 		module.exports.source = input;
+
 		module.exports.jioncode = output;
+
+		module.exports.jionId = jionDef.id;
+
+		if( jionDef.json )
+		{
+			module.exports.hasJson = true;
+		}
+		else
+		{
+			module.exports.hasJson = false;
+
+			attributes = jionDef.attributes;
+
+			if( attributes )
+			{
+				for( a in attributes )
+				{
+					if( attributes[ a ].json )
+					{
+						module.exports.hasJson = true;
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	return module.exports;
