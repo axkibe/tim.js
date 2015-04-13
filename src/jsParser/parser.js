@@ -1217,6 +1217,7 @@ parseToken =
 		tokenSpec;
 
 	// this is already a preparsed astTree.
+
 	if( !state.ast && state.current.reflect !== 'jsLexer_token' )
 	{
 		state = state.create( 'ast', state.current, 'pos', state.pos + 1 );

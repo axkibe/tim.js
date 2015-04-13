@@ -64,7 +64,7 @@ var
 	jion$ast_typeof,
 	jion$ast_var,
 	jion$ast_varDec,
-	jsLexer_token,
+	jion$jsLexer_token,
 	jion_proto;
 
 
@@ -163,7 +163,7 @@ if( NODE )
 
 	jion$ast_varDec = require( '../ast/varDec' );
 
-	jsLexer_token = require( '../jsLexer/token' );
+	jion$jsLexer_token = require( '../jsLexer/token' );
 
 	require( '../proto' );
 }

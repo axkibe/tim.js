@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'jion_id',
+		id : 'jion$id',
 		attributes :
 		{
 			'name' :

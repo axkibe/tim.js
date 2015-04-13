@@ -22,7 +22,7 @@ if( JION )
 			'block' :
 			{
 				comment : 'the code block',
-				type : 'ast_block'
+				type : 'jion$ast_block'
 			}
 		}
 	};

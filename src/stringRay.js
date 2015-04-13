@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'jion_stringRay',
+		id : 'jion$stringRay',
 		ray : [ 'string' ]
 	};
 }

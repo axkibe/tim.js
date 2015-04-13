@@ -37,7 +37,7 @@ if( JION )
 			block :
 			{
 				comment : 'the for block',
-				type : 'ast_block'
+				type : 'jion$ast_block'
 			}
 		}
 	};

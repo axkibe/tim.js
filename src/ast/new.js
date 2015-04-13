@@ -22,7 +22,7 @@ if( JION )
 			'call' :
 			{
 				comment : 'the constrcutor call',
-				type : 'ast_call'
+				type : 'jion$ast_call'
 			}
 		}
 	};

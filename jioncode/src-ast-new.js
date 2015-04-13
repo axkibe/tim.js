@@ -23,7 +23,7 @@ else
 
 
 var
-	ast_call,
+	jion$ast_call,
 	jion_proto;
 
 
@@ -40,7 +40,7 @@ function( ) {
 */
 if( NODE )
 {
-	ast_call = require( '../ast/call' );
+	jion$ast_call = require( '../ast/call' );
 
 	require( '../proto' );
 }

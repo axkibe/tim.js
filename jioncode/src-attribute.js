@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion_attribute;
+	jion$attribute;
 
 
 if( NODE )
 {
-	jion_attribute = module.exports;
+	jion$attribute = module.exports;
 }
 else
 {
-	jion_attribute = { };
+	jion$attribute = { };
 }
 
 
@@ -52,9 +52,9 @@ var
 	jion$ast_preIncrement,
 	jion$ast_string,
 	jion$ast_typeof,
-	ast_var,
-	jion_id,
-	jion_idGroup,
+	jion$ast_var,
+	jion$id,
+	jion$idGroup,
 	jion_proto;
 
 
@@ -129,11 +129,11 @@ if( NODE )
 
 	jion$ast_typeof = require( './ast/typeof' );
 
-	ast_var = require( './ast/var' );
+	jion$ast_var = require( './ast/var' );
 
-	jion_id = require( './id' );
+	jion$id = require( './id' );
 
-	jion_idGroup = require( './idGroup' );
+	jion$idGroup = require( './idGroup' );
 
 	require( './proto' );
 }
@@ -286,13 +286,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion_attribute.prototype = prototype;
+jion$attribute.prototype = prototype;
 
 
 /*
 | Creates an attribute object.
 */
-jion_attribute.abstract =
+jion$attribute.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -315,7 +315,7 @@ prototype.abstract =
 		v_prepare,
 		v_varRef;
 
-	if( this !== jion_attribute )
+	if( this !== jion$attribute )
 	{
 		inherit = this;
 
@@ -606,11 +606,7 @@ prototype.abstract =
 /**/
 /**/	if( v_id !== undefined )
 /**/	{
-/**/		if(
-/**/			v_id.reflect !== 'jion_id'
-/**/			&&
-/**/			v_id.reflect !== 'jion_idGroup'
-/**/		)
+/**/		if( v_id.reflect !== 'id' && v_id.reflect !== 'idGroup' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -738,7 +734,7 @@ prototype.abstract =
 /*
 | Creates a new attribute object.
 */
-jion_attribute.create =
+jion$attribute.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -761,7 +757,7 @@ prototype.create =
 		v_prepare,
 		v_varRef;
 
-	if( this !== jion_attribute )
+	if( this !== jion$attribute )
 	{
 		inherit = this;
 
@@ -1063,11 +1059,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		v_id.reflect !== 'jion_id'
-/**/		&&
-/**/		v_id.reflect !== 'jion_idGroup'
-/**/	)
+/**/	if( v_id.reflect !== 'id' && v_id.reflect !== 'idGroup' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -1200,7 +1192,7 @@ prototype.create =
 /*
 | Abstract Reflection.
 */
-AbstractConstructor.prototype.reflect = 'jion_attribute:abstract';
+AbstractConstructor.prototype.reflect = 'attribute:abstract';
 
 
 /*
@@ -1212,7 +1204,7 @@ AbstractConstructor.prototype.reflectName = 'attribute:abstract';
 /*
 | Reflection.
 */
-prototype.reflect = 'jion_attribute';
+prototype.reflect = 'attribute';
 
 
 /*
@@ -1251,7 +1243,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jion_attribute' )
+	if( obj.reflect !== 'attribute' )
 	{
 		return false;
 	}

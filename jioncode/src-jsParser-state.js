@@ -64,7 +64,7 @@ var
 	jion$ast_typeof,
 	jion$ast_var,
 	jion$ast_varDec,
-	jsParser_tokenRay,
+	jion$jsParser_tokenRay,
 	jion_proto;
 
 
@@ -163,7 +163,7 @@ if( NODE )
 
 	jion$ast_varDec = require( '../ast/varDec' );
 
-	jsParser_tokenRay = require( '../jsParser/tokenRay' );
+	jion$jsParser_tokenRay = require( '../jsParser/tokenRay' );
 
 	require( '../proto' );
 }

@@ -9,21 +9,21 @@
 | Export.
 */
 var
-	jion_idGroup;
+	jion$idGroup;
 
 
 if( NODE )
 {
-	jion_idGroup = module.exports;
+	jion$idGroup = module.exports;
 }
 else
 {
-	jion_idGroup = { };
+	jion$idGroup = { };
 }
 
 
 var
-	jion_id,
+	jion$id,
 	jion_proto;
 
 
@@ -40,7 +40,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_id = require( './id' );
+	jion$id = require( './id' );
 
 	require( './proto' );
 }
@@ -107,13 +107,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion_idGroup.prototype = prototype;
+jion$idGroup.prototype = prototype;
 
 
 /*
 | Creates an idGroup object.
 */
-jion_idGroup.abstract =
+jion$idGroup.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -129,7 +129,7 @@ prototype.abstract =
 		inherit,
 		o;
 
-	if( this !== jion_idGroup )
+	if( this !== jion$idGroup )
 	{
 		inherit = this;
 
@@ -203,7 +203,7 @@ prototype.abstract =
 /**/	{
 /**/		o = group[ k ];
 /**/
-/**/		if( o.reflect !== 'jion_id' )
+/**/		if( o.reflect !== 'id' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -222,7 +222,7 @@ prototype.abstract =
 /*
 | Creates a new idGroup object.
 */
-jion_idGroup.create =
+jion$idGroup.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -238,7 +238,7 @@ prototype.create =
 		inherit,
 		o;
 
-	if( this !== jion_idGroup )
+	if( this !== jion$idGroup )
 	{
 		inherit = this;
 
@@ -312,7 +312,7 @@ prototype.create =
 /**/	{
 /**/		o = group[ k ];
 /**/
-/**/		if( o.reflect !== 'jion_id' )
+/**/		if( o.reflect !== 'id' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -331,7 +331,7 @@ prototype.create =
 /*
 | Abstract Reflection.
 */
-AbstractConstructor.prototype.reflect = 'jion_idGroup:abstract';
+AbstractConstructor.prototype.reflect = 'idGroup:abstract';
 
 
 /*
@@ -343,7 +343,7 @@ AbstractConstructor.prototype.reflectName = 'idGroup:abstract';
 /*
 | Reflection.
 */
-prototype.reflect = 'jion_idGroup';
+prototype.reflect = 'idGroup';
 
 
 /*
@@ -425,7 +425,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jion_idGroup' )
+	if( obj.reflect !== 'idGroup' )
 	{
 		return false;
 	}

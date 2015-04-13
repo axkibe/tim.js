@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jsLexer_token;
+	ijon$jsLexer_token;
 
 
 if( NODE )
 {
-	jsLexer_token = module.exports;
+	ijon$jsLexer_token = module.exports;
 }
 else
 {
-	jsLexer_token = { };
+	ijon$jsLexer_token = { };
 }
 
 
@@ -117,13 +117,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jsLexer_token.prototype = prototype;
+ijon$jsLexer_token.prototype = prototype;
 
 
 /*
 | Creates an token object.
 */
-jsLexer_token.abstract =
+ijon$jsLexer_token.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -138,7 +138,7 @@ prototype.abstract =
 		v_type,
 		v_value;
 
-	if( this !== jsLexer_token )
+	if( this !== ijon$jsLexer_token )
 	{
 		inherit = this;
 
@@ -247,7 +247,7 @@ prototype.abstract =
 /*
 | Creates a new token object.
 */
-jsLexer_token.create =
+ijon$jsLexer_token.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -262,7 +262,7 @@ prototype.create =
 		v_type,
 		v_value;
 
-	if( this !== jsLexer_token )
+	if( this !== ijon$jsLexer_token )
 	{
 		inherit = this;
 

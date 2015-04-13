@@ -16,7 +16,7 @@
 if( JION )
 {
 	return{
-		id : 'jion_attribute',
+		id : 'jion$attribute',
 		attributes :
 		{
 			allowsNull :
@@ -67,12 +67,12 @@ if( JION )
 			id :
 			{
 				comment : 'attribute type id',
-				type : [ 'jion_id', 'jion_idGroup' ]
+				type : [ 'jion$id', 'jion$idGroup' ]
 			},
 			varRef :
 			{
 				comment : 'attribute variable used in generate',
-				type : 'ast_var'
+				type : 'jion$ast_var'
 			}
 		}
 	};

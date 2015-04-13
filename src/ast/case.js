@@ -22,7 +22,7 @@ if( JION )
 			block :
 			{
 				comment : 'the statement',
-				type : 'ast_block'
+				type : 'jion$ast_block'
 			}
 		},
 		ray : require( '../typemaps/astExpression' )

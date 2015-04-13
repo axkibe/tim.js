@@ -16,8 +16,8 @@
 if( JION )
 {
 	return {
-		id : 'jion_attributeGroup',
-		group : [ 'jion_attribute' ]
+		id : 'jion$attributeGroup',
+		group : [ 'jion$attribute' ]
 	};
 }
 

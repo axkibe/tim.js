@@ -9,22 +9,20 @@
 | Export.
 */
 var
-	jion$ast_func;
+	jion$path;
 
 
 if( NODE )
 {
-	jion$ast_func = module.exports;
+	jion$path = module.exports;
 }
 else
 {
-	jion$ast_func = { };
+	jion$path = { };
 }
 
 
 var
-	jion$ast_block,
-	jion$ast_funcArg,
 	jion_proto;
 
 
@@ -41,11 +39,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion$ast_block = require( '../ast/block' );
-
-	jion$ast_funcArg = require( '../ast/funcArg' );
-
-	require( '../proto' );
+	require( './proto' );
 }
 
 
@@ -58,21 +52,9 @@ var
 
 AbstractConstructor =
 	function(
-		ray, // ray
-		v_block, // function code
-		v_capsule // if true its the capsule
+		ray // ray
 	)
 {
-	if( v_block !== undefined )
-	{
-		this.block = v_block;
-	}
-
-	if( v_capsule !== undefined )
-	{
-		this.capsule = v_capsule;
-	}
-
 	this.ray = ray;
 
 	if( FREEZE )
@@ -94,9 +76,7 @@ var
 
 Constructor =
 	function(
-		ray, // ray
-		v_block, // function code
-		v_capsule // if true its the capsule
+		ray // ray
 	)
 {
 	if( FREEZE )
@@ -106,13 +86,6 @@ Constructor =
 			this.__lazy = { };
 		}
 	}
-
-	if( v_block !== undefined )
-	{
-		this.block = v_block;
-	}
-
-	this.capsule = v_capsule;
 
 	this.ray = ray;
 
@@ -131,13 +104,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_func.prototype = prototype;
+jion$path.prototype = prototype;
 
 
 /*
-| Creates an func object.
+| Creates an path object.
 */
-jion$ast_func.abstract =
+jion$path.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -153,21 +126,15 @@ prototype.abstract =
 		r,
 		rZ,
 		ray,
-		rayDup,
-		v_block,
-		v_capsule;
+		rayDup;
 
-	if( this !== jion$ast_func )
+	if( this !== jion$path )
 	{
 		inherit = this;
 
 		ray = inherit.ray;
 
 		rayDup = false;
-
-		v_block = this.block;
-
-		v_capsule = this.capsule;
 	}
 	else
 	{
@@ -186,24 +153,6 @@ prototype.abstract =
 
 		switch( arguments[ a ] )
 		{
-			case 'block' :
-
-				if( arg !== pass )
-				{
-					v_block = arg;
-				}
-
-				break;
-
-			case 'capsule' :
-
-				if( arg !== pass )
-				{
-					v_capsule = arg;
-				}
-
-				break;
-
 			case 'ray:init' :
 
 /**/			if( CHECK )
@@ -281,39 +230,8 @@ prototype.abstract =
 		}
 	}
 
-	if( v_capsule === undefined )
-	{
-		v_capsule = false;
-	}
-
 /**/if( CHECK )
 /**/{
-/**/	if( v_block === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_block !== undefined )
-/**/	{
-/**/		if( v_block.reflect !== 'ast_block' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_capsule === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_capsule !== undefined )
-/**/	{
-/**/		if( typeof( v_capsule ) !== 'boolean' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
 /**/	for(
 /**/		r = 0, rZ = ray.length;
 /**/		r < rZ;
@@ -322,38 +240,26 @@ prototype.abstract =
 /**/	{
 /**/		o = ray[ r ];
 /**/
-/**/		if( o.reflect !== 'ast_funcArg' )
+/**/		if( typeof( o ) !== 'string' && !( o instanceof String ) )
 /**/		{
 /**/			throw new Error( );
 /**/		}
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		rayDup === false
-		&&
-		(
-			v_block === inherit.block
-			||
-			v_block !== undefined && v_block.equals( inherit.block )
-		)
-		&&
-		v_capsule === inherit.capsule
-	)
+	if( inherit && rayDup === false )
 	{
 		return inherit;
 	}
 
-	return new AbstractConstructor( ray, v_block, v_capsule );
+	return new AbstractConstructor( ray );
 };
 
 
 /*
-| Creates a new func object.
+| Creates a new path object.
 */
-jion$ast_func.create =
+jion$path.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -369,21 +275,15 @@ prototype.create =
 		r,
 		rZ,
 		ray,
-		rayDup,
-		v_block,
-		v_capsule;
+		rayDup;
 
-	if( this !== jion$ast_func )
+	if( this !== jion$path )
 	{
 		inherit = this;
 
 		ray = inherit.ray;
 
 		rayDup = false;
-
-		v_block = this.block;
-
-		v_capsule = this.capsule;
 	}
 	else
 	{
@@ -402,24 +302,6 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'block' :
-
-				if( arg !== pass )
-				{
-					v_block = arg;
-				}
-
-				break;
-
-			case 'capsule' :
-
-				if( arg !== pass )
-				{
-					v_capsule = arg;
-				}
-
-				break;
-
 			case 'ray:init' :
 
 /**/			if( CHECK )
@@ -497,41 +379,8 @@ prototype.create =
 		}
 	}
 
-	if( v_capsule === undefined )
-	{
-		v_capsule = false;
-	}
-
 /**/if( CHECK )
 /**/{
-/**/	if( v_block === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_block !== undefined )
-/**/	{
-/**/		if( v_block.reflect !== 'ast_block' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_capsule === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_capsule === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_capsule ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	for(
 /**/		r = 0, rZ = ray.length;
 /**/		r < rZ;
@@ -540,56 +389,44 @@ prototype.create =
 /**/	{
 /**/		o = ray[ r ];
 /**/
-/**/		if( o.reflect !== 'ast_funcArg' )
+/**/		if( typeof( o ) !== 'string' && !( o instanceof String ) )
 /**/		{
 /**/			throw new Error( );
 /**/		}
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		rayDup === false
-		&&
-		(
-			v_block === inherit.block
-			||
-			v_block !== undefined && v_block.equals( inherit.block )
-		)
-		&&
-		v_capsule === inherit.capsule
-	)
+	if( inherit && rayDup === false )
 	{
 		return inherit;
 	}
 
-	return new Constructor( ray, v_block, v_capsule );
+	return new Constructor( ray );
 };
 
 
 /*
 | Abstract Reflection.
 */
-AbstractConstructor.prototype.reflect = 'ast_func:abstract';
+AbstractConstructor.prototype.reflect = 'path:abstract';
 
 
 /*
 | Abstract Name Reflection.
 */
-AbstractConstructor.prototype.reflectName = 'func:abstract';
+AbstractConstructor.prototype.reflectName = 'path:abstract';
 
 
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_func';
+prototype.reflect = 'path';
 
 
 /*
 | Name Reflection.
 */
-prototype.reflectName = 'func';
+prototype.reflectName = 'path';
 
 
 /*
@@ -668,7 +505,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_func' )
+	if( obj.reflect !== 'path' )
 	{
 		return false;
 	}
@@ -701,15 +538,7 @@ prototype.equals =
 		}
 	}
 
-	return (
-		(
-			this.block === obj.block
-			||
-			this.block !== undefined && this.block.equals( obj.block )
-		)
-		&&
-		this.capsule === obj.capsule
-	);
+	return true;
 };
 
 

@@ -20,7 +20,7 @@ if( JION )
 		id : 'jion$jsParser_tokenRay',
 		ray :
 			require( '../typemaps/astStatement' )
-			.concat( [ 'jsLexer_token' ] )
+			.concat( [ 'jion$jsLexer_token' ] )
 	};
 }
 

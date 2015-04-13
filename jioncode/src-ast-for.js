@@ -26,7 +26,7 @@ var
 	jion$ast_and,
 	jion$ast_arrayLiteral,
 	jion$ast_assign,
-	ast_block,
+	jion$ast_block,
 	jion$ast_boolean,
 	jion$ast_call,
 	jion$ast_comma,
@@ -76,7 +76,7 @@ if( NODE )
 
 	jion$ast_assign = require( '../ast/assign' );
 
-	ast_block = require( '../ast/block' );
+	jion$ast_block = require( '../ast/block' );
 
 	jion$ast_boolean = require( '../ast/boolean' );
 

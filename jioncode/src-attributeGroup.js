@@ -9,21 +9,21 @@
 | Export.
 */
 var
-	jion_attributeGroup;
+	jion$attributeGroup;
 
 
 if( NODE )
 {
-	jion_attributeGroup = module.exports;
+	jion$attributeGroup = module.exports;
 }
 else
 {
-	jion_attributeGroup = { };
+	jion$attributeGroup = { };
 }
 
 
 var
-	jion_attribute,
+	jion$attribute,
 	jion_proto;
 
 
@@ -40,7 +40,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_attribute = require( './attribute' );
+	jion$attribute = require( './attribute' );
 
 	require( './proto' );
 }
@@ -107,13 +107,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion_attributeGroup.prototype = prototype;
+jion$attributeGroup.prototype = prototype;
 
 
 /*
 | Creates an attributeGroup object.
 */
-jion_attributeGroup.abstract =
+jion$attributeGroup.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -129,7 +129,7 @@ prototype.abstract =
 		inherit,
 		o;
 
-	if( this !== jion_attributeGroup )
+	if( this !== jion$attributeGroup )
 	{
 		inherit = this;
 
@@ -203,7 +203,7 @@ prototype.abstract =
 /**/	{
 /**/		o = group[ k ];
 /**/
-/**/		if( o.reflect !== 'jion_attribute' )
+/**/		if( o.reflect !== 'attribute' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -222,7 +222,7 @@ prototype.abstract =
 /*
 | Creates a new attributeGroup object.
 */
-jion_attributeGroup.create =
+jion$attributeGroup.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -238,7 +238,7 @@ prototype.create =
 		inherit,
 		o;
 
-	if( this !== jion_attributeGroup )
+	if( this !== jion$attributeGroup )
 	{
 		inherit = this;
 
@@ -312,7 +312,7 @@ prototype.create =
 /**/	{
 /**/		o = group[ k ];
 /**/
-/**/		if( o.reflect !== 'jion_attribute' )
+/**/		if( o.reflect !== 'attribute' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -331,7 +331,7 @@ prototype.create =
 /*
 | Abstract Reflection.
 */
-AbstractConstructor.prototype.reflect = 'jion_attributeGroup:abstract';
+AbstractConstructor.prototype.reflect = 'attributeGroup:abstract';
 
 
 /*
@@ -343,7 +343,7 @@ AbstractConstructor.prototype.reflectName = 'attributeGroup:abstract';
 /*
 | Reflection.
 */
-prototype.reflect = 'jion_attributeGroup';
+prototype.reflect = 'attributeGroup';
 
 
 /*
@@ -425,7 +425,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jion_attributeGroup' )
+	if( obj.reflect !== 'attributeGroup' )
 	{
 		return false;
 	}

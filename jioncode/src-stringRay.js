@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion_stringRay;
+	jion$stringRay;
 
 
 if( NODE )
 {
-	jion_stringRay = module.exports;
+	jion$stringRay = module.exports;
 }
 else
 {
-	jion_stringRay = { };
+	jion$stringRay = { };
 }
 
 
@@ -104,13 +104,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion_stringRay.prototype = prototype;
+jion$stringRay.prototype = prototype;
 
 
 /*
 | Creates an stringRay object.
 */
-jion_stringRay.abstract =
+jion$stringRay.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -128,7 +128,7 @@ prototype.abstract =
 		ray,
 		rayDup;
 
-	if( this !== jion_stringRay )
+	if( this !== jion$stringRay )
 	{
 		inherit = this;
 
@@ -259,7 +259,7 @@ prototype.abstract =
 /*
 | Creates a new stringRay object.
 */
-jion_stringRay.create =
+jion$stringRay.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -277,7 +277,7 @@ prototype.create =
 		ray,
 		rayDup;
 
-	if( this !== jion_stringRay )
+	if( this !== jion$stringRay )
 	{
 		inherit = this;
 
@@ -408,7 +408,7 @@ prototype.create =
 /*
 | Abstract Reflection.
 */
-AbstractConstructor.prototype.reflect = 'jion_stringRay:abstract';
+AbstractConstructor.prototype.reflect = 'stringRay:abstract';
 
 
 /*
@@ -420,7 +420,7 @@ AbstractConstructor.prototype.reflectName = 'stringRay:abstract';
 /*
 | Reflection.
 */
-prototype.reflect = 'jion_stringRay';
+prototype.reflect = 'stringRay';
 
 
 /*
@@ -505,7 +505,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jion_stringRay' )
+	if( obj.reflect !== 'stringRay' )
 	{
 		return false;
 	}

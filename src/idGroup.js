@@ -16,33 +16,33 @@
 if( JION )
 {
 	return{
-		id : 'jion_idGroup',
-		group : [ 'jion_id' ]
+		id : 'jion$idGroup',
+		group : [ 'jion$id' ]
 	};
 }
 
 
 var
-	jion_id,
-	jion_idGroup,
-	jion_proto,
+	jion$id,
+	jion$idGroup,
+	jion$proto,
 	prototype;
 
 
-jion_idGroup = require( './this' )( module, 'ouroboros' );
+jion$idGroup = require( './this' )( module, 'ouroboros' );
 
-prototype = jion_idGroup.prototype;
+prototype = jion$idGroup.prototype;
 
-jion_id = require( './id' );
+jion$id = require( './id' );
 
-jion_proto = require( './proto' );
+jion$proto = require( './proto' );
 
 
 /*
 | Creates an id repository from an
 | array of id strings.
 */
-jion_idGroup.createFromIDStrings =
+jion$idGroup.createFromIDStrings =
 	function(
 		idStrings
 	)
@@ -74,7 +74,7 @@ jion_idGroup.createFromIDStrings =
 
 		if( s.substring( 0, 2 ) !== '->' )
 		{
-			id = jion_id.createFromString( idStrings[ a ] );
+			id = jion$id.createFromString( idStrings[ a ] );
 
 			ids[ id.string ] = id;
 		}
@@ -82,7 +82,7 @@ jion_idGroup.createFromIDStrings =
 		{
 			// FUTURE may check for circular requirements
 			subList =
-				jion_idGroup.createFromIDStrings(
+				jion$idGroup.createFromIDStrings(
 					require( '../typemaps/' + s.substring( 2 ) )
 				).idList;
 
@@ -95,7 +95,7 @@ jion_idGroup.createFromIDStrings =
 		}
 	}
 
-	return jion_idGroup.create( 'group:init', ids );
+	return jion$idGroup.create( 'group:init', ids );
 };
 
 
@@ -116,7 +116,7 @@ prototype.add =
 |
 | FIXME remove;
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'idList',
 	function( )

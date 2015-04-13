@@ -54,10 +54,10 @@ var
 	$string,
 	$switch,
 	$var,
-	jion_id,
 	generator,
 	jion_attribute,
 	jion_attributeGroup,
+	jion_id,
 	jion_idGroup,
 	jion_stringRay,
 	jion_validator,
@@ -487,7 +487,7 @@ prototype.genNodeIncludes =
 		idKey = idKeys[ a ];
 
 		id = imports.get( idKey );
-		
+
 		if( idKey.indexOf( ':' ) >= 0 )
 		{
 			// abstract
@@ -497,26 +497,25 @@ prototype.genNodeIncludes =
 
 		if( id.equals( this.id ) )
 		{
+			// the jioncode shouldn't require itself
 			continue;
 		}
 
-		if( !id.unit && id.name !== 'path' ) // XXX
+		if( !id.unit && !id.packet )
 		{
+			// this is a primitive
 			continue;
 		}
 
+		// YYY
 		// FIXME this is very hackish
-		if( id.unit !== 'jion' )
+		if( id.unit !== 'jion' && id.packet !== 'jion' )
 		{
-			if( this.id.unit !== 'jion' )
+			if( this.id.unit !== 'jion' && this.id.packet !== 'jion' )
 			{
 				if(
 					id.packet
-					// XXX && id.packet !== this.id.packet
-					&& id.unit !== 'ast'  //  XXX
-					&& id.unit !== 'format' // XXX
-					&& id.unit !== 'jsParser' // XXX
-					&& id.unit !== 'jsLexer' // XXX
+					&& id.packet !== this.id.packet
 				)
 				{
 					block =
@@ -545,19 +544,26 @@ prototype.genNodeIncludes =
 					block
 					.$(
 						id.global,
-						' = require( "./' + id.unit + '/' + id.name + '" )'
+						' = require( "./'
+						+ ( id.unit ? id.unit + '/' : '' )
+						+ id.name
+						+ '" )'
 					);
 			}
 		}
 		else
 		{
-			if( this.id.unit === 'jion' )
+			if( this.id.unit === 'jion' || this.id.packet === 'jion' )
 			{
 				block =
 					block
 					.$(
 						id.global,
-						' = require( "./' + id.name + '" )'
+						' = require( '
+						+ ( this.id.unit ? '"../' : '"./' )
+						+ ( id.unit ? id.unit + '/' : '' )
+						+ id.name
+						+ '" )'
 					);
 			}
 			else
@@ -1412,14 +1418,15 @@ prototype.genTypeCheckFailCondition =
 		condArray,
 		idList;
 
-	if( idx.reflect === 'jion_id' )
+	if( idx.reflect === 'jion_id' || idx.reflect === 'id' ) // XXX
 	{
 		return this.genSingleTypeCheckFailCondition( aVar, idx );
 	}
 
+
 /**/if( CHECK )
 /**/{
-/**/	if( idx.reflect !== 'jion_idGroup' )
+/**/	if( idx.reflect !== 'idGroup' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -1448,7 +1455,7 @@ prototype.genTypeCheckFailCondition =
 		switch( idList[ a ].string )
 		{
 			case 'null' :
-			
+
 				condArray.unshift( $( aVar, '!== null' ) );
 
 				continue;
@@ -2011,7 +2018,7 @@ prototype.genFromJsonCreatorAttributeParser =
 
 		default :
 
-			if( attr.id.reflect === 'jion_id' )
+			if( attr.id.reflect === 'id' ||  attr.id.reflect === 'jion_id' ) // XXX
 			{
 				code =
 					$(

@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion_id;
+	jion$id;
 
 
 if( NODE )
 {
-	jion_id = module.exports;
+	jion$id = module.exports;
 }
 else
 {
-	jion_id = { };
+	jion$id = { };
 }
 
 
@@ -130,13 +130,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion_id.prototype = prototype;
+jion$id.prototype = prototype;
 
 
 /*
 | Creates an id object.
 */
-jion_id.abstract =
+jion$id.abstract =
 AbstractConstructor.prototype.abstract =
 prototype.abstract =
 	function(
@@ -152,7 +152,7 @@ prototype.abstract =
 		v_packet,
 		v_unit;
 
-	if( this !== jion_id )
+	if( this !== jion$id )
 	{
 		inherit = this;
 
@@ -283,7 +283,7 @@ prototype.abstract =
 /*
 | Creates a new id object.
 */
-jion_id.create =
+jion$id.create =
 AbstractConstructor.prototype.create =
 prototype.create =
 	function(
@@ -299,7 +299,7 @@ prototype.create =
 		v_packet,
 		v_unit;
 
-	if( this !== jion_id )
+	if( this !== jion$id )
 	{
 		inherit = this;
 
@@ -430,7 +430,7 @@ prototype.create =
 /*
 | Abstract Reflection.
 */
-AbstractConstructor.prototype.reflect = 'jion_id:abstract';
+AbstractConstructor.prototype.reflect = 'id:abstract';
 
 
 /*
@@ -442,7 +442,7 @@ AbstractConstructor.prototype.reflectName = 'id:abstract';
 /*
 | Reflection.
 */
-prototype.reflect = 'jion_id';
+prototype.reflect = 'id';
 
 
 /*
@@ -481,7 +481,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jion_id' )
+	if( obj.reflect !== 'id' )
 	{
 		return false;
 	}
