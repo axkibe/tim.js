@@ -464,99 +464,94 @@ prototype.genNodeIncludes =
 	var
 		a,
 		aZ,
-		b,
-		bZ,
 		block,
-		name,
-		nameList,
-		unitList,
-		unitStr;
+		id,
+		idKey,
+		idKeys,
+		imports;
 
 	block = $block( );
 
 	// generates the unit objects
 
-	unitList = this.imports.unitList;
+	imports = this.imports;
 
-	// XXX
+	idKeys = imports.sortedKeys;
 
 	for(
-		a = 0, aZ = unitList.length;
+		a = 0, aZ = idKeys.length;
 		a < aZ;
 		a++
 	)
 	{
-		unitStr = unitList[ a ];
+		idKey = idKeys[ a ];
 
-		nameList = this.imports.nameListOfUnit( unitStr );
-
-		for(
-			b = 0, bZ = nameList.length;
-			b < bZ;
-			b++
-		)
+		id = imports.get( idKey );
+		
+		if( idKey.indexOf( ':' ) >= 0 )
 		{
-			name = nameList[ b ];
+			// abstract
+			// FUTURE more elegant
+			continue;
+		}
 
-			if( unitStr + '_' + name === this.id.global )
-			{
-				continue;
-			}
+		if( id.equals( this.id ) )
+		{
+			continue;
+		}
 
-			// FUTURE make sure the non-abstract
-			//        version is in unitlist
-			if( name.indexOf( ':' ) >= 0 )
-			{
-				// abstract
-				continue;
-			}
+		// XXX PACKAGE
+		if( !id.unit )
+		{
+			continue;
+		}
 
-			// FIXME this is very hackish
-			if( unitStr !== 'jion' )
+		// FIXME this is very hackish
+		if( id.unit !== 'jion' )
+		{
+			if( this.id.unit !== 'jion' )
 			{
-				if( this.id.unit !== 'jion' )
-				{
-					block =
-						block
-						.$(
-							unitStr + '_' + name,
-							' = require( "../' + unitStr + '/' + name + '" )'
-						);
-				}
-				else
-				{
-					block =
-						block
-						.$(
-							unitStr + '_' + name,
-							' = require( "./' + unitStr + '/' + name + '" )'
-						);
-				}
+				block =
+					block
+					.$(
+						id.global,
+						' = require( "../' + id.unit + '/' + id.name + '" )'
+					);
 			}
 			else
 			{
-				if( this.id.unit === 'jion' )
-				{
-					block =
-						block
-						.$(
-							unitStr + '_' + name,
-							' = require( "./' + name + '" )'
-						);
-				}
-				else
-				{
-					block =
-						block
-						.$(
-							unitStr + '_' + name,
-							' = require( "../' + name + '" )'
-						);
-				}
+				block =
+					block
+					.$(
+						id.global,
+						' = require( "./' + id.unit + '/' + id.name + '" )'
+					);
+			}
+		}
+		else
+		{
+			if( this.id.unit === 'jion' )
+			{
+				block =
+					block
+					.$(
+						id.global,
+						' = require( "./' + id.name + '" )'
+					);
+			}
+			else
+			{
+				block =
+					block
+					.$(
+						id.global,
+						' = require( "../' + id.name + '" )'
+					);
 			}
 		}
 	}
 
+	// XXX
 	if( this.ouroboros )
 	{
 		if( this.id.unit === 'jion' )
