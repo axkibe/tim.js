@@ -567,24 +567,16 @@ prototype.genNodeIncludes =
 		}
 	}
 
-	// XXX
 	if( this.ouroboros )
 	{
-		if(
-			this.id.unit === 'jion' // XXX
-			||
-			(
-				!this.id.unit
-				&& this.id.packet === 'jion'
-			)
-		)
-		{
-			block = block.$( 'require( "./proto" )' );
-		}
-		else
-		{
-			block = block.$( 'require( "../proto" )' );
-		}
+		block =
+			block.$(
+				'require( '
+				+ '"'
+				+ ( this.id.unit ? '..' : '.' )
+				+ '/proto"'
+				+ ' )'
+			);
 	}
 	else
 	{
