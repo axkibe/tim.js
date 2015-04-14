@@ -302,7 +302,7 @@ jion$path.createFromJSON =
 prototype.toJSON =
 	function( )
 {
-	return this.ray; // FIXME _ray
+	return this._ray;
 };
 
 

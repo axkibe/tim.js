@@ -175,8 +175,9 @@ checkAlikes =
 /*
 | Checks the group definition.
 |
-| FIXME for this and ray/twig, just create
-|        an idGroup, it will complain anyway.
+| FUTURE
+|   for this and ray/twig, just create
+|   an idGroup, it will complain anyway.
 */
 checkGroup =
 	function(

@@ -411,7 +411,7 @@ prototype.genImports =
 
 	result = $block( );
 
-	imports = this.imports;	
+	imports = this.imports;
 
 	idKeys = imports.sortedKeys;
 
@@ -517,8 +517,8 @@ prototype.genNodeIncludes =
 				block
 				.$(
 					id.global,
-					' = require( '
-					+ ( this.id.unit ? '"../' : '"./' )
+					' = require( "'
+					+ this.id.rootPath
 					+ ( id.unit ? id.unit + '/' : '' )
 					+ id.name
 					+ '" )'
@@ -532,8 +532,8 @@ prototype.genNodeIncludes =
 			block.$(
 				'require( '
 				+ '"'
-				+ ( this.id.unit ? '..' : '.' )
-				+ '/proto"'
+				+ this.id.rootPath
+				+ 'proto"'
 				+ ' )'
 			);
 	}

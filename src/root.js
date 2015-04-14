@@ -11,10 +11,12 @@ fs = require( 'fs' );
 
 /*
 | This is in node obviously.
+|
+| FUTURE: Altering globals as package is not nice
+|         but dunno better right now.
 */
 GLOBAL.NODE = true;
 
-// FIXME
 GLOBAL.JION = false;
 
 GLOBAL.CHECK = !!GLOBAL.CHECK;

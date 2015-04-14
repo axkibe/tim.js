@@ -1,5 +1,7 @@
 /*
-| Various tools for abstract syntax use
+| Various tools for abstract syntax use.
+|
+| FIXME remove
 */
 
 

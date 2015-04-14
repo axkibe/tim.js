@@ -69,7 +69,7 @@ jion_id.createFromString =
 	var
 		packet,
 		split;
-	
+
 	split = string.split( '$' );
 
 	if( split.length > 1 )
@@ -139,7 +139,7 @@ jion_id.compare =
 	{
 		return 1;
 	}
-	
+
 	if( o1.packet && !o2.packet )
 	{
 		return -1;
@@ -157,7 +157,7 @@ jion_id.compare =
 			return -1;
 		}
 	}
-	
+
 	if( !o1.unit && o2.unit )
 	{
 		return 1;
@@ -238,6 +238,20 @@ jion_proto.lazyValue(
 	);
 }
 );
+
+
+/*
+| relative path to the procjet's root dir.
+*/
+jion_proto.lazyValue(
+	prototype,
+	'rootPath',
+	function( )
+{
+	return this.unit ? '../' : './';
+}
+);
+
 
 /*
 | This id as global varname

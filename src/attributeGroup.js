@@ -13,7 +13,7 @@
 /*
 | The jion definition.
 */
-if( JION )
+if( GLOBAL.JION )
 {
 	return {
 		id : 'jion$attributeGroup',
