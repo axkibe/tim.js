@@ -511,7 +511,7 @@ prototype.genNodeIncludes =
 		// FIXME this is very hackish
 		if( id.unit !== 'jion' && id.packet !== 'jion' )
 		{
-			if( this.id.unit !== 'jion' && this.id.packet !== 'jion' )
+			if( true || this.id.unit !== 'jion' && this.id.packet !== 'jion' )
 			{
 				if(
 					id.packet
