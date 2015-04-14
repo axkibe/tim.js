@@ -1422,7 +1422,7 @@ prototype.genTypeCheckFailCondition =
 		condArray,
 		idList;
 
-	if( idx.reflect === 'jion_id' || idx.reflect === 'id' ) // XXX
+	if( idx.reflect === 'id' )
 	{
 		return this.genSingleTypeCheckFailCondition( aVar, idx );
 	}
@@ -2022,7 +2022,7 @@ prototype.genFromJsonCreatorAttributeParser =
 
 		default :
 
-			if( attr.id.reflect === 'id' ||  attr.id.reflect === 'jion_id' ) // XXX
+			if( attr.id.reflect === 'id' )
 			{
 				code =
 					$(
