@@ -509,38 +509,22 @@ prototype.genNodeIncludes =
 
 		// YYY
 		// FIXME this is very hackish
-		if( id.unit !== 'jion' && id.packet !== 'jion' )
+		if( true || id.unit !== 'jion' && id.packet !== 'jion' )
 		{
-			if( true || this.id.unit !== 'jion' && this.id.packet !== 'jion' )
+			if(
+				id.packet
+				&& id.packet !== this.id.packet
+			)
 			{
-				if(
-					id.packet
-					&& id.packet !== this.id.packet
-				)
-				{
-					block =
-						block
-						.$(
-							id.global, '=',
-							'require( "' + id.packet + '" ).',
-							// FIXME id.export
-							( id.unit ? id.unit + '_' : '' )
-							+ id.name
-						);
-				}
-				else
-				{
-					block =
-						block
-						.$(
-							id.global,
-							' = require( '
-							+ ( this.id.unit ? '"../' : '"./' )
-							+ ( id.unit ? id.unit + '/' : '' )
-							+ id.name
-							+ '" )'
-						);
-				}
+				block =
+					block
+					.$(
+						id.global, '=',
+						'require( "' + id.packet + '" ).',
+						// FIXME id.export
+						( id.unit ? id.unit + '_' : '' )
+						+ id.name
+					);
 			}
 			else
 			{
@@ -548,7 +532,8 @@ prototype.genNodeIncludes =
 					block
 					.$(
 						id.global,
-						' = require( "./'
+						' = require( '
+						+ ( this.id.unit ? '"../' : '"./' )
 						+ ( id.unit ? id.unit + '/' : '' )
 						+ id.name
 						+ '" )'

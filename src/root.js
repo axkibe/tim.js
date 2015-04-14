@@ -36,6 +36,8 @@ exports.proto = require( './proto.js' );
 
 exports.path = require( './path.js' );
 
+exports.stringRay = require( './stringRay.js' );
+
 exports.copy = proto.copy;
 
 exports.isString = proto.isString;
