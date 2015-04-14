@@ -27,30 +27,30 @@ if( JION )
 }
 
 var
-	lazy;
+	prototype;
 
 
 if( NODE )
 {
-	jion$path = require( './this' )( module, 'ouroboros' );
+	jion$path = require( './this' )( module, 'ouroboros', 'source' );
 
-	lazy = require( './proto' );
+	jion = require( './proto' );
 }
 else
 {
-	// in browser take the functions form the jion module.
-
-	lazy = jion;
+	// export path like in node package for browser.
+	jion.path = jion$path;
 }
 
-// XXX prototype
+
+prototype = jion$path.prototype;
 
 
 /*
 | Returns a path with key appended
 */
-lazy.lazyFunctionString(
-	jion$path.prototype,
+jion.lazyFunctionString(
+	prototype,
 	'append',
 	function( key )
 	{
@@ -59,7 +59,7 @@ lazy.lazyFunctionString(
 
 		result = this.create( 'ray:append', key );
 
-		lazy.aheadValue( result, 'shorten', this );
+		jion.aheadValue( result, 'shorten', this );
 
 		return result;
 	}
@@ -69,7 +69,7 @@ lazy.lazyFunctionString(
 /*
 | Same as append but without caching.
 */
-jion$path.prototype.appendNC =
+prototype.appendNC =
 	function( key )
 {
 	var
@@ -77,7 +77,7 @@ jion$path.prototype.appendNC =
 
 	result = this.create( 'ray:append', key );
 
-	lazy.aheadValue( result, 'shorten', this );
+	jion.aheadValue( result, 'shorten', this );
 
 	return result;
 };
@@ -86,8 +86,8 @@ jion$path.prototype.appendNC =
 /*
 | Returns a path with the first the entry chopped of.
 */
-lazy.lazyValue(
-	jion$path.prototype,
+jion.lazyValue(
+	prototype,
 	'chop',
 	function( )
 	{
@@ -118,8 +118,8 @@ lazy.lazyValue(
 /*
 | Returns a path with the last entry removed.
 */
-lazy.lazyValue(
-	jion$path.prototype,
+jion.lazyValue(
+	prototype,
 	'shorten',
 	function( )
 	{
@@ -148,7 +148,7 @@ lazy.lazyValue(
 |
 | FUTURE cache
 */
-jion$path.prototype.limit =
+prototype.limit =
 	function(
 		n
 	)
@@ -177,8 +177,8 @@ jion$path.prototype.limit =
 /*
 | Returns a path with an entry prepended.
 */
-lazy.lazyFunctionString(
-	jion$path.prototype,
+jion.lazyFunctionString(
+	prototype,
 	'prepend',
 	function( entry )
 	{
@@ -187,7 +187,7 @@ lazy.lazyFunctionString(
 
 		result = this.create( 'ray:insert', 0, entry );
 
-		lazy.aheadValue( result, 'chop', this );
+		jion.aheadValue( result, 'chop', this );
 
 		return result;
 	}
@@ -199,7 +199,7 @@ lazy.lazyFunctionString(
 |
 | FIXME: optimize by using local variables
 */
-jion$path.prototype.subPathOf =
+prototype.subPathOf =
 	function(
 		o,     // the other path
 		len    // the length of this path to consider.
@@ -249,8 +249,8 @@ jion$path.prototype.subPathOf =
 /*
 | Turns the path to a string.
 */
-lazy.lazyValue(
-	jion$path.prototype,
+jion.lazyValue(
+	prototype,
 	'string',
 	function( )
 	{
@@ -301,7 +301,7 @@ jion$path.createFromJSON =
 /*
 | Jsonfy.
 */
-jion$path.prototype.toJSON =
+prototype.toJSON =
 	function( )
 {
 	return this.ray; // FIXME _ray
@@ -311,8 +311,8 @@ jion$path.prototype.toJSON =
 /*
 | Returns true is this path is empty.
 */
-lazy.lazyValue(
-	jion$path.prototype,
+jion.lazyValue(
+	prototype,
 	'isEmpty',
 	function( )
 	{

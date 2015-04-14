@@ -735,10 +735,12 @@ jion_proto.twigSet =
 };
 
 
-if( FREEZE )
-{
-	Object.freeze( jion_proto );
-}
+//FUTURE right now disabled since
+//browser makes jion_proto to jion and adds jion.path.
+//if( FREEZE )
+//{
+//	Object.freeze( jion_proto );
+//}
 
 
 } )( );

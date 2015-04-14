@@ -507,63 +507,33 @@ prototype.genNodeIncludes =
 			continue;
 		}
 
-		// YYY
-		// FIXME this is very hackish
-		if( true || id.unit !== 'jion' && id.packet !== 'jion' )
+		if(
+			id.packet
+			&& id.packet !== this.id.packet
+		)
 		{
-			if(
-				id.packet
-				&& id.packet !== this.id.packet
-			)
-			{
-				block =
-					block
-					.$(
-						id.global, '=',
-						'require( "' + id.packet + '" ).',
-						// FIXME id.export
-						( id.unit ? id.unit + '_' : '' )
-						+ id.name
-					);
-			}
-			else
-			{
-				block =
-					block
-					.$(
-						id.global,
-						' = require( '
-						+ ( this.id.unit ? '"../' : '"./' )
-						+ ( id.unit ? id.unit + '/' : '' )
-						+ id.name
-						+ '" )'
-					);
-			}
+			block =
+				block
+				.$(
+					id.global, '=',
+					'require( "' + id.packet + '" ).',
+					// FIXME id.export
+					( id.unit ? id.unit + '_' : '' )
+					+ id.name
+				);
 		}
 		else
 		{
-			if( this.id.unit === 'jion' || this.id.packet === 'jion' )
-			{
-				block =
-					block
-					.$(
-						id.global,
-						' = require( '
-						+ ( this.id.unit ? '"../' : '"./' )
-						+ ( id.unit ? id.unit + '/' : '' )
-						+ id.name
-						+ '" )'
-					);
-			}
-			else
-			{
-				block =
-					block
-					.$(
-						id.global,
-						' = require( "../' + id.name + '" )'
-					);
-			}
+			block =
+				block
+				.$(
+					id.global,
+					' = require( '
+					+ ( this.id.unit ? '"../' : '"./' )
+					+ ( id.unit ? id.unit + '/' : '' )
+					+ id.name
+					+ '" )'
+				);
 		}
 	}
 
