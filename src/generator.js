@@ -1355,7 +1355,8 @@ prototype.genTypeCheckFailCondition =
 		a,
 		aZ,
 		condArray,
-		idList;
+		id,
+		keyList;
 
 	if( idx.reflect === 'id' )
 	{
@@ -1383,15 +1384,17 @@ prototype.genTypeCheckFailCondition =
 
 	condArray = [ ];
 
-	idList = idx.idList;
+	keyList = idx.sortedKeys;
 
 	for(
-		a = 0, aZ = idList.length;
+		a = 0, aZ = keyList.length;
 		a < aZ;
 		a++
 	)
 	{
-		switch( idList[ a ].string )
+		id = idx.get( keyList[ a ] );
+
+		switch( id.string )
 		{
 			case 'null' :
 
@@ -1408,7 +1411,7 @@ prototype.genTypeCheckFailCondition =
 			default :
 
 				condArray.push(
-					this.genSingleTypeCheckFailCondition( aVar, idList[ a ] )
+					this.genSingleTypeCheckFailCondition( aVar, id )
 				);
 
 				continue;
