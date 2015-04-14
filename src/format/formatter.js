@@ -2113,7 +2113,7 @@ var
 formatObjLiteral =
 	function(
 		context,
-		objliteral  // FIXME call expr
+		expr
 	)
 {
 	var
@@ -2126,14 +2126,14 @@ formatObjLiteral =
 
 /**/if( CHECK )
 /**/{
-/**/	if( objliteral.reflect !== 'ast_objLiteral' )
+/**/	if( expr.reflect !== 'ast_objLiteral' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/}
 
 
-	if( objliteral.ranks.length === 0 )
+	if( expr.length === 0 )
 	{
 		return context.tab + '{ }';
 	}
@@ -2146,12 +2146,12 @@ formatObjLiteral =
 	text += context.tab + '{\n';
 
 	for(
-		a = 0, aZ = objliteral.ranks.length;
+		a = 0, aZ = expr.length;
 		a < aZ;
 		a++
 	)
 	{
-		key = objliteral.ranks[ a ];
+		key = expr.getKey( a );
 
 		text +=
 			context.inc.tab
@@ -2161,7 +2161,7 @@ formatObjLiteral =
 		text +=
 			formatExpression(
 				context.inc.inc,
-				objliteral.twig[ key ]
+				expr.get( key )
 				// FUTURE, precTable.Objliteral
 			)
 			+ ( a + 1 < aZ ? ',\n' : '\n' );

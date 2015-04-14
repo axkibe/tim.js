@@ -104,7 +104,7 @@ jion.lazyValue(
 
 		result = this.create( 'ray:remove', 0 );
 
-		// FIXME
+		// FUTURE
 		// jion_proto.aheadLazyStringFunc(
 		//	result, 'prepend', this.ray[ 0 ], this
 		// );
@@ -136,7 +136,7 @@ jion.lazyValue(
 
 		result = this.create( 'ray:remove', this.length - 1 );
 
-		// FIXME aheadLazyStringFunc
+		// FUTURE aheadLazyStringFunc
 
 		return result;
 	}
@@ -196,8 +196,6 @@ jion.lazyFunctionString(
 
 /*
 | True if this path is a subPath of another.
-|
-| FIXME: optimize by using local variables
 */
 prototype.subPathOf =
 	function(
@@ -236,7 +234,7 @@ prototype.subPathOf =
 		a++
 	)
 	{
-		if( this.ray[ a ] !== o.ray[ a ] )
+		if( this.get( a ) !== o.get( a ) )
 		{
 			return false;
 		}

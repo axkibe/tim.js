@@ -30,7 +30,6 @@ if( JION )
 			{
 				comment : 'the jion is in/from a package',
 				type : 'string',
-				// FIXME should not be allowed undefined
 				defaultValue : 'undefined'
 			},
 			'unit' :
