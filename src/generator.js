@@ -534,7 +534,11 @@ prototype.genNodeIncludes =
 						block
 						.$(
 							id.global,
-							' = require( "../' + id.unit + '/' + id.name + '" )'
+							' = require( '
+							+ ( this.id.unit ? '"../' : '"./' )
+							+ ( id.unit ? id.unit + '/' : '' )
+							+ id.name
+							+ '" )'
 						);
 				}
 			}
