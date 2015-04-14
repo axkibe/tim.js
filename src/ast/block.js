@@ -27,8 +27,7 @@ var
 	ast_comment,
 	ast_return,
 	parser,
-	shorthand,
-	tools;
+	shorthand;
 
 
 ast_block = require( '../this' )( module, 'ouroboros' );
@@ -40,8 +39,6 @@ ast_return = require( './return' );
 parser = require( '../jsParser/parser' );
 
 shorthand = require( './shorthand' );
-
-tools = require( './tools' );
 
 
 /*

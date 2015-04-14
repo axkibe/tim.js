@@ -655,8 +655,7 @@ prototype.genConstructor =
 				case 'inherit' :
 				case 'twigDup' :
 
-					initCall =
-						initCall.addArgument( this.init[ a ] );
+					initCall = initCall.$argument( this.init[ a ] );
 
 					continue;
 			}
@@ -670,7 +669,7 @@ prototype.genConstructor =
 				);
 			}
 
-			initCall = initCall.addArgument( ( attr.varRef ) );
+			initCall = initCall.$argument( attr.varRef );
 		}
 
 		block = block.append( initCall );
@@ -1786,7 +1785,7 @@ prototype.genCreatorReturn =
 			case 'twig' :
 			case 'twigDup' :
 
-				call = call.addArgument( argName );
+				call = call.$argument( argName );
 
 				break;
 
@@ -1794,7 +1793,7 @@ prototype.genCreatorReturn =
 
 				attr = this.attributes.get( argName );
 
-				call = call.addArgument( attr.varRef );
+				call = call.$argument( attr.varRef );
 		}
 	}
 
@@ -2462,7 +2461,7 @@ prototype.genFromJsonCreatorReturn =
 		{
 			case 'inherit' :
 
-				call = call.addArgument( null );
+				call = call.$argument( 'null' );
 
 				break;
 
@@ -2470,7 +2469,7 @@ prototype.genFromJsonCreatorReturn =
 			case 'rayDup' :
 			case 'twigDup' :
 
-				call = call.addArgument( true );
+				call = call.$argument( 'true' );
 
 				break;
 
@@ -2479,7 +2478,7 @@ prototype.genFromJsonCreatorReturn =
 			case 'ray' :
 			case 'twig' :
 
-				call = call.addArgument( name );
+				call = call.$argument( name );
 
 				break;
 
@@ -2489,11 +2488,11 @@ prototype.genFromJsonCreatorReturn =
 
 				if( attr.assign === '' )
 				{
-					call = call.addArgument( null );
+					call = call.$argument( 'null' );
 				}
 				else
 				{
-					call = call.addArgument( attr.varRef );
+					call = call.$argument( attr.varRef );
 				}
 		}
 	}

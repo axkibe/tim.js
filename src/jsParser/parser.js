@@ -322,7 +322,7 @@ parser.handleCall =
 
 			if( state.ast )
 			{
-				call = call.addArgument( state.ast );
+				call = call.append( state.ast );
 			}
 
 			if( state.current.type === ')' )

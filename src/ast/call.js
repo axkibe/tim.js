@@ -31,27 +31,31 @@ if( JION )
 
 var
 	ast_call,
-	prototype,
-	tools;
+	parser,
+	prototype;
 
 
 ast_call = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_call.prototype;
 
-// FIXME remove
-tools = require( './tools' );
+parser = require( '../jsParser/parser' );
 
 
 /*
 | Returns a call with a parameter appended
 */
-prototype.addArgument =
+prototype.$argument =
 	function(
-		expr
+		// parseables
 	)
 {
-	return this.append( tools.convert( expr ) );
+	var
+		ast;
+
+	ast = parser.parse.apply( parser, arguments );
+
+	return this.append( ast );
 };
 
 

@@ -282,7 +282,7 @@ shorthand.$call =
 		a++
 	)
 	{
-		call = call.addArgument( arguments[ a ] );
+		call = call.$argument( arguments[ a ] );
 	}
 
 	return call;
