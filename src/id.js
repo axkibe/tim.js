@@ -224,6 +224,23 @@ jion_proto.lazyValue(
 
 
 /*
+| This id as path variable name.
+|
+| Used as package export.
+*/
+jion_proto.lazyValue(
+	prototype,
+	'pathName',
+	function( )
+{
+	return(
+		( this.unit ? this.unit + '_' : '' )
+		+ this.name
+	);
+}
+);
+
+/*
 | This id as global varname
 */
 jion_proto.lazyValue(
@@ -233,8 +250,7 @@ jion_proto.lazyValue(
 {
 	return(
 		( this.packet ? this.packet + '$' : '' )
-		+ ( this.unit ? this.unit + '_' : '' )
-		+ this.name
+		+ this.pathName
 	);
 }
 );

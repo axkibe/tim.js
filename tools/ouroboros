@@ -1,2 +1,3 @@
 #!/bin/bash
 node src/ouroboros/root.js --all
+node src/ouroboros/root.js --all

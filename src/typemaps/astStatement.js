@@ -1,49 +1,20 @@
 /*
 | ast statements.
-|
-| FIXME use concat with astExpressions require
 */
 module.exports =
-[
-	'jion$ast_and',
-	'jion$ast_arrayLiteral',
-	'jion$ast_assign',
-	'jion$ast_boolean',
-	'jion$ast_block',
-	'jion$ast_call',
-	'jion$ast_check',
-	'jion$ast_comma',
-	'jion$ast_comment',
-	'jion$ast_condition',
-	'jion$ast_continue',
-	'jion$ast_delete',
-	'jion$ast_differs',
-	'jion$ast_dot',
-	'jion$ast_equals',
-	'jion$ast_fail',
-	'jion$ast_for',
-	'jion$ast_forIn',
-	'jion$ast_func',
-	'jion$ast_greaterThan',
-	'jion$ast_if',
-	'jion$ast_instanceof',
-	'jion$ast_lessThan',
-	'jion$ast_member',
-	'jion$ast_multiply',
-	'jion$ast_multiplyAssign',
-	'jion$ast_new',
-	'jion$ast_not',
-	'jion$ast_null',
-	'jion$ast_number',
-	'jion$ast_objLiteral',
-	'jion$ast_or',
-	'jion$ast_plus',
-	'jion$ast_plusAssign',
-	'jion$ast_preIncrement',
-	'jion$ast_return',
-	'jion$ast_string',
-	'jion$ast_switch',
-	'jion$ast_typeof',
-	'jion$ast_var',
-	'jion$ast_varDec'
-];
+	require( './astExpression' )
+	.concat(
+		[
+		'jion$ast_block',
+		'jion$ast_check',
+		'jion$ast_comment',
+		'jion$ast_continue',
+		'jion$ast_fail',
+		'jion$ast_for',
+		'jion$ast_forIn',
+		'jion$ast_if',
+		'jion$ast_return',
+		'jion$ast_switch',
+		'jion$ast_varDec'
+		]
+	);

@@ -139,16 +139,13 @@ prototype._init =
 		attributes,
 		constructorList,
 		defaultValue,
-		groupDef,
 		inits, // sorted init list
 		jAttr,
 		jdv,
 		name,
 		prepare,
-		rayDef, // FIXME remove the Defs
 		searchIdWalk,
 		type,
-		twigDef, // twig map to be used (the definition)
 		imports; // foreign ids to be imported
 
 	attributes = jion_attributeGroup.create( );
@@ -353,9 +350,7 @@ prototype._init =
 
 	if( jion.group )
 	{
-		groupDef = jion.group;
-
-		this.group = jion_idGroup.createFromIDStrings( groupDef );
+		this.group = jion_idGroup.createFromIDStrings( jion.group );
 
 		imports = imports.addGroup( this.group );
 	}
@@ -366,9 +361,7 @@ prototype._init =
 
 	if( jion.ray )
 	{
-		rayDef = jion.ray;
-
-		this.ray = jion_idGroup.createFromIDStrings( rayDef );
+		this.ray = jion_idGroup.createFromIDStrings( jion.ray );
 
 		imports = imports.addGroup( this.ray );
 	}
@@ -379,9 +372,7 @@ prototype._init =
 
 	if( jion.twig )
 	{
-		twigDef = jion.twig;
-
-		this.twig = jion_idGroup.createFromIDStrings( twigDef );
+		this.twig = jion_idGroup.createFromIDStrings( jion.twig );
 
 		imports = imports.addGroup( this.twig );
 
@@ -517,9 +508,7 @@ prototype.genNodeIncludes =
 				.$(
 					id.global, '=',
 					'require( "' + id.packet + '" ).',
-					// FIXME id.export
-					( id.unit ? id.unit + '_' : '' )
-					+ id.name
+					id.pathName
 				);
 		}
 		else
