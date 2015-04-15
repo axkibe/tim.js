@@ -47,7 +47,7 @@ prototype.add =
 	var
 		args;
 
-	args = Array.prototype.slice.call( args );
+	args = Array.prototype.slice.call( arguments );
 
 	args.shift( );
 

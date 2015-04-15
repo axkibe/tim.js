@@ -1704,7 +1704,7 @@ prototype.genCreatorUnchanged =
 
 		if( attr.assign === '' )
 		{
-			cond = $and( cond, $( attr.varRef, ' === undefined' ) );
+			cond = $( cond, '&& (', attr.varRef, ' === undefined )' );
 
 			continue;
 		}
@@ -2778,7 +2778,7 @@ prototype.genToJson =
 			continue;
 		}
 
-		olit = olit.add( name, $( 'this.', attr.assign ) );
+		olit = olit.add( name, 'this.', attr.assign );
 	}
 
 	if( this.group )
