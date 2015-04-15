@@ -2391,20 +2391,23 @@ prototype.genFromJsonCreatorTwigProcessing =
 		aZ,
 		loop,
 		switchExpr,
+		twig,
 		twigID,
-		twigList;
+		keyList;
 
 	switchExpr = $switch( 'jval.type' );
 
-	twigList = this.twig.idList;
+	twig = this.twig;
+
+	keyList = twig.sortedKeys;
 
 	for(
-		a = 0, aZ = twigList.length;
+		a = 0, aZ = keyList.length;
 		a < aZ;
 		a++
 	)
 	{
-		twigID = twigList[ a ];
+		twigID = twig.get( keyList[ a ] );
 
 		switchExpr =
 			switchExpr
