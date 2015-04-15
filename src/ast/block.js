@@ -27,10 +27,13 @@ var
 	ast_comment,
 	ast_return,
 	parser,
+	prototype,
 	shorthand;
 
 
 ast_block = require( '../this' )( module, 'ouroboros' );
+
+prototype = ast_block.prototype;
 
 ast_comment = require( './comment' );
 
@@ -44,7 +47,7 @@ shorthand = require( './shorthand' );
 /*
 | Returns the block with a parsed statement appended.
 */
-ast_block.prototype.$ =
+prototype.$ =
 	function( )
 {
 	var
@@ -65,7 +68,7 @@ ast_block.prototype.$ =
 /*
 | Returns the block with an assignment appended.
 */
-ast_block.prototype.$assign =
+prototype.$assign =
 	function(
 		left,
 		right
@@ -87,7 +90,7 @@ ast_block.prototype.$assign =
 /*
 | Recreates the block with a call appended.
 */
-ast_block.prototype.$call =
+prototype.$call =
 	function(
 		// func,
 		// args...
@@ -104,7 +107,7 @@ ast_block.prototype.$call =
 /*
 | Returns the block with a check appended.
 */
-ast_block.prototype.$check =
+prototype.$check =
 	function(
 		// block
 	)
@@ -120,7 +123,7 @@ ast_block.prototype.$check =
 /*
 | Returns the block with a comment appended.
 */
-ast_block.prototype.$comment =
+prototype.$comment =
 	function(
 		header
 	)
@@ -137,10 +140,11 @@ ast_block.prototype.$comment =
 	return this.append( header );
 };
 
+
 /*
 | Returns the block with a continue statement appended.
 */
-ast_block.prototype.$continue =
+prototype.$continue =
 	function(
 	)
 {
@@ -151,7 +155,7 @@ ast_block.prototype.$continue =
 /*
 | Returns the block with a delete statement appended.
 */
-ast_block.prototype.$delete =
+prototype.$delete =
 	function(
 		expr
 	)
@@ -164,7 +168,7 @@ ast_block.prototype.$delete =
 /*
 | Returns the block with an if appended.
 */
-ast_block.prototype.$if =
+prototype.$if =
 	function(
 		condition,
 		then,
@@ -182,7 +186,7 @@ ast_block.prototype.$if =
 /*
 | Returns the block with a error throwing appended.
 */
-ast_block.prototype.$fail =
+prototype.$fail =
 	function(
 		message
 	)
@@ -194,7 +198,7 @@ ast_block.prototype.$fail =
 /*
 | Returns the block with a classical for loop appended.
 */
-ast_block.prototype.$for =
+prototype.$for =
 	function(
 		init,
 		condition,
@@ -209,7 +213,7 @@ ast_block.prototype.$for =
 /*
 | Returns the block with a for-in loop appended.
 */
-ast_block.prototype.$forIn =
+prototype.$forIn =
 	function(
 		variable,
 		object,
@@ -226,7 +230,7 @@ ast_block.prototype.$forIn =
 /*
 | Shorthand for creating new calls.
 */
-ast_block.prototype.$new =
+prototype.$new =
 	function(
 		call
 	)
@@ -238,7 +242,7 @@ ast_block.prototype.$new =
 /*
 | Returns the block with a plus-assignment appended.
 */
-ast_block.prototype.$plusAssign =
+prototype.$plusAssign =
 	function(
 		left,
 		right
@@ -251,7 +255,7 @@ ast_block.prototype.$plusAssign =
 /*
 | Returns the block with a term appended.
 */
-ast_block.prototype.$return =
+prototype.$return =
 	function(
 		expr
 	)
@@ -268,7 +272,7 @@ ast_block.prototype.$return =
 /*
 | Returns the block with a variable decleration appended.
 */
-ast_block.prototype.$varDec =
+prototype.$varDec =
 	function(
 		// name,   // variable name
 		// assign  // variable assignment

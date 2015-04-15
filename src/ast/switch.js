@@ -71,7 +71,7 @@ prototype.$case =
 
 	if( coc.reflect !== 'ast_case' )
 	{
-		args = Array.prototype.slice.apply( arguments );
+		args = Array.prototype.slice.call( arguments );
 
 		args.shift( );
 
