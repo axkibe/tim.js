@@ -88,28 +88,12 @@ jion_id.createFromString =
 		return jion_id.create( 'ray:init', [ string ] );
 	}
 
-	if( split.length > 2 )
-	{
-		throw new Error( );
-	}
-	else if( split.length === 2 )
-	{
-		return(
-			jion_id.create(
-				'packet', packet,
-				'ray:init', split
-			)
-		);
-	}
-	else
-	{
-		return(
-			jion_id.create(
-				'packet', packet,
-				'ray:init', split
-			)
-		);
-	}
+	return(
+		jion_id.create(
+			'packet', packet,
+			'ray:init', split
+		)
+	);
 };
 
 
