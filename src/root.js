@@ -2,9 +2,7 @@
 
 var
 	exports,
-	formatter,
 	fs,
-	generator,
 	proto;
 
 fs = require( 'fs' );
@@ -47,24 +45,6 @@ exports.isString = proto.isString;
 exports.lazyFunctionString = proto.lazyFunctionString;
 
 exports.lazyValue = proto.lazyValue;
-
-
-// FIXME remove/fix
-generator = require( './generator' );
-formatter = require( './format/formatter' );
-exports.makeJionCode =
-	function(
-		jionDef
-	)
-{
-	var
-		ast;
-
-	ast = generator.generate( jionDef );
-
-	return formatter.format( ast );
-};
-
 
 if( FREEZE )
 {

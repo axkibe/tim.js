@@ -115,8 +115,6 @@ jionDefRequire =
 
 /*
 | Prepares the listings filenames
-|
-| FIXME combine this two loops
 */
 for(
 	a = 0, aZ = listing.length;

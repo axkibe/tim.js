@@ -359,9 +359,7 @@ checkAttributeSingleType =
 		);
 	}
 
-	// FIXME
-	/*
-	if( type.indexOf( '_' ) < 0 )
+	if( type.indexOf( '_' ) < 0 && type.indexOf( '$' ) < 0 )
 	{
 		switch( type )
 		{
@@ -377,11 +375,10 @@ checkAttributeSingleType =
 			default :
 
 				throw new Error(
-					'attribute "' + name + '", type misses unit: ' + type
+					'attribute "' + name + '", type is unknown primitive: ' + type
 				);
 		}
 	}
-	*/
 };
 
 

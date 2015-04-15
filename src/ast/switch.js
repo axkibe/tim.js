@@ -40,6 +40,7 @@ var
 	ast_block,
 	ast_case,
 	ast_switch,
+	parser,
 	prototype,
 	tools;
 
@@ -52,6 +53,8 @@ ast_block = require( './block' );
 
 ast_case = require( './case' );
 
+parser = require( '../jsParser/parser' );
+
 tools = require( './tools' );
 
 
@@ -60,30 +63,37 @@ tools = require( './tools' );
 */
 prototype.$case =
 	function(
-		coc,   // case_or_condition,
-		code   // block or expression
+		coc    // case_or_condition,
+		// ... // block or expression
 	)
 {
 	var
+		args,
 		block,
 		caseExpr;
 
-	if( code.reflect === 'ast_block' )
+	if( coc.reflect !== 'ast_case' )
 	{
-		block = code;
+		args = Array.prototype.slice.apply( arguments );
+
+		args.shift( );
+
+		block = parser.parse.apply( parser, args );
+
+		if( block.reflect !== 'ast_block' )
+		{
+			block = ast_block.create( ).append( block );
+		}
+
+		caseExpr =
+			ast_case.create(
+				'ray:append', parser.parse( coc ),
+				'block', block
+			);
 	}
 	else
 	{
-		block = ast_block.create( ).append( tools.convert( code ) );
-	}
-
-	if( coc.reflect !== 'ast_case' )
-	{
-		caseExpr =
-			ast_case.create(
-				'ray:append', tools.convert( coc ),
-				'block', block
-			);
+		caseExpr = coc;
 	}
 
 	return this.append( caseExpr );

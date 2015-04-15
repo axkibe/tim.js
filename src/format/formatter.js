@@ -2107,7 +2107,7 @@ formatTypeof =
 /*
 | Formats an object literal.
 |
-| FIXME format also inline
+| FUTURE format also inline
 */
 var
 formatObjLiteral =
