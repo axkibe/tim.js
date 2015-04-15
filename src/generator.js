@@ -45,7 +45,6 @@ var
 	$capsule,
 	$check,
 	$comment,
-	$condition,
 	$fail,
 	$func,
 	$if,
@@ -102,8 +101,6 @@ $capsule = shorthand.$capsule;
 $check = shorthand.$check;
 
 $comment = shorthand.$comment;
-
-$condition = shorthand.$condition;
 
 $fail = shorthand.$fail;
 
@@ -3035,12 +3032,11 @@ prototype.genEqualsFuncBody =
 			.$if(
 				$or(
 					'key !== obj._ranks[ a ]',
-					$condition(
-						'this._twig[ key ].' + eqFuncName,
-						'!this._twig[ key ].'
-						+ eqFuncName
-						+ '( obj._twig[ key ] )',
-						'this._twig[ key ] !== obj._twig[ key ]'
+					$(
+						'( this._twig[ key ].', eqFuncName, ' )',
+						'? !this._twig[ key ]',
+							'.', eqFuncName, '( obj._twig[ key ] )',
+						': this._twig[ key ] !== obj._twig[ key ]'
 					)
 				),
 				$( 'return false' )
