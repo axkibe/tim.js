@@ -1941,7 +1941,8 @@ prototype.genFromJsonCreatorAttributeParser =
 	var
 		code, // code to return
 		cSwitch, // the code switch
-		idList,
+		id,
+		keyList,
 		mif, // the multi if
 		sif, // a signle if
 		t,
@@ -1976,15 +1977,17 @@ prototype.genFromJsonCreatorAttributeParser =
 
 				cSwitch = undefined;
 
-				idList = attr.id.idList;
+				keyList = attr.id.sortedKeys;
 
 				for(
-					t = 0, tZ = idList.length;
+					t = 0, tZ = keyList.length;
 					t < tZ;
 					t++
 				)
 				{
-					switch( idList[ t ].string )
+					id = attr.id.get( keyList[ t ] );
+
+					switch( id.string )
 					{
 						case 'boolean' :
 
@@ -2042,16 +2045,17 @@ prototype.genFromJsonCreatorAttributeParser =
 					{
 						if( !cSwitch )
 						{
-							cSwitch = $switch( 'arg.type' ) .$default( $fail( ) );
+							cSwitch =
+								$switch( 'arg.type' ) .$default( $fail( ) );
 						}
 
 						cSwitch =
 							cSwitch
 							.$case(
-								idList[ t ].$string,
+								id.$string,
 								$(
 									attr.varRef, ' = ',
-									idList[ t ].$global,
+									id.$global,
 									'.createFromJSON', '( arg )'
 								)
 							);
@@ -2645,7 +2649,10 @@ prototype.genJionProto =
 			.$( 'prototype.get = jion_proto.groupGet' )
 
 			.$comment( 'Returns the group keys.')
-			.$( 'jion_proto.lazyValue( prototype, "keys", jion_proto.groupKeys )' )
+			.$(
+				'jion_proto.lazyValue',
+				'( prototype, "keys", jion_proto.groupKeys )'
+			)
 
 			.$comment( 'Returns the sorted group keys.')
 			.$(
@@ -2663,7 +2670,10 @@ prototype.genJionProto =
 			.$( 'prototype.set = jion_proto.groupSet' )
 
 			.$comment( 'Returns the size of the group.')
-			.$( 'jion_proto.lazyValue( prototype, "size", jion_proto.groupSize )' );
+			.$(
+				'jion_proto.lazyValue',
+				'( prototype, "size", jion_proto.groupSize )'
+			);
 	}
 
 	if( this.ray )
@@ -2678,7 +2688,8 @@ prototype.genJionProto =
 
 			.$comment( 'Returns the length of the ray.')
 			.$(
-				'jion_proto.lazyValue( prototype, "length", jion_proto.rayLength )'
+				'jion_proto.lazyValue',
+				'( prototype, "length", jion_proto.rayLength )'
 			)
 
 			.$comment( 'Returns one element from the ray.' )
@@ -2709,7 +2720,8 @@ prototype.genJionProto =
 
 			.$comment( 'Returns the length of the twig.')
 			.$(
-				'jion_proto.lazyValue( prototype, "length", jion_proto.twigLength )'
+				'jion_proto.lazyValue',
+				'( prototype, "length", jion_proto.twigLength )'
 			)
 
 			.$comment( 'Returns the rank of the key.' )
