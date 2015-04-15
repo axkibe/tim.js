@@ -2224,10 +2224,7 @@ prototype.genFromJsonCreatorGroupProcessing =
 			loopSwitch
 			.$case(
 				gid.$pathName,
-				$assign(
-					'group[ k ]',
-					$( gid.$global, '.createFromJSON( jgroup[ k ] )' )
-				)
+				'group[ k ] =', gid.$global, '.createFromJSON( jgroup[ k ] )'
 			);
 	}
 
@@ -3132,10 +3129,10 @@ prototype.genEquals =
 
 		block =
 			block
-			.$assign(
-				'prototype.equals',
-				$func( normalEqFuncBody )
-				.$arg( 'obj', 'object to compare to' )
+			.$(
+				'prototype.equals =',
+					$func( normalEqFuncBody )
+					.$arg( 'obj', 'object to compare to' )
 			);
 
 		if( this.hasJson )
@@ -3144,10 +3141,10 @@ prototype.genEquals =
 
 			block =
 				block
-				.$assign(
-					'prototype.equalsJSON',
-					$func( jsonEqFuncBody )
-					.$arg( 'obj', 'object to compare to' )
+				.$(
+					'prototype.equalsJSON =',
+						$func( jsonEqFuncBody )
+						.$arg( 'obj', 'object to compare to' )
 				);
 		}
 	}
@@ -3164,10 +3161,10 @@ prototype.genEquals =
 			)
 			.$assign(
 				'prototype.equals',
-				$assign(
-					'prototype.equalsJSON',
-					$func( normalEqFuncBody )
-					.$arg( 'obj', 'object to compare to' )
+				$(
+					'prototype.equalsJSON =',
+						$func( normalEqFuncBody )
+						.$arg( 'obj', 'object to compare to' )
 				)
 			);
 	}
