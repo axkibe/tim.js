@@ -41,8 +41,7 @@ var
 	ast_case,
 	ast_switch,
 	parser,
-	prototype,
-	tools;
+	prototype;
 
 
 ast_switch = require( '../this' )( module, 'ouroboros' );
@@ -54,8 +53,6 @@ ast_block = require( './block' );
 ast_case = require( './case' );
 
 parser = require( '../jsParser/parser' );
-
-tools = require( './tools' );
 
 
 /*
@@ -105,19 +102,18 @@ prototype.$case =
 */
 prototype.$default =
 	function(
-		code
+		// ... parseable
 	)
 {
 	var
 		block;
 
-	if( code.reflect === 'ast_block' )
+	block =
+		parser.parse.apply( parser, arguments );
+
+	if( block.reflect !== 'ast_block' )
 	{
-		block = code;
-	}
-	else
-	{
-		block = ast_block.create( ).append( tools.convert( code ) );
+		block = ast_block.create( ).append( block );
 	}
 
 	return this.create( 'defaultCase', block );
