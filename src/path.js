@@ -255,10 +255,7 @@ jion.lazyValue(
 		var
 			a,
 			aZ,
-			b,
-			ray;
-
-		ray = this.ray,
+			b;
 
 		b = [ '[ '[ 0 ] ]; // FUTURE jshint bug
 
@@ -270,7 +267,7 @@ jion.lazyValue(
 		{
 			b.push(
 				( a > 0 ?  ', ' : ' ' ),
-				ray[ a ]
+				this.get( a )
 			);
 		}
 
@@ -302,7 +299,7 @@ jion$path.createFromJSON =
 prototype.toJSON =
 	function( )
 {
-	return this.ray; // FIXME _ray
+	return this._ray;
 };
 
 

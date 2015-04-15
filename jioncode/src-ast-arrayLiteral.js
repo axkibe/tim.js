@@ -145,6 +145,8 @@ AbstractConstructor =
 {
 	this.ray = ray;
 
+	this._ray = ray;
+
 	if( FREEZE )
 	{
 		Object.freeze( ray );
@@ -176,6 +178,8 @@ Constructor =
 	}
 
 	this.ray = ray;
+
+	this._ray = ray;
 
 	if( FREEZE )
 	{

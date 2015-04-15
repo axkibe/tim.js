@@ -60,6 +60,8 @@ AbstractConstructor =
 {
 	this.group = group;
 
+	this._group = group;
+
 	if( FREEZE )
 	{
 		Object.freeze( group );
@@ -91,6 +93,8 @@ Constructor =
 	}
 
 	this.group = group;
+
+	this._group = group;
 
 	if( FREEZE )
 	{

@@ -619,12 +619,18 @@ prototype.genConstructor =
 
 	if( this.group )
 	{
-		block = block.$( 'this.group = group' );
+		block =
+			block
+			.$( 'this.group = group' ) // FIXME remove
+			.$( 'this._group = group' );
 	}
 
 	if( this.ray )
 	{
-		block = block.$( 'this.ray = ray' );
+		block =
+			block
+			.$( 'this.ray = ray' ) // FIXME remove
+			.$( 'this._ray = ray' );
 	}
 
 	if( this.twig )
