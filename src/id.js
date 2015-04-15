@@ -264,9 +264,34 @@ jion_proto.lazyValue(
 
 
 /*
-| This id as path variable name.
-|
-| Used as package export.
+| This id as path relative to project root dir.
+*/
+jion_proto.lazyValue(
+	prototype,
+	'path',
+	function( )
+{
+	var
+		a,
+		aZ,
+		p;
+	
+	p = '';
+
+	for( a = 0, aZ = this.length; a < aZ; a++ )
+	{
+		if( a > 0 ) p += '/';
+
+		p += this.get( a );
+	}
+
+	return p;
+}
+);
+
+
+/*
+| This id as pathed variable name.
 */
 jion_proto.lazyValue(
 	prototype,

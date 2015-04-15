@@ -509,8 +509,7 @@ prototype.genNodeIncludes =
 					id.global,
 					' = require( "'
 					+ this.id.rootPath
-					+ ( id.unit ? id.unit + '/' : '' )
-					+ id.name
+					+ id.path
 					+ '" )'
 				);
 		}
