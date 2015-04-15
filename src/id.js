@@ -218,10 +218,21 @@ jion_proto.lazyValue(
 	'pathName',
 	function( )
 {
-	return(
-		( this.unit ? this.unit + '_' : '' )
-		+ this.name
-	);
+	var
+		a,
+		aZ,
+		pn;
+	
+	pn = '';
+
+	for( a = 0, aZ = this.length; a < aZ; a++ )
+	{
+		if( a > 0 ) pn += '_';
+
+		pn += this.get( a );
+	}
+
+	return pn;
 }
 );
 
