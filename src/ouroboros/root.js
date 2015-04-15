@@ -27,7 +27,6 @@ var
 	aZ,
 	arg,
 	argV,
-	file,
 	fs,
 	format_formatter,
 	generator,
@@ -38,7 +37,6 @@ var
 	jionDefRequire,
 	input,
 	listing,
-	list,
 	myDir,
 	outFilename,
 	outStat,
@@ -59,8 +57,6 @@ generator = require( '../generator' );
 listing = require( './listing' );
 
 all = false;
-
-list = [ ];
 
 readOptions = { encoding : 'utf8' };
 
@@ -93,6 +89,30 @@ for(
 }
 
 
+myDir = module.filename;
+
+for( a = 0; a < 3; a++ )
+{
+	myDir = myDir.substr( 0, myDir.lastIndexOf( '/' ) );
+}
+
+myDir += '/';
+
+
+jionDefRequire =
+	function( inFilename, requireFilename )
+{
+	return(
+		require(
+			myDir
+			+ inFilename.substr( 0, inFilename.lastIndexOf( '/' ) )
+			+ '/'
+			+ requireFilename
+		)
+	);
+};
+
+
 /*
 | Prepares the listings filenames
 |
@@ -109,52 +129,6 @@ for(
 	outFilename =
 		'./jioncode/'
 		+ inFilename.replace( /\//g, '-' );
-
-	list.push(
-		{
-			inFilename : inFilename,
-			outFilename : outFilename
-		}
-	);
-}
-
-myDir = module.filename;
-
-for( a = 0; a < 3; a++ )
-{
-	myDir = myDir.substr( 0, myDir.lastIndexOf( '/' ) );
-}
-
-myDir += '/';
-
-jionDefRequire =
-	function( inFilename, requireFilename )
-{
-	return(
-		require(
-			myDir
-			+ inFilename.substr( 0, inFilename.lastIndexOf( '/' ) )
-			+ '/'
-			+ requireFilename
-		)
-	);
-};
-
-/*
-| Generates jions if the input file is newer
-| than the output or if --all is set.
-*/
-for(
-	a = 0, aZ = list.length;
-	a < aZ;
-	a++
-)
-{
-	file = list[ a ];
-
-	inFilename = file.inFilename;
-
-	outFilename = file.outFilename;
 
 	inStat = fs.statSync(  inFilename );
 
@@ -183,15 +157,15 @@ for(
 
 		global.require = jionDefRequire.bind( undefined, inFilename );
 
-		jionDef = vm.runInNewContext( input, global, file.inFilename );
+		jionDef = vm.runInNewContext( input, global, inFilename );
 
 		ast = generator.generate( jionDef, 'ouroboros' );
 
 		output = format_formatter.format( ast );
 
-		console.log( 'Writing ' + file.outFilename );
+		console.log( 'Writing ' + outFilename );
 
-		fs.writeFileSync( file.outFilename, output );
+		fs.writeFileSync( outFilename, output );
 	}
 }
 

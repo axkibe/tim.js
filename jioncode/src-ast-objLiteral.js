@@ -26,24 +26,16 @@ var
 	jion$ast_and,
 	jion$ast_arrayLiteral,
 	jion$ast_assign,
-	jion$ast_block,
 	jion$ast_boolean,
 	jion$ast_call,
-	jion$ast_check,
 	jion$ast_comma,
-	jion$ast_comment,
 	jion$ast_condition,
-	jion$ast_continue,
 	jion$ast_delete,
 	jion$ast_differs,
 	jion$ast_dot,
 	jion$ast_equals,
-	jion$ast_fail,
-	jion$ast_for,
-	jion$ast_forIn,
 	jion$ast_func,
 	jion$ast_greaterThan,
-	jion$ast_if,
 	jion$ast_instanceof,
 	jion$ast_lessThan,
 	jion$ast_member,
@@ -58,12 +50,9 @@ var
 	jion$ast_plus,
 	jion$ast_plusAssign,
 	jion$ast_preIncrement,
-	jion$ast_return,
 	jion$ast_string,
-	jion$ast_switch,
 	jion$ast_typeof,
 	jion$ast_var,
-	jion$ast_varDec,
 	jion_proto;
 
 
@@ -86,21 +75,13 @@ if( NODE )
 
 	jion$ast_assign = require( '../ast/assign' );
 
-	jion$ast_block = require( '../ast/block' );
-
 	jion$ast_boolean = require( '../ast/boolean' );
 
 	jion$ast_call = require( '../ast/call' );
 
-	jion$ast_check = require( '../ast/check' );
-
 	jion$ast_comma = require( '../ast/comma' );
 
-	jion$ast_comment = require( '../ast/comment' );
-
 	jion$ast_condition = require( '../ast/condition' );
-
-	jion$ast_continue = require( '../ast/continue' );
 
 	jion$ast_delete = require( '../ast/delete' );
 
@@ -110,17 +91,9 @@ if( NODE )
 
 	jion$ast_equals = require( '../ast/equals' );
 
-	jion$ast_fail = require( '../ast/fail' );
-
-	jion$ast_for = require( '../ast/for' );
-
-	jion$ast_forIn = require( '../ast/forIn' );
-
 	jion$ast_func = require( '../ast/func' );
 
 	jion$ast_greaterThan = require( '../ast/greaterThan' );
-
-	jion$ast_if = require( '../ast/if' );
 
 	jion$ast_instanceof = require( '../ast/instanceof' );
 
@@ -148,17 +121,11 @@ if( NODE )
 
 	jion$ast_preIncrement = require( '../ast/preIncrement' );
 
-	jion$ast_return = require( '../ast/return' );
-
 	jion$ast_string = require( '../ast/string' );
-
-	jion$ast_switch = require( '../ast/switch' );
 
 	jion$ast_typeof = require( '../ast/typeof' );
 
 	jion$ast_var = require( '../ast/var' );
-
-	jion$ast_varDec = require( '../ast/varDec' );
 
 	require( '../proto' );
 }
@@ -430,21 +397,13 @@ prototype.abstract =
 /**/			&&
 /**/			o.reflect !== 'ast_assign'
 /**/			&&
-/**/			o.reflect !== 'ast_block'
-/**/			&&
 /**/			o.reflect !== 'ast_boolean'
 /**/			&&
 /**/			o.reflect !== 'ast_call'
 /**/			&&
-/**/			o.reflect !== 'ast_check'
-/**/			&&
 /**/			o.reflect !== 'ast_comma'
 /**/			&&
-/**/			o.reflect !== 'ast_comment'
-/**/			&&
 /**/			o.reflect !== 'ast_condition'
-/**/			&&
-/**/			o.reflect !== 'ast_continue'
 /**/			&&
 /**/			o.reflect !== 'ast_delete'
 /**/			&&
@@ -454,17 +413,9 @@ prototype.abstract =
 /**/			&&
 /**/			o.reflect !== 'ast_equals'
 /**/			&&
-/**/			o.reflect !== 'ast_fail'
-/**/			&&
-/**/			o.reflect !== 'ast_for'
-/**/			&&
-/**/			o.reflect !== 'ast_forIn'
-/**/			&&
 /**/			o.reflect !== 'ast_func'
 /**/			&&
 /**/			o.reflect !== 'ast_greaterThan'
-/**/			&&
-/**/			o.reflect !== 'ast_if'
 /**/			&&
 /**/			o.reflect !== 'ast_instanceof'
 /**/			&&
@@ -494,17 +445,11 @@ prototype.abstract =
 /**/			&&
 /**/			o.reflect !== 'ast_preIncrement'
 /**/			&&
-/**/			o.reflect !== 'ast_return'
-/**/			&&
 /**/			o.reflect !== 'ast_string'
-/**/			&&
-/**/			o.reflect !== 'ast_switch'
 /**/			&&
 /**/			o.reflect !== 'ast_typeof'
 /**/			&&
 /**/			o.reflect !== 'ast_var'
-/**/			&&
-/**/			o.reflect !== 'ast_varDec'
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -705,21 +650,13 @@ prototype.create =
 /**/			&&
 /**/			o.reflect !== 'ast_assign'
 /**/			&&
-/**/			o.reflect !== 'ast_block'
-/**/			&&
 /**/			o.reflect !== 'ast_boolean'
 /**/			&&
 /**/			o.reflect !== 'ast_call'
 /**/			&&
-/**/			o.reflect !== 'ast_check'
-/**/			&&
 /**/			o.reflect !== 'ast_comma'
 /**/			&&
-/**/			o.reflect !== 'ast_comment'
-/**/			&&
 /**/			o.reflect !== 'ast_condition'
-/**/			&&
-/**/			o.reflect !== 'ast_continue'
 /**/			&&
 /**/			o.reflect !== 'ast_delete'
 /**/			&&
@@ -729,17 +666,9 @@ prototype.create =
 /**/			&&
 /**/			o.reflect !== 'ast_equals'
 /**/			&&
-/**/			o.reflect !== 'ast_fail'
-/**/			&&
-/**/			o.reflect !== 'ast_for'
-/**/			&&
-/**/			o.reflect !== 'ast_forIn'
-/**/			&&
 /**/			o.reflect !== 'ast_func'
 /**/			&&
 /**/			o.reflect !== 'ast_greaterThan'
-/**/			&&
-/**/			o.reflect !== 'ast_if'
 /**/			&&
 /**/			o.reflect !== 'ast_instanceof'
 /**/			&&
@@ -769,17 +698,11 @@ prototype.create =
 /**/			&&
 /**/			o.reflect !== 'ast_preIncrement'
 /**/			&&
-/**/			o.reflect !== 'ast_return'
-/**/			&&
 /**/			o.reflect !== 'ast_string'
-/**/			&&
-/**/			o.reflect !== 'ast_switch'
 /**/			&&
 /**/			o.reflect !== 'ast_typeof'
 /**/			&&
 /**/			o.reflect !== 'ast_var'
-/**/			&&
-/**/			o.reflect !== 'ast_varDec'
 /**/		)
 /**/		{
 /**/			throw new Error( );
