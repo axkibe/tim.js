@@ -1343,7 +1343,7 @@ prototype.genSingleTypeCheckFailCondition =
 
 		default :
 
-			return $( aVar, '.reflect !== ', id.$string );
+			return $( aVar, '.reflect !== ', id.$pathName );
 	}
 };
 
@@ -2058,7 +2058,7 @@ prototype.genFromJsonCreatorAttributeParser =
 						cSwitch =
 							cSwitch
 							.$case(
-								id.$string,
+								id.$pathName,
 								$(
 									attr.varRef, ' = ',
 									id.$global,
@@ -2122,7 +2122,7 @@ prototype.genFromJsonCreatorParser =
 		.$case(
 			'"type"',
 			$if(
-				$( 'arg !== ', this.id.$string ),
+				$( 'arg !== ', this.id.$pathName ),
 				$fail( )
 			)
 		);
@@ -2240,7 +2240,7 @@ prototype.genFromJsonCreatorGroupProcessing =
 		loopSwitch =
 			loopSwitch
 			.$case(
-				gid.$string,
+				gid.$pathName,
 				$assign(
 					'group[ k ]',
 					$( gid.$global, '.createFromJSON( jgroup[ k ] )' )
@@ -2329,7 +2329,7 @@ prototype.genFromJsonCreatorRayProcessing =
 		loopSwitch =
 			loopSwitch
 			.$case(
-				rid.$string,
+				rid.$pathName,
 				$assign(
 					'ray[ r ]',
 					$( rid.$global, '.createFromJSON( jray[ r ] )' )
@@ -2412,7 +2412,7 @@ prototype.genFromJsonCreatorTwigProcessing =
 		switchExpr =
 			switchExpr
 			.$case(
-				twigID.$string,
+				twigID.$pathName,
 				$(
 					'twig[ key ] =',
 					twigID.$global, '.createFromJSON( jval )'
@@ -2625,7 +2625,7 @@ prototype.genReflection =
 			this.id.$abstractName
 		)
 		.$comment( 'Reflection.' )
-		.$( 'prototype.reflect = ', this.id.$string )
+		.$( 'prototype.reflect = ', this.id.$pathName )
 		.$comment( 'Name Reflection.' )
 		.$( 'prototype.reflectName =', this.id.$name )
 	);
@@ -2772,7 +2772,7 @@ prototype.genToJson =
 
 	olit =
 		$objLiteral( )
-		.add( 'type', this.id.$string );
+		.add( 'type', this.id.$pathName );
 
 	for(
 		a = 0, aZ = this.attributes.size;
@@ -2970,7 +2970,7 @@ prototype.genEqualsFuncBody =
 		.$if( 'this === obj', $( 'return true' ) )
 		.$if( '!obj', $( 'return false' ) )
 		.$if(
-			$( 'obj.reflect !== ', this.id.$string ),
+			$( 'obj.reflect !== ', this.id.$pathName ),
 			$(' return false' )
 		);
 
