@@ -1413,7 +1413,7 @@ prototype.genTypeCheckFailCondition =
 		}
 	}
 
-	return $and.apply( $and, condArray );
+	return $and.apply( undefined, condArray );
 };
 
 
@@ -1718,7 +1718,7 @@ prototype.genCreatorUnchanged =
 				abstract
 			);
 
-		cond = $and( cond, ceq );
+		cond = $( cond, '&&', ceq );
 	}
 
 	return $block( ).$if( cond, $( 'return inherit' ) );
@@ -2866,10 +2866,10 @@ prototype.genAttributeEquals =
 				ceq =
 					$or(
 						$( le, ' === ', re ),
-						$and(
-							$( le, ' !== null' ),
-							$( le, ' !== undefined' ),
-							$( le, '.', eqFuncName, '(', re, ')' )
+						$(
+							'(', le, ' !== null )',
+							'&& (', le, ' !== undefined )',
+							'&& (', le, '.', eqFuncName, '(', re, ') )'
 						)
 					);
 			}
@@ -2878,9 +2878,9 @@ prototype.genAttributeEquals =
 				ceq =
 					$or(
 						$( le, ' === ', re ),
-						$and(
-							$( le, ' !== null' ),
-							$( le, '.', eqFuncName, '(', re, ')' )
+						$(
+							'(', le, ' !== null )',
+							'&& (', le, '.', eqFuncName, '(', re, ') )'
 						)
 					);
 			}
@@ -2889,9 +2889,9 @@ prototype.genAttributeEquals =
 				ceq =
 					$or(
 						$( le, ' === ', re ),
-						$and(
-							$( le, '!== undefined' ),
-							$( le, '.', eqFuncName, '(', re, ')' )
+						$(
+							'(', le, '!== undefined )',
+							'&& (', le, '.', eqFuncName, '(', re, ') )'
 						)
 					);
 			}
@@ -2900,10 +2900,10 @@ prototype.genAttributeEquals =
 				ceq =
 					$or(
 						$( le, ' === ', re ),
-						$and(
+						$(
 							// FIXME this shouldnt be necessary
-							$( le, '.', eqFuncName ),
-							$( le, '.', eqFuncName, '(', re, ')' )
+							'(', le, '.', eqFuncName, ')',
+							'&& (', le, '.', eqFuncName, '(', re, ') )'
 						)
 					);
 			}
