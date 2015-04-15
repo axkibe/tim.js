@@ -75,7 +75,7 @@ prototype.$case =
 
 		args.shift( );
 
-		block = parser.parse.apply( parser, args );
+		block = parser.parseArray( args );
 
 		if( block.reflect !== 'ast_block' )
 		{
@@ -108,8 +108,7 @@ prototype.$default =
 	var
 		block;
 
-	block =
-		parser.parse.apply( parser, arguments );
+	block = parser.parseArray( arguments );
 
 	if( block.reflect !== 'ast_block' )
 	{

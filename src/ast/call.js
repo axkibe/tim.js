@@ -53,7 +53,7 @@ prototype.$argument =
 	var
 		ast;
 
-	ast = parser.parse.apply( parser, arguments );
+	ast = parser.parseArray( arguments );
 
 	return this.append( ast );
 };

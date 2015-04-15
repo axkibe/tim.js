@@ -50,7 +50,7 @@ ast_block.prototype.$ =
 	var
 		ast;
 
-	ast = parser.parse.apply( parser, arguments );
+	ast = parser.parseArray( arguments );
 
 	if( ast.reflect === 'ast_block' )
 	{
