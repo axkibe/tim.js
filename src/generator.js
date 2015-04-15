@@ -49,7 +49,6 @@ var
 	$func,
 	$if,
 	$objLiteral,
-	$or,
 	$string,
 	$switch,
 	$var,
@@ -109,8 +108,6 @@ $func = shorthand.$func;
 $if = shorthand.$if;
 
 $objLiteral = shorthand.$objLiteral;
-
-$or = shorthand.$or;
 
 $string = shorthand.$string;
 
@@ -2316,10 +2313,7 @@ prototype.genFromJsonCreatorRayProcessing =
 			loopSwitch
 			.$case(
 				rid.$pathName,
-				$assign(
-					'ray[ r ]',
-					$( rid.$global, '.createFromJSON( jray[ r ] )' )
-				)
+				'ray[ r ] =', rid.$global, '.createFromJSON( jray[ r ] )'
 			);
 	}
 
@@ -2798,7 +2792,7 @@ prototype.genToJson =
 
 	block =
 		block
-		.$assign( 'json', olit )
+		.$( 'json =', olit )
 		.$if(
 			'FREEZE',
 			$( 'Object.freeze( json )' )
@@ -3030,14 +3024,14 @@ prototype.genEqualsFuncBody =
 			$block( )
 			.$( 'key = this._ranks[ a ]' )
 			.$if(
-				$or(
+				$(
 					'key !== obj._ranks[ a ]',
-					$(
+					'|| (',
 						'( this._twig[ key ].', eqFuncName, ' )',
 						'? !this._twig[ key ]',
 							'.', eqFuncName, '( obj._twig[ key ] )',
-						': this._twig[ key ] !== obj._twig[ key ]'
-					)
+						': this._twig[ key ] !== obj._twig[ key ]',
+					')'
 				),
 				$( 'return false' )
 			);
