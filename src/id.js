@@ -19,13 +19,6 @@ if( JION )
 		id : 'jion$id',
 		attributes :
 		{
-			'name' :
-			{
-				comment : 'the name part of the id if applicable',
-				type : 'string',
-				// FIXME should not be allowed undefined
-				defaultValue : 'undefined'
-			},
 			'packet' :
 			{
 				comment : 'the jion is in/from a package',
@@ -92,7 +85,7 @@ jion_id.createFromString =
 			default : throw new Error( 'bad id: ' + string );
 		}
 
-		return jion_id.create( 'name', string, 'ray:init', [ string ] ); // FIXME
+		return jion_id.create( 'ray:init', [ string ] );
 	}
 
 	if( split.length > 2 )
@@ -104,8 +97,7 @@ jion_id.createFromString =
 		return(
 			jion_id.create(
 				'packet', packet,
-				'ray:init', split,
-				'name', split[ 1 ]
+				'ray:init', split
 			)
 		);
 	}
@@ -114,8 +106,7 @@ jion_id.createFromString =
 		return(
 			jion_id.create(
 				'packet', packet,
-				'ray:init', split,
-				'name', split[ 0 ]
+				'ray:init', split
 			)
 		);
 	}
@@ -241,6 +232,21 @@ jion_proto.lazyValue(
 	return !this.packet && this.length === 1;
 }
 );
+
+
+
+/*
+| This ids name (without path).
+*/
+jion_proto.lazyValue(
+	prototype,
+	'name',
+	function( )
+{
+	return this.get( this.length - 1 );
+}
+);
+
 
 
 /*
