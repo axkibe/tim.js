@@ -425,11 +425,7 @@ prototype.genImports =
 
 		id = imports.get( idKey );
 
-		if( !id.packet && !id.unit )
-		{
-			// this is a primitive
-			continue;
-		}
+		if( id.isPrimitive ) continue;
 
 		if( idKey.indexOf( ':' ) >= 0 )
 		{
@@ -447,7 +443,7 @@ prototype.genImports =
 
 
 /*
-| Generates the node include.
+| Generates the node includes.
 */
 prototype.genNodeIncludes =
 	function( )
@@ -462,8 +458,6 @@ prototype.genNodeIncludes =
 		imports;
 
 	block = $block( );
-
-	// generates the unit objects
 
 	imports = this.imports;
 
@@ -492,11 +486,7 @@ prototype.genNodeIncludes =
 			continue;
 		}
 
-		if( !id.unit && !id.packet )
-		{
-			// this is a primitive
-			continue;
-		}
+		if( id.isPrimitive ) continue;
 
 		if(
 			id.packet
