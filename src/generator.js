@@ -2617,7 +2617,7 @@ prototype.genReflection =
 		.$comment( 'Abstract Reflection.' )
 		.$(
 			'AbstractConstructor.prototype.reflect = ',
-			this.id.$abstractString
+			this.id.$abstractPathName
 		)
 		.$comment( 'Abstract Name Reflection.' )
 		.$(

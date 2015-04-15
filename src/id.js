@@ -200,7 +200,7 @@ jion_proto.lazyValue(
 */
 jion_proto.lazyValue(
 	prototype,
-	'$abstractString',
+	'$abstractPathName',
 	function( )
 {
 	return shorthand.$string( this.pathName + ':abstract' );
