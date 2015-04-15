@@ -209,61 +209,6 @@ jion_proto.lazyValue(
 
 
 /*
-| This id as path variable name.
-|
-| Used as package export.
-*/
-jion_proto.lazyValue(
-	prototype,
-	'pathName',
-	function( )
-{
-	var
-		a,
-		aZ,
-		pn;
-	
-	pn = '';
-
-	for( a = 0, aZ = this.length; a < aZ; a++ )
-	{
-		if( a > 0 ) pn += '_';
-
-		pn += this.get( a );
-	}
-
-	return pn;
-}
-);
-
-
-/*
-| relative path to the procjet's root dir.
-*/
-jion_proto.lazyValue(
-	prototype,
-	'rootPath',
-	function( )
-{
-	var
-		a,
-		len,
-		rp;
-
-	len = this.length;
-
-	if( len === 1 ) return './';
-
-	rp = '';
-
-	for( a = 0; a < len - 1; a++ ) rp += '../';
-
-	return rp;
-}
-);
-
-
-/*
 | This id as global varname
 */
 jion_proto.lazyValue(
@@ -293,6 +238,19 @@ jion_proto.lazyValue(
 
 
 /*
+| This id references a primitive.
+*/
+jion_proto.lazyValue(
+	prototype,
+	'isPrimitive',
+	function( )
+{
+	return !this.packet && this.length === 1;
+}
+);
+
+
+/*
 | This name as ast string.
 */
 jion_proto.lazyValue(
@@ -306,6 +264,35 @@ jion_proto.lazyValue(
 
 
 /*
+| This id as path variable name.
+|
+| Used as package export.
+*/
+jion_proto.lazyValue(
+	prototype,
+	'pathName',
+	function( )
+{
+	var
+		a,
+		aZ,
+		pn;
+	
+	pn = '';
+
+	for( a = 0, aZ = this.length; a < aZ; a++ )
+	{
+		if( a > 0 ) pn += '_';
+
+		pn += this.get( a );
+	}
+
+	return pn;
+}
+);
+
+
+/*
 | This id as ast string.
 */
 jion_proto.lazyValue(
@@ -314,6 +301,32 @@ jion_proto.lazyValue(
 	function( )
 {
 	return shorthand.$string( this.pathName );
+}
+);
+
+
+/*
+| relative path to the procjet's root dir.
+*/
+jion_proto.lazyValue(
+	prototype,
+	'rootPath',
+	function( )
+{
+	var
+		a,
+		len,
+		rp;
+
+	len = this.length;
+
+	if( len === 1 ) return './';
+
+	rp = '';
+
+	for( a = 0; a < len - 1; a++ ) rp += '../';
+
+	return rp;
 }
 );
 
