@@ -2968,12 +2968,13 @@ prototype.genEqualsFuncBody =
 		groupTestLoopBody =
 			$block( )
 			.$if(
-				$and(
+				$(
 					'this.group[ k ] !== obj.group[ k ]',
-					$or(
-						'!this.group[ k ].' + eqFuncName,
-						'!this.group[ k ].' + eqFuncName + '( obj.group[ k ] )'
-					)
+					'&& (',
+						'!this.group[ k ].', eqFuncName,
+						'||',
+						'!this.group[ k ].', eqFuncName, '( obj.group[ k ] )',
+					')'
 				),
 				$( 'return false' )
 			);
