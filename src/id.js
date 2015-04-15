@@ -245,7 +245,20 @@ jion_proto.lazyValue(
 	'rootPath',
 	function( )
 {
-	return this.unit ? '../' : './';
+	var
+		a,
+		len,
+		rp;
+
+	len = this.length;
+
+	if( len === 1 ) return './';
+
+	rp = '';
+
+	for( a = 0; a < len - 1; a++ ) rp += '../';
+
+	return rp;
 }
 );
 
