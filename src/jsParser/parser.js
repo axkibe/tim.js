@@ -1256,10 +1256,9 @@ parseToken =
 /*
 | Parses code to create an ast tree.
 */
-parser.parse =
+parser.parseArray =
 	function(
-		// list of strings to parse
-		// or ast subtrees.
+		array
 	)
 {
 	var
@@ -1271,9 +1270,9 @@ parser.parse =
 
 	tokens = jsParser_tokenRay.create( );
 
-	for( a = 0, aZ = arguments.length; a < aZ; a++ )
+	for( a = 0, aZ = array.length; a < aZ; a++ )
 	{
-		arg = arguments[ a ];
+		arg = array[ a ];
 
 		if( jion_proto.isString( arg ) )
 		{
@@ -1300,6 +1299,19 @@ parser.parse =
 	}
 
 	return st.ast;
+};
+
+
+/*
+| Parses code to create an ast tree.
+*/
+parser.parse =
+	function(
+		// list of strings to parse
+		// or ast subtrees.
+	)
+{
+	return parser.parseArray( arguments );
 };
 
 
