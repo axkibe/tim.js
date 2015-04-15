@@ -203,7 +203,7 @@ jion_proto.lazyValue(
 	'$abstractString',
 	function( )
 {
-	return shorthand.$string( this.string + ':abstract' );
+	return shorthand.$string( this.pathName + ':abstract' );
 }
 );
 
@@ -301,20 +301,6 @@ jion_proto.lazyValue(
 	function( )
 {
 	return shorthand.$string( this.name );
-}
-);
-
-
-/*
-| This id as string.
-| FIXME remove
-*/
-jion_proto.lazyValue(
-	prototype,
-	'string',
-	function( )
-{
-	return this.pathName;
 }
 );
 

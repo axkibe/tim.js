@@ -76,7 +76,7 @@ jion$idGroup.createFromIDStrings =
 		{
 			id = jion$id.createFromString( idStrings[ a ] );
 
-			ids[ id.string ] = id;
+			ids[ id.pathName ] = id;
 		}
 		else
 		{
@@ -90,7 +90,7 @@ jion$idGroup.createFromIDStrings =
 			{
 				subId = subList[ b ];
 
-				ids[ subId.string ] = subId;
+				ids[ subId.pathName ] = subId;
 			}
 		}
 	}
@@ -107,7 +107,7 @@ prototype.add =
 		id
 	)
 {
-	return this.create( 'group:set', id.string, id );
+	return this.create( 'group:set', id.pathName, id );
 };
 
 
