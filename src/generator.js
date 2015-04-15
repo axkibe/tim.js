@@ -2864,47 +2864,47 @@ prototype.genAttributeEquals =
 			if( allowsNull && allowsUndefined )
 			{
 				ceq =
-					$or(
-						$( le, ' === ', re ),
-						$(
-							'(', le, ' !== null )',
-							'&& (', le, ' !== undefined )',
-							'&& (', le, '.', eqFuncName, '(', re, ') )'
-						)
+					$(
+						le, ' === ', re,
+						'|| (',
+							le, ' !== null',
+							'&&', le, ' !== undefined',
+							'&&', le, '.', eqFuncName, '(', re, ')',
+						')'
 					);
 			}
 			else if( allowsNull )
 			{
 				ceq =
-					$or(
-						$( le, ' === ', re ),
-						$(
-							'(', le, ' !== null )',
-							'&& (', le, '.', eqFuncName, '(', re, ') )'
-						)
+					$(
+						le, ' === ', re,
+						'|| (',
+							le, ' !== null',
+							'&&', le, '.', eqFuncName, '(', re, ')',
+						')'
 					);
 			}
 			else if( allowsUndefined )
 			{
 				ceq =
-					$or(
-						$( le, ' === ', re ),
-						$(
-							'(', le, '!== undefined )',
-							'&& (', le, '.', eqFuncName, '(', re, ') )'
-						)
+					$(
+						le, ' === ', re,
+						'|| (',
+							le, '!== undefined',
+							'&&', le, '.', eqFuncName, '(', re, ')',
+						')'
 					);
 			}
 			else
 			{
 				ceq =
-					$or(
-						$( le, ' === ', re ),
-						$(
+					$(
+						le, ' === ', re,
+						'|| (',
 							// FIXME this shouldnt be necessary
-							'(', le, '.', eqFuncName, ')',
-							'&& (', le, '.', eqFuncName, '(', re, ') )'
-						)
+							le, '.', eqFuncName,
+							'&&', le, '.', eqFuncName, '(', re, ')',
+						')'
 					);
 			}
 	}
@@ -2999,12 +2999,13 @@ prototype.genEqualsFuncBody =
 		rayTestLoopBody =
 			$block( )
 			.$if(
-				$and(
+				$(
 					'this.ray[ a ] !== obj.ray[ a ]',
-					$or(
+					'&& (',
 						'!this.ray[ a ].' + eqFuncName,
-						'!this.ray[ a ].' + eqFuncName + '( obj.ray[ a ] )'
-					)
+						'||',
+						'!this.ray[ a ].' + eqFuncName + '( obj.ray[ a ] )',
+					')'
 				),
 				$( 'return false' )
 			);
@@ -3102,7 +3103,7 @@ prototype.genEqualsFuncBody =
 		cond =
 			cond === null
 			? ceq
-			: $and( cond, ceq );
+			: $( cond, '&&', ceq );
 	}
 
 	if( cond )
@@ -3266,7 +3267,7 @@ prototype.genAlike =
 			cond =
 				cond === null
 				? ceq
-				: $and( cond, ceq );
+				: $( cond, '&&', ceq );
 		}
 
 		block = block.$( 'return', cond );
