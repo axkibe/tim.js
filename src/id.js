@@ -138,63 +138,46 @@ jion_id.compare =
 		o2
 	)
 {
-	if( !o1.packet && o2.packet )
-	{
-		return 1;
-	}
+	var
+		a,
+		l1,
+		l2,
+		u1,
+		u2;
 
-	if( o1.packet && !o2.packet )
-	{
-		return -1;
-	}
+	if( !o1.packet && o2.packet ) return 1;
+
+	if( o1.packet && !o2.packet ) return -1;
 
 	if( o1.packet && o2.packet )
 	{
-		if( o1.packet > o2.packet )
-		{
-			return 1;
-		}
+		if( o1.packet > o2.packet ) return 1;
 
-		if( o1.packet < o2.packet )
-		{
-			return -1;
-		}
+		if( o1.packet < o2.packet ) return -1;
 	}
 
-	if( !o1.unit && o2.unit )
+	l1 = o1.length;
+
+	l2 = o2.length;
+
+	if( l1 === 1 && l2 > 1 ) return 1;
+
+	if( l1 > 1 && l2 === 1 ) return -1;
+
+	for( a = 0; a < l1; a++ )
 	{
-		return 1;
+		u1 = o1.get( a );
+
+		u2 = o2.get( a );
+	
+		if( u1 > u2 ) return 1;
+		
+		if( u1 < u2 ) return -1;
 	}
 
-	if( o1.unit && !o2.unit )
-	{
-		return -1;
-	}
+	if( l1 !== l2 ) return 1;
 
-	if( o1.unit && o2.unit )
-	{
-		if( o1.unit > o2.unit )
-		{
-			return 1;
-		}
-		else
-		{
-			return -1;
-		}
-	}
-
-	if( o1.name === o2.name )
-	{
-		return 0;
-	}
-	else if( o1.name > o2.name )
-	{
-		return 1;
-	}
-	else
-	{
-		return -1;
-	}
+	return 0;
 };
 
 
