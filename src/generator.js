@@ -1305,7 +1305,7 @@ prototype.genSingleTypeCheckFailCondition =
 		id
 	)
 {
-	switch( id.string )
+	switch( id.pathName )
 	{
 		case 'boolean' :
 
@@ -1400,7 +1400,7 @@ prototype.genTypeCheckFailCondition =
 	{
 		id = idx.get( keyList[ a ] );
 
-		switch( id.string )
+		switch( id.pathName )
 		{
 			case 'null' :
 
@@ -1491,7 +1491,7 @@ prototype.genCreatorChecks =
 			check = check.$if( $( av, ' === null' ), $fail( ));
 		}
 
-		if( attr.id.string === 'protean' )
+		if( attr.id.pathName === 'protean' )
 		{
 			continue;
 		}
@@ -1954,7 +1954,7 @@ prototype.genFromJsonCreatorAttributeParser =
 		t,
 		tZ;
 
-	switch( attr.id.string )
+	switch( attr.id.pathName )
 	{
 		case 'boolean' :
 		case 'integer' :
@@ -1993,7 +1993,7 @@ prototype.genFromJsonCreatorAttributeParser =
 				{
 					id = attr.id.get( keyList[ t ] );
 
-					switch( id.string )
+					switch( id.pathName )
 					{
 						case 'boolean' :
 
@@ -2230,7 +2230,7 @@ prototype.genFromJsonCreatorGroupProcessing =
 	{
 		gid = group.get( keyList[ g ] );
 
-		if( gid.string === 'null' )
+		if( gid.pathName === 'null' )
 		{
 			haveNull = true;
 
@@ -2312,14 +2312,14 @@ prototype.genFromJsonCreatorRayProcessing =
 	{
 		rid = ray.get( keyList[ r ] );
 
-		if( rid.string === 'null' )
+		if( rid.pathName === 'null' )
 		{
 			haveNull = true;
 
 			continue;
 		}
 
-		if( rid.string === 'undefined' )
+		if( rid.pathName === 'undefined' )
 		{
 			haveUndefined = true;
 
@@ -2857,7 +2857,7 @@ prototype.genAttributeEquals =
 
 	allowsUndefined = abstract || attr.allowsUndefined;
 
-	switch( attr.id.string )
+	switch( attr.id.pathName )
 	{
 		case 'boolean' :
 		case 'function' :

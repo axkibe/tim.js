@@ -98,7 +98,7 @@ jion_id.createFromString =
 			default : throw new Error( 'bad id: ' + string );
 		}
 
-		return jion_id.create( 'name', string );
+		return jion_id.create( 'name', string, 'ray:init', [ string ] ); // FIXME
 	}
 
 	if( split.length > 2 )
@@ -307,20 +307,14 @@ jion_proto.lazyValue(
 
 /*
 | This id as string.
+| FIXME remove
 */
 jion_proto.lazyValue(
 	prototype,
 	'string',
 	function( )
 {
-	if( this.unit )
-	{
-		return this.unit + '_' + this.name;
-	}
-	else
-	{
-		return this.name;
-	}
+	return this.pathName;
 }
 );
 
@@ -333,7 +327,7 @@ jion_proto.lazyValue(
 	'$string',
 	function( )
 {
-	return shorthand.$string( this.string );
+	return shorthand.$string( this.pathName );
 }
 );
 
