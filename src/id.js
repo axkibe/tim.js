@@ -31,12 +31,6 @@ if( JION )
 				comment : 'the jion is in/from a package',
 				type : 'string',
 				defaultValue : 'undefined'
-			},
-			'unit' :
-			{
-				comment : 'the unit part of the id if applicable',
-				type : 'string',
-				defaultValue : 'undefined'
 			}
 		},
 		ray : [ 'string' ]
@@ -111,7 +105,6 @@ jion_id.createFromString =
 			jion_id.create(
 				'packet', packet,
 				'ray:init', split,
-				'unit', split[ 0 ],
 				'name', split[ 1 ]
 			)
 		);

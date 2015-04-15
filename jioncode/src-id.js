@@ -54,8 +54,7 @@ AbstractConstructor =
 	function(
 		ray, // ray
 		v_name, // the name part of the id if applicable
-		v_packet, // the jion is in/from a package
-		v_unit // the unit part of the id if applicable
+		v_packet // the jion is in/from a package
 	)
 {
 	if( v_name !== undefined )
@@ -66,11 +65,6 @@ AbstractConstructor =
 	if( v_packet !== undefined )
 	{
 		this.packet = v_packet;
-	}
-
-	if( v_unit !== undefined )
-	{
-		this.unit = v_unit;
 	}
 
 	this.ray = ray;
@@ -98,8 +92,7 @@ Constructor =
 	function(
 		ray, // ray
 		v_name, // the name part of the id if applicable
-		v_packet, // the jion is in/from a package
-		v_unit // the unit part of the id if applicable
+		v_packet // the jion is in/from a package
 	)
 {
 	if( FREEZE )
@@ -118,11 +111,6 @@ Constructor =
 	if( v_packet !== undefined )
 	{
 		this.packet = v_packet;
-	}
-
-	if( v_unit !== undefined )
-	{
-		this.unit = v_unit;
 	}
 
 	this.ray = ray;
@@ -168,8 +156,7 @@ prototype.abstract =
 		ray,
 		rayDup,
 		v_name,
-		v_packet,
-		v_unit;
+		v_packet;
 
 	if( this !== jion$id )
 	{
@@ -182,8 +169,6 @@ prototype.abstract =
 		v_name = this.name;
 
 		v_packet = this.packet;
-
-		v_unit = this.unit;
 	}
 	else
 	{
@@ -216,15 +201,6 @@ prototype.abstract =
 				if( arg !== pass )
 				{
 					v_packet = arg;
-				}
-
-				break;
-
-			case 'unit' :
-
-				if( arg !== pass )
-				{
-					v_unit = arg;
 				}
 
 				break;
@@ -342,23 +318,6 @@ prototype.abstract =
 /**/		}
 /**/	}
 /**/
-/**/	if( v_unit === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_unit !== undefined )
-/**/	{
-/**/		if(
-/**/			typeof( v_unit ) !== 'string'
-/**/			&&
-/**/			!( v_unit instanceof String )
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
 /**/	for(
 /**/		r = 0, rZ = ray.length;
 /**/		r < rZ;
@@ -382,14 +341,12 @@ prototype.abstract =
 		v_name === inherit.name
 		&&
 		v_packet === inherit.packet
-		&&
-		v_unit === inherit.unit
 	)
 	{
 		return inherit;
 	}
 
-	return new AbstractConstructor( ray, v_name, v_packet, v_unit );
+	return new AbstractConstructor( ray, v_name, v_packet );
 };
 
 
@@ -414,8 +371,7 @@ prototype.create =
 		ray,
 		rayDup,
 		v_name,
-		v_packet,
-		v_unit;
+		v_packet;
 
 	if( this !== jion$id )
 	{
@@ -428,8 +384,6 @@ prototype.create =
 		v_name = this.name;
 
 		v_packet = this.packet;
-
-		v_unit = this.unit;
 	}
 	else
 	{
@@ -462,15 +416,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_packet = arg;
-				}
-
-				break;
-
-			case 'unit' :
-
-				if( arg !== pass )
-				{
-					v_unit = arg;
 				}
 
 				break;
@@ -588,23 +533,6 @@ prototype.create =
 /**/		}
 /**/	}
 /**/
-/**/	if( v_unit === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_unit !== undefined )
-/**/	{
-/**/		if(
-/**/			typeof( v_unit ) !== 'string'
-/**/			&&
-/**/			!( v_unit instanceof String )
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
 /**/	for(
 /**/		r = 0, rZ = ray.length;
 /**/		r < rZ;
@@ -628,14 +556,12 @@ prototype.create =
 		v_name === inherit.name
 		&&
 		v_packet === inherit.packet
-		&&
-		v_unit === inherit.unit
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( ray, v_name, v_packet, v_unit );
+	return new Constructor( ray, v_name, v_packet );
 };
 
 
@@ -772,13 +698,7 @@ prototype.equals =
 		}
 	}
 
-	return (
-		this.name === obj.name
-		&&
-		this.packet === obj.packet
-		&&
-		this.unit === obj.unit
-	);
+	return this.name === obj.name && this.packet === obj.packet;
 };
 
 
