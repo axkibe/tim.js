@@ -2197,14 +2197,19 @@ prototype.genFromJsonCreatorGroupProcessing =
 	function( )
 {
 	var
+		group,
 		haveNull,
-		idList,
+		keyList,
 		loopBody,
 		loopSwitch,
 		g,
 		gid,
 		gZ,
 		result;
+
+	group = this.group;
+
+	keyList = group.sortedKeys;
 
 	haveNull = false;
 
@@ -2213,19 +2218,17 @@ prototype.genFromJsonCreatorGroupProcessing =
 		.$if( '!jgroup', $fail( ) )
 		.$( 'group = { }' );
 
-	idList = this.group.idList;
-
 	loopSwitch =
 		$switch( 'jgroup[ r ].type' )
 		.$default( $fail( ) );
 
 	for(
-		g = 0, gZ = idList.length;
+		g = 0, gZ = keyList.length;
 		g < gZ;
 		g++
 	)
 	{
-		gid = idList[ g ];
+		gid = group.get( keyList[ g ] );
 
 		if( gid.string === 'null' )
 		{
@@ -2275,13 +2278,18 @@ prototype.genFromJsonCreatorRayProcessing =
 	var
 		haveNull,
 		haveUndefined,
-		idList,
+		keyList,
 		loopBody,
 		loopSwitch,
 		r,
+		ray,
 		result,
 		rid,
 		rZ;
+
+	ray = this.ray;
+
+	keyList = ray.sortedKeys;
 
 	haveNull = false;
 
@@ -2292,19 +2300,17 @@ prototype.genFromJsonCreatorRayProcessing =
 		.$if( '!jray', $fail( ) )
 		.$( 'ray = [ ]' );
 
-	idList = this.ray.idList;
-
 	loopSwitch =
 		$switch( 'jray[ r ].type' )
 		.$default( $fail( ) );
 
 	for(
-		r = 0, rZ = idList.length;
+		r = 0, rZ = keyList.length;
 		r < rZ;
 		r++
 	)
 	{
-		rid = idList[ r ];
+		rid = ray.get( keyList[ r ] );
 
 		if( rid.string === 'null' )
 		{
