@@ -34,19 +34,19 @@ var
 	ast_dot,
 	ast_member,
 	ast_var,
-	prototype,
-	tools;
+	parser,
+	prototype;
 
 
 ast_var = require( '../this' )( module, 'ouroboros' );
+
+parser = require( '../jsParser/parser' );
 
 prototype = ast_var.prototype;
 
 ast_dot = require( './dot' );
 
 ast_member = require( './member' );
-
-tools = require( './tools' );
 
 /*
 | Initializer.
@@ -98,13 +98,13 @@ prototype.$dot =
 */
 prototype.$member =
 	function(
-		member // member expression
+		// parseables
 	)
 {
 	return(
 		ast_member.create(
 			'expr', this,
-			'member', tools.convert( member )
+			'member', parser.parseArray( arguments )
 		)
 	);
 };
