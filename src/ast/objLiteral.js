@@ -24,26 +24,34 @@ if( JION )
 
 var
 	ast_objLiteral,
-	prototype,
-	tools;
+	parser,
+	prototype;
 
 
 ast_objLiteral = require( '../this' )( module, 'ouroboros' );
 
 prototype = ast_objLiteral.prototype;
 
-tools = require( './tools' );
+parser = require( '../jsParser/parser' );
+
 
 /*
 | Returns an object literal with a key-expr pair added.
 */
 prototype.add =
 	function(
-		key,
-		expr
+		key
+		// ... parseables
 	)
 {
-	return this.create( 'twig:add', key, tools.convert( expr ) );
+	var
+		args;
+
+	args = Array.prototype.slice.call( args );
+
+	args.shift( );
+
+	return this.create( 'twig:add', key, parser.parseArray( args ) );
 };
 
 
