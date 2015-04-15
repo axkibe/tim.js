@@ -111,43 +111,4 @@ prototype.add =
 };
 
 
-/*
-| Returns all units as alphasorted list.
-|
-| FIXME remove;
-*/
-jion$proto.lazyValue(
-	prototype,
-	'idList',
-	function( )
-{
-	var
-		a,
-		aZ,
-		il,
-		keys;
-
-	il = [ ];
-
-	keys = this.sortedKeys;
-
-	for(
-		a = 0, aZ = keys.length;
-		a < aZ;
-		a++
-	)
-	{
-		il[ a ] = this.get( keys[ a ] );
-	}
-
-/**/if( FREEZE )
-/**/{
-/**/	Object.freeze( il );
-/**/}
-
-	return il;
-}
-);
-
-
 } )( );

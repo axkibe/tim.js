@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 node src/ouroboros/root.js --all
 node src/ouroboros/root.js --all
 ./jshint

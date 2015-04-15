@@ -52,6 +52,7 @@ var
 
 AbstractConstructor =
 	function(
+		ray, // ray
 		v_name, // the name part of the id if applicable
 		v_packet, // the jion is in/from a package
 		v_unit // the unit part of the id if applicable
@@ -72,8 +73,14 @@ AbstractConstructor =
 		this.unit = v_unit;
 	}
 
+	this.ray = ray;
+
+	this._ray = ray;
+
 	if( FREEZE )
 	{
+		Object.freeze( ray );
+
 		Object.freeze( this );
 	}
 };
@@ -89,6 +96,7 @@ var
 
 Constructor =
 	function(
+		ray, // ray
 		v_name, // the name part of the id if applicable
 		v_packet, // the jion is in/from a package
 		v_unit // the unit part of the id if applicable
@@ -117,8 +125,14 @@ Constructor =
 		this.unit = v_unit;
 	}
 
+	this.ray = ray;
+
+	this._ray = ray;
+
 	if( FREEZE )
 	{
+		Object.freeze( ray );
+
 		Object.freeze( this );
 	}
 };
@@ -148,6 +162,11 @@ prototype.abstract =
 		aZ,
 		arg,
 		inherit,
+		o,
+		r,
+		rZ,
+		ray,
+		rayDup,
 		v_name,
 		v_packet,
 		v_unit;
@@ -156,11 +175,21 @@ prototype.abstract =
 	{
 		inherit = this;
 
+		ray = inherit.ray;
+
+		rayDup = false;
+
 		v_name = this.name;
 
 		v_packet = this.packet;
 
 		v_unit = this.unit;
+	}
+	else
+	{
+		ray = [ ];
+
+		rayDup = true;
 	}
 
 	for(
@@ -197,6 +226,74 @@ prototype.abstract =
 				{
 					v_unit = arg;
 				}
+
+				break;
+
+			case 'ray:init' :
+
+/**/			if( CHECK )
+/**/			{
+/**/				if( !Array.isArray( arg ) )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/			}
+
+				ray = arg;
+
+				rayDup = 'init';
+
+				break;
+
+			case 'ray:append' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray.push( arg );
+
+				break;
+
+			case 'ray:insert' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray.splice( arg, 0, arguments[ ++a + 1 ] );
+
+				break;
+
+			case 'ray:remove' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray.splice( arg, 1 );
+
+				break;
+
+			case 'ray:set' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray[ arg ] = arguments[ ++a + 1 ];
 
 				break;
 
@@ -261,10 +358,26 @@ prototype.abstract =
 /**/			throw new Error( );
 /**/		}
 /**/	}
+/**/
+/**/	for(
+/**/		r = 0, rZ = ray.length;
+/**/		r < rZ;
+/**/		++r
+/**/	)
+/**/	{
+/**/		o = ray[ r ];
+/**/
+/**/		if( typeof( o ) !== 'string' && !( o instanceof String ) )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
 /**/}
 
 	if(
 		inherit
+		&&
+		rayDup === false
 		&&
 		v_name === inherit.name
 		&&
@@ -276,7 +389,7 @@ prototype.abstract =
 		return inherit;
 	}
 
-	return new AbstractConstructor( v_name, v_packet, v_unit );
+	return new AbstractConstructor( ray, v_name, v_packet, v_unit );
 };
 
 
@@ -295,6 +408,11 @@ prototype.create =
 		aZ,
 		arg,
 		inherit,
+		o,
+		r,
+		rZ,
+		ray,
+		rayDup,
 		v_name,
 		v_packet,
 		v_unit;
@@ -303,11 +421,21 @@ prototype.create =
 	{
 		inherit = this;
 
+		ray = inherit.ray;
+
+		rayDup = false;
+
 		v_name = this.name;
 
 		v_packet = this.packet;
 
 		v_unit = this.unit;
+	}
+	else
+	{
+		ray = [ ];
+
+		rayDup = true;
 	}
 
 	for(
@@ -344,6 +472,74 @@ prototype.create =
 				{
 					v_unit = arg;
 				}
+
+				break;
+
+			case 'ray:init' :
+
+/**/			if( CHECK )
+/**/			{
+/**/				if( !Array.isArray( arg ) )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/			}
+
+				ray = arg;
+
+				rayDup = 'init';
+
+				break;
+
+			case 'ray:append' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray.push( arg );
+
+				break;
+
+			case 'ray:insert' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray.splice( arg, 0, arguments[ ++a + 1 ] );
+
+				break;
+
+			case 'ray:remove' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray.splice( arg, 1 );
+
+				break;
+
+			case 'ray:set' :
+
+				if( !rayDup )
+				{
+					ray = ray.slice( );
+
+					rayDup = true;
+				}
+
+				ray[ arg ] = arguments[ ++a + 1 ];
 
 				break;
 
@@ -408,10 +604,26 @@ prototype.create =
 /**/			throw new Error( );
 /**/		}
 /**/	}
+/**/
+/**/	for(
+/**/		r = 0, rZ = ray.length;
+/**/		r < rZ;
+/**/		++r
+/**/	)
+/**/	{
+/**/		o = ray[ r ];
+/**/
+/**/		if( typeof( o ) !== 'string' && !( o instanceof String ) )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
 /**/}
 
 	if(
 		inherit
+		&&
+		rayDup === false
 		&&
 		v_name === inherit.name
 		&&
@@ -423,7 +635,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( v_name, v_packet, v_unit );
+	return new Constructor( ray, v_name, v_packet, v_unit );
 };
 
 
@@ -464,6 +676,48 @@ prototype.getPath = jion_proto.getPath;
 
 
 /*
+| Returns the ray with an element appended.
+*/
+prototype.append = jion_proto.rayAppend;
+
+
+/*
+| Returns the ray with another ray appended.
+*/
+prototype.appendRay = jion_proto.rayAppendRay;
+
+
+/*
+| Returns the length of the ray.
+*/
+jion_proto.lazyValue( prototype, 'length', jion_proto.rayLength );
+
+
+/*
+| Returns one element from the ray.
+*/
+prototype.get = jion_proto.rayGet;
+
+
+/*
+| Returns the ray with one element inserted.
+*/
+prototype.insert = jion_proto.rayInsert;
+
+
+/*
+| Returns the ray with one element removed.
+*/
+prototype.remove = jion_proto.rayRemove;
+
+
+/*
+| Returns the ray with one element set.
+*/
+prototype.set = jion_proto.raySet;
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =
@@ -471,6 +725,10 @@ prototype.equals =
 		obj // object to compare to
 	)
 {
+	var
+		a,
+		aZ;
+
 	if( this === obj )
 	{
 		return true;
@@ -484,6 +742,34 @@ prototype.equals =
 	if( obj.reflect !== 'id' )
 	{
 		return false;
+	}
+
+	if( this.ray !== obj.ray )
+	{
+		if( this.ray.length !== obj.ray.length )
+		{
+			return false;
+		}
+
+		for(
+			a = 0, aZ = this.ray.length;
+			a < aZ;
+			++a
+		)
+		{
+			if(
+				this.ray[ a ] !== obj.ray[ a ]
+				&&
+				(
+					!this.ray[ a ].equals
+					||
+					!this.ray[ a ].equals( obj.ray[ a ] )
+				)
+			)
+			{
+				return false;
+			}
+		}
 	}
 
 	return (

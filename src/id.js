@@ -38,7 +38,8 @@ if( JION )
 				type : 'string',
 				defaultValue : 'undefined'
 			}
-		}
+		},
+		ray : [ 'string' ]
 	};
 }
 
@@ -109,6 +110,7 @@ jion_id.createFromString =
 		return(
 			jion_id.create(
 				'packet', packet,
+				'ray:init', split,
 				'unit', split[ 0 ],
 				'name', split[ 1 ]
 			)
@@ -119,6 +121,7 @@ jion_id.createFromString =
 		return(
 			jion_id.create(
 				'packet', packet,
+				'ray:init', split,
 				'name', split[ 0 ]
 			)
 		);
