@@ -375,9 +375,9 @@ shorthand.$condition =
 {
 	return(
 		ast_condition.create(
-			'condition', tools.convert( condition ),
-			'then', tools.convert( then ),
-			'elsewise', tools.convert( elsewise )
+			'condition', parser.parse( condition ),
+			'then', parser.parse( then ),
+			'elsewise', parser.parse( elsewise )
 		)
 	);
 };
@@ -397,11 +397,12 @@ shorthand.$differs =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_differs.create( 'left', left, 'right', right );
+	return(
+		ast_differs.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -413,9 +414,7 @@ shorthand.$delete =
 		expr
 	)
 {
-	expr = tools.convert( expr );
-
-	return ast_delete.create( 'expr', expr );
+	return ast_delete.create( 'expr', parser.parse( expr ) );
 };
 
 
@@ -441,11 +440,12 @@ shorthand.$equals =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_equals.create( 'left', left, 'right', right );
+	return(
+		ast_equals.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -485,11 +485,12 @@ shorthand.$lessThan =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_lessThan.create( 'left', left, 'right', right );
+	return(
+		ast_lessThan.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -502,14 +503,10 @@ shorthand.$greaterThan =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
 	return(
 		ast_greaterThan.create(
-			'left', left,
-			'right', right
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
 		)
 	);
 };
