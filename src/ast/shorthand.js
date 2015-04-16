@@ -61,6 +61,7 @@ var
 	ast_typeof,
 	ast_var,
 	ast_varDec,
+	parser,
 	jion_proto,
 	tools;
 
@@ -151,6 +152,8 @@ ast_varDec = require( './varDec' );
 
 jion_proto = require( '../proto' );
 
+parser = require( '../jsParser/parser' );
+
 tools = require( './tools' );
 
 
@@ -171,9 +174,9 @@ shorthand.$and =
 	{
 		args = Array.prototype.slice.call( arguments );
 
-		left = tools.convert( left );
+		left = parser.parse( left );
 
-		right = tools.convert( right );
+		right = parser.parse( right );
 
 		args.splice(
 			0,
@@ -184,9 +187,9 @@ shorthand.$and =
 		return shorthand.$and.apply( this, args );
 	}
 
-	left = tools.convert( left );
+	left = parser.parse( left );
 
-	right = tools.convert( right );
+	right = parser.parse( right );
 
 	return ast_and.create( 'left', left, 'right', right );
 };
@@ -211,14 +214,10 @@ shorthand.$assign =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
 	return(
 		ast_assign.create(
-			'left', left,
-			'right', right
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
 		)
 	);
 };
@@ -274,7 +273,7 @@ shorthand.$call =
 	var
 		call;
 
-	call = ast_call.create( 'func', tools.convert( func ) );
+	call = ast_call.create( 'func', parser.parse( func ) );
 
 	for(
 		var a = 1, aZ = arguments.length;
@@ -325,9 +324,9 @@ shorthand.$comma =
 	{
 		args = Array.prototype.slice.call( arguments );
 
-		left = tools.convert( left );
+		left = tools.parser.parse( left );
 
-		right = tools.convert( right );
+		right = tools.parser.parse( right );
 
 		args.splice(
 			0,
@@ -338,11 +337,12 @@ shorthand.$comma =
 		return shorthand.$comma.apply( this, args );
 	}
 
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_comma.create( 'left', left, 'right', right );
+	return(
+		ast_comma.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
