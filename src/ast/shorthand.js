@@ -1,7 +1,5 @@
 /*
 | Various shorthands for abstract syntax trees.
-|
-| FIXME make an ensureBlock func
 */
 
 
@@ -63,6 +61,7 @@ var
 	ast_typeof,
 	ast_var,
 	ast_varDec,
+	ensureBlock,
 	parser,
 	jion_proto;
 
@@ -157,6 +156,19 @@ parser = require( '../jsParser/parser' );
 
 
 /*
+| Ensures ast is a block.
+| Ff not appends it to a new block.
+*/
+ensureBlock =
+	function( ast )
+{
+	if( ast.reflect === 'ast_block' ) return ast;
+
+	return ast_block.create( ).append( ast );
+};
+
+
+/*
 | Shorthand for creating ands.
 */
 shorthand.$and =
@@ -173,24 +185,24 @@ shorthand.$and =
 	{
 		args = Array.prototype.slice.call( arguments );
 
-		left = parser.parse( left );
-
-		right = parser.parse( right );
-
 		args.splice(
 			0,
 			2,
-			ast_and.create( 'left', left, 'right', right )
+			ast_and.create(
+				'left', parser.parse( left ),
+				'right', parser.parse( right )
+			)
 		);
 
 		return shorthand.$and.apply( this, args );
 	}
 
-	left = parser.parse( left );
-
-	right = parser.parse( right );
-
-	return ast_and.create( 'left', left, 'right', right );
+	return(
+		ast_and.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -240,13 +252,7 @@ shorthand.$capsule =
 		block
 	)
 {
-	if(
-		block
-		&& block.reflect !== 'ast_block'
-	)
-	{
-		block = ast_block.create( ).append( block );
-	}
+	if( block ) block = ensureBlock( block );
 
 	return(
 		ast_call.create(
@@ -295,13 +301,8 @@ shorthand.$check =
 		block // or statement/expression
 	)
 {
-	if( block && block.reflect !== 'ast_block' )
-	{
-		block = ast_block.create( ).append( block );
-	}
-
 	return(
-		ast_check.create( 'block', block )
+		ast_check.create( 'block', ensureBlock( block ) )
 	);
 };
 
