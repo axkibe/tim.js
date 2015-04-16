@@ -522,19 +522,18 @@ shorthand.$if =
 		elsewise
 	)
 {
-	// automatic block convertions for comfort.
+	condition = parser.parse( condition );
 
-	condition = tools.convert( condition );
+	then = parser.parse( then );
+
+	if( elsewise ) elsewise = parser.parse( elsewise );
 
 	if( then.reflect !== 'ast_block' )
 	{
 		then = ast_block.create( ).append( then );
 	}
 
-	if(
-		elsewise
-		&& elsewise.reflect !== 'ast_block'
-	)
+	if( elsewise && elsewise.reflect !== 'ast_block')
 	{
 		elsewise = ast_block.create( ).append( elsewise );
 	}
