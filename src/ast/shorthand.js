@@ -521,27 +521,11 @@ shorthand.$if =
 		elsewise
 	)
 {
-	condition = parser.parse( condition );
-
-	then = parser.parse( then );
-
-	if( elsewise ) elsewise = parser.parse( elsewise );
-
-	if( then.reflect !== 'ast_block' )
-	{
-		then = ast_block.create( ).append( then );
-	}
-
-	if( elsewise && elsewise.reflect !== 'ast_block')
-	{
-		elsewise = ast_block.create( ).append( elsewise );
-	}
-
 	return(
 		ast_if.create(
-			'condition', condition,
-			'then', then,
-			'elsewise', elsewise
+			'condition', parser.parse( condition ),
+			'then', ensureBlock( parser.parse( then ) ),
+			'elsewise', elsewise && ensureBlock( parser.parse( elsewise ) )
 		)
 	);
 };
@@ -558,19 +542,12 @@ shorthand.$for =
 		block
 	)
 {
-	block = parser.parse( block );
-
-	if( block.reflect !== 'ast_block' )
-	{
-		block = ast_block.create( ).append( block );
-	}
-
 	return(
 		ast_for.create(
 			'init', parser.parse( init ),
 			'condition', parser.parse( condition ),
 			'iterate', parser.parse( iterate ),
-			'block', block
+			'block', ensureBlock( parser.parse( block ) )
 		)
 	);
 };
@@ -586,18 +563,11 @@ shorthand.$forIn =
 		block
 	)
 {
-	block = parser.parse( block );
-
-	if( block.reflect !== 'ast_block' )
-	{
-		block = ast_block.create( ).append( block );
-	}
-
 	return(
 		ast_forIn.create(
 			'variable', parser.parse( variable ),
 			'object', parser.parse( object ),
-			'block', block
+			'block', ensureBlock( parser.parse( block ) )
 		)
 	);
 };
@@ -611,14 +581,7 @@ shorthand.$func =
 		block
 	)
 {
-	block = parser.parse( block );
-
-	if( block && block.reflect !== 'ast_block' )
-	{
-		block = ast_block.create( ).append( block );
-	}
-
-	return ast_func.create( 'block', block );
+	return ast_func.create( 'block', ensureBlock( parser.parse( block ) ) );
 };
 
 
