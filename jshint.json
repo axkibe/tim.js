@@ -13,11 +13,9 @@
 	"unused" : true,
 	"globals"  :
 	{
-		"APP" : true,
 		"CHECK" : true,
 		"FREEZE" : true,
 		"NODE" : true,
-		"SERVER" : true,
 		"JION" : true,
 		"pass" : true,
 		"root" : true

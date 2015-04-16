@@ -90,6 +90,7 @@ jionWhitelist =
 	Object.freeze( {
 		'alike' : true,
 		'attributes' : true,
+		'hasAbstract' : true,
 		'id' : true,
 		'init' : true,
 		'json' : true,

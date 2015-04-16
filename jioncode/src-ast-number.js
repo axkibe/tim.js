@@ -44,30 +44,6 @@ if( NODE )
 
 
 /*
-| Abstract constructor.
-*/
-var
-	AbstractConstructor;
-
-
-AbstractConstructor =
-	function(
-		v_number // the number
-	)
-{
-	if( v_number !== undefined )
-	{
-		this.number = v_number;
-	}
-
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
-};
-
-
-/*
 | Constructor.
 */
 var
@@ -107,87 +83,9 @@ jion$ast_number.prototype = prototype;
 
 
 /*
-| Creates an number object.
-*/
-jion$ast_number.abstract =
-AbstractConstructor.prototype.abstract =
-prototype.abstract =
-	function(
-		// free strings
-	)
-{
-	var
-		a,
-		aZ,
-		arg,
-		inherit,
-		v_number;
-
-	if( this !== jion$ast_number )
-	{
-		inherit = this;
-
-		v_number = this.number;
-	}
-
-	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
-		a += 2
-	)
-	{
-		arg = arguments[ a + 1 ];
-
-		switch( arguments[ a ] )
-		{
-			case 'number' :
-
-				if( arg !== pass )
-				{
-					v_number = arg;
-				}
-
-				break;
-
-			default :
-
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
-		}
-	}
-
-/**/if( CHECK )
-/**/{
-/**/	if( v_number === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_number !== undefined )
-/**/	{
-/**/		if( typeof( v_number ) !== 'number' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/}
-
-	if( inherit && v_number === inherit.number )
-	{
-		return inherit;
-	}
-
-	return new AbstractConstructor( v_number );
-};
-
-
-/*
 | Creates a new number object.
 */
 jion$ast_number.create =
-AbstractConstructor.prototype.create =
 prototype.create =
 	function(
 		// free strings
@@ -260,18 +158,6 @@ prototype.create =
 
 	return new Constructor( v_number );
 };
-
-
-/*
-| Abstract Reflection.
-*/
-AbstractConstructor.prototype.reflect = 'ast_number:abstract';
-
-
-/*
-| Abstract Name Reflection.
-*/
-AbstractConstructor.prototype.reflectName = 'number:abstract';
 
 
 /*

@@ -44,23 +44,6 @@ if( NODE )
 
 
 /*
-| Abstract constructor.
-*/
-var
-	AbstractConstructor;
-
-
-AbstractConstructor =
-	function( )
-{
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
-};
-
-
-/*
 | Constructor.
 */
 var
@@ -103,42 +86,9 @@ var
 
 
 /*
-| Creates an null object.
-*/
-jion$ast_null.abstract =
-AbstractConstructor.prototype.abstract =
-prototype.abstract =
-	function(
-		// free strings
-	)
-{
-	var
-		inherit;
-
-	if( this !== jion$ast_null )
-	{
-		inherit = this;
-	}
-
-	if( inherit )
-	{
-		return inherit;
-	}
-
-	if( !_singleton )
-	{
-		_singleton = new AbstractConstructor( );
-	}
-
-	return _singleton;
-};
-
-
-/*
 | Creates a new null object.
 */
 jion$ast_null.create =
-AbstractConstructor.prototype.create =
 prototype.create =
 	function(
 		// free strings
@@ -164,18 +114,6 @@ prototype.create =
 
 	return _singleton;
 };
-
-
-/*
-| Abstract Reflection.
-*/
-AbstractConstructor.prototype.reflect = 'ast_null:abstract';
-
-
-/*
-| Abstract Name Reflection.
-*/
-AbstractConstructor.prototype.reflectName = 'null:abstract';
 
 
 /*

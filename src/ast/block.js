@@ -55,6 +55,8 @@ prototype.$ =
 
 	ast = parser.parseArray( arguments );
 
+	if( ast === undefined ) return this;
+
 	if( ast.reflect === 'ast_block' )
 	{
 		return this.appendRay( ast );

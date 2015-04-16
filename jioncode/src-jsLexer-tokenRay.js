@@ -47,31 +47,6 @@ if( NODE )
 
 
 /*
-| Abstract constructor.
-*/
-var
-	AbstractConstructor;
-
-
-AbstractConstructor =
-	function(
-		ray // ray
-	)
-{
-	this.ray = ray;
-
-	this._ray = ray;
-
-	if( FREEZE )
-	{
-		Object.freeze( ray );
-
-		Object.freeze( this );
-	}
-};
-
-
-/*
 | Constructor.
 */
 var
@@ -115,159 +90,9 @@ jsLexer_tokenRay.prototype = prototype;
 
 
 /*
-| Creates an tokenRay object.
-*/
-jsLexer_tokenRay.abstract =
-AbstractConstructor.prototype.abstract =
-prototype.abstract =
-	function(
-		// free strings
-	)
-{
-	var
-		a,
-		aZ,
-		arg,
-		inherit,
-		o,
-		r,
-		rZ,
-		ray,
-		rayDup;
-
-	if( this !== jsLexer_tokenRay )
-	{
-		inherit = this;
-
-		ray = inherit.ray;
-
-		rayDup = false;
-	}
-	else
-	{
-		ray = [ ];
-
-		rayDup = true;
-	}
-
-	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
-		a += 2
-	)
-	{
-		arg = arguments[ a + 1 ];
-
-		switch( arguments[ a ] )
-		{
-			case 'ray:init' :
-
-/**/			if( CHECK )
-/**/			{
-/**/				if( !Array.isArray( arg ) )
-/**/				{
-/**/					throw new Error( );
-/**/				}
-/**/			}
-
-				ray = arg;
-
-				rayDup = 'init';
-
-				break;
-
-			case 'ray:append' :
-
-				if( !rayDup )
-				{
-					ray = ray.slice( );
-
-					rayDup = true;
-				}
-
-				ray.push( arg );
-
-				break;
-
-			case 'ray:insert' :
-
-				if( !rayDup )
-				{
-					ray = ray.slice( );
-
-					rayDup = true;
-				}
-
-				ray.splice( arg, 0, arguments[ ++a + 1 ] );
-
-				break;
-
-			case 'ray:remove' :
-
-				if( !rayDup )
-				{
-					ray = ray.slice( );
-
-					rayDup = true;
-				}
-
-				ray.splice( arg, 1 );
-
-				break;
-
-			case 'ray:set' :
-
-				if( !rayDup )
-				{
-					ray = ray.slice( );
-
-					rayDup = true;
-				}
-
-				ray[ arg ] = arguments[ ++a + 1 ];
-
-				break;
-
-			default :
-
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
-		}
-	}
-
-/**/if( CHECK )
-/**/{
-/**/	for(
-/**/		r = 0, rZ = ray.length;
-/**/		r < rZ;
-/**/		++r
-/**/	)
-/**/	{
-/**/		o = ray[ r ];
-/**/
-/**/		if( o.reflect !== 'jsLexer_token' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/}
-
-	if( inherit && rayDup === false )
-	{
-		return inherit;
-	}
-
-	return new AbstractConstructor( ray );
-};
-
-
-/*
 | Creates a new tokenRay object.
 */
 jsLexer_tokenRay.create =
-AbstractConstructor.prototype.create =
 prototype.create =
 	function(
 		// free strings
@@ -410,18 +235,6 @@ prototype.create =
 
 	return new Constructor( ray );
 };
-
-
-/*
-| Abstract Reflection.
-*/
-AbstractConstructor.prototype.reflect = 'jsLexer_tokenRay:abstract';
-
-
-/*
-| Abstract Name Reflection.
-*/
-AbstractConstructor.prototype.reflectName = 'tokenRay:abstract';
 
 
 /*

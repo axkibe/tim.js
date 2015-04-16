@@ -1254,9 +1254,9 @@ parseToken =
 
 
 /*
-| Parses code to create an ast tree.
+| Tokenizes an array.
 */
-parser.parseArray =
+parser.tokenizeArray =
 	function(
 		array
 	)
@@ -1265,7 +1265,6 @@ parser.parseArray =
 		a,
 		arg,
 		aZ,
-		st,
 		tokens;
 
 	tokens = jsParser_tokenRay.create( );
@@ -1274,15 +1273,44 @@ parser.parseArray =
 	{
 		arg = array[ a ];
 
+		if( arg === undefined )
+		{
+			continue;
+		}
+
 		if( jion_proto.isString( arg ) )
 		{
 			tokens = tokens.appendRay( lexer.tokenize( arg ) );
+		}
+		else if( Array.isArray( arg ) )
+		{
+			tokens = tokens.appendRay( parser.tokenizeArray( arg ) );
 		}
 		else
 		{
 			tokens = tokens.append( arg );
 		}
 	}
+
+	return tokens;
+};
+
+
+/*
+| Parses code to create an ast tree.
+*/
+parser.parseArray =
+	function(
+		array
+	)
+{
+	var
+		st,
+		tokens;
+
+	tokens = parser.tokenizeArray( array );
+
+	if( tokens.length === 0 ) return undefined;
 
 	st =
 		state.create(

@@ -134,30 +134,6 @@ if( NODE )
 
 
 /*
-| Abstract constructor.
-*/
-var
-	AbstractConstructor;
-
-
-AbstractConstructor =
-	function(
-		v_expr // the expression to return
-	)
-{
-	if( v_expr !== undefined )
-	{
-		this.expr = v_expr;
-	}
-
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
-};
-
-
-/*
 | Constructor.
 */
 var
@@ -197,155 +173,9 @@ jion$ast_return.prototype = prototype;
 
 
 /*
-| Creates an return object.
-*/
-jion$ast_return.abstract =
-AbstractConstructor.prototype.abstract =
-prototype.abstract =
-	function(
-		// free strings
-	)
-{
-	var
-		a,
-		aZ,
-		arg,
-		inherit,
-		v_expr;
-
-	if( this !== jion$ast_return )
-	{
-		inherit = this;
-
-		v_expr = this.expr;
-	}
-
-	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
-		a += 2
-	)
-	{
-		arg = arguments[ a + 1 ];
-
-		switch( arguments[ a ] )
-		{
-			case 'expr' :
-
-				if( arg !== pass )
-				{
-					v_expr = arg;
-				}
-
-				break;
-
-			default :
-
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
-		}
-	}
-
-/**/if( CHECK )
-/**/{
-/**/	if( v_expr === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_expr !== undefined )
-/**/	{
-/**/		if(
-/**/			v_expr.reflect !== 'ast_and'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_arrayLiteral'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_assign'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_boolean'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_call'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_comma'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_condition'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_delete'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_differs'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_dot'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_equals'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_func'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_greaterThan'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_instanceof'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_lessThan'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_member'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_multiply'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_multiplyAssign'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_new'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_not'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_null'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_number'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_objLiteral'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_or'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_plus'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_plusAssign'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_preIncrement'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_string'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_typeof'
-/**/			&&
-/**/			v_expr.reflect !== 'ast_var'
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/}
-
-	if(
-		inherit
-		&&
-		(
-			v_expr === inherit.expr
-			||
-			v_expr !== undefined && v_expr.equals( inherit.expr )
-		)
-	)
-	{
-		return inherit;
-	}
-
-	return new AbstractConstructor( v_expr );
-};
-
-
-/*
 | Creates a new return object.
 */
 jion$ast_return.create =
-AbstractConstructor.prototype.create =
 prototype.create =
 	function(
 		// free strings
@@ -486,18 +316,6 @@ prototype.create =
 
 	return new Constructor( v_expr );
 };
-
-
-/*
-| Abstract Reflection.
-*/
-AbstractConstructor.prototype.reflect = 'ast_return:abstract';
-
-
-/*
-| Abstract Name Reflection.
-*/
-AbstractConstructor.prototype.reflectName = 'return:abstract';
 
 
 /*

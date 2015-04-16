@@ -44,30 +44,6 @@ if( NODE )
 
 
 /*
-| Abstract constructor.
-*/
-var
-	AbstractConstructor;
-
-
-AbstractConstructor =
-	function(
-		v_string // the literal
-	)
-{
-	if( v_string !== undefined )
-	{
-		this.string = v_string;
-	}
-
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
-};
-
-
-/*
 | Constructor.
 */
 var
@@ -107,91 +83,9 @@ jion$ast_string.prototype = prototype;
 
 
 /*
-| Creates an string object.
-*/
-jion$ast_string.abstract =
-AbstractConstructor.prototype.abstract =
-prototype.abstract =
-	function(
-		// free strings
-	)
-{
-	var
-		a,
-		aZ,
-		arg,
-		inherit,
-		v_string;
-
-	if( this !== jion$ast_string )
-	{
-		inherit = this;
-
-		v_string = this.string;
-	}
-
-	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
-		a += 2
-	)
-	{
-		arg = arguments[ a + 1 ];
-
-		switch( arguments[ a ] )
-		{
-			case 'string' :
-
-				if( arg !== pass )
-				{
-					v_string = arg;
-				}
-
-				break;
-
-			default :
-
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
-		}
-	}
-
-/**/if( CHECK )
-/**/{
-/**/	if( v_string === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_string !== undefined )
-/**/	{
-/**/		if(
-/**/			typeof( v_string ) !== 'string'
-/**/			&&
-/**/			!( v_string instanceof String )
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/}
-
-	if( inherit && v_string === inherit.string )
-	{
-		return inherit;
-	}
-
-	return new AbstractConstructor( v_string );
-};
-
-
-/*
 | Creates a new string object.
 */
 jion$ast_string.create =
-AbstractConstructor.prototype.create =
 prototype.create =
 	function(
 		// free strings
@@ -268,18 +162,6 @@ prototype.create =
 
 	return new Constructor( v_string );
 };
-
-
-/*
-| Abstract Reflection.
-*/
-AbstractConstructor.prototype.reflect = 'ast_string:abstract';
-
-
-/*
-| Abstract Name Reflection.
-*/
-AbstractConstructor.prototype.reflectName = 'string:abstract';
 
 
 /*

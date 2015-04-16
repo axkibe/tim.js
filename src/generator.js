@@ -173,9 +173,11 @@ prototype._init =
 
 	this.init = jion.init;
 
-	this.singleton = !!jion.singleton;
+	this.singleton = !!jion.singleton; // FIXME auto singleton
 
 	this.id = jion_id.createFromString( jion.id );
+
+	this.hasAbstract = !!jion.hasAbstract;
 
 	for( name in jion.attributes || { } )
 	{
@@ -1839,7 +1841,9 @@ prototype.genCreator =
 		)
 		.$(
 			this.id.global, '.', funcName,
-			' = ', 'AbstractConstructor.prototype.', funcName,
+			this.hasAbstract
+				? [ ' = ', 'AbstractConstructor.prototype.', funcName ]
+				: undefined,
 			' = prototype.', funcName,
 			' = ', creator
 		)
@@ -2591,15 +2595,22 @@ prototype.genReflection =
 {
 	return(
 		$block( )
-		.$comment( 'Abstract Reflection.' )
 		.$(
-			'AbstractConstructor.prototype.reflect = ',
-			this.id.$abstractPathName
-		)
-		.$comment( 'Abstract Name Reflection.' )
-		.$(
-			'AbstractConstructor.prototype.reflectName = ',
-			this.id.$abstractName
+			this.hasAbstract
+			? $(
+				$block( )
+				.$comment( 'Abstract Reflection.' )
+				.$(
+					'AbstractConstructor.prototype.reflect = ',
+					this.id.$abstractPathName
+				)
+				.$comment( 'Abstract Name Reflection.' )
+				.$(
+					'AbstractConstructor.prototype.reflectName = ',
+					this.id.$abstractName
+				)
+			)
+			: undefined
 		)
 		.$comment( 'Reflection.' )
 		.$( 'prototype.reflect = ', this.id.$pathName )
@@ -3316,7 +3327,7 @@ prototype.genCapsule =
 		$block( )
 		.$( '"use strict"' )
 		.$( this.genNodeIncludes( ) )
-		.$( this.genConstructor( true ) )
+		.$( this.hasAbstract ? this.genConstructor( true ) : undefined )
 		.$( this.genConstructor( false ) );
 
 	if( this.singleton )
@@ -3326,7 +3337,7 @@ prototype.genCapsule =
 
 	capsule =
 		capsule
-		.$( this.genCreator( true ) )
+		.$( this.hasAbstract ? this.genCreator( true ) : undefined )
 		.$( this.genCreator( false ) );
 
 	if( this.hasJson )

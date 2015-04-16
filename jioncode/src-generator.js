@@ -44,30 +44,6 @@ if( NODE )
 
 
 /*
-| Abstract constructor.
-*/
-var
-	AbstractConstructor;
-
-
-AbstractConstructor =
-	function(
-		v_ouroboros // true for building jioncode for jion itself
-	)
-{
-	if( v_ouroboros !== undefined )
-	{
-		this.ouroboros = v_ouroboros;
-	}
-
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
-};
-
-
-/*
 | Constructor.
 */
 var
@@ -110,113 +86,9 @@ jion$generator.prototype = prototype;
 
 
 /*
-| Creates an generator object.
-*/
-jion$generator.abstract =
-AbstractConstructor.prototype.abstract =
-prototype.abstract =
-	function(
-		// free strings
-	)
-{
-	var
-		a,
-		aZ,
-		arg,
-		inherit,
-		v_jion,
-		v_ouroboros;
-
-	if( this !== jion$generator )
-	{
-		inherit = this;
-
-		v_ouroboros = this.ouroboros;
-	}
-
-	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
-		a += 2
-	)
-	{
-		arg = arguments[ a + 1 ];
-
-		switch( arguments[ a ] )
-		{
-			case 'jion' :
-
-				if( arg !== pass )
-				{
-					v_jion = arg;
-				}
-
-				break;
-
-			case 'ouroboros' :
-
-				if( arg !== pass )
-				{
-					v_ouroboros = arg;
-				}
-
-				break;
-
-			default :
-
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
-		}
-	}
-
-	if( v_ouroboros === undefined )
-	{
-		v_ouroboros = true;
-	}
-
-/**/if( CHECK )
-/**/{
-/**/	if( v_jion === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_ouroboros === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_ouroboros !== undefined )
-/**/	{
-/**/		if( typeof( v_ouroboros ) !== 'boolean' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/}
-
-	if(
-		inherit
-		&&
-		v_jion === undefined
-		&&
-		v_ouroboros === inherit.ouroboros
-	)
-	{
-		return inherit;
-	}
-
-	return new AbstractConstructor( v_ouroboros );
-};
-
-
-/*
 | Creates a new generator object.
 */
 jion$generator.create =
-AbstractConstructor.prototype.create =
 prototype.create =
 	function(
 		// free strings
@@ -320,18 +192,6 @@ prototype.create =
 
 	return new Constructor( v_jion, v_ouroboros );
 };
-
-
-/*
-| Abstract Reflection.
-*/
-AbstractConstructor.prototype.reflect = 'generator:abstract';
-
-
-/*
-| Abstract Name Reflection.
-*/
-AbstractConstructor.prototype.reflectName = 'generator:abstract';
 
 
 /*
