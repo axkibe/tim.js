@@ -598,7 +598,7 @@ shorthand.$forIn =
 
 	return(
 		ast_forIn.create(
-			'variable', variable,
+			'variable', parser.parse( variable ),
 			'object', parser.parse( object ),
 			'block', block
 		)

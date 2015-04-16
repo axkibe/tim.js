@@ -1013,7 +1013,7 @@ formatForIn =
 	text =
 		context.tab
 		+ 'for( var '
-		+ expr.variable
+		+ expr.variable.name
 		+ ' in '
 		+ formatExpression(
 			context.setInline,
