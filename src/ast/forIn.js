@@ -22,7 +22,7 @@ if( JION )
 			variable :
 			{
 				comment : 'the loop variable',
-				type : 'string'
+				type : [ 'string', 'jion$ast_var' ]
 			},
 			object :
 			{

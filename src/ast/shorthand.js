@@ -1,5 +1,7 @@
 /*
 | Various shorthands for abstract syntax trees.
+|
+| FIXME make an ensureBlock func
 */
 
 
@@ -559,22 +561,18 @@ shorthand.$for =
 		block
 	)
 {
+	block = parser.parse( block );
+
 	if( block.reflect !== 'ast_block' )
 	{
 		block = ast_block.create( ).append( block );
 	}
 
-	init = tools.convert( init );
-
-	condition = tools.convert( condition );
-
-	iterate = tools.convert( iterate );
-
 	return(
 		ast_for.create(
-			'init', init,
-			'condition', condition,
-			'iterate', iterate,
+			'init', parser.parse( init ),
+			'condition', parser.parse( condition ),
+			'iterate', parser.parse( iterate ),
 			'block', block
 		)
 	);
@@ -591,19 +589,17 @@ shorthand.$forIn =
 		block
 	)
 {
+	block = parser.parse( block );
+
 	if( block.reflect !== 'ast_block' )
 	{
 		block = ast_block.create( ).append( block );
 	}
 
-	object = tools.convert( object );
-
-	block = tools.convert( block );
-
 	return(
 		ast_forIn.create(
 			'variable', variable,
-			'object', object,
+			'object', parser.parse( object ),
 			'block', block
 		)
 	);

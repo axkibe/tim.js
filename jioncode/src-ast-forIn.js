@@ -389,6 +389,8 @@ prototype.abstract =
 /**/	if( v_variable !== undefined )
 /**/	{
 /**/		if(
+/**/			v_variable.reflect !== 'ast_var'
+/**/			&&
 /**/			typeof( v_variable ) !== 'string'
 /**/			&&
 /**/			!( v_variable instanceof String )
@@ -414,7 +416,11 @@ prototype.abstract =
 			v_object !== undefined && v_object.equals( inherit.object )
 		)
 		&&
-		v_variable === inherit.variable
+		(
+			v_variable === inherit.variable
+			||
+			v_variable !== undefined && v_variable.equals( inherit.variable )
+		)
 	)
 	{
 		return inherit;
@@ -603,6 +609,8 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
+/**/		v_variable.reflect !== 'ast_var'
+/**/		&&
 /**/		typeof( v_variable ) !== 'string'
 /**/		&&
 /**/		!( v_variable instanceof String )
@@ -627,7 +635,11 @@ prototype.create =
 			v_object.equals && v_object.equals( inherit.object )
 		)
 		&&
-		v_variable === inherit.variable
+		(
+			v_variable === inherit.variable
+			||
+			v_variable.equals && v_variable.equals( inherit.variable )
+		)
 	)
 	{
 		return inherit;
@@ -709,7 +721,11 @@ prototype.equals =
 			this.object.equals && this.object.equals( obj.object )
 		)
 		&&
-		this.variable === obj.variable
+		(
+			this.variable === obj.variable
+			||
+			this.variable.equals && this.variable.equals( obj.variable )
+		)
 	);
 };
 
