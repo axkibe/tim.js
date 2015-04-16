@@ -64,8 +64,7 @@ var
 	ast_var,
 	ast_varDec,
 	parser,
-	jion_proto,
-	tools;
+	jion_proto;
 
 
 ast_and = require( './and' );
@@ -155,8 +154,6 @@ ast_varDec = require( './varDec' );
 jion_proto = require( '../proto' );
 
 parser = require( '../jsParser/parser' );
-
-tools = require( './tools' );
 
 
 /*
@@ -326,14 +323,13 @@ shorthand.$comma =
 	{
 		args = Array.prototype.slice.call( arguments );
 
-		left = tools.parser.parse( left );
-
-		right = tools.parser.parse( right );
-
 		args.splice(
 			0,
 			2,
-			ast_comma.create( 'left', left, 'right', right )
+			ast_comma.create(
+				'left', parser.parse( left ),
+				'right', parser.parse( right )
+			)
 		);
 
 		return shorthand.$comma.apply( this, args );
@@ -614,7 +610,7 @@ shorthand.$func =
 		block
 	)
 {
-	block = tools.convert( block );
+	block = parser.parse( block );
 
 	if( block && block.reflect !== 'ast_block' )
 	{
@@ -634,14 +630,10 @@ shorthand.$instanceof =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
 	return(
 		ast_instanceof.create(
-			'left', left,
-			'right', right
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
 		)
 	);
 };
@@ -678,29 +670,24 @@ shorthand.$multiply =
 	{
 		args = Array.prototype.slice.call( arguments );
 
-		left = tools.convert( left );
-
-		right = tools.convert( right );
-
 		args.splice(
 			0,
 			2,
-			ast_multiply.create( 'left', left, 'right', right )
-		);
-
-		return(
-			shorthand.$multiply.apply(
-				this,
-				args
+			ast_multiply.create(
+				'left', parser.parse( left ),
+				'right', parser.parse( right )
 			)
 		);
+
+		return shorthand.$multiply.apply( this, args );
 	}
 
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_multiply.create( 'left', left, 'right', right );
+	return(
+		ast_multiply.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -713,11 +700,12 @@ shorthand.$multiplyAssign =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_multiplyAssign.create( 'left', left, 'right', right );
+	return(
+		ast_multiplyAssign.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -741,9 +729,7 @@ shorthand.$not =
 		expr
 	)
 {
-	expr = tools.convert( expr );
-
-	return ast_not.create( 'expr', expr );
+	return ast_not.create( 'expr', parser.parse( expr ) );
 };
 
 
@@ -792,32 +778,24 @@ shorthand.$or =
 	{
 		args = Array.prototype.slice.call( arguments );
 
-		left = tools.convert( left );
-
-		right = tools.convert( right );
-
 		args.splice(
 			0,
 			2,
 			ast_or.create(
-				'left', left,
-				'right', right
+				'left', parser.parse( left ),
+				'right', parser.parse( right )
 			)
 		);
 
-		return(
-			shorthand.$or.apply(
-				this,
-				args
-			)
-		);
+		return shorthand.$or.apply( this, args );
 	}
 
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_or.create( 'left', left, 'right', right );
+	return(
+		ast_or.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -838,29 +816,24 @@ shorthand.$plus =
 	{
 		args = Array.prototype.slice.call( arguments );
 
-		left = tools.convert( left );
-
-		right = tools.convert( right );
-
 		args.splice(
 			0,
 			2,
-			ast_plus.create( 'left', left, 'right', right )
-		);
-
-		return(
-			shorthand.$plus.apply(
-				this,
-				args
+			ast_plus.create(
+				'left', parser.parse( left ),
+				'right', parser.parse( right )
 			)
 		);
+
+		return shorthand.$plus.apply( this, args );
 	}
 
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_plus.create( 'left', left, 'right', right );
+	return(
+		ast_plus.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -873,11 +846,12 @@ shorthand.$plusAssign =
 		right
 	)
 {
-	left = tools.convert( left );
-
-	right = tools.convert( right );
-
-	return ast_plusAssign.create( 'left', left, 'right', right );
+	return(
+		ast_plusAssign.create(
+			'left', parser.parse( left ),
+			'right', parser.parse( right )
+		)
+	);
 };
 
 
@@ -890,7 +864,7 @@ shorthand.$preIncrement =
 		expr
 	)
 {
-	expr = tools.convert( expr );
+	expr = parser.parse( expr );
 
 	return ast_preIncrement.create( 'expr', expr );
 };
@@ -904,7 +878,7 @@ shorthand.$return =
 		expr
 	)
 {
-	return ast_return.create( 'expr', tools.convert( expr ) );
+	return ast_return.create( 'expr', parser.parse( expr ) );
 };
 
 
@@ -929,7 +903,7 @@ shorthand.$switch =
 		statement
 	)
 {
-	return ast_switch.create( 'statement', tools.convert( statement ) );
+	return ast_switch.create( 'statement', parser.parse( statement ) );
 };
 
 
@@ -948,7 +922,7 @@ shorthand.$typeof =
 		expr
 	)
 {
-	return ast_typeof.create( 'expr', tools.convert( expr ) );
+	return ast_typeof.create( 'expr', parser.parse( expr ) );
 };
 
 
@@ -979,7 +953,7 @@ shorthand.$varDec =
 			'name', name,
 			'assign',
 				arguments.length > 1
-				? tools.convert( assign )
+				? parser.parse( assign )
 				: undefined
 		)
 	);
