@@ -153,11 +153,7 @@ Constructor =
 		}
 	}
 
-	this.twig = twig;
-
 	this._twig = twig;
-
-	this.ranks = ranks;
 
 	this._ranks = ranks;
 

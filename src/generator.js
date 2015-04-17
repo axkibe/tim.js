@@ -622,9 +622,7 @@ prototype.genConstructor =
 	{
 		block =
 			block
-			.$( 'this.twig = twig' )  // FIXME remove
 			.$( 'this._twig = twig' )
-			.$( 'this.ranks = ranks' )  // FIXME remove
 			.$( 'this._ranks = ranks' );
 	}
 

@@ -345,7 +345,7 @@ jion_proto.setPath =
 			this.create(
 				'twig:set',
 				key,
-				this.twig[ key ].setPath( path, value, pos + 2 )
+				this._twig[ key ].setPath( path, value, pos + 2 )
 			)
 		);
 	}
@@ -397,10 +397,10 @@ jion_proto.getPath =
 
 		if( pos + 2 === pZ )
 		{
-			return this.twig[ key ];
+			return this._twig[ key ];
 		}
 
-		return this.twig[ key ].getPath( path, pos + 2 );
+		return this._twig[ key ].getPath( path, pos + 2 );
 	}
 
 	if( pos + 1 === pZ )
@@ -656,7 +656,7 @@ jion_proto.twigAtRank =
 		rank
 	)
 {
-	return this.twig[ this.ranks[ rank ] ];
+	return this._twig[ this._ranks[ rank ] ];
 };
 
 
@@ -669,7 +669,7 @@ jion_proto.twigGet =
 		key
 	)
 {
-	return this.twig[ key ];
+	return this._twig[ key ];
 };
 
 
@@ -681,7 +681,7 @@ jion_proto.twigGetKey =
 		idx
 	)
 {
-	return this.ranks[ idx ];
+	return this._ranks[ idx ];
 };
 
 
@@ -691,7 +691,7 @@ jion_proto.twigGetKey =
 jion_proto.twigLength =
 	function( )
 {
-	return this.ranks.length;
+	return this._ranks.length;
 };
 
 
@@ -699,6 +699,8 @@ jion_proto.twigLength =
 | Returns the rank of the key.
 |
 | This means it returns the index of key in the ranks array.
+|
+| FIXME lazyFunction
 */
 jion_proto.twigRankOf =
 	function(
@@ -715,8 +717,8 @@ jion_proto.twigRankOf =
 /**/}
 
 	return(
-		this.twig[ key ] !== undefined
-		? this.ranks.indexOf( key )
+		this._twig[ key ] !== undefined
+		? this._ranks.indexOf( key )
 		: -1
 	);
 };
