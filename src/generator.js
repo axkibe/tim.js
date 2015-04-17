@@ -603,7 +603,6 @@ prototype.genConstructor =
 	{
 		block =
 			block
-			.$( 'this.group = group' ) // FIXME remove
 			.$( 'this._group = group' );
 	}
 
@@ -825,6 +824,7 @@ prototype.genCreatorVariables =
 {
 	var
 		a,
+		aKeys,
 		aZ,
 		name,
 		result,
@@ -840,8 +840,12 @@ prototype.genCreatorVariables =
 
 	varList = [ ];
 
-	for( name in this.attributes.group )
+	aKeys = this.attributes.keys;
+
+	for( a = 0, aZ = aKeys.length; a < aZ; a++ )
 	{
+		name = aKeys[ a ];
+
 		varList.push( this.attributes.get( name ).varRef.name );
 	}
 
@@ -1844,6 +1848,7 @@ prototype.genFromJsonCreatorVariables =
 {
 	var
 		a,
+		aKeys,
 		aZ,
 		attr,
 		name,
@@ -1852,8 +1857,12 @@ prototype.genFromJsonCreatorVariables =
 
 	varList = [ ];
 
-	for( name in this.attributes.group )
+	aKeys = this.attributes.keys;
+
+	for( a = 0, aZ = aKeys.length; a < aZ; a++ )
 	{
+		name = aKeys[ a ];
+
 		attr = this.attributes.get( name );
 
 		if( attr.assign === '' )
@@ -1868,15 +1877,9 @@ prototype.genFromJsonCreatorVariables =
 
 	if( this.hasJson )
 	{
-		if( this.group )
-		{
-			varList.push( 'gray', 'group', 'k', 'o' );
-		}
+		if( this.group ) varList.push( 'gray', 'group', 'k', 'o' );
 
-		if( this.ray )
-		{
-			varList.push( 'jray', 'o', 'ray', 'r', 'rZ' );
-		}
+		if( this.ray ) varList.push( 'jray', 'o', 'ray', 'r', 'rZ' );
 
 		if( this.twig )
 		{
@@ -2767,7 +2770,7 @@ prototype.genToJson =
 
 	if( this.group )
 	{
-		olit = olit.add( 'group', 'this.group' ); // FIXME
+		olit = olit.add( 'group', 'this._group' );
 	}
 
 	if( this.ray ) olit = olit.add( 'ray', 'this._ray' );
@@ -2950,11 +2953,11 @@ prototype.genEqualsFuncBody =
 			$block( )
 			.$if(
 				$(
-					'this.group[ k ] !== obj.group[ k ]',
+					'this._group[ k ] !== obj._group[ k ]',
 					'&& (',
-						'!this.group[ k ].', eqFuncName,
+						'!this._group[ k ].', eqFuncName,
 						'||',
-						'!this.group[ k ].', eqFuncName, '( obj.group[ k ] )',
+						'!this._group[ k ].', eqFuncName, '( obj._group[ k ] )',
 					')'
 				),
 				$( 'return false' )
@@ -2968,11 +2971,11 @@ prototype.genEqualsFuncBody =
 			)
 			.$forIn(
 				'k',
-				'this.group',
+				'this._group',
 				groupTestLoopBody
 			);
 
-		body = body.$if( 'this.group !== obj.group', groupTest );
+		body = body.$if( 'this._group !== obj._group', groupTest );
 	}
 
 	if( this.ray )

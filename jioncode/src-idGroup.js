@@ -67,8 +67,6 @@ Constructor =
 		}
 	}
 
-	this.group = group;
-
 	this._group = group;
 
 	if( FREEZE )
@@ -287,22 +285,22 @@ prototype.equals =
 		return false;
 	}
 
-	if( this.group !== obj.group )
+	if( this._group !== obj._group )
 	{
 		if( this.size !== obj.size )
 		{
 			return false;
 		}
 
-		for( var k in this.group )
+		for( var k in this._group )
 		{
 			if(
-				this.group[ k ] !== obj.group[ k ]
+				this._group[ k ] !== obj._group[ k ]
 				&&
 				(
-					!this.group[ k ].equals
+					!this._group[ k ].equals
 					||
-					!this.group[ k ].equals( obj.group[ k ] )
+					!this._group[ k ].equals( obj._group[ k ] )
 				)
 			)
 			{

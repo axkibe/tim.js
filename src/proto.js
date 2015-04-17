@@ -435,14 +435,14 @@ jion_proto.groupAddGroup =
 
 	g = { };
 
-	for( k in this.group )
+	for( k in this._group )
 	{
-		g[ k ] = this.group[ k ];
+		g[ k ] = this._group[ k ];
 	}
 
-	for( k in group.group )
+	for( k in group._group )
 	{
-		g[ k ] = group.group[ k ];
+		g[ k ] = group._group[ k ];
 	}
 
 	return this.create( 'group:init', g );
@@ -457,7 +457,7 @@ jion_proto.groupGet =
 		key
 	)
 {
-	return this.group[ key ];
+	return this._group[ key ];
 };
 
 
@@ -472,10 +472,7 @@ jion_proto.groupKeys =
 
 	keys = Object.keys( this._group );
 
-	if( FREEZE )
-	{
-		Object.freeze( keys );
-	}
+	if( FREEZE ) Object.freeze( keys );
 
 	return keys;
 };
