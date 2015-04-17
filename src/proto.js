@@ -470,7 +470,7 @@ jion_proto.groupKeys =
 	var
 		keys;
 
-	keys = Object.keys( this.group );
+	keys = Object.keys( this._group );
 
 	if( FREEZE )
 	{
@@ -494,10 +494,7 @@ jion_proto.groupSortedKeys =
 
 	keys = keys.slice( ).sort( );
 
-	if( FREEZE )
-	{
-		Object.freeze( keys );
-	}
+	if( FREEZE ) Object.freeze( keys );
 
 	return keys;
 };
