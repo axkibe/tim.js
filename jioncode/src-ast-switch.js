@@ -169,8 +169,6 @@ Constructor =
 
 	this.statement = v_statement;
 
-	this.ray = ray;
-
 	this._ray = ray;
 
 	if( FREEZE )

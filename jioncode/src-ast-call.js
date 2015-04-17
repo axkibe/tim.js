@@ -155,8 +155,6 @@ Constructor =
 
 	this.func = v_func;
 
-	this.ray = ray;
-
 	this._ray = ray;
 
 	if( FREEZE )

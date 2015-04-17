@@ -70,8 +70,6 @@ Constructor =
 		this.packet = v_packet;
 	}
 
-	this.ray = ray;
-
 	this._ray = ray;
 
 	if( FREEZE )

@@ -611,7 +611,6 @@ prototype.genConstructor =
 	{
 		block =
 			block
-			.$( 'this.ray = ray' ) // FIXME remove
 			.$( 'this._ray = ray' );
 	}
 

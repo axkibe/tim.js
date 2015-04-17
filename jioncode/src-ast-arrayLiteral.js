@@ -152,8 +152,6 @@ Constructor =
 		}
 	}
 
-	this.ray = ray;
-
 	this._ray = ray;
 
 	if( FREEZE )

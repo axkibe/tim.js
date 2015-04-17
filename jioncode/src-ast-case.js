@@ -160,8 +160,6 @@ Constructor =
 
 	this.block = v_block;
 
-	this.ray = ray;
-
 	this._ray = ray;
 
 	if( FREEZE )

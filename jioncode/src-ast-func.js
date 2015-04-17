@@ -79,8 +79,6 @@ Constructor =
 
 	this.capsule = v_capsule;
 
-	this.ray = ray;
-
 	this._ray = ray;
 
 	if( FREEZE )
