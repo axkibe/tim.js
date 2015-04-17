@@ -111,7 +111,7 @@ prototype.create =
 	{
 		inherit = this;
 
-		group = inherit.group;
+		group = inherit._group;
 
 		groupDup = false;
 	}

@@ -110,7 +110,7 @@ prototype.create =
 	{
 		inherit = this;
 
-		ray = inherit.ray;
+		ray = inherit._ray;
 
 		rayDup = false;
 	}

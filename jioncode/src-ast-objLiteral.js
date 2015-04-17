@@ -202,9 +202,9 @@ prototype.create =
 	{
 		inherit = this;
 
-		twig = inherit.twig;
+		twig = inherit._twig;
 
-		ranks = inherit.ranks;
+		ranks = inherit._ranks;
 
 		twigDup = false;
 	}

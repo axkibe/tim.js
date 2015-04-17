@@ -918,7 +918,7 @@ prototype.genCreatorInheritanceReceiver =
 	{
 		receiver =
 			receiver
-			.$( 'group = inherit.group' )
+			.$( 'group = inherit._group' )
 			.$( 'groupDup = false' );
 	}
 
@@ -926,7 +926,7 @@ prototype.genCreatorInheritanceReceiver =
 	{
 		receiver =
 			receiver
-			.$( 'ray = inherit.ray' )
+			.$( 'ray = inherit._ray' )
 			.$( 'rayDup = false' );
 	}
 
@@ -934,8 +934,8 @@ prototype.genCreatorInheritanceReceiver =
 	{
 		receiver =
 			receiver
-			.$( 'twig = inherit.twig' )
-			.$( 'ranks = inherit.ranks' )
+			.$( 'twig = inherit._twig' )
+			.$( 'ranks = inherit._ranks' )
 			.$( 'twigDup = false' );
 	}
 
