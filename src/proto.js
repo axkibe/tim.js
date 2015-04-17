@@ -558,7 +558,7 @@ jion_proto.rayAppendRay =
 		ray
 	)
 {
-	return this.create( 'ray:init', this.ray.concat( ray.ray ) );
+	return this.create( 'ray:init', this._ray.concat( ray._ray ) );
 };
 
 
@@ -568,7 +568,7 @@ jion_proto.rayAppendRay =
 jion_proto.rayLength =
 	function( )
 {
-	return this.ray.length;
+	return this._ray.length;
 };
 
 
@@ -593,7 +593,7 @@ jion_proto.rayGet =
 /**/	}
 /**/}
 
-	return this.ray[ idx ];
+	return this._ray[ idx ];
 };
 
 

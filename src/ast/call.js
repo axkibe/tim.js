@@ -137,18 +137,11 @@ prototype.walk =
 /**/		{
 /**/			result += '( ';
 /**/
-/**/			for(
-/**/				r = 0, rZ = this.ray.length;
-/**/				r < rZ;
-/**/				r++
-/**/			)
+/**/			for( r = 0, rZ = this.length; r < rZ; r++ )
 /**/			{
-/**/				arg = this.ray[ r ];
+/**/				arg = this.get( r );
 /**/
-/**/				if( r > 0 )
-/**/				{
-/**/					result += ', ';
-/**/				}
+/**/				if( r > 0 ) result += ', ';
 /**/
 /**/				result += util.inspect( arg, opts );
 /**/			}

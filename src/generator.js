@@ -198,10 +198,7 @@ prototype._init =
 			imports = imports.addGroup( aid );
 		}
 
-		if( jAttr.json )
-		{
-			this.hasJson = true;
-		}
+		if( jAttr.json ) this.hasJson = true;
 
 		assign =
 			jAttr.assign !== undefined
@@ -1671,20 +1668,11 @@ prototype.genCreatorUnchanged =
 
 	cond = $( 'inherit' );
 
-	if( this.group )
-	{
-		cond = $( cond, '&& groupDup === false' );
-	}
+	if( this.group ) cond = $( cond, '&& groupDup === false' );
 
-	if( this.ray )
-	{
-		cond = $( cond, '&& rayDup === false' );
-	}
+	if( this.ray ) cond = $( cond, '&& rayDup === false' );
 
-	if( this.twig )
-	{
-		cond = $( cond, '&& twigDup === false' );
-	}
+	if( this.twig ) cond = $( cond, '&& twigDup === false' );
 
 	for(
 		a = 0, aZ = this.attributes.size;
@@ -2780,13 +2768,10 @@ prototype.genToJson =
 
 	if( this.group )
 	{
-		olit = olit.add( 'group', 'this.group' );
+		olit = olit.add( 'group', 'this.group' ); // FIXME
 	}
 
-	if( this.ray )
-	{
-		olit = olit.add( 'ray', 'this.ray' );
-	}
+	if( this.ray ) olit = olit.add( 'ray', 'this._ray' );
 
 	if( this.twig )
 	{
@@ -2997,11 +2982,11 @@ prototype.genEqualsFuncBody =
 			$block( )
 			.$if(
 				$(
-					'this.ray[ a ] !== obj.ray[ a ]',
+					'this._ray[ a ] !== obj._ray[ a ]',
 					'&& (',
-						'!this.ray[ a ].' + eqFuncName,
+						'!this._ray[ a ].' + eqFuncName,
 						'||',
-						'!this.ray[ a ].' + eqFuncName + '( obj.ray[ a ] )',
+						'!this._ray[ a ].' + eqFuncName + '( obj._ray[ a ] )',
 					')'
 				),
 				$( 'return false' )
@@ -3010,18 +2995,18 @@ prototype.genEqualsFuncBody =
 		rayTest =
 			$block( )
 			.$if(
-				'this.ray.length !== obj.ray.length',
+				'this.length !== obj.length',
 				$( 'return false' )
 			)
 			.$for(
 				// this.length?
-				'a = 0, aZ = this.ray.length',
+				'a = 0, aZ = this.length',
 				'a < aZ',
 				'++a',
 				rayTestLoopBody
 			);
 
-		body = body.$if( 'this.ray !== obj.ray', rayTest );
+		body = body.$if( 'this._ray !== obj._ray', rayTest );
 	}
 
 	if( this.twig )

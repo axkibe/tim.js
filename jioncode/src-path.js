@@ -327,26 +327,26 @@ prototype.equals =
 		return false;
 	}
 
-	if( this.ray !== obj.ray )
+	if( this._ray !== obj._ray )
 	{
-		if( this.ray.length !== obj.ray.length )
+		if( this.length !== obj.length )
 		{
 			return false;
 		}
 
 		for(
-			a = 0, aZ = this.ray.length;
+			a = 0, aZ = this.length;
 			a < aZ;
 			++a
 		)
 		{
 			if(
-				this.ray[ a ] !== obj.ray[ a ]
+				this._ray[ a ] !== obj._ray[ a ]
 				&&
 				(
-					!this.ray[ a ].equals
+					!this._ray[ a ].equals
 					||
-					!this.ray[ a ].equals( obj.ray[ a ] )
+					!this._ray[ a ].equals( obj._ray[ a ] )
 				)
 			)
 			{
