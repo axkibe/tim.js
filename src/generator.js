@@ -133,14 +133,15 @@ prototype._init =
 		attributes,
 		constructorList,
 		defaultValue,
+		imports, // foreign ids to be imported
 		inits, // sorted init list
 		jAttr,
 		jdv,
 		name,
 		prepare,
 		searchIdWalk,
-		type,
-		imports; // foreign ids to be imported
+		singleton,
+		type;
 
 	attributes = jion_attributeGroup.create( );
 
@@ -173,7 +174,9 @@ prototype._init =
 
 	this.init = jion.init;
 
-	this.singleton = !!jion.singleton; // FIXME auto singleton
+	// in case of attributes, group, twig or ray
+	// it will be turned off again
+	singleton = true;
 
 	this.id = jion_id.createFromString( jion.id );
 
@@ -181,6 +184,8 @@ prototype._init =
 
 	for( name in jion.attributes || { } )
 	{
+		singleton = false;
+
 		jAttr = jion.attributes[ name ];
 
 		type = jAttr.type;
@@ -268,6 +273,8 @@ prototype._init =
 
 	if( jion.group )
 	{
+		singleton = false;
+
 		abstractConstructorList.unshift( 'group' );
 
 		constructorList.unshift( 'group' );
@@ -275,6 +282,8 @@ prototype._init =
 
 	if( jion.ray )
 	{
+		singleton = false;
+
 		abstractConstructorList.unshift( 'ray' );
 
 		constructorList.unshift( 'ray' );
@@ -282,6 +291,8 @@ prototype._init =
 
 	if( jion.twig )
 	{
+		singleton = false;
+
 		abstractConstructorList.unshift( 'ranks' );
 
 		abstractConstructorList.unshift( 'twig' );
@@ -293,6 +304,8 @@ prototype._init =
 
 	if( jion.init )
 	{
+		singleton = false;
+
 		inits = jion.init.slice( ).sort( );
 
 		for(
@@ -329,6 +342,8 @@ prototype._init =
 			}
 		}
 	}
+
+	this.singleton = singleton;
 
 	if( FREEZE )
 	{

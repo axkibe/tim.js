@@ -95,7 +95,6 @@ jionWhitelist =
 		'init' : true,
 		'json' : true,
 		'group' : true,
-		'singleton' : true,
 		'ray' : true,
 		'twig' : true,
 	} );
@@ -571,13 +570,6 @@ validator.check =
 	}
 
 	attr = jion.attributes;
-
-	if( jion.singleton && attr )
-	{
-		throw new Error(
-			'singletons must not have attributes'
-		);
-	}
 
 	if( attr )
 	{
