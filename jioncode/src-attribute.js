@@ -177,10 +177,7 @@ Constructor =
 
 	this.comment = v_comment;
 
-	if( v_defaultValue !== undefined )
-	{
-		this.defaultValue = v_defaultValue;
-	}
+	this.defaultValue = v_defaultValue;
 
 	this.id = v_id;
 
@@ -188,10 +185,7 @@ Constructor =
 
 	this.name = v_name;
 
-	if( v_prepare !== undefined )
-	{
-		this.prepare = v_prepare;
-	}
+	this.prepare = v_prepare;
 
 	this.varRef = v_varRef;
 

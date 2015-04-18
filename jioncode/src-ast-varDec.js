@@ -155,10 +155,7 @@ Constructor =
 		}
 	}
 
-	if( v_assign !== undefined )
-	{
-		this.assign = v_assign;
-	}
+	this.assign = v_assign;
 
 	this.name = v_name;
 

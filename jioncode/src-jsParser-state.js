@@ -192,10 +192,7 @@ Constructor =
 		}
 	}
 
-	if( v_ast !== undefined )
-	{
-		this.ast = v_ast;
-	}
+	this.ast = v_ast;
 
 	this.pos = v_pos;
 

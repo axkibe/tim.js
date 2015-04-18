@@ -154,10 +154,7 @@ Constructor =
 		}
 	}
 
-	if( v_message !== undefined )
-	{
-		this.message = v_message;
-	}
+	this.message = v_message;
 
 	if( FREEZE )
 	{

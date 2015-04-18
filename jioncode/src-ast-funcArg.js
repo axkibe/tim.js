@@ -65,15 +65,9 @@ Constructor =
 		}
 	}
 
-	if( v_comment !== undefined )
-	{
-		this.comment = v_comment;
-	}
+	this.comment = v_comment;
 
-	if( v_name !== undefined )
-	{
-		this.name = v_name;
-	}
+	this.name = v_name;
 
 	if( FREEZE )
 	{

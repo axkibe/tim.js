@@ -67,10 +67,7 @@ Constructor =
 
 	this.type = v_type;
 
-	if( v_value !== undefined )
-	{
-		this.value = v_value;
-	}
+	this.value = v_value;
 
 	this._init( );
 

@@ -613,33 +613,17 @@ prototype.genConstructor =
 
 		assign = $( 'this.', attr.assign, ' = ', attr.varRef );
 
-		if( !abstract && !attr.allowsUndefined )
-		{
-			block = block.append( assign );
-		}
-		else
-		{
-			block =
-				block
-				.$if(
-					$( attr.varRef, '!== undefined' ),
-					assign
-				);
-		}
+		block = block.append( assign );
 	}
 
 	if( this.group )
 	{
-		block =
-			block
-			.$( 'this._group = group' );
+		block = block.$( 'this._group = group' );
 	}
 
 	if( this.ray )
 	{
-		block =
-			block
-			.$( 'this._ray = ray' );
+		block = block.$( 'this._ray = ray' );
 	}
 
 	if( this.twig )
@@ -694,16 +678,12 @@ prototype.genConstructor =
 
 	if( this.group )
 	{
-		freezeBlock =
-			freezeBlock
-			.$( 'Object.freeze( group )' );
+		freezeBlock = freezeBlock.$( 'Object.freeze( group )' );
 	}
 
 	if( this.ray )
 	{
-		freezeBlock =
-			freezeBlock
-			.$( 'Object.freeze( ray )' );
+		freezeBlock = freezeBlock.$( 'Object.freeze( ray )' );
 	}
 
 	if( this.twig )

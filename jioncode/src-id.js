@@ -65,10 +65,7 @@ Constructor =
 		}
 	}
 
-	if( v_packet !== undefined )
-	{
-		this.packet = v_packet;
-	}
+	this.packet = v_packet;
 
 	this._ray = ray;
 

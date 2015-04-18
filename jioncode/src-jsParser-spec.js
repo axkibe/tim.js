@@ -69,17 +69,11 @@ Constructor =
 
 	this.associativity = v_associativity;
 
-	if( v_astCreator !== undefined )
-	{
-		this.astCreator = v_astCreator;
-	}
+	this.astCreator = v_astCreator;
 
 	this.handler = v_handler;
 
-	if( v_prec !== undefined )
-	{
-		this.prec = v_prec;
-	}
+	this.prec = v_prec;
 
 	this._init( );
 

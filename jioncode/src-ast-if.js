@@ -161,10 +161,7 @@ Constructor =
 
 	this.condition = v_condition;
 
-	if( v_elsewise !== undefined )
-	{
-		this.elsewise = v_elsewise;
-	}
+	this.elsewise = v_elsewise;
 
 	this.then = v_then;
 

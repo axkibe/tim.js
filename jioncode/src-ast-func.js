@@ -72,10 +72,7 @@ Constructor =
 		}
 	}
 
-	if( v_block !== undefined )
-	{
-		this.block = v_block;
-	}
+	this.block = v_block;
 
 	this.capsule = v_capsule;
 

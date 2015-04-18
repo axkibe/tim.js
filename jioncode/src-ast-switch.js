@@ -162,10 +162,7 @@ Constructor =
 		}
 	}
 
-	if( v_defaultCase !== undefined )
-	{
-		this.defaultCase = v_defaultCase;
-	}
+	this.defaultCase = v_defaultCase;
 
 	this.statement = v_statement;
 
