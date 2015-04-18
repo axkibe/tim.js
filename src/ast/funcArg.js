@@ -23,15 +23,13 @@ if( JION )
 			{
 				comment : 'argument name',
 				type : 'string',
-				defaultValue : 'undefined',
-				allowsNull : true
+				defaultValue : 'undefined'
 			},
 			comment :
 			{
 				comment : 'argument comment',
 				type : 'string',
-				defaultValue : 'undefined',
-				allowsNull : true
+				defaultValue : 'undefined'
 			}
 		}
 	};

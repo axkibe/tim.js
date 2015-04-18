@@ -156,7 +156,12 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_comment !== null && v_comment !== undefined )
+/**/	if( v_comment === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_comment !== undefined )
 /**/	{
 /**/		if(
 /**/			typeof( v_comment ) !== 'string'
@@ -168,7 +173,12 @@ prototype.create =
 /**/		}
 /**/	}
 /**/
-/**/	if( v_name !== null && v_name !== undefined )
+/**/	if( v_name === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_name !== undefined )
 /**/	{
 /**/		if(
 /**/			typeof( v_name ) !== 'string'
