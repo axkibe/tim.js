@@ -137,9 +137,9 @@ jion_id.compare =
 		u1 = o1.get( a );
 
 		u2 = o2.get( a );
-	
+
 		if( u1 > u2 ) return 1;
-		
+
 		if( u1 < u2 ) return -1;
 	}
 
@@ -258,7 +258,7 @@ jion_proto.lazyValue(
 		a,
 		aZ,
 		p;
-	
+
 	p = '';
 
 	for( a = 0, aZ = this.length; a < aZ; a++ )
@@ -285,7 +285,7 @@ jion_proto.lazyValue(
 		a,
 		aZ,
 		pn;
-	
+
 	pn = '';
 
 	for( a = 0, aZ = this.length; a < aZ; a++ )
