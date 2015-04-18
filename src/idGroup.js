@@ -60,10 +60,7 @@ jion$idGroup.createFromIDStrings =
 
 /**/if( CHECK )
 /**/{
-/**/	if( !Array.isArray( idStrings ) )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( !Array.isArray( idStrings ) ) throw new Error( );
 /**/}
 
 	ids = { };
