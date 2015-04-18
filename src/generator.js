@@ -128,6 +128,8 @@ prototype._init =
 		a,
 		abstractConstructorList,
 		aid,
+		allowsNull,
+		allowsUndefined,
 		assign,
 		attr,
 		attributes,
@@ -244,14 +246,26 @@ prototype._init =
 			}
 		}
 
+		allowsNull =
+			jAttr.allowsNull // FIXME
+			|| shorthand.$null.equals( defaultValue ) // FIXME
+			|| (
+				aid.reflect === 'idGroup'
+				&& aid.get( 'null' ) !== undefined
+			);
+
+		allowsUndefined =
+			jAttr.allowsUndefined // FIXME
+			|| shorthand.$undefined.equals( defaultValue ) // FIXME
+			|| (
+				aid.reflect === 'idGroup'
+				&& aid.get( 'undefined' ) !== undefined
+			);
+
 		attr =
 			jion_attribute.create(
-				'allowsNull',
-					jAttr.allowsNull
-					|| shorthand.$null.equals( defaultValue ),
-				'allowsUndefined',
-					jAttr.allowsUndefined
-					|| shorthand.$undefined.equals( defaultValue ),
+				'allowsNull', allowsNull,
+				'allowsUndefined', allowsUndefined,
 				'assign', assign,
 				'comment', jAttr.comment,
 				'prepare', prepare,
