@@ -22,14 +22,12 @@ if( JION )
 			name :
 			{
 				comment : 'argument name',
-				type : 'string',
-				defaultValue : 'undefined'
+				type : [ 'undefined', 'string' ]
 			},
 			comment :
 			{
 				comment : 'argument comment',
-				type : 'string',
-				defaultValue : 'undefined'
+				type : [ 'undefined', 'string' ]
 			}
 		}
 	};

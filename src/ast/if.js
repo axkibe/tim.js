@@ -32,8 +32,7 @@ if( JION )
 			elsewise :
 			{
 				comment : 'the else wise',
-				type : 'jion$ast_block',
-				defaultValue : 'undefined'
+				type : [ 'undefined', 'jion$ast_block' ]
 			}
 		}
 	};
