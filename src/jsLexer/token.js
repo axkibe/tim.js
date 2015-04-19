@@ -27,9 +27,8 @@ if( JION )
 			value :
 			{
 				comment : 'the token value',
-				type : [ 'number', 'boolean', 'string' ],
-				defaultValue : 'undefined'
-			}
+				type : [ 'undefined', 'number', 'boolean', 'string' ]
+,			}
 		},
 		init : [ ]
 	};

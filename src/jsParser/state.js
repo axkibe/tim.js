@@ -22,8 +22,9 @@ if( JION )
 			ast :
 			{
 				comment : 'current ast entity',
-				type : require( '../typemaps/astStatement' ),
-				defaultValue : 'undefined'
+				type :
+					require( '../typemaps/astStatement' )
+					.concat( [ 'undefined' ] )
 			},
 			tokens :
 			{

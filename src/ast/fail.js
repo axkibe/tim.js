@@ -22,8 +22,9 @@ if( JION )
 			message :
 			{
 				comment : 'the error message expression',
-				type : require( '../typemaps/astExpression' ),
-				defaultValue : 'undefined'
+				type :
+					require( '../typemaps/astExpression' )
+					.concat( ['undefined' ] )
 			}
 		}
 	};
