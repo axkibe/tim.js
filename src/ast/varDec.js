@@ -27,8 +27,9 @@ if( JION )
 			assign :
 			{
 				comment : 'Assignment of variable',
-				type : require( '../typemaps/astExpression' ),
-				defaultValue : 'undefined'
+				type :
+					require( '../typemaps/astExpression' )
+					.concat( [ 'undefined' ] )
 			}
 		}
 	};

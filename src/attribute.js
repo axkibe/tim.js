@@ -44,8 +44,9 @@ if( JION )
 			defaultValue :
 			{
 				comment : 'default value',
-				type : require( './typemaps/astExpression' ),
-				defaultValue : 'undefined'
+				type :
+					require( './typemaps/astExpression' )
+					.concat( [ 'undefined' ] )
 			},
 			json :
 			{
@@ -61,8 +62,7 @@ if( JION )
 			prepare :
 			{
 				comment : 'attribute preparation code',
-				type : 'string',
-				defaultValue : 'undefined'
+				type : [ 'undefined', 'string' ]
 			},
 			id :
 			{

@@ -27,8 +27,7 @@ if( JION )
 			defaultCase :
 			{
 				comment : 'the default block',
-				type : 'jion$ast_block',
-				defaultValue : 'undefined'
+				type : [ 'undefined', 'jion$ast_block' ]
 			}
 		},
 		ray : [ 'jion$ast_case' ]
