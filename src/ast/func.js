@@ -22,8 +22,7 @@ if( JION )
 			block :
 			{
 				comment : 'function code',
-				type : 'jion$ast_block',
-				defaultValue : 'undefined'
+				type : [ 'undefined', 'jion$ast_block' ]
 			},
 			capsule :
 			{
