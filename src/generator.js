@@ -165,8 +165,7 @@ prototype._init =
 			)
 		)
 		{
-			imports =
-				imports.add( jion_id.createFromString( node.name ) );
+			imports = imports.add( jion_id.createFromString( node.name ) );
 		}
 
 		return node;
@@ -203,6 +202,8 @@ prototype._init =
 			aid = jion_idGroup.createFromIDStrings( type );
 
 			imports = imports.addGroup( aid );
+
+			if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
 		}
 
 		if( jAttr.json ) this.hasJson = true;
