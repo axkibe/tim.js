@@ -2815,7 +2815,7 @@ prototype.genToJson =
 | Generates the equals condition for an attribute.
 |
 | FIXME: in case of idLists this is still wonky
-|         it needs to differenciate primitives correctly
+|        it needs to differenciate primitives correctly
 */
 prototype.genAttributeEquals =
 	function(
@@ -2839,6 +2839,8 @@ prototype.genAttributeEquals =
 
 	allowsUndefined = abstract || attr.allowsUndefined;
 
+	ceq = $( le, ' === ', re );
+
 	switch( attr.id.pathName )
 	{
 		case 'boolean' :
@@ -2848,8 +2850,6 @@ prototype.genAttributeEquals =
 		case 'protean' :
 		case 'string' :
 
-			ceq = $( le, ' === ', re );
-
 			break;
 
 		default :
@@ -2858,7 +2858,7 @@ prototype.genAttributeEquals =
 			{
 				ceq =
 					$(
-						le, ' === ', re,
+						ceq,
 						'|| (',
 							le, ' !== null',
 							'&&', le, ' !== undefined',
@@ -2870,7 +2870,7 @@ prototype.genAttributeEquals =
 			{
 				ceq =
 					$(
-						le, ' === ', re,
+						ceq,
 						'|| (',
 							le, ' !== null',
 							'&&', le, '.', eqFuncName, '(', re, ')',
@@ -2881,7 +2881,7 @@ prototype.genAttributeEquals =
 			{
 				ceq =
 					$(
-						le, ' === ', re,
+						ceq,
 						'|| (',
 							le, '!== undefined',
 							'&&', le, '.', eqFuncName, '(', re, ')',
@@ -2892,7 +2892,7 @@ prototype.genAttributeEquals =
 			{
 				ceq =
 					$(
-						le, ' === ', re,
+						ceq,
 						'|| (',
 							// FIXME this shouldnt be necessary
 							le, '.', eqFuncName,
@@ -2919,6 +2919,7 @@ prototype.genEqualsFuncBody =
 		a,
 		aZ,
 		attr,
+		attributes,
 		body,
 		cond,
 		ceq,
@@ -3063,25 +3064,17 @@ prototype.genEqualsFuncBody =
 			);
 	}
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	attributes = this.attributes;
+
+	for( a = 0, aZ = attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		name = attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		attr = attributes.get( name );
 
-		if( attr.assign === '' )
-		{
-			continue;
-		}
+		if( attr.assign === '' ) continue;
 
-		if( mode === 'json' && !attr.json )
-		{
-			continue;
-		}
+		if( mode === 'json' && !attr.json ) continue;
 
 		ceq =
 			this.genAttributeEquals(
@@ -3185,7 +3178,9 @@ prototype.genAlike =
 	function( )
 {
 	var
-		a, aZ,
+		a,
+		aZ,
+		attributes,
 		alikeList,
 		alikeName,
 		attr,
@@ -3227,25 +3222,19 @@ prototype.genAlike =
 			cond =
 				$(
 					'this._twig === obj._twig',
-					'&&',
-					'this._ranks === obj._ranks'
+					'&& this._ranks === obj._ranks'
 				);
 		}
 
-		for(
-			a = 0, aZ = this.attributes.size;
-			a < aZ;
-			a++
-		)
+		attributes = this.attributes;
+
+		for( a = 0, aZ = attributes.size; a < aZ; a++ )
 		{
-			name = this.attributes.sortedKeys[ a ];
+			name = attributes.sortedKeys[ a ];
 
-			attr = this.attributes.get( name );
+			attr = attributes.get( name );
 
-			if( attr.assign === '' || ignores[ name ] )
-			{
-				continue;
-			}
+			if( attr.assign === '' || ignores[ name ] ) continue;
 
 			ceq =
 				this.genAttributeEquals(
@@ -3256,10 +3245,7 @@ prototype.genAlike =
 					false
 				);
 
-			cond =
-				cond === null
-				? ceq
-				: $( cond, '&&', ceq );
+			cond = cond === null ? ceq : $( cond, '&&', ceq );
 		}
 
 		block = block.$( 'return', cond );

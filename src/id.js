@@ -23,7 +23,8 @@ if( JION )
 			{
 				comment : 'the jion is in/from a package',
 				type : 'string',
-				defaultValue : 'undefined'
+				// type : [ 'undefined', 'string' ] FIXME
+				defaultValue : 'undefined' // FIXME
 			}
 		},
 		ray : [ 'string' ]

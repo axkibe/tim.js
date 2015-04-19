@@ -367,15 +367,20 @@ checkAttributeSingleType =
 			case 'function' :
 			case 'integer' :
 			case 'number' :
+			case 'null' :
 			case 'protean' :
 			case 'string' :
+			case 'undefined' :
 
 				break;
 
 			default :
 
 				throw new Error(
-					'attribute "' + name + '", type is unknown primitive: ' + type
+					'attribute "'
+					+ name
+					+ '", type has unknown primitive: '
+					+ type
 				);
 		}
 	}
