@@ -268,6 +268,8 @@ prototype._init =
 				aid = aid.create( 'group:remove', 'null' );
 
 				allowsNull = true;
+
+				if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
 			}
 
 			if( aid.has( idUndefined ) )
@@ -275,6 +277,8 @@ prototype._init =
 				aid = aid.create( 'group:remove', 'undefined' );
 
 				allowsUndefined = true;
+
+				if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
 			}
 		}
 
@@ -1278,10 +1282,7 @@ prototype.genCreatorDefaults =
 
 		attr = this.attributes.get( name );
 
-		if( json && !attr.json )
-		{
-			continue;
-		}
+		if( json && !attr.json ) continue;
 
 		if(
 			attr.defaultValue !== undefined
@@ -1682,6 +1683,7 @@ prototype.genCreatorUnchanged =
 		a,
 		aZ,
 		attr,
+		attributes,
 		ceq,
 		cond,
 		name;
@@ -1702,15 +1704,13 @@ prototype.genCreatorUnchanged =
 
 	if( this.twig ) cond = $( cond, '&& twigDup === false' );
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
-	{
-		name = this.attributes.sortedKeys[ a ];
+	attributes = this.attributes;
 
-		attr = this.attributes.get( name );
+	for( a = 0, aZ = attributes.size; a < aZ; a++ )
+	{
+		name = attributes.sortedKeys[ a ];
+
+		attr = attributes.get( name );
 
 		if( attr.assign === '' )
 		{
