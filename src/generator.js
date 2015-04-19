@@ -53,6 +53,8 @@ var
 	$switch,
 	$var,
 	generator,
+	idNull,
+	idUndefined,
 	jion_attribute,
 	jion_attributeGroup,
 	jion_id,
@@ -83,6 +85,10 @@ jion_validator = require( './validator' );
 parser = require( './jsParser/parser' );
 
 shorthand = require( './ast/shorthand' );
+
+idNull = jion_id.createFromString( 'null' );
+
+idUndefined = jion_id.createFromString( 'undefined' );
 
 /*
 | Shorthanding Shorthands.
@@ -249,19 +255,28 @@ prototype._init =
 
 		allowsNull =
 			jAttr.allowsNull // FIXME
-			|| shorthand.$null.equals( defaultValue ) // FIXME
-			|| (
-				aid.reflect === 'idGroup'
-				&& aid.get( 'null' ) !== undefined
-			);
+			|| shorthand.$null.equals( defaultValue );
 
 		allowsUndefined =
 			jAttr.allowsUndefined // FIXME
-			|| shorthand.$undefined.equals( defaultValue ) // FIXME
-			|| (
-				aid.reflect === 'idGroup'
-				&& aid.get( 'undefined' ) !== undefined
-			);
+			|| shorthand.$undefined.equals( defaultValue );
+
+		if( aid.reflect === 'idGroup' )
+		{
+			if( aid.has( idNull ) )
+			{
+				aid = aid.create( 'group:remove', 'null' );
+
+				allowsNull = true;
+			}
+
+			if( aid.has( idUndefined ) )
+			{
+				aid = aid.create( 'group:remove', 'undefined' );
+
+				allowsUndefined = true;
+			}
+		}
 
 		attr =
 			jion_attribute.create(

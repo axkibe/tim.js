@@ -108,4 +108,16 @@ prototype.add =
 };
 
 
+/*
+| Returns true if the idGroup has that id.
+*/
+prototype.has =
+	function(
+		id
+	)
+{
+	return this.get( id.pathName ) !== undefined;
+};
+
+
 } )( );
