@@ -31,16 +31,16 @@ if( JION )
 
 
 var
-	jion_id,
-	jion_proto,
+	jion$id,
+	jion$proto,
 	prototype,
 	shorthand;
 
-jion_id = require( './this' )( module, 'ouroboros' );
+jion$id = require( './this' )( module, 'ouroboros' );
 
-prototype = jion_id.prototype;
+prototype = jion$id.prototype;
 
-jion_proto = require( './proto' );
+jion$proto = require( './proto' );
 
 shorthand = require( './ast/shorthand' );
 
@@ -48,7 +48,7 @@ shorthand = require( './ast/shorthand' );
 /*
 | Create the id from a string specifier.
 */
-jion_id.createFromString =
+jion$id.createFromString =
 	function(
 		string
 	)
@@ -84,11 +84,11 @@ jion_id.createFromString =
 			default : throw new Error( 'bad id: ' + string );
 		}
 
-		return jion_id.create( 'ray:init', [ string ] );
+		return jion$id.create( 'ray:init', [ string ] );
 	}
 
 	return(
-		jion_id.create(
+		jion$id.create(
 			'packet', packet,
 			'ray:init', split
 		)
@@ -99,7 +99,7 @@ jion_id.createFromString =
 /*
 | Compares two ids.
 */
-jion_id.compare =
+jion$id.compare =
 	function(
 		o1,
 		o2
@@ -152,7 +152,7 @@ jion_id.compare =
 /*
 | This name as ast string.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'$abstractName',
 	function( )
@@ -165,7 +165,7 @@ jion_proto.lazyValue(
 /*
 | This id as abstract as ast string.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'$abstractPathName',
 	function( )
@@ -176,9 +176,29 @@ jion_proto.lazyValue(
 
 
 /*
+| Returns if equalness of this object must be used by a
+| .equals( ) call, may have an .equals( ) func or never
+| has a .equals( ) call and equalness is simply to be
+| determined by '===' operator.
+*/
+jion$proto.lazyValue(
+	prototype,
+	'equalsConvention',
+	function( )
+{
+	if( this.packet || this.length > 1 ) return 'must';
+
+	if( this.get( 0 ) === 'protean' ) return 'can';
+
+	return 'mustnot';
+}
+);
+
+
+/*
 | This id as global varname
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'global',
 	function( )
@@ -194,7 +214,7 @@ jion_proto.lazyValue(
 /*
 | This id as ast variable.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'$global',
 	function( )
@@ -207,7 +227,7 @@ jion_proto.lazyValue(
 /*
 | This id references a primitive.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'isPrimitive',
 	function( )
@@ -221,7 +241,7 @@ jion_proto.lazyValue(
 /*
 | This ids name (without path).
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'name',
 	function( )
@@ -235,7 +255,7 @@ jion_proto.lazyValue(
 /*
 | This name as ast string.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'$name',
 	function( )
@@ -248,7 +268,7 @@ jion_proto.lazyValue(
 /*
 | This id as path relative to project root dir.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'path',
 	function( )
@@ -275,7 +295,7 @@ jion_proto.lazyValue(
 /*
 | This id as pathed variable name.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'pathName',
 	function( )
@@ -302,7 +322,7 @@ jion_proto.lazyValue(
 /*
 | This id as ast string.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'$pathName',
 	function( )
@@ -315,7 +335,7 @@ jion_proto.lazyValue(
 /*
 | relative path to the procjet's root dir.
 */
-jion_proto.lazyValue(
+jion$proto.lazyValue(
 	prototype,
 	'rootPath',
 	function( )
