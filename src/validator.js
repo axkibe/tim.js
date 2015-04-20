@@ -472,32 +472,6 @@ checkAttribute =
 
 				break;
 
-			case 'allowsNull' :
-
-				if( attr.defaultValue === 'null' )
-				{
-					throw new Error(
-						jion.id
-						+ ': '
-						+ 'defaultValue \"null\" implies allowsNull'
-					);
-				}
-
-				break;
-
-			case 'allowsUndefined' :
-
-				if( attr.defaultValue === 'undefined' )
-				{
-					throw new Error(
-						jion.id
-						+ ': '
-						+ 'defaultValue \"undefined\" implies allowsUndefined'
-					);
-				}
-
-				break;
-
 			case 'json' :
 
 				if( attr.assign === '' )

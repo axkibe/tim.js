@@ -253,13 +253,9 @@ prototype._init =
 			}
 		}
 
-		allowsNull =
-			jAttr.allowsNull // FIXME
-			|| shorthand.$null.equals( defaultValue );
+		allowsNull = false;
 
-		allowsUndefined =
-			jAttr.allowsUndefined // FIXME
-			|| shorthand.$undefined.equals( defaultValue );
+		allowsUndefined = false;
 
 		if( aid.reflect === 'idGroup' )
 		{
