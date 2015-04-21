@@ -2025,13 +2025,9 @@ formatSwitch =
 			text += '\n';
 		}
 
-		// FIXME this is broken for
+		// FUTURE this is broken for
 		// caseExpr.length > 1
-		for(
-			b = 0, bZ = caseExpr.length;
-			b < bZ;
-			b++
-		)
+		for( b = 0, bZ = caseExpr.length; b < bZ; b++ )
 		{
 			text +=
 				caseContext.tab

@@ -3202,7 +3202,7 @@ prototype.genAlike =
 
 		if( this.twig )
 		{
-			// FIXME same test as in equals
+			// FUTURE same test as in equals
 			cond =
 				$(
 					'this._twig === obj._twig',

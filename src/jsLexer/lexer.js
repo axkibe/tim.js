@@ -51,23 +51,14 @@ jsLexer.tokenize =
 
 	tokens = [ ];
 
-	for(
-		c = 0, cZ = code.length;
-		c < cZ;
-		c++
-	)
+	for( c = 0, cZ = code.length; c < cZ; c++ )
 	{
-		// FIXME make the loop body a sub func.
-
 		ch = code[ c ];
 
-		if( ch.match( /\s/ ) )
-		{
-			// skips whitespaces
-			continue;
-		}
+		// skips whitespaces
+		if( ch.match( /\s/ ) ) continue;
 
-		if( ch.match(/[a-zA-Z_$]/ ) )
+		if( ch.match( /[a-zA-Z_$]/ ) )
 		{
 			value = ch;
 
@@ -135,10 +126,7 @@ jsLexer.tokenize =
 
 			c++;
 
-			if( c >= cZ )
-			{
-				throw new Error( '" missing' );
-			}
+			if( c >= cZ ) throw new Error( '" missing' );
 
 			// FUTURE handle \"
 			while( code[ c ] !== '"' )
@@ -147,10 +135,7 @@ jsLexer.tokenize =
 
 				c++;
 
-				if( c >= cZ )
-				{
-					throw new Error( '" missing' );
-				}
+				if( c >= cZ ) throw new Error( '" missing' );
 			}
 
 			tokens.push(
@@ -183,19 +168,11 @@ jsLexer.tokenize =
 
 			case '=' :
 
-				if(
-					c + 1 < cZ
-					&& code[ c + 1 ] === '='
-				)
+				if( c + 1 < cZ && code[ c + 1 ] === '=' )
 				{
-					if(
-						c + 2 < cZ
-						&& code[ c + 2 ] === '='
-					)
+					if( c + 2 < cZ && code[ c + 2 ] === '=' )
 					{
-						tokens.push(
-							jsLexer_token.create( 'type', '===' )
-						);
+						tokens.push( jsLexer_token.create( 'type', '===' ) );
 
 						c += 2;
 
@@ -217,15 +194,9 @@ jsLexer.tokenize =
 
 			case '!' :
 
-				if(
-					c + 1 < cZ
-					&& code[ c + 1 ] === '='
-				)
+				if( c + 1 < cZ && code[ c + 1 ] === '=' )
 				{
-					if(
-						c + 2 < cZ
-						&& code[ c + 2 ] === '='
-					)
+					if( c + 2 < cZ && code[ c + 2 ] === '=' )
 					{
 						tokens.push(
 							jsLexer_token.create( 'type', '!==' )
@@ -253,17 +224,13 @@ jsLexer.tokenize =
 
 				if( c + 1 < cZ && code[ c + 1 ] === '+' )
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '++' )
-					);
+					tokens.push( jsLexer_token.create( 'type', '++' ) );
 
 					c++;
 				}
 				else if( c + 1 < cZ && code[ c + 1 ] === '=' )
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '+=' )
-					);
+					tokens.push( jsLexer_token.create( 'type', '+=' ) );
 
 					c++;
 				}
@@ -297,10 +264,7 @@ jsLexer.tokenize =
 
 			case '|' :
 
-				if(
-					c + 1 < cZ
-					&& code[ c + 1 ] === '|'
-				)
+				if( c + 1 < cZ && code[ c + 1 ] === '|' )
 				{
 					tokens.push(
 						jsLexer_token.create( 'type', '||' )
@@ -317,10 +281,7 @@ jsLexer.tokenize =
 
 			case '&' :
 
-				if(
-					c + 1 < cZ
-					&& code[ c + 1 ] === '&'
-				)
+				if( c + 1 < cZ && code[ c + 1 ] === '&' )
 				{
 					tokens.push(
 						jsLexer_token.create( 'type', '&&' )
