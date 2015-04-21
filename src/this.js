@@ -223,16 +223,12 @@ module.exports =
 	{
 		if( !input )
 		{
-			input =
-				fs.readFileSync( filename, readOptions )
-				.toString( 'binary' );
+			input = fs.readFileSync( filename, readOptions );
 		}
 
 		if( !output )
 		{
-			output =
-				fs.readFileSync( jionCodeFilename, readOptions )
-				.toString( 'binary' );
+			output = fs.readFileSync( jionCodeFilename, readOptions );
 		}
 
 		module.exports.source = input;
