@@ -763,16 +763,18 @@ formatExpression =
 		throw new Error( 'cannot handle: ' + expr.reflectName );
 	}
 
-	formatter =
-		exprFormatter[ expr.reflectName ]
-		|| exprFormatter[ expr.reflect ];
+	formatter = exprFormatter[ expr.reflect ];
 
-	if( !formatter )
-	{
-		throw new Error( expr.reflectName );
-	}
+	if( !formatter ) throw new Error( expr.reflect );
 
 	bracket = pprec !== undefined && prec > pprec;
+
+	// special case, a( ).b would look ugly
+	// as ( a( ) ).b
+	if( preflect === 'ast_dot' && expr.reflect === 'ast_call' )
+	{
+		bracket = false;
+	}
 
 	subcontext = context;
 
