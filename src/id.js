@@ -186,11 +186,11 @@ jion$proto.lazyValue(
 	'equalsConvention',
 	function( )
 {
-	if( this.packet || this.length > 1 ) return 'must';
-
-	if( this.get( 0 ) === 'protean' ) return 'can';
-
-	return 'mustnot';
+	return(
+		( this.packet || this.length > 1 )
+		? 'must'
+		: 'mustnot'
+	);
 }
 );
 

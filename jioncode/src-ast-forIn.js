@@ -388,7 +388,7 @@ prototype.create =
 		(
 			v_variable === inherit.variable
 			||
-			v_variable.equals && v_variable.equals( inherit.variable )
+			v_variable.reflect && v_variable.equals( inherit.variable )
 		)
 	)
 	{
@@ -462,7 +462,7 @@ prototype.equals =
 		(
 			this.variable === obj.variable
 			||
-			this.variable.equals && this.variable.equals( obj.variable )
+			this.variable.reflect && this.variable.equals( obj.variable )
 		)
 	);
 };

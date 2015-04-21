@@ -148,20 +148,12 @@ formatAnd =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_and
-		)
+		formatExpression( context, expr.left, 'ast_and')
 		+ context.sep
 		+ context.tab
 		+ '&&'
 		+ context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_and
-		);
+		+ formatExpression( context, expr.right, 'ast_and' );
 
 	return text;
 };
@@ -216,7 +208,7 @@ formatArrayLiteral =
 			formatExpression(
 				context.inc,
 				expr.get( a ),
-				precTable.ast_arrayLiteral
+				'ast_arrayLiteral'
 			)
 			+ (
 				a + 1 < aZ
@@ -247,11 +239,7 @@ formatAssign =
 	text = '';
 
 	text +=
-		formatExpression(
-			context,
-			assign.left,
-			precTable.ast_assign
-		)
+		formatExpression( context, assign.left, 'ast_assign' )
 		+ ' ='
 		+ context.sep;
 
@@ -267,7 +255,7 @@ formatAssign =
 			+ formatExpression(
 				context.setInline,
 				assign.right,
-				precTable.ast_assign
+				'ast_assign'
 			);
 	}
 	catch( e )
@@ -291,12 +279,7 @@ formatAssign =
 	}
 	else
 	{
-		text +=
-			formatExpression(
-				context,
-				assign.right,
-				precTable.ast_assign
-			);
+		text += formatExpression( context, assign.right, 'ast_assign' );
 	}
 
 	return text;
@@ -415,7 +398,7 @@ formatCall =
 		formatExpression(
 			snuggle ? context.setInline : context,
 			call.func,
-			precTable.ast_call
+			'ast_call'
 		);
 
 	if( call.length === 0 )
@@ -526,19 +509,11 @@ formatComma =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_comma
-		)
+		formatExpression( context, expr.left, 'ast_comma' )
 		+ ','
 		+ context.sep
 		+ context.tab
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_comma
-		);
+		+ formatExpression( context, expr.right, 'ast_comma' );
 
 	return text;
 };
@@ -606,27 +581,19 @@ formatCondition =
 /**/}
 
 	return (
-		formatExpression(
-			context,
-			expr.condition,
-			precTable.ast_condition
-		)
+		formatExpression( context, expr.condition, 'ast_condition' )
 		+ context.sep
 		+ context.tab
 		+ '? '
 		+ formatExpression(
 			context.setInline,
 			expr.then,
-			precTable.ast_condition
+			'ast_condition'
 		)
 		+ context.sep
 		+ context.tab
 		+ ': '
-		+ formatExpression(
-			context.setInline,
-			expr.elsewise,
-			precTable.ast_condition
-		)
+		+ formatExpression( context.setInline, expr.elsewise, 'ast_condition' )
 	);
 };
 
@@ -675,11 +642,7 @@ formatDelete =
 	return(
 		context.tab
 		+ 'delete '
-		+ formatExpression(
-			context,
-			expr.expr,
-			precTable.ast_delete
-		)
+		+ formatExpression( context, expr.expr, 'ast_delete' )
 	);
 };
 
@@ -705,18 +668,10 @@ formatDiffers =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_differs
-		)
+		formatExpression( context, expr.left, 'ast_differs' )
 		+ context.sep
 		+ context.tab + '!==' + context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_differs
-		);
+		+ formatExpression( context, expr.right, 'ast_differs' );
 
 	return text;
 };
@@ -740,11 +695,7 @@ formatDot =
 /**/}
 
 	return(
-		formatExpression(
-			context,
-			expr.expr,
-			precTable.ast_dot
-		)
+		formatExpression( context, expr.expr, 'ast_dot' )
 		+ '.'
 		+ expr.member
 	);
@@ -772,20 +723,12 @@ formatEquals =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_equals
-		)
+		formatExpression( context, expr.left, 'ast_equals' )
 		+ context.sep
 		+ context.tab
 		+ '==='
 		+ context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_equals
-		);
+		+ formatExpression( context, expr.right, 'ast_equals' );
 
 	return text;
 };
@@ -798,18 +741,22 @@ formatExpression =
 	function(
 		context, // context to be formated in
 		expr,    // the expression to format
-		pprec    // the operator precedence of the parenting expresson
+		preflect // reflection string of parenting expression
+		//       // may be undefined
 	)
 {
 	var
 		bracket,
 		formatter,
 		prec,
+		pprec,
 		subcontext,
 		subtext,
 		text;
 
 	prec = precTable[ expr.reflect ];
+
+	pprec = precTable[ preflect ];
 
 	if( !prec )
 	{
@@ -854,10 +801,7 @@ formatExpression =
 		catch( e )
 		{
 			// rethrows any real error
-			if( e !== 'noinline' )
-			{
-				throw e;
-			}
+			if( e !== 'noinline' ) throw e;
 		}
 	}
 
@@ -929,10 +873,7 @@ formatFail =
 		messageContext.tab
 		+ 'throw new Error('
 		+ messageContext.sep
-		+ formatExpression(
-			messageContext.inc,
-			fail.message
-		)
+		+ formatExpression( messageContext.inc, fail.message )
 		+ messageContext.sep
 		+ messageContext.tab
 		+ ')';
@@ -973,22 +914,13 @@ formatFor =
 		context.tab
 		+ 'for(\n'
 		+ forContext.tab
-		+ formatExpression(
-			forContext.setInline,
-			forExpr.init
-		)
+		+ formatExpression( forContext.setInline, forExpr.init )
 		+ ';\n'
 		+ forContext.tab
-		+ formatExpression(
-			forContext.setInline,
-			forExpr.condition
-		)
+		+ formatExpression( forContext.setInline, forExpr.condition )
 		+ ';\n'
 		+ forContext.tab
-		+ formatExpression(
-			forContext.setInline,
-			forExpr.iterate
-		)
+		+ formatExpression( forContext.setInline, forExpr.iterate )
 		+ '\n'
 		+ context.tab
 		+ ')\n'
@@ -1015,11 +947,7 @@ formatForIn =
 		+ 'for( var '
 		+ expr.variable.name
 		+ ' in '
-		+ formatExpression(
-			context.setInline,
-			expr.object,
-			precTable.ast_in
-		)
+		+ formatExpression( context.setInline, expr.object, 'ast_in' )
 		+ ' )\n'
 		+ formatBlock( context, expr.block );
 
@@ -1116,25 +1044,12 @@ formatGreaterThan =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_greaterThan
-		)
-		+
-		context.sep
-		+
-		context.tab
-		+
-		'>'
-		+
-		context.sep
-		+
-		formatExpression(
-			context,
-			expr.right,
-			precTable.ast_greaterThan
-		);
+		formatExpression( context, expr.left, 'ast_greaterThan' )
+		+ context.sep
+		+ context.tab
+		+ '>'
+		+ context.sep
+		+ formatExpression( context, expr.right, 'ast_greaterThan' );
 
 	return text;
 };
@@ -1203,10 +1118,7 @@ formatIf =
 			'\n'
 			+ context.tab
 			+ 'else\n'
-			+ formatBlock(
-				context,
-				statement.elsewise
-			);
+			+ formatBlock( context, statement.elsewise );
 	}
 
 	return text;
@@ -1234,20 +1146,12 @@ formatInstanceof =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_instanceof
-		)
+		formatExpression( context, expr.left, 'ast_instanceof' )
 		+ context.sep
 		+ context.tab
 		+ 'instanceof'
 		+ context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_instanceof
-		);
+		+ formatExpression( context, expr.right, 'ast_instanceof' );
 
 	return text;
 };
@@ -1274,20 +1178,12 @@ formatLessThan =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_lessThan
-		)
+		formatExpression( context, expr.left, 'ast_lessThan' )
 		+ context.sep
 		+ context.tab
 		+ '<'
 		+ context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_lessThan
-		);
+		+ formatExpression( context, expr.right, 'ast_lessThan' );
 
 	return text;
 };
@@ -1312,7 +1208,7 @@ formatMember =
 /**/}
 
 	return (
-		formatExpression( context, expr.expr, precTable.ast_member )
+		formatExpression( context, expr.expr, 'ast_member' )
 		+ '['
 		+ context.sep
 		+ formatExpression( context.inc, expr.member )
@@ -1344,20 +1240,12 @@ formatMultiply =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_plus
-		)
+		formatExpression( context, expr.left, 'ast_plus' )
 		+ context.sep
 		+ context.tab
 		+ '*'
 		+ context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_plus
-		);
+		+ formatExpression( context, expr.right, 'ast_plus' );
 
 	return text;
 };
@@ -1382,16 +1270,12 @@ formatMultiplyAssign =
 		// first tries to inline the
 		// return expression.
 		text =
-			formatExpression(
-				context.setInline,
-				assign.left,
-				precTable.ast_assign
-			)
+			formatExpression( context.setInline, assign.left, 'ast_assign' )
 			+ ' *= '
 			+ formatExpression(
 				context.setInline,
 				assign.right,
-				precTable.ast_assign
+				'ast_assign'
 			);
 	}
 	catch( e )
@@ -1470,11 +1354,7 @@ formatNot =
 	return(
 		context.tab
 		+ '!'
-		+ formatExpression(
-			context,
-			expr.expr,
-			precTable.ast_not
-		)
+		+ formatExpression( context, expr.expr, 'ast_not' )
 	);
 };
 
@@ -1543,20 +1423,12 @@ formatOr =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_or
-		)
+		formatExpression( context, expr.left, 'ast_or' )
 		+ context.sep
 		+ context.tab
 		+ '||'
 		+ context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_or
-		);
+		+ formatExpression( context, expr.right, 'ast_or' );
 
 	return text;
 };
@@ -1583,20 +1455,12 @@ formatPlus =
 /**/}
 
 	text =
-		formatExpression(
-			context,
-			expr.left,
-			precTable.ast_plus
-		)
+		formatExpression( context, expr.left, 'ast_plus' )
 		+ context.sep
 		+ context.tab
 		+ '+'
 		+ context.sep
-		+ formatExpression(
-			context,
-			expr.right,
-			precTable.ast_plus
-		);
+		+ formatExpression( context, expr.right, 'ast_plus' );
 
 	return text;
 };
@@ -1621,16 +1485,12 @@ formatPlusAssign =
 		// first tries to inline the
 		// return expression.
 		text =
-			formatExpression(
-				context.setInline,
-				assign.left,
-				precTable.ast_assign
-			)
+			formatExpression( context.setInline, assign.left, 'ast_assign' )
 			+ ' += '
 			+ formatExpression(
 				context.setInline,
 				assign.right,
-				precTable.ast_assign
+				'ast_assign'
 			);
 	}
 	catch( e )
@@ -1678,11 +1538,7 @@ formatPreIncrement =
 	return(
 		context.tab
 		+ '++'
-		+ formatExpression(
-			context,
-			expr.expr,
-			precTable.preIncrement
-		)
+		+ formatExpression( context, expr.expr, 'ast_preIncrement' )
 	);
 };
 

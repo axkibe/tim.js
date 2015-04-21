@@ -253,15 +253,7 @@ prototype.create =
 		&&
 		v_associativity === inherit.associativity
 		&&
-		(
-			v_astCreator === inherit.astCreator
-			||
-			v_astCreator !== undefined
-			&&
-			v_astCreator.equals
-			&&
-			v_astCreator.equals( inherit.astCreator )
-		)
+		v_astCreator === inherit.astCreator
 		&&
 		v_handler === inherit.handler
 		&&
@@ -332,15 +324,7 @@ prototype.equals =
 	return (
 		this.associativity === obj.associativity
 		&&
-		(
-			this.astCreator === obj.astCreator
-			||
-			this.astCreator !== undefined
-			&&
-			this.astCreator.equals
-			&&
-			this.astCreator.equals( obj.astCreator )
-		)
+		this.astCreator === obj.astCreator
 		&&
 		this.handler === obj.handler
 		&&

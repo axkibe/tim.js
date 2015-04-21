@@ -2875,7 +2875,7 @@ prototype.genAttributeEquals =
 
 			if( attr.id.equalsConvention === 'can' )
 			{
-				pn = $( le, '.', eqFuncName, '&&', pn );
+				pn = $( le, '.reflect', '&&', pn );
 			}
 
 			pc =
