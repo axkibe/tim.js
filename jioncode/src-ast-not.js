@@ -305,7 +305,7 @@ prototype.create =
 		(
 			v_expr === inherit.expr
 			||
-			v_expr.equals && v_expr.equals( inherit.expr )
+			v_expr.equals( inherit.expr )
 		)
 	)
 	{
@@ -363,11 +363,7 @@ prototype.equals =
 		return false;
 	}
 
-	return (
-		this.expr === obj.expr
-		||
-		this.expr.equals && this.expr.equals( obj.expr )
-	);
+	return this.expr === obj.expr || this.expr.equals( obj.expr );
 };
 
 

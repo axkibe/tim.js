@@ -169,6 +169,8 @@ jion$proto.lazyValue(
 			default : throw new Error( );
 		}
 	}
+
+	return ec;
 }
 );
 

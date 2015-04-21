@@ -2825,9 +2825,6 @@ prototype.genToJson =
 
 /*
 | Generates the equals condition for an attribute.
-|
-| FIXME: in case of idLists this is still wonky
-|        it needs to differenciate primitives correctly
 */
 prototype.genAttributeEquals =
 	function(
@@ -2843,7 +2840,9 @@ prototype.genAttributeEquals =
 		allowsNull,
 		allowsUndefined,
 		attr,
-		ceq;
+		ceq,
+		pc,
+		pn;
 
 	attr = this.attributes.get( name );
 
@@ -2853,68 +2852,41 @@ prototype.genAttributeEquals =
 
 	ceq = $( le, ' === ', re );
 
-	switch( attr.id.pathName )
+	switch( attr.id.equalsConvention )
 	{
-		case 'boolean' :
-		case 'function' :
-		case 'integer' :
-		case 'number' :
-		case 'protean' :
-		case 'string' :
+		case 'mustnot' : return ceq;
 
-			break;
+		case 'can' :
+		case 'must' :
 
-		default :
+			if( allowsNull ) pc = $( le, ' !== null' );
 
-			if( allowsNull && allowsUndefined )
+			if( allowsUndefined )
 			{
-				ceq =
-					$(
-						ceq,
-						'|| (',
-							le, ' !== null',
-							'&&', le, ' !== undefined',
-							'&&', le, '.', eqFuncName, '(', re, ')',
-						')'
-					);
+				pn = $( le, ' !== undefined' );
+
+				pc =
+					pc
+					? $( pc, '&&', pn )
+					: pn;
 			}
-			else if( allowsNull )
+
+			pn = $( le, '.', eqFuncName, '(', re, ')' );
+
+			if( attr.id.equalsConvention === 'can' )
 			{
-				ceq =
-					$(
-						ceq,
-						'|| (',
-							le, ' !== null',
-							'&&', le, '.', eqFuncName, '(', re, ')',
-						')'
-					);
+				pn = $( le, '.', eqFuncName, '&&', pn );
 			}
-			else if( allowsUndefined )
-			{
-				ceq =
-					$(
-						ceq,
-						'|| (',
-							le, '!== undefined',
-							'&&', le, '.', eqFuncName, '(', re, ')',
-						')'
-					);
-			}
-			else
-			{
-				ceq =
-					$(
-						ceq,
-						'|| (',
-							// FIXME this shouldnt be necessary
-							le, '.', eqFuncName,
-							'&&', le, '.', eqFuncName, '(', re, ')',
-						')'
-					);
-			}
+
+			pc =
+				pc
+				? $( pc, '&&', pn )
+				: pn;
+
+			return $( ceq, '||', pc );
+
+		default : throw new Error( );
 	}
-
-	return ceq;
 };
 
 

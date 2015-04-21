@@ -435,7 +435,7 @@ prototype.create =
 		(
 			v_tokens === inherit.tokens
 			||
-			v_tokens.equals && v_tokens.equals( inherit.tokens )
+			v_tokens.equals( inherit.tokens )
 		)
 	)
 	{
@@ -505,7 +505,7 @@ prototype.equals =
 		(
 			this.tokens === obj.tokens
 			||
-			this.tokens.equals && this.tokens.equals( obj.tokens )
+			this.tokens.equals( obj.tokens )
 		)
 	);
 };

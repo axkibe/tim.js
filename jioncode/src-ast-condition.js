@@ -485,19 +485,19 @@ prototype.create =
 		(
 			v_condition === inherit.condition
 			||
-			v_condition.equals && v_condition.equals( inherit.condition )
+			v_condition.equals( inherit.condition )
 		)
 		&&
 		(
 			v_elsewise === inherit.elsewise
 			||
-			v_elsewise.equals && v_elsewise.equals( inherit.elsewise )
+			v_elsewise.equals( inherit.elsewise )
 		)
 		&&
 		(
 			v_then === inherit.then
 			||
-			v_then.equals && v_then.equals( inherit.then )
+			v_then.equals( inherit.then )
 		)
 	)
 	{
@@ -559,19 +559,19 @@ prototype.equals =
 		(
 			this.condition === obj.condition
 			||
-			this.condition.equals && this.condition.equals( obj.condition )
+			this.condition.equals( obj.condition )
 		)
 		&&
 		(
 			this.elsewise === obj.elsewise
 			||
-			this.elsewise.equals && this.elsewise.equals( obj.elsewise )
+			this.elsewise.equals( obj.elsewise )
 		)
 		&&
 		(
 			this.then === obj.then
 			||
-			this.then.equals && this.then.equals( obj.then )
+			this.then.equals( obj.then )
 		)
 	);
 };

@@ -193,17 +193,7 @@ prototype.create =
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		v_type === inherit.type
-		&&
-		(
-			v_value === inherit.value
-			||
-			v_value !== undefined && v_value.equals( inherit.value )
-		)
-	)
+	if( inherit && v_type === inherit.type && v_value === inherit.value )
 	{
 		return inherit;
 	}
@@ -259,15 +249,7 @@ prototype.equals =
 		return false;
 	}
 
-	return (
-		this.type === obj.type
-		&&
-		(
-			this.value === obj.value
-			||
-			this.value !== undefined && this.value.equals( obj.value )
-		)
-	);
+	return this.type === obj.type && this.value === obj.value;
 };
 
 

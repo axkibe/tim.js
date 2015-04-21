@@ -469,7 +469,7 @@ prototype.create =
 		(
 			v_func === inherit.func
 			||
-			v_func.equals && v_func.equals( inherit.func )
+			v_func.equals( inherit.func )
 		)
 	)
 	{
@@ -601,11 +601,7 @@ prototype.equals =
 		}
 	}
 
-	return (
-		this.func === obj.func
-		||
-		this.func.equals && this.func.equals( obj.func )
-	);
+	return this.func === obj.func || this.func.equals( obj.func );
 };
 
 

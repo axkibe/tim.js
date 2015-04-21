@@ -160,7 +160,7 @@ prototype.create =
 		(
 			v_block === inherit.block
 			||
-			v_block.equals && v_block.equals( inherit.block )
+			v_block.equals( inherit.block )
 		)
 	)
 	{
@@ -218,11 +218,7 @@ prototype.equals =
 		return false;
 	}
 
-	return (
-		this.block === obj.block
-		||
-		this.block.equals && this.block.equals( obj.block )
-	);
+	return this.block === obj.block || this.block.equals( obj.block );
 };
 
 

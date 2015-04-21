@@ -341,7 +341,7 @@ prototype.create =
 		(
 			v_expr === inherit.expr
 			||
-			v_expr.equals && v_expr.equals( inherit.expr )
+			v_expr.equals( inherit.expr )
 		)
 		&&
 		v_member === inherit.member
@@ -405,7 +405,7 @@ prototype.equals =
 		(
 			this.expr === obj.expr
 			||
-			this.expr.equals && this.expr.equals( obj.expr )
+			this.expr.equals( obj.expr )
 		)
 		&&
 		this.member === obj.member

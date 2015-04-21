@@ -368,7 +368,7 @@ prototype.create =
 		(
 			v_condition === inherit.condition
 			||
-			v_condition.equals && v_condition.equals( inherit.condition )
+			v_condition.equals( inherit.condition )
 		)
 		&&
 		(
@@ -380,7 +380,7 @@ prototype.create =
 		(
 			v_then === inherit.then
 			||
-			v_then.equals && v_then.equals( inherit.then )
+			v_then.equals( inherit.then )
 		)
 	)
 	{
@@ -442,7 +442,7 @@ prototype.equals =
 		(
 			this.condition === obj.condition
 			||
-			this.condition.equals && this.condition.equals( obj.condition )
+			this.condition.equals( obj.condition )
 		)
 		&&
 		(
@@ -454,7 +454,7 @@ prototype.equals =
 		(
 			this.then === obj.then
 			||
-			this.then.equals && this.then.equals( obj.then )
+			this.then.equals( obj.then )
 		)
 	);
 };

@@ -626,7 +626,7 @@ prototype.create =
 		(
 			v_id === inherit.id
 			||
-			v_id.equals && v_id.equals( inherit.id )
+			v_id.equals( inherit.id )
 		)
 		&&
 		v_json === inherit.json
@@ -638,7 +638,7 @@ prototype.create =
 		(
 			v_varRef === inherit.varRef
 			||
-			v_varRef.equals && v_varRef.equals( inherit.varRef )
+			v_varRef.equals( inherit.varRef )
 		)
 	)
 	{
@@ -729,7 +729,7 @@ prototype.equals =
 		(
 			this.id === obj.id
 			||
-			this.id.equals && this.id.equals( obj.id )
+			this.id.equals( obj.id )
 		)
 		&&
 		this.json === obj.json
@@ -741,7 +741,7 @@ prototype.equals =
 		(
 			this.varRef === obj.varRef
 			||
-			this.varRef.equals && this.varRef.equals( obj.varRef )
+			this.varRef.equals( obj.varRef )
 		)
 	);
 };

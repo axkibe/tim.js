@@ -453,7 +453,7 @@ prototype.create =
 		(
 			v_statement === inherit.statement
 			||
-			v_statement.equals && v_statement.equals( inherit.statement )
+			v_statement.equals( inherit.statement )
 		)
 	)
 	{
@@ -597,7 +597,7 @@ prototype.equals =
 		(
 			this.statement === obj.statement
 			||
-			this.statement.equals && this.statement.equals( obj.statement )
+			this.statement.equals( obj.statement )
 		)
 	);
 };

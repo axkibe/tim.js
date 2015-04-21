@@ -26,7 +26,9 @@ if( NODE )
 		{ };
 
 	// exports the own source for use in browsers
-	jion_proto.source = require( 'fs' ).readFileSync( module.filename );
+	jion_proto.source =
+		require( 'fs' ).readFileSync( module.filename )
+		.toString( 'binary' );
 }
 else
 {

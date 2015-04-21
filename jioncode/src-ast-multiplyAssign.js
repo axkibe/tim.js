@@ -395,13 +395,13 @@ prototype.create =
 		(
 			v_left === inherit.left
 			||
-			v_left.equals && v_left.equals( inherit.left )
+			v_left.equals( inherit.left )
 		)
 		&&
 		(
 			v_right === inherit.right
 			||
-			v_right.equals && v_right.equals( inherit.right )
+			v_right.equals( inherit.right )
 		)
 	)
 	{
@@ -463,13 +463,13 @@ prototype.equals =
 		(
 			this.left === obj.left
 			||
-			this.left.equals && this.left.equals( obj.left )
+			this.left.equals( obj.left )
 		)
 		&&
 		(
 			this.right === obj.right
 			||
-			this.right.equals && this.right.equals( obj.right )
+			this.right.equals( obj.right )
 		)
 	);
 };
