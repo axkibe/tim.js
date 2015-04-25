@@ -223,10 +223,7 @@ prototype.subPathOf =
 		}
 	}
 
-	if( len > o.length )
-	{
-		return false;
-	}
+	if( len > o.length ) return false;
 
 	for(
 		a = 0;
