@@ -351,7 +351,10 @@ jion$proto.lazyValue(
 
 	rp = '';
 
-	for( a = 0; a < len - 1; a++ ) rp += '../';
+	for( a = 0; a < len - 1; a++ )
+	{
+		rp += '../';
+	}
 
 	return rp;
 }
