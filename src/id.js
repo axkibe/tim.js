@@ -73,6 +73,7 @@ jion$id.createFromString =
 		switch( string )
 		{
 			case 'boolean' : break;
+			case 'date' : break;
 			case 'integer' : break;
 			case 'function' : break;
 			case 'null' : break;

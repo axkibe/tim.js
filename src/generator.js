@@ -588,6 +588,7 @@ prototype.genConstructor =
 	var
 		a,
 		assign,
+		attributes,
 		aZ,
 		attr,
 		block,
@@ -611,16 +612,14 @@ prototype.genConstructor =
 			);
 	}
 
-	// assigns the variables
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
-	{
-		name = this.attributes.sortedKeys[ a ];
+	attributes = this.attributes;
 
-		attr = this.attributes.get( name );
+	// assigns the variables
+	for( a = 0, aZ = attributes.size; a < aZ; a++ )
+	{
+		name = attributes.sortedKeys[ a ];
+
+		attr = attributes.get( name );
 
 		if( attr.assign === '' )
 		{
@@ -655,11 +654,7 @@ prototype.genConstructor =
 	{
 		initCall = $( 'this._init( )' );
 
-		for(
-			a = 0, aZ = this.init.length;
-			a < aZ;
-			a++
-		)
+		for( a = 0, aZ = this.init.length; a < aZ; a++ )
 		{
 			name = this.init[ a ];
 
@@ -673,7 +668,7 @@ prototype.genConstructor =
 					continue;
 			}
 
-			attr = this.attributes.get( name );
+			attr = attributes.get( name );
 
 			if( !attr )
 			{
@@ -713,6 +708,8 @@ prototype.genConstructor =
 	freezeBlock =
 		freezeBlock
 		.$( 'Object.freeze( this )' );
+
+	// FUTURE force freezing date attributes
 
 	block = block.$if( 'FREEZE', freezeBlock );
 
@@ -791,7 +788,7 @@ prototype.genConstructor =
 
 			default :
 
-				attr = this.attributes.get( name );
+				attr = attributes.get( name );
 
 				cf = cf.$arg( attr.varRef.name, attr.comment );
 
@@ -857,10 +854,7 @@ prototype.genCreatorVariables =
 
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
 	varList = [ ];
@@ -931,10 +925,7 @@ prototype.genCreatorInheritanceReceiver =
 
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
 	receiver = $block( ).$( 'inherit = this' );
@@ -1316,6 +1307,10 @@ prototype.genSingleTypeCheckFailCondition =
 
 			return $( 'typeof( ', aVar, ' ) !== "boolean"' );
 
+		case 'date' :
+
+			return $( aVar, 'instanceof Date' );
+
 		case 'integer' :
 
 			return $(
@@ -1686,10 +1681,7 @@ prototype.genCreatorUnchanged =
 
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
 	cond = $( 'inherit' );
@@ -1750,10 +1742,7 @@ prototype.genCreatorReturn =
 
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
 	argList = abstract ? this.abstractConstructorList : this.constructorList;
@@ -1934,6 +1923,8 @@ prototype.genFromJsonCreatorVariables =
 
 /*
 | Generates a fromJsonCreator's json parser for one attribute
+|
+| FUTURE date can currently not be json
 */
 prototype.genFromJsonCreatorAttributeParser =
 	function(

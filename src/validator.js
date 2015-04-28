@@ -364,6 +364,7 @@ checkAttributeSingleType =
 		switch( type )
 		{
 			case 'boolean' :
+			case 'date' :
 			case 'function' :
 			case 'integer' :
 			case 'number' :
