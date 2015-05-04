@@ -475,6 +475,11 @@ checkAttribute =
 
 			case 'json' :
 
+				if( typeof( value ) !== 'boolean' )
+				{
+					throw new Error( 'json flag must be boolean' );
+				}
+
 				if( attr.assign === '' )
 				{
 					throw new Error(
