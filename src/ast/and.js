@@ -43,6 +43,28 @@ ast_and = require( '../this' )( module, 'ouroboros' );
 prototype = ast_and.prototype;
 
 
+/*
+| Walks the ast tree depth-first, pre-order
+| creating a transformed copy.
+*/
+prototype.walk =
+	function(
+		transform	// a function to be called for all
+		//			// walked nodes.
+	)
+{
+	var
+		left,
+		right;
+
+	left = this.left.walk( transform );
+
+	right = this.right.walk( transform );
+
+	return transform( this.create( 'left', left, 'right', right ) );
+};
+
+
 /**/if( CHECK )
 /**/{
 /**/	var

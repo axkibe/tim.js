@@ -46,6 +46,8 @@ exports.lazyFunctionString = proto.lazyFunctionString;
 
 exports.lazyValue = proto.lazyValue;
 
+exports.aheadValue = proto.aheadValue;
+
 if( FREEZE )
 {
 	Object.freeze( exports );
