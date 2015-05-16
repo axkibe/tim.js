@@ -94,7 +94,6 @@ jion_proto.lazyValue =
 		getter
 	)
 {
-
 /**/if( FREEZE )
 /**/{
 /**/	proto.__have_lazy = true;
@@ -103,11 +102,11 @@ jion_proto.lazyValue =
 /**/if( CHECK )
 /**/{
 /**/	// lazy valued stuff must be jions
+/**/	if( !proto.create ) throw new Error( );
 /**/
-/**/	if( !proto.create )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	// there is something amiss if static and jion obj
+/**/	// lazyness is used together
+/**/	if( proto.__lazy ) throw new Error( );
 /**/}
 
 	Object.defineProperty(
@@ -231,6 +230,16 @@ jion_proto.lazyFunctionString =
 		getter
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	// lazy valued stuff must be jions
+/**/	if( !proto.create ) throw new Error( );
+/**/
+/**/	// there is something amiss if static and jion obj
+/**/	// lazyness is used together
+/**/	if( proto.__lazy ) throw new Error( );
+/**/}
+
 /**/if( FREEZE )
 /**/{
 /**/	proto.__have_lazy = true;
@@ -268,6 +277,50 @@ jion_proto.lazyFunctionString =
 		}
 	};
 };
+
+
+/*
+| A value is computed and fixated only when needed
+| but not from a jion but a static object.
+*/
+jion_proto.lazyStaticValue =
+	function(
+		obj,
+		key,
+		getter
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	// there is something amiss if static and jion obj
+/**/	// lazyness is used together
+/**/	if( obj.__have_lazy ) throw new Error( );
+/**/}
+
+	if( !obj.__lazy ) obj.__lazy = { };
+
+	Object.defineProperty(
+		obj,
+		key,
+		{
+			get : function( )
+			{
+				if( FREEZE )
+				{
+					if( this.__lazy[ key ] !== undefined )
+					{
+						return this.__lazy[ key ];
+					}
+
+					return(
+						this.__lazy[ key ] = getter.call( this )
+					);
+				}
+			}
+		}
+	);
+};
+
 
 
 /*
