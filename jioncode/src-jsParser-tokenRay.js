@@ -182,12 +182,9 @@ Constructor =
 		ray // ray
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this._ray = ray;

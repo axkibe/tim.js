@@ -59,12 +59,9 @@ Constructor =
 		v_call // the constrcutor call
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.call = v_call;

@@ -146,12 +146,9 @@ Constructor =
 		v_expr // the expression to return
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.expr = v_expr;

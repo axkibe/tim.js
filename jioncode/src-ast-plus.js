@@ -145,12 +145,9 @@ Constructor =
 		v_right // right expression
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.left = v_left;

@@ -59,12 +59,9 @@ Constructor =
 		v_root // true if in root context
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.check = v_check;

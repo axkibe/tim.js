@@ -145,12 +145,9 @@ Constructor =
 		ranks // twig ranks
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this._twig = twig;

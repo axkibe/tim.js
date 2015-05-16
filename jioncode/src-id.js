@@ -57,12 +57,9 @@ Constructor =
 		v_packet // the jion is in/from a package
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.packet = v_packet;

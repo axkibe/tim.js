@@ -152,12 +152,9 @@ Constructor =
 		v_iterate // the iteration expression
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.block = v_block;

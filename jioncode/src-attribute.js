@@ -161,12 +161,9 @@ Constructor =
 		v_varRef // attribute variable used in generate
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.allowsNull = v_allowsNull;

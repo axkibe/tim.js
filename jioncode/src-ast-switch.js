@@ -154,12 +154,9 @@ Constructor =
 		v_statement // the statement expression
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.defaultCase = v_defaultCase;

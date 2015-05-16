@@ -56,12 +56,9 @@ Constructor =
 		v_boolean // the boolean
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.boolean = v_boolean;

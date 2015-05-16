@@ -603,12 +603,10 @@ prototype.genConstructor =
 	if( !abstract )
 	{
 		block =
-			block.$if(
-				'FREEZE',
-				$if(
-					'prototype.__have_lazy',
-					$( 'this.__lazy = { }' )
-				)
+			block
+			.$if(
+				'prototype.__have_lazy',
+				$( 'this.__lazy = { }' )
 			);
 	}
 

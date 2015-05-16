@@ -57,12 +57,9 @@ Constructor =
 		v_ouroboros // true for building jioncode for jion itself
 	)
 {
-	if( FREEZE )
+	if( prototype.__have_lazy )
 	{
-		if( prototype.__have_lazy )
-		{
-			this.__lazy = { };
-		}
+		this.__lazy = { };
 	}
 
 	this.ouroboros = v_ouroboros;
