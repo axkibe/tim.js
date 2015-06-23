@@ -163,7 +163,9 @@ jion_proto.aheadValue =
 
 
 /*
-| A value is computed and fixated only when needed.
+| A function with taking a string and no side effects.
+|
+| Computed values are cached.
 */
 jion_proto.lazyFunctionString =
 	function(
@@ -198,6 +200,61 @@ jion_proto.lazyFunctionString =
 		if( val !== undefined ) return val;
 
 		return( this.__lazy[ ckey ] = getter.call( this, str ) );
+	};
+};
+
+
+/*
+| A function with taking an integer and no side effects.
+|
+| Computed values are cached.
+*/
+jion_proto.lazyFunctionInteger =
+	function(
+		proto,
+		key,
+		getter
+	)
+{
+	var
+		lazyKey;
+
+/**/if( CHECK )
+/**/{
+/**/	// lazy valued stuff must be jions
+/**/	if( !proto.create ) throw new Error( );
+/**/
+/**/	// there is something amiss if static and jion obj
+/**/	// lazyness is used together
+/**/	if( proto.__lazy ) throw new Error( );
+/**/}
+
+	proto.__have_lazy = true;
+
+	proto[ key ] =
+		function( integer )
+	{
+		var
+			cArr,
+			val;
+
+/**/	if( CHECK )
+/**/	{
+/**/		if(
+/**/			typeof( integer ) !== 'number'
+/**/			|| Math.floor( integer ) !== integer
+/**/		) throw new Error( );
+/**/	}
+
+		cArr = this.__lazy[ key ];
+
+		if( !cArr ) cArr = this.__lazy[ key ] = [ ];
+
+		val = cArr[ integer ];
+
+		if( val !== undefined ) return val;
+
+		return( cArr[ integer ] = getter.call( this, integer ) );
 	};
 };
 
