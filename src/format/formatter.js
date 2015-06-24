@@ -1747,7 +1747,6 @@ formatStatement =
 			try
 			{
 				// tries to format inline
-
 				subtext =
 					context.tab
 					+ formatExpression( context.setInline, statement );
@@ -2173,7 +2172,7 @@ format_formatter.format =
 
 	context = format_context.create( 'root', true );
 
-	if( context.reflect === 'ast_block' )
+	if( block.reflect === 'ast_block' )
 		return formatBlock( context, block, true );
 	else
 		return formatStatement( context, block );
