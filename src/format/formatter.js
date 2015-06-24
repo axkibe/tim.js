@@ -757,7 +757,7 @@ formatExpression =
 	prec = precTable[ expr.reflect ];
 
 	pprec = precTable[ preflect ];
-
+	
 	if( !prec )
 	{
 		throw new Error( 'cannot handle: ' + expr.reflectName );
@@ -768,7 +768,7 @@ formatExpression =
 	if( !formatter ) throw new Error( expr.reflect );
 
 	bracket = pprec !== undefined && prec > pprec;
-
+	
 	// special case, a( ).b would look ugly
 	// as ( a( ) ).b
 	if( preflect === 'ast_dot' && expr.reflect === 'ast_call' )
@@ -1242,12 +1242,12 @@ formatMultiply =
 /**/}
 
 	text =
-		formatExpression( context, expr.left, 'ast_plus' )
+		formatExpression( context, expr.left, 'ast_multiply' )
 		+ context.sep
 		+ context.tab
 		+ '*'
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_plus' );
+		+ formatExpression( context, expr.right, 'ast_multiply' );
 
 	return text;
 };
@@ -1746,6 +1746,8 @@ formatStatement =
 
 			try
 			{
+				// tries to format inline
+
 				subtext =
 					context.tab
 					+ formatExpression( context.setInline, statement );
@@ -1765,6 +1767,8 @@ formatStatement =
 			}
 			else
 			{
+				// reformats as noinline
+
 				text += formatExpression( context, statement );
 			}
 	}
@@ -1796,8 +1800,10 @@ formatStatement =
 		case 'ast_dot' :
 		case 'ast_fail' :
 		case 'ast_member' :
+		case 'ast_multiply' :
 		case 'ast_new' :
 		case 'ast_number' :
+		case 'ast_plus' :
 		case 'ast_plusAssign' :
 		case 'ast_return' :
 		case 'ast_string' :
@@ -2167,7 +2173,10 @@ format_formatter.format =
 
 	context = format_context.create( 'root', true );
 
-	return formatBlock( context, block, true );
+	if( context.reflect === 'ast_block' )
+		return formatBlock( context, block, true );
+	else
+		return formatStatement( context, block );
 };
 
 

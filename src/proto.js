@@ -216,8 +216,6 @@ jion_proto.lazyFunctionInteger =
 		getter
 	)
 {
-	var
-		lazyKey;
 
 /**/if( CHECK )
 /**/{
