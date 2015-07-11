@@ -163,7 +163,7 @@ jion_proto.aheadValue =
 
 
 /*
-| A function with taking a string and no side effects.
+| A function taking a string and no side effects.
 |
 | Computed values are cached.
 */
@@ -205,7 +205,7 @@ jion_proto.lazyFunctionString =
 
 
 /*
-| A function with taking an integer and no side effects.
+| A function taking an integer and no side effects.
 |
 | Computed values are cached.
 */
@@ -254,6 +254,36 @@ jion_proto.lazyFunctionInteger =
 
 		return( cArr[ integer ] = getter.call( this, integer ) );
 	};
+};
+
+
+/*
+| A function taking an integer and no side effects
+| is computed for a value and fixated before it is needed.
+*/
+jion_proto.aheadFunctionInteger =
+	function(
+		obj,      // object to ahead for
+		key,      // property to ahead
+		integer,  // function ( integer ) value to ahead
+		value     // value ( result ) to ahead
+	)
+{
+	var
+		cArr;
+
+/**/if( CHECK )
+/**/{
+/**/	if( value === undefined ) throw new Error( );
+/**/
+/**/	if( integer === undefined ) throw new Error( );
+/**/}
+
+	cArr = obj.__lazy[ key ];
+
+	if( !cArr ) cArr = obj.__lazy[ key ] = [ ];
+
+	return( cArr[ integer ] = value );
 };
 
 
