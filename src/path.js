@@ -20,7 +20,7 @@ var
 */
 if( JION )
 {
-	return {
+	return{
 		id : 'jion$path',
 		ray : [ 'string' ]
 	};
@@ -53,16 +53,16 @@ jion.lazyFunctionString(
 	prototype,
 	'append',
 	function( key )
-	{
-		var
-			result;
+{
+	var
+		result;
 
-		result = this.create( 'ray:append', key );
+	result = this.create( 'ray:append', key );
 
-		jion.aheadValue( result, 'shorten', this );
+	jion.aheadValue( result, 'shorten', this );
 
-		return result;
-	}
+	return result;
+}
 );
 
 
@@ -90,27 +90,27 @@ jion.lazyValue(
 	prototype,
 	'chop',
 	function( )
-	{
-		var
-			result;
+{
+	var
+		result;
 
-/**/	if( CHECK )
+/**/if( CHECK )
+/**/{
+/**/	if( this.length === 0 )
 /**/	{
-/**/		if( this.length === 0 )
-/**/		{
-/**/			throw new Error( );
-/**/		}
+/**/		throw new Error( );
 /**/	}
+/**/}
 
-		result = this.create( 'ray:remove', 0 );
+	result = this.create( 'ray:remove', 0 );
 
-		// FUTURE
-		// jion_proto.aheadLazyStringFunc(
-		//	result, 'prepend', this.ray[ 0 ], this
-		// );
+	// FUTURE
+	// jion_proto.aheadLazyStringFunc(
+	//	result, 'prepend', this.ray[ 0 ], this
+	// );
 
-		return result;
-	}
+	return result;
+}
 );
 
 
@@ -122,9 +122,9 @@ jion.lazyValue(
 	prototype,
 	'shorten',
 	function( )
-	{
-		var
-			result;
+{
+	var
+		result;
 
 /**/	if( CHECK )
 /**/	{
@@ -134,12 +134,12 @@ jion.lazyValue(
 /**/		}
 /**/	}
 
-		result = this.create( 'ray:remove', this.length - 1 );
+	result = this.create( 'ray:remove', this.length - 1 );
 
-		// FUTURE aheadLazyStringFunc
+	// FUTURE aheadLazyStringFunc
 
-		return result;
-	}
+	return result;
+}
 );
 
 
@@ -181,16 +181,16 @@ jion.lazyFunctionString(
 	prototype,
 	'prepend',
 	function( entry )
-	{
-		var
-			result;
+{
+	var
+		result;
 
-		result = this.create( 'ray:insert', 0, entry );
+	result = this.create( 'ray:insert', 0, entry );
 
-		jion.aheadValue( result, 'chop', this );
+	jion.aheadValue( result, 'chop', this );
 
-		return result;
-	}
+	return result;
+}
 );
 
 
@@ -212,10 +212,7 @@ prototype.subPathOf =
 	}
 	else
 	{
-		if( len < 0 )
-		{
-			len += this.length;
-		}
+		if( len < 0 ) len += this.length;
 
 		if( len < 0 )
 		{
@@ -225,16 +222,9 @@ prototype.subPathOf =
 
 	if( len > o.length ) return false;
 
-	for(
-		a = 0;
-		a < len;
-		a++
-	)
+	for( a = 0; a < len; a++ )
 	{
-		if( this.get( a ) !== o.get( a ) )
-		{
-			return false;
-		}
+		if( this.get( a ) !== o.get( a ) ) return false;
 	}
 
 	return true;
@@ -248,35 +238,35 @@ jion.lazyValue(
 	prototype,
 	'string',
 	function( )
+{
+	var
+		a,
+		aZ,
+		b;
+
+	b = [ '[ '[ 0 ] ]; // FUTURE jshint bug
+
+	for(
+		a = 0, aZ = this.length;
+		a < aZ;
+		a++
+	)
 	{
-		var
-			a,
-			aZ,
-			b;
-
-		b = [ '[ '[ 0 ] ]; // FUTURE jshint bug
-
-		for(
-			a = 0, aZ = this.length;
-			a < aZ;
-			a++
-		)
-		{
-			b.push(
-				( a > 0 ?  ', ' : ' ' ),
-				this.get( a )
-			);
-		}
-
-		b.push( ' ]' );
-
-		return b.join( '' );
+		b.push(
+			( a > 0 ?  ', ' : ' ' ),
+			this.get( a )
+		);
 	}
+
+	b.push( ' ]' );
+
+	return b.join( '' );
+}
 );
 
 
 /*
-| CreateFromJSON
+| Create from json.
 */
 jion$path.createFromJSON =
 	function( json )
@@ -306,10 +296,10 @@ prototype.toJSON =
 jion.lazyValue(
 	prototype,
 	'isEmpty',
-	function( )
-	{
-		return this.length === 0;
-	}
+function( )
+{
+	return this.length === 0;
+}
 );
 
 
