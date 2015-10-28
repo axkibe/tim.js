@@ -184,7 +184,7 @@ module.exports =
 
 		if( !outStat || inStat.mtime > outStat.mtime )
 		{
-			console.log( 'jioncode: ' + jionCodeRealFilename );
+			console.log( 'jionCode: ' + jionCodeRealFilename );
 
 			// requires the generator stuff only when needed
 			generator = require( './generator' );
@@ -241,7 +241,7 @@ module.exports =
 
 		exports.source = input;
 
-		exports.jioncode = output;
+		exports.jionCode = output;
 
 		exports.jionId = jionDef.id;
 
