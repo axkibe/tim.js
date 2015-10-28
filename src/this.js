@@ -98,12 +98,14 @@ module.exports =
 		ast,
 		attributes,
 		context,
+		exports,
 		global,
 		filename,
 		input,
 		inStat,
 		jionCodeRootDir,
 		jionCodeFilename,
+		jionCodeRealFilename,
 		jionDef,
 		k,
 		ouroboros,
@@ -145,9 +147,13 @@ module.exports =
 	}
 
 	jionCodeFilename =
-		jionCodeRootDir
-		+ 'jioncode/'
-		+ filename.substr( jionCodeRootDir.length ).replace( /\//g, '-' );
+		'jioncode/'
+		+
+			filename
+			.substr( jionCodeRootDir.length )
+			.replace( /\//g, '-' );
+
+	jionCodeRealFilename = jionCodeRootDir + jionCodeFilename;
 
 	global = { JION : true };
 
@@ -169,7 +175,7 @@ module.exports =
 
 		try
 		{
-			outStat = fs.statSync( jionCodeFilename );
+			outStat = fs.statSync( jionCodeRealFilename );
 		}
 		catch( e )
 		{
@@ -178,7 +184,7 @@ module.exports =
 
 		if( !outStat || inStat.mtime > outStat.mtime )
 		{
-			console.log( 'jioncode: ' + jionCodeFilename );
+			console.log( 'jioncode: ' + jionCodeRealFilename );
 
 			// requires the generator stuff only when needed
 			generator = require( './generator' );
@@ -189,7 +195,7 @@ module.exports =
 
 			output = format_formatter.format( ast );
 
-			fs.writeFileSync( jionCodeFilename, output );
+			fs.writeFileSync( jionCodeRealFilename, output );
 		}
 	}
 
@@ -214,10 +220,12 @@ module.exports =
 	context.require = module.require.bind( module );
 
 	vm.runInNewContext(
-		fs.readFileSync( jionCodeFilename ),
+		fs.readFileSync( jionCodeRealFilename ),
 		context,
-		jionCodeFilename
+		jionCodeRealFilename
 	);
+
+	exports = module.exports;
 
 	if( source )
 	{
@@ -228,22 +236,24 @@ module.exports =
 
 		if( !output )
 		{
-			output = fs.readFileSync( jionCodeFilename, readOptions );
+			output = fs.readFileSync( jionCodeRealFilename, readOptions );
 		}
 
-		module.exports.source = input;
+		exports.source = input;
 
-		module.exports.jioncode = output;
+		exports.jioncode = output;
 
-		module.exports.jionId = jionDef.id;
+		exports.jionId = jionDef.id;
+
+		exports.jionCodeFilename = jionCodeFilename;
 
 		if( jionDef.json )
 		{
-			module.exports.hasJson = true;
+			exports.hasJson = true;
 		}
 		else
 		{
-			module.exports.hasJson = false;
+			exports.hasJson = false;
 
 			attributes = jionDef.attributes;
 
@@ -253,7 +263,7 @@ module.exports =
 				{
 					if( attributes[ a ].json )
 					{
-						module.exports.hasJson = true;
+						exports.hasJson = true;
 
 						break;
 					}
@@ -262,5 +272,5 @@ module.exports =
 		}
 	}
 
-	return module.exports;
+	return exports;
 };
