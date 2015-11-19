@@ -334,7 +334,7 @@ jion$proto.lazyValue(
 
 
 /*
-| relative path to the procjet's root dir.
+| Relative path to the project's root dir.
 */
 jion$proto.lazyValue(
 	prototype,

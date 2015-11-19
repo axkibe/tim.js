@@ -526,10 +526,7 @@ prototype.genNodeIncludes =
 
 		if( id.isPrimitive ) continue;
 
-		if(
-			id.packet
-			&& id.packet !== this.id.packet
-		)
+		if( id.packet && id.packet !== this.id.packet )
 		{
 			block =
 				block
