@@ -7,10 +7,13 @@
 
 
 var
+	cacheContext,
+	cacheGlobal,
 	findJionCodeRootDir,
 	fs,
 	format_formatter,
 	generator,
+	getContext,
 	jion_proto,
 	readOptions,
 	vm;
@@ -74,6 +77,31 @@ findJionCodeRootDir =
 
 
 /*
+| Returns the context to run the jion definiton in.
+*/
+getContext =
+	function( module )
+{
+	if( cacheContext )
+	{
+		cacheGlobal.require = module.require.bind( module );
+
+		return cacheContext;
+	}	
+
+	cacheGlobal = { JION : true };
+
+	cacheGlobal.GLOBAL = cacheGlobal;
+
+	cacheGlobal.require = module.require.bind( module );
+
+	cacheContext = vm.createContext( cacheGlobal );
+
+	return cacheContext;
+};
+
+
+/*
 | Creates and requires the jioncode defined in the current module.
 |
 | Additional Arguments:
@@ -99,7 +127,6 @@ module.exports =
 		attributes,
 		context,
 		exports,
-		global,
 		filename,
 		input,
 		inStat,
@@ -111,6 +138,7 @@ module.exports =
 		ouroboros,
 		output,
 		outStat,
+		script,
 		source;
 
 	// additional argument parsing
@@ -155,15 +183,14 @@ module.exports =
 
 	jionCodeRealFilename = jionCodeRootDir + jionCodeFilename;
 
-	global = { JION : true };
-
-	global.GLOBAL = global;
-
-	global.require = module.require.bind( module );
-
 	input = fs.readFileSync( filename, readOptions );
 
-	jionDef = vm.runInNewContext( input, global, filename );
+	script = new vm.Script( input, { filename : filename } );
+
+	jionDef =
+		script.runInContext(
+			getContext( module )
+		);
 
 	// test if the jioncode is out of date
 	// or if it isn't existing at all
