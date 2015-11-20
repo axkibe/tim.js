@@ -83,20 +83,35 @@ findJionCodeRootDir =
 getContext =
 	function( module )
 {
+	var
+		k;
+
 	if( cacheContext )
 	{
-		cacheGlobal.require = module.require.bind( module );
+		for( k in cacheGlobal )
+		{
+			try
+			{
+				delete cacheGlobal[ k ];
+			}
+			catch( e )
+			{
+				cacheGlobal[ k ] = undefined;
+			}
+		}
+	}
+	else
+	{
+		cacheGlobal = { };
 
-		return cacheContext;
-	}	
+		cacheContext = vm.createContext( cacheGlobal );
+	}
 
-	cacheGlobal = { JION : true };
+	cacheGlobal.JION = true;
 
 	cacheGlobal.GLOBAL = cacheGlobal;
 
 	cacheGlobal.require = module.require.bind( module );
-
-	cacheContext = vm.createContext( cacheGlobal );
 
 	return cacheContext;
 };
@@ -121,6 +136,7 @@ getJionDef =
 
 	return script.runInContext( getContext( module ) );
 };
+
 
 /*
 | Creates and requires the jioncode defined in the current module.
