@@ -14,6 +14,7 @@ var
 	format_formatter,
 	generator,
 	getContext,
+	getJionDef,
 	jion_proto,
 	readOptions,
 	vm;
@@ -102,6 +103,26 @@ getContext =
 
 
 /*
+| Gets the jion definition.
+*/
+getJionDef =
+	function(
+		filename,
+		module
+	)
+{
+	var
+		input,
+		script;
+
+	input = fs.readFileSync( filename, readOptions );
+
+	script = new vm.Script( input, { filename : filename } );
+
+	return script.runInContext( getContext( module ) );
+};
+
+/*
 | Creates and requires the jioncode defined in the current module.
 |
 | Additional Arguments:
@@ -138,7 +159,6 @@ module.exports =
 		ouroboros,
 		output,
 		outStat,
-		script,
 		source;
 
 	// additional argument parsing
@@ -183,15 +203,6 @@ module.exports =
 
 	jionCodeRealFilename = jionCodeRootDir + jionCodeFilename;
 
-	input = fs.readFileSync( filename, readOptions );
-
-	script = new vm.Script( input, { filename : filename } );
-
-	jionDef =
-		script.runInContext(
-			getContext( module )
-		);
-
 	// test if the jioncode is out of date
 	// or if it isn't existing at all
 	// and create it if so.
@@ -217,6 +228,8 @@ module.exports =
 			generator = require( './generator' );
 
 			format_formatter = require( './format/formatter' );
+
+			if( !jionDef ) jionDef = getJionDef( filename, module );		
 
 			ast = generator.generate( jionDef );
 
@@ -256,10 +269,7 @@ module.exports =
 
 	if( source )
 	{
-		if( !input )
-		{
-			input = fs.readFileSync( filename, readOptions );
-		}
+		input = fs.readFileSync( filename, readOptions );
 
 		if( !output )
 		{
@@ -269,6 +279,8 @@ module.exports =
 		exports.source = input;
 
 		exports.jionCode = output;
+			
+		if( !jionDef ) jionDef = getJionDef( filename, module );
 
 		exports.jionId = jionDef.id;
 
