@@ -162,7 +162,6 @@ module.exports =
 		aZ,
 		ast,
 		attributes,
-		context,
 		exports,
 		filename,
 		input,
@@ -171,7 +170,6 @@ module.exports =
 		jionCodeFilename,
 		jionCodeRealFilename,
 		jionDef,
-		k,
 		ouroboros,
 		output,
 		outStat,
@@ -260,26 +258,19 @@ module.exports =
 	// runs the jion code within the handed module context
 	// so module.exports match exactly even with
 	// circula references
-	context = { };
 
-	for( k in GLOBAL )
-	{
-		if( !GLOBAL.hasOwnProperty( k ) ) continue;
+	input =
+    	'( function( module, require, jion_proto ) { '
+		+ fs.readFileSync( jionCodeRealFilename )
+		+ '\n} )';
 
-		context[ k ] = GLOBAL[ k ];
-	}
+	input =
+		vm.runInThisContext(
+			input,
+			{ filename: jionCodeRealFilename }
+		);
 
-	context.jion_proto = jion_proto;
-
-	context.module = module;
-
-	context.require = module.require.bind( module );
-
-	vm.runInNewContext(
-		fs.readFileSync( jionCodeRealFilename ),
-		context,
-		jionCodeRealFilename
-	);
+	input( module, module.require.bind( module ), jion_proto );
 
 	exports = module.exports;
 
