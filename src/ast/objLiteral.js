@@ -4,22 +4,22 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return{
+	throw{
 		id : 'jion$ast_objLiteral',
 		twig : require( '../typemaps/astExpression' )
 	};
 }
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 var

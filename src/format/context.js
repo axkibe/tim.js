@@ -3,22 +3,12 @@
 */
 
 
-var
-	format_context;
-
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
 /*
 | The jion definition.
 */
 if( JION )
 {
-	return{
+	throw{
 		id : 'jion$format_context',
 		attributes :
 		{
@@ -48,6 +38,17 @@ if( JION )
 		}
 	};
 }
+
+
+var
+	format_context;
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 var

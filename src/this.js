@@ -7,13 +7,10 @@
 
 
 var
-	cacheContext,
-	cacheGlobal,
 	findJionCodeRootDir,
 	fs,
 	format_formatter,
 	generator,
-	getContext,
 	getJionDef,
 	jion_proto,
 	readOptions,
@@ -78,46 +75,6 @@ findJionCodeRootDir =
 
 
 /*
-| Returns the context to run the jion definiton in.
-*/
-getContext =
-	function( module )
-{
-	var
-		k;
-
-	if( cacheContext )
-	{
-		for( k in cacheGlobal )
-		{
-			try
-			{
-				delete cacheGlobal[ k ];
-			}
-			catch( e )
-			{
-				cacheGlobal[ k ] = undefined;
-			}
-		}
-	}
-	else
-	{
-		cacheGlobal = { };
-
-		cacheContext = vm.createContext( cacheGlobal );
-	}
-
-	cacheGlobal.JION = true;
-
-	cacheGlobal.GLOBAL = cacheGlobal;
-
-	cacheGlobal.require = module.require.bind( module );
-
-	return cacheContext;
-};
-
-
-/*
 | Gets the jion definition.
 */
 getJionDef =
@@ -127,14 +84,30 @@ getJionDef =
 	)
 {
 	var
-		input,
-		script;
+		input;
 
-	input = fs.readFileSync( filename, readOptions );
+	input =
+	  	'( function( module, require, JION ) { '
+		+ fs.readFileSync( filename, readOptions )
+		+ '\n} )';
 
-	script = new vm.Script( input, { filename : filename } );
+	input =
+		vm.runInThisContext(
+			input,
+			{ filename: filename }
+		);
 
-	return script.runInContext( getContext( module ) );
+	try
+	{
+		input( module, module.require.bind( module ), true );
+
+		throw new Error( 'Requested jion definition, but non thrown' );
+	}
+	catch( e )
+	{
+		if( e.id ) return e;
+		else throw e;
+	}
 };
 
 

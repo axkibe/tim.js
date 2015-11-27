@@ -4,19 +4,19 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return { id : 'jion$ast_continue' };
+	throw{ id : 'jion$ast_continue' };
 }
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 require( '../this' )( module, 'ouroboros' );

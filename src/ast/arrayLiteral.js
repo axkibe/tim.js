@@ -3,6 +3,18 @@
 */
 
 
+/*
+| The jion definition.
+*/
+if( JION )
+{
+	throw{
+		id : 'jion$ast_arrayLiteral',
+		ray : require( '../typemaps/astExpression' )
+	};
+}
+
+
 var
 	ast_arrayLiteral;
 
@@ -12,18 +24,6 @@ var
 */
 (function() {
 'use strict';
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	return{
-		id : 'jion$ast_arrayLiteral',
-		ray : require( '../typemaps/astExpression' )
-	};
-}
 
 
 var

@@ -4,18 +4,11 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return {
+	throw{
 		id : 'jion$ast_case',
 		attributes :
 		{
@@ -28,6 +21,14 @@ if( JION )
 		ray : require( '../typemaps/astExpression' )
 	};
 }
+
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 require( '../this' )( module, 'ouroboros' );

@@ -4,18 +4,11 @@
 
 
 /*
-| Capsule.
-*/
-(function( ) {
-'use strict';
-
-
-/*
 | The jion definition.
 */
-if( GLOBAL.JION )
+if( JION )
 {
-	return{
+	throw{
 		id : 'jion$generator',
 		attributes :
 		{
@@ -35,6 +28,13 @@ if( GLOBAL.JION )
 		init : [ 'jion' ]
 	};
 }
+
+
+/*
+| Capsule.
+*/
+(function( ) {
+'use strict';
 
 
 var

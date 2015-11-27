@@ -155,7 +155,17 @@ for(
 
 		global.require = jionDefRequire.bind( undefined, inFilename );
 
-		jionDef = vm.runInNewContext( input, global, inFilename );
+		try
+		{
+			vm.runInNewContext( input, global, inFilename );
+
+			throw new Error( 'Requested jion definition, but non thrown' );
+		}
+		catch( e )
+		{
+			if( e.id ) jionDef = e;
+			else throw e;
+		}
 
 		ast = generator.generate( jionDef, 'ouroboros' );
 

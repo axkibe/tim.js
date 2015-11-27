@@ -4,18 +4,11 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return{
+	throw{
 		id : 'jion$ast_switch',
 		attributes :
 		{
@@ -33,6 +26,13 @@ if( JION )
 		ray : [ 'jion$ast_case' ]
 	};
 }
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 var

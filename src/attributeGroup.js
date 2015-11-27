@@ -4,22 +4,22 @@
 
 
 /*
-| Capsule.
-*/
-(function( ) {
-'use strict';
-
-
-/*
 | The jion definition.
 */
-if( GLOBAL.JION )
+if( JION )
 {
-	return {
+	throw{
 		id : 'jion$attributeGroup',
 		group : [ 'jion$attribute' ]
 	};
 }
+
+
+/*
+| Capsule.
+*/
+(function( ) {
+'use strict';
 
 
 require( './this' )( module, 'ouroboros' );

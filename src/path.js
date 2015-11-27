@@ -9,22 +9,23 @@ var
 
 
 /*
+| The jion definition.
+*/
+if( JION )
+{
+	throw{
+		id : 'jion$path',
+		ray : [ 'string' ]
+	};
+}
+
+
+/*
 | Capsule
 */
 ( function ( ) {
 "use strict";
 
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	return{
-		id : 'jion$path',
-		ray : [ 'string' ]
-	};
-}
 
 var
 	prototype;

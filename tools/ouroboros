@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
+echo first cycle
 node src/ouroboros/root.js --all
+echo second cycle
 node src/ouroboros/root.js --all
+echo testing jshing
 ./jshint
 echo jshint: okay

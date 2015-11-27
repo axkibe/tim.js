@@ -4,18 +4,11 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return{
+	throw{
 		id : 'ijon$jsLexer_token',
 		attributes :
 		{
@@ -33,6 +26,13 @@ if( JION )
 		init : [ ]
 	};
 }
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 var

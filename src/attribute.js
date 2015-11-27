@@ -4,18 +4,11 @@
 
 
 /*
-| Capsule.
-*/
-(function( ) {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return{
+	throw{
 		id : 'jion$attribute',
 		attributes :
 		{
@@ -77,6 +70,13 @@ if( JION )
 		}
 	};
 }
+
+
+/*
+| Capsule.
+*/
+(function( ) {
+'use strict';
 
 
 require( './this' )( module, 'ouroboros' );

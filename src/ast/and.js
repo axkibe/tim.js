@@ -4,18 +4,11 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
-if( GLOBAL.JION )
+if( JION )
 {
-	return{
+	throw{
 		id : 'jion$ast_and',
 		attributes :
 		{
@@ -32,6 +25,13 @@ if( GLOBAL.JION )
 		}
 	};
 }
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 var

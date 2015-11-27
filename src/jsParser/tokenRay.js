@@ -5,24 +5,24 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return {
+	throw{
 		id : 'jion$jsParser_tokenRay',
 		ray :
 			require( '../typemaps/astStatement' )
 			.concat( [ 'jion$jsLexer_token' ] )
 	};
 }
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
 
 
 require( '../this' )( module, 'ouroboros' );

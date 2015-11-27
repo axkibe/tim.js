@@ -4,18 +4,11 @@
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return{
+	throw{
 		id : 'jion$ast_number',
 		attributes :
 		{
@@ -27,6 +20,14 @@ if( JION )
 		}
 	};
 }
+
+
+/*
+| Capsule
+*/
+(function() {
+'use strict';
+
 
 var
 	ast_number,

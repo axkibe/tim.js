@@ -4,22 +4,22 @@
 
 
 /*
-| Capsule.
-*/
-(function( ) {
-'use strict';
-
-
-/*
 | The jion definition.
 */
 if( JION )
 {
-	return{
+	throw{
 		id : 'jion$idGroup',
 		group : [ 'jion$id' ]
 	};
 }
+
+
+/*
+| Capsule.
+*/
+(function( ) {
+'use strict';
 
 
 var
