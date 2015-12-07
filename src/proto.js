@@ -313,17 +313,14 @@ jion_proto.lazyStaticValue =
 		{
 			get : function( )
 			{
-				if( FREEZE )
+				if( this.__lazy[ key ] !== undefined )
 				{
-					if( this.__lazy[ key ] !== undefined )
-					{
-						return this.__lazy[ key ];
-					}
-
-					return(
-						this.__lazy[ key ] = getter.call( this )
-					);
+					return this.__lazy[ key ];
 				}
+
+				return(
+					this.__lazy[ key ] = getter.call( this )
+				);
 			}
 		}
 	);
