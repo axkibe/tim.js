@@ -1304,7 +1304,7 @@ prototype.genSingleTypeCheckFailCondition =
 
 		case 'date' :
 
-			return $( '!', aVar, 'instanceof Date' );
+			return $( '!(', aVar, 'instanceof Date )' );
 
 		case 'integer' :
 
