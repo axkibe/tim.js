@@ -597,15 +597,16 @@ prototype.genConstructor =
 
 	block = $block( );
 
-	if( !abstract )
-	{
-		block =
-			block
-			.$if(
-				'prototype.__have_lazy',
-				$( 'this.__lazy = { }' )
-			);
-	}
+	block =
+		block
+		.$if(
+			(
+				abstract
+				? 'abstractPrototype.__have_lazy'
+				: 'prototype.__have_lazy'
+			),
+			$( 'this.__lazy = { }' )
+		);
 
 	attributes = this.attributes;
 
@@ -810,7 +811,9 @@ prototype.genConstructor =
 			$block( )
 			.$comment( 'Abstract constructor.' )
 			.$varDec( 'AbstractConstructor' )
+			.$varDec( 'abstractPrototype' )
 			.$( 'AbstractConstructor = ', cf )
+			.$( 'abstractPrototype = AbstractConstructor.prototype' )
 		);
 	}
 };
@@ -1164,6 +1167,18 @@ prototype.genCreatorFreeStringsParser =
 				.$( 'ranks.push( key )' )
 			)
 			.$case(
+				'"twig:set+"',
+				$block( )
+				.$( twigDupCheck )
+				.$( 'key = arg' )
+				.$( 'arg = arguments[ ++a + 1 ]' )
+				.$if(
+					'twig[ key ] === undefined',
+					$( 'ranks.push( key )' )
+				)
+				.$( 'twig[ key ] = arg' )
+			)
+			.$case(
 				'"twig:set"',
 				$block( )
 				.$( twigDupCheck )
@@ -1293,7 +1308,8 @@ prototype.genCreatorDefaults =
 prototype.genSingleTypeCheckFailCondition =
 	function(
 		aVar,
-		id
+		id,
+		abstract
 	)
 {
 	switch( id.pathName )
@@ -1338,7 +1354,18 @@ prototype.genSingleTypeCheckFailCondition =
 
 		default :
 
-			return $( aVar, '.reflect !== ', id.$pathName );
+			if( !abstract )
+			{
+				return $( aVar, '.reflect !== ', id.$pathName );
+			}
+			else
+			{
+				return $(
+					aVar, '.reflect !== ', id.$pathName,
+					'&&',
+					aVar, '.reflect !== ', id.$abstractPathName
+				);
+			}
 	}
 };
 
@@ -1348,8 +1375,9 @@ prototype.genSingleTypeCheckFailCondition =
 */
 prototype.genTypeCheckFailCondition =
 	function(
-		aVar,  // the variable to check
-		idx  // the id or idGroup it has to match
+		aVar,    // the variable to check
+		idx,     // the id or idGroup it has to match
+		abstract // if true generate for an abstract constructor
 	)
 {
 	var
@@ -1361,16 +1389,13 @@ prototype.genTypeCheckFailCondition =
 
 	if( idx.reflect === 'id' )
 	{
-		return this.genSingleTypeCheckFailCondition( aVar, idx );
+		return this.genSingleTypeCheckFailCondition( aVar, idx, abstract );
 	}
 
 
 /**/if( CHECK )
 /**/{
-/**/	if( idx.reflect !== 'idGroup' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( idx.reflect !== 'idGroup' )	throw new Error( );
 /**/}
 
 	if( idx.size === 1 )
@@ -1378,7 +1403,8 @@ prototype.genTypeCheckFailCondition =
 		return(
 			this.genSingleTypeCheckFailCondition(
 				aVar,
-				idx.get( idx.keys[ 0 ] )
+				idx.get( idx.keys[ 0 ] ),
+				abstract
 			)
 		);
 	}
@@ -1387,11 +1413,7 @@ prototype.genTypeCheckFailCondition =
 
 	keyList = idx.sortedKeys;
 
-	for(
-		a = 0, aZ = keyList.length;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = keyList.length; a < aZ; a++ )
 	{
 		id = idx.get( keyList[ a ] );
 
@@ -1412,7 +1434,7 @@ prototype.genTypeCheckFailCondition =
 			default :
 
 				condArray.push(
-					this.genSingleTypeCheckFailCondition( aVar, id )
+					this.genSingleTypeCheckFailCondition( aVar, id, abstract )
 				);
 
 				continue;
@@ -1508,7 +1530,7 @@ prototype.genCreatorChecks =
 			cond = undefined;
 		}
 
-		tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id );
+		tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id, abstract );
 
 		if( cond )
 		{
@@ -1529,7 +1551,7 @@ prototype.genCreatorChecks =
 				$block( )
 				.$( 'o = group[ k ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.group ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.group, abstract ),
 					$fail( )
 				)
 			);
@@ -1546,7 +1568,7 @@ prototype.genCreatorChecks =
 				$block( )
 				.$( 'o = ray[ r ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.ray ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.ray, abstract ),
 					$fail( )
 				)
 			);
@@ -1564,7 +1586,7 @@ prototype.genCreatorChecks =
 				$block( )
 				.$( 'o = twig[ ranks[ a ] ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.twig ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.twig, abstract ),
 					$fail( )
 				)
 			);
@@ -1836,7 +1858,7 @@ prototype.genCreator =
 		.$(
 			this.id.global, '.', funcName,
 			this.hasAbstract
-				? [ ' = ', 'AbstractConstructor.prototype.', funcName ]
+				? [ ' = ', 'abstractPrototype.', funcName ]
 				: undefined,
 			' = prototype.', funcName,
 			' = ', creator
@@ -2596,12 +2618,13 @@ prototype.genReflection =
 				$block( )
 				.$comment( 'Abstract Reflection.' )
 				.$(
-					'AbstractConstructor.prototype.reflect = ',
+					'abstractPrototype.reflect = ',
 					this.id.$abstractPathName
 				)
+				.$( 'abstractPrototype.isAbstract = true' )
 				.$comment( 'Abstract Name Reflection.' )
 				.$(
-					'AbstractConstructor.prototype.reflectName = ',
+					'abstractPrototype.reflectName = ',
 					this.id.$abstractName
 				)
 			)
@@ -2612,6 +2635,71 @@ prototype.genReflection =
 		.$comment( 'Name Reflection.' )
 		.$( 'prototype.reflectName =', this.id.$name )
 	);
+};
+
+
+/*
+| Generates code for setting the prototype
+| entry 'key' to 'value'
+*/
+prototype.$protoSet =
+	function(
+		key,
+		value
+	)
+{
+	if( this.hasAbstract )
+	{
+		return $(
+			'prototype.', key, ' = ',
+			'abstractPrototype.', key, ' = ',
+			value
+		);
+	}
+	else
+	{
+		return $( 'prototype.', key, ' = ', value );
+	}
+};
+
+
+/*
+| Generates code for setting the prototype
+| lazy value named 'name' to 'func'.
+*/
+prototype.$protoLazyValueSet =
+	function(
+		name,
+		func
+	)
+{
+	var
+		ast;
+
+	ast =
+		$block( )
+		.$(
+			'jion_proto.lazyValue(',
+				'prototype,',
+				name, ',',
+				func,
+			')'
+		);
+
+	if( this.hasAbstract )
+	{
+		ast =
+			ast
+			.$(
+				'jion_proto.lazyValue(',
+					'abstractPrototype,',
+					name, ',',
+					func,
+				')'
+			);
+	}
+
+	return ast;
 };
 
 
@@ -2627,10 +2715,10 @@ prototype.genJionProto =
 	result =
 		$block( )
 		.$comment( 'Sets values by path.' )
-		.$( 'prototype.setPath = jion_proto.setPath' )
+		.$( this.$protoSet( 'setPath', 'jion_proto.setPath' ) )
 
 		.$comment( 'Gets values by path' )
-		.$( 'prototype.getPath = jion_proto.getPath' );
+		.$( this.$protoSet( 'getPath', 'jion_proto.getPath' ) );
 
 	if( this.group )
 	{
@@ -2641,37 +2729,25 @@ prototype.genJionProto =
 				'Returns the group with another group added,',
 				'overwriting collisions.'
 			)
-			.$( 'prototype.addGroup = jion_proto.groupAddGroup' )
+			.$( this.$protoSet( 'addGroup', 'jion_proto.groupAddGroup' ) )
 
 			.$comment( 'Gets one element from the group.' )
-			.$( 'prototype.get = jion_proto.groupGet' )
+			.$( this.$protoSet( 'get', 'jion_proto.groupGet' ) )
 
 			.$comment( 'Returns the group keys.')
-			.$(
-				'jion_proto.lazyValue',
-				'( prototype, "keys", jion_proto.groupKeys )'
-			)
+			.$( this.$protoLazyValueSet( '"keys"', 'jion_proto.groupKeys' ) )
 
 			.$comment( 'Returns the sorted group keys.')
-			.$(
-				'jion_proto.lazyValue(',
-					'prototype,',
-					'"sortedKeys",',
-					'jion_proto.groupSortedKeys',
-				')'
-			)
+			.$( this.$protoLazyValueSet( '"sortedKeys"', 'jion_proto.groupSortedKeys' ) )
 
 			.$comment( 'Returns the group with one element removed.' )
-			.$( 'prototype.remove = jion_proto.groupRemove' )
+			.$( this.$protoSet( 'remove', 'jion_proto.groupRemove' ) )
 
 			.$comment( 'Returns the group with one element set.' )
-			.$( 'prototype.set = jion_proto.groupSet' )
+			.$( this.$protoSet( 'set', 'jion_proto.groupSet' ) )
 
 			.$comment( 'Returns the size of the group.')
-			.$(
-				'jion_proto.lazyValue',
-				'( prototype, "size", jion_proto.groupSize )'
-			);
+			.$( this.$protoLazyValueSet( '"size"', 'jion_proto.groupSize' ) );
 	}
 
 	if( this.ray )
@@ -2679,28 +2755,25 @@ prototype.genJionProto =
 		result =
 			result
 			.$comment( 'Returns the ray with an element appended.' )
-			.$( 'prototype.append = jion_proto.rayAppend' )
+			.$( this.$protoSet( 'append', 'jion_proto.rayAppend' ) )
 
 			.$comment( 'Returns the ray with another ray appended.' )
-			.$( 'prototype.appendRay = jion_proto.rayAppendRay' )
+			.$( this.$protoSet( 'appendRay', 'jion_proto.rayAppendRay' ) )
 
 			.$comment( 'Returns the length of the ray.')
-			.$(
-				'jion_proto.lazyValue',
-				'( prototype, "length", jion_proto.rayLength )'
-			)
+			.$( this.$protoLazyValueSet( '"length"', 'jion_proto.rayLength' ) )
 
 			.$comment( 'Returns one element from the ray.' )
-			.$( 'prototype.get = jion_proto.rayGet' )
+			.$( this.$protoSet( 'get', 'jion_proto.rayGet' ) )
 
 			.$comment( 'Returns the ray with one element inserted.' )
-			.$( 'prototype.insert = jion_proto.rayInsert' )
+			.$( this.$protoSet( 'insert', 'jion_proto.rayInsert' ) )
 
 			.$comment( 'Returns the ray with one element removed.' )
-			.$( 'prototype.remove = jion_proto.rayRemove' )
+			.$( this.$protoSet( 'remove', 'jion_proto.rayRemove' ) )
 
 			.$comment( 'Returns the ray with one element set.' )
-			.$( 'prototype.set = jion_proto.raySet' );
+			.$( this.$protoSet( 'set', 'jion_proto.raySet' ) );
 	}
 
 	if( this.twig )
@@ -2708,20 +2781,18 @@ prototype.genJionProto =
 		result =
 			result
 			.$comment( 'Returns the element at rank.' )
-			.$( 'prototype.atRank = jion_proto.twigAtRank' )
+			.$( this.$protoSet( 'atRank', 'jion_proto.twigAtRank' ) )
 
 			.$comment( 'Returns the element by key.' )
-			.$( 'prototype.get = jion_proto.twigGet' )
+			.$( this.$protoSet( 'get', 'jion_proto.twigGet' ) )
 
 			.$comment( 'Returns the key at a rank.' )
-			.$( 'prototype.getKey = jion_proto.twigGetKey' )
+			.$( this.$protoSet( 'getKey', 'jion_proto.twigGetKey' ) )
 
 			.$comment( 'Returns the length of the twig.')
-			.$(
-				'jion_proto.lazyValue',
-				'( prototype, "length", jion_proto.twigLength )'
-			)
+			.$( this.$protoLazyValueSet( '"length"', 'jion_proto.twigLength' ) )
 
+			// FUTURE for abstracts as well
 			.$comment( 'Returns the rank of the key.' )
 			.$(
 				'jion_proto.lazyFunctionString( ',
@@ -2730,7 +2801,7 @@ prototype.genJionProto =
 			)
 
 			.$comment( 'Returns the twig with the element at key set.' )
-			.$( 'prototype.set = jion_proto.twigSet' );
+			.$( this.$protoSet( 'set', 'jion_proto.twigSet' ) );
 	}
 
 	return result;

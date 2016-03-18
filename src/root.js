@@ -36,15 +36,21 @@ exports.proto = require( './proto.js' );
 
 exports.path = require( './path.js' );
 
+exports.pathRay = require( './pathRay.js' );
+
 exports.stringRay = require( './stringRay.js' );
 
 exports.copy = proto.copy;
 
 exports.isString = proto.isString;
 
+exports.lazyFunctionInteger = proto.lazyFunctionInteger;
+
 exports.lazyFunctionString = proto.lazyFunctionString;
 
 exports.lazyValue = proto.lazyValue;
+
+exports.aheadFunctionInteger = proto.aheadFunctionInteger;
 
 exports.aheadValue = proto.aheadValue;
 

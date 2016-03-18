@@ -250,6 +250,30 @@ prototype.create =
 
 				break;
 
+			case 'twig:set+' :
+
+				if( twigDup !== true )
+				{
+					twig = jion_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg;
+
+				arg = arguments[ ++a + 1 ];
+
+				if( twig[ key ] === undefined )
+				{
+					ranks.push( key );
+				}
+
+				twig[ key ] = arg;
+
+				break;
+
 			case 'twig:set' :
 
 				if( twigDup !== true )

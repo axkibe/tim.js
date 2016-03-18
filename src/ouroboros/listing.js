@@ -60,6 +60,7 @@ module.exports =
 	'src/id.js',
 	'src/idGroup.js',
 	'src/path.js',
+	'src/pathRay.js',
 	'src/stringRay.js',
 	'src/jsLexer/token.js',
 	'src/jsLexer/tokenRay.js',

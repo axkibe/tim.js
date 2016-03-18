@@ -757,7 +757,7 @@ formatExpression =
 	prec = precTable[ expr.reflect ];
 
 	pprec = precTable[ preflect ];
-	
+
 	if( !prec )
 	{
 		throw new Error( 'cannot handle: ' + expr.reflectName );
@@ -768,7 +768,7 @@ formatExpression =
 	if( !formatter ) throw new Error( expr.reflect );
 
 	bracket = pprec !== undefined && prec > pprec;
-	
+
 	// special case, a( ).b would look ugly
 	// as ( a( ) ).b
 	if( preflect === 'ast_dot' && expr.reflect === 'ast_call' )
