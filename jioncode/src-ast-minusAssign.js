@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion$ast_and;
+	jion$ast_minusAssign;
 
 
 if( NODE )
 {
-	jion$ast_and = module.exports;
+	jion$ast_minusAssign = module.exports;
 }
 else
 {
-	jion$ast_and = { };
+	jion$ast_minusAssign = { };
 }
 
 
@@ -74,6 +74,8 @@ function( ) {
 */
 if( NODE )
 {
+	jion$ast_and = require( '../ast/and' );
+
 	jion$ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 	jion$ast_assign = require( '../ast/assign' );
@@ -109,8 +111,6 @@ if( NODE )
 	jion$ast_member = require( '../ast/member' );
 
 	jion$ast_minus = require( '../ast/minus' );
-
-	jion$ast_minusAssign = require( '../ast/minusAssign' );
 
 	jion$ast_multiply = require( '../ast/multiply' );
 
@@ -156,8 +156,8 @@ var
 
 Constructor =
 	function(
-		v_left, // left expression
-		v_right // right expression
+		v_left, // left-hand side
+		v_right // right-hand side
 	)
 {
 	if( prototype.__have_lazy )
@@ -182,13 +182,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_and.prototype = prototype;
+jion$ast_minusAssign.prototype = prototype;
 
 
 /*
-| Creates a new and object.
+| Creates a new minusAssign object.
 */
-jion$ast_and.create =
+jion$ast_minusAssign.create =
 prototype.create =
 	function(
 		// free strings
@@ -202,7 +202,7 @@ prototype.create =
 		v_left,
 		v_right;
 
-	if( this !== jion$ast_and )
+	if( this !== jion$ast_minusAssign )
 	{
 		inherit = this;
 
@@ -447,13 +447,13 @@ prototype.create =
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_and';
+prototype.reflect = 'ast_minusAssign';
 
 
 /*
 | Name Reflection.
 */
-prototype.reflectName = 'and';
+prototype.reflectName = 'minusAssign';
 
 
 /*
@@ -486,7 +486,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_and' )
+	if( obj.reflect !== 'ast_minusAssign' )
 	{
 		return false;
 	}

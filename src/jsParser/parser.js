@@ -31,12 +31,16 @@ var
 	ast_condition,
 	ast_delete,
 	ast_differs,
+	ast_divide,
+	ast_divideAssign,
 	ast_dot,
 	ast_equals,
 	ast_greaterThan,
 	ast_instanceof,
 	ast_lessThan,
 	ast_member,
+	ast_minus,
+	ast_minusAssign,
 	ast_multiply,
 	ast_multiplyAssign,
 	ast_new,
@@ -47,6 +51,7 @@ var
 	ast_or,
 	ast_plus,
 	ast_plusAssign,
+	ast_preDecrement,
 	ast_preIncrement,
 	ast_return,
 	ast_string,
@@ -82,6 +87,10 @@ ast_delete = require( '../ast/delete' );
 
 ast_differs = require( '../ast/differs' );
 
+ast_divide = require( '../ast/divide' );
+
+ast_divideAssign = require( '../ast/divideAssign' );
+
 ast_dot = require( '../ast/dot' );
 
 ast_equals = require( '../ast/equals' );
@@ -93,6 +102,10 @@ ast_instanceof = require( '../ast/instanceof' );
 ast_lessThan = require( '../ast/lessThan' );
 
 ast_member = require( '../ast/member' );
+
+ast_minus = require( '../ast/minus' );
+
+ast_minusAssign = require( '../ast/minusAssign' );
 
 ast_multiply = require( '../ast/multiply' );
 
@@ -113,6 +126,8 @@ ast_or = require( '../ast/or' );
 ast_plus = require( '../ast/plus' );
 
 ast_plusAssign = require( '../ast/plusAssign' );
+
+ast_preDecrement = require( '../ast/preDecrement' );
 
 ast_preIncrement = require( '../ast/preIncrement' );
 
@@ -956,6 +971,13 @@ leftSpecs[ '++' ] =
 		'astCreator', ast_preIncrement
 	);
 
+leftSpecs[ '--' ] =
+	jsParser_spec.create(
+		'prec', 3,
+		'handler', 'handleMonoOps',
+		'astCreator', ast_preDecrement
+	);
+
 leftSpecs[ '!' ] =
 	jsParser_spec.create(
 		'prec', 4,
@@ -1038,11 +1060,27 @@ rightSpecs[ '*' ] =
 		'associativity', 'l2r'
 	);
 
+rightSpecs[ '/' ] =
+	jsParser_spec.create(
+		'prec', 5,
+		'handler', 'handleDualisticOps',
+		'astCreator', ast_divide,
+		'associativity', 'l2r'
+	);
+
 rightSpecs[ '+' ] =
 	jsParser_spec.create(
 		'prec', 6,
 		'handler', 'handleDualisticOps',
 		'astCreator', ast_plus,
+		'associativity', 'l2r'
+	);
+
+rightSpecs[ '-' ] =
+	jsParser_spec.create(
+		'prec', 6,
+		'handler', 'handleDualisticOps',
+		'astCreator', ast_minus,
 		'associativity', 'l2r'
 	);
 
@@ -1125,11 +1163,27 @@ rightSpecs[ '+=' ] =
 		'associativity', 'r2l'
 	);
 
+rightSpecs[ '-=' ] =
+	jsParser_spec.create(
+		'prec', 16,
+		'handler', 'handleDualisticOps',
+		'astCreator', ast_minusAssign,
+		'associativity', 'r2l'
+	);
+
 rightSpecs[ '*=' ] =
 	jsParser_spec.create(
 		'prec', 16,
 		'handler', 'handleDualisticOps',
 		'astCreator', ast_multiplyAssign,
+		'associativity', 'r2l'
+	);
+
+rightSpecs[ '/=' ] =
+	jsParser_spec.create(
+		'prec', 16,
+		'handler', 'handleDualisticOps',
+		'astCreator', ast_divideAssign,
 		'associativity', 'r2l'
 	);
 

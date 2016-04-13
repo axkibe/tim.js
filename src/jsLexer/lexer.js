@@ -243,6 +243,29 @@ jsLexer.tokenize =
 
 				continue;
 
+			case '-' :
+
+				if( c + 1 < cZ && code[ c + 1 ] === '-' )
+				{
+					tokens.push( jsLexer_token.create( 'type', '--' ) );
+
+					c++;
+				}
+				else if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				{
+					tokens.push( jsLexer_token.create( 'type', '-=' ) );
+
+					c++;
+				}
+				else
+				{
+					tokens.push(
+						jsLexer_token.create( 'type', '-' )
+					);
+				}
+
+				continue;
+
 			case '*' :
 
 				if( c + 1 < cZ && code[ c + 1 ] === '=' )
@@ -257,6 +280,25 @@ jsLexer.tokenize =
 				{
 					tokens.push(
 						jsLexer_token.create( 'type', '*' )
+					);
+				}
+
+				continue;
+
+			case '/' :
+
+				if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				{
+					tokens.push(
+						jsLexer_token.create( 'type', '/=' )
+					);
+
+					c++;
+				}
+				else
+				{
+					tokens.push(
+						jsLexer_token.create( 'type', '/' )
 					);
 				}
 

@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion$ast_dot;
+	jion$ast_preDecrement;
 
 
 if( NODE )
 {
-	jion$ast_dot = module.exports;
+	jion$ast_preDecrement = module.exports;
 }
 else
 {
-	jion$ast_dot = { };
+	jion$ast_preDecrement = { };
 }
 
 
@@ -96,6 +96,8 @@ if( NODE )
 
 	jion$ast_divideAssign = require( '../ast/divideAssign' );
 
+	jion$ast_dot = require( '../ast/dot' );
+
 	jion$ast_equals = require( '../ast/equals' );
 
 	jion$ast_func = require( '../ast/func' );
@@ -132,8 +134,6 @@ if( NODE )
 
 	jion$ast_plusAssign = require( '../ast/plusAssign' );
 
-	jion$ast_preDecrement = require( '../ast/preDecrement' );
-
 	jion$ast_preIncrement = require( '../ast/preIncrement' );
 
 	jion$ast_string = require( '../ast/string' );
@@ -156,8 +156,7 @@ var
 
 Constructor =
 	function(
-		v_expr, // the expression to get the member of
-		v_member // the members name
+		v_expr // the expression to pre decrement
 	)
 {
 	if( prototype.__have_lazy )
@@ -166,10 +165,6 @@ Constructor =
 	}
 
 	this.expr = v_expr;
-
-	this.member = v_member;
-
-	this._init( );
 
 	if( FREEZE )
 	{
@@ -184,13 +179,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_dot.prototype = prototype;
+jion$ast_preDecrement.prototype = prototype;
 
 
 /*
-| Creates a new dot object.
+| Creates a new preDecrement object.
 */
-jion$ast_dot.create =
+jion$ast_preDecrement.create =
 prototype.create =
 	function(
 		// free strings
@@ -201,16 +196,13 @@ prototype.create =
 		aZ,
 		arg,
 		inherit,
-		v_expr,
-		v_member;
+		v_expr;
 
-	if( this !== jion$ast_dot )
+	if( this !== jion$ast_preDecrement )
 	{
 		inherit = this;
 
 		v_expr = this.expr;
-
-		v_member = this.member;
 	}
 
 	for(
@@ -228,15 +220,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_expr = arg;
-				}
-
-				break;
-
-			case 'member' :
-
-				if( arg !== pass )
-				{
-					v_member = arg;
 				}
 
 				break;
@@ -336,25 +319,6 @@ prototype.create =
 /**/	{
 /**/		throw new Error( );
 /**/	}
-/**/
-/**/	if( v_member === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_member === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if(
-/**/		typeof( v_member ) !== 'string'
-/**/		&&
-/**/		!( v_member instanceof String )
-/**/	)
-/**/	{
-/**/		throw new Error( );
-/**/	}
 /**/}
 
 	if(
@@ -365,27 +329,25 @@ prototype.create =
 			||
 			v_expr.equals( inherit.expr )
 		)
-		&&
-		v_member === inherit.member
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_expr, v_member );
+	return new Constructor( v_expr );
 };
 
 
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_dot';
+prototype.reflect = 'ast_preDecrement';
 
 
 /*
 | Name Reflection.
 */
-prototype.reflectName = 'dot';
+prototype.reflectName = 'preDecrement';
 
 
 /*
@@ -418,20 +380,12 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_dot' )
+	if( obj.reflect !== 'ast_preDecrement' )
 	{
 		return false;
 	}
 
-	return (
-		(
-			this.expr === obj.expr
-			||
-			this.expr.equals( obj.expr )
-		)
-		&&
-		this.member === obj.member
-	);
+	return this.expr === obj.expr || this.expr.equals( obj.expr );
 };
 
 

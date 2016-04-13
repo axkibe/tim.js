@@ -30,7 +30,6 @@ var
 	fs,
 	format_formatter,
 	generator,
-	global,
 	inFilename,
 	inStat,
 	jionDef,
@@ -147,17 +146,25 @@ for(
 	{
 		console.log( 'Reading ' + inFilename );
 
-		input = fs.readFileSync( inFilename, readOptions );
+		input =
+		  	'( function( module, require, JION ) { '
+			+ fs.readFileSync( inFilename, readOptions )
+			+ '\n} )';
 
-		global = { JION : true };
-
-		global.GLOBAL = global;
-
-		global.require = jionDefRequire.bind( undefined, inFilename );
 
 		try
 		{
-			vm.runInNewContext( input, global, inFilename );
+			input =
+				vm.runInThisContext(
+					input,
+					{ filename: inFilename }
+				);
+
+			input(
+				module,
+				jionDefRequire.bind( undefined, inFilename ),
+				true
+			);
 
 			throw new Error( 'Requested jion definition, but non thrown' );
 		}

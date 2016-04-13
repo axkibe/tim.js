@@ -33,6 +33,8 @@ var
 	jion$ast_condition,
 	jion$ast_delete,
 	jion$ast_differs,
+	jion$ast_divide,
+	jion$ast_divideAssign,
 	jion$ast_dot,
 	jion$ast_equals,
 	jion$ast_func,
@@ -40,6 +42,8 @@ var
 	jion$ast_instanceof,
 	jion$ast_lessThan,
 	jion$ast_member,
+	jion$ast_minus,
+	jion$ast_minusAssign,
 	jion$ast_multiply,
 	jion$ast_multiplyAssign,
 	jion$ast_new,
@@ -50,6 +54,7 @@ var
 	jion$ast_or,
 	jion$ast_plus,
 	jion$ast_plusAssign,
+	jion$ast_preDecrement,
 	jion$ast_preIncrement,
 	jion$ast_string,
 	jion$ast_typeof,
@@ -90,6 +95,10 @@ if( NODE )
 
 	jion$ast_differs = require( '../ast/differs' );
 
+	jion$ast_divide = require( '../ast/divide' );
+
+	jion$ast_divideAssign = require( '../ast/divideAssign' );
+
 	jion$ast_dot = require( '../ast/dot' );
 
 	jion$ast_equals = require( '../ast/equals' );
@@ -103,6 +112,10 @@ if( NODE )
 	jion$ast_lessThan = require( '../ast/lessThan' );
 
 	jion$ast_member = require( '../ast/member' );
+
+	jion$ast_minus = require( '../ast/minus' );
+
+	jion$ast_minusAssign = require( '../ast/minusAssign' );
 
 	jion$ast_multiply = require( '../ast/multiply' );
 
@@ -123,6 +136,8 @@ if( NODE )
 	jion$ast_plus = require( '../ast/plus' );
 
 	jion$ast_plusAssign = require( '../ast/plusAssign' );
+
+	jion$ast_preDecrement = require( '../ast/preDecrement' );
 
 	jion$ast_preIncrement = require( '../ast/preIncrement' );
 
@@ -299,6 +314,10 @@ prototype.create =
 /**/		&&
 /**/		v_object.reflect !== 'ast_differs'
 /**/		&&
+/**/		v_object.reflect !== 'ast_divide'
+/**/		&&
+/**/		v_object.reflect !== 'ast_divideAssign'
+/**/		&&
 /**/		v_object.reflect !== 'ast_dot'
 /**/		&&
 /**/		v_object.reflect !== 'ast_equals'
@@ -312,6 +331,10 @@ prototype.create =
 /**/		v_object.reflect !== 'ast_lessThan'
 /**/		&&
 /**/		v_object.reflect !== 'ast_member'
+/**/		&&
+/**/		v_object.reflect !== 'ast_minus'
+/**/		&&
+/**/		v_object.reflect !== 'ast_minusAssign'
 /**/		&&
 /**/		v_object.reflect !== 'ast_multiply'
 /**/		&&
@@ -332,6 +355,8 @@ prototype.create =
 /**/		v_object.reflect !== 'ast_plus'
 /**/		&&
 /**/		v_object.reflect !== 'ast_plusAssign'
+/**/		&&
+/**/		v_object.reflect !== 'ast_preDecrement'
 /**/		&&
 /**/		v_object.reflect !== 'ast_preIncrement'
 /**/		&&

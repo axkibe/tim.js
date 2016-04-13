@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion$ast_and;
+	jion$ast_divide;
 
 
 if( NODE )
 {
-	jion$ast_and = module.exports;
+	jion$ast_divide = module.exports;
 }
 else
 {
-	jion$ast_and = { };
+	jion$ast_divide = { };
 }
 
 
@@ -74,6 +74,8 @@ function( ) {
 */
 if( NODE )
 {
+	jion$ast_and = require( '../ast/and' );
+
 	jion$ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 	jion$ast_assign = require( '../ast/assign' );
@@ -89,8 +91,6 @@ if( NODE )
 	jion$ast_delete = require( '../ast/delete' );
 
 	jion$ast_differs = require( '../ast/differs' );
-
-	jion$ast_divide = require( '../ast/divide' );
 
 	jion$ast_divideAssign = require( '../ast/divideAssign' );
 
@@ -182,13 +182,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_and.prototype = prototype;
+jion$ast_divide.prototype = prototype;
 
 
 /*
-| Creates a new and object.
+| Creates a new divide object.
 */
-jion$ast_and.create =
+jion$ast_divide.create =
 prototype.create =
 	function(
 		// free strings
@@ -202,7 +202,7 @@ prototype.create =
 		v_left,
 		v_right;
 
-	if( this !== jion$ast_and )
+	if( this !== jion$ast_divide )
 	{
 		inherit = this;
 
@@ -447,13 +447,13 @@ prototype.create =
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_and';
+prototype.reflect = 'ast_divide';
 
 
 /*
 | Name Reflection.
 */
-prototype.reflectName = 'and';
+prototype.reflectName = 'divide';
 
 
 /*
@@ -486,7 +486,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_and' )
+	if( obj.reflect !== 'ast_divide' )
 	{
 		return false;
 	}

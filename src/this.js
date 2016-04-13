@@ -216,7 +216,7 @@ module.exports =
 
 			format_formatter = require( './format/formatter' );
 
-			if( !jionDef ) jionDef = getJionDef( filename, module );		
+			if( !jionDef ) jionDef = getJionDef( filename, module );
 
 			ast = generator.generate( jionDef );
 
@@ -233,7 +233,7 @@ module.exports =
 	// circula references
 
 	input =
-    	'( function( module, require, jion_proto ) { '
+		'( function( module, require, jion_proto ) { '
 		+ fs.readFileSync( jionCodeRealFilename )
 		+ '\n} )';
 
