@@ -51,6 +51,8 @@ var
 	ast_or,
 	ast_plus,
 	ast_plusAssign,
+	ast_postDecrement,
+	ast_postIncrement,
 	ast_preDecrement,
 	ast_preIncrement,
 	ast_return,
@@ -130,6 +132,10 @@ ast_plusAssign = require( '../ast/plusAssign' );
 ast_preDecrement = require( '../ast/preDecrement' );
 
 ast_preIncrement = require( '../ast/preIncrement' );
+
+ast_postDecrement = require( '../ast/postDecrement' );
+
+ast_postIncrement = require( '../ast/postIncrement' );
 
 ast_return = require( '../ast/return' );
 
@@ -645,7 +651,7 @@ parser.handleMember =
 
 
 /*
-| Generic handler for mono operations.
+| Generic handler for left side mono operations.
 */
 parser.handleMonoOps =
 	function(
@@ -660,7 +666,14 @@ parser.handleMonoOps =
 
 	if( ast )
 	{
-		throw new Error( 'FUTURE cannot do postfix ops' );
+		// postfix (increment or decrement)
+		state =
+			state.create(
+				'ast', spec.astCreator.create( 'expr', state.ast ),
+				'pos', state.pos + 1
+			);
+
+		return state;
 	}
 
 	state =
@@ -966,14 +979,14 @@ leftSpecs[ 'new' ] =
 
 leftSpecs[ '++' ] =
 	jsParser_spec.create(
-		'prec', 3,
+		'prec', 4,
 		'handler', 'handleMonoOps',
 		'astCreator', ast_preIncrement
 	);
 
 leftSpecs[ '--' ] =
 	jsParser_spec.create(
-		'prec', 3,
+		'prec', 4,
 		'handler', 'handleMonoOps',
 		'astCreator', ast_preDecrement
 	);
@@ -1050,6 +1063,20 @@ rightSpecs[ '.' ] =
 		'prec', 1,
 		'handler', 'handleDot',
 		'associativity', 'l2r'
+	);
+
+rightSpecs[ '++' ] =
+	jsParser_spec.create(
+		'prec', 3,
+		'handler', 'handleMonoOps',
+		'astCreator', ast_postIncrement
+	);
+
+rightSpecs[ '--' ] =
+	jsParser_spec.create(
+		'prec', 3,
+		'handler', 'handleMonoOps',
+		'astCreator', ast_postDecrement
 	);
 
 rightSpecs[ '*' ] =

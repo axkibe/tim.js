@@ -33,6 +33,8 @@ module.exports =
 	'jion$ast_or',
 	'jion$ast_plus',
 	'jion$ast_plusAssign',
+	'jion$ast_postDecrement',
+	'jion$ast_postIncrement',
 	'jion$ast_preDecrement',
 	'jion$ast_preIncrement',
 	'jion$ast_string',

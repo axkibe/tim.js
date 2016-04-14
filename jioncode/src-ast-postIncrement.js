@@ -9,16 +9,16 @@
 | Export.
 */
 var
-	jion$ast_typeof;
+	jion$ast_postIncrement;
 
 
 if( NODE )
 {
-	jion$ast_typeof = module.exports;
+	jion$ast_postIncrement = module.exports;
 }
 else
 {
-	jion$ast_typeof = { };
+	jion$ast_postIncrement = { };
 }
 
 
@@ -138,13 +138,13 @@ if( NODE )
 
 	jion$ast_postDecrement = require( '../ast/postDecrement' );
 
-	jion$ast_postIncrement = require( '../ast/postIncrement' );
-
 	jion$ast_preDecrement = require( '../ast/preDecrement' );
 
 	jion$ast_preIncrement = require( '../ast/preIncrement' );
 
 	jion$ast_string = require( '../ast/string' );
+
+	jion$ast_typeof = require( '../ast/typeof' );
 
 	jion$ast_var = require( '../ast/var' );
 
@@ -162,7 +162,7 @@ var
 
 Constructor =
 	function(
-		v_expr // the expression to get the type of
+		v_expr // the expression to post increment
 	)
 {
 	if( prototype.__have_lazy )
@@ -185,13 +185,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_typeof.prototype = prototype;
+jion$ast_postIncrement.prototype = prototype;
 
 
 /*
-| Creates a new typeof object.
+| Creates a new postIncrement object.
 */
-jion$ast_typeof.create =
+jion$ast_postIncrement.create =
 prototype.create =
 	function(
 		// free strings
@@ -204,7 +204,7 @@ prototype.create =
 		inherit,
 		v_expr;
 
-	if( this !== jion$ast_typeof )
+	if( this !== jion$ast_postIncrement )
 	{
 		inherit = this;
 
@@ -351,13 +351,13 @@ prototype.create =
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_typeof';
+prototype.reflect = 'ast_postIncrement';
 
 
 /*
 | Name Reflection.
 */
-prototype.reflectName = 'typeof';
+prototype.reflectName = 'postIncrement';
 
 
 /*
@@ -390,7 +390,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_typeof' )
+	if( obj.reflect !== 'ast_postIncrement' )
 	{
 		return false;
 	}

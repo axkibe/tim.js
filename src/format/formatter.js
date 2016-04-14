@@ -60,6 +60,9 @@ var
 	formatOr,
 	formatPlus,
 	formatPlusAssign,
+	formatPostDecrement,
+	formatPostIncrement,
+	formatPreDecrement,
 	formatPreIncrement,
 	formatReturn,
 	formatStatement,
@@ -108,7 +111,10 @@ precTable =
 		'ast_or' : 14,
 		'ast_plus' : 6,
 		'ast_plusAssign' : 17,
-		'ast_preIncrement' : 3,
+		'ast_postDecrement' : 3,
+		'ast_postIncrement' : 3,
+		'ast_preDecrement' : 4,
+		'ast_preIncrement' : 4,
 		'ast_string' : -1,
 		'ast_typeof' : 4,
 		'ast_var' : -1
@@ -1520,6 +1526,32 @@ formatPlusAssign =
 
 
 /*
+| Formats a pre-decrement.
+*/
+formatPreDecrement =
+	function(
+		context,
+		expr
+	)
+{
+
+/**/if( CHECK )
+/**/{
+/**/	if( expr.reflect !== 'ast_preDecrement' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	return(
+		context.tab
+		+ '--'
+		+ formatExpression( context, expr.expr, 'ast_preDecrement' )
+	);
+};
+
+
+/*
 | Formats a pre-increment.
 */
 formatPreIncrement =
@@ -1545,6 +1577,55 @@ formatPreIncrement =
 };
 
 
+/*
+| Formats a post-decrement.
+*/
+formatPostDecrement =
+	function(
+		context,
+		expr
+	)
+{
+
+/**/if( CHECK )
+/**/{
+/**/	if( expr.reflect !== 'ast_postDecrement' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	return(
+		context.tab
+		+ formatExpression( context, expr.expr, 'ast_postIncrement' )
+		+ '--'
+	);
+};
+
+/*
+| Formats a post-increment.
+*/
+formatPostIncrement =
+	function(
+		context,
+		expr
+	)
+{
+
+/**/if( CHECK )
+/**/{
+/**/	if( expr.reflect !== 'ast_postIncrement' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	return(
+		context.tab
+		+ formatExpression( context, expr.expr, 'ast_postIncrement' )
+		+ '++'
+	);
+};
 
 
 /*
@@ -1804,6 +1885,10 @@ formatStatement =
 		case 'ast_number' :
 		case 'ast_plus' :
 		case 'ast_plusAssign' :
+		case 'ast_postIncrement' :
+		case 'ast_postDecrement' :
+		case 'ast_preIncrement' :
+		case 'ast_preDecrement' :
 		case 'ast_return' :
 		case 'ast_string' :
 		case 'ast_var' :
@@ -2210,6 +2295,9 @@ exprFormatter =
 	'ast_or' : formatOr,
 	'ast_plus' : formatPlus,
 	'ast_plusAssign' : formatPlusAssign,
+	'ast_postDecrement' : formatPostDecrement,
+	'ast_postIncrement' : formatPostIncrement,
+	'ast_preDecrement' : formatPreDecrement,
 	'ast_preIncrement' : formatPreIncrement,
 	'ast_string' : formatString,
 	'ast_typeof' : formatTypeof,

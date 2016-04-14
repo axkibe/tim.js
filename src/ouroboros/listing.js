@@ -49,6 +49,8 @@ module.exports =
 	'src/ast/or.js',
 	'src/ast/plus.js',
 	'src/ast/plusAssign.js',
+	'src/ast/postDecrement.js',
+	'src/ast/postIncrement.js',
 	'src/ast/preDecrement.js',
 	'src/ast/preIncrement.js',
 	'src/ast/return.js',

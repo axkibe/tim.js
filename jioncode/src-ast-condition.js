@@ -53,6 +53,8 @@ var
 	jion$ast_or,
 	jion$ast_plus,
 	jion$ast_plusAssign,
+	jion$ast_postDecrement,
+	jion$ast_postIncrement,
 	jion$ast_preDecrement,
 	jion$ast_preIncrement,
 	jion$ast_string,
@@ -131,6 +133,10 @@ if( NODE )
 	jion$ast_plus = require( '../ast/plus' );
 
 	jion$ast_plusAssign = require( '../ast/plusAssign' );
+
+	jion$ast_postDecrement = require( '../ast/postDecrement' );
+
+	jion$ast_postIncrement = require( '../ast/postIncrement' );
 
 	jion$ast_preDecrement = require( '../ast/preDecrement' );
 
@@ -336,6 +342,10 @@ prototype.create =
 /**/		&&
 /**/		v_condition.reflect !== 'ast_plusAssign'
 /**/		&&
+/**/		v_condition.reflect !== 'ast_postDecrement'
+/**/		&&
+/**/		v_condition.reflect !== 'ast_postIncrement'
+/**/		&&
 /**/		v_condition.reflect !== 'ast_preDecrement'
 /**/		&&
 /**/		v_condition.reflect !== 'ast_preIncrement'
@@ -421,6 +431,10 @@ prototype.create =
 /**/		&&
 /**/		v_elsewise.reflect !== 'ast_plusAssign'
 /**/		&&
+/**/		v_elsewise.reflect !== 'ast_postDecrement'
+/**/		&&
+/**/		v_elsewise.reflect !== 'ast_postIncrement'
+/**/		&&
 /**/		v_elsewise.reflect !== 'ast_preDecrement'
 /**/		&&
 /**/		v_elsewise.reflect !== 'ast_preIncrement'
@@ -505,6 +519,10 @@ prototype.create =
 /**/		v_then.reflect !== 'ast_plus'
 /**/		&&
 /**/		v_then.reflect !== 'ast_plusAssign'
+/**/		&&
+/**/		v_then.reflect !== 'ast_postDecrement'
+/**/		&&
+/**/		v_then.reflect !== 'ast_postIncrement'
 /**/		&&
 /**/		v_then.reflect !== 'ast_preDecrement'
 /**/		&&
