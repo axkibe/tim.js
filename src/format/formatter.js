@@ -51,15 +51,16 @@ var
 	formatInstanceof,
 	formatLessThan,
 	formatMember,
+	formatMinus,
 	formatMultiply,
 	formatMultiplyAssign,
 	formatNew,
 	formatNot,
 	formatNumber,
 	formatNull,
+	formatOpAssign,
 	formatOr,
 	formatPlus,
-	formatPlusAssign,
 	formatPostDecrement,
 	formatPostIncrement,
 	formatPreDecrement,
@@ -101,6 +102,8 @@ precTable =
 		'ast_instanceof' : 8,
 		'ast_lessThan' : 8,
 		'ast_member' : 1,
+		'ast_minus' : 6,
+		'ast_minusAssign' : 17,
 		'ast_multiply' : 5,
 		'ast_multiplyAssign' : 17,
 		'ast_new' : 2,
@@ -147,10 +150,7 @@ formatAnd =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_and' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_and' ) throw new Error( );
 /**/}
 
 	text =
@@ -185,10 +185,7 @@ formatArrayLiteral =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_arrayLiteral' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_arrayLiteral' ) throw new Error( );
 /**/}
 
 
@@ -361,10 +358,7 @@ formatBoolean =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_boolean' ) throw new Error( );
 /**/}
 
 	return (
@@ -394,10 +388,7 @@ formatCall =
 
 /**/if( CHECK )
 /**/{
-/**/	if( call.reflect !== 'ast_call' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( call.reflect !== 'ast_call' ) throw new Error( );
 /**/}
 
 	text =
@@ -452,10 +443,10 @@ formatCapsuleFunc =
 	var
 		text;
 
-	if( func.length !== 0 )
-	{
-		throw new Error( );
-	}
+/**/if( CHECK )
+/**/{
+/**/	if( func.length !== 0 ) throw new Error( );
+/**/}
 
 	text =
 		'function( ) {\n'
@@ -479,10 +470,10 @@ formatCheck =
 		check
 	)
 {
-	if( context.check )
-	{
-		throw new Error( );
-	}
+/**/if( CHECK )
+/**/{
+/**/	if( context.check ) throw new Error( );
+/**/}
 
 	context = context.create( 'check', true );
 
@@ -508,10 +499,7 @@ formatComma =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_comma' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_comma' ) throw new Error( );
 /**/}
 
 	text =
@@ -580,10 +568,7 @@ formatCondition =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_condition' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_condition' ) throw new Error( );
 /**/}
 
 	return (
@@ -616,10 +601,7 @@ formatContinue =
 
 /**/if( CHECK )
 /**/{
-/**/	if( statement.reflect !== 'ast_continue' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( statement.reflect !== 'ast_continue' ) throw new Error( );
 /**/}
 
 	return context.tab + 'continue';
@@ -639,10 +621,7 @@ formatDelete =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_delete' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_delete' ) throw new Error( );
 /**/}
 
 	return(
@@ -667,10 +646,7 @@ formatDiffers =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_differs' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_differs' ) throw new Error( );
 /**/}
 
 	text =
@@ -694,10 +670,7 @@ formatDot =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_dot' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_dot' ) throw new Error( );
 /**/}
 
 	return(
@@ -722,10 +695,7 @@ formatEquals =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_equals' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_equals' ) throw new Error( );
 /**/}
 
 	text =
@@ -845,10 +815,7 @@ formatFail =
 
 /**/if( CHECK )
 /**/{
-/**/	if( fail.reflect !== 'ast_fail' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( fail.reflect !== 'ast_fail' ) throw new Error( );
 /**/}
 
 	if( !fail.message )
@@ -1045,10 +1012,7 @@ formatGreaterThan =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_greaterThan' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_greaterThan' ) throw new Error( );
 /**/}
 
 	text =
@@ -1085,10 +1049,7 @@ formatIf =
 
 /**/if( CHECK )
 /**/{
-/**/	if( statement.reflect !== 'ast_if' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( statement.reflect !== 'ast_if' ) throw new Error( );
 /**/}
 
 	try {
@@ -1147,10 +1108,7 @@ formatInstanceof =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_instanceof' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_instanceof' ) throw new Error( );
 /**/}
 
 	text =
@@ -1179,10 +1137,7 @@ formatLessThan =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_lessThan' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_lessThan' ) throw new Error( );
 /**/}
 
 	text =
@@ -1209,10 +1164,7 @@ formatMember =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_member' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_member' ) throw new Error( );
 /**/}
 
 	return (
@@ -1241,10 +1193,7 @@ formatMultiply =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_multiply' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_multiply' ) throw new Error( );
 /**/}
 
 	text =
@@ -1323,10 +1272,7 @@ formatNew =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_new' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_new' ) throw new Error( );
 /**/}
 
 	return(
@@ -1353,10 +1299,7 @@ formatNot =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_not' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_not' ) throw new Error( );
 /**/}
 
 	return(
@@ -1378,10 +1321,7 @@ formatNull =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_null' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_null' ) throw new Error( );
 /**/}
 
 	return context.tab + 'null';
@@ -1400,10 +1340,7 @@ formatNumber =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_number' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_number' ) throw new Error( );
 /**/}
 
 	return context.tab + '' + expr.number;
@@ -1424,10 +1361,7 @@ formatOr =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_or' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_or' ) throw new Error( );
 /**/}
 
 	text =
@@ -1443,7 +1377,7 @@ formatOr =
 
 
 /*
-| Formats a Plus.
+| Formats a plus.
 */
 formatPlus =
 	function(
@@ -1456,10 +1390,7 @@ formatPlus =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_plus' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_plus' ) throw new Error( );
 /**/}
 
 	text =
@@ -1475,39 +1406,79 @@ formatPlus =
 
 
 /*
-| Formats a plus-assignment.
+| Formats a minus.
 */
-formatPlusAssign =
+formatMinus =
+	function(
+		context,
+		expr
+	)
+{
+	var
+		text;
+
+/**/if( CHECK )
+/**/{
+/**/	if( expr.reflect !== 'ast_minus' ) throw new Error( );
+/**/}
+
+	text =
+		formatExpression( context, expr.left, 'ast_minus' )
+		+ context.sep
+		+ context.tab
+		+ '-'
+		+ context.sep
+		+ formatExpression( context, expr.right, 'ast_minus' );
+
+	return text;
+};
+
+
+/*
+| Formats an operation assignment (+=,-=,*=,/=)
+*/
+formatOpAssign =
 	function(
 		context,
 		assign
 	)
 {
 	var
+		op,
 		text;
 
 	context = context.incSame;
+
+	switch( assign.reflect )
+	{
+		case 'ast_minusAssign' : op = '-='; break;
+
+		case 'ast_plusAssign' : op = '+='; break;
+
+		default : throw new Error( );
+	}
 
 	try
 	{
 		// first tries to inline the
 		// return expression.
 		text =
-			formatExpression( context.setInline, assign.left, 'ast_assign' )
-			+ ' += '
+			formatExpression(
+				context.setInline,
+				assign.left,
+				assign.reflect
+			)
+			+ ' ' + op + ' '
 			+ formatExpression(
 				context.setInline,
 				assign.right,
-				'ast_assign'
+				assign.reflect
 			);
 	}
 	catch( e )
 	{
 		// rethrows any real error
-		if( e !== 'noinline' )
-		{
-			throw e;
-		}
+		if( e !== 'noinline' ) throw e;
 	}
 
 	if( text !== undefined && textLen( text ) < MAX_TEXT_WIDTH )
@@ -1516,10 +1487,7 @@ formatPlusAssign =
 	}
 
 	// caller requested inline, but cannot do.
-	if( context.inline )
-	{
-		throw 'noinline';
-	}
+	if( context.inline ) throw 'noinline';
 
 	throw 'FUTURE: implement noinline +=';
 };
@@ -1537,10 +1505,7 @@ formatPreDecrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_preDecrement' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_preDecrement' ) throw new Error( );
 /**/}
 
 	return(
@@ -1563,10 +1528,7 @@ formatPreIncrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_preIncrement' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_preIncrement' ) throw new Error( );
 /**/}
 
 	return(
@@ -1589,10 +1551,7 @@ formatPostDecrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_postDecrement' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_postDecrement' ) throw new Error( );
 /**/}
 
 	return(
@@ -1614,10 +1573,7 @@ formatPostIncrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_postIncrement' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_postIncrement' ) throw new Error( );
 /**/}
 
 	return(
@@ -1642,10 +1598,7 @@ formatReturn =
 
 /**/if( CHECK )
 /**/{
-/**/	if( statement.reflect !== 'ast_return' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( statement.reflect !== 'ast_return' ) throw new Error( );
 /**/}
 
 	try
@@ -1880,6 +1833,8 @@ formatStatement =
 		case 'ast_dot' :
 		case 'ast_fail' :
 		case 'ast_member' :
+		case 'ast_minus' :
+		case 'ast_minusAssign' :
 		case 'ast_multiply' :
 		case 'ast_new' :
 		case 'ast_number' :
@@ -1922,10 +1877,7 @@ formatString =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_string' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_string' ) throw new Error( );
 /**/}
 
 	return context.tab + '\'' + expr.string + '\'';
@@ -2025,10 +1977,7 @@ formatTypeof =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_typeof' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_typeof' ) throw new Error( );
 /**/}
 
 	return(
@@ -2070,10 +2019,7 @@ formatObjLiteral =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_objLiteral' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_objLiteral' ) throw new Error( );
 /**/}
 
 
@@ -2129,10 +2075,7 @@ formatVar =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_var' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( expr.reflect !== 'ast_var' ) throw new Error( );
 /**/}
 
 	return context.tab + expr.name;
@@ -2285,6 +2228,8 @@ exprFormatter =
 	'ast_instanceof' : formatInstanceof,
 	'ast_lessThan' : formatLessThan,
 	'ast_member' : formatMember,
+	'ast_minus' : formatMinus,
+	'ast_minusAssign' : formatOpAssign,
 	'ast_multiply' : formatMultiply,
 	'ast_multiplyAssign' : formatMultiplyAssign,
 	'ast_new' : formatNew,
@@ -2294,7 +2239,7 @@ exprFormatter =
 	'ast_objLiteral' : formatObjLiteral,
 	'ast_or' : formatOr,
 	'ast_plus' : formatPlus,
-	'ast_plusAssign' : formatPlusAssign,
+	'ast_plusAssign' : formatOpAssign,
 	'ast_postDecrement' : formatPostDecrement,
 	'ast_postIncrement' : formatPostIncrement,
 	'ast_preDecrement' : formatPreDecrement,
