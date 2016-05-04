@@ -41,6 +41,7 @@ module.exports =
 	'src/ast/minusAssign.js',
 	'src/ast/multiply.js',
 	'src/ast/multiplyAssign.js',
+	'src/ast/negate.js',
 	'src/ast/new.js',
 	'src/ast/not.js',
 	'src/ast/null.js',

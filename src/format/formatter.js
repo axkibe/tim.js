@@ -53,7 +53,6 @@ var
 	formatMember,
 	formatMinus,
 	formatMultiply,
-	formatMultiplyAssign,
 	formatNew,
 	formatNot,
 	formatNumber,
@@ -1209,58 +1208,6 @@ formatMultiply =
 
 
 /*
-| Formats a plus-assignment.
-*/
-formatMultiplyAssign =
-	function(
-		context,
-		assign
-	)
-{
-	var
-		text;
-
-	context = context.incSame;
-
-	try
-	{
-		// first tries to inline the
-		// return expression.
-		text =
-			formatExpression( context.setInline, assign.left, 'ast_assign' )
-			+ ' *= '
-			+ formatExpression(
-				context.setInline,
-				assign.right,
-				'ast_assign'
-			);
-	}
-	catch( e )
-	{
-		// rethrows any real error
-		if( e !== 'noinline' )
-		{
-			throw e;
-		}
-	}
-
-	if( text !== undefined && textLen( text ) < MAX_TEXT_WIDTH )
-	{
-		return text;
-	}
-
-	// caller requested inline, but cannot do.
-	if( context.inline )
-	{
-		throw 'noinline';
-	}
-
-	throw 'FUTURE: implement noinline *=';
-};
-
-
-
-/*
 | Formats a new expression.
 */
 formatNew =
@@ -1451,7 +1398,11 @@ formatOpAssign =
 
 	switch( assign.reflect )
 	{
+		case 'ast_divideAssign' : op = '/='; break;
+
 		case 'ast_minusAssign' : op = '-='; break;
+
+		case 'ast_multiplyAssign' : op = '*='; break;
 
 		case 'ast_plusAssign' : op = '+='; break;
 
@@ -1810,11 +1761,7 @@ formatStatement =
 	{
 		case 'ast_varDec' :
 
-			if(
-				lookAhead
-				&&
-				lookAhead.reflect === 'ast_varDec'
-			)
+			if( lookAhead && lookAhead.reflect === 'ast_varDec' )
 			{
 				return text += ',\n';
 			}
@@ -1836,6 +1783,7 @@ formatStatement =
 		case 'ast_minus' :
 		case 'ast_minusAssign' :
 		case 'ast_multiply' :
+		case 'ast_multiplyAssign' :
 		case 'ast_new' :
 		case 'ast_number' :
 		case 'ast_plus' :
@@ -2231,7 +2179,7 @@ exprFormatter =
 	'ast_minus' : formatMinus,
 	'ast_minusAssign' : formatOpAssign,
 	'ast_multiply' : formatMultiply,
-	'ast_multiplyAssign' : formatMultiplyAssign,
+	'ast_multiplyAssign' : formatOpAssign,
 	'ast_new' : formatNew,
 	'ast_not' : formatNot,
 	'ast_null' : formatNull,
