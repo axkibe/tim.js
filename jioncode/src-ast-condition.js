@@ -45,6 +45,7 @@ var
 	jion$ast_minusAssign,
 	jion$ast_multiply,
 	jion$ast_multiplyAssign,
+	jion$ast_negate,
 	jion$ast_new,
 	jion$ast_not,
 	jion$ast_null,
@@ -117,6 +118,8 @@ if( NODE )
 	jion$ast_multiply = require( '../ast/multiply' );
 
 	jion$ast_multiplyAssign = require( '../ast/multiplyAssign' );
+
+	jion$ast_negate = require( '../ast/negate' );
 
 	jion$ast_new = require( '../ast/new' );
 
@@ -326,6 +329,8 @@ prototype.create =
 /**/		&&
 /**/		v_condition.reflect !== 'ast_multiplyAssign'
 /**/		&&
+/**/		v_condition.reflect !== 'ast_negate'
+/**/		&&
 /**/		v_condition.reflect !== 'ast_new'
 /**/		&&
 /**/		v_condition.reflect !== 'ast_not'
@@ -415,6 +420,8 @@ prototype.create =
 /**/		&&
 /**/		v_elsewise.reflect !== 'ast_multiplyAssign'
 /**/		&&
+/**/		v_elsewise.reflect !== 'ast_negate'
+/**/		&&
 /**/		v_elsewise.reflect !== 'ast_new'
 /**/		&&
 /**/		v_elsewise.reflect !== 'ast_not'
@@ -503,6 +510,8 @@ prototype.create =
 /**/		v_then.reflect !== 'ast_multiply'
 /**/		&&
 /**/		v_then.reflect !== 'ast_multiplyAssign'
+/**/		&&
+/**/		v_then.reflect !== 'ast_negate'
 /**/		&&
 /**/		v_then.reflect !== 'ast_new'
 /**/		&&

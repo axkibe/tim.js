@@ -43,6 +43,7 @@ var
 	ast_minusAssign,
 	ast_multiply,
 	ast_multiplyAssign,
+	ast_negate,
 	ast_new,
 	ast_not,
 	ast_null,
@@ -112,6 +113,8 @@ ast_minusAssign = require( '../ast/minusAssign' );
 ast_multiply = require( '../ast/multiply' );
 
 ast_multiplyAssign = require( '../ast/multiplyAssign' );
+
+ast_negate = require( '../ast/negate' );
 
 ast_new = require( '../ast/new' );
 
@@ -989,6 +992,14 @@ leftSpecs[ '--' ] =
 		'prec', 4,
 		'handler', 'handleMonoOps',
 		'astCreator', ast_preDecrement
+	);
+
+leftSpecs[ '-' ] =
+	jsParser_spec.create(
+		'prec', 4,
+		'handler', 'handleMonoOps',
+		'astCreator', ast_negate,
+		'associativity', 'r2l'
 	);
 
 leftSpecs[ '!' ] =

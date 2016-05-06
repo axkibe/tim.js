@@ -25,6 +25,7 @@ module.exports =
 	'jion$ast_minusAssign',
 	'jion$ast_multiply',
 	'jion$ast_multiplyAssign',
+	'jion$ast_negate',
 	'jion$ast_new',
 	'jion$ast_not',
 	'jion$ast_null',

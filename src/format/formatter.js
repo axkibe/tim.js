@@ -40,26 +40,22 @@ var
 	formatDelete,
 	formatDiffers,
 	formatDot,
+	formatDualOp,
 	formatEquals,
 	formatExpression,
 	formatFail,
 	formatFor,
 	formatForIn,
 	formatFunc,
-	formatGreaterThan,
 	formatIf,
 	formatInstanceof,
-	formatLessThan,
 	formatMember,
-	formatMinus,
-	formatMultiply,
 	formatNew,
 	formatNot,
 	formatNumber,
 	formatNull,
 	formatOpAssign,
 	formatOr,
-	formatPlus,
 	formatPostDecrement,
 	formatPostIncrement,
 	formatPreDecrement,
@@ -91,6 +87,7 @@ precTable =
 		'ast_condition' : 15,
 		'ast_delete' : 4,
 		'ast_differs' : 9,
+		'ast_divide' : 5,
 		'ast_dot' : 1,
 		'ast_equals' : 9,
 		// this is random guess, must be larger than call
@@ -998,35 +995,6 @@ formatFunc =
 
 
 /*
-| Formats a more-than check.
-*/
-formatGreaterThan =
-	function(
-		context,
-		expr
-	)
-{
-	var
-		text;
-
-/**/if( CHECK )
-/**/{
-/**/	if( expr.reflect !== 'ast_greaterThan' ) throw new Error( );
-/**/}
-
-	text =
-		formatExpression( context, expr.left, 'ast_greaterThan' )
-		+ context.sep
-		+ context.tab
-		+ '>'
-		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_greaterThan' );
-
-	return text;
-};
-
-
-/*
 | Formats an if statement.
 */
 formatIf =
@@ -1123,36 +1091,6 @@ formatInstanceof =
 
 
 /*
-| Formats a less-than check.
-*/
-formatLessThan =
-	function(
-		context,
-		expr
-	)
-{
-	var
-		text;
-
-/**/if( CHECK )
-/**/{
-/**/	if( expr.reflect !== 'ast_lessThan' ) throw new Error( );
-/**/}
-
-	text =
-		formatExpression( context, expr.left, 'ast_lessThan' )
-		+ context.sep
-		+ context.tab
-		+ '<'
-		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_lessThan' );
-
-	return text;
-};
-
-
-
-/*
 | Formats a member.
 */
 formatMember =
@@ -1179,29 +1117,42 @@ formatMember =
 
 
 /*
-| Formats a Multiply
+| Formats a dualistic operation
 */
-formatMultiply =
+formatDualOp =
 	function(
 		context,
 		expr
 	)
 {
 	var
+		op,
 		text;
 
-/**/if( CHECK )
-/**/{
-/**/	if( expr.reflect !== 'ast_multiply' ) throw new Error( );
-/**/}
+	switch( expr.reflect )
+	{
+		case 'ast_divide' : op = '/'; break;
+
+		case 'ast_greaterThan' : op = '>'; break;
+
+		case 'ast_lessThan' : op = '<'; break;
+
+		case 'ast_minus' : op = '-'; break;
+
+		case 'ast_multiply' : op = '*'; break;
+
+		case 'ast_plus' : op = '+'; break;
+
+		default : throw new Error( );
+	}
 
 	text =
-		formatExpression( context, expr.left, 'ast_multiply' )
+		formatExpression( context, expr.left, expr.reflect )
 		+ context.sep
 		+ context.tab
-		+ '*'
+		+ op
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_multiply' );
+		+ formatExpression( context, expr.right, expr.reflect );
 
 	return text;
 };
@@ -1322,63 +1273,6 @@ formatOr =
 	return text;
 };
 
-
-/*
-| Formats a plus.
-*/
-formatPlus =
-	function(
-		context,
-		expr
-	)
-{
-	var
-		text;
-
-/**/if( CHECK )
-/**/{
-/**/	if( expr.reflect !== 'ast_plus' ) throw new Error( );
-/**/}
-
-	text =
-		formatExpression( context, expr.left, 'ast_plus' )
-		+ context.sep
-		+ context.tab
-		+ '+'
-		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_plus' );
-
-	return text;
-};
-
-
-/*
-| Formats a minus.
-*/
-formatMinus =
-	function(
-		context,
-		expr
-	)
-{
-	var
-		text;
-
-/**/if( CHECK )
-/**/{
-/**/	if( expr.reflect !== 'ast_minus' ) throw new Error( );
-/**/}
-
-	text =
-		formatExpression( context, expr.left, 'ast_minus' )
-		+ context.sep
-		+ context.tab
-		+ '-'
-		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_minus' );
-
-	return text;
-};
 
 
 /*
@@ -1777,8 +1671,11 @@ formatStatement =
 		case 'ast_call' :
 		case 'ast_continue' :
 		case 'ast_delete' :
+		case 'ast_divide' :
 		case 'ast_dot' :
 		case 'ast_fail' :
+		case 'ast_greaterThan' :
+		case 'ast_lessThan' :
 		case 'ast_member' :
 		case 'ast_minus' :
 		case 'ast_minusAssign' :
@@ -2169,16 +2066,17 @@ exprFormatter =
 	'ast_condition' : formatCondition,
 	'ast_delete' : formatDelete,
 	'ast_differs' : formatDiffers,
+	'ast_divide' : formatDualOp,
 	'ast_dot' : formatDot,
 	'ast_equals' : formatEquals,
 	'ast_func' : formatFunc,
-	'ast_greaterThan' : formatGreaterThan,
+	'ast_greaterThan' : formatDualOp,
 	'ast_instanceof' : formatInstanceof,
-	'ast_lessThan' : formatLessThan,
+	'ast_lessThan' : formatDualOp,
 	'ast_member' : formatMember,
-	'ast_minus' : formatMinus,
+	'ast_minus' : formatDualOp,
 	'ast_minusAssign' : formatOpAssign,
-	'ast_multiply' : formatMultiply,
+	'ast_multiply' : formatDualOp,
 	'ast_multiplyAssign' : formatOpAssign,
 	'ast_new' : formatNew,
 	'ast_not' : formatNot,
@@ -2186,7 +2084,7 @@ exprFormatter =
 	'ast_number' : formatNumber,
 	'ast_objLiteral' : formatObjLiteral,
 	'ast_or' : formatOr,
-	'ast_plus' : formatPlus,
+	'ast_plus' : formatDualOp,
 	'ast_plusAssign' : formatOpAssign,
 	'ast_postDecrement' : formatPostDecrement,
 	'ast_postIncrement' : formatPostIncrement,
