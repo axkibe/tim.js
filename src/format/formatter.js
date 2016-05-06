@@ -50,8 +50,8 @@ var
 	formatIf,
 	formatInstanceof,
 	formatMember,
+	formatMonoOp,
 	formatNew,
-	formatNot,
 	formatNumber,
 	formatNull,
 	formatOpAssign,
@@ -102,6 +102,7 @@ precTable =
 		'ast_minusAssign' : 17,
 		'ast_multiply' : 5,
 		'ast_multiplyAssign' : 17,
+		'ast_negate' : 4,
 		'ast_new' : 2,
 		'ast_not' : 4,
 		'ast_null' : -1,
@@ -1186,24 +1187,30 @@ formatNew =
 
 
 /*
-| Formats a not expression.
+| Formats a monoistic operator.
 */
-formatNot =
+formatMonoOp =
 	function(
 		context,
 		expr
 	)
 {
+	var
+		op;
 
-/**/if( CHECK )
-/**/{
-/**/	if( expr.reflect !== 'ast_not' ) throw new Error( );
-/**/}
+	switch( expr.reflect )
+	{
+		case 'ast_negate' : op = '-'; break;
+
+		case 'ast_not' : op = '!'; break;
+
+		default : throw new Error( );
+	}
 
 	return(
 		context.tab
-		+ '!'
-		+ formatExpression( context, expr.expr, 'ast_not' )
+		+ op
+		+ formatExpression( context, expr.expr, expr.reflect )
 	);
 };
 
@@ -1681,7 +1688,9 @@ formatStatement =
 		case 'ast_minusAssign' :
 		case 'ast_multiply' :
 		case 'ast_multiplyAssign' :
+		case 'ast_negate' :
 		case 'ast_new' :
+		case 'ast_not' :
 		case 'ast_number' :
 		case 'ast_plus' :
 		case 'ast_plusAssign' :
@@ -2078,8 +2087,9 @@ exprFormatter =
 	'ast_minusAssign' : formatOpAssign,
 	'ast_multiply' : formatDualOp,
 	'ast_multiplyAssign' : formatOpAssign,
+	'ast_negate' : formatMonoOp,
 	'ast_new' : formatNew,
-	'ast_not' : formatNot,
+	'ast_not' : formatMonoOp,
 	'ast_null' : formatNull,
 	'ast_number' : formatNumber,
 	'ast_objLiteral' : formatObjLiteral,
