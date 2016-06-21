@@ -216,6 +216,8 @@ prototype.create =
 		o,
 		rank,
 		ranks,
+		t,
+		tZ,
 		twig,
 		twigDup;
 
@@ -274,6 +276,75 @@ prototype.create =
 
 				break;
 
+			case 'twine:add' :
+
+				if( twigDup !== true )
+				{
+					twig = jion_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg.key;
+
+/**/			if( CHECK )
+/**/			{
+/**/				if( typeof( key ) !== 'string' && !( key instanceof String ) )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/			}
+
+				if( twig[ key ] !== undefined )
+				{
+					throw new Error( );
+				}
+
+				twig[ key ] = arg;
+
+				ranks.push( key );
+
+				break;
+
+			case 'twine:init' :
+
+				twigDup = true;
+
+				ranks = [ ];
+
+				twig = { };
+
+				for(
+					t = 0, tZ = arg.length;
+					t < tZ;
+					t++
+				)
+				{
+					o = arg[ t ];
+
+					key = o.key;
+
+					if( typeof( key ) !== 'string' && !( key instanceof String ) )
+					{
+						throw new Error( );
+					}
+
+					ranks[ t ] = key;
+
+					if( twig[ key ] !== undefined )
+					{
+						throw new Error( );
+					}
+
+					twig[ key ] = o;
+				}
+
+				twig = { };
+
+				break;
+
 			case 'twig:set+' :
 
 				if( twigDup !== true )
@@ -298,6 +369,36 @@ prototype.create =
 
 				break;
 
+			case 'twine:set+' :
+
+				if( twigDup !== true )
+				{
+					twig = jion_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg.key;
+
+/**/			if( CHECK )
+/**/			{
+/**/				if( typeof( key ) !== 'string' && !( key instanceof String ) )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/			}
+
+				if( twig[ key ] === undefined )
+				{
+					ranks.push( key );
+				}
+
+				twig[ key ] = arg;
+
+				break;
+
 			case 'twig:set' :
 
 				if( twigDup !== true )
@@ -312,6 +413,36 @@ prototype.create =
 				key = arg;
 
 				arg = arguments[ ++a + 1 ];
+
+				if( twig[ key ] === undefined )
+				{
+					throw new Error( );
+				}
+
+				twig[ key ] = arg;
+
+				break;
+
+			case 'twine:set' :
+
+				if( twigDup !== true )
+				{
+					twig = jion_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg.key;
+
+/**/			if( CHECK )
+/**/			{
+/**/				if( typeof( key ) !== 'string' && !( key instanceof String ) )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/			}
 
 				if( twig[ key ] === undefined )
 				{
