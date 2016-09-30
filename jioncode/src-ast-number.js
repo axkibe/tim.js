@@ -123,10 +123,7 @@ prototype.create =
 
 			default :
 
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
+				throw new Error( );
 		}
 	}
 
@@ -142,7 +139,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_number ) !== 'number' )
+/**/	if( typeof( v_number ) !== 'number' || Number.isNaN( v_number ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}

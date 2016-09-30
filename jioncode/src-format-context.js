@@ -168,10 +168,7 @@ prototype.create =
 
 			default :
 
-/**/			if( CHECK )
-/**/			{
-/**/				throw new Error( );
-/**/			}
+				throw new Error( );
 		}
 	}
 
@@ -219,6 +216,8 @@ prototype.create =
 /**/
 /**/	if(
 /**/		typeof( v_indent ) !== 'number'
+/**/		||
+/**/		Number.isNaN( v_indent )
 /**/		||
 /**/		Math.floor( v_indent ) !== v_indent
 /**/	)

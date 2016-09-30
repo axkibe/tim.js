@@ -1307,7 +1307,7 @@ prototype.genCreatorFreeStringsParser =
 		switchExpr
 		.$default(
 			$block( )
-			.$check( $fail( ) )
+			.$fail( )
 		);
 
 	loop = loop.append( switchExpr );
@@ -1408,6 +1408,8 @@ prototype.genSingleTypeCheckFailCondition =
 			return $(
 				$( 'typeof( ', aVar, ' ) !== "number"' ),
 				'||',
+				'Number.isNaN( ', aVar, ' )',
+				'||',
 				$( 'Math.floor( ', aVar, ' ) !== ', aVar )
 			);
 
@@ -1421,16 +1423,18 @@ prototype.genSingleTypeCheckFailCondition =
 
 		case 'number' :
 
-			return $( 'typeof( ', aVar, ' ) !== "number"' );
+			return $(
+				'typeof( ', aVar, ' ) !== "number"',
+				'||',
+				'Number.isNaN( ', aVar, ' )'
+			);
 
 		case 'string' :
 
-			return(
-				$(
-					'typeof( ', aVar, ' ) !== "string"',
-					'&&',
-					'!( ', aVar, ' instanceof String )'
-				)
+			return $(
+				'typeof( ', aVar, ' ) !== "string"',
+				'&&',
+				'!( ', aVar, ' instanceof String )'
 			);
 
 		default :
