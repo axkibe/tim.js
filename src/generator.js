@@ -887,7 +887,7 @@ prototype.genCreatorVariables =
 	{
 		varList.push( 'o', 'key', 'rank', 'ranks', 'twig', 'twigDup' );
 
-		varList.push( 't', 'tZ' );
+		// varList.push( 't', 'tZ' );
 	}
 
 	varList.sort( );
@@ -1168,6 +1168,7 @@ prototype.genCreatorFreeStringsParser =
 				.$( 'twig[ key ] = arg' )
 				.$( 'ranks.push( key )' )
 			)
+			/*
 			.$case(
 				'"twine:add"',
 				$block( )
@@ -1211,6 +1212,7 @@ prototype.genCreatorFreeStringsParser =
 				)
 				.$( 'twig = { }' )
 			)
+			*/
 			.$case(
 				'"twig:set+"',
 				$block( )
@@ -1223,6 +1225,7 @@ prototype.genCreatorFreeStringsParser =
 				)
 				.$( 'twig[ key ] = arg' )
 			)
+			/*
 			.$case(
 				'"twine:set+"',
 				$block( )
@@ -1241,6 +1244,7 @@ prototype.genCreatorFreeStringsParser =
 				)
 				.$( 'twig[ key ] = arg' )
 			)
+			*/
 			.$case(
 				'"twig:set"',
 				$block( )
@@ -1253,6 +1257,7 @@ prototype.genCreatorFreeStringsParser =
 				)
 				.$( 'twig[ key ] = arg' )
 			)
+			/*
 			.$case(
 				'"twine:set"',
 				$block( )
@@ -1271,6 +1276,7 @@ prototype.genCreatorFreeStringsParser =
 				)
 				.$( 'twig[ key ] = arg' )
 			)
+			*/
 			.$case(
 				'"twig:insert"',
 				$block( )

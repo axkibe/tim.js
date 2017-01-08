@@ -428,17 +428,12 @@ jion_proto.getPath =
 {
 	var
 		key,
-		pZ;
+		pZ,
+		tk;
 
-	if( pos === undefined )
-	{
-		pos = 0;
-	}
+	if( pos === undefined ) pos = 0;
 
-	if( path.length === pos )
-	{
-		return this;
-	}
+	if( path.length === pos ) return this;
 
 	pZ = path.length,
 
@@ -446,25 +441,18 @@ jion_proto.getPath =
 
 	if( key === 'twig' )
 	{
-		if( pos + 1 === pZ )
-		{
-			throw new Error( );
-		}
+		if( pos + 1 === pZ ) throw new Error( );
 
 		key = path.get( pos + 1 );
 
-		if( pos + 2 === pZ )
-		{
-			return this._twig[ key ];
-		}
+		tk = this._twig[ key ];
 
-		return this._twig[ key ].getPath( path, pos + 2 );
+		if( pos + 2 === pZ || tk === undefined ) return tk;
+
+		return tk.getPath( path, pos + 2 );
 	}
 
-	if( pos + 1 === pZ )
-	{
-		return this[ key ];
-	}
+	if( pos + 1 === pZ ) return this[ key ];
 
 	return this[ key ].getPath( path, pos + 1 );
 };
