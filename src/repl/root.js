@@ -14,40 +14,40 @@ Error.stackTraceLimit = Infinity;
 
 // repl runs in full checking
 // mode even with freezes.
-GLOBAL.FREEZE = true;
+global.FREEZE = true;
 
-GLOBAL.CHECK = true;
+global.CHECK = true;
 
-GLOBAL.JION = false;
+global.JION = false;
 
-GLOBAL.NODE = true;
+global.NODE = true;
 
 // hackish needed due to circular requirements
 require( '../ast/shorthand' );
 
-GLOBAL.parser = require( '../jsParser/parser' );
+global.parser = require( '../jsParser/parser' );
 
-GLOBAL.parse = GLOBAL.parser.parse;
+global.parse = global.parser.parse;
 
-GLOBAL.ast_block = require( '../ast/block' );
+global.ast_block = require( '../ast/block' );
 
-GLOBAL.$ = GLOBAL.parser.parse;
+global.$ = global.parser.parse;
 
-GLOBAL.format_formatter = require( '../format/formatter' );
+global.format_formatter = require( '../format/formatter' );
 
-GLOBAL.format = GLOBAL.format_formatter.format;
+global.format = global.format_formatter.format;
 
-GLOBAL.util = require( 'util' );
+global.util = require( 'util' );
 
 /*
 | Comfort function, inspects with infinite depth as default.
 */
-GLOBAL.inspect =
+global.inspect =
 	function(
 		obj
 	)
 {
-	return GLOBAL.util.inspect( obj, { depth: null } );
+	return global.util.inspect( obj, { depth: null } );
 };
 
 

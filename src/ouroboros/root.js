@@ -11,13 +11,13 @@
 Error.stackTraceLimit = 99999;
 Error.stackTraceLimit = 20;
 
-GLOBAL.CHECK = true;
+global.CHECK = true;
 
-GLOBAL.JION = false;
+global.JION = false;
 
-GLOBAL.FREEZE = true;
+global.FREEZE = true;
 
-GLOBAL.NODE = true;
+global.NODE = true;
 
 
 var

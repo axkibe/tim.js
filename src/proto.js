@@ -21,7 +21,7 @@ if( NODE )
 
 	// global pass flag for creators
 	pass =
-	GLOBAL.pass =
+	global.pass =
 	jion_proto.pass =
 		{ };
 

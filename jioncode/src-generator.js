@@ -54,6 +54,7 @@ var
 Constructor =
 	function(
 		v_jion, // the jion definition
+		v_jsonTypeMap, // if defined a typemap for json generation/parsing
 		v_ouroboros // true for building jioncode for jion itself
 	)
 {
@@ -61,6 +62,8 @@ Constructor =
 	{
 		this.__lazy = { };
 	}
+
+	this.jsonTypeMap = v_jsonTypeMap;
 
 	this.ouroboros = v_ouroboros;
 
@@ -97,11 +100,14 @@ prototype.create =
 		arg,
 		inherit,
 		v_jion,
+		v_jsonTypeMap,
 		v_ouroboros;
 
 	if( this !== jion$generator )
 	{
 		inherit = this;
+
+		v_jsonTypeMap = this.jsonTypeMap;
 
 		v_ouroboros = this.ouroboros;
 	}
@@ -121,6 +127,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_jion = arg;
+				}
+
+				break;
+
+			case 'jsonTypeMap' :
+
+				if( arg !== pass )
+				{
+					v_jsonTypeMap = arg;
 				}
 
 				break;
@@ -157,6 +172,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_jsonTypeMap === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_ouroboros === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -178,13 +198,15 @@ prototype.create =
 		&&
 		v_jion === undefined
 		&&
+		v_jsonTypeMap === inherit.jsonTypeMap
+		&&
 		v_ouroboros === inherit.ouroboros
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_jion, v_ouroboros );
+	return new Constructor( v_jion, v_jsonTypeMap, v_ouroboros );
 };
 
 
@@ -235,7 +257,11 @@ prototype.equals =
 		return false;
 	}
 
-	return this.ouroboros === obj.ouroboros;
+	return (
+		this.jsonTypeMap === obj.jsonTypeMap
+		&&
+		this.ouroboros === obj.ouroboros
+	);
 };
 
 

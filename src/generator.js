@@ -12,13 +12,19 @@ if( JION )
 		id : 'jion$generator',
 		attributes :
 		{
-			'jion' :
+			jion :
 			{
 				comment : 'the jion definition',
 				type : 'protean',
 				assign : ''
 			},
-			'ouroboros' :
+			jsonTypeMap :
+			{
+				comment : 'if defined a typemap for json generation/parsing',
+				type : [ 'undefined', 'protean' ],
+				defaultValue : 'undefined'
+			},
+			ouroboros :
 			{
 				comment : 'true for building jioncode for jion itself',
 				type : 'boolean',
@@ -501,11 +507,7 @@ prototype.genNodeIncludes =
 
 	idKeys = imports.sortedKeys;
 
-	for(
-		a = 0, aZ = idKeys.length;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = idKeys.length; a < aZ; a++ )
 	{
 		idKey = idKeys[ a ];
 
@@ -1560,19 +1562,12 @@ prototype.genCreatorChecks =
 
 /**/if( CHECK )
 /**/{
-/**/	if( json && abstract !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( json && abstract !== undefined ) throw new Error( );
 /**/}
 
 	check = $block( );
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
 		name = this.attributes.sortedKeys[ a ];
 
@@ -1599,10 +1594,7 @@ prototype.genCreatorChecks =
 			check = check.$if( $( av, ' === null' ), $fail( ));
 		}
 
-		if( attr.id.pathName === 'protean' )
-		{
-			continue;
-		}
+		if( attr.id.pathName === 'protean' ) continue;
 
 		if( allowsNull && !allowsUndefined )
 		{
@@ -2067,7 +2059,8 @@ prototype.genFromJsonCreatorAttributeParser =
 				code =
 					$(
 						attr.varRef, ' = ',
-							attr.id.$global, '.createFromJSON( arg )'
+						attr.id.$global,
+						'.createFromJSON( arg )'
 					);
 			}
 			else
@@ -2080,11 +2073,7 @@ prototype.genFromJsonCreatorAttributeParser =
 
 				keyList = attr.id.sortedKeys;
 
-				for(
-					t = 0, tZ = keyList.length;
-					t < tZ;
-					t++
-				)
+				for( t = 0, tZ = keyList.length; t < tZ; t++ )
 				{
 					id = attr.id.get( keyList[ t ] );
 
@@ -2172,10 +2161,7 @@ prototype.genFromJsonCreatorAttributeParser =
 				}
 				else
 				{
-					if( !cSwitch )
-					{
-						throw new Error( );
-					}
+					if( !cSwitch ) throw new Error( );
 
 					code = cSwitch;
 				}
@@ -2217,7 +2203,7 @@ prototype.genFromJsonCreatorParser =
 		.$case(
 			'"type"',
 			$if(
-				$( 'arg !== ', this.id.$pathName ),
+				$( 'arg !== ', this.mapJsonTypeName( this.id.$pathName ) ),
 				$fail( )
 			)
 		);
@@ -2244,11 +2230,7 @@ prototype.genFromJsonCreatorParser =
 			.$case( '"ranks"', 'ranks = arg' );
 	}
 
-	for(
-		a = 0, aZ = jsonList.length;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = jsonList.length; a < aZ; a++ )
 	{
 		name = jsonList[ a ];
 
@@ -2335,8 +2317,10 @@ prototype.genFromJsonCreatorGroupProcessing =
 		loopSwitch =
 			loopSwitch
 			.$case(
-				gid.$pathName,
-				'group[ k ] =', gid.$global, '.createFromJSON( jgroup[ k ] )'
+				this.mapJsonTypeName( gid.$pathName ),
+				'group[ k ] =',
+				gid.$global,
+				'.createFromJSON( jgroup[ k ] )'
 			);
 	}
 
@@ -2421,7 +2405,7 @@ prototype.genFromJsonCreatorRayProcessing =
 		loopSwitch =
 			loopSwitch
 			.$case(
-				rid.$pathName,
+				this.mapJsonTypeName( rid.$pathName ),
 				'ray[ r ] =', rid.$global, '.createFromJSON( jray[ r ] )'
 			);
 	}
@@ -2490,18 +2474,14 @@ prototype.genFromJsonCreatorTwigProcessing =
 
 	keyList = twig.sortedKeys;
 
-	for(
-		a = 0, aZ = keyList.length;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = keyList.length; a < aZ; a++ )
 	{
 		twigID = twig.get( keyList[ a ] );
 
 		switchExpr =
 			switchExpr
 			.$case(
-				twigID.$pathName,
+				this.mapJsonTypeName( twigID.$pathName ),
 				$(
 					'twig[ key ] =',
 					twigID.$global, '.createFromJSON( jval )'
@@ -2640,10 +2620,7 @@ prototype.genFromJsonCreator =
 
 		attr = this.attributes.get( name );
 
-		if( attr.json )
-		{
-			jsonList.push( name );
-		}
+		if( attr.json ) jsonList.push( name );
 	}
 
 	if( this.twig )
@@ -2900,6 +2877,30 @@ prototype.genJionProto =
 
 
 /*
+| Returns the json type name for a path name.
+|
+| If it is not in the jsonTypeMap it stays the same,
+| otherwise it is mapped.
+*/
+prototype.mapJsonTypeName =
+	function(
+		pathName
+	)
+{
+	var
+		jtm;
+
+	jtm = this.jsonTypeMap;
+
+	return(
+		!jtm
+		? pathName
+		: ( jtm[ pathName ] || pathName )
+	);
+};
+
+
+/*
 | Generates the toJson converter.
 */
 prototype.genToJson =
@@ -2917,22 +2918,15 @@ prototype.genToJson =
 
 	olit =
 		$objLiteral( )
-		.add( 'type', this.id.$pathName );
+		.add( 'type', this.mapJsonTypeName( this.id.$pathName ) );
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
 		name = this.attributes.sortedKeys[ a ];
 
 		attr = this.attributes.get( name );
 
-		if( !attr.json )
-		{
-			continue;
-		}
+		if( !attr.json ) continue;
 
 		olit = olit.add( name, 'this.', attr.assign );
 	}
@@ -3487,8 +3481,9 @@ prototype.genCapsule =
 */
 generator.generate =
 	function(
-		jion, // the jion definition
-		ouroboros // 'ouroboros' if an ouroboros build
+		jion,        // the jion definition
+		ouroboros,   // 'ouroboros' if an ouroboros build
+		jsonTypeMap  // if defined a typemap for json generation/parsing
 	)
 {
 	var
@@ -3497,7 +3492,12 @@ generator.generate =
 
 	jion_validator.check( jion );
 
-	gi = generator.create( 'jion', jion, 'ouroboros', !!ouroboros );
+	gi =
+		generator.create(
+			'jion', jion,
+			'ouroboros', !!ouroboros,
+			'jsonTypeMap', jsonTypeMap
+		);
 
 	result =
 		$block( )

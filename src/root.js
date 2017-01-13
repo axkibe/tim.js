@@ -13,16 +13,16 @@ fs = require( 'fs' );
 | FUTURE: Altering globals as package is not nice
 |         but dunno better right now.
 */
-GLOBAL.NODE = true;
+global.NODE = true;
 
-GLOBAL.JION = false;
+global.JION = false;
 
-GLOBAL.CHECK = !!GLOBAL.CHECK;
+global.CHECK = !!global.CHECK;
 
 /*
 | If freezing is unconfigured, default to yes
 */
-if( GLOBAL.FREEZE === undefined ) GLOBAL.FREEZE = true;
+if( global.FREEZE === undefined ) global.FREEZE = true;
 
 /*
 |  The jion module.
