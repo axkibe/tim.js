@@ -2122,14 +2122,10 @@ prototype.genFromJsonCreatorAttributeParser =
 
 					if( sif )
 					{
-						if( !mif )
-						{
-							mif = sif;
-						}
-						else
-						{
-							mif = mif.$elsewise( sif );
-						}
+						mif =
+							!mif
+							? sif
+							: mif.$elsewise( sif );
 					}
 					else
 					{
@@ -2142,7 +2138,7 @@ prototype.genFromJsonCreatorAttributeParser =
 						cSwitch =
 							cSwitch
 							.$case(
-								id.$pathName,
+								this.mapJsonTypeName( id.pathName ),
 								$(
 									attr.varRef, ' = ',
 									id.$global,
@@ -2203,7 +2199,7 @@ prototype.genFromJsonCreatorParser =
 		.$case(
 			'"type"',
 			$if(
-				$( 'arg !== ', this.mapJsonTypeName( this.id.$pathName ) ),
+				$( 'arg !== ', this.mapJsonTypeName( this.id.pathName ) ),
 				$fail( )
 			)
 		);
@@ -2317,7 +2313,7 @@ prototype.genFromJsonCreatorGroupProcessing =
 		loopSwitch =
 			loopSwitch
 			.$case(
-				this.mapJsonTypeName( gid.$pathName ),
+				this.mapJsonTypeName( gid.pathName ),
 				'group[ k ] =',
 				gid.$global,
 				'.createFromJSON( jgroup[ k ] )'
@@ -2405,7 +2401,7 @@ prototype.genFromJsonCreatorRayProcessing =
 		loopSwitch =
 			loopSwitch
 			.$case(
-				this.mapJsonTypeName( rid.$pathName ),
+				this.mapJsonTypeName( rid.pathName ),
 				'ray[ r ] =', rid.$global, '.createFromJSON( jray[ r ] )'
 			);
 	}
@@ -2481,7 +2477,7 @@ prototype.genFromJsonCreatorTwigProcessing =
 		switchExpr =
 			switchExpr
 			.$case(
-				this.mapJsonTypeName( twigID.$pathName ),
+				this.mapJsonTypeName( twigID.pathName ),
 				$(
 					'twig[ key ] =',
 					twigID.$global, '.createFromJSON( jval )'
@@ -2893,9 +2889,11 @@ prototype.mapJsonTypeName =
 	jtm = this.jsonTypeMap;
 
 	return(
-		!jtm
-		? pathName
-		: ( jtm[ pathName ] || pathName )
+		shorthand.$string( 
+			!jtm
+			? pathName
+			: ( jtm[ pathName ] || pathName )
+		)
 	);
 };
 
@@ -2918,7 +2916,7 @@ prototype.genToJson =
 
 	olit =
 		$objLiteral( )
-		.add( 'type', this.mapJsonTypeName( this.id.$pathName ) );
+		.add( 'type', this.mapJsonTypeName( this.id.pathName ) );
 
 	for( a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{

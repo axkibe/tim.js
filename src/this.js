@@ -143,6 +143,7 @@ module.exports =
 		jionCodeFilename,
 		jionCodeRealFilename,
 		jionDef,
+		jsonTypeMap,
 		ouroboros,
 		output,
 		outStat,
@@ -184,9 +185,9 @@ module.exports =
 	jionCodeFilename =
 		'jioncode/'
 		+
-			filename
-			.substr( jionCodeRootDir.length )
-			.replace( /\//g, '-' );
+		filename
+		.substr( jionCodeRootDir.length )
+		.replace( /\//g, '-' );
 
 	jionCodeRealFilename = jionCodeRootDir + jionCodeFilename;
 
@@ -216,9 +217,18 @@ module.exports =
 
 			format_formatter = require( './format/formatter' );
 
+			try
+			{
+				jsonTypeMap = require( jionCodeRootDir + 'src/json/typemap' )
+			}
+			catch( e )
+			{
+				// ignore error
+			}
+
 			if( !jionDef ) jionDef = getJionDef( filename, module );
 
-			ast = generator.generate( jionDef );
+			ast = generator.generate( jionDef, undefined, jsonTypeMap );
 
 			output = format_formatter.format( ast );
 
