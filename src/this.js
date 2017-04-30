@@ -219,7 +219,7 @@ module.exports =
 
 			try
 			{
-				jsonTypeMap = require( jionCodeRootDir + 'src/json/typemap' )
+				jsonTypeMap = require( jionCodeRootDir + 'src/json/typemap' );
 			}
 			catch( e )
 			{
