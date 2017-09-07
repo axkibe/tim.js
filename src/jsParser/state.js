@@ -21,12 +21,12 @@ if( JION )
 			},
 			tokens :
 			{
-				comment : 'ray of tokens to parse',
-				type : 'jion$jsParser_tokenRay'
+				comment : 'list of tokens to parse',
+				type : 'jion$jsParser_tokenList'
 			},
 			pos :
 			{
-				comment : 'current position in token ray',
+				comment : 'current position in token list',
 				type : 'integer'
 			}
 		},
@@ -51,15 +51,15 @@ jion_proto = require( '../proto' );
 
 
 /*
-| True if pos is at end of the token ray.
+| True if pos is at end of the token list.
 */
 jion_proto.lazyValue(
 	state.prototype,
 	'reachedEnd',
 	function( )
-	{
-		return this.pos >= this.tokens.length;
-	}
+{
+	return this.pos >= this.tokens.length;
+}
 );
 
 
@@ -70,13 +70,13 @@ jion_proto.lazyValue(
 	state.prototype,
 	'current',
 	function( )
-	{
-		return(
-			( this.pos < this.tokens.length )
-			?  this.tokens.get( this.pos )
-			: undefined
-		);
-	}
+{
+	return(
+		( this.pos < this.tokens.length )
+		?  this.tokens.get( this.pos )
+		: undefined
+	);
+}
 );
 
 
@@ -87,13 +87,13 @@ jion_proto.lazyValue(
 	state.prototype,
 	'preview',
 	function( )
-	{
-		return(
-			( this.pos + 1 < this.tokens.length )
-			? this.tokens.get( this.pos + 1 )
-			: undefined
-		);
-	}
+{
+	return(
+		( this.pos + 1 < this.tokens.length )
+		? this.tokens.get( this.pos + 1 )
+		: undefined
+	);
+}
 );
 
 

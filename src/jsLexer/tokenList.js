@@ -1,5 +1,5 @@
 /*
-| A lexer token ray.
+| A lexer token list.
 */
 
 
@@ -9,8 +9,8 @@
 if( JION )
 {
 	throw{
-		id : 'jsLexer_tokenRay',
-		ray : [ 'jsLexer_token' ]
+		id : 'jsLexer_tokenList',
+		list : [ 'jsLexer_token' ]
 	};
 }
 

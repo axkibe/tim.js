@@ -10,7 +10,7 @@ if( JION )
 {
 	throw{
 		id : 'jion$ast_block',
-		ray : require( '../typemaps/astStatement' )
+		list : require( '../typemaps/astStatement' )
 	};
 }
 
@@ -59,7 +59,7 @@ prototype.$ =
 
 	if( ast.reflect === 'ast_block' )
 	{
-		return this.appendRay( ast );
+		return this.appendList( ast );
 	}
 
 	return this.append( ast );
@@ -135,7 +135,7 @@ prototype.$comment =
 		// arguments have to be a list of strings otherwise
 		header =
 			ast_comment.create(
-				'ray:init', Array.prototype.slice.call( arguments )
+				'list:init', Array.prototype.slice.call( arguments )
 			);
 	}
 

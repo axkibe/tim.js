@@ -63,7 +63,7 @@ var
 	getSpec,
 	jion_proto,
 	jsParser_spec,
-	jsParser_tokenRay,
+	jsParser_tokenList,
 	lexer,
 	parseToken,
 	state,
@@ -154,7 +154,7 @@ state = require( './state' );
 
 jion_proto = require( '../proto' );
 
-jsParser_tokenRay = require( './tokenRay' );
+jsParser_tokenList = require( './tokenList' );
 
 jsParser_spec = require( './spec' );
 
@@ -1296,7 +1296,7 @@ getSpec =
 
 
 /*
-| Parses a token at pos from a tokenRay.
+| Parses a token at pos from a tokenList.
 */
 parseToken =
 	function(
@@ -1359,24 +1359,21 @@ parser.tokenizeArray =
 		aZ,
 		tokens;
 
-	tokens = jsParser_tokenRay.create( );
+	tokens = jsParser_tokenList.create( );
 
 	for( a = 0, aZ = array.length; a < aZ; a++ )
 	{
 		arg = array[ a ];
 
-		if( arg === undefined )
-		{
-			continue;
-		}
+		if( arg === undefined ) continue;
 
 		if( jion_proto.isString( arg ) )
 		{
-			tokens = tokens.appendRay( lexer.tokenize( arg ) );
+			tokens = tokens.appendList( lexer.tokenize( arg ) );
 		}
 		else if( Array.isArray( arg ) )
 		{
-			tokens = tokens.appendRay( parser.tokenizeArray( arg ) );
+			tokens = tokens.appendList( parser.tokenizeArray( arg ) );
 		}
 		else
 		{

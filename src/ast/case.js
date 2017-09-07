@@ -18,7 +18,7 @@ if( JION )
 				type : 'jion$ast_block'
 			}
 		},
-		ray : require( '../typemaps/astExpression' )
+		list : require( '../typemaps/astExpression' )
 	};
 }
 

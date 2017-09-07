@@ -1,5 +1,5 @@
 /*
-| A parser token ray.
+| A parser token list.
 | can hold lexed token as well as ast subtrees.
 */
 
@@ -10,8 +10,8 @@
 if( JION )
 {
 	throw{
-		id : 'jion$jsParser_tokenRay',
-		ray :
+		id : 'jion$jsParser_tokenList',
+		list :
 			require( '../typemaps/astStatement' )
 			.concat( [ 'jion$jsLexer_token' ] )
 	};

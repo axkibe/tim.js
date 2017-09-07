@@ -10,7 +10,7 @@ if( JION )
 {
 	throw{
 		id : 'jion$ast_comment',
-		ray : [ 'string' ]
+		list : [ 'string' ]
 	};
 }
 

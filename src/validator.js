@@ -24,14 +24,14 @@ validator = module.exports;
 var
 	attributeBlacklist,
 	attributeGroupBlacklist,
-	attributeRayBlacklist,
+	attributeListBlacklist,
 	attributeTwigBlacklist,
 	checkAlikes,
 	checkAttribute,
 	checkAttributeSingleType,
 	checkGroup,
 	checkPrepare,
-	checkRay,
+	checkList,
 	checkTwig,
 	isString,
 	jion_proto,
@@ -63,12 +63,12 @@ attributeGroupBlacklist =
 	} );
 
 /*
-| Rays must not have these attributes.
+| Lists must not have these attributes.
 */
-attributeRayBlacklist =
+attributeListBlacklist =
 	Object.freeze( {
 		'length' : true,
-		'ray' : true
+		'list' : true
 	} );
 
 /*
@@ -95,7 +95,7 @@ jionWhitelist =
 		'init' : true,
 		'json' : true,
 		'group' : true,
-		'ray' : true,
+		'list' : true,
 		'twig' : true,
 	} );
 
@@ -176,7 +176,7 @@ checkAlikes =
 | Checks the group definition.
 |
 | FUTURE
-|   for this and ray/twig, just create
+|   for this and list/twig, just create
 |   an idGroup, it will complain anyway.
 */
 checkGroup =
@@ -202,11 +202,7 @@ checkGroup =
 		);
 	}
 
-	for(
-		a = 0, aZ = group.length;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = group.length; a < aZ; a++ )
 	{
 		entry = group[ a ];
 
@@ -233,9 +229,9 @@ checkGroup =
 
 
 /*
-| Checks the ray definition.
+| Checks the list definition.
 */
-checkRay =
+checkList =
 	function(
 		jion // the jion definition
 	)
@@ -244,27 +240,23 @@ checkRay =
 		a,
 		aZ,
 		entry,
-		map,
-		ray;
+		list,
+		map;
 
-	ray = jion.ray;
+	list = jion.list;
 
 	map = { };
 
-	if( !( Array.isArray( ray ) ) )
+	if( !( Array.isArray( list ) ) )
 	{
 		throw new Error(
-			'ray definition must be an Array'
+			'list definition must be an Array'
 		);
 	}
 
-	for(
-		a = 0, aZ = ray.length;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = list.length; a < aZ; a++ )
 	{
-		entry = ray[ a ];
+		entry = list[ a ];
 
 		if( !isString( entry ) )
 		{
@@ -420,10 +412,10 @@ checkAttribute =
 		);
 	}
 
-	if( jion.group && attributeRayBlacklist[ name ] )
+	if( jion.group && attributeListBlacklist[ name ] )
 	{
 		throw new Error(
-			'rays must not have an attribute named "' + name + '"'
+			'lists must not have an attribute named "' + name + '"'
 		);
 	}
 
@@ -569,10 +561,10 @@ validator.check =
 		checkAlikes( jion );
 	}
 
-	if( jion.group && jion.ray )
+	if( jion.group && jion.list )
 	{
 		throw new Error(
-			'a jion cannot be a group and ray at the same time'
+			'a jion cannot be a group and list at the same time'
 		);
 	}
 
@@ -583,27 +575,18 @@ validator.check =
 		);
 	}
 
-	if( jion.ray && jion.twig )
+	if( jion.list && jion.twig )
 	{
 		throw new Error(
-			'a jion cannot be a ray and twig at the same time'
+			'a jion cannot be a list and twig at the same time'
 		);
 	}
 
-	if( jion.group )
-	{
-		checkGroup( jion );
-	}
+	if( jion.group ) checkGroup( jion );
 
-	if( jion.ray )
-	{
-		checkRay( jion );
-	}
+	if( jion.list ) checkList( jion );
 
-	if( jion.twig )
-	{
-		checkTwig( jion );
-	}
+	if( jion.twig ) checkTwig( jion );
 };
 
 

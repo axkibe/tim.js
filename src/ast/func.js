@@ -25,7 +25,7 @@ if( JION )
 				defaultValue : 'false'
 			}
 		},
-		ray : [ 'jion$ast_funcArg' ]
+		list : [ 'jion$ast_funcArg' ]
 	};
 }
 

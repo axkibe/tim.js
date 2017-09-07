@@ -579,43 +579,43 @@ jion_proto.groupSize =
 
 
 /*
-| Returns the ray with an element appended.
+| Returns the list with an element appended.
 */
-jion_proto.rayAppend =
+jion_proto.listAppend =
 	function(
 		e
 	)
 {
-	return this.create( 'ray:append', e );
+	return this.create( 'list:append', e );
 };
 
 
 /*
-| Returns the ray with another ray appended.
+| Returns the list with another list appended.
 */
-jion_proto.rayAppendRay =
+jion_proto.listAppendList =
 	function(
-		ray
+		list
 	)
 {
-	return this.create( 'ray:init', this._ray.concat( ray._ray ) );
+	return this.create( 'list:init', this._list.concat( list._list ) );
 };
 
 
 /*
-| Returns the length of the ray.
+| Returns the length of the list.
 */
-jion_proto.rayLength =
+jion_proto.listLength =
 	function( )
 {
-	return this._ray.length;
+	return this._list.length;
 };
 
 
 /*
-| Returns one element of the ray.
+| Returns one element of the list.
 */
-jion_proto.rayGet =
+jion_proto.listGet =
 	function(
 		idx
 	)
@@ -633,39 +633,39 @@ jion_proto.rayGet =
 /**/	}
 /**/}
 
-	return this._ray[ idx ];
+	return this._list[ idx ];
 };
 
 
 /*
-| Returns the ray with one element inserted.
+| Returns the list with one element inserted.
 */
-jion_proto.rayInsert =
+jion_proto.listInsert =
 	function(
 		idx,
 		e
 	)
 {
-	return this.create( 'ray:insert', idx, e );
+	return this.create( 'list:insert', idx, e );
 };
 
 
 /*
-| Returns the ray with one element removed.
+| Returns the list with one element removed.
 */
-jion_proto.rayRemove =
+jion_proto.listRemove =
 	function(
 		idx
 	)
 {
-	return this.create( 'ray:remove', idx );
+	return this.create( 'list:remove', idx );
 };
 
 
 /*
-| Returns the ray with one element set.
+| Returns the list with one element set.
 */
-jion_proto.raySet =
+jion_proto.listSet =
 	function(
 		idx,
 		e
@@ -684,7 +684,7 @@ jion_proto.raySet =
 /**/	}
 /**/}
 
-	return this.create( 'ray:set', idx, e );
+	return this.create( 'list:set', idx, e );
 };
 
 

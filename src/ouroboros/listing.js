@@ -68,11 +68,11 @@ module.exports =
 	'src/id.js',
 	'src/idGroup.js',
 	'src/path.js',
-	'src/pathRay.js',
-	'src/stringRay.js',
+	'src/pathList.js',
+	'src/stringList.js',
 	'src/jsLexer/token.js',
-	'src/jsLexer/tokenRay.js',
+	'src/jsLexer/tokenList.js',
 	'src/jsParser/state.js',
 	'src/jsParser/spec.js',
-	'src/jsParser/tokenRay.js'
+	'src/jsParser/tokenList.js'
 ];

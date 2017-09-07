@@ -355,7 +355,7 @@ shorthand.$comment =
 {
 	return(
 		ast_comment.create(
-			'ray:init', Array.prototype.slice.call( arguments )
+			'list:init', Array.prototype.slice.call( arguments )
 		)
 	);
 };

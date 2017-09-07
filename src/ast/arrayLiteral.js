@@ -10,7 +10,7 @@ if( JION )
 {
 	throw{
 		id : 'jion$ast_arrayLiteral',
-		ray : require( '../typemaps/astExpression' )
+		list : require( '../typemaps/astExpression' )
 	};
 }
 

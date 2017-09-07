@@ -23,7 +23,7 @@ if( JION )
 				type : [ 'undefined', 'jion$ast_block' ]
 			}
 		},
-		ray : [ 'jion$ast_case' ]
+		list : [ 'jion$ast_case' ]
 	};
 }
 
@@ -83,7 +83,7 @@ prototype.$case =
 
 		caseExpr =
 			ast_case.create(
-				'ray:append', parser.parse( coc ),
+				'list:append', parser.parse( coc ),
 				'block', block
 			);
 	}

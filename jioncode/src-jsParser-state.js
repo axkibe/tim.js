@@ -72,7 +72,7 @@ var
 	jion$ast_typeof,
 	jion$ast_var,
 	jion$ast_varDec,
-	jion$jsParser_tokenRay,
+	jion$jsParser_tokenList,
 	jion_proto;
 
 
@@ -187,7 +187,7 @@ if( NODE )
 
 	jion$ast_varDec = require( '../ast/varDec' );
 
-	jion$jsParser_tokenRay = require( '../jsParser/tokenRay' );
+	jion$jsParser_tokenList = require( '../jsParser/tokenList' );
 
 	require( '../proto' );
 }
@@ -204,8 +204,8 @@ var
 Constructor =
 	function(
 		v_ast, // current ast entity
-		v_pos, // current position in token ray
-		v_tokens // ray of tokens to parse
+		v_pos, // current position in token list
+		v_tokens // list of tokens to parse
 	)
 {
 	if( prototype.__have_lazy )
@@ -451,7 +451,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_tokens.reflect !== 'jsParser_tokenRay' )
+/**/	if( v_tokens.reflect !== 'jsParser_tokenList' )
 /**/	{
 /**/		throw new Error( );
 /**/	}

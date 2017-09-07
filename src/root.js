@@ -36,9 +36,9 @@ exports.proto = require( './proto.js' );
 
 exports.path = require( './path.js' );
 
-exports.pathRay = require( './pathRay.js' );
+exports.pathList = require( './pathList.js' );
 
-exports.stringRay = require( './stringRay.js' );
+exports.stringList = require( './stringList.js' );
 
 exports.copy = proto.copy;
 

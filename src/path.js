@@ -15,7 +15,7 @@ if( JION )
 {
 	throw{
 		id : 'jion$path',
-		ray : [ 'string' ]
+		list : [ 'string' ]
 	};
 }
 
@@ -58,7 +58,7 @@ jion.lazyFunctionString(
 	var
 		result;
 
-	result = this.create( 'ray:append', key );
+	result = this.create( 'list:append', key );
 
 	jion.aheadValue( result, 'shorten', this );
 
@@ -76,7 +76,7 @@ prototype.appendNC =
 	var
 		result;
 
-	result = this.create( 'ray:append', key );
+	result = this.create( 'list:append', key );
 
 	jion.aheadValue( result, 'shorten', this );
 
@@ -103,11 +103,11 @@ jion.lazyValue(
 /**/	}
 /**/}
 
-	result = this.create( 'ray:remove', 0 );
+	result = this.create( 'list:remove', 0 );
 
 	// FUTURE
 	// jion_proto.aheadLazyStringFunc(
-	//	result, 'prepend', this.ray[ 0 ], this
+	//	result, 'prepend', this.list[ 0 ], this
 	// );
 
 	return result;
@@ -135,7 +135,7 @@ jion.lazyValue(
 /**/		}
 /**/	}
 
-	result = this.create( 'ray:remove', this.length - 1 );
+	result = this.create( 'list:remove', this.length - 1 );
 
 	// FUTURE aheadLazyStringFunc
 
@@ -186,7 +186,7 @@ jion.lazyFunctionString(
 	var
 		result;
 
-	result = this.create( 'ray:insert', 0, entry );
+	result = this.create( 'list:insert', 0, entry );
 
 	jion.aheadValue( result, 'chop', this );
 
@@ -277,7 +277,7 @@ jion$path.createFromJSON =
 		throw new Error( 'invalid json, path is no array' );
 	}
 
-	return jion$path.create( 'ray:init', json );
+	return jion$path.create( 'list:init', json );
 };
 
 
@@ -287,7 +287,7 @@ jion$path.createFromJSON =
 prototype.toJSON =
 	function( )
 {
-	return this._ray;
+	return this._list;
 };
 
 
@@ -307,7 +307,7 @@ function( )
 /*
 | An empty path.
 */
-jion$path.empty = jion$path.create( 'ray:init', [ ] );
+jion$path.empty = jion$path.create( 'list:init', [ ] );
 
 
 } )( );

@@ -1,11 +1,11 @@
 /*
-| A ray of paths.
+| A list of paths.
 */
 
 
 var
 	jion,
-	jion$pathRay;
+	jion$pathList;
 
 
 /*
@@ -14,8 +14,8 @@ var
 if( JION )
 {
 	throw{
-		id : 'jion$pathRay',
-		ray : [ 'jion$path' ]
+		id : 'jion$pathList',
+		list : [ 'jion$path' ]
 	};
 }
 
@@ -33,31 +33,31 @@ var
 
 if( NODE )
 {
-	jion$pathRay = require( './this' )( module, 'ouroboros', 'source' );
+	jion$pathList = require( './this' )( module, 'ouroboros', 'source' );
 }
 else
 {
 	// export path like in node package for browser.
-	jion.pathRay = jion$pathRay;
+	jion.pathList = jion$pathList;
 }
 
 
-prototype = jion$pathRay.prototype;
+prototype = jion$pathList.prototype;
 
 /*
 | Shorthand function
 */
-jion$pathRay.pathRay =
+jion$pathList.pathList =
 	function(
 		array
 	)
 {
-	return jion$pathRay.create( 'ray:init', array );
+	return jion$pathList.create( 'list:init', array );
 };
 
 
 /*
-| Returns true if this ray contains path.
+| Returns true if this list contains path.
 */
 prototype.contains =
 	function(
@@ -81,41 +81,41 @@ prototype.contains =
 
 
 /*
-| Combines another pathRay to this.
+| Combines another pathList to this.
 |
 | Duplicates are not appended another time.
 */
 prototype.combine =
 	function(
-		pathRay
+		pathList
 	)
 {
 	var
-		addRay,
+		addList,
 		aZ,
 		p,
 		path,
 		pZ;
 
-	addRay = [ ];
+	addList = [ ];
 
 	aZ = 0;
 
-	for( p = 0, pZ = pathRay.length; p < pZ; p++ )
+	for( p = 0, pZ = pathList.length; p < pZ; p++ )
 	{
-		path = pathRay.get( p );
+		path = pathList.get( p );
 
 		if( !this.contains( path ) )
 		{
-			addRay[ aZ++] = path;
+			addList[ aZ++] = path;
 		}
 	}
 
 	return(
-		this.appendRay(
-			aZ !== pathRay.length
-			? pathRay.create( 'ray:init', addRay )
-			: pathRay
+		this.appendList(
+			aZ !== pathList.length
+			? pathList.create( 'list:init', addList )
+			: pathList
 		)
 	);
 };

@@ -18,7 +18,7 @@ if( JION )
 				type : require( '../typemaps/astExpression' )
 			},
 		},
-		ray : require( '../typemaps/astExpression' )
+		list : require( '../typemaps/astExpression' )
 	};
 }
 
@@ -87,7 +87,7 @@ prototype.walk =
 
 	return(
 		transform(
-			this.create( 'func', func, 'ray:init', args )
+			this.create( 'func', func, 'list:init', args )
 		)
 	);
 };

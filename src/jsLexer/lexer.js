@@ -20,13 +20,13 @@ jsLexer = module.exports;
 var
 	jion_proto,
 	jsLexer_token,
-	jsLexer_tokenRay;
+	jsLexer_tokenList;
 
 jion_proto = require( '../proto' );
 
 jsLexer_token = require( './token' );
 
-jsLexer_tokenRay = require( './tokenRay' );
+jsLexer_tokenList = require( './tokenList' );
 
 
 /*
@@ -344,7 +344,7 @@ jsLexer.tokenize =
 		}
 	}
 
-	return jsLexer_tokenRay.create( 'ray:init', tokens );
+	return jsLexer_tokenList.create( 'list:init', tokens );
 };
 
 

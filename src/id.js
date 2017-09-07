@@ -18,7 +18,7 @@ if( JION )
 				type : [ 'undefined', 'string' ]
 			}
 		},
-		ray : [ 'string' ]
+		list : [ 'string' ]
 	};
 }
 
@@ -85,13 +85,13 @@ jion$id.createFromString =
 			default : throw new Error( 'bad id: ' + string );
 		}
 
-		return jion$id.create( 'ray:init', [ string ] );
+		return jion$id.create( 'list:init', [ string ] );
 	}
 
 	return(
 		jion$id.create(
 			'packet', packet,
-			'ray:init', split
+			'list:init', split
 		)
 	);
 };

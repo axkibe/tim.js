@@ -65,7 +65,7 @@ var
 	jion_attributeGroup,
 	jion_id,
 	jion_idGroup,
-	jion_stringRay,
+	jion_stringList,
 	jion_validator,
 	parser,
 	prototype,
@@ -80,7 +80,7 @@ jion_id = require( './id' );
 
 jion_idGroup = require( './idGroup' );
 
-jion_stringRay = require( './stringRay' );
+jion_stringList = require( './stringList' );
 
 jion_attribute = require( './attribute' );
 
@@ -187,7 +187,7 @@ prototype._init =
 
 	this.init = jion.init;
 
-	// in case of attributes, group, twig or ray
+	// in case of attributes, group, twig or list
 	// it will be turned off again
 	singleton = true;
 
@@ -316,13 +316,13 @@ prototype._init =
 		constructorList.unshift( 'group' );
 	}
 
-	if( jion.ray )
+	if( jion.list )
 	{
 		singleton = false;
 
-		abstractConstructorList.unshift( 'ray' );
+		abstractConstructorList.unshift( 'list' );
 
-		constructorList.unshift( 'ray' );
+		constructorList.unshift( 'list' );
 	}
 
 	if( jion.twig )
@@ -363,8 +363,8 @@ prototype._init =
 				case 'twigDup' :
 				case 'group' :
 				case 'groupDup' :
-				case 'ray' :
-				case 'rayDup' :
+				case 'list' :
+				case 'listDup' :
 
 					constructorList.unshift( name );
 
@@ -403,15 +403,15 @@ prototype._init =
 		this.group = undefined;
 	}
 
-	if( jion.ray )
+	if( jion.list )
 	{
-		this.ray = jion_idGroup.createFromIDStrings( jion.ray );
+		this.list = jion_idGroup.createFromIDStrings( jion.list );
 
-		imports = imports.addGroup( this.ray );
+		imports = imports.addGroup( this.list );
 	}
 	else
 	{
-		this.ray = undefined;
+		this.list = undefined;
 	}
 
 	if( jion.twig )
@@ -432,7 +432,7 @@ prototype._init =
 
 	this.creatorHasFreeStringsParser =
 		this.group
-		|| this.ray
+		|| this.list
 		|| this.twig
 		|| this.attributes.size > 0;
 };
@@ -629,15 +629,9 @@ prototype.genConstructor =
 		block = block.append( assign );
 	}
 
-	if( this.group )
-	{
-		block = block.$( 'this._group = group' );
-	}
+	if( this.group ) block = block.$( 'this._group = group' );
 
-	if( this.ray )
-	{
-		block = block.$( 'this._ray = ray' );
-	}
+	if( this.list ) block = block.$( 'this._list = list' );
 
 	if( this.twig )
 	{
@@ -690,9 +684,9 @@ prototype.genConstructor =
 		freezeBlock = freezeBlock.$( 'Object.freeze( group )' );
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
-		freezeBlock = freezeBlock.$( 'Object.freeze( ray )' );
+		freezeBlock = freezeBlock.$( 'Object.freeze( list )' );
 	}
 
 	if( this.twig )
@@ -752,18 +746,18 @@ prototype.genConstructor =
 
 				break;
 
-			case 'ray' :
+			case 'list' :
 
-				cf = cf.$arg( 'ray', 'ray' );
+				cf = cf.$arg( 'list', 'list' );
 
 				break;
 
-			case 'rayDup' :
+			case 'listDup' :
 
 				cf =
 					cf.$arg(
-						'rayDup',
-						'true if ray is already been duplicated'
+						'listDup',
+						'true if list is already been duplicated'
 					);
 
 				break;
@@ -880,9 +874,9 @@ prototype.genCreatorVariables =
 		varList.push( 'o', 'group', 'groupDup' );
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
-		varList.push( 'o', 'r', 'rZ', 'ray', 'rayDup' );
+		varList.push( 'o', 'r', 'rZ', 'list', 'listDup' );
 	}
 
 	if( this.twig )
@@ -940,12 +934,12 @@ prototype.genCreatorInheritanceReceiver =
 			.$( 'groupDup = false' );
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
 		receiver =
 			receiver
-			.$( 'ray = inherit._ray' )
-			.$( 'rayDup = false' );
+			.$( 'list = inherit._list' )
+			.$( 'listDup = false' );
 	}
 
 	if( this.twig )
@@ -992,14 +986,14 @@ prototype.genCreatorInheritanceReceiver =
 			);
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
 		result =
 			result
 			.$elsewise(
 				$block( )
-				.$( 'ray = [ ]' )
-				.$( 'rayDup = true' )
+				.$( 'list = [ ]' )
+				.$( 'listDup = true' )
 			);
 	}
 
@@ -1034,7 +1028,7 @@ prototype.genCreatorFreeStringsParser =
 		groupDupCheck,
 		loop,
 		name,
-		rayDupCheck,
+		listDupCheck,
 		switchExpr,
 		twigDupCheck;
 
@@ -1097,50 +1091,50 @@ prototype.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
-		rayDupCheck =
+		listDupCheck =
 			$if(
-				'!rayDup',
+				'!listDup',
 				$block( )
-				.$( 'ray = ray.slice( )' )
-				.$( 'rayDup = true' )
+				.$( 'list = list.slice( )' )
+				.$( 'listDup = true' )
 			);
 
 		switchExpr =
 			switchExpr
 			.$case(
-				'"ray:init"',
+				'"list:init"',
 				$block( )
 				.$check(
 					$if( '!Array.isArray( arg )', $fail( ) )
 				)
-				.$( 'ray = arg' )
-				.$( 'rayDup = "init"' )   // TODO just set it true
+				.$( 'list = arg' )
+				.$( 'listDup = "init"' )   // TODO just set it true
 			)
 			.$case(
-				'"ray:append"',
+				'"list:append"',
 				$block( )
-				.append( rayDupCheck )
-				.$( 'ray.push( arg )' )
+				.append( listDupCheck )
+				.$( 'list.push( arg )' )
 			)
 			.$case(
-				'"ray:insert"',
+				'"list:insert"',
 				$block( )
-				.append( rayDupCheck )
-				.$( 'ray.splice( arg, 0, arguments[ ++a + 1 ] )' )
+				.append( listDupCheck )
+				.$( 'list.splice( arg, 0, arguments[ ++a + 1 ] )' )
 			)
 			.$case(
-				'"ray:remove"',
+				'"list:remove"',
 				$block( )
-				.append( rayDupCheck )
-				.$( 'ray.splice( arg, 1 ) ' )
+				.append( listDupCheck )
+				.$( 'list.splice( arg, 1 ) ' )
 			)
 			.$case(
-				'"ray:set"',
+				'"list:set"',
 				$block( )
-				.append( rayDupCheck )
-				.$( 'ray[ arg ] = arguments[ ++a + 1 ]' )
+				.append( listDupCheck )
+				.$( 'list[ arg ] = arguments[ ++a + 1 ]' )
 			);
 	}
 
@@ -1640,18 +1634,18 @@ prototype.genCreatorChecks =
 			);
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
 		check =
 			check
 			.$for(
-				'r = 0, rZ = ray.length',
+				'r = 0, rZ = list.length',
 				'r < rZ',
 				'++r',
 				$block( )
-				.$( 'o = ray[ r ]' )
+				.$( 'o = list[ r ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.ray, abstract ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.list, abstract ),
 					$fail( )
 				)
 			);
@@ -1788,7 +1782,7 @@ prototype.genCreatorUnchanged =
 
 	if( this.group ) cond = $( cond, '&& groupDup === false' );
 
-	if( this.ray ) cond = $( cond, '&& rayDup === false' );
+	if( this.list ) cond = $( cond, '&& listDup === false' );
 
 	if( this.twig ) cond = $( cond, '&& twigDup === false' );
 
@@ -1873,8 +1867,8 @@ prototype.genCreatorReturn =
 			case 'groupDup' :
 			case 'inherit' :
 			case 'ranks' :
-			case 'ray' :
-			case 'rayDup' :
+			case 'list' :
+			case 'listDup' :
 			case 'twig' :
 			case 'twigDup' :
 
@@ -1987,13 +1981,14 @@ prototype.genFromJsonCreatorVariables =
 
 	if( this.hasJson )
 	{
-		if( this.group ) varList.push( 'gray', 'group', 'k', 'o' );
+		if( this.group ) varList.push( 'group', 'k', 'o' );
 
-		if( this.ray ) varList.push( 'jray', 'o', 'ray', 'r', 'rZ' );
+		if( this.list ) varList.push( 'jlist', 'o', 'list', 'r', 'rZ' );
 
 		if( this.twig )
 		{
-			varList.push( 'a',
+			varList.push(
+				'a',
 				'aZ',
 				'key',
 				'jval',
@@ -2009,11 +2004,7 @@ prototype.genFromJsonCreatorVariables =
 
 	result = $block( );
 
-	for(
-		a = 0, aZ = varList.length;
-		a < aZ;
-		a++
-	)
+	for( a = 0, aZ = varList.length; a < aZ; a++ )
 	{
 		result = result.$varDec( varList[ a ] );
 	}
@@ -2211,11 +2202,11 @@ prototype.genFromJsonCreatorParser =
 			.$case( '"group"', 'jgroup = arg' );
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
 		nameSwitch =
 			nameSwitch
-			.$case( '"ray"', 'jray = arg' );
+			.$case( '"list"', 'jlist = arg' );
 	}
 
 	if( this.twig )
@@ -2233,7 +2224,7 @@ prototype.genFromJsonCreatorParser =
 		if(
 			name === 'group'
 			|| name === 'ranks'
-			|| name === 'ray'
+			|| name === 'list'
 			|| name === 'twig'
 		)
 		{
@@ -2342,9 +2333,9 @@ prototype.genFromJsonCreatorGroupProcessing =
 
 
 /*
-| Generates the fromJsonCreator's twig processing.
+| Generates the fromJsonCreator's list processing.
 */
-prototype.genFromJsonCreatorRayProcessing =
+prototype.genFromJsonCreatorListProcessing =
 	function( )
 {
 	var
@@ -2354,14 +2345,14 @@ prototype.genFromJsonCreatorRayProcessing =
 		loopBody,
 		loopSwitch,
 		r,
-		ray,
+		list,
 		result,
 		rid,
 		rZ;
 
-	ray = this.ray;
+	list = this.list;
 
-	keyList = ray.sortedKeys;
+	keyList = list.sortedKeys;
 
 	haveNull = false;
 
@@ -2369,11 +2360,11 @@ prototype.genFromJsonCreatorRayProcessing =
 
 	result =
 		$block( )
-		.$if( '!jray', $fail( ) )
-		.$( 'ray = [ ]' );
+		.$if( '!jlist', $fail( ) )
+		.$( 'list = [ ]' );
 
 	loopSwitch =
-		$switch( 'jray[ r ].type' )
+		$switch( 'jlist[ r ].type' )
 		.$default( $fail( ) );
 
 	for(
@@ -2382,7 +2373,7 @@ prototype.genFromJsonCreatorRayProcessing =
 		r++
 	)
 	{
-		rid = ray.get( keyList[ r ] );
+		rid = list.get( keyList[ r ] );
 
 		if( rid.pathName === 'null' )
 		{
@@ -2402,7 +2393,7 @@ prototype.genFromJsonCreatorRayProcessing =
 			loopSwitch
 			.$case(
 				this.mapJsonTypeName( rid.pathName ),
-				'ray[ r ] =', rid.$global, '.createFromJSON( jray[ r ] )'
+				'list[ r ] =', rid.$global, '.createFromJSON( jlist[ r ] )'
 			);
 	}
 
@@ -2413,9 +2404,9 @@ prototype.genFromJsonCreatorRayProcessing =
 		loopBody =
 			loopBody.
 			$if(
-				'jray[ r ] === null',
+				'jlist[ r ] === null',
 				$block( )
-				.$( 'ray [ r ] = null' )
+				.$( 'list[ r ] = null' )
 				.$continue( )
 			);
 	}
@@ -2425,9 +2416,9 @@ prototype.genFromJsonCreatorRayProcessing =
 		loopBody =
 			loopBody.
 			$if(
-				'jray[ r ] === undefined',
+				'jlist[ r ] === undefined',
 				$block( )
-				.$( 'ray [ r ] = undefined' )
+				.$( 'list[ r ] = undefined' )
 				.$continue( )
 			);
 	}
@@ -2440,7 +2431,7 @@ prototype.genFromJsonCreatorRayProcessing =
 	return(
 		result
 		.$for(
-			'r = 0, rZ = jray.length',
+			'r = 0, rZ = jlist.length',
 			'r < rZ',
 			'++r',
 			loopBody
@@ -2553,7 +2544,7 @@ prototype.genFromJsonCreatorReturn =
 				break;
 
 			case 'groupDup' :
-			case 'rayDup' :
+			case 'listDup' :
 			case 'twigDup' :
 
 				call = call.$argument( 'true' );
@@ -2562,7 +2553,7 @@ prototype.genFromJsonCreatorReturn =
 
 			case 'group' :
 			case 'ranks' :
-			case 'ray' :
+			case 'list' :
 			case 'twig' :
 
 				call = call.$argument( name );
@@ -2638,11 +2629,11 @@ prototype.genFromJsonCreator =
 			.$( this.genFromJsonCreatorGroupProcessing( ) );
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
 		funcBlock =
 			funcBlock
-			.$( this.genFromJsonCreatorRayProcessing( ) );
+			.$( this.genFromJsonCreatorListProcessing( ) );
 	}
 
 	if( this.twig )
@@ -2814,30 +2805,30 @@ prototype.genJionProto =
 			.$( this.$protoLazyValueSet( '"size"', 'jion_proto.groupSize' ) );
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
 		result =
 			result
-			.$comment( 'Returns the ray with an element appended.' )
-			.$( this.$protoSet( 'append', 'jion_proto.rayAppend' ) )
+			.$comment( 'Returns the list with an element appended.' )
+			.$( this.$protoSet( 'append', 'jion_proto.listAppend' ) )
 
-			.$comment( 'Returns the ray with another ray appended.' )
-			.$( this.$protoSet( 'appendRay', 'jion_proto.rayAppendRay' ) )
+			.$comment( 'Returns the list with another list appended.' )
+			.$( this.$protoSet( 'appendList', 'jion_proto.listAppendList' ) )
 
-			.$comment( 'Returns the length of the ray.')
-			.$( this.$protoLazyValueSet( '"length"', 'jion_proto.rayLength' ) )
+			.$comment( 'Returns the length of the list.')
+			.$( this.$protoLazyValueSet( '"length"', 'jion_proto.listLength' ) )
 
-			.$comment( 'Returns one element from the ray.' )
-			.$( this.$protoSet( 'get', 'jion_proto.rayGet' ) )
+			.$comment( 'Returns one element from the list.' )
+			.$( this.$protoSet( 'get', 'jion_proto.listGet' ) )
 
-			.$comment( 'Returns the ray with one element inserted.' )
-			.$( this.$protoSet( 'insert', 'jion_proto.rayInsert' ) )
+			.$comment( 'Returns the list with one element inserted.' )
+			.$( this.$protoSet( 'insert', 'jion_proto.listInsert' ) )
 
-			.$comment( 'Returns the ray with one element removed.' )
-			.$( this.$protoSet( 'remove', 'jion_proto.rayRemove' ) )
+			.$comment( 'Returns the list with one element removed.' )
+			.$( this.$protoSet( 'remove', 'jion_proto.listRemove' ) )
 
-			.$comment( 'Returns the ray with one element set.' )
-			.$( this.$protoSet( 'set', 'jion_proto.raySet' ) );
+			.$comment( 'Returns the list with one element set.' )
+			.$( this.$protoSet( 'set', 'jion_proto.listSet' ) );
 	}
 
 	if( this.twig )
@@ -2934,7 +2925,7 @@ prototype.genToJson =
 		olit = olit.add( 'group', 'this._group' );
 	}
 
-	if( this.ray ) olit = olit.add( 'ray', 'this._ray' );
+	if( this.list ) olit = olit.add( 'list', 'this._list' );
 
 	if( this.twig )
 	{
@@ -3050,8 +3041,8 @@ prototype.genEqualsFuncBody =
 		name,
 		groupTest,
 		groupTestLoopBody,
-		rayTest,
-		rayTestLoopBody,
+		listTest,
+		listTestLoopBody,
 		twigTest,
 		twigTestLoopBody;
 
@@ -3059,7 +3050,7 @@ prototype.genEqualsFuncBody =
 
 	cond = null;
 
-	if( this.ray || this.twig )
+	if( this.list || this.twig )
 	{
 		body =
 			body
@@ -3112,23 +3103,23 @@ prototype.genEqualsFuncBody =
 		body = body.$if( 'this._group !== obj._group', groupTest );
 	}
 
-	if( this.ray )
+	if( this.list )
 	{
-		rayTestLoopBody =
+		listTestLoopBody =
 			$block( )
 			.$if(
 				$(
-					'this._ray[ a ] !== obj._ray[ a ]',
+					'this._list[ a ] !== obj._list[ a ]',
 					'&& (',
-						'!this._ray[ a ].' + eqFuncName,
+						'!this._list[ a ].' + eqFuncName,
 						'||',
-						'!this._ray[ a ].' + eqFuncName + '( obj._ray[ a ] )',
+						'!this._list[ a ].' + eqFuncName + '( obj._list[ a ] )',
 					')'
 				),
 				$( 'return false' )
 			);
 
-		rayTest =
+		listTest =
 			$block( )
 			.$if(
 				'this.length !== obj.length',
@@ -3139,10 +3130,10 @@ prototype.genEqualsFuncBody =
 				'a = 0, aZ = this.length',
 				'a < aZ',
 				'++a',
-				rayTestLoopBody
+				listTestLoopBody
 			);
 
-		body = body.$if( 'this._ray !== obj._ray', rayTest );
+		body = body.$if( 'this._list !== obj._list', listTest );
 	}
 
 	if( this.twig )

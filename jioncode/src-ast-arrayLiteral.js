@@ -165,7 +165,7 @@ var
 
 Constructor =
 	function(
-		ray // ray
+		list // list
 	)
 {
 	if( prototype.__have_lazy )
@@ -173,11 +173,11 @@ Constructor =
 		this.__lazy = { };
 	}
 
-	this._ray = ray;
+	this._list = list;
 
 	if( FREEZE )
 	{
-		Object.freeze( ray );
+		Object.freeze( list );
 
 		Object.freeze( this );
 	}
@@ -207,25 +207,25 @@ prototype.create =
 		aZ,
 		arg,
 		inherit,
+		list,
+		listDup,
 		o,
 		r,
-		rZ,
-		ray,
-		rayDup;
+		rZ;
 
 	if( this !== jion$ast_arrayLiteral )
 	{
 		inherit = this;
 
-		ray = inherit._ray;
+		list = inherit._list;
 
-		rayDup = false;
+		listDup = false;
 	}
 	else
 	{
-		ray = [ ];
+		list = [ ];
 
-		rayDup = true;
+		listDup = true;
 	}
 
 	for(
@@ -238,7 +238,7 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'ray:init' :
+			case 'list:init' :
 
 /**/			if( CHECK )
 /**/			{
@@ -248,61 +248,61 @@ prototype.create =
 /**/				}
 /**/			}
 
-				ray = arg;
+				list = arg;
 
-				rayDup = 'init';
-
-				break;
-
-			case 'ray:append' :
-
-				if( !rayDup )
-				{
-					ray = ray.slice( );
-
-					rayDup = true;
-				}
-
-				ray.push( arg );
+				listDup = 'init';
 
 				break;
 
-			case 'ray:insert' :
+			case 'list:append' :
 
-				if( !rayDup )
+				if( !listDup )
 				{
-					ray = ray.slice( );
+					list = list.slice( );
 
-					rayDup = true;
+					listDup = true;
 				}
 
-				ray.splice( arg, 0, arguments[ ++a + 1 ] );
+				list.push( arg );
 
 				break;
 
-			case 'ray:remove' :
+			case 'list:insert' :
 
-				if( !rayDup )
+				if( !listDup )
 				{
-					ray = ray.slice( );
+					list = list.slice( );
 
-					rayDup = true;
+					listDup = true;
 				}
 
-				ray.splice( arg, 1 );
+				list.splice( arg, 0, arguments[ ++a + 1 ] );
 
 				break;
 
-			case 'ray:set' :
+			case 'list:remove' :
 
-				if( !rayDup )
+				if( !listDup )
 				{
-					ray = ray.slice( );
+					list = list.slice( );
 
-					rayDup = true;
+					listDup = true;
 				}
 
-				ray[ arg ] = arguments[ ++a + 1 ];
+				list.splice( arg, 1 );
+
+				break;
+
+			case 'list:set' :
+
+				if( !listDup )
+				{
+					list = list.slice( );
+
+					listDup = true;
+				}
+
+				list[ arg ] = arguments[ ++a + 1 ];
 
 				break;
 
@@ -315,12 +315,12 @@ prototype.create =
 /**/if( CHECK )
 /**/{
 /**/	for(
-/**/		r = 0, rZ = ray.length;
+/**/		r = 0, rZ = list.length;
 /**/		r < rZ;
 /**/		++r
 /**/	)
 /**/	{
-/**/		o = ray[ r ];
+/**/		o = list[ r ];
 /**/
 /**/		if(
 /**/			o.reflect !== 'ast_and'
@@ -405,12 +405,12 @@ prototype.create =
 /**/	}
 /**/}
 
-	if( inherit && rayDup === false )
+	if( inherit && listDup === false )
 	{
 		return inherit;
 	}
 
-	return new Constructor( ray );
+	return new Constructor( list );
 };
 
 
@@ -439,45 +439,45 @@ prototype.getPath = jion_proto.getPath;
 
 
 /*
-| Returns the ray with an element appended.
+| Returns the list with an element appended.
 */
-prototype.append = jion_proto.rayAppend;
+prototype.append = jion_proto.listAppend;
 
 
 /*
-| Returns the ray with another ray appended.
+| Returns the list with another list appended.
 */
-prototype.appendRay = jion_proto.rayAppendRay;
+prototype.appendList = jion_proto.listAppendList;
 
 
 /*
-| Returns the length of the ray.
+| Returns the length of the list.
 */
-jion_proto.lazyValue( prototype, 'length', jion_proto.rayLength );
+jion_proto.lazyValue( prototype, 'length', jion_proto.listLength );
 
 
 /*
-| Returns one element from the ray.
+| Returns one element from the list.
 */
-prototype.get = jion_proto.rayGet;
+prototype.get = jion_proto.listGet;
 
 
 /*
-| Returns the ray with one element inserted.
+| Returns the list with one element inserted.
 */
-prototype.insert = jion_proto.rayInsert;
+prototype.insert = jion_proto.listInsert;
 
 
 /*
-| Returns the ray with one element removed.
+| Returns the list with one element removed.
 */
-prototype.remove = jion_proto.rayRemove;
+prototype.remove = jion_proto.listRemove;
 
 
 /*
-| Returns the ray with one element set.
+| Returns the list with one element set.
 */
-prototype.set = jion_proto.raySet;
+prototype.set = jion_proto.listSet;
 
 
 /*
@@ -507,7 +507,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( this._ray !== obj._ray )
+	if( this._list !== obj._list )
 	{
 		if( this.length !== obj.length )
 		{
@@ -521,12 +521,12 @@ prototype.equals =
 		)
 		{
 			if(
-				this._ray[ a ] !== obj._ray[ a ]
+				this._list[ a ] !== obj._list[ a ]
 				&&
 				(
-					!this._ray[ a ].equals
+					!this._list[ a ].equals
 					||
-					!this._ray[ a ].equals( obj._ray[ a ] )
+					!this._list[ a ].equals( obj._list[ a ] )
 				)
 			)
 			{
