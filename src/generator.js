@@ -2821,6 +2821,9 @@ prototype.genJionProto =
 			.$comment( 'Returns one element from the list.' )
 			.$( this.$protoSet( 'get', 'jion_proto.listGet' ) )
 
+			.$comment( 'Returns a slice from the list.' )
+			.$( this.$protoSet( 'slice', 'jion_proto.listSlice' ) )
+
 			.$comment( 'Returns the list with one element inserted.' )
 			.$( this.$protoSet( 'insert', 'jion_proto.listInsert' ) )
 

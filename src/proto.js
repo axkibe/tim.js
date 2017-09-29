@@ -620,20 +620,41 @@ jion_proto.listGet =
 		idx
 	)
 {
-	if( idx < 0 )
-	{
-		idx += this.length;
-	}
+	if( idx < 0 ) idx += this.length;
 
 /**/if( CHECK )
 /**/{
-/**/	if( idx < 0 || idx >= this.length )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( idx < 0 || idx >= this.length )	throw new Error( );
 /**/}
 
 	return this._list[ idx ];
+};
+
+
+/*
+| Returns a slice of the list.
+*/
+jion_proto.listSlice =
+	function(
+		from,
+		to
+	)
+{
+	if( from < 0 ) from += this.length;
+
+	if( to === undefined ) to = this.length;
+	else if( to < 0 ) to += this.length;
+
+/**/if( CHECK )
+/**/{
+/**/	if( from < 0 || from > this.length )	throw new Error( );
+/**/
+/**/	if( to < 0 || to > this.length ) throw new Error( );
+/**/
+/**/	if( to < from ) throw new Error( );
+/**/}
+
+	return this.create( 'list:init', this._list.slice( from, to ) );
 };
 
 

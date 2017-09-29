@@ -278,6 +278,12 @@ prototype.get = jion_proto.listGet;
 
 
 /*
+| Returns a slice from the list.
+*/
+prototype.slice = jion_proto.listSlice;
+
+
+/*
 | Returns the list with one element inserted.
 */
 prototype.insert = jion_proto.listInsert;
