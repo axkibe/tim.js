@@ -1164,51 +1164,28 @@ prototype.genCreatorFreeStringsParser =
 				.$( 'twig[ key ] = arg' )
 				.$( 'ranks.push( key )' )
 			)
-			/*
 			.$case(
-				'"twine:add"',
-				$block( )
-				.$( twigDupCheck )
-				.$( 'key = arg.key' )
-				.$check(
-					$if(
-						'typeof( key ) !== "string" && '
-						+ '!( key instanceof String )',
-						$fail( )
-					)
-				)
-				.$if(
-					'twig[ key ] !== undefined',
-					$fail( )
-				)
-				.$( 'twig[ key ] = arg' )
-				.$( 'ranks.push( key )' )
-			)
-			.$case(
-				'"twine:init"',
+				'"twig:init"',
 				$block( )
 				.$( 'twigDup = true' )
-				.$( 'ranks = [ ]' )
-				.$( 'twig = { }' )
-				.$for(
-					't = 0, tZ = arg.length',
-					't < tZ',
-					't++',
-					$block( )
-					.$( 'o = arg[ t ]' )
-					.$( 'key = o.key' )
+				.$( 'ranks = { }' )
+				.$( 'twig = arguments[ ++a + 1 ]' )
+				.$check(
 					.$if(
-						'typeof( key ) !== "string" && '
-						+ '!( key instanceof String )',
+						'Object.size( twig ) !== ranks.length',
 						$fail( )
 					)
-					.$( 'ranks[ t ] = key' )
-					.$if( 'twig[ key ] !== undefined', $fail( ) )
-					.$( 'twig[ key ] = o' )
+					.$for(
+						't = 0, tZ = ranks.length',
+						't < tZ',
+						't++',
+						$block( )
+						.$if(
+							'twig[ ranks[ t ] === undefined',
+							$fail( )
+						)
+					)
 				)
-				.$( 'twig = { }' )
-			)
-			*/
 			.$case(
 				'"twig:set+"',
 				$block( )
@@ -1221,26 +1198,6 @@ prototype.genCreatorFreeStringsParser =
 				)
 				.$( 'twig[ key ] = arg' )
 			)
-			/*
-			.$case(
-				'"twine:set+"',
-				$block( )
-				.$( twigDupCheck )
-				.$( 'key = arg.key' )
-				.$check(
-					$if(
-						'typeof( key ) !== "string" && '
-						+ '!( key instanceof String )',
-						$fail( )
-					)
-				)
-				.$if(
-					'twig[ key ] === undefined',
-					$( 'ranks.push( key )' )
-				)
-				.$( 'twig[ key ] = arg' )
-			)
-			*/
 			.$case(
 				'"twig:set"',
 				$block( )
@@ -1253,26 +1210,6 @@ prototype.genCreatorFreeStringsParser =
 				)
 				.$( 'twig[ key ] = arg' )
 			)
-			/*
-			.$case(
-				'"twine:set"',
-				$block( )
-				.$( twigDupCheck )
-				.$( 'key = arg.key' )
-				.$check(
-					$if(
-						'typeof( key ) !== "string" && '
-						+ '!( key instanceof String )',
-						$fail( )
-					)
-				)
-				.$if(
-					'twig[ key ] === undefined',
-					$fail( )
-				)
-				.$( 'twig[ key ] = arg' )
-			)
-			*/
 			.$case(
 				'"twig:insert"',
 				$block( )
