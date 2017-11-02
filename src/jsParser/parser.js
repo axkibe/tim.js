@@ -633,10 +633,7 @@ parser.handleMember =
 	{
 		state = parseToken( state, spec );
 
-		if( state.reachedEnd )
-		{
-			throw new Error( );
-		}
+		if( state.reachedEnd ) throw new Error( );
 	}
 
 	state =
