@@ -33,7 +33,7 @@ var
 	ast_negate,
 	prototype;
 
-ast_negate = require( '../this' )( module, 'ouroboros' );
+ast_negate = require( '../ouroboros' ).this( module );
 
 prototype = ast_negate.prototype;
 

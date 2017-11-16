@@ -40,7 +40,7 @@ var
 	prototype;
 
 
-ast_differs = require( '../this' )( module, 'ouroboros' );
+ast_differs = require( '../ouroboros' ).this( module );
 
 prototype = ast_differs.prototype;
 

@@ -29,7 +29,7 @@ var
 var
 	prototype;
 
-ast_arrayLiteral = require( '../this' )( module, 'ouroboros' );
+ast_arrayLiteral = require( '../ouroboros' ).this( module );
 
 prototype = ast_arrayLiteral.prototype;
 

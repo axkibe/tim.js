@@ -34,7 +34,7 @@ var
 	prototype;
 
 
-ast_postIncrement = require( '../this' )( module, 'ouroboros' );
+ast_postIncrement = require( '../ouroboros' ).this( module );
 
 prototype = ast_postIncrement.prototype;
 

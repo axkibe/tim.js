@@ -38,7 +38,7 @@ var
 	ast_multiplyAssign,
 	prototype;
 
-ast_multiplyAssign = require( '../this' )( module, 'ouroboros' );
+ast_multiplyAssign = require( '../ouroboros' ).this( module );
 
 prototype = ast_multiplyAssign.prototype;
 

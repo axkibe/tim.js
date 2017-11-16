@@ -34,7 +34,7 @@ var
 	prototype;
 
 
-ast_preIncrement = require( '../this' )( module, 'ouroboros' );
+ast_preIncrement = require( '../ouroboros' ).this( module );
 
 prototype = ast_preIncrement.prototype;
 

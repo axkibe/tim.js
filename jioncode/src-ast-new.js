@@ -42,7 +42,7 @@ if( NODE )
 {
 	jion$ast_call = require( '../ast/call' );
 
-	require( '../proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

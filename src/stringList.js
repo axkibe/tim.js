@@ -25,7 +25,7 @@ if( JION )
 var
 	jion_stringList;
 
-jion_stringList = require( './this' )( module, 'ouroboros' );
+jion_stringList = require( './ouroboros' ).this( module );
 
 
 /*

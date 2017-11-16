@@ -29,7 +29,7 @@ var
 	prototype;
 
 
-jion$idGroup = require( './this' )( module, 'ouroboros' );
+jion$idGroup = require( './ouroboros' ).this( module );
 
 prototype = jion$idGroup.prototype;
 

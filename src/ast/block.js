@@ -31,7 +31,7 @@ var
 	shorthand;
 
 
-ast_block = require( '../this' )( module, 'ouroboros' );
+ast_block = require( '../ouroboros' ).this( module );
 
 prototype = ast_block.prototype;
 

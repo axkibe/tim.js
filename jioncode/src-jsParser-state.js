@@ -189,7 +189,7 @@ if( NODE )
 
 	jion$jsParser_tokenList = require( '../jsParser/tokenList' );
 
-	require( '../proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

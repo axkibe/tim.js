@@ -33,7 +33,7 @@ var
 
 if( NODE )
 {
-	jion$path = require( './this' )( module, 'ouroboros', 'source' );
+	jion$path = require( './ouroboros' ).this( module );
 
 	jion = require( './proto' );
 }

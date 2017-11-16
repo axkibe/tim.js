@@ -29,11 +29,6 @@ if( JION )
 				comment : 'variable name to assign to',
 				type : 'string'
 			},
-			comment :
-			{
-				comment : 'comment',
-				type : 'string'
-			},
 			defaultValue :
 			{
 				comment : 'default value',
@@ -79,7 +74,7 @@ if( JION )
 'use strict';
 
 
-require( './this' )( module, 'ouroboros' );
+require( './ouroboros' ).this( module );
 
 
 } )( );

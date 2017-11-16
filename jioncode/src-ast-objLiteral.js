@@ -151,7 +151,7 @@ if( NODE )
 
 	jion$ast_var = require( '../ast/var' );
 
-	require( '../proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 
@@ -216,6 +216,8 @@ prototype.create =
 		o,
 		rank,
 		ranks,
+		t,
+		tZ,
 		twig,
 		twigDup;
 
@@ -271,6 +273,36 @@ prototype.create =
 				twig[ key ] = arg;
 
 				ranks.push( key );
+
+				break;
+
+			case 'twig:init' :
+
+				twigDup = true;
+
+				twig = arg;
+
+				ranks = arguments[ ++a + 1 ];
+
+/**/			if( CHECK )
+/**/			{
+/**/				if( Object.keys( twig ).length !== ranks.length )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/
+/**/				for(
+/**/					t = 0, tZ = ranks.length;
+/**/					t < tZ;
+/**/					t++
+/**/				)
+/**/				{
+/**/					if( twig[ ranks[ t ] ] === undefined )
+/**/					{
+/**/						throw new Error( );
+/**/					}
+/**/				}
+/**/			}
 
 				break;
 

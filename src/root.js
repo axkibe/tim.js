@@ -1,12 +1,5 @@
 'use strict';
 
-var
-	exports,
-	fs,
-	proto;
-
-fs = require( 'fs' );
-
 /*
 | This is in node obviously.
 |
@@ -29,9 +22,7 @@ if( global.FREEZE === undefined ) global.FREEZE = true;
 */
 exports = module.exports;
 
-exports.this = require( './this.js' );
-
-proto =
+const proto =
 exports.proto = require( './proto.js' );
 
 exports.path = require( './path.js' );
@@ -48,13 +39,21 @@ exports.lazyFunctionInteger = proto.lazyFunctionInteger;
 
 exports.lazyFunctionString = proto.lazyFunctionString;
 
+exports.lazyStaticValue = proto.lazyStaticValue;
+
 exports.lazyValue = proto.lazyValue;
 
 exports.aheadFunctionInteger = proto.aheadFunctionInteger;
 
 exports.aheadValue = proto.aheadValue;
 
-if( FREEZE )
-{
-	Object.freeze( exports );
-}
+exports.define = require( './define' );
+
+exports.browserSource =
+	require( 'fs' ).readFileSync(
+		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
+		+ 'browser.js'
+	);
+
+if( FREEZE ) Object.freeze( exports );
+

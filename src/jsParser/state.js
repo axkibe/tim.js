@@ -45,7 +45,7 @@ var
 	jion_proto,
 	state;
 
-state = require( '../this' )( module, 'ouroboros' );
+state = require( '../ouroboros' ).this( module );
 
 jion_proto = require( '../proto' );
 

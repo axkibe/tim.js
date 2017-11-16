@@ -23,7 +23,7 @@ var
 	ast_null,
 	prototype;
 
-ast_null = require( '../this' )( module, 'ouroboros' );
+ast_null = require( '../ouroboros' ).this( module );
 
 prototype = ast_null.prototype;
 

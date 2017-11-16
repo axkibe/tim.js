@@ -36,7 +36,7 @@ var
 	prototype;
 
 
-ast_call = require( '../this' )( module, 'ouroboros' );
+ast_call = require( '../ouroboros' ).this( module );
 
 prototype = ast_call.prototype;
 

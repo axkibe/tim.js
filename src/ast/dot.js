@@ -41,7 +41,7 @@ var
 	prototype;
 
 
-ast_dot = require( '../this' )( module, 'ouroboros' );
+ast_dot = require( '../ouroboros' ).this( module );
 
 prototype = ast_dot.prototype;
 

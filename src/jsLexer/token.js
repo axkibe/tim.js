@@ -39,7 +39,7 @@ var
 	token,
 	tokenList;
 
-token = require( '../this' )( module, 'ouroboros' );
+token = require( '../ouroboros' ).this( module );
 
 
 /**/if( CHECK )

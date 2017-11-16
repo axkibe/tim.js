@@ -37,7 +37,7 @@ if( JION )
 var
 	ast_comma;
 
-ast_comma = require( '../this' )( module, 'ouroboros' );
+ast_comma = require( '../ouroboros' ).this( module );
 
 
 /**/if( CHECK )

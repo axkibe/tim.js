@@ -36,7 +36,7 @@ var
 	prototype,
 	shorthand;
 
-jion$id = require( './this' )( module, 'ouroboros' );
+jion$id = require( './ouroboros' ).this( module );
 
 prototype = jion$id.prototype;
 

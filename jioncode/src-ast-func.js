@@ -45,7 +45,7 @@ if( NODE )
 
 	jion$ast_funcArg = require( '../ast/funcArg' );
 
-	require( '../proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

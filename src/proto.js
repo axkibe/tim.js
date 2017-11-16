@@ -1,10 +1,9 @@
 /*
-| Common functions for jions.
+| Common functions for typed immutables.
 */
 
 var
-	jion,
-	jion_proto,
+	tim_proto,
 	pass;
 
 
@@ -17,63 +16,27 @@ var
 
 if( NODE )
 {
-	jion_proto = module.exports;
+	tim_proto = module.exports;
 
 	// global pass flag for creators
-	pass =
-	global.pass =
-	jion_proto.pass =
-		{ };
+	pass = global.pass = tim_proto.pass = { };
+
+	if( FREEZE ) Object.freeze( pass );
 
 	// exports the own source for use in browsers
-	jion_proto.source = require( 'fs' ).readFileSync( module.filename );
-}
-else
-{
-	jion =
-	jion_proto = { };
-
-	// global pass flag for creators
-	pass =
-	jion_proto.pass =
-		{ };
+	// FIXME check if this needs to be here
+	tim_proto.source = require( 'fs' ).readFileSync( module.filename );
 }
 
 
-if( FREEZE ) Object.freeze( pass );
-
-var
-	innumerable,
-	isString;
-
-/*
-| Sets a not enumerable value.
-*/
-innumerable =
-	function(
-		obj,
-		key,
-		value
-	)
-{
-	Object.defineProperty(
-		obj,
-		key,
-		{
-			value : value,
-			writable : false
-		}
-	);
-
-	return value;
-};
 
 
 /*
 | Returns true if o is a String.
+|
+| FIXME remove
 */
-isString =
-jion_proto.isString  =
+tim_proto.isString  =
 	function( o )
 {
 	return typeof( o ) === 'string' || ( o instanceof String );
@@ -84,7 +47,7 @@ jion_proto.isString  =
 /*
 | A value is computed and fixated only when needed.
 */
-jion_proto.lazyValue =
+tim_proto.lazyValue =
 	function(
 		proto,
 		key,
@@ -130,7 +93,7 @@ jion_proto.lazyValue =
 /*
 | Tests if the object has a lazy value set.
 */
-jion_proto.hasLazyValueSet =
+tim_proto.hasLazyValueSet =
 	function(
 		obj,
 		key
@@ -143,7 +106,7 @@ jion_proto.hasLazyValueSet =
 /*
 | A lazy value is computed and fixated before it is needed.
 */
-jion_proto.aheadValue =
+tim_proto.aheadValue =
 	function(
 		obj,   // object to ahead the lazy value for
 		key,   // key to ahead
@@ -167,7 +130,7 @@ jion_proto.aheadValue =
 |
 | Computed values are cached.
 */
-jion_proto.lazyFunctionString =
+tim_proto.lazyFunctionString =
 	function(
 		proto,
 		key,
@@ -209,7 +172,7 @@ jion_proto.lazyFunctionString =
 |
 | Computed values are cached.
 */
-jion_proto.lazyFunctionInteger =
+tim_proto.lazyFunctionInteger =
 	function(
 		proto,
 		key,
@@ -261,7 +224,7 @@ jion_proto.lazyFunctionInteger =
 | A function taking an integer and no side effects
 | is computed for a value and fixated before it is needed.
 */
-jion_proto.aheadFunctionInteger =
+tim_proto.aheadFunctionInteger =
 	function(
 		obj,      // object to ahead for
 		key,      // property to ahead
@@ -291,7 +254,7 @@ jion_proto.aheadFunctionInteger =
 | A value is computed and fixated only when needed
 | but not from a jion but a static object.
 */
-jion_proto.lazyStaticValue =
+tim_proto.lazyStaticValue =
 	function(
 		obj,
 		key,
@@ -334,7 +297,7 @@ jion_proto.lazyStaticValue =
 | Also doesn't do hasOwnProperty checking since that one
 | is only to be used on vanilla objects.
 */
-jion_proto.copy =
+tim_proto.copy =
 	function(
 		o  // the object to copy from
 	)
@@ -354,7 +317,7 @@ jion_proto.copy =
 /*
 | Sets a key of a sub node described by a path.
 */
-jion_proto.setPath =
+tim_proto.setPath =
 	function(
 		path,  // path to set
 		value, // value to set to
@@ -420,7 +383,7 @@ jion_proto.setPath =
 /*
 | Gets a key of a sub node described by a path.
 */
-jion_proto.getPath =
+tim_proto.getPath =
 	function(
 		path,  // path to set
 		pos    // position in the path
@@ -462,7 +425,7 @@ jion_proto.getPath =
 | Returns the group with another group added,
 | overwriting collisions.
 */
-jion_proto.groupAddGroup =
+tim_proto.groupAddGroup =
 	function(
 		group
 	)
@@ -498,7 +461,7 @@ jion_proto.groupAddGroup =
 /*
 | Gets one entry from the group.
 */
-jion_proto.groupGet =
+tim_proto.groupGet =
 	function(
 		key
 	)
@@ -510,7 +473,7 @@ jion_proto.groupGet =
 /*
 | Returns the group keys.
 */
-jion_proto.groupKeys =
+tim_proto.groupKeys =
 	function( )
 {
 	var
@@ -527,7 +490,7 @@ jion_proto.groupKeys =
 /*
 | Returns the sorted group key.
 */
-jion_proto.groupSortedKeys =
+tim_proto.groupSortedKeys =
 	function( )
 {
 	var
@@ -546,7 +509,7 @@ jion_proto.groupSortedKeys =
 /*
 | Returns the group with one element removed.
 */
-jion_proto.groupRemove =
+tim_proto.groupRemove =
 	function(
 		key
 	)
@@ -558,7 +521,7 @@ jion_proto.groupRemove =
 /*
 | Returns the group with one element set.
 */
-jion_proto.groupSet =
+tim_proto.groupSet =
 	function(
 		key,
 		e
@@ -571,7 +534,7 @@ jion_proto.groupSet =
 /*
 | Returns the size of the group.
 */
-jion_proto.groupSize =
+tim_proto.groupSize =
 	function( )
 {
 	return this.keys.length;
@@ -581,7 +544,7 @@ jion_proto.groupSize =
 /*
 | Returns the list with an element appended.
 */
-jion_proto.listAppend =
+tim_proto.listAppend =
 	function(
 		e
 	)
@@ -593,7 +556,7 @@ jion_proto.listAppend =
 /*
 | Returns the list with another list appended.
 */
-jion_proto.listAppendList =
+tim_proto.listAppendList =
 	function(
 		list
 	)
@@ -605,7 +568,7 @@ jion_proto.listAppendList =
 /*
 | Returns the length of the list.
 */
-jion_proto.listLength =
+tim_proto.listLength =
 	function( )
 {
 	return this._list.length;
@@ -615,7 +578,7 @@ jion_proto.listLength =
 /*
 | Returns one element of the list.
 */
-jion_proto.listGet =
+tim_proto.listGet =
 	function(
 		idx
 	)
@@ -634,7 +597,7 @@ jion_proto.listGet =
 /*
 | Returns a slice of the list.
 */
-jion_proto.listSlice =
+tim_proto.listSlice =
 	function(
 		from,
 		to
@@ -661,7 +624,7 @@ jion_proto.listSlice =
 /*
 | Returns the list with one element inserted.
 */
-jion_proto.listInsert =
+tim_proto.listInsert =
 	function(
 		idx,
 		e
@@ -674,7 +637,7 @@ jion_proto.listInsert =
 /*
 | Returns the list with one element removed.
 */
-jion_proto.listRemove =
+tim_proto.listRemove =
 	function(
 		idx
 	)
@@ -686,7 +649,7 @@ jion_proto.listRemove =
 /*
 | Returns the list with one element set.
 */
-jion_proto.listSet =
+tim_proto.listSet =
 	function(
 		idx,
 		e
@@ -712,7 +675,7 @@ jion_proto.listSet =
 /*
 | Returns the element at rank.
 */
-jion_proto.twigAtRank =
+tim_proto.twigAtRank =
 	function(
 		rank
 	)
@@ -725,7 +688,7 @@ jion_proto.twigAtRank =
 /*
 | Returns the element by key.
 */
-jion_proto.twigGet =
+tim_proto.twigGet =
 	function(
 		key
 	)
@@ -737,7 +700,7 @@ jion_proto.twigGet =
 /*
 | Returns the key at a rank.
 */
-jion_proto.twigGetKey =
+tim_proto.twigGetKey =
 	function(
 		idx
 	)
@@ -749,7 +712,7 @@ jion_proto.twigGetKey =
 /*
 | Returns the length of the twig.
 */
-jion_proto.twigLength =
+tim_proto.twigLength =
 	function( )
 {
 	return this._ranks.length;
@@ -761,7 +724,7 @@ jion_proto.twigLength =
 |
 | This means it returns the index of key in the ranks array.
 */
-jion_proto.twigRankOf =
+tim_proto.twigRankOf =
 	function(
 		key
 	)
@@ -769,10 +732,7 @@ jion_proto.twigRankOf =
 
 /**/if( CHECK )
 /**/{
-/**/	if( !isString( key ) )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( typeof( key !== 'string' ) ) throw new Error( );
 /**/}
 
 	return(
@@ -786,7 +746,7 @@ jion_proto.twigRankOf =
 /*
 | Returns the twig with the element at key set.
 */
-jion_proto.twigSet =
+tim_proto.twigSet =
 	function(
 		key,
 		entry
@@ -797,10 +757,10 @@ jion_proto.twigSet =
 
 
 //FUTURE right now disabled since
-//browser makes jion_proto to jion and adds jion.path.
+//browser makes tim_proto to jion and adds jion.path.
 //if( FREEZE )
 //{
-//	Object.freeze( jion_proto );
+//	Object.freeze( tim_proto );
 //}
 
 

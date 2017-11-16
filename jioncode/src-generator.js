@@ -9,20 +9,21 @@
 | Export.
 */
 var
-	jion$generator;
+	tim$generator;
 
 
 if( NODE )
 {
-	jion$generator = module.exports;
+	tim$generator = module.exports;
 }
 else
 {
-	jion$generator = { };
+	tim$generator = { };
 }
 
 
 var
+	tim$id,
 	jion_proto;
 
 
@@ -39,7 +40,9 @@ function( ) {
 */
 if( NODE )
 {
-	require( './proto' );
+	tim$id = require( './id' );
+
+	jion_proto = require( 'jion' ).proto;
 }
 
 
@@ -53,9 +56,9 @@ var
 
 Constructor =
 	function(
-		v_jion, // the jion definition
+		v_id, // id to be generated
 		v_jsonTypeMap, // if defined a typemap for json generation/parsing
-		v_ouroboros // true for building jioncode for jion itself
+		v_timDef // the tim definition
 	)
 {
 	if( prototype.__have_lazy )
@@ -63,11 +66,11 @@ Constructor =
 		this.__lazy = { };
 	}
 
+	this.id = v_id;
+
 	this.jsonTypeMap = v_jsonTypeMap;
 
-	this.ouroboros = v_ouroboros;
-
-	this._init( v_jion );
+	this._init( v_timDef );
 
 	if( FREEZE )
 	{
@@ -82,13 +85,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$generator.prototype = prototype;
+tim$generator.prototype = prototype;
 
 
 /*
 | Creates a new generator object.
 */
-jion$generator.create =
+tim$generator.create =
 prototype.create =
 	function(
 		// free strings
@@ -99,17 +102,17 @@ prototype.create =
 		aZ,
 		arg,
 		inherit,
-		v_jion,
+		v_id,
 		v_jsonTypeMap,
-		v_ouroboros;
+		v_timDef;
 
-	if( this !== jion$generator )
+	if( this !== tim$generator )
 	{
 		inherit = this;
 
-		v_jsonTypeMap = this.jsonTypeMap;
+		v_id = this.id;
 
-		v_ouroboros = this.ouroboros;
+		v_jsonTypeMap = this.jsonTypeMap;
 	}
 
 	for(
@@ -122,11 +125,11 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'jion' :
+			case 'id' :
 
 				if( arg !== pass )
 				{
-					v_jion = arg;
+					v_id = arg;
 				}
 
 				break;
@@ -140,11 +143,11 @@ prototype.create =
 
 				break;
 
-			case 'ouroboros' :
+			case 'timDef' :
 
 				if( arg !== pass )
 				{
-					v_ouroboros = arg;
+					v_timDef = arg;
 				}
 
 				break;
@@ -155,19 +158,19 @@ prototype.create =
 		}
 	}
 
-	if( v_ouroboros === undefined )
-	{
-		v_ouroboros = true;
-	}
-
 /**/if( CHECK )
 /**/{
-/**/	if( v_jion === undefined )
+/**/	if( v_id === undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_jion === null )
+/**/	if( v_id === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_id.reflect !== 'id' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -177,17 +180,12 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_ouroboros === undefined )
+/**/	if( v_timDef === undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_ouroboros === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_ouroboros ) !== 'boolean' )
+/**/	if( v_timDef === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -196,17 +194,21 @@ prototype.create =
 	if(
 		inherit
 		&&
-		v_jion === undefined
+		(
+			v_id === inherit.id
+			||
+			v_id.equals( inherit.id )
+		)
 		&&
 		v_jsonTypeMap === inherit.jsonTypeMap
 		&&
-		v_ouroboros === inherit.ouroboros
+		v_timDef === undefined
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_jion, v_jsonTypeMap, v_ouroboros );
+	return new Constructor( v_id, v_jsonTypeMap, v_timDef );
 };
 
 
@@ -258,9 +260,13 @@ prototype.equals =
 	}
 
 	return (
-		this.jsonTypeMap === obj.jsonTypeMap
+		(
+			this.id === obj.id
+			||
+			this.id.equals( obj.id )
+		)
 		&&
-		this.ouroboros === obj.ouroboros
+		this.jsonTypeMap === obj.jsonTypeMap
 	);
 };
 

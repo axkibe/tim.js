@@ -40,7 +40,7 @@ var
 	prototype;
 
 
-ast_member = require( '../this' )( module, 'ouroboros' );
+ast_member = require( '../ouroboros' ).this( module );
 
 prototype = ast_member.prototype;
 

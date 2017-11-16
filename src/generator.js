@@ -1,5 +1,5 @@
 /*
-| Generates jion objects from a jion definition.
+| Generates timcode from a tim definition.
 */
 
 
@@ -9,12 +9,17 @@
 if( JION )
 {
 	throw{
-		id : 'jion$generator',
+		id : 'tim$generator',
 		attributes :
 		{
-			jion :
+			id :
 			{
-				comment : 'the jion definition',
+				comment : 'id to be generated',
+				type : 'tim$id',
+			},
+			timDef :
+			{
+				comment : 'the tim definition',
 				type : 'protean',
 				assign : ''
 			},
@@ -24,14 +29,8 @@ if( JION )
 				type : [ 'undefined', 'protean' ],
 				defaultValue : 'undefined'
 			},
-			ouroboros :
-			{
-				comment : 'true for building jioncode for jion itself',
-				type : 'boolean',
-				defaultValue : 'true'
-			},
 		},
-		init : [ 'jion' ]
+		init : [ 'timDef' ]
 	};
 }
 
@@ -43,89 +42,52 @@ if( JION )
 'use strict';
 
 
-var
-	$,
-	$and,
-	$assign,
-	$block,
-	$capsule,
-	$check,
-	$comment,
-	$fail,
-	$func,
-	$if,
-	$objLiteral,
-	$string,
-	$switch,
-	$var,
-	generator,
-	idNull,
-	idUndefined,
-	jion_attribute,
-	jion_attributeGroup,
-	jion_id,
-	jion_idGroup,
-	jion_stringList,
-	jion_validator,
-	parser,
-	prototype,
-	shorthand;
+const generator = require( './ouroboros' ).this( module );
 
+const prototype = generator.prototype;
 
-generator = require( './this' )( module, 'ouroboros' );
+const tim_id = require( './id' );
 
-prototype = generator.prototype;
+const tim_idGroup = require( './idGroup' );
 
-jion_id = require( './id' );
+const tim_attribute = require( './attribute' );
 
-jion_idGroup = require( './idGroup' );
+const tim_attributeGroup = require( './attributeGroup' );
 
-jion_stringList = require( './stringList' );
+//const tim_validator = require( './validator' );
 
-jion_attribute = require( './attribute' );
+const parser = require( './jsParser/parser' );
 
-jion_attributeGroup = require( './attributeGroup' );
+const shorthand = require( './ast/shorthand' );
 
-jion_validator = require( './validator' );
+const idNull = tim_id.createFromString( 'null' );
 
-parser = require( './jsParser/parser' );
-
-shorthand = require( './ast/shorthand' );
-
-idNull = jion_id.createFromString( 'null' );
-
-idUndefined = jion_id.createFromString( 'undefined' );
+const idUndefined = tim_id.createFromString( 'undefined' );
 
 /*
 | Shorthanding Shorthands.
 */
-$ = parser.parse;
+const $ = parser.parse;
 
-$and = shorthand.$and;
+const $and = shorthand.$and;
 
-$assign = shorthand.$assign;
+const $block = shorthand.$block;
 
-$block = shorthand.$block;
+const $capsule = shorthand.$capsule;
 
-$capsule = shorthand.$capsule;
+const $fail = shorthand.$fail;
 
-$check = shorthand.$check;
+const $func = shorthand.$func;
 
-$comment = shorthand.$comment;
+const $if = shorthand.$if;
 
-$fail = shorthand.$fail;
+const $objLiteral = shorthand.$objLiteral;
 
-$func = shorthand.$func;
+const $string = shorthand.$string;
 
-$if = shorthand.$if;
+const $switch = shorthand.$switch;
 
-$objLiteral = shorthand.$objLiteral;
-
-$string = shorthand.$string;
-
-$switch = shorthand.$switch;
-
-$var = shorthand.$var;
+const $var = shorthand.$var;
 
 
 /*
@@ -133,85 +95,65 @@ $var = shorthand.$var;
 */
 prototype._init =
 	function(
-		jion
+		timDef
 	)
 {
-	var
-		a,
-		abstractConstructorList,
-		aid,
-		allowsNull,
-		allowsUndefined,
-		assign,
-		attr,
-		attributes,
-		constructorList,
-		defaultValue,
-		imports, // foreign ids to be imported
-		inits, // sorted init list
-		jAttr,
-		jdv,
-		name,
-		prepare,
-		searchIdWalk,
-		singleton,
-		type;
+	let attributes = tim_attributeGroup.create( );
 
-	attributes = jion_attributeGroup.create( );
+	const abstractConstructorList = [ ];
 
-	abstractConstructorList = [ ];
+	const constructorList = [ ];
 
-	constructorList = [ ];
+	// foreign ids to be imported
+	let imports = tim_idGroup.create( );
 
-	imports = jion_idGroup.create( );
-
-	searchIdWalk =
+	const searchIdWalk =
 		function( node )
 	{
 		if(
 			node.reflect === 'ast_var'
-			&&
-			(
+			&& (
 				node.name.indexOf( '_' ) >= 0
 				|| node.name.indexOf( '$' ) >= 0
 			)
 		)
 		{
-			imports = imports.add( jion_id.createFromString( node.name ) );
+			imports = imports.add( tim_id.createFromString( node.name ) );
 		}
 
 		return node;
 	};
 
-	this.hasJson = !!jion.json;
+	this.hasJson = !!timDef.json;
 
-	this.init = jion.init;
+	this.init = timDef.init;
 
 	// in case of attributes, group, twig or list
 	// it will be turned off again
-	singleton = true;
+	let singleton = true;
 
-	this.id = jion_id.createFromString( jion.id );
+	this.hasAbstract = !!timDef.hasAbstract;
 
-	this.hasAbstract = !!jion.hasAbstract;
-
-	for( name in jion.attributes || { } )
+	for( let name in timDef.attributes || { } )
 	{
 		singleton = false;
 
-		jAttr = jion.attributes[ name ];
+		const jAttr = timDef.attributes[ name ];
 
-		type = jAttr.type;
+		const type = jAttr.type;
+
+		// attribute id
+		let aid;
 
 		if( !Array.isArray( type ) )
 		{
-			aid = jion_id.createFromString( type );
+			aid = tim_id.createFromString( type );
 
 			imports = imports.add( aid );
 		}
 		else
 		{
-			aid = jion_idGroup.createFromIDStrings( type );
+			aid = tim_idGroup.createFromIDStrings( type );
 
 			imports = imports.addGroup( aid );
 
@@ -220,7 +162,7 @@ prototype._init =
 
 		if( jAttr.json ) this.hasJson = true;
 
-		assign =
+		const assign =
 			jAttr.assign !== undefined
 			? jAttr.assign
 			: name;
@@ -236,32 +178,28 @@ prototype._init =
 			constructorList.push( name );
 		}
 
-		defaultValue = undefined;
+		let defaultValue;
 
-		prepare = jAttr.prepare;
+		const prepare = jAttr.prepare;
 
 		if( prepare )
 		{
 			$( prepare ).walk( searchIdWalk );
 		}
 
-		jdv = jAttr.defaultValue;
+		const jdv = jAttr.defaultValue;
 
 		if( jdv )
 		{
-			if( jdv === 'undefined' )
-			{
-				defaultValue = shorthand.$undefined;
-			}
-			else
-			{
-				defaultValue = $( jdv );
-			}
+			defaultValue =
+				jdv === 'undefined'
+				? shorthand.$undefined
+				: $( jdv );
 		}
 
-		allowsNull = false;
+		let allowsNull = false;
 
-		allowsUndefined = false;
+		let allowsUndefined = false;
 
 		if( aid.reflect === 'idGroup' )
 		{
@@ -284,12 +222,11 @@ prototype._init =
 			}
 		}
 
-		attr =
-			jion_attribute.create(
+		const attr =
+			tim_attribute.create(
 				'allowsNull', allowsNull,
 				'allowsUndefined', allowsUndefined,
 				'assign', assign,
-				'comment', jAttr.comment,
 				'prepare', prepare,
 				'defaultValue', defaultValue,
 				'json', !!jAttr.json,
@@ -307,7 +244,7 @@ prototype._init =
 
 	constructorList.sort( );
 
-	if( jion.group )
+	if( timDef.group )
 	{
 		singleton = false;
 
@@ -316,7 +253,7 @@ prototype._init =
 		constructorList.unshift( 'group' );
 	}
 
-	if( jion.list )
+	if( timDef.list )
 	{
 		singleton = false;
 
@@ -325,7 +262,7 @@ prototype._init =
 		constructorList.unshift( 'list' );
 	}
 
-	if( jion.twig )
+	if( timDef.twig )
 	{
 		singleton = false;
 
@@ -338,24 +275,17 @@ prototype._init =
 		constructorList.unshift( 'twig' );
 	}
 
-	if( jion.init )
+	if( timDef.init )
 	{
 		singleton = false;
 
-		inits = jion.init.slice( ).sort( );
+		const inits = timDef.init.slice( ).sort( );
 
-		for(
-			a = inits.length - 1;
-			a >= 0;
-			a--
-		)
+		for( let a = inits.length - 1; a >= 0; a-- )
 		{
-			name = jion.init[ a ];
+			let name = timDef.init[ a ];
 
-			if( attributes.get( name ) )
-			{
-				continue;
-			}
+			if( attributes.get( name ) ) continue;
 
 			switch( name )
 			{
@@ -392,9 +322,9 @@ prototype._init =
 
 	this.constructorList = constructorList;
 
-	if( jion.group )
+	if( timDef.group )
 	{
-		this.group = jion_idGroup.createFromIDStrings( jion.group );
+		this.group = tim_idGroup.createFromIDStrings( timDef.group );
 
 		imports = imports.addGroup( this.group );
 	}
@@ -403,9 +333,9 @@ prototype._init =
 		this.group = undefined;
 	}
 
-	if( jion.list )
+	if( timDef.list )
 	{
-		this.list = jion_idGroup.createFromIDStrings( jion.list );
+		this.list = tim_idGroup.createFromIDStrings( timDef.list );
 
 		imports = imports.addGroup( this.list );
 	}
@@ -414,9 +344,9 @@ prototype._init =
 		this.list = undefined;
 	}
 
-	if( jion.twig )
+	if( timDef.twig )
 	{
-		this.twig = jion_idGroup.createFromIDStrings( jion.twig );
+		this.twig = tim_idGroup.createFromIDStrings( timDef.twig );
 
 		imports = imports.addGroup( this.twig );
 
@@ -428,7 +358,7 @@ prototype._init =
 
 	this.imports = imports;
 
-	this.alike = jion.alike;
+	this.alike = timDef.alike;
 
 	this.creatorHasFreeStringsParser =
 		this.group
@@ -444,30 +374,17 @@ prototype._init =
 prototype.genImports =
 	function( )
 {
-	var
-		a,
-		aZ,
-		id,
-		idKey,
-		idKeys,
-		imports,
-		result;
+	let result = $block( );
 
-	result = $block( );
+	const imports = this.imports;
 
-	imports = this.imports;
+	const idKeys = imports.sortedKeys;
 
-	idKeys = imports.sortedKeys;
-
-	for(
-		a = 0, aZ = idKeys.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = idKeys.length; a < aZ; a++ )
 	{
-		idKey = idKeys[ a ];
+		const idKey = idKeys[ a ];
 
-		id = imports.get( idKey );
+		let id = imports.get( idKey );
 
 		if( id.isPrimitive ) continue;
 
@@ -480,7 +397,21 @@ prototype.genImports =
 		result = result.$varDec( id.global );
 	}
 
-	result = result.$varDec( 'jion_proto' );
+	result =
+		result
+		.$varDec( 'tim_proto' )
+		.$varDec( 'timModules' )
+		.$comment( 'The typed immutable.' )
+		.$varDec( this.id.global )
+		.$if( $( '!', this.id.$global ),
+			$( this.id.$global, '= { }' )
+		);
+
+	result =
+		result
+		.$if( '!NODE',
+			$( 'timModules. ', this.id.pathName,' = ', this.id.$global )
+		);
 
 	return result;
 };
@@ -492,26 +423,17 @@ prototype.genImports =
 prototype.genNodeIncludes =
 	function( )
 {
-	var
-		a,
-		aZ,
-		block,
-		id,
-		idKey,
-		idKeys,
-		imports;
+	let block = $block( );
 
-	block = $block( );
+	const imports = this.imports;
 
-	imports = this.imports;
+	const idKeys = imports.sortedKeys;
 
-	idKeys = imports.sortedKeys;
-
-	for( a = 0, aZ = idKeys.length; a < aZ; a++ )
+	for( let a = 0, aZ = idKeys.length; a < aZ; a++ )
 	{
-		idKey = idKeys[ a ];
+		const idKey = idKeys[ a ];
 
-		id = imports.get( idKey );
+		const id = imports.get( idKey );
 
 		if( idKey.indexOf( ':' ) >= 0 )
 		{
@@ -565,7 +487,7 @@ prototype.genNodeIncludes =
 	}
 	else
 	{
-		block = block.$( 'jion_proto = require( "jion" ).proto' );
+		block = block.$( 'tim_proto = tim.proto' );
 	}
 
 	return(
@@ -585,19 +507,16 @@ prototype.genConstructor =
 	)
 {
 	var
-		a,
 		assign,
 		attributes,
-		aZ,
 		attr,
-		block,
 		cf,
 		cList,
 		freezeBlock,
 		initCall,
 		name;
 
-	block = $block( );
+	let block = $block( );
 
 	block =
 		block
@@ -613,16 +532,13 @@ prototype.genConstructor =
 	attributes = this.attributes;
 
 	// assigns the variables
-	for( a = 0, aZ = attributes.size; a < aZ; a++ )
+	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
 	{
 		name = attributes.sortedKeys[ a ];
 
 		attr = attributes.get( name );
 
-		if( attr.assign === '' )
-		{
-			continue;
-		}
+		if( attr.assign === '' ) continue;
 
 		assign = $( 'this.', attr.assign, ' = ', attr.varRef );
 
@@ -646,7 +562,7 @@ prototype.genConstructor =
 	{
 		initCall = $( 'this._init( )' );
 
-		for( a = 0, aZ = this.init.length; a < aZ; a++ )
+		for( let a = 0, aZ = this.init.length; a < aZ; a++ )
 		{
 			name = this.init[ a ];
 
@@ -712,7 +628,7 @@ prototype.genConstructor =
 		? this.abstractConstructorList
 		: this.constructorList;
 
-	for( a = 0, aZ = cList.length; a < aZ; a++ )
+	for( let a = 0, aZ = cList.length; a < aZ; a++ )
 	{
 		name = cList[ a ];
 
@@ -961,10 +877,7 @@ prototype.genCreatorInheritanceReceiver =
 
 		attr = this.attributes.get( name );
 
-		if( attr.assign === '' )
-		{
-			continue;
-		}
+		if( attr.assign === '' ) continue;
 
 		receiver = receiver.$( attr.varRef, ' = ', 'this.', attr.assign );
 	}
@@ -1065,7 +978,7 @@ prototype.genCreatorFreeStringsParser =
 			$if(
 				'!groupDup',
 				$block( )
-				.$( 'group = jion_proto.copy( group )' )
+				.$( 'group = tim_proto.copy( group )' )
 				.$( 'groupDup = true' )
 			);
 
@@ -1144,7 +1057,7 @@ prototype.genCreatorFreeStringsParser =
 			$if(
 				'twigDup !== true',
 				$block( )
-				.$( 'twig = jion_proto.copy( twig )' )
+				.$( 'twig = tim_proto.copy( twig )' )
 				.$( 'ranks = ranks.slice( )' )
 				.$( 'twigDup = true' )
 			);
@@ -1908,10 +1821,7 @@ prototype.genFromJsonCreatorVariables =
 
 		attr = this.attributes.get( name );
 
-		if( attr.assign === '' )
-		{
-			continue;
-		}
+		if( attr.assign === '' ) continue;
 
 		varList.push( attr.varRef.name );
 	}
@@ -2673,7 +2583,7 @@ prototype.$protoLazyValueSet =
 	ast =
 		$block( )
 		.$(
-			'jion_proto.lazyValue(',
+			'tim_proto.lazyValue(',
 				'prototype,',
 				name, ',',
 				func,
@@ -2685,7 +2595,7 @@ prototype.$protoLazyValueSet =
 		ast =
 			ast
 			.$(
-				'jion_proto.lazyValue(',
+				'tim_proto.lazyValue(',
 					'abstractPrototype,',
 					name, ',',
 					func,
@@ -2709,10 +2619,10 @@ prototype.genJionProto =
 	result =
 		$block( )
 		.$comment( 'Sets values by path.' )
-		.$( this.$protoSet( 'setPath', 'jion_proto.setPath' ) )
+		.$( this.$protoSet( 'setPath', 'tim_proto.setPath' ) )
 
 		.$comment( 'Gets values by path' )
-		.$( this.$protoSet( 'getPath', 'jion_proto.getPath' ) );
+		.$( this.$protoSet( 'getPath', 'tim_proto.getPath' ) );
 
 	if( this.group )
 	{
@@ -2723,25 +2633,25 @@ prototype.genJionProto =
 				'Returns the group with another group added,',
 				'overwriting collisions.'
 			)
-			.$( this.$protoSet( 'addGroup', 'jion_proto.groupAddGroup' ) )
+			.$( this.$protoSet( 'addGroup', 'tim_proto.groupAddGroup' ) )
 
 			.$comment( 'Gets one element from the group.' )
-			.$( this.$protoSet( 'get', 'jion_proto.groupGet' ) )
+			.$( this.$protoSet( 'get', 'tim_proto.groupGet' ) )
 
 			.$comment( 'Returns the group keys.')
-			.$( this.$protoLazyValueSet( '"keys"', 'jion_proto.groupKeys' ) )
+			.$( this.$protoLazyValueSet( '"keys"', 'tim_proto.groupKeys' ) )
 
 			.$comment( 'Returns the sorted group keys.')
-			.$( this.$protoLazyValueSet( '"sortedKeys"', 'jion_proto.groupSortedKeys' ) )
+			.$( this.$protoLazyValueSet( '"sortedKeys"', 'tim_proto.groupSortedKeys' ) )
 
 			.$comment( 'Returns the group with one element removed.' )
-			.$( this.$protoSet( 'remove', 'jion_proto.groupRemove' ) )
+			.$( this.$protoSet( 'remove', 'tim_proto.groupRemove' ) )
 
 			.$comment( 'Returns the group with one element set.' )
-			.$( this.$protoSet( 'set', 'jion_proto.groupSet' ) )
+			.$( this.$protoSet( 'set', 'tim_proto.groupSet' ) )
 
 			.$comment( 'Returns the size of the group.')
-			.$( this.$protoLazyValueSet( '"size"', 'jion_proto.groupSize' ) );
+			.$( this.$protoLazyValueSet( '"size"', 'tim_proto.groupSize' ) );
 	}
 
 	if( this.list )
@@ -2749,28 +2659,28 @@ prototype.genJionProto =
 		result =
 			result
 			.$comment( 'Returns the list with an element appended.' )
-			.$( this.$protoSet( 'append', 'jion_proto.listAppend' ) )
+			.$( this.$protoSet( 'append', 'tim_proto.listAppend' ) )
 
 			.$comment( 'Returns the list with another list appended.' )
-			.$( this.$protoSet( 'appendList', 'jion_proto.listAppendList' ) )
+			.$( this.$protoSet( 'appendList', 'tim_proto.listAppendList' ) )
 
 			.$comment( 'Returns the length of the list.')
-			.$( this.$protoLazyValueSet( '"length"', 'jion_proto.listLength' ) )
+			.$( this.$protoLazyValueSet( '"length"', 'tim_proto.listLength' ) )
 
 			.$comment( 'Returns one element from the list.' )
-			.$( this.$protoSet( 'get', 'jion_proto.listGet' ) )
+			.$( this.$protoSet( 'get', 'tim_proto.listGet' ) )
 
 			.$comment( 'Returns a slice from the list.' )
-			.$( this.$protoSet( 'slice', 'jion_proto.listSlice' ) )
+			.$( this.$protoSet( 'slice', 'tim_proto.listSlice' ) )
 
 			.$comment( 'Returns the list with one element inserted.' )
-			.$( this.$protoSet( 'insert', 'jion_proto.listInsert' ) )
+			.$( this.$protoSet( 'insert', 'tim_proto.listInsert' ) )
 
 			.$comment( 'Returns the list with one element removed.' )
-			.$( this.$protoSet( 'remove', 'jion_proto.listRemove' ) )
+			.$( this.$protoSet( 'remove', 'tim_proto.listRemove' ) )
 
 			.$comment( 'Returns the list with one element set.' )
-			.$( this.$protoSet( 'set', 'jion_proto.listSet' ) );
+			.$( this.$protoSet( 'set', 'tim_proto.listSet' ) );
 	}
 
 	if( this.twig )
@@ -2778,27 +2688,27 @@ prototype.genJionProto =
 		result =
 			result
 			.$comment( 'Returns the element at rank.' )
-			.$( this.$protoSet( 'atRank', 'jion_proto.twigAtRank' ) )
+			.$( this.$protoSet( 'atRank', 'tim_proto.twigAtRank' ) )
 
 			.$comment( 'Returns the element by key.' )
-			.$( this.$protoSet( 'get', 'jion_proto.twigGet' ) )
+			.$( this.$protoSet( 'get', 'tim_proto.twigGet' ) )
 
 			.$comment( 'Returns the key at a rank.' )
-			.$( this.$protoSet( 'getKey', 'jion_proto.twigGetKey' ) )
+			.$( this.$protoSet( 'getKey', 'tim_proto.twigGetKey' ) )
 
 			.$comment( 'Returns the length of the twig.')
-			.$( this.$protoLazyValueSet( '"length"', 'jion_proto.twigLength' ) )
+			.$( this.$protoLazyValueSet( '"length"', 'tim_proto.twigLength' ) )
 
 			// FUTURE for abstracts as well
 			.$comment( 'Returns the rank of the key.' )
 			.$(
-				'jion_proto.lazyFunctionString( ',
-					'prototype, "rankOf", jion_proto.twigRankOf ',
+				'tim_proto.lazyFunctionString( ',
+					'prototype, "rankOf", tim_proto.twigRankOf ',
 				')'
 			)
 
 			.$comment( 'Returns the twig with the element at key set.' )
-			.$( this.$protoSet( 'set', 'jion_proto.twigSet' ) );
+			.$( this.$protoSet( 'set', 'tim_proto.twigSet' ) );
 	}
 
 	return result;
@@ -2890,7 +2800,7 @@ prototype.genToJson =
 		$block( )
 		.$comment( 'Converts a ' + this.id.name + ' into json.' )
 		.$(
-			'jion_proto.lazyValue( prototype, "toJSON", ', $func( block ), ')'
+			'tim_proto.lazyValue( prototype, "toJSON", ', $func( block ), ')'
 		)
 	);
 };
@@ -2909,21 +2819,15 @@ prototype.genAttributeEquals =
 		//          // undefined
 	)
 {
-	var
-		allowsNull,
-		allowsUndefined,
-		attr,
-		ceq,
-		pc,
-		pn;
+	const attr = this.attributes.get( name );
 
-	attr = this.attributes.get( name );
+	const allowsNull = attr.allowsNull;
 
-	allowsNull = attr.allowsNull;
+	const allowsUndefined = abstract || attr.allowsUndefined;
 
-	allowsUndefined = abstract || attr.allowsUndefined;
+	const ceq = $( le, ' === ', re );
 
-	ceq = $( le, ' === ', re );
+	let pc, pn; // TODO what do they do?
 
 	switch( attr.id.equalsConvention )
 	{
@@ -3164,19 +3068,13 @@ prototype.genEqualsFuncBody =
 prototype.genEquals =
 	function( )
 {
-	var
-		block,
-		normalEqFuncBody,
-		jsonEqFuncBody;
+	let block = $block( );
 
-	block = $block( );
+	const normalEqFuncBody = this.genEqualsFuncBody( 'normal', 'equals' );
 
-	normalEqFuncBody = this.genEqualsFuncBody( 'normal', 'equals' );
-
-	if( this.hasJson )
-	{
-		jsonEqFuncBody = this.genEqualsFuncBody( 'json', 'equalsJSON' );
-	}
+	const jsonEqFuncBody =
+		this.hasJson
+		&& this.genEqualsFuncBody( 'json', 'equalsJSON' );
 
 	if( !normalEqFuncBody.equals( jsonEqFuncBody ) )
 	{
@@ -3412,32 +3310,27 @@ prototype.genCapsule =
 */
 generator.generate =
 	function(
-		jion,        // the jion definition
-		ouroboros,   // 'ouroboros' if an ouroboros build
+		timDef,      // the tim definition
+		id,          // the id to be defined
 		jsonTypeMap  // if defined a typemap for json generation/parsing
 	)
 {
-	var
-		result,
-		gi;
+	// tim_validator.check( timDef ); FIXME!
 
-	jion_validator.check( jion );
-
-	gi =
+	const gi =
 		generator.create(
-			'jion', jion,
-			'ouroboros', !!ouroboros,
+			'id', tim_id.createFromString( id ),
+			'timDef', timDef,
 			'jsonTypeMap', jsonTypeMap
 		);
 
-	result =
+	const result =
 		$block( )
 		.$comment(
 			'This is an auto generated file.',
 			'',
-			'Editing might turn out rather futile.'
+			'Editing this might be rather futile.'
 		)
-		.$( gi.genExport( ) )
 		.$( gi.genImports( ) )
 		.$( gi.genCapsule( ) );
 

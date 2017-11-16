@@ -42,7 +42,7 @@ var
 	ast_func;
 
 
-ast_func = require( '../this' )( module, 'ouroboros' );
+ast_func = require( '../ouroboros' ).this( module );
 
 ast_funcArg = require( './funcArg' );
 

@@ -34,7 +34,7 @@ var
 	prototype;
 
 
-ast_postDecrement = require( '../this' )( module, 'ouroboros' );
+ast_postDecrement = require( '../ouroboros' ).this( module );
 
 prototype = ast_postDecrement.prototype;
 

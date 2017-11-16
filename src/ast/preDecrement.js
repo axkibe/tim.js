@@ -34,7 +34,7 @@ var
 	prototype;
 
 
-ast_preDecrement = require( '../this' )( module, 'ouroboros' );
+ast_preDecrement = require( '../ouroboros' ).this( module );
 
 prototype = ast_preDecrement.prototype;
 

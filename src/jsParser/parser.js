@@ -479,10 +479,7 @@ parser.handleDot =
 
 	name = state.preview;
 
-	if( name.type !== 'identifier' )
-	{
-		throw new Error( );
-	}
+	if( name.type !== 'identifier' ) throw new Error( );
 
 	state =
 		state.create(

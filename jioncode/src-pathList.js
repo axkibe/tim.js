@@ -42,7 +42,7 @@ if( NODE )
 {
 	jion$path = require( './path' );
 
-	require( './proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

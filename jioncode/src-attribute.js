@@ -159,7 +159,7 @@ if( NODE )
 
 	jion$idGroup = require( './idGroup' );
 
-	require( './proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 
@@ -176,7 +176,6 @@ Constructor =
 		v_allowsNull, // attribute may be null
 		v_allowsUndefined, // attribute may be undefined
 		v_assign, // variable name to assign to
-		v_comment, // comment
 		v_defaultValue, // default value
 		v_id, // attribute type id
 		v_json, // include in JSON export/import
@@ -195,8 +194,6 @@ Constructor =
 	this.allowsUndefined = v_allowsUndefined;
 
 	this.assign = v_assign;
-
-	this.comment = v_comment;
 
 	this.defaultValue = v_defaultValue;
 
@@ -243,7 +240,6 @@ prototype.create =
 		v_allowsNull,
 		v_allowsUndefined,
 		v_assign,
-		v_comment,
 		v_defaultValue,
 		v_id,
 		v_json,
@@ -260,8 +256,6 @@ prototype.create =
 		v_allowsUndefined = this.allowsUndefined;
 
 		v_assign = this.assign;
-
-		v_comment = this.comment;
 
 		v_defaultValue = this.defaultValue;
 
@@ -309,15 +303,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_assign = arg;
-				}
-
-				break;
-
-			case 'comment' :
-
-				if( arg !== pass )
-				{
-					v_comment = arg;
 				}
 
 				break;
@@ -443,25 +428,6 @@ prototype.create =
 /**/		typeof( v_assign ) !== 'string'
 /**/		&&
 /**/		!( v_assign instanceof String )
-/**/	)
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_comment === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_comment === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if(
-/**/		typeof( v_comment ) !== 'string'
-/**/		&&
-/**/		!( v_comment instanceof String )
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -647,8 +613,6 @@ prototype.create =
 		&&
 		v_assign === inherit.assign
 		&&
-		v_comment === inherit.comment
-		&&
 		(
 			v_defaultValue === inherit.defaultValue
 			||
@@ -684,7 +648,6 @@ prototype.create =
 			v_allowsNull,
 			v_allowsUndefined,
 			v_assign,
-			v_comment,
 			v_defaultValue,
 			v_id,
 			v_json,
@@ -749,8 +712,6 @@ prototype.equals =
 		this.allowsUndefined === obj.allowsUndefined
 		&&
 		this.assign === obj.assign
-		&&
-		this.comment === obj.comment
 		&&
 		(
 			this.defaultValue === obj.defaultValue

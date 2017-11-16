@@ -42,7 +42,7 @@ if( NODE )
 {
 	jion$attribute = require( './attribute' );
 
-	require( './proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

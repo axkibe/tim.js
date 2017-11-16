@@ -43,7 +43,7 @@ var
 	prototype;
 
 
-ast_switch = require( '../this' )( module, 'ouroboros' );
+ast_switch = require( '../ouroboros' ).this( module );
 
 prototype = ast_switch.prototype;
 

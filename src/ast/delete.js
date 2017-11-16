@@ -32,7 +32,7 @@ if( JION )
 var
 	ast_delete;
 
-ast_delete = require( '../this' )( module, 'ouroboros' );
+ast_delete = require( '../ouroboros' ).this( module );
 
 /**/if( CHECK )
 /**/{

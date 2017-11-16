@@ -28,7 +28,7 @@ var
 	prototype;
 
 
-ast_objLiteral = require( '../this' )( module, 'ouroboros' );
+ast_objLiteral = require( '../ouroboros' ).this( module );
 
 prototype = ast_objLiteral.prototype;
 

@@ -55,7 +55,7 @@ var
 	jion_proto,
 	tabFormat;
 
-format_context = require( '../this' )( module, 'ouroboros' );
+format_context = require( '../ouroboros' ).this( module );
 
 jion_proto = require( '../proto' );
 

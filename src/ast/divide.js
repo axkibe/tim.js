@@ -38,7 +38,7 @@ var
 	ast_divide,
 	prototype;
 
-ast_divide = require( '../this' )( module, 'ouroboros' );
+ast_divide = require( '../ouroboros' ).this( module );
 
 prototype = ast_divide.prototype;
 

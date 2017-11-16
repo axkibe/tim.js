@@ -38,7 +38,7 @@ var
 	ast_multiply,
 	prototype;
 
-ast_multiply = require( '../this' )( module, 'ouroboros' );
+ast_multiply = require( '../ouroboros' ).this( module );
 
 prototype = ast_multiply.prototype;
 

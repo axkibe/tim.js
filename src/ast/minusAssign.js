@@ -39,7 +39,7 @@ var
 	prototype;
 
 
-ast_minusAssign = require( '../this' )( module, 'ouroboros' );
+ast_minusAssign = require( '../ouroboros' ).this( module );
 
 prototype = ast_minusAssign.prototype;
 

@@ -42,7 +42,7 @@ if( NODE )
 {
 	jsLexer_token = require( '../jsLexer/token' );
 
-	require( '../proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

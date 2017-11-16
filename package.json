@@ -1,7 +1,7 @@
 {
-	"name": "jion",
+	"name": "tim.js",
 	"version": "1.0.0",
-	"description": "Javascript Immutable Object Nifties",
+	"description": "Typed Immutables for Javascript",
 	"author" :
 	{
 		"name": "Axel Kittenberger",

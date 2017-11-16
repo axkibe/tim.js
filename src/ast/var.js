@@ -38,7 +38,7 @@ var
 	prototype;
 
 
-ast_var = require( '../this' )( module, 'ouroboros' );
+ast_var = require( '../ouroboros' ).this( module );
 
 parser = require( '../jsParser/parser' );
 

@@ -33,7 +33,7 @@ var
 	ast_new,
 	prototype;
 
-ast_new = require( '../this' )( module, 'ouroboros' );
+ast_new = require( '../ouroboros' ).this( module );
 
 prototype = ast_new.prototype;
 

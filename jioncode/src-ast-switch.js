@@ -159,7 +159,7 @@ if( NODE )
 
 	jion$ast_var = require( '../ast/var' );
 
-	require( '../proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

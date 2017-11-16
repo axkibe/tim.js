@@ -39,7 +39,7 @@ function( ) {
 */
 if( NODE )
 {
-	require( './proto' );
+	jion_proto = require( 'jion' ).proto;
 }
 
 

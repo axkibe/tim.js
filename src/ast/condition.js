@@ -45,7 +45,7 @@ var
 	ast_condition,
 	prototype;
 
-ast_condition = require( '../this' )( module, 'ouroboros' );
+ast_condition = require( '../ouroboros' ).this( module );
 
 prototype = ast_condition.prototype;
 
