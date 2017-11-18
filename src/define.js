@@ -80,7 +80,7 @@ const createAndLoadTimcode =
 	// and creates it if so.
 
 	const inStat = fs.statSync( module.filename );
-	
+
 	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let outStat;
@@ -90,11 +90,11 @@ const createAndLoadTimcode =
 		outStat = fs.statSync( timcodeRealFilename );
 	}
 	catch( e ) { /* ignore */ }
-	
+
 	if( !outStat || inStat.mtime > outStat.mtime )
 	{
 		console.log( 'timcode: ' + timcodeRealFilename );
-	
+
 		// requires the generator stuff only when needed
 		const generator = require( './generator' );
 
@@ -107,14 +107,14 @@ const createAndLoadTimcode =
 			jsonTypeMap = require( timcodeRootDir + 'src/json/typemap' );
 		}
 		catch( e ) { /* ignore */ }
-		
+
 		const ast = generator.generate( timDef, id, jsonTypeMap );
 
 		const output = format_formatter.format( ast );
 
 		fs.writeFileSync( timcodeRealFilename, output );
 	}
-	
+
 	// loads the timcode.
 
 	// runs the timcode within the handed module context
@@ -122,7 +122,7 @@ const createAndLoadTimcode =
 	// circula references
 
 	let input =
-		'( function( ' + id + ', module, require, tim_proto ) { '
+		'( function( ' + id + ', module, require, tim_proto ) {'
 		+ fs.readFileSync( timcodeRealFilename, readOptions )
 		+ '\n} )';
 
@@ -156,7 +156,7 @@ const timDefHasJson =
 	}
 
 	return false;
-};	
+};
 
 
 module.exports =
@@ -177,7 +177,11 @@ module.exports =
 		lazy : { },
 	};
 
+	global.TIM = true;
+
 	definer( timDef, module.exports );
+
+	global.TIM = false;
 
 	const filename = module.filename;
 
@@ -188,7 +192,7 @@ module.exports =
 		+ filename
 		.substr( timcodeRootDir.length )
 		.replace( /\//g, '-' );
-	
+
 	createAndLoadTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
 
 	const exports = module.exports;

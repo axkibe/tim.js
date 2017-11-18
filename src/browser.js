@@ -6,7 +6,7 @@
 'use strict';
 
 
-var module, pass, tim, tim_proto;
+var module, pass, tim, tim_proto, TIM;
 
 module = undefined;
 
@@ -14,6 +14,8 @@ tim = tim_proto = { };
 
 // global pass flag for creators
 pass = tim_proto.pass = { };
+
+TIM = false;
 
 
 // all tim modules
