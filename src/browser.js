@@ -42,6 +42,8 @@ tim.define =
 
 		lazy : { },
 
+		lazyFuncInt : { },
+
 		func : { },
 	};
 
@@ -63,6 +65,12 @@ tim.define =
 	for( let name in timDef.lazy )
 	{
 		tim_proto.lazyValue( tim.prototype, name, timDef.lazy[ name ] );
+	}
+
+	// assigns lazy integer functions to the prototype
+	for( let name in timDef.lazyFuncInt )
+	{
+		tim_proto.lazyFunctionInteger( tim.prototype, name, timDef.lazyFuncInt[ name ] );
 	}
 
 	// assigns functions to the prototype

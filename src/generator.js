@@ -410,7 +410,14 @@ prototype.genImports =
 	result =
 		result
 		.$if( '!NODE',
-			$( 'timModules. ', this.id.pathName,' = ', this.id.$global )
+			$block( )
+			.$check(
+				$if(
+					$( 'timModules.', this.id.pathName, ' !== undefined' ),
+					$fail( )
+				)
+			)
+			.$( 'timModules.', this.id.pathName,' = ', this.id.$global )
 		);
 
 	return result;

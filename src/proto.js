@@ -333,15 +333,9 @@ tim_proto.setPath =
 
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( pos ) !== 'number' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( typeof( pos ) !== 'number' ) throw new Error( );
 /**/
-/**/	if( path.length === pos )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( path.length === pos ) throw new Error( );
 /**/}
 
 	pZ = path.length;
@@ -732,7 +726,7 @@ tim_proto.twigRankOf =
 
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( key !== 'string' ) ) throw new Error( );
+/**/	if( typeof( key ) !== 'string' ) throw new Error( );
 /**/}
 
 	return(

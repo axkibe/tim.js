@@ -33,7 +33,7 @@ var
 
 if( NODE )
 {
-	jion$path = require( './ouroboros' ).this( module );
+	jion$path = require( './ouroboros' ).this( module, 'source' );
 
 	jion = require( './proto' );
 }
@@ -309,5 +309,11 @@ function( )
 */
 jion$path.empty = jion$path.create( 'list:init', [ ] );
 
+
+if( !NODE )
+{
+	// FIXME
+	tim.path = jion$path;
+}
 
 } )( );

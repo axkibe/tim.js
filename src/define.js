@@ -169,12 +169,10 @@ module.exports =
 	const timDef =
 	{
 		static : { },
-
 		staticLazy : { },
-
 		func : { },
-
 		lazy : { },
+		lazyFuncInt : { },
 	};
 
 	global.TIM = true;
@@ -235,11 +233,21 @@ module.exports =
 		);
 	}
 
+	// assigns lazy integer functions to the prototype
+	for( let name in timDef.lazyFuncInt )
+	{
+		tim_proto.lazyFunctionInteger(
+			exports.prototype,
+			name,
+			timDef.lazyFuncInt[ name ]
+		);
+	}
+
 	// assigns functions to the prototype
 	for( let name in timDef.func )
 	{
 		exports.prototype[ name ] = timDef.func[ name ];
 	}
-	
+
 	return exports;
 };
