@@ -388,11 +388,11 @@ prototype.genImports =
 
 		if( id.isPrimitive ) continue;
 
-		if( idKey.indexOf( ':' ) >= 0 )
-		{
-			// FUTURE make this more elegant
-			continue;
-		}
+		// FUTURE make this more elegant
+		if( idKey.indexOf( ':' ) >= 0 ) continue;
+
+		// no need to require tim itself
+		if( id.packet === 'tim' ) continue;
 
 		result = result.$varDec( id.global );
 	}
@@ -440,8 +440,6 @@ prototype.genNodeIncludes =
 	{
 		const idKey = idKeys[ a ];
 
-		const id = imports.get( idKey );
-
 		if( idKey.indexOf( ':' ) >= 0 )
 		{
 			// abstract
@@ -449,13 +447,18 @@ prototype.genNodeIncludes =
 			continue;
 		}
 
+		const id = imports.get( idKey );
+
 		if( id.equals( this.id ) )
 		{
-			// the jioncode shouldn't require itself
+			// the timcode shouldn't require itself
 			continue;
 		}
 
 		if( id.isPrimitive ) continue;
+
+		// no need to require tim itself
+		if( id.packet === 'tim' ) continue;
 
 		if( id.packet && id.packet !== this.id.packet )
 		{

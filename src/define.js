@@ -21,7 +21,6 @@ const vm = require( 'vm' );
 */
 require( './proto' );
 
-
 const readOptions = { encoding : 'utf8' };
 
 if( FREEZE ) Object.freeze( readOptions );

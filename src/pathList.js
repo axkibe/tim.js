@@ -33,7 +33,7 @@ var
 
 if( NODE )
 {
-	jion$pathList = require( './ouroboros' ).this( module );
+	jion$pathList = require( './ouroboros' ).this( module, 'source' );
 }
 else
 {
@@ -119,6 +119,15 @@ prototype.combine =
 		)
 	);
 };
+
+
+console.log('XXX' );
+
+if( !NODE )
+{
+	// FIXME
+	tim.pathList = jion$pathList;
+}
 
 
 } )( );

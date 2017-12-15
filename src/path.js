@@ -55,10 +55,7 @@ jion.lazyFunctionString(
 	'append',
 	function( key )
 {
-	var
-		result;
-
-	result = this.create( 'list:append', key );
+	const result = this.create( 'list:append', key );
 
 	jion.aheadValue( result, 'shorten', this );
 
@@ -73,10 +70,7 @@ jion.lazyFunctionString(
 prototype.appendNC =
 	function( key )
 {
-	var
-		result;
-
-	result = this.create( 'list:append', key );
+	const result = this.create( 'list:append', key );
 
 	jion.aheadValue( result, 'shorten', this );
 
@@ -92,18 +86,12 @@ jion.lazyValue(
 	'chop',
 	function( )
 {
-	var
-		result;
-
 /**/if( CHECK )
 /**/{
-/**/	if( this.length === 0 )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( this.length === 0 ) throw new Error( );
 /**/}
 
-	result = this.create( 'list:remove', 0 );
+	const result = this.create( 'list:remove', 0 );
 
 	// FUTURE
 	// jion_proto.aheadLazyStringFunc(
@@ -124,18 +112,12 @@ jion.lazyValue(
 	'shorten',
 	function( )
 {
-	var
-		result;
-
 /**/	if( CHECK )
 /**/	{
-/**/		if( this.length === 0 )
-/**/		{
-/**/			throw new Error( );
-/**/		}
+/**/		if( this.length === 0 ) throw new Error( );
 /**/	}
 
-	result = this.create( 'list:remove', this.length - 1 );
+	const result = this.create( 'list:remove', this.length - 1 );
 
 	// FUTURE aheadLazyStringFunc
 
@@ -154,18 +136,12 @@ prototype.limit =
 		n
 	)
 {
-	var
-		path;
-
 /**/if( CHECK )
 /**/{
-/**/	if( n > this.length || n < 0 )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( n > this.length || n < 0 ) throw new Error( );
 /**/}
 
-	path = this;
+	let path = this;
 
 	while( path.length > n )
 	{
@@ -183,10 +159,7 @@ jion.lazyFunctionString(
 	'prepend',
 	function( entry )
 {
-	var
-		result;
-
-	result = this.create( 'list:insert', 0, entry );
+	const result = this.create( 'list:insert', 0, entry );
 
 	jion.aheadValue( result, 'chop', this );
 
@@ -204,9 +177,6 @@ prototype.subPathOf =
 		len    // the length of this path to consider.
 	)
 {
-	var
-		a;
-
 	if( len === undefined )
 	{
 		len = this.length;
@@ -215,15 +185,12 @@ prototype.subPathOf =
 	{
 		if( len < 0 ) len += this.length;
 
-		if( len < 0 )
-		{
-			throw new Error( 'subPathOf out of range' );
-		}
+		if( len < 0 ) throw new Error( 'subPathOf out of range' );
 	}
 
 	if( len > o.length ) return false;
 
-	for( a = 0; a < len; a++ )
+	for( let a = 0; a < len; a++ )
 	{
 		if( this.get( a ) !== o.get( a ) ) return false;
 	}
@@ -240,18 +207,9 @@ jion.lazyValue(
 	'string',
 	function( )
 {
-	var
-		a,
-		aZ,
-		b;
+	const b = [ '[ '[ 0 ] ]; // FUTURE jshint bug
 
-	b = [ '[ '[ 0 ] ]; // FUTURE jshint bug
-
-	for(
-		a = 0, aZ = this.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = this.length; a < aZ; a++ )
 	{
 		b.push(
 			( a > 0 ?  ', ' : ' ' ),
@@ -297,7 +255,7 @@ prototype.toJSON =
 jion.lazyValue(
 	prototype,
 	'isEmpty',
-function( )
+	function( )
 {
 	return this.length === 0;
 }
@@ -315,5 +273,6 @@ if( !NODE )
 	// FIXME
 	tim.path = jion$path;
 }
+
 
 } )( );
