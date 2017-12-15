@@ -25,7 +25,7 @@ if( JION )
 var
 	jion_stringList;
 
-jion_stringList = require( './ouroboros' ).this( module );
+jion_stringList = require( './ouroboros' ).this( module, 'source' );
 
 
 /*
@@ -38,6 +38,14 @@ jion_stringList.stringList =
 {
 	return jion_stringList.create( 'list:init', array );
 };
+
+
+
+if( !NODE )
+{
+	// FIXME
+	tim.stringList = jion_stringList;
+}
 
 
 } )( );

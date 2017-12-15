@@ -388,11 +388,12 @@ prototype.genImports =
 
 		if( id.isPrimitive ) continue;
 
-		// FUTURE make this more elegant
-		if( idKey.indexOf( ':' ) >= 0 ) continue;
-
 		// no need to require tim itself
 		if( id.packet === 'tim' ) continue;
+		if( id.packet === 'jion' ) continue;
+
+		// FUTURE make this more elegant
+		if( idKey.indexOf( ':' ) >= 0 ) continue;
 
 		result = result.$varDec( id.global );
 	}
@@ -459,6 +460,7 @@ prototype.genNodeIncludes =
 
 		// no need to require tim itself
 		if( id.packet === 'tim' ) continue;
+		if( id.packet === 'jion' ) continue;
 
 		if( id.packet && id.packet !== this.id.packet )
 		{
@@ -2305,24 +2307,15 @@ prototype.genFromJsonCreatorListProcessing =
 prototype.genFromJsonCreatorTwigProcessing =
 	function( )
 {
-	var
-		a,
-		aZ,
-		loop,
-		switchExpr,
-		twig,
-		twigID,
-		keyList;
+	let switchExpr = $switch( 'jval.type' );
 
-	switchExpr = $switch( 'jval.type' );
+	const twig = this.twig;
 
-	twig = this.twig;
+	const keyList = twig.sortedKeys;
 
-	keyList = twig.sortedKeys;
-
-	for( a = 0, aZ = keyList.length; a < aZ; a++ )
+	for( let a = 0, aZ = keyList.length; a < aZ; a++ )
 	{
-		twigID = twig.get( keyList[ a ] );
+		const twigID = twig.get( keyList[ a ] );
 
 		switchExpr =
 			switchExpr
@@ -2342,7 +2335,7 @@ prototype.genFromJsonCreatorTwigProcessing =
 			$fail( )
 		);
 
-	loop =
+	const loop =
 		$block( )
 		.$( 'key = ranks[ a ]' )
 		.$if(
@@ -2377,22 +2370,11 @@ prototype.genFromJsonCreatorTwigProcessing =
 prototype.genFromJsonCreatorReturn =
 	function( )
 {
-	var
-		a,
-		aZ,
-		attr,
-		call,
-		name;
+	let call = $( 'Constructor( )' );
 
-	call = $( 'Constructor( )' );
-
-	for(
-		a = 0, aZ = this.constructorList.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = this.constructorList.length; a < aZ; a++ )
 	{
-		name = this.constructorList[ a ];
+		const name = this.constructorList[ a ];
 
 		switch( name )
 		{
@@ -2421,7 +2403,7 @@ prototype.genFromJsonCreatorReturn =
 
 			default :
 
-				attr = this.attributes.get( name );
+				const attr = this.attributes.get( name );
 
 				if( attr.assign === '' )
 				{
@@ -2444,27 +2426,14 @@ prototype.genFromJsonCreatorReturn =
 prototype.genFromJsonCreator =
 	function( )
 {
-	var
-		a,
-		aZ,
-		attr,
-		// function contents
-		funcBlock,
-		// all attributes expected from json
-		name,
-		jsonList;
+	// all attributes expected from json
+	const jsonList = [ ];
 
-	jsonList = [ ];
-
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		const name = this.attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
 		if( attr.json ) jsonList.push( name );
 	}
@@ -2476,7 +2445,8 @@ prototype.genFromJsonCreator =
 
 	jsonList.sort( );
 
-	funcBlock =
+	// function contents
+	let funcBlock =
 		this.genFromJsonCreatorVariables( )
 		.$( this.genFromJsonCreatorParser( jsonList ) )
 		.$( this.genCreatorDefaults( true ) );
@@ -2736,13 +2706,10 @@ prototype.mapJsonTypeName =
 		pathName
 	)
 {
-	var
-		jtm;
-
-	jtm = this.jsonTypeMap;
+	const jtm = this.jsonTypeMap;
 
 	return(
-		shorthand.$string( 
+		shorthand.$string(
 			!jtm
 			? pathName
 			: ( jtm[ pathName ] || pathName )
@@ -2757,25 +2724,17 @@ prototype.mapJsonTypeName =
 prototype.genToJson =
 	function( )
 {
-	var
-		a,
-		aZ,
-		attr,
-		block,
-		name,
-		olit;
+	let block = $block( ).$varDec( 'json' );
 
-	block = $block( ).$varDec( 'json' );
-
-	olit =
+	let olit =
 		$objLiteral( )
 		.add( 'type', this.mapJsonTypeName( this.id.pathName ) );
 
-	for( a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		const name = this.attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
 		if( !attr.json ) continue;
 

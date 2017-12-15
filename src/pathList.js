@@ -121,8 +121,6 @@ prototype.combine =
 };
 
 
-console.log('XXX' );
-
 if( !NODE )
 {
 	// FIXME

@@ -53,11 +53,9 @@ jion$id.createFromString =
 		string
 	)
 {
-	var
-		packet,
-		split;
+	let packet;
 
-	split = string.split( '$' );
+	let split = string.split( '$' );
 
 	if( split.length > 1 )
 	{
@@ -106,13 +104,6 @@ jion$id.compare =
 		o2
 	)
 {
-	var
-		a,
-		l1,
-		l2,
-		u1,
-		u2;
-
 	if( !o1.packet && o2.packet ) return 1;
 
 	if( o1.packet && !o2.packet ) return -1;
@@ -124,19 +115,19 @@ jion$id.compare =
 		if( o1.packet < o2.packet ) return -1;
 	}
 
-	l1 = o1.length;
+	const l1 = o1.length;
 
-	l2 = o2.length;
+	const l2 = o2.length;
 
 	if( l1 === 1 && l2 > 1 ) return 1;
 
 	if( l1 > 1 && l2 === 1 ) return -1;
 
-	for( a = 0; a < l1; a++ )
+	for( let a = 0; a < l1; a++ )
 	{
-		u1 = o1.get( a );
+		const u1 = o1.get( a );
 
-		u2 = o2.get( a );
+		const u2 = o2.get( a );
 
 		if( u1 > u2 ) return 1;
 
@@ -205,7 +196,8 @@ jion$proto.lazyValue(
 	function( )
 {
 	return(
-		( this.packet ? this.packet + '$' : '' )
+//		( this.packet ? this.packet + '$' : '' )
+		( this.packet ? this.packet + '.' : '' )
 		+ this.pathName
 	);
 }
@@ -220,6 +212,11 @@ jion$proto.lazyValue(
 	'$global',
 	function( )
 {
+	if( this.packet )
+	{
+		return shorthand.$dot( shorthand.$var( this.packet ), this.pathName );
+	}
+
 	return shorthand.$var( this.global );
 }
 );
@@ -274,14 +271,9 @@ jion$proto.lazyValue(
 	'path',
 	function( )
 {
-	var
-		a,
-		aZ,
-		p;
+	let p = '';
 
-	p = '';
-
-	for( a = 0, aZ = this.length; a < aZ; a++ )
+	for( let a = 0, aZ = this.length; a < aZ; a++ )
 	{
 		if( a > 0 ) p += '/';
 
@@ -301,14 +293,9 @@ jion$proto.lazyValue(
 	'pathName',
 	function( )
 {
-	var
-		a,
-		aZ,
-		pn;
+	let pn = '';
 
-	pn = '';
-
-	for( a = 0, aZ = this.length; a < aZ; a++ )
+	for( let a = 0, aZ = this.length; a < aZ; a++ )
 	{
 		if( a > 0 ) pn += '_';
 
