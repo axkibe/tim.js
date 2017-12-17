@@ -1,59 +1,38 @@
 /*
 | A code block to be generated
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$ast_block',
-		list : require( '../typemaps/astStatement' )
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_block,
-	ast_comment,
-	ast_return,
-	parser,
-	prototype,
-	shorthand;
+require( '../ouroboros' )
+.define( module, 'ast_block', ( def, ast_block ) => {
 
 
-ast_block = require( '../ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-prototype = ast_block.prototype;
 
-ast_comment = require( './comment' );
+if( TIM )
+{
+	def.list = require( '../typemaps/astStatement' );
+}
 
-ast_return = require( './return' );
 
-parser = require( '../jsParser/parser' );
+const ast_comment = require( './comment' );
 
-shorthand = require( './shorthand' );
+const parser = require( '../jsParser/parser' );
+
+const shorthand = require( './shorthand' );
 
 
 /*
 | Returns the block with a parsed statement appended.
 */
-prototype.$ =
+def.func.$ =
 	function( )
 {
-	var
-		ast;
-
-	ast = parser.parseArray( arguments );
+	const ast = parser.parseArray( arguments );
 
 	if( ast === undefined ) return this;
 
@@ -70,7 +49,7 @@ prototype.$ =
 /*
 | Returns the block with an assignment appended.
 */
-prototype.$assign =
+def.func.$assign =
 	function(
 		left,
 		right
@@ -79,10 +58,7 @@ prototype.$assign =
 
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 2 )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( arguments.length !== 2 ) throw new Error( );
 /**/}
 
 	return this.append( shorthand.$assign( left, right ) );
@@ -92,7 +68,7 @@ prototype.$assign =
 /*
 | Recreates the block with a call appended.
 */
-prototype.$call =
+def.func.$call =
 	function(
 		// func,
 		// args...
@@ -109,7 +85,7 @@ prototype.$call =
 /*
 | Returns the block with a check appended.
 */
-prototype.$check =
+def.func.$check =
 	function(
 		// block
 	)
@@ -125,7 +101,7 @@ prototype.$check =
 /*
 | Returns the block with a comment appended.
 */
-prototype.$comment =
+def.func.$comment =
 	function(
 		header
 	)
@@ -146,9 +122,8 @@ prototype.$comment =
 /*
 | Returns the block with a continue statement appended.
 */
-prototype.$continue =
-	function(
-	)
+def.func.$continue =
+	function( )
 {
 	return this.append( shorthand.$continue );
 };
@@ -157,7 +132,7 @@ prototype.$continue =
 /*
 | Returns the block with a delete statement appended.
 */
-prototype.$delete =
+def.func.$delete =
 	function(
 		expr
 	)
@@ -170,7 +145,7 @@ prototype.$delete =
 /*
 | Returns the block with an if appended.
 */
-prototype.$if =
+def.func.$if =
 	function(
 		condition,
 		then,
@@ -188,7 +163,7 @@ prototype.$if =
 /*
 | Returns the block with a error throwing appended.
 */
-prototype.$fail =
+def.func.$fail =
 	function(
 		message
 	)
@@ -200,7 +175,7 @@ prototype.$fail =
 /*
 | Returns the block with a classical for loop appended.
 */
-prototype.$for =
+def.func.$for =
 	function(
 		init,
 		condition,
@@ -215,7 +190,7 @@ prototype.$for =
 /*
 | Returns the block with a for-in loop appended.
 */
-prototype.$forIn =
+def.func.$forIn =
 	function(
 		variable,
 		object,
@@ -229,10 +204,11 @@ prototype.$forIn =
 	);
 };
 
+
 /*
 | Shorthand for creating new calls.
 */
-prototype.$new =
+def.func.$new =
 	function(
 		call
 	)
@@ -244,7 +220,7 @@ prototype.$new =
 /*
 | Returns the block with a plus-assignment appended.
 */
-prototype.$plusAssign =
+def.func.$plusAssign =
 	function(
 		left,
 		right
@@ -257,7 +233,7 @@ prototype.$plusAssign =
 /*
 | Returns the block with a term appended.
 */
-prototype.$return =
+def.func.$return =
 	function(
 		expr
 	)
@@ -274,7 +250,7 @@ prototype.$return =
 /*
 | Returns the block with a variable decleration appended.
 */
-prototype.$varDec =
+def.func.$varDec =
 	function(
 		// name,   // variable name
 		// assign  // variable assignment
@@ -288,4 +264,4 @@ prototype.$varDec =
 };
 
 
-} )( );
+} );

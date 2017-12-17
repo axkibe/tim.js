@@ -2,80 +2,57 @@
 | A boolean literal.
 | ( true or false )
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_boolean', ( def, ast_boolean ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_boolean',
-		attributes :
-		{
-			'boolean' :
-			{
-				comment : 'the boolean',
-				type : 'boolean'
-			}
-		}
+	def.attributes =
+	{
+		'boolean' : { type : 'boolean' }
 	};
 }
 
 
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += this.boolean ? 'true' : 'false';
+
+	return result + postfix;
+};
 
 
-var
-	ast_boolean,
-	prototype;
-
-ast_boolean = require( '../ouroboros' ).this( module );
-
-prototype = ast_boolean.prototype;
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += this.boolean ? 'true' : 'false';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-} )( );
+} );

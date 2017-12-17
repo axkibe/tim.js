@@ -1,29 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$ast_boolean;
+	ast_boolean;
 
 
-if( NODE )
+if( !ast_boolean )
 {
-	jion$ast_boolean = module.exports;
-}
-else
-{
-	jion$ast_boolean = { };
+	ast_boolean = { };
 }
 
 
-var
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.ast_boolean !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.ast_boolean = ast_boolean;
+}
 
 
 /*
@@ -39,7 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -53,7 +62,7 @@ var
 
 Constructor =
 	function(
-		v_boolean // the boolean
+		v_boolean
 	)
 {
 	if( prototype.__have_lazy )
@@ -76,13 +85,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_boolean.prototype = prototype;
+ast_boolean.prototype = prototype;
 
 
 /*
 | Creates a new boolean object.
 */
-jion$ast_boolean.create =
+ast_boolean.create =
 prototype.create =
 	function(
 		// free strings
@@ -95,7 +104,7 @@ prototype.create =
 		inherit,
 		v_boolean;
 
-	if( this !== jion$ast_boolean )
+	if( this !== ast_boolean )
 	{
 		inherit = this;
 
@@ -169,13 +178,13 @@ prototype.reflectName = 'boolean';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
