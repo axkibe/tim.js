@@ -1,62 +1,41 @@
 /*
 | A call in an abstract syntax tree.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$ast_call',
-		attributes :
-		{
-			'func' :
-			{
-				comment : 'the function to call',
-				type : require( '../typemaps/astExpression' )
-			},
-		},
-		list : require( '../typemaps/astExpression' )
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_call,
-	parser,
-	prototype;
+require( '../ouroboros' )
+.define( module, 'ast_call', ( def, ast_call ) => {
 
 
-ast_call = require( '../ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-prototype = ast_call.prototype;
 
-parser = require( '../jsParser/parser' );
+if( TIM )
+{
+	def.attributes =
+	{
+		func : { type : require( '../typemaps/astExpression' ) },
+	};
+
+	def.list = require( '../typemaps/astExpression' );
+}
+
+
+const parser = require( '../jsParser/parser' );
 
 
 /*
 | Returns a call with a parameter appended
 */
-prototype.$argument =
+def.func.$argument =
 	function(
 		// parseables
 	)
 {
-	var
-		ast;
-
-	ast = parser.parseArray( arguments );
-
-	return this.append( ast );
+	return this.append( parser.parseArray( arguments ) );
 };
 
 
@@ -64,23 +43,17 @@ prototype.$argument =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-prototype.walk =
+def.func.walk =
 	function(
 		transform	// a function to be called for all
 		//			// walked nodes.
 	)
 {
-	var
-		a,
-		aZ,
-		args,
-		func;
+	const func = this.func.walk( transform );
 
-	func = this.func.walk( transform );
+	const args = [ ];
 
-	args = [ ];
-
-	for( a = 0, aZ = this.length; a < aZ; a++ )
+	for( let a = 0, aZ = this.length; a < aZ; a++ )
 	{
 		args[ a ] = this.get( a ).walk( transform );
 	}
@@ -93,65 +66,57 @@ prototype.walk =
 };
 
 
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		arg,
-/**/		r, rZ,
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	ast_call.prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.func, opts ) + ' )';
-/**/
-/**/		if( this.length === 0 )
-/**/		{
-/**/			result += '( )';
-/**/		}
-/**/		else
-/**/		{
-/**/			result += '( ';
-/**/
-/**/			for( r = 0, rZ = this.length; r < rZ; r++ )
-/**/			{
-/**/				arg = this.get( r );
-/**/
-/**/				if( r > 0 ) result += ', ';
-/**/
-/**/				result += util.inspect( arg, opts );
-/**/			}
-/**/
-/**/			result += ' )';
-/**/		}
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+const util = require( 'util' );
 
-} )( );
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' +  util.inspect( this.func, opts ) + ' )';
+
+	if( this.length === 0 )
+	{
+		result += '( )';
+	}
+	else
+	{
+		result += '( ';
+
+		for( let r = 0, rZ = this.length; r < rZ; r++ )
+		{
+			const arg = this.get( r );
+
+			if( r > 0 ) result += ', ';
+
+			result += util.inspect( arg, opts );
+		}
+
+		result += ' )';
+	}
+
+	return result + postfix;
+};
+
+} );
