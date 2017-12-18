@@ -1,35 +1,29 @@
 /*
 | Optional checks in abstract syntax trees.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_check', ( def, ast_check ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_check',
-		attributes :
+	def.attributes =
+	{
+		block :
 		{
-			'block' :
-			{
-				comment : 'the code block',
-				type : 'jion$ast_block'
-			}
+			// the code block',
+			type : 'jion$ast_block'
 		}
 	};
 }
 
 
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-require( '../ouroboros' ).this( module );
-
-
-} )( );
+} );

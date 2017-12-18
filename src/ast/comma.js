@@ -1,89 +1,72 @@
 /*
 | A comma operator list
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_comma', ( def, ast_comma ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_comma',
-		attributes :
+	def.attributes =
+	{
+		left :
 		{
-			left :
-			{
-				comment : 'left expression',
-				type : require( '../typemaps/astExpression' )
-			},
-			right :
-			{
-				comment : 'right expression',
-				type : require( '../typemaps/astExpression' )
-			}
+			// left expression
+			type : require( '../typemaps/astExpression' )
+		},
+		right :
+		{
+			// right expression
+			type : require( '../typemaps/astExpression' )
 		}
 	};
 }
 
 
+const util = require( 'util' );
+
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' +  util.inspect( this.left, opts ) + ' )';
+
+	result += ', ';
+
+	result += '( ' +  util.inspect( this.right, opts ) + ' )';
+
+	return result + postfix;
+};
 
 
-var
-	ast_comma;
-
-ast_comma = require( '../ouroboros' ).this( module );
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	ast_comma.prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.left, opts ) + ' )';
-/**/
-/**/		result += ', ';
-/**/
-/**/		result += '( ' +  util.inspect( this.right, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-
-
-
-} )( );
+} );
