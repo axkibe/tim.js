@@ -1,53 +1,37 @@
 /*
-| Ast object literal.
+| Ast; object literal.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$ast_objLiteral',
-		twig : require( '../typemaps/astExpression' )
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_objLiteral,
-	parser,
-	prototype;
+require( '../ouroboros' )
+.define( module, 'ast_objLiteral', ( def, ast_objLiteral ) => {
 
 
-ast_objLiteral = require( '../ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-prototype = ast_objLiteral.prototype;
 
-parser = require( '../jsParser/parser' );
+if( TIM )
+{
+	def.twig = require( '../typemaps/astExpression' );
+}
+
+
+const parser = require( '../jsParser/parser' );
 
 
 /*
 | Returns an object literal with a key-expr pair added.
 */
-prototype.add =
+def.func.add =
 	function(
 		key
 		// ... parseables
 	)
 {
-	var
-		args;
-
-	args = Array.prototype.slice.call( arguments );
+	const args = Array.prototype.slice.call( arguments );
 
 	args.shift( );
 
@@ -55,70 +39,57 @@ prototype.add =
 };
 
 
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		arg,
-/**/		r, rZ,
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		if( this.length === 0 )
-/**/		{
-/**/			result += '{ }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result += '{ ';
-/**/
-/**/			for(
-/**/				r = 0, rZ = this.length;
-/**/				r < rZ;
-/**/				r++
-/**/			)
-/**/			{
-/**/				arg = this.atRank( r );
-/**/
-/**/				if( r > 0 )
-/**/				{
-/**/					result += ', ';
-/**/				}
-/**/
-/**/				result += util.inspect( arg, opts );
-/**/			}
-/**/
-/**/			result += ' }';
-/**/		}
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+const util = require( 'util' );
 
-} )( );
+
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	if( this.length === 0 )
+	{
+		result += '{ }';
+	}
+	else
+	{
+		result += '{ ';
+
+		for( let r = 0, rZ = this.length; r < rZ; r++ )
+		{
+			const arg = this.atRank( r );
+
+			if( r > 0 ) result += ', ';
+
+			result += util.inspect( arg, opts );
+		}
+
+		result += ' }';
+	}
+
+	return result + postfix;
+};
+
+
+} );

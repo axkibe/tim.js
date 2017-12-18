@@ -1,29 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$ast_null;
+	ast_null;
 
 
-if( NODE )
+if( !ast_null )
 {
-	jion$ast_null = module.exports;
-}
-else
-{
-	jion$ast_null = { };
+	ast_null = { };
 }
 
 
-var
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.ast_null !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.ast_null = ast_null;
+}
 
 
 /*
@@ -39,7 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -72,7 +81,7 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_null.prototype = prototype;
+ast_null.prototype = prototype;
 
 
 /*
@@ -85,7 +94,7 @@ var
 /*
 | Creates a new null object.
 */
-jion$ast_null.create =
+ast_null.create =
 prototype.create =
 	function(
 		// free strings
@@ -94,7 +103,7 @@ prototype.create =
 	var
 		inherit;
 
-	if( this !== jion$ast_null )
+	if( this !== ast_null )
 	{
 		inherit = this;
 	}
@@ -128,13 +137,13 @@ prototype.reflectName = 'null';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*

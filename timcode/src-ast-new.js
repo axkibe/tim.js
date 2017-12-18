@@ -1,30 +1,39 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	ast_call,
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$ast_new;
+	ast_new;
 
 
-if( NODE )
+if( !ast_new )
 {
-	jion$ast_new = module.exports;
-}
-else
-{
-	jion$ast_new = { };
+	ast_new = { };
 }
 
 
-var
-	jion$ast_call,
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.ast_new !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.ast_new = ast_new;
+}
 
 
 /*
@@ -40,9 +49,9 @@ function( ) {
 */
 if( NODE )
 {
-	jion$ast_call = require( '../ast/call' );
+	ast_call = require( '../ast/call' );
 
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -56,7 +65,7 @@ var
 
 Constructor =
 	function(
-		v_call // the constrcutor call
+		v_call
 	)
 {
 	if( prototype.__have_lazy )
@@ -79,13 +88,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_new.prototype = prototype;
+ast_new.prototype = prototype;
 
 
 /*
 | Creates a new new object.
 */
-jion$ast_new.create =
+ast_new.create =
 prototype.create =
 	function(
 		// free strings
@@ -98,7 +107,7 @@ prototype.create =
 		inherit,
 		v_call;
 
-	if( this !== jion$ast_new )
+	if( this !== ast_new )
 	{
 		inherit = this;
 
@@ -180,13 +189,13 @@ prototype.reflectName = 'new';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*

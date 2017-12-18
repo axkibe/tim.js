@@ -1,57 +1,45 @@
 /*
-| Gets a member of a table specified by a literal.
+| Ast; gets a member of a table specified by a literal.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$ast_dot',
-		attributes :
-		{
-			expr :
-			{
-				comment : 'the expression to get the member of',
-				type : require( '../typemaps/astExpression' )
-			},
-			member :
-			{
-				comment : 'the members name',
-				type : 'string'
-			}
-		},
-		init : [ ]
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_dot,
-	ast_member,
-	prototype;
+require( '../ouroboros' )
+.define( module, 'ast_dot', ( def, ast_dot ) => {
 
 
-ast_dot = require( '../ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-prototype = ast_dot.prototype;
 
-ast_member = require( './member' );
+if( TIM )
+{
+	def.attributes =
+	{
+		expr :
+		{
+			// the expression to get the member of
+			type : require( '../typemaps/astExpression' )
+		},
+		member :
+		{
+			// the members name
+			type : 'string'
+		}
+	};
+
+	def.init = [ ];
+}
+
+
+const ast_member = require( './member' );
 
 
 /*
 | Initializer.
 */
-prototype._init =
+def.func._init =
 	function( )
 {
 	var
@@ -59,8 +47,7 @@ prototype._init =
 
 /**/if( CHECK )
 /**/{
-/**/	regex =
-/**/		/^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
+/**/	regex =	/^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
 /**/
 /**/	if( !regex.test( this.member ) )
 /**/	{
@@ -82,16 +69,13 @@ prototype._init =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-prototype.walk =
+def.func.walk =
 	function(
 		transform	// a function to be called for all
 		//			// walked nodes.
 	)
 {
-	var
-		expr;
-
-	expr = this.expr.walk( transform );
+	const expr = this.expr.walk( transform );
 
 	return transform( this.create( 'expr', expr ) );
 };
@@ -100,7 +84,7 @@ prototype.walk =
 /*
 | Creates a dot member access of a dot.
 */
-prototype.$dot =
+def.func.$dot =
 	function(
 		member // member string
 	)
@@ -114,7 +98,7 @@ prototype.$dot =
 /*
 | Creates a generic member access of a variable.
 */
-prototype.$member =
+def.func.$member =
 	function(
 		member // member expression
 	)
@@ -123,45 +107,41 @@ prototype.$member =
 };
 
 
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' + util.inspect( this.expr, opts ) + ' )';
-/**/
-/**/		result += '.' + this.member;
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+const util = require( 'util' );
 
-} )( );
+
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' + util.inspect( this.expr, opts ) + ' )';
+
+	result += '.' + this.member;
+
+	return result + postfix;
+};
+
+
+} );

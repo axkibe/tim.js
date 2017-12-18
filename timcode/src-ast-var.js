@@ -1,29 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$ast_var;
+	ast_var;
 
 
-if( NODE )
+if( !ast_var )
 {
-	jion$ast_var = module.exports;
-}
-else
-{
-	jion$ast_var = { };
+	ast_var = { };
 }
 
 
-var
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.ast_var !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.ast_var = ast_var;
+}
 
 
 /*
@@ -39,7 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -53,7 +62,7 @@ var
 
 Constructor =
 	function(
-		v_name // the variable name
+		v_name
 	)
 {
 	if( prototype.__have_lazy )
@@ -78,13 +87,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_var.prototype = prototype;
+ast_var.prototype = prototype;
 
 
 /*
 | Creates a new var object.
 */
-jion$ast_var.create =
+ast_var.create =
 prototype.create =
 	function(
 		// free strings
@@ -97,7 +106,7 @@ prototype.create =
 		inherit,
 		v_name;
 
-	if( this !== jion$ast_var )
+	if( this !== ast_var )
 	{
 		inherit = this;
 
@@ -175,13 +184,13 @@ prototype.reflectName = 'var';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*

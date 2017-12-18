@@ -1,38 +1,29 @@
 /*
 | A null to be generated.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{ id : 'jion$ast_null' };
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_null,
-	prototype;
+require( '../ouroboros' )
+.define( module, 'ast_null', ( def, ast_null ) => {
 
-ast_null = require( '../ouroboros' ).this( module );
 
-prototype = ast_null.prototype;
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
+{
+	// there are not attributes
+}
 
 
 /*
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-prototype.walk =
+def.func.walk =
 	function(
 		transform	// a function to be called for all
 		//			// walked nodes.
@@ -42,44 +33,36 @@ prototype.walk =
 };
 
 
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += 'null';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += 'null';
+
+	return result + postfix;
+};
 
 
-} )( );
+} );

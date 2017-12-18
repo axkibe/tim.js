@@ -1,67 +1,49 @@
 /*
 | A variable reference to be generated
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$ast_var',
-		attributes :
-		{
-			'name' :
-			{
-				comment : 'the variable name',
-				type : 'string'
-			}
-		},
-		init : [ ]
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_dot,
-	ast_member,
-	ast_var,
-	parser,
-	prototype;
+require( '../ouroboros' )
+.define( module, 'ast_var', ( def, ast_var ) => {
 
 
-ast_var = require( '../ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-parser = require( '../jsParser/parser' );
 
-prototype = ast_var.prototype;
+if( TIM )
+{
+	def.attributes =
+	{
+		name :
+		{
+			// the variable name
+			type : 'string'
+		}
+	};
 
-ast_dot = require( './dot' );
+	def.init = [ ];
+}
 
-ast_member = require( './member' );
+
+const parser = require( '../jsParser/parser' );
+
+const ast_dot = require( './dot' );
+
+const ast_member = require( './member' );
+
 
 /*
 | Initializer.
 */
-prototype._init =
-
+def.func._init =
 	function( )
 {
-	var
-		regex;
-
 /**/if( CHECK )
 /**/{
-/**/	regex =
-/**/		/^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
+/**/	const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
 /**/
 /**/	if( !regex.test( this.name ) )
 /**/	{
@@ -82,7 +64,7 @@ prototype._init =
 /*
 | Creates a dot member access of a variable.
 */
-prototype.$dot =
+def.func.$dot =
 	function(
 		member // member string
 	)
@@ -96,7 +78,7 @@ prototype.$dot =
 /*
 | Creates a generic member access of a variable.
 */
-prototype.$member =
+def.func.$member =
 	function(
 		// parseables
 	)
@@ -114,7 +96,7 @@ prototype.$member =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-prototype.walk =
+def.func.walk =
 	function(
 		transform	// a function to be called for all
 		//			// walked nodes.
@@ -124,45 +106,36 @@ prototype.walk =
 };
 
 
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
 
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += this.name;
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += this.name;
+
+	return result + postfix;
+};
 
 
-} )( );
+} );

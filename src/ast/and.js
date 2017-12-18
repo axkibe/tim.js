@@ -1,5 +1,5 @@
 /*
-| ast, logical and operation.
+| Ast; logical and operation.
 */
 'use strict';
 
