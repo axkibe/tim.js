@@ -3,57 +3,36 @@
 |
 | In other words the questionmark semicolon operator.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_condition', ( def, ast_condition ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_condition',
-		attributes :
-		{
-			condition :
-			{
-				comment : 'the condition',
-				type : require( '../typemaps/astExpression' )
-			},
-			then :
-			{
-				comment : 'the then expression',
-				type : require( '../typemaps/astExpression' )
-			},
-			elsewise :
-			{
-				comment : 'the else condition',
-				type : require( '../typemaps/astExpression' )
-			}
-		}
+
+	def.attributes =
+	{
+		condition : { type : require( '../typemaps/astExpression' ) },
+
+		then : { type : require( '../typemaps/astExpression' ) },
+
+		elsewise : { type : require( '../typemaps/astExpression' ) }
 	};
 }
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-var
-	ast_condition,
-	prototype;
-
-ast_condition = require( '../ouroboros' ).this( module );
-
-prototype = ast_condition.prototype;
-
-
-/*
 | Creates a condition with the elsewise expression set.
 */
-prototype.$elsewise =
+def.func.$elsewise =
 	function(
 		expr
 	)
@@ -66,22 +45,17 @@ prototype.$elsewise =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-prototype.walk =
+def.func.walk =
 	function(
 		transform	// a function to be called for all
 		//			// walked nodes.
 	)
 {
-	var
-		condition,
-		then,
-		elsewise;
+	const condition = this.condition.walk( transform );
 
-	condition = this.condition.walk( transform );
+	const then = this.then.walk( transform );
 
-	then = this.then.walk( transform );
-
-	elsewise = this.elsewise.walk( transform );
+	const elsewise = this.elsewise.walk( transform );
 
 	return(
 		transform(
@@ -95,54 +69,47 @@ prototype.walk =
 };
 
 
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.condition, opts ) + ' )';
-/**/
-/**/		result += ' ? ';
-/**/
-/**/		result += '( ' +  util.inspect( this.then, opts ) + ' )';
-/**/
-/**/		result += ' : ';
-/**/
-/**/		result += '( ' +  util.inspect( this.elsewise, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+const util = require( 'util' );
 
 
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
 
-} )( );
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' +  util.inspect( this.condition, opts ) + ' )';
+
+	result += ' ? ';
+
+	result += '( ' +  util.inspect( this.then, opts ) + ' )';
+
+	result += ' : ';
+
+	result += '( ' +  util.inspect( this.elsewise, opts ) + ' )';
+
+	return result + postfix;
+};
+
+
+} );

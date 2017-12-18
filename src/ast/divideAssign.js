@@ -1,90 +1,66 @@
 /*
-| Ast divide assignment ( /= )
+| Ast, divide assignment ( /= )
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_divideAssign', ( def, ast_divideAssign ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_divideAssign',
-		attributes :
-		{
-			left :
-			{
-				comment : 'left-hand side',
-				type : require( '../typemaps/astExpression' )
-			},
-			right :
-			{
-				comment : 'right-hand side',
-				type : require( '../typemaps/astExpression' )
-			}
-		}
+	def.attributes =
+	{
+		left : { type : require( '../typemaps/astExpression' ) },
+
+		right : { type : require( '../typemaps/astExpression' ) }
 	};
 }
 
 
+const util = require( 'util' );
+
+
 /*
-| Capsule
+| Custom inspect.
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' +  util.inspect( this.left, opts ) + ' )';
+
+	result += ' /= ';
+
+	result += '( ' +  util.inspect( this.right, opts ) + ' )';
+
+	return result + postfix;
+};
 
 
-var
-	ast_divideAssign,
-	prototype;
-
-ast_divideAssign = require( '../ouroboros' ).this( module );
-
-prototype = ast_divideAssign.prototype;
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect.
-****	/
-***/	ast_divideAssign.prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.left, opts ) + ' )';
-/**/
-/**/		result += ' /= ';
-/**/
-/**/		result += '( ' +  util.inspect( this.right, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-
-} )( );
+} );

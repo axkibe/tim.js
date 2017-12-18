@@ -17,16 +17,9 @@ if( TIM )
 {
 	def.attributes =
 	{
-		left :
-		{
-			comment : 'left expression',
-			type : require( '../typemaps/astExpression' )
-		},
-		right :
-		{
-			comment : 'right expression',
-			type : require( '../typemaps/astExpression' )
-		}
+		left : { type : require( '../typemaps/astExpression' ) },
+
+		right : { type : require( '../typemaps/astExpression' ) }
 	};
 }
 

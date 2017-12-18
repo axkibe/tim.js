@@ -1,25 +1,18 @@
 /*
 | Continues current loop.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{ id : 'jion$ast_continue' };
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-require( '../ouroboros' ).this( module );
+require( '../ouroboros' )
+.define( module, 'ast_continue', ( def, ast_continue ) => {
 
 
-} )( );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+// it's just an empty tim.
+
+
+} );

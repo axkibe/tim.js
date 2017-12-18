@@ -1,115 +1,84 @@
 /*
-| AST: test for difference.
+| ast, test for difference.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$ast_differs',
-		attributes :
-		{
-			left :
-			{
-				comment : 'left expression',
-				type : require( '../typemaps/astExpression' )
-			},
-			right :
-			{
-				comment : 'right expression',
-				type : require( '../typemaps/astExpression' )
-			}
-		}
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-
-var
-	ast_differs,
-	prototype;
+require( '../ouroboros' )
+.define( module, 'ast_differs', ( def, ast_differs ) => {
 
 
-ast_differs = require( '../ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-prototype = ast_differs.prototype;
+
+if( TIM )
+{
+	def.attributes =
+	{
+		left : { type : require( '../typemaps/astExpression' ) },
+
+		right : { type : require( '../typemaps/astExpression' ) }
+	};
+}
 
 
 /*
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-prototype.walk =
+def.func.walk =
 	function(
 		transform	// a function to be called for all
 		//			// walked nodes.
 	)
 {
-	var
-		left,
-		right;
+	const left = this.left.walk( transform );
 
-	left = this.left.walk( transform );
-
-	right = this.right.walk( transform );
+	const right = this.right.walk( transform );
 
 	return transform( this.create( 'left', left, 'right', right ) );
 };
 
 
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.left, opts ) + ' )';
-/**/
-/**/		result += ' !== ';
-/**/
-/**/		result += '( ' +  util.inspect( this.right, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+const util = require( 'util' );
 
 
-} )( );
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' +  util.inspect( this.left, opts ) + ' )';
+
+	result += ' !== ';
+
+	result += '( ' +  util.inspect( this.right, opts ) + ' )';
+
+	return result + postfix;
+};
+
+
+} );

@@ -1,76 +1,64 @@
 /*
 | A call to delete.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_and', ( def, ast_and ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_delete',
-		attributes :
+	def.attributes =
+	{
+		expr :
 		{
-			'expr' :
-			{
-				comment : 'the expression to delete',
-				type : require( '../typemaps/astExpression' )
-			},
+			// the expression to delete
+			type : require( '../typemaps/astExpression' )
 		}
 	};
 }
 
 
+const util = require( 'util' );
+
+
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += 'delete ( ' +  util.inspect( this.expr, opts ) + ' )';
+
+	return result + postfix;
+};
 
 
-var
-	ast_delete;
-
-ast_delete = require( '../ouroboros' ).this( module );
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	ast_delete.prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += 'delete ( ' +  util.inspect( this.expr, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-} )( );
+} );

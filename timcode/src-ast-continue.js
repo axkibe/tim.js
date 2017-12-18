@@ -1,29 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$ast_continue;
+	ast_continue;
 
 
-if( NODE )
+if( !ast_continue )
 {
-	jion$ast_continue = module.exports;
-}
-else
-{
-	jion$ast_continue = { };
+	ast_continue = { };
 }
 
 
-var
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.ast_continue !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.ast_continue = ast_continue;
+}
 
 
 /*
@@ -39,7 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -72,7 +81,7 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_continue.prototype = prototype;
+ast_continue.prototype = prototype;
 
 
 /*
@@ -85,7 +94,7 @@ var
 /*
 | Creates a new continue object.
 */
-jion$ast_continue.create =
+ast_continue.create =
 prototype.create =
 	function(
 		// free strings
@@ -94,7 +103,7 @@ prototype.create =
 	var
 		inherit;
 
-	if( this !== jion$ast_continue )
+	if( this !== ast_continue )
 	{
 		inherit = this;
 	}
@@ -128,13 +137,13 @@ prototype.reflectName = 'continue';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
