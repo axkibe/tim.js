@@ -1,81 +1,57 @@
 /*
-| A number literal.
+| Ast; a number literal.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_number', ( def, ast_number ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_number',
-		attributes :
-		{
-			'number' :
-			{
-				comment : 'the number',
-				type : 'number'
-			}
-		}
+	def.attributes =
+	{
+		number : { type : 'number' }
 	};
 }
 
 
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += this.number;
+
+	return result + postfix;
+};
 
 
-var
-	ast_number,
-	prototype;
-
-
-ast_number = require( '../ouroboros' ).this( module );
-
-prototype = ast_number.prototype;
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += this.number;
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-} )( );
+} );

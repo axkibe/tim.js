@@ -12,12 +12,12 @@ var
 | The typed immutable.
 */
 var
-	ast_delete;
+	ast_return;
 
 
-if( !ast_delete )
+if( !ast_return )
 {
-	ast_delete = { };
+	ast_return = { };
 }
 
 
@@ -25,13 +25,13 @@ if( !NODE )
 {
 /**/if( CHECK )
 /**/{
-/**/	if( timModules.ast_delete !== undefined )
+/**/	if( timModules.ast_return !== undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/}
 
-	timModules.ast_delete = ast_delete;
+	timModules.ast_return = ast_return;
 }
 
 
@@ -85,13 +85,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_delete.prototype = prototype;
+ast_return.prototype = prototype;
 
 
 /*
-| Creates a new delete object.
+| Creates a new return object.
 */
-ast_delete.create =
+ast_return.create =
 prototype.create =
 	function(
 		// free strings
@@ -104,7 +104,7 @@ prototype.create =
 		inherit,
 		v_expr;
 
-	if( this !== ast_delete )
+	if( this !== ast_return )
 	{
 		inherit = this;
 
@@ -250,13 +250,13 @@ prototype.create =
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_delete';
+prototype.reflect = 'ast_return';
 
 
 /*
 | Name Reflection.
 */
-prototype.reflectName = 'delete';
+prototype.reflectName = 'return';
 
 
 /*
@@ -289,7 +289,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_delete' )
+	if( obj.reflect !== 'ast_return' )
 	{
 		return false;
 	}

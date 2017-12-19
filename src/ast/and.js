@@ -34,13 +34,9 @@ def.func.walk =
 		//			// walked nodes.
 	)
 {
-	var
-		left,
-		right;
+	const left = this.left.walk( transform );
 
-	left = this.left.walk( transform );
-
-	right = this.right.walk( transform );
+	const right = this.right.walk( transform );
 
 	return transform( this.create( 'left', left, 'right', right ) );
 };

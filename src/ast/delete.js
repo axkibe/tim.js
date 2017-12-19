@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_and', ( def, ast_and ) => {
+.define( module, 'ast_delete', ( def, ast_delete ) => {
 
 
 /*::::::::::::::::::::::::::::.

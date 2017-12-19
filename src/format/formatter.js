@@ -142,23 +142,19 @@ formatAnd =
 		expr
 	)
 {
-	var
-		text;
-
 /**/if( CHECK )
 /**/{
 /**/	if( expr.reflect !== 'ast_and' ) throw new Error( );
 /**/}
 
-	text =
+	return(
 		formatExpression( context, expr.left, 'ast_and')
 		+ context.sep
 		+ context.tab
 		+ '&&'
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_and' );
-
-	return text;
+		+ formatExpression( context, expr.right, 'ast_and' )
+	);
 };
 
 
