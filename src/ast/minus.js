@@ -1,90 +1,66 @@
 /*
 | A mathematical substraction
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_minus', ( def, ast_minus ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_minus',
-		attributes :
-		{
-			left :
-			{
-				comment : 'left expression',
-				type : require( '../typemaps/astExpression' )
-			},
-			right :
-			{
-				comment : 'right expression',
-				type : require( '../typemaps/astExpression' )
-			}
-		}
+	def.attributes =
+	{
+		left : { type : require( '../typemaps/astExpression' ) },
+
+		right : { type : require( '../typemaps/astExpression' ) }
 	};
 }
 
 
+const util = require( 'util' );
+
+
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' +  util.inspect( this.left, opts ) + ' )';
+
+	result += ' - ';
+
+	result += '( ' +  util.inspect( this.right, opts ) + ' )';
+
+	return result + postfix;
+};
 
 
-var
-	ast_minus,
-	prototype;
-
-ast_minus = require( '../ouroboros' ).this( module );
-
-prototype = ast_minus.prototype;
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.left, opts ) + ' )';
-/**/
-/**/		result += ' - ';
-/**/
-/**/		result += '( ' +  util.inspect( this.right, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-
-} )( );
+} );

@@ -1,81 +1,64 @@
 /*
-| Pre increments for abstract syntax trees.
+| Ast; a post increment (++).
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_postIncrement', ( def, ast_postIncrement ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_postIncrement',
-		attributes :
+	def.attributes =
+	{
+		expr :
 		{
-			expr :
-			{
-				comment : 'the expression to post increment',
-				type : require( '../typemaps/astExpression' )
-			}
+			// the expression to post increment
+			type : require( '../typemaps/astExpression' )
 		}
 	};
 }
 
 
+const util = require( 'util' );
+
+
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' +  util.inspect( this.expr, opts ) + ' )++';
+
+	return result + postfix;
+};
 
 
-var
-	ast_postIncrement,
-	prototype;
-
-
-ast_postIncrement = require( '../ouroboros' ).this( module );
-
-prototype = ast_postIncrement.prototype;
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.expr, opts ) + ' )++';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-} )( );
+} );

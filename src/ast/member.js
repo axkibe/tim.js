@@ -1,61 +1,48 @@
 /*
-| ast [ ] operator.
+| Ast; the [ ] operator.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_member', ( def, ast_member ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_member',
-		attributes :
+	def.attributes =
+	{
+		expr :
 		{
-			expr :
-			{
-				comment : 'the expression to get the member of',
-				type : require( '../typemaps/astExpression' )
-			},
-			member :
-			{
-				comment : 'the members expression',
-				type : require( '../typemaps/astExpression' )
-			}
+			// the expression to get the member of
+			type : require( '../typemaps/astExpression' )
+		},
+		member :
+		{
+			// the member expression
+			type : require( '../typemaps/astExpression' )
 		}
 	};
 }
 
 
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-var
-	ast_dot,
-	ast_member,
-	prototype;
-
-
-ast_member = require( '../ouroboros' ).this( module );
-
-prototype = ast_member.prototype;
-
-ast_dot = require( './dot' );
+const ast_dot = require( './dot' );
 
 
 /*
 | Creates a dot member access of a dot.
 */
-prototype.$dot =
+def.func.$dot =
 	function(
 		member // member string
 	)
 {
-	// checks if member is a string is done in 'ast_dot.create'
+	// checks if member is a string are done in 'ast_dot.create'
 	return ast_dot.create( 'expr', this, 'member', member );
 };
 
@@ -64,61 +51,53 @@ prototype.$dot =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-prototype.walk =
+def.func.walk =
 	function(
 		transform	// a function to be called for all
 		//			// walked nodes.
 	)
 {
-	var
-		expr;
-
-	expr = this.expr.walk( transform );
+	const expr = this.expr.walk( transform );
 
 	return transform( this.create( 'expr', expr ) );
 };
 
 
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' + util.inspect( this.expr, opts ) + ' )';
-/**/
-/**/		result += '[ ' + util.inspect( this.member, opts ) + ' ]';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+const util = require( 'util' );
 
 
-} )( );
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '( ' + util.inspect( this.expr, opts ) + ' )';
+
+	result += '[ ' + util.inspect( this.member, opts ) + ' ]';
+
+	return result + postfix;
+};
+
+
+} );
