@@ -1,86 +1,65 @@
 /*
-| ast test if a > b.
+| Ast; > operator.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_greaterThan', ( def, ast_greaterThan ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_greaterThan',
-		attributes :
-		{
-			left :
-			{
-				comment : 'left expression',
-				type : require( '../typemaps/astExpression' )
-			},
-			right :
-			{
-				comment : 'right expression',
-				type : require( '../typemaps/astExpression' )
-			}
-		}
+	def.attributes =
+	{
+		left : { type : require( '../typemaps/astExpression' ) },
+
+		right : { type : require( '../typemaps/astExpression' ) }
 	};
 }
 
 
+const util = require( 'util' );
+
+
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
 
+	let result;
 
-var
-	ast_greaterThan;
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
 
-ast_greaterThan = require( '../ouroboros' ).this( module );
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
 
+	opts.ast = true;
 
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	ast_greaterThan.prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '( ' +  util.inspect( this.left, opts ) + ' )';
-/**/
-/**/		result += ' > ';
-/**/
-/**/		result += '( ' +  util.inspect( this.right, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
+	result += '( ' +  util.inspect( this.left, opts ) + ' )';
 
-} )( );
+	result += ' > ';
+
+	result += '( ' +  util.inspect( this.right, opts ) + ' )';
+
+	return result + postfix;
+};
+
+} );

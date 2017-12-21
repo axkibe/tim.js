@@ -1,40 +1,34 @@
 /*
-| A function argument to be generated
+| Ast; a function argument.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_funcArg', ( def, ast_funcArg ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_funcArg',
-		attributes :
+	def.attributes =
+	{
+		name :
 		{
-			name :
-			{
-				comment : 'argument name',
-				type : [ 'undefined', 'string' ]
-			},
-			comment :
-			{
-				comment : 'argument comment',
-				type : [ 'undefined', 'string' ]
-			}
+			// argument name
+			type : [ 'undefined', 'string' ]
+		},
+		comment :
+		{
+			// argument comment, FIXME remove!
+			type : [ 'undefined', 'string' ]
 		}
 	};
 }
 
 
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-require( '../ouroboros' ).this( module );
-
-
-} )( );
+} );

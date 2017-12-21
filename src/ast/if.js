@@ -1,60 +1,38 @@
 /*
-| Optional checks for abstact syntax tree.
+| Ast; if statement.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_if', ( def, ast_if ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_if',
-		attributes :
-		{
-			condition :
-			{
-				comment : 'the if condition',
-				type : require( '../typemaps/astExpression' )
-			},
-			then :
-			{
-				comment : 'the then code',
-				type : 'jion$ast_block'
-			},
-			elsewise :
-			{
-				comment : 'the else wise',
-				type : [ 'undefined', 'jion$ast_block' ]
-			}
-		}
+	def.attributes =
+	{
+		condition : { type : require( '../typemaps/astExpression' ) },
+
+		then : { type : 'jion$ast_block' },
+
+		elsewise : { type : [ 'undefined', 'jion$ast_block' ] }
 	};
 }
 
 
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-var
-	ast_block,
-	ast_if,
-	prototype;
-
-ast_if = require( '../ouroboros' ).this( module );
-
-prototype = ast_if.prototype;
-
-ast_block = require( './block' );
+const ast_block = require( './block' );
 
 
 /*
 | Creates an if with the elsewise block set.
 */
-ast_if.prototype.$elsewise =
+def.func.$elsewise =
 	function(
 		elsewise
 	)
@@ -68,4 +46,4 @@ ast_if.prototype.$elsewise =
 };
 
 
-} )( );
+} );

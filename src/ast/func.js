@@ -1,57 +1,50 @@
 /*
-| A function.
+| Ast; a function.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$ast_func',
-		attributes :
-		{
-			block :
-			{
-				comment : 'function code',
-				type : [ 'undefined', 'jion$ast_block' ]
-			},
-			capsule :
-			{
-				comment : 'if true its the capsule',
-				// to be formatted a little different
-				type : 'boolean',
-				defaultValue : 'false'
-			}
-		},
-		list : [ 'jion$ast_funcArg' ]
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_funcArg,
-	ast_func;
+require( '../ouroboros' )
+.define( module, 'ast_func', ( def, ast_func ) => {
 
 
-ast_func = require( '../ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-ast_funcArg = require( './funcArg' );
+
+if( TIM )
+{
+	def.attributes =
+	{
+		block :
+		{
+			// function code
+			type : [ 'undefined', 'jion$ast_block' ]
+		},
+		capsule :
+		{
+			// if true its the capsule
+			// to be formatted a little different
+			// FIXME remove!
+			type : 'boolean',
+			defaultValue : 'false'
+		}
+	};
+
+	def.list = [ 'ast_funcArg' ];
+}
+
+
+const ast_funcArg = require( './funcArg' );
+
 
 /*
 | Convenience shortcut.
 |
 | Returns the function with an argument appended.
 */
-ast_func.prototype.$arg =
+def.func.$arg =
 	function(
 		name,
 		comment
@@ -68,4 +61,4 @@ ast_func.prototype.$arg =
 };
 
 
-} )( );
+} );

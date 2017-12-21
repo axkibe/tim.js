@@ -1,37 +1,31 @@
 /*
-| Failures (error exceptions) for abstract syntax trees.
+| Ast; failures (error exceptions).
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_fail', ( def, ast_fail ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_fail',
-		attributes :
+	def.attributes =
+	{
+		message :
 		{
-			message :
-			{
-				comment : 'the error message expression',
-				type :
-					require( '../typemaps/astExpression' )
-					.concat( ['undefined' ] )
-			}
+			// the error message expression
+			type :
+				require( '../typemaps/astExpression' )
+				.concat( ['undefined' ] )
 		}
 	};
 }
 
 
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-require( '../ouroboros' ).this( module );
-
-
-} )( );
+} );

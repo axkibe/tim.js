@@ -1,67 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$ast_fail;
+	ast_fail;
 
 
-if( NODE )
+if( !ast_fail )
 {
-	jion$ast_fail = module.exports;
-}
-else
-{
-	jion$ast_fail = { };
+	ast_fail = { };
 }
 
 
-var
-	jion$ast_and,
-	jion$ast_arrayLiteral,
-	jion$ast_assign,
-	jion$ast_boolean,
-	jion$ast_call,
-	jion$ast_comma,
-	jion$ast_condition,
-	jion$ast_delete,
-	jion$ast_differs,
-	jion$ast_divide,
-	jion$ast_divideAssign,
-	jion$ast_dot,
-	jion$ast_equals,
-	jion$ast_func,
-	jion$ast_greaterThan,
-	jion$ast_instanceof,
-	jion$ast_lessThan,
-	jion$ast_member,
-	jion$ast_minus,
-	jion$ast_minusAssign,
-	jion$ast_multiply,
-	jion$ast_multiplyAssign,
-	jion$ast_negate,
-	jion$ast_new,
-	jion$ast_not,
-	jion$ast_null,
-	jion$ast_number,
-	jion$ast_objLiteral,
-	jion$ast_or,
-	jion$ast_plus,
-	jion$ast_plusAssign,
-	jion$ast_postDecrement,
-	jion$ast_postIncrement,
-	jion$ast_preDecrement,
-	jion$ast_preIncrement,
-	jion$ast_string,
-	jion$ast_typeof,
-	jion$ast_var,
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.ast_fail !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.ast_fail = ast_fail;
+}
 
 
 /*
@@ -77,83 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion$ast_and = require( '../ast/and' );
-
-	jion$ast_arrayLiteral = require( '../ast/arrayLiteral' );
-
-	jion$ast_assign = require( '../ast/assign' );
-
-	jion$ast_boolean = require( '../ast/boolean' );
-
-	jion$ast_call = require( '../ast/call' );
-
-	jion$ast_comma = require( '../ast/comma' );
-
-	jion$ast_condition = require( '../ast/condition' );
-
-	jion$ast_delete = require( '../ast/delete' );
-
-	jion$ast_differs = require( '../ast/differs' );
-
-	jion$ast_divide = require( '../ast/divide' );
-
-	jion$ast_divideAssign = require( '../ast/divideAssign' );
-
-	jion$ast_dot = require( '../ast/dot' );
-
-	jion$ast_equals = require( '../ast/equals' );
-
-	jion$ast_func = require( '../ast/func' );
-
-	jion$ast_greaterThan = require( '../ast/greaterThan' );
-
-	jion$ast_instanceof = require( '../ast/instanceof' );
-
-	jion$ast_lessThan = require( '../ast/lessThan' );
-
-	jion$ast_member = require( '../ast/member' );
-
-	jion$ast_minus = require( '../ast/minus' );
-
-	jion$ast_minusAssign = require( '../ast/minusAssign' );
-
-	jion$ast_multiply = require( '../ast/multiply' );
-
-	jion$ast_multiplyAssign = require( '../ast/multiplyAssign' );
-
-	jion$ast_negate = require( '../ast/negate' );
-
-	jion$ast_new = require( '../ast/new' );
-
-	jion$ast_not = require( '../ast/not' );
-
-	jion$ast_null = require( '../ast/null' );
-
-	jion$ast_number = require( '../ast/number' );
-
-	jion$ast_objLiteral = require( '../ast/objLiteral' );
-
-	jion$ast_or = require( '../ast/or' );
-
-	jion$ast_plus = require( '../ast/plus' );
-
-	jion$ast_plusAssign = require( '../ast/plusAssign' );
-
-	jion$ast_postDecrement = require( '../ast/postDecrement' );
-
-	jion$ast_postIncrement = require( '../ast/postIncrement' );
-
-	jion$ast_preDecrement = require( '../ast/preDecrement' );
-
-	jion$ast_preIncrement = require( '../ast/preIncrement' );
-
-	jion$ast_string = require( '../ast/string' );
-
-	jion$ast_typeof = require( '../ast/typeof' );
-
-	jion$ast_var = require( '../ast/var' );
-
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -167,7 +62,7 @@ var
 
 Constructor =
 	function(
-		v_message // the error message expression
+		v_message
 	)
 {
 	if( prototype.__have_lazy )
@@ -190,13 +85,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$ast_fail.prototype = prototype;
+ast_fail.prototype = prototype;
 
 
 /*
 | Creates a new fail object.
 */
-jion$ast_fail.create =
+ast_fail.create =
 prototype.create =
 	function(
 		// free strings
@@ -209,7 +104,7 @@ prototype.create =
 		inherit,
 		v_message;
 
-	if( this !== jion$ast_fail )
+	if( this !== ast_fail )
 	{
 		inherit = this;
 
@@ -365,13 +260,13 @@ prototype.reflectName = 'fail';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
