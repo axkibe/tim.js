@@ -1,81 +1,64 @@
 /*
-| ast negation expression.
+| Ast; logical not expression.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_not', ( def, ast_not ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_not',
-		attributes :
+	def.attributes =
+	{
+		expr :
 		{
-			expr :
-			{
-				comment : 'the expression to negate',
-				type : require( '../typemaps/astExpression' )
-			}
+			// the expression to negate
+			type : require( '../typemaps/astExpression' )
 		}
 	};
 }
 
 
+const util = require( 'util' );
+
+
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '!( ' +  util.inspect( this.expr, opts ) + ' )';
+
+	return result + postfix;
+};
 
 
-var
-	ast_not,
-	prototype;
-
-ast_not = require( '../ouroboros' ).this( module );
-
-prototype = ast_not.prototype;
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += '!( ' +  util.inspect( this.expr, opts ) + ' )';
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-
-} )( );
+} );

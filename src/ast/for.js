@@ -1,50 +1,44 @@
 /*
-| Classical for loops for abstract syntax trees.
+| Ast; a for loop.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_for', ( def, ast_for ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$ast_for',
-		attributes :
+	def.attributes =
+	{
+		init :
 		{
-			init :
-			{
-				comment : 'the initialization',
-				type : require( '../typemaps/astExpression' )
-			},
-			condition :
-			{
-				comment : 'the continue condition',
-				type : require( '../typemaps/astExpression' )
-			},
-			iterate :
-			{
-				comment : 'the iteration expression',
-				type : require( '../typemaps/astExpression' )
-			},
-			block :
-			{
-				comment : 'the for block',
-				type : 'jion$ast_block'
-			}
+			// the initialization
+			type : require( '../typemaps/astExpression' )
+		},
+		condition :
+		{
+			// the continue condition
+			type : require( '../typemaps/astExpression' )
+		},
+		iterate :
+		{
+			// the iteration expression
+			type : require( '../typemaps/astExpression' )
+		},
+		block :
+		{
+			// the for block
+			type : 'ast_block'
 		}
 	};
 }
 
 
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-require( '../ouroboros' ).this( module );
-
-
-} )( );
+} );
