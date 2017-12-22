@@ -1,94 +1,78 @@
 /*
-| Variable declarations in abstract syntax trees.
+| Ast; variable declarations.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'ast_varDec', ( def, ast_varDec ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id: 'jion$ast_varDec',
-		attributes :
+	def.attributes =
+	{
+		name :
 		{
-			name :
-			{
-				comment : 'variable name',
-				type : 'string'
-			},
-			assign :
-			{
-				comment : 'Assignment of variable',
-				type :
-					require( '../typemaps/astExpression' )
-					.concat( [ 'undefined' ] )
-			}
+			// variable name
+			type : 'string'
+		},
+		assign :
+		{
+			// assignment of variable
+			type :
+				require( '../typemaps/astExpression' )
+				.concat( [ 'undefined' ] )
 		}
 	};
 }
 
 
+const util = require( 'util' );
+
+
 /*
-| Capsule
+| Custom inspect
 */
-(function() {
-'use strict';
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += 'var ';
+
+	result += this.name;
+
+	if( this.assign )
+	{
+		result += util.inspect( this.assign, opts );
+	}
+
+	return result + postfix;
+};
 
 
-var
-	ast_varDec,
-	prototype;
-
-ast_varDec = require( '../ouroboros' ).this( module );
-
-prototype = ast_varDec.prototype;
-
-
-/**/if( CHECK )
-/**/{
-/**/	var
-/**/		util;
-/**/
-/**/	util = require( 'util' );
-/**/
-/***	/
-****	| Custom inspect
-****	/
-***/	prototype.inspect =
-/**/		function(
-/**/			depth,
-/**/			opts
-/**/		)
-/**/	{
-/**/		var
-/**/			postfix,
-/**/			result;
-/**/
-/**/		if( !opts.ast )
-/**/		{
-/**/			result = 'ast{ ';
-/**/
-/**/			postfix = ' }';
-/**/		}
-/**/		else
-/**/		{
-/**/			result = postfix = '';
-/**/		}
-/**/
-/**/		opts.ast = true;
-/**/
-/**/		result += 'var ';
-/**/
-/**/		result += this.name;
-/**/
-/**/		if( this.assign )
-/**/		{
-/**/			result += util.inspect( this.assign, opts );
-/**/		}
-/**/
-/**/		return result + postfix;
-/**/	};
-/**/}
-
-} )( );
+} );

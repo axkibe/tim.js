@@ -1,5 +1,5 @@
 /*
-| Ast; a post increment (++).
+| Ast; a post increment (x++).
 */
 'use strict';
 
