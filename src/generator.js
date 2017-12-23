@@ -1,50 +1,45 @@
 /*
 | Generates timcode from a tim definition.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'tim$generator',
-		attributes :
-		{
-			id :
-			{
-				comment : 'id to be generated',
-				type : 'tim$id',
-			},
-			timDef :
-			{
-				comment : 'the tim definition',
-				type : 'protean',
-				assign : ''
-			},
-			jsonTypeMap :
-			{
-				comment : 'if defined a typemap for json generation/parsing',
-				type : [ 'undefined', 'protean' ],
-				defaultValue : 'undefined'
-			},
-		},
-		init : [ 'timDef' ]
-	};
-}
-
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
-const generator = require( './ouroboros' ).this( module );
+require( './ouroboros' )
+.define( module, 'generator', ( def, generator ) => {
+// FIXME timjs$
 
-const prototype = generator.prototype;
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
+{
+	def.attributes =
+	{
+		id :
+		{
+			// id to be generated
+			type : 'id',  // FIXME
+		},
+		timDef :
+		{
+			// the tim definition
+			type : 'protean',
+			assign : ''
+		},
+		jsonTypeMap :
+		{
+			// if defined a typemap for json generation/parsing
+			type : [ 'undefined', 'protean' ],
+			defaultValue : 'undefined'
+		},
+	};
+
+	def.init = [ 'timDef' ];
+}
+
 
 const tim_id = require( './id' );
 
@@ -93,7 +88,7 @@ const $var = shorthand.$var;
 /*
 | Initializes a generator.
 */
-prototype._init =
+def.func._init =
 	function(
 		timDef
 	)
@@ -371,7 +366,7 @@ prototype._init =
 /*
 | Generates the imports.
 */
-prototype.genImports =
+def.func.genImports =
 	function( )
 {
 	let result = $block( );
@@ -428,7 +423,7 @@ prototype.genImports =
 /*
 | Generates the node includes.
 */
-prototype.genNodeIncludes =
+def.func.genNodeIncludes =
 	function( )
 {
 	let block = $block( );
@@ -513,13 +508,12 @@ prototype.genNodeIncludes =
 /*
 | Generates the constructor.
 */
-prototype.genConstructor =
+def.func.genConstructor =
 	function(
 		abstract // if true generate abstract constructor
 	)
 {
 	var
-		assign,
 		attributes,
 		attr,
 		cf,
@@ -552,7 +546,7 @@ prototype.genConstructor =
 
 		if( attr.assign === '' ) continue;
 
-		assign = $( 'this.', attr.assign, ' = ', attr.varRef );
+		const assign = $( 'this.', attr.assign, ' = ', attr.varRef );
 
 		block = block.append( assign );
 	}
@@ -747,7 +741,7 @@ prototype.genConstructor =
 /*
 | Generates the singleton decleration.
 */
-prototype.genSingleton =
+def.func.genSingleton =
 	function( )
 {
 	return(
@@ -761,7 +755,68 @@ prototype.genSingleton =
 /*
 | Generates the creators variable list.
 */
-prototype.genCreatorVariables =
+def.func.CreatorVariables =
+	function(
+		abstract  // if true generates the abstract creator
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
+/**/}
+
+	const varList = [ ];
+
+	const aKeys = this.attributes.keys;
+
+	for( let a = 0, aZ = aKeys.length; a < aZ; a++ )
+	{
+		const name = aKeys[ a ];
+
+		varList.push( this.attributes.get( name ).varRef.name );
+	}
+
+	varList.push( 'inherit' );
+
+	if( this.creatorHasFreeStringsParser )
+	{
+		varList.push( 'arg', 'a', 'aZ' );
+	}
+
+	if( this.group )
+	{
+		varList.push( 'o', 'group', 'groupDup' );
+	}
+
+	if( this.list )
+	{
+		varList.push( 'o', 'r', 'rZ', 'list', 'listDup' );
+	}
+
+	if( this.twig )
+	{
+		varList.push( 'o', 'key', 'rank', 'ranks', 'twig', 'twigDup' );
+
+		varList.push( 't', 'tZ' );
+	}
+
+	varList.sort( );
+
+	let result = $block( );
+
+	for( let a = 0, aZ = varList.length; a < aZ; a++ )
+	{
+		result = result.$varDec( varList[ a ] );
+	}
+
+	return result;
+};
+
+
+/*
+| Generates the creators variable list.
+*/
+def.func.genCreatorVariables =
 	function(
 		abstract  // if true generates the abstract creator
 	)
@@ -831,28 +886,21 @@ prototype.genCreatorVariables =
 };
 
 
+
 /*
 | Generates the creators inheritance receiver.
 */
-prototype.genCreatorInheritanceReceiver =
+def.func.genCreatorInheritanceReceiver =
 	function(
 		abstract  // if true generates the abstract creator
 	)
 {
-	var
-		a,
-		aZ,
-		attr,
-		name,
-		receiver,
-		result;
-
 /**/if( CHECK )
 /**/{
 /**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
-	receiver = $block( ).$( 'inherit = this' );
+	let receiver = $block( ).$( 'inherit = this' );
 
 	if( this.group )
 	{
@@ -879,22 +927,18 @@ prototype.genCreatorInheritanceReceiver =
 			.$( 'twigDup = false' );
 	}
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		const name = this.attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
 		if( attr.assign === '' ) continue;
 
 		receiver = receiver.$( attr.varRef, ' = ', 'this.', attr.assign );
 	}
 
-	result =
+	let result =
 		$if(
 			$( 'this !== ', this.id.global ),
 			receiver
@@ -941,7 +985,7 @@ prototype.genCreatorInheritanceReceiver =
 /*
 | Generates the creators free strings parser.
 */
-prototype.genCreatorFreeStringsParser =
+def.func.genCreatorFreeStringsParser =
 	function(
 		// abstract  // if true generates the abstract creator
 	)
@@ -1193,7 +1237,7 @@ prototype.genCreatorFreeStringsParser =
 /*
 | Generates the creators default values
 */
-prototype.genCreatorDefaults =
+def.func.genCreatorDefaults =
 	function(
 		json,     // only do jsons
 		abstract  // if true generates the abstract creator
@@ -1252,7 +1296,7 @@ prototype.genCreatorDefaults =
 |
 | It is true if the variable fails the check.
 */
-prototype.genSingleTypeCheckFailCondition =
+def.func.genSingleTypeCheckFailCondition =
 	function(
 		aVar,
 		id,
@@ -1324,7 +1368,7 @@ prototype.genSingleTypeCheckFailCondition =
 /*
 | Generates a type check of a variable.
 */
-prototype.genTypeCheckFailCondition =
+def.func.genTypeCheckFailCondition =
 	function(
 		aVar,    // the variable to check
 		idx,     // the id or idGroup it has to match
@@ -1400,7 +1444,7 @@ prototype.genTypeCheckFailCondition =
 /*
 | Generates the creators checks.
 */
-prototype.genCreatorChecks =
+def.func.genCreatorChecks =
 	function(
 		json,    // do checks for fromJsonCreator
 		abstract  // if true generates the abstract creator
@@ -1554,7 +1598,7 @@ prototype.genCreatorChecks =
 /*
 | Generates the creators prepares.
 */
-prototype.genCreatorPrepares =
+def.func.genCreatorPrepares =
 	function( )
 {
 	var
@@ -1623,7 +1667,7 @@ prototype.genCreatorPrepares =
 |
 | returning this object if so.
 */
-prototype.genCreatorUnchanged =
+def.func.genCreatorUnchanged =
 	function(
 		abstract  // if true generates the abstract creator
 	)
@@ -1684,7 +1728,7 @@ prototype.genCreatorUnchanged =
 /*
 | Generates the creators return statement
 */
-prototype.genCreatorReturn =
+def.func.genCreatorReturn =
 	function(
 		abstract  // if true generates the abstract creator
 	)
@@ -1755,7 +1799,7 @@ prototype.genCreatorReturn =
 /*
 | Generates the creator.
 */
-prototype.genCreator =
+def.func.genCreator =
 	function(
 		abstract  // if true generates the abstract creator
 	)
@@ -1811,7 +1855,7 @@ prototype.genCreator =
 /*
 | Generates the fromJsonCreator's variable list.
 */
-prototype.genFromJsonCreatorVariables =
+def.func.genFromJsonCreatorVariables =
 	function( )
 {
 	var
@@ -1878,7 +1922,7 @@ prototype.genFromJsonCreatorVariables =
 |
 | FUTURE date can currently not be json
 */
-prototype.genFromJsonCreatorAttributeParser =
+def.func.genFromJsonCreatorAttributeParser =
 	function(
 		attr
 	)
@@ -2033,7 +2077,7 @@ prototype.genFromJsonCreatorAttributeParser =
 /*
 | Generates the fromJsonCreator's json parser.
 */
-prototype.genFromJsonCreatorParser =
+def.func.genFromJsonCreatorParser =
 	function(
 		jsonList
 	)
@@ -2118,7 +2162,7 @@ prototype.genFromJsonCreatorParser =
 /*
 | Generates the fromJsonCreator's group processing.
 */
-prototype.genFromJsonCreatorGroupProcessing =
+def.func.genFromJsonCreatorGroupProcessing =
 	function( )
 {
 	var
@@ -2196,7 +2240,7 @@ prototype.genFromJsonCreatorGroupProcessing =
 /*
 | Generates the fromJsonCreator's list processing.
 */
-prototype.genFromJsonCreatorListProcessing =
+def.func.genFromJsonCreatorListProcessing =
 	function( )
 {
 	var
@@ -2304,7 +2348,7 @@ prototype.genFromJsonCreatorListProcessing =
 /*
 | Generates the fromJsonCreator's twig processing.
 */
-prototype.genFromJsonCreatorTwigProcessing =
+def.func.genFromJsonCreatorTwigProcessing =
 	function( )
 {
 	let switchExpr = $switch( 'jval.type' );
@@ -2367,7 +2411,7 @@ prototype.genFromJsonCreatorTwigProcessing =
 /*
 | Generates the fromJsonCreator's return statement
 */
-prototype.genFromJsonCreatorReturn =
+def.func.genFromJsonCreatorReturn =
 	function( )
 {
 	let call = $( 'Constructor( )' );
@@ -2423,7 +2467,7 @@ prototype.genFromJsonCreatorReturn =
 /*
 | Generates the fromJsonCreator.
 */
-prototype.genFromJsonCreator =
+def.func.genFromJsonCreator =
 	function( )
 {
 	// all attributes expected from json
@@ -2491,7 +2535,7 @@ prototype.genFromJsonCreator =
 /*
 | Generates the node include section.
 */
-prototype.genReflection =
+def.func.genReflection =
 	function( )
 {
 	return(
@@ -2526,7 +2570,7 @@ prototype.genReflection =
 | Generates code for setting the prototype
 | entry 'key' to 'value'
 */
-prototype.$protoSet =
+def.func.$protoSet =
 	function(
 		key,
 		value
@@ -2551,16 +2595,13 @@ prototype.$protoSet =
 | Generates code for setting the prototype
 | lazy value named 'name' to 'func'.
 */
-prototype.$protoLazyValueSet =
+def.func.$protoLazyValueSet =
 	function(
 		name,
 		func
 	)
 {
-	var
-		ast;
-
-	ast =
+	let ast =
 		$block( )
 		.$(
 			'tim_proto.lazyValue(',
@@ -2590,13 +2631,10 @@ prototype.$protoLazyValueSet =
 /*
 | Generates the jionProto stuff.
 */
-prototype.genJionProto =
+def.func.genJionProto =
 	function( )
 {
-	var
-		result;
-
-	result =
+	let result =
 		$block( )
 		.$comment( 'Sets values by path.' )
 		.$( this.$protoSet( 'setPath', 'tim_proto.setPath' ) )
@@ -2701,7 +2739,7 @@ prototype.genJionProto =
 | If it is not in the jsonTypeMap it stays the same,
 | otherwise it is mapped.
 */
-prototype.mapJsonTypeName =
+def.func.mapJsonTypeName =
 	function(
 		pathName
 	)
@@ -2721,7 +2759,7 @@ prototype.mapJsonTypeName =
 /*
 | Generates the toJson converter.
 */
-prototype.genToJson =
+def.func.genToJson =
 	function( )
 {
 	let block = $block( ).$varDec( 'json' );
@@ -2778,7 +2816,7 @@ prototype.genToJson =
 /*
 | Generates the equals condition for an attribute.
 */
-prototype.genAttributeEquals =
+def.func.genAttributeEquals =
 	function(
 		name,       // attribute name
 		le,         // this value expression
@@ -2839,15 +2877,13 @@ prototype.genAttributeEquals =
 /*
 | Generates the body of an equals test.
 */
-prototype.genEqualsFuncBody =
+def.func.genEqualsFuncBody =
 	function(
 		mode,       // 'normal' or 'json'
 		eqFuncName  // name of equals func to call
 	)
 {
 	var
-		a,
-		aZ,
 		attr,
 		attributes,
 		body,
@@ -2996,7 +3032,7 @@ prototype.genEqualsFuncBody =
 
 	attributes = this.attributes;
 
-	for( a = 0, aZ = attributes.size; a < aZ; a++ )
+	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
 	{
 		name = attributes.sortedKeys[ a ];
 
@@ -3031,10 +3067,11 @@ prototype.genEqualsFuncBody =
 	}
 };
 
+
 /*
 | Generates the equals tests.
 */
-prototype.genEquals =
+def.func.genEquals =
 	function( )
 {
 	let block = $block( );
@@ -3098,12 +3135,10 @@ prototype.genEquals =
 /*
 | Generates the alike test(s).
 */
-prototype.genAlike =
+def.func.genAlike =
 	function( )
 {
 	var
-		a,
-		aZ,
 		attributes,
 		alikeList,
 		alikeName,
@@ -3123,11 +3158,7 @@ prototype.genAlike =
 
 	result = $block( );
 
-	for(
-		a = 0, aZ = alikeList.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = alikeList.length; a < aZ; a++ )
 	{
 		alikeName = alikeList[ a ];
 
@@ -3152,9 +3183,9 @@ prototype.genAlike =
 
 		attributes = this.attributes;
 
-		for( a = 0, aZ = attributes.size; a < aZ; a++ )
+		for( let b = 0, bZ = attributes.size; b < bZ; b++ )
 		{
-			name = attributes.sortedKeys[ a ];
+			name = attributes.sortedKeys[ b ];
 
 			attr = attributes.get( name );
 
@@ -3190,7 +3221,7 @@ prototype.genAlike =
 /*
 | Returns the generated export block.
 */
-prototype.genExport =
+def.func.genExport =
 	function( )
 {
 	return(
@@ -3209,7 +3240,7 @@ prototype.genExport =
 /*
 | Generates the preamble.
 */
-prototype.genPreamble =
+def.func.genPreamble =
 	function(
 		block // block to append to
 	)
@@ -3221,13 +3252,10 @@ prototype.genPreamble =
 /*
 | Returns the generated capsule block.
 */
-prototype.genCapsule =
+def.func.genCapsule =
 	function( )
 {
-	var
-		capsule;
-
-	capsule =
+	let capsule =
 		$block( )
 		.$( '"use strict"' )
 		.$( this.genNodeIncludes( ) )
@@ -3277,7 +3305,7 @@ prototype.genCapsule =
 /*
 | Generates code from a jion definition.
 */
-generator.generate =
+def.static.generate =
 	function(
 		timDef,      // the tim definition
 		id,          // the id to be defined
@@ -3307,4 +3335,4 @@ generator.generate =
 };
 
 
-} )( );
+} );
