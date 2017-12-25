@@ -1,30 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	tim$generator;
+	generator;
 
 
-if( NODE )
+if( !generator )
 {
-	tim$generator = module.exports;
-}
-else
-{
-	tim$generator = { };
+	generator = { };
 }
 
 
-var
-	tim$id,
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.generator !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.generator = generator;
+}
 
 
 /*
@@ -40,9 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	tim$id = require( './id' );
-
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -56,9 +62,9 @@ var
 
 Constructor =
 	function(
-		v_id, // id to be generated
-		v_jsonTypeMap, // if defined a typemap for json generation/parsing
-		v_timDef // the tim definition
+		v_id,
+		v_jsonTypeMap,
+		v_timDef
 	)
 {
 	if( prototype.__have_lazy )
@@ -85,13 +91,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-tim$generator.prototype = prototype;
+generator.prototype = prototype;
 
 
 /*
 | Creates a new generator object.
 */
-tim$generator.create =
+generator.create =
 prototype.create =
 	function(
 		// free strings
@@ -106,7 +112,7 @@ prototype.create =
 		v_jsonTypeMap,
 		v_timDef;
 
-	if( this !== tim$generator )
+	if( this !== generator )
 	{
 		inherit = this;
 
@@ -194,11 +200,7 @@ prototype.create =
 	if(
 		inherit
 		&&
-		(
-			v_id === inherit.id
-			||
-			v_id.equals( inherit.id )
-		)
+		v_id === inherit.id
 		&&
 		v_jsonTypeMap === inherit.jsonTypeMap
 		&&
@@ -227,13 +229,13 @@ prototype.reflectName = 'generator';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
@@ -259,15 +261,7 @@ prototype.equals =
 		return false;
 	}
 
-	return (
-		(
-			this.id === obj.id
-			||
-			this.id.equals( obj.id )
-		)
-		&&
-		this.jsonTypeMap === obj.jsonTypeMap
-	);
+	return this.id === obj.id && this.jsonTypeMap === obj.jsonTypeMap;
 };
 
 

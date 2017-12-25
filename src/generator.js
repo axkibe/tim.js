@@ -513,15 +513,6 @@ def.func.genConstructor =
 		abstract // if true generate abstract constructor
 	)
 {
-	var
-		attributes,
-		attr,
-		cf,
-		cList,
-		freezeBlock,
-		initCall,
-		name;
-
 	let block = $block( );
 
 	block =
@@ -535,14 +526,14 @@ def.func.genConstructor =
 			$( 'this.__lazy = { }' )
 		);
 
-	attributes = this.attributes;
+	const attributes = this.attributes;
 
 	// assigns the variables
 	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
 	{
-		name = attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		attr = attributes.get( name );
+		const attr = attributes.get( name );
 
 		if( attr.assign === '' ) continue;
 
@@ -566,11 +557,11 @@ def.func.genConstructor =
 	// calls the initializer
 	if( !abstract && this.init )
 	{
-		initCall = $( 'this._init( )' );
+		let initCall = $( 'this._init( )' );
 
 		for( let a = 0, aZ = this.init.length; a < aZ; a++ )
 		{
-			name = this.init[ a ];
+			const name = this.init[ a ];
 
 			switch( name )
 			{
@@ -582,7 +573,7 @@ def.func.genConstructor =
 					continue;
 			}
 
-			attr = attributes.get( name );
+			const attr = attributes.get( name );
 
 			if( !attr )
 			{
@@ -599,7 +590,7 @@ def.func.genConstructor =
 
 
 	// immutes the new object
-	freezeBlock = $block( );
+	let freezeBlock = $block( );
 
 	if( this.group )
 	{
@@ -627,16 +618,16 @@ def.func.genConstructor =
 
 	block = block.$if( 'FREEZE', freezeBlock );
 
-	cf = $func( block );
+	let cf = $func( block );
 
-	cList =
+	const cList =
 		abstract
 		? this.abstractConstructorList
 		: this.constructorList;
 
 	for( let a = 0, aZ = cList.length; a < aZ; a++ )
 	{
-		name = cList[ a ];
+		const name = cList[ a ];
 
 		switch( name )
 		{
@@ -702,7 +693,7 @@ def.func.genConstructor =
 
 			default :
 
-				attr = attributes.get( name );
+				const attr = attributes.get( name );
 
 				cf = cf.$arg( attr.varRef.name, attr.comment );
 

@@ -80,7 +80,8 @@ jion$id.createFromString =
 			case 'string' : break;
 			case 'undefined' : break;
 
-			default : throw new Error( 'bad id: ' + string );
+//			XXX FIXME
+//			default : throw new Error( 'bad id: ' + string );
 		}
 
 		return jion$id.create( 'list:init', [ string ] );
