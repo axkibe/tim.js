@@ -812,26 +812,18 @@ def.func.genCreatorVariables =
 		abstract  // if true generates the abstract creator
 	)
 {
-	var
-		a,
-		aKeys,
-		aZ,
-		name,
-		result,
-		varList;
-
 /**/if( CHECK )
 /**/{
 /**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
-	varList = [ ];
+	const varList = [ ];
 
-	aKeys = this.attributes.keys;
+	const aKeys = this.attributes.keys;
 
-	for( a = 0, aZ = aKeys.length; a < aZ; a++ )
+	for( let a = 0, aZ = aKeys.length; a < aZ; a++ )
 	{
-		name = aKeys[ a ];
+		const name = aKeys[ a ];
 
 		varList.push( this.attributes.get( name ).varRef.name );
 	}
@@ -862,13 +854,9 @@ def.func.genCreatorVariables =
 
 	varList.sort( );
 
-	result = $block( );
+	let result = $block( );
 
-	for(
-		a = 0, aZ = varList.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = varList.length; a < aZ; a++ )
 	{
 		result = result.$varDec( varList[ a ] );
 	}
@@ -981,32 +969,17 @@ def.func.genCreatorFreeStringsParser =
 		// abstract  // if true generates the abstract creator
 	)
 {
-	var
-		a,
-		aZ,
-		attr,
-		groupDupCheck,
-		loop,
-		name,
-		listDupCheck,
-		switchExpr,
-		twigDupCheck;
-
-	loop =
+	let loop =
 		$block( )
 		.$( 'arg = arguments[ a + 1 ]' );
 
-	switchExpr = $switch( 'arguments[ a ]' );
+	let switchExpr = $switch( 'arguments[ a ]' );
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		const name = this.attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
 		switchExpr =
 			switchExpr
@@ -1021,7 +994,7 @@ def.func.genCreatorFreeStringsParser =
 
 	if( this.group )
 	{
-		groupDupCheck =
+		const groupDupCheck =
 			$if(
 				'!groupDup',
 				$block( )
@@ -1053,7 +1026,7 @@ def.func.genCreatorFreeStringsParser =
 
 	if( this.list )
 	{
-		listDupCheck =
+		const listDupCheck =
 			$if(
 				'!listDup',
 				$block( )
@@ -1100,7 +1073,7 @@ def.func.genCreatorFreeStringsParser =
 
 	if( this.twig )
 	{
-		twigDupCheck =
+		const twigDupCheck =
 			$if(
 				'twigDup !== true',
 				$block( )
@@ -1234,32 +1207,18 @@ def.func.genCreatorDefaults =
 		abstract  // if true generates the abstract creator
 	)
 {
-	var
-		a,
-		aZ,
-		attr,
-		name,
-		result;
-
 /**/if( CHECK )
 /**/{
-/**/	if( json && abstract !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( json && abstract !== undefined ) throw new Error( );
 /**/}
 
-	result = $block( );
+	let result = $block( );
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		const name = this.attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
 		if( json && !attr.json ) continue;
 
@@ -1366,13 +1325,6 @@ def.func.genTypeCheckFailCondition =
 		abstract // if true generate for an abstract constructor
 	)
 {
-	var
-		a,
-		aZ,
-		condArray,
-		id,
-		keyList;
-
 	if( idx.reflect === 'id' )
 	{
 		return this.genSingleTypeCheckFailCondition( aVar, idx, abstract );
@@ -1395,13 +1347,13 @@ def.func.genTypeCheckFailCondition =
 		);
 	}
 
-	condArray = [ ];
+	const condArray = [ ];
 
-	keyList = idx.sortedKeys;
+	const keyList = idx.sortedKeys;
 
-	for( a = 0, aZ = keyList.length; a < aZ; a++ )
+	for( let a = 0, aZ = keyList.length; a < aZ; a++ )
 	{
-		id = idx.get( keyList[ a ] );
+		const id = idx.get( keyList[ a ] );
 
 		switch( id.pathName )
 		{
@@ -1441,41 +1393,26 @@ def.func.genCreatorChecks =
 		abstract  // if true generates the abstract creator
 	)
 {
-	var
-		a,
-		allowsNull,
-		allowsUndefined,
-		attr,
-		av,
-		aZ,
-		check,
-		cond,
-		name,
-		tcheck;
-
 /**/if( CHECK )
 /**/{
 /**/	if( json && abstract !== undefined ) throw new Error( );
 /**/}
 
-	check = $block( );
+	let check = $block( );
 
-	for( a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		const name = this.attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
-		if( json && !attr.json )
-		{
-			continue;
-		}
+		if( json && !attr.json ) continue;
 
-		av = attr.varRef;
+		const av = attr.varRef;
 
-		allowsNull = attr.allowsNull;
+		const allowsNull = attr.allowsNull;
 
-		allowsUndefined = abstract || attr.allowsUndefined;
+		const allowsUndefined = abstract || attr.allowsUndefined;
 
 		if( !allowsUndefined )
 		{
@@ -1488,6 +1425,8 @@ def.func.genCreatorChecks =
 		}
 
 		if( attr.id.pathName === 'protean' ) continue;
+
+		let cond;
 
 		if( allowsNull && !allowsUndefined )
 		{
@@ -1506,7 +1445,7 @@ def.func.genCreatorChecks =
 			cond = undefined;
 		}
 
-		tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id, abstract );
+		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id, abstract );
 
 		if( cond )
 		{
@@ -1592,19 +1531,9 @@ def.func.genCreatorChecks =
 def.func.genCreatorPrepares =
 	function( )
 {
-	var
-		a,
-		aZ,
-		attr,
-		name,
-		pAst,
-		prepare,
-		result,
-		transform;
+	let result = $block( );
 
-	result = $block( );
-
-	transform =
+	const transform =
 		function( node )
 	{
 		if( node.reflect === 'ast_var' )
@@ -1624,24 +1553,17 @@ def.func.genCreatorPrepares =
 		}
 	};
 
-	for(
-		a = 0, aZ = this.attributes.size;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
 	{
-		name = this.attributes.sortedKeys[ a ];
+		const name = this.attributes.sortedKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
-		prepare = attr.prepare;
+		const prepare = attr.prepare;
 
-		if( !prepare )
-		{
-			continue;
-		}
+		if( !prepare ) continue;
 
-		pAst = $( prepare );
+		let pAst = $( prepare );
 
 		pAst = pAst.walk( transform );
 
@@ -1663,21 +1585,12 @@ def.func.genCreatorUnchanged =
 		abstract  // if true generates the abstract creator
 	)
 {
-	var
-		a,
-		aZ,
-		attr,
-		attributes,
-		ceq,
-		cond,
-		name;
-
 /**/if( CHECK )
 /**/{
 /**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
-	cond = $( 'inherit' );
+	let cond = $( 'inherit' );
 
 	if( this.group ) cond = $( cond, '&& groupDup === false' );
 
@@ -1685,13 +1598,13 @@ def.func.genCreatorUnchanged =
 
 	if( this.twig ) cond = $( cond, '&& twigDup === false' );
 
-	attributes = this.attributes;
+	const attributes = this.attributes;
 
-	for( a = 0, aZ = attributes.size; a < aZ; a++ )
+	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
 	{
-		name = attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		attr = attributes.get( name );
+		const attr = attributes.get( name );
 
 		if( attr.assign === '' )
 		{
@@ -1700,7 +1613,7 @@ def.func.genCreatorUnchanged =
 			continue;
 		}
 
-		ceq =
+		const ceq =
 			this.genAttributeEquals(
 				name,
 				attr.varRef,
@@ -1724,23 +1637,14 @@ def.func.genCreatorReturn =
 		abstract  // if true generates the abstract creator
 	)
 {
-	var
-		a,
-		aZ,
-		argName,
-		argList,
-		attr,
-		call,
-		conName;
-
 /**/if( CHECK )
 /**/{
 /**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
 /**/}
 
-	argList = abstract ? this.abstractConstructorList : this.constructorList;
+	const argList = abstract ? this.abstractConstructorList : this.constructorList;
 
-	conName = abstract ? 'AbstractConstructor' : 'Constructor';
+	const conName = abstract ? 'AbstractConstructor' : 'Constructor';
 
 	if( this.singleton )
 	{
@@ -1754,11 +1658,11 @@ def.func.genCreatorReturn =
 		);
 	}
 
-	call = $( conName ,'( )' );
+	let call = $( conName ,'( )' );
 
-	for( a = 0, aZ = argList.length; a < aZ; a++ )
+	for( let a = 0, aZ = argList.length; a < aZ; a++ )
 	{
-		argName = argList[ a ];
+		const argName = argList[ a ];
 
 		switch( argName )
 		{
@@ -1777,9 +1681,7 @@ def.func.genCreatorReturn =
 
 			default :
 
-				attr = this.attributes.get( argName );
-
-				call = call.$argument( attr.varRef );
+				call = call.$argument( this.attributes.get( argName ).varRef );
 		}
 	}
 
@@ -1795,12 +1697,7 @@ def.func.genCreator =
 		abstract  // if true generates the abstract creator
 	)
 {
-	var
-		block,
-		creator,
-		funcName;
-
-	block =
+	let block =
 		$block( )
 		.$( this.genCreatorVariables( abstract ) )
 		.$( this.genCreatorInheritanceReceiver( abstract ) );
@@ -1818,11 +1715,11 @@ def.func.genCreator =
 		.$( this.genCreatorUnchanged( abstract ) )
 		.$( this.genCreatorReturn( abstract ) );
 
-	creator =
+	const creator =
 		$func( block )
 		.$arg( undefined, 'free strings' );
 
-	funcName = abstract ? 'abstract' : 'create';
+	const funcName = abstract ? 'abstract' : 'create';
 
 	return(
 		$block( )
@@ -1849,24 +1746,15 @@ def.func.genCreator =
 def.func.genFromJsonCreatorVariables =
 	function( )
 {
-	var
-		a,
-		aKeys,
-		aZ,
-		attr,
-		name,
-		varList,
-		result;
+	const varList = [ ];
 
-	varList = [ ];
+	const aKeys = this.attributes.keys;
 
-	aKeys = this.attributes.keys;
-
-	for( a = 0, aZ = aKeys.length; a < aZ; a++ )
+	for( let a = 0, aZ = aKeys.length; a < aZ; a++ )
 	{
-		name = aKeys[ a ];
+		const name = aKeys[ a ];
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
 		if( attr.assign === '' ) continue;
 
@@ -1898,9 +1786,9 @@ def.func.genFromJsonCreatorVariables =
 
 	varList.sort( );
 
-	result = $block( );
+	let result = $block( );
 
-	for( a = 0, aZ = varList.length; a < aZ; a++ )
+	for( let a = 0, aZ = varList.length; a < aZ; a++ )
 	{
 		result = result.$varDec( varList[ a ] );
 	}
@@ -1918,15 +1806,14 @@ def.func.genFromJsonCreatorAttributeParser =
 		attr
 	)
 {
-	var
-		code, // code to return
-		cSwitch, // the code switch
-		id,
-		keyList,
-		mif, // the multi if
-		sif, // a signle if
-		t,
-		tZ;
+	// a signle if
+	let sif;
+
+	// code to return
+	let code;
+
+	// the code switch
+	let cSwitch;
 
 	switch( attr.id.pathName )
 	{
@@ -1952,17 +1839,18 @@ def.func.genFromJsonCreatorAttributeParser =
 			}
 			else
 			{
-				mif = undefined;
+				// the multi if
+				let mif;
 
 				code = $block( );
 
 				cSwitch = undefined;
 
-				keyList = attr.id.sortedKeys;
+				const keyList = attr.id.sortedKeys;
 
-				for( t = 0, tZ = keyList.length; t < tZ; t++ )
+				for( let t = 0, tZ = keyList.length; t < tZ; t++ )
 				{
-					id = attr.id.get( keyList[ t ] );
+					const id = attr.id.get( keyList[ t ] );
 
 					switch( id.pathName )
 					{
