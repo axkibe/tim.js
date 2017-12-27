@@ -1961,15 +1961,8 @@ def.func.genFromJsonCreatorParser =
 		jsonList
 	)
 {
-	var
-		a,
-		aZ,
-		attr,
-		name,
-		// the switch
-		nameSwitch;
-
-	nameSwitch =
+	// the switch
+	let nameSwitch =
 		$switch( 'name' )
 		.$case(
 			'"type"',
@@ -2001,9 +1994,9 @@ def.func.genFromJsonCreatorParser =
 			.$case( '"ranks"', 'ranks = arg' );
 	}
 
-	for( a = 0, aZ = jsonList.length; a < aZ; a++ )
+	for( let a = 0, aZ = jsonList.length; a < aZ; a++ )
 	{
-		name = jsonList[ a ];
+		const name = jsonList[ a ];
 
 		if(
 			name === 'group'
@@ -2015,7 +2008,7 @@ def.func.genFromJsonCreatorParser =
 			continue;
 		}
 
-		attr = this.attributes.get( name );
+		const attr = this.attributes.get( name );
 
 		nameSwitch =
 			nameSwitch
@@ -2044,39 +2037,24 @@ def.func.genFromJsonCreatorParser =
 def.func.genFromJsonCreatorGroupProcessing =
 	function( )
 {
-	var
-		group,
-		haveNull,
-		keyList,
-		loopBody,
-		loopSwitch,
-		g,
-		gid,
-		gZ,
-		result;
+	const group = this.group;
 
-	group = this.group;
+	const keyList = group.sortedKeys;
 
-	keyList = group.sortedKeys;
+	let haveNull = false;
 
-	haveNull = false;
-
-	result =
+	const result =
 		$block( )
 		.$if( '!jgroup', $fail( ) )
 		.$( 'group = { }' );
 
-	loopSwitch =
+	let loopSwitch =
 		$switch( 'jgroup[ r ].type' )
 		.$default( $fail( ) );
 
-	for(
-		g = 0, gZ = keyList.length;
-		g < gZ;
-		g++
-	)
+	for( let g = 0, gZ = keyList.length; g < gZ; g++ )
 	{
-		gid = group.get( keyList[ g ] );
+		const gid = group.get( keyList[ g ] );
 
 		if( gid.pathName === 'null' )
 		{
@@ -2094,6 +2072,8 @@ def.func.genFromJsonCreatorGroupProcessing =
 				'.createFromJSON( jgroup[ k ] )'
 			);
 	}
+
+	let loopBody;
 
 	if( !haveNull )
 	{
@@ -2122,42 +2102,26 @@ def.func.genFromJsonCreatorGroupProcessing =
 def.func.genFromJsonCreatorListProcessing =
 	function( )
 {
-	var
-		haveNull,
-		haveUndefined,
-		keyList,
-		loopBody,
-		loopSwitch,
-		r,
-		list,
-		result,
-		rid,
-		rZ;
+	const list = this.list;
 
-	list = this.list;
+	const keyList = list.sortedKeys;
 
-	keyList = list.sortedKeys;
-
-	haveNull = false;
-
-	haveUndefined = false;
-
-	result =
+	const result =
 		$block( )
 		.$if( '!jlist', $fail( ) )
 		.$( 'list = [ ]' );
 
-	loopSwitch =
+	let loopSwitch =
 		$switch( 'jlist[ r ].type' )
 		.$default( $fail( ) );
 
-	for(
-		r = 0, rZ = keyList.length;
-		r < rZ;
-		r++
-	)
+	let haveNull = false;
+
+	let haveUndefined = false;
+
+	for( let r = 0, rZ = keyList.length; r < rZ; r++ )
 	{
-		rid = list.get( keyList[ r ] );
+		const rid = list.get( keyList[ r ] );
 
 		if( rid.pathName === 'null' )
 		{
@@ -2181,7 +2145,7 @@ def.func.genFromJsonCreatorListProcessing =
 			);
 	}
 
-	loopBody = $block( );
+	let loopBody = $block( );
 
 	if( haveNull )
 	{
@@ -2762,23 +2726,7 @@ def.func.genEqualsFuncBody =
 		eqFuncName  // name of equals func to call
 	)
 {
-	var
-		attr,
-		attributes,
-		body,
-		cond,
-		ceq,
-		name,
-		groupTest,
-		groupTestLoopBody,
-		listTest,
-		listTestLoopBody,
-		twigTest,
-		twigTestLoopBody;
-
-	body = $block( );
-
-	cond = null;
+	let body = $block( );
 
 	if( this.list || this.twig )
 	{
@@ -2804,7 +2752,7 @@ def.func.genEqualsFuncBody =
 
 	if( this.group )
 	{
-		groupTestLoopBody =
+		const groupTestLoopBody =
 			$block( )
 			.$if(
 				$(
@@ -2818,7 +2766,7 @@ def.func.genEqualsFuncBody =
 				$( 'return false' )
 			);
 
-		groupTest =
+		const groupTest =
 			$block( )
 			.$if(
 				'this.size !== obj.size',
@@ -2835,7 +2783,7 @@ def.func.genEqualsFuncBody =
 
 	if( this.list )
 	{
-		listTestLoopBody =
+		const listTestLoopBody =
 			$block( )
 			.$if(
 				$(
@@ -2849,7 +2797,7 @@ def.func.genEqualsFuncBody =
 				$( 'return false' )
 			);
 
-		listTest =
+		const listTest =
 			$block( )
 			.$if(
 				'this.length !== obj.length',
@@ -2868,7 +2816,7 @@ def.func.genEqualsFuncBody =
 
 	if( this.twig )
 	{
-		twigTestLoopBody =
+		const twigTestLoopBody =
 			$block( )
 			.$( 'key = this._ranks[ a ]' )
 			.$if(
@@ -2884,7 +2832,7 @@ def.func.genEqualsFuncBody =
 				$( 'return false' )
 			);
 
-		twigTest =
+		const twigTest =
 			$block( )
 			.$if(
 				'this.length !== obj.length',
@@ -2909,19 +2857,21 @@ def.func.genEqualsFuncBody =
 			);
 	}
 
-	attributes = this.attributes;
+	const attributes = this.attributes;
+
+	let cond;
 
 	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
 	{
-		name = attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		attr = attributes.get( name );
+		const attr = attributes.get( name );
 
 		if( attr.assign === '' ) continue;
 
 		if( mode === 'json' && !attr.json ) continue;
 
-		ceq =
+		const ceq =
 			this.genAttributeEquals(
 				name,
 				$( 'this.', attr.assign ),
@@ -2931,7 +2881,7 @@ def.func.genEqualsFuncBody =
 			);
 
 		cond =
-			cond === null
+			cond === undefined
 			? ceq
 			: $( cond, '&&', ceq );
 	}
@@ -3017,35 +2967,21 @@ def.func.genEquals =
 def.func.genAlike =
 	function( )
 {
-	var
-		attributes,
-		alikeList,
-		alikeName,
-		attr,
-		block,
-		ceq,
-		cond,
-		ignores,
-		name,
-		result;
+	const alikeList = Object.keys( this.alike ).sort( );
 
-	alikeList = Object.keys( this.alike );
+	let cond;
 
-	alikeList.sort( );
-
-	cond = null;
-
-	result = $block( );
+	let result = $block( );
 
 	for( let a = 0, aZ = alikeList.length; a < aZ; a++ )
 	{
-		alikeName = alikeList[ a ];
+		const alikeName = alikeList[ a ];
 
-		ignores = this.alike[ alikeName ].ignores;
+		const ignores = this.alike[ alikeName ].ignores;
 
 		result = result.$comment( 'Tests partial equality.' );
 
-		block =
+		let block =
 			$block( )
 			.$if( 'this === obj', $( 'return true') )
 			.$if( '!obj', $(' return false' ) );
@@ -3060,17 +2996,17 @@ def.func.genAlike =
 				);
 		}
 
-		attributes = this.attributes;
+		const attributes = this.attributes;
 
 		for( let b = 0, bZ = attributes.size; b < bZ; b++ )
 		{
-			name = attributes.sortedKeys[ b ];
+			const name = attributes.sortedKeys[ b ];
 
-			attr = attributes.get( name );
+			const attr = attributes.get( name );
 
 			if( attr.assign === '' || ignores[ name ] ) continue;
 
-			ceq =
+			const ceq =
 				this.genAttributeEquals(
 					name,
 					$( 'this.', attr.assign ),
