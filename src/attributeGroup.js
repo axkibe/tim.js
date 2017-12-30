@@ -1,28 +1,23 @@
 /*
-| An attribute description of a jion object.
+| An attribute description of a tim object.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$attributeGroup',
-		group : [ 'jion$attribute' ]
-	};
-}
-
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
-require( './ouroboros' ).this( module );
+require( './ouroboros' )
+.define( module, 'attributeGroup', ( def, tim_attributeGroup ) => {
 
 
-} )( );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
+{
+	def.group = [ 'attribute' ];
+}
+
+
+} );
+

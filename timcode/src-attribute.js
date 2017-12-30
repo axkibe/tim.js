@@ -1,69 +1,39 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	ast_var,
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$attribute;
+	attribute;
 
 
-if( NODE )
+if( !attribute )
 {
-	jion$attribute = module.exports;
-}
-else
-{
-	jion$attribute = { };
+	attribute = { };
 }
 
 
-var
-	jion$ast_and,
-	jion$ast_arrayLiteral,
-	jion$ast_assign,
-	jion$ast_boolean,
-	jion$ast_call,
-	jion$ast_comma,
-	jion$ast_condition,
-	jion$ast_delete,
-	jion$ast_differs,
-	jion$ast_divide,
-	jion$ast_divideAssign,
-	jion$ast_dot,
-	jion$ast_equals,
-	jion$ast_func,
-	jion$ast_greaterThan,
-	jion$ast_instanceof,
-	jion$ast_lessThan,
-	jion$ast_member,
-	jion$ast_minus,
-	jion$ast_minusAssign,
-	jion$ast_multiply,
-	jion$ast_multiplyAssign,
-	jion$ast_negate,
-	jion$ast_new,
-	jion$ast_not,
-	jion$ast_null,
-	jion$ast_number,
-	jion$ast_objLiteral,
-	jion$ast_or,
-	jion$ast_plus,
-	jion$ast_plusAssign,
-	jion$ast_postDecrement,
-	jion$ast_postIncrement,
-	jion$ast_preDecrement,
-	jion$ast_preIncrement,
-	jion$ast_string,
-	jion$ast_typeof,
-	jion$ast_var,
-	jion$id,
-	jion$idGroup,
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.attribute !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.attribute = attribute;
+}
 
 
 /*
@@ -79,87 +49,9 @@ function( ) {
 */
 if( NODE )
 {
-	jion$ast_and = require( './ast/and' );
+	ast_var = require( './ast/var' );
 
-	jion$ast_arrayLiteral = require( './ast/arrayLiteral' );
-
-	jion$ast_assign = require( './ast/assign' );
-
-	jion$ast_boolean = require( './ast/boolean' );
-
-	jion$ast_call = require( './ast/call' );
-
-	jion$ast_comma = require( './ast/comma' );
-
-	jion$ast_condition = require( './ast/condition' );
-
-	jion$ast_delete = require( './ast/delete' );
-
-	jion$ast_differs = require( './ast/differs' );
-
-	jion$ast_divide = require( './ast/divide' );
-
-	jion$ast_divideAssign = require( './ast/divideAssign' );
-
-	jion$ast_dot = require( './ast/dot' );
-
-	jion$ast_equals = require( './ast/equals' );
-
-	jion$ast_func = require( './ast/func' );
-
-	jion$ast_greaterThan = require( './ast/greaterThan' );
-
-	jion$ast_instanceof = require( './ast/instanceof' );
-
-	jion$ast_lessThan = require( './ast/lessThan' );
-
-	jion$ast_member = require( './ast/member' );
-
-	jion$ast_minus = require( './ast/minus' );
-
-	jion$ast_minusAssign = require( './ast/minusAssign' );
-
-	jion$ast_multiply = require( './ast/multiply' );
-
-	jion$ast_multiplyAssign = require( './ast/multiplyAssign' );
-
-	jion$ast_negate = require( './ast/negate' );
-
-	jion$ast_new = require( './ast/new' );
-
-	jion$ast_not = require( './ast/not' );
-
-	jion$ast_null = require( './ast/null' );
-
-	jion$ast_number = require( './ast/number' );
-
-	jion$ast_objLiteral = require( './ast/objLiteral' );
-
-	jion$ast_or = require( './ast/or' );
-
-	jion$ast_plus = require( './ast/plus' );
-
-	jion$ast_plusAssign = require( './ast/plusAssign' );
-
-	jion$ast_postDecrement = require( './ast/postDecrement' );
-
-	jion$ast_postIncrement = require( './ast/postIncrement' );
-
-	jion$ast_preDecrement = require( './ast/preDecrement' );
-
-	jion$ast_preIncrement = require( './ast/preIncrement' );
-
-	jion$ast_string = require( './ast/string' );
-
-	jion$ast_typeof = require( './ast/typeof' );
-
-	jion$ast_var = require( './ast/var' );
-
-	jion$id = require( './id' );
-
-	jion$idGroup = require( './idGroup' );
-
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -173,15 +65,15 @@ var
 
 Constructor =
 	function(
-		v_allowsNull, // attribute may be null
-		v_allowsUndefined, // attribute may be undefined
-		v_assign, // variable name to assign to
-		v_defaultValue, // default value
-		v_id, // attribute type id
-		v_json, // include in JSON export/import
-		v_name, // attribute name
-		v_prepare, // attribute preparation code
-		v_varRef // attribute variable used in generate
+		v_allowsNull,
+		v_allowsUndefined,
+		v_assign,
+		v_defaultValue,
+		v_id,
+		v_json,
+		v_name,
+		v_prepare,
+		v_varRef
 	)
 {
 	if( prototype.__have_lazy )
@@ -220,13 +112,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$attribute.prototype = prototype;
+attribute.prototype = prototype;
 
 
 /*
 | Creates a new attribute object.
 */
-jion$attribute.create =
+attribute.create =
 prototype.create =
 	function(
 		// free strings
@@ -247,7 +139,7 @@ prototype.create =
 		v_prepare,
 		v_varRef;
 
-	if( this !== jion$attribute )
+	if( this !== attribute )
 	{
 		inherit = this;
 
@@ -621,11 +513,7 @@ prototype.create =
 			v_defaultValue.equals( inherit.defaultValue )
 		)
 		&&
-		(
-			v_id === inherit.id
-			||
-			v_id.equals( inherit.id )
-		)
+		v_id === inherit.id
 		&&
 		v_json === inherit.json
 		&&
@@ -674,13 +562,13 @@ prototype.reflectName = 'attribute';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
@@ -721,11 +609,7 @@ prototype.equals =
 			this.defaultValue.equals( obj.defaultValue )
 		)
 		&&
-		(
-			this.id === obj.id
-			||
-			this.id.equals( obj.id )
-		)
+		this.id === obj.id
 		&&
 		this.json === obj.json
 		&&
