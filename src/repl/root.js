@@ -1,6 +1,6 @@
 /*
 | Runs the node Read-Eval-Print-Loop for debugging
-| in a ideoloom environment supporting JIONs etc.
+| in a ideoloom environment supporting tims etc.
 */
 
 Error.stackTraceLimit = Infinity;
@@ -18,7 +18,7 @@ global.FREEZE = true;
 
 global.CHECK = true;
 
-global.JION = false;
+global.TIM = false;
 
 global.NODE = true;
 
