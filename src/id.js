@@ -1,11 +1,11 @@
 /*
-| A jion id.
+| A tim.js id.
 */
 'use strict';
 
 
 require( './ouroboros' )
-.define( module, 'id', ( def, id ) => {
+.define( module, 'id', ( def, tim_id ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -70,11 +70,11 @@ def.static.createFromString =
 //			default : throw new Error( 'bad id: ' + string );
 		}
 
-		return id.create( 'list:init', [ string ] );
+		return tim_id.create( 'list:init', [ string ] );
 	}
 
 	return(
-		id.create(
+		tim_id.create(
 			'packet', packet,
 			'list:init', split
 		)

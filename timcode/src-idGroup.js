@@ -1,30 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$idGroup;
+	idGroup;
 
 
-if( NODE )
+if( !idGroup )
 {
-	jion$idGroup = module.exports;
-}
-else
-{
-	jion$idGroup = { };
+	idGroup = { };
 }
 
 
-var
-	jion$id,
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.idGroup !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.idGroup = idGroup;
+}
 
 
 /*
@@ -40,9 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion$id = require( './id' );
-
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -81,13 +87,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$idGroup.prototype = prototype;
+idGroup.prototype = prototype;
 
 
 /*
 | Creates a new idGroup object.
 */
-jion$idGroup.create =
+idGroup.create =
 prototype.create =
 	function(
 		// free strings
@@ -102,7 +108,7 @@ prototype.create =
 		inherit,
 		o;
 
-	if( this !== jion$idGroup )
+	if( this !== idGroup )
 	{
 		inherit = this;
 
@@ -139,7 +145,7 @@ prototype.create =
 
 				if( !groupDup )
 				{
-					group = jion_proto.copy( group );
+					group = tim_proto.copy( group );
 
 					groupDup = true;
 				}
@@ -152,7 +158,7 @@ prototype.create =
 
 				if( !groupDup )
 				{
-					group = jion_proto.copy( group );
+					group = tim_proto.copy( group );
 
 					groupDup = true;
 				}
@@ -204,56 +210,56 @@ prototype.reflectName = 'idGroup';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
 | Returns the group with another group added,
 | overwriting collisions.
 */
-prototype.addGroup = jion_proto.groupAddGroup;
+prototype.addGroup = tim_proto.groupAddGroup;
 
 
 /*
 | Gets one element from the group.
 */
-prototype.get = jion_proto.groupGet;
+prototype.get = tim_proto.groupGet;
 
 
 /*
 | Returns the group keys.
 */
-jion_proto.lazyValue( prototype, 'keys', jion_proto.groupKeys );
+tim_proto.lazyValue( prototype, 'keys', tim_proto.groupKeys );
 
 
 /*
 | Returns the sorted group keys.
 */
-jion_proto.lazyValue( prototype, 'sortedKeys', jion_proto.groupSortedKeys );
+tim_proto.lazyValue( prototype, 'sortedKeys', tim_proto.groupSortedKeys );
 
 
 /*
 | Returns the group with one element removed.
 */
-prototype.remove = jion_proto.groupRemove;
+prototype.remove = tim_proto.groupRemove;
 
 
 /*
 | Returns the group with one element set.
 */
-prototype.set = jion_proto.groupSet;
+prototype.set = tim_proto.groupSet;
 
 
 /*
 | Returns the size of the group.
 */
-jion_proto.lazyValue( prototype, 'size', jion_proto.groupSize );
+tim_proto.lazyValue( prototype, 'size', tim_proto.groupSize );
 
 
 /*

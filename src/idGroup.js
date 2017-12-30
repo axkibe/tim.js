@@ -1,105 +1,78 @@
 /*
 | A jion id group.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$idGroup',
-		group : [ 'jion$id' ]
-	};
-}
-
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
-var
-	jion$id,
-	jion$idGroup,
-	jion$proto,
-	prototype;
+require( './ouroboros' )
+.define( module, 'idGroup', ( def, tim_idGroup ) => {
 
 
-jion$idGroup = require( './ouroboros' ).this( module );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-prototype = jion$idGroup.prototype;
 
-jion$id = require( './id' );
+if( TIM )
+{
+	def.group = [ 'id' ];
+}
 
-jion$proto = require( './proto' );
+
+const tim_id = require( './id' );
 
 
 /*
 | Creates an id repository from an
 | array of id strings.
 */
-jion$idGroup.createFromIDStrings =
+def.static.createFromIDStrings =
 	function(
 		idStrings
 	)
 {
-	var
-		a,
-		aZ,
-		b,
-		bZ,
-		id,
-		ids,
-		s,
-		subId,
-		subList;
-
 /**/if( CHECK )
 /**/{
 /**/	if( !Array.isArray( idStrings ) ) throw new Error( );
 /**/}
 
-	ids = { };
+	const ids = { };
 
-	for( a = 0, aZ = idStrings.length; a < aZ; a++ )
+	for( let a = 0, aZ = idStrings.length; a < aZ; a++ )
 	{
-		s = idStrings[ a ];
+		const s = idStrings[ a ];
 
 		if( s.substring( 0, 2 ) !== '->' )
 		{
-			id = jion$id.createFromString( idStrings[ a ] );
+			const id = tim_id.createFromString( idStrings[ a ] );
 
 			ids[ id.pathName ] = id;
 		}
 		else
 		{
 			// FUTURE may check for circular requirements
-			subList =
-				jion$idGroup.createFromIDStrings(
+			const subList =
+				tim_idGroup.createFromIDStrings(
 					require( '../typemaps/' + s.substring( 2 ) )
 				).idList;
 
-			for( b = 0, bZ = subList.length; b < bZ; b++ )
+			for( let b = 0, bZ = subList.length; b < bZ; b++ )
 			{
-				subId = subList[ b ];
+				const subId = subList[ b ];
 
 				ids[ subId.pathName ] = subId;
 			}
 		}
 	}
 
-	return jion$idGroup.create( 'group:init', ids );
+	return tim_idGroup.create( 'group:init', ids );
 };
 
 
 /*
 | Returns an idGroup with an id added.
 */
-prototype.add =
+def.func.add =
 	function(
 		id
 	)
@@ -114,27 +87,18 @@ prototype.add =
 | has a .equals( ) call and equalness is simply to be
 | determined by '===' operator.
 */
-jion$proto.lazyValue(
-	prototype,
-	'equalsConvention',
+def.lazy.equalsConvention =
 	function( )
 {
-	var
-		a,
-		aZ,
-		ec,
-		iec,
-		keys;
+	const keys = this.keys;
 
-	keys = this.keys;
-
-	ec = this.get( keys[ 0 ] ).equalsConvention;
+	const ec = this.get( keys[ 0 ] ).equalsConvention;
 
 	if( ec === 'can' ) return 'can';
 
-	for( a = 1, aZ = keys.length; a < aZ; a++ )
+	for( let a = 1, aZ = keys.length; a < aZ; a++ )
 	{
-		iec = this.get( keys[ a ] ).equalsConvention;
+		const iec = this.get( keys[ a ] ).equalsConvention;
 
 		if( iec === 'can' ) return 'can';
 
@@ -171,16 +135,13 @@ jion$proto.lazyValue(
 	}
 
 	return ec;
-}
-);
-
-
+};
 
 
 /*
 | Returns true if the idGroup has that id.
 */
-prototype.has =
+def.func.has =
 	function(
 		id
 	)
@@ -189,4 +150,5 @@ prototype.has =
 };
 
 
-} )( );
+} );
+
