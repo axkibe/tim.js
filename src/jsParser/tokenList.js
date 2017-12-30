@@ -2,30 +2,24 @@
 | A parser token list.
 | can hold lexed token as well as ast subtrees.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$jsParser_tokenList',
-		list :
-			require( '../typemaps/astStatement' )
-			.concat( [ 'jion$jsLexer_token' ] )
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-require( '../ouroboros' ).this( module );
+require( '../ouroboros' )
+.define( module, 'jsParser_tokenList', ( def, jsParser_tokenList ) => {
 
 
-} )( );
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
+{
+	def.list =
+		require( '../typemaps/astStatement' )
+		.concat( [ 'jion$jsLexer_token' ] );
+}
+
+
+} );

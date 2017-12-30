@@ -1,79 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$jsParser_tokenList;
+	jsParser_tokenList;
 
 
-if( NODE )
+if( !jsParser_tokenList )
 {
-	jion$jsParser_tokenList = module.exports;
-}
-else
-{
-	jion$jsParser_tokenList = { };
+	jsParser_tokenList = { };
 }
 
 
-var
-	jion$ast_and,
-	jion$ast_arrayLiteral,
-	jion$ast_assign,
-	jion$ast_block,
-	jion$ast_boolean,
-	jion$ast_call,
-	jion$ast_check,
-	jion$ast_comma,
-	jion$ast_comment,
-	jion$ast_condition,
-	jion$ast_continue,
-	jion$ast_delete,
-	jion$ast_differs,
-	jion$ast_divide,
-	jion$ast_divideAssign,
-	jion$ast_dot,
-	jion$ast_equals,
-	jion$ast_fail,
-	jion$ast_for,
-	jion$ast_forIn,
-	jion$ast_func,
-	jion$ast_greaterThan,
-	jion$ast_if,
-	jion$ast_instanceof,
-	jion$ast_lessThan,
-	jion$ast_member,
-	jion$ast_minus,
-	jion$ast_minusAssign,
-	jion$ast_multiply,
-	jion$ast_multiplyAssign,
-	jion$ast_negate,
-	jion$ast_new,
-	jion$ast_not,
-	jion$ast_null,
-	jion$ast_number,
-	jion$ast_objLiteral,
-	jion$ast_or,
-	jion$ast_plus,
-	jion$ast_plusAssign,
-	jion$ast_postDecrement,
-	jion$ast_postIncrement,
-	jion$ast_preDecrement,
-	jion$ast_preIncrement,
-	jion$ast_return,
-	jion$ast_string,
-	jion$ast_switch,
-	jion$ast_typeof,
-	jion$ast_var,
-	jion$ast_varDec,
-	jion$jsLexer_token,
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.jsParser_tokenList !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.jsParser_tokenList = jsParser_tokenList;
+}
 
 
 /*
@@ -89,107 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion$ast_and = require( '../ast/and' );
-
-	jion$ast_arrayLiteral = require( '../ast/arrayLiteral' );
-
-	jion$ast_assign = require( '../ast/assign' );
-
-	jion$ast_block = require( '../ast/block' );
-
-	jion$ast_boolean = require( '../ast/boolean' );
-
-	jion$ast_call = require( '../ast/call' );
-
-	jion$ast_check = require( '../ast/check' );
-
-	jion$ast_comma = require( '../ast/comma' );
-
-	jion$ast_comment = require( '../ast/comment' );
-
-	jion$ast_condition = require( '../ast/condition' );
-
-	jion$ast_continue = require( '../ast/continue' );
-
-	jion$ast_delete = require( '../ast/delete' );
-
-	jion$ast_differs = require( '../ast/differs' );
-
-	jion$ast_divide = require( '../ast/divide' );
-
-	jion$ast_divideAssign = require( '../ast/divideAssign' );
-
-	jion$ast_dot = require( '../ast/dot' );
-
-	jion$ast_equals = require( '../ast/equals' );
-
-	jion$ast_fail = require( '../ast/fail' );
-
-	jion$ast_for = require( '../ast/for' );
-
-	jion$ast_forIn = require( '../ast/forIn' );
-
-	jion$ast_func = require( '../ast/func' );
-
-	jion$ast_greaterThan = require( '../ast/greaterThan' );
-
-	jion$ast_if = require( '../ast/if' );
-
-	jion$ast_instanceof = require( '../ast/instanceof' );
-
-	jion$ast_lessThan = require( '../ast/lessThan' );
-
-	jion$ast_member = require( '../ast/member' );
-
-	jion$ast_minus = require( '../ast/minus' );
-
-	jion$ast_minusAssign = require( '../ast/minusAssign' );
-
-	jion$ast_multiply = require( '../ast/multiply' );
-
-	jion$ast_multiplyAssign = require( '../ast/multiplyAssign' );
-
-	jion$ast_negate = require( '../ast/negate' );
-
-	jion$ast_new = require( '../ast/new' );
-
-	jion$ast_not = require( '../ast/not' );
-
-	jion$ast_null = require( '../ast/null' );
-
-	jion$ast_number = require( '../ast/number' );
-
-	jion$ast_objLiteral = require( '../ast/objLiteral' );
-
-	jion$ast_or = require( '../ast/or' );
-
-	jion$ast_plus = require( '../ast/plus' );
-
-	jion$ast_plusAssign = require( '../ast/plusAssign' );
-
-	jion$ast_postDecrement = require( '../ast/postDecrement' );
-
-	jion$ast_postIncrement = require( '../ast/postIncrement' );
-
-	jion$ast_preDecrement = require( '../ast/preDecrement' );
-
-	jion$ast_preIncrement = require( '../ast/preIncrement' );
-
-	jion$ast_return = require( '../ast/return' );
-
-	jion$ast_string = require( '../ast/string' );
-
-	jion$ast_switch = require( '../ast/switch' );
-
-	jion$ast_typeof = require( '../ast/typeof' );
-
-	jion$ast_var = require( '../ast/var' );
-
-	jion$ast_varDec = require( '../ast/varDec' );
-
-	jion$jsLexer_token = require( '../jsLexer/token' );
-
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -228,13 +87,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$jsParser_tokenList.prototype = prototype;
+jsParser_tokenList.prototype = prototype;
 
 
 /*
 | Creates a new tokenList object.
 */
-jion$jsParser_tokenList.create =
+jsParser_tokenList.create =
 prototype.create =
 	function(
 		// free strings
@@ -251,7 +110,7 @@ prototype.create =
 		r,
 		rZ;
 
-	if( this !== jion$jsParser_tokenList )
+	if( this !== jsParser_tokenList )
 	{
 		inherit = this;
 
@@ -491,61 +350,61 @@ prototype.reflectName = 'tokenList';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
 | Returns the list with an element appended.
 */
-prototype.append = jion_proto.listAppend;
+prototype.append = tim_proto.listAppend;
 
 
 /*
 | Returns the list with another list appended.
 */
-prototype.appendList = jion_proto.listAppendList;
+prototype.appendList = tim_proto.listAppendList;
 
 
 /*
 | Returns the length of the list.
 */
-jion_proto.lazyValue( prototype, 'length', jion_proto.listLength );
+tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
 
 
 /*
 | Returns one element from the list.
 */
-prototype.get = jion_proto.listGet;
+prototype.get = tim_proto.listGet;
 
 
 /*
 | Returns a slice from the list.
 */
-prototype.slice = jion_proto.listSlice;
+prototype.slice = tim_proto.listSlice;
 
 
 /*
 | Returns the list with one element inserted.
 */
-prototype.insert = jion_proto.listInsert;
+prototype.insert = tim_proto.listInsert;
 
 
 /*
 | Returns the list with one element removed.
 */
-prototype.remove = jion_proto.listRemove;
+prototype.remove = tim_proto.listRemove;
 
 
 /*
 | Returns the list with one element set.
 */
-prototype.set = jion_proto.listSet;
+prototype.set = tim_proto.listSet;
 
 
 /*
