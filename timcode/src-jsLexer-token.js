@@ -1,29 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	ijon$jsLexer_token;
+	jsLexer_token;
 
 
-if( NODE )
+if( !jsLexer_token )
 {
-	ijon$jsLexer_token = module.exports;
-}
-else
-{
-	ijon$jsLexer_token = { };
+	jsLexer_token = { };
 }
 
 
-var
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.jsLexer_token !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.jsLexer_token = jsLexer_token;
+}
 
 
 /*
@@ -39,7 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -53,8 +62,8 @@ var
 
 Constructor =
 	function(
-		v_type, // the token type
-		v_value // the token value
+		v_type,
+		v_value
 	)
 {
 	if( prototype.__have_lazy )
@@ -81,13 +90,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ijon$jsLexer_token.prototype = prototype;
+jsLexer_token.prototype = prototype;
 
 
 /*
 | Creates a new token object.
 */
-ijon$jsLexer_token.create =
+jsLexer_token.create =
 prototype.create =
 	function(
 		// free strings
@@ -101,7 +110,7 @@ prototype.create =
 		v_type,
 		v_value;
 
-	if( this !== ijon$jsLexer_token )
+	if( this !== jsLexer_token )
 	{
 		inherit = this;
 
@@ -215,13 +224,13 @@ prototype.reflectName = 'token';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*

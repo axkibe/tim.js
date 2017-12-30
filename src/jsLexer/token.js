@@ -1,45 +1,39 @@
 /*
 | A lexer token.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'ijon$jsLexer_token',
-		attributes :
-		{
-			type :
-			{
-				comment : 'the token type',
-				type : 'string'
-			},
-			value :
-			{
-				comment : 'the token value',
-				type : [ 'undefined', 'number', 'boolean', 'string' ]
-,			}
-		},
-		init : [ ]
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	token,
-	tokenList;
+require( '../ouroboros' )
+.define( module, 'jsLexer_token', ( def, jsLexer_token ) => {
 
-token = require( '../ouroboros' ).this( module );
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
+{
+	def.attributes =
+	{
+		type :
+		{
+			comment : 'the token type',
+			type : 'string'
+		},
+		value :
+		{
+			comment : 'the token value',
+			type : [ 'undefined', 'number', 'boolean', 'string' ]
+,		}
+	};
+
+	def.init = [ ];
+}
+
+
+let tokenList;
 
 
 /**/if( CHECK )
@@ -87,23 +81,20 @@ token = require( '../ouroboros' ).this( module );
 /**/}
 
 
-
 /*
 | Initializer.
 */
-token.prototype._init =
+def.func._init =
 	function( )
 {
 
 /**/if( CHECK )
 /**/{
-/**/	if( !tokenList[ this.type ] )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( !tokenList[ this.type ] ) throw new Error( );
 /**/}
 
 };
 
 
-} )( );
+} );
+
