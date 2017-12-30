@@ -1,54 +1,40 @@
 /*
 | A jion id.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$id',
-		attributes :
-		{
-			'packet' :
-			{
-				comment : 'the jion is in/from a package',
-				type : [ 'undefined', 'string' ]
-			}
-		},
-		list : [ 'string' ]
-	};
-}
-
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
-var
-	jion$id,
-	jion$proto,
-	prototype,
-	shorthand;
+require( './ouroboros' )
+.define( module, 'id', ( def, id ) => {
 
-jion$id = require( './ouroboros' ).this( module );
 
-prototype = jion$id.prototype;
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
 
-jion$proto = require( './proto' );
 
-shorthand = require( './ast/shorthand' );
+if( TIM )
+{
+	def.attributes =
+	{
+		'packet' :
+		{
+			comment : 'the jion is in/from a package',
+			type : [ 'undefined', 'string' ]
+		}
+	};
+
+	def.list = [ 'string' ];
+}
+
+
+const shorthand = require( './ast/shorthand' );
 
 
 /*
 | Create the id from a string specifier.
 */
-jion$id.createFromString =
+def.static.createFromString =
 	function(
 		string
 	)
@@ -84,11 +70,11 @@ jion$id.createFromString =
 //			default : throw new Error( 'bad id: ' + string );
 		}
 
-		return jion$id.create( 'list:init', [ string ] );
+		return id.create( 'list:init', [ string ] );
 	}
 
 	return(
-		jion$id.create(
+		id.create(
 			'packet', packet,
 			'list:init', split
 		)
@@ -99,7 +85,7 @@ jion$id.createFromString =
 /*
 | Compares two ids.
 */
-jion$id.compare =
+def.static.compare =
 	function(
 		o1,
 		o2
@@ -145,27 +131,21 @@ jion$id.compare =
 /*
 | This name as ast string.
 */
-jion$proto.lazyValue(
-	prototype,
-	'$abstractName',
+def.lazy.$abstractName =
 	function( )
 {
 	return shorthand.$string( this.name + ':abstract' );
-}
-);
+};
 
 
 /*
 | This id as abstract as ast string.
 */
-jion$proto.lazyValue(
-	prototype,
-	'$abstractPathName',
+def.lazy.$abstractPathName =
 	function( )
 {
 	return shorthand.$string( this.pathName + ':abstract' );
-}
-);
+};
 
 
 /*
@@ -174,9 +154,7 @@ jion$proto.lazyValue(
 | has a .equals( ) call and equalness is simply to be
 | determined by '===' operator.
 */
-jion$proto.lazyValue(
-	prototype,
-	'equalsConvention',
+def.lazy.equalsConvention =
 	function( )
 {
 	return(
@@ -184,16 +162,13 @@ jion$proto.lazyValue(
 		? 'must'
 		: 'mustnot'
 	);
-}
-);
+};
 
 
 /*
 | This id as global varname
 */
-jion$proto.lazyValue(
-	prototype,
-	'global',
+def.lazy.global =
 	function( )
 {
 	return(
@@ -201,16 +176,13 @@ jion$proto.lazyValue(
 		( this.packet ? this.packet + '.' : '' )
 		+ this.pathName
 	);
-}
-);
+};
 
 
 /*
 | This id as ast variable.
 */
-jion$proto.lazyValue(
-	prototype,
-	'$global',
+def.lazy.$global =
 	function( )
 {
 	if( this.packet )
@@ -219,57 +191,45 @@ jion$proto.lazyValue(
 	}
 
 	return shorthand.$var( this.global );
-}
-);
+};
 
 
 /*
 | This id references a primitive.
 */
-jion$proto.lazyValue(
-	prototype,
-	'isPrimitive',
+def.lazy.isPrimitive =
 	function( )
 {
 	return !this.packet && this.length === 1;
-}
-);
+};
 
 
 
 /*
 | This ids name (without path).
 */
-jion$proto.lazyValue(
-	prototype,
-	'name',
+def.lazy.name =
 	function( )
 {
 	return this.get( this.length - 1 );
-}
-);
+};
 
 
 
 /*
 | This name as ast string.
 */
-jion$proto.lazyValue(
-	prototype,
-	'$name',
+def.lazy.$name =
 	function( )
 {
 	return shorthand.$string( this.name );
-}
-);
+};
 
 
 /*
 | This id as path relative to project root dir.
 */
-jion$proto.lazyValue(
-	prototype,
-	'path',
+def.lazy.path =
 	function( )
 {
 	let p = '';
@@ -282,16 +242,13 @@ jion$proto.lazyValue(
 	}
 
 	return p;
-}
-);
+};
 
 
 /*
 | This id as pathed variable name.
 */
-jion$proto.lazyValue(
-	prototype,
-	'pathName',
+def.lazy.pathName =
 	function( )
 {
 	let pn = '';
@@ -304,50 +261,39 @@ jion$proto.lazyValue(
 	}
 
 	return pn;
-}
-);
+};
 
 
 /*
 | This id as ast string.
 */
-jion$proto.lazyValue(
-	prototype,
-	'$pathName',
+def.lazy.$pathName =
 	function( )
 {
 	return shorthand.$string( this.pathName );
-}
-);
+};
 
 
 /*
 | Relative path to the project's root dir.
 */
-jion$proto.lazyValue(
-	prototype,
-	'rootPath',
+def.lazy.rootPath =
 	function( )
 {
-	var
-		a,
-		len,
-		rp;
-
-	len = this.length;
+	const len = this.length;
 
 	if( len === 1 ) return './';
 
-	rp = '';
+	let rp = '';
 
-	for( a = 0; a < len - 1; a++ )
+	for( let a = 0; a < len - 1; a++ )
 	{
 		rp += '../';
 	}
 
 	return rp;
-}
-);
+};
 
 
-} )( );
+} );
+

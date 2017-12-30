@@ -1,29 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$id;
+	id;
 
 
-if( NODE )
+if( !id )
 {
-	jion$id = module.exports;
-}
-else
-{
-	jion$id = { };
+	id = { };
 }
 
 
-var
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.id !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.id = id;
+}
 
 
 /*
@@ -39,7 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -54,7 +63,7 @@ var
 Constructor =
 	function(
 		list, // list
-		v_packet // the jion is in/from a package
+		v_packet
 	)
 {
 	if( prototype.__have_lazy )
@@ -81,13 +90,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$id.prototype = prototype;
+id.prototype = prototype;
 
 
 /*
 | Creates a new id object.
 */
-jion$id.create =
+id.create =
 prototype.create =
 	function(
 		// free strings
@@ -105,7 +114,7 @@ prototype.create =
 		rZ,
 		v_packet;
 
-	if( this !== jion$id )
+	if( this !== id )
 	{
 		inherit = this;
 
@@ -273,61 +282,61 @@ prototype.reflectName = 'id';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*
 | Returns the list with an element appended.
 */
-prototype.append = jion_proto.listAppend;
+prototype.append = tim_proto.listAppend;
 
 
 /*
 | Returns the list with another list appended.
 */
-prototype.appendList = jion_proto.listAppendList;
+prototype.appendList = tim_proto.listAppendList;
 
 
 /*
 | Returns the length of the list.
 */
-jion_proto.lazyValue( prototype, 'length', jion_proto.listLength );
+tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
 
 
 /*
 | Returns one element from the list.
 */
-prototype.get = jion_proto.listGet;
+prototype.get = tim_proto.listGet;
 
 
 /*
 | Returns a slice from the list.
 */
-prototype.slice = jion_proto.listSlice;
+prototype.slice = tim_proto.listSlice;
 
 
 /*
 | Returns the list with one element inserted.
 */
-prototype.insert = jion_proto.listInsert;
+prototype.insert = tim_proto.listInsert;
 
 
 /*
 | Returns the list with one element removed.
 */
-prototype.remove = jion_proto.listRemove;
+prototype.remove = tim_proto.listRemove;
 
 
 /*
 | Returns the list with one element set.
 */
-prototype.set = jion_proto.listSet;
+prototype.set = tim_proto.listSet;
 
 
 /*
