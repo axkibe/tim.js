@@ -1,29 +1,38 @@
 /*
 | This is an auto generated file.
 |
-| Editing might turn out rather futile.
+| Editing this might be rather futile.
 */
+var
+	tim_proto,
+	timModules;
 
 
 /*
-| Export.
+| The typed immutable.
 */
 var
-	jion$jsParser_tokenSpec;
+	jsParser_tokenSpec;
 
 
-if( NODE )
+if( !jsParser_tokenSpec )
 {
-	jion$jsParser_tokenSpec = module.exports;
-}
-else
-{
-	jion$jsParser_tokenSpec = { };
+	jsParser_tokenSpec = { };
 }
 
 
-var
-	jion_proto;
+if( !NODE )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( timModules.jsParser_tokenSpec !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/}
+
+	timModules.jsParser_tokenSpec = jsParser_tokenSpec;
+}
 
 
 /*
@@ -39,7 +48,7 @@ function( ) {
 */
 if( NODE )
 {
-	jion_proto = require( 'jion' ).proto;
+	tim_proto = tim.proto;
 }
 
 
@@ -53,10 +62,10 @@ var
 
 Constructor =
 	function(
-		v_associativity, // "r2l", "l2r" or "n/a"
-		v_astCreator, // For some handlers, the ast creator function for it to call
-		v_handler, // Handler function to be called
-		v_prec // operator precedence
+		v_associativity,
+		v_astCreator,
+		v_handler,
+		v_prec
 	)
 {
 	if( prototype.__have_lazy )
@@ -87,13 +96,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-jion$jsParser_tokenSpec.prototype = prototype;
+jsParser_tokenSpec.prototype = prototype;
 
 
 /*
 | Creates a new tokenSpec object.
 */
-jion$jsParser_tokenSpec.create =
+jsParser_tokenSpec.create =
 prototype.create =
 	function(
 		// free strings
@@ -109,7 +118,7 @@ prototype.create =
 		v_handler,
 		v_prec;
 
-	if( this !== jion$jsParser_tokenSpec )
+	if( this !== jsParser_tokenSpec )
 	{
 		inherit = this;
 
@@ -285,13 +294,13 @@ prototype.reflectName = 'tokenSpec';
 /*
 | Sets values by path.
 */
-prototype.setPath = jion_proto.setPath;
+prototype.setPath = tim_proto.setPath;
 
 
 /*
 | Gets values by path
 */
-prototype.getPath = jion_proto.getPath;
+prototype.getPath = tim_proto.getPath;
 
 
 /*

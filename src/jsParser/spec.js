@@ -1,66 +1,57 @@
 /*
 | A parser state.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$jsParser_tokenSpec',
-		attributes :
-		{
-			associativity :
-			{
-				comment : '"r2l", "l2r" or "n/a"',
-				// right to left
-				// left to right
-				// not applicable
-				type : 'string',
-				defaultValue : '"n/a"'
-			},
-			prec :
-			{
-				comment : 'operator precedence',
-				type : [ 'undefined', 'integer' ]
-			},
-			handler :
-			{
-				comment : 'Handler function to be called',
-				type : 'string'
-			},
-			astCreator :
-			{
-				comment :
-					'For some handlers, the ast creator function'
-					+ ' for it to call',
-				type : [ 'undefined', 'protean' ] // FUTURE
-			}
-		},
-		init : [ ]
-	};
-}
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	tokenSpec;
+require( '../ouroboros' )
+.define( module, 'jsParser_tokenSpec', ( def, jsParser_tokenSpec ) => {
 
-tokenSpec = require( '../ouroboros' ).this( module );
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
+{
+	def.attributes =
+	{
+		associativity :
+		{
+			// one of these:
+			// "r2l" -- right to left
+			// "l2r" -- left to right
+			// "n/a" -- not applicable
+			type : 'string',
+			defaultValue : '"n/a"'
+		},
+		prec :
+		{
+			// operator precedence
+			type : [ 'undefined', 'integer' ]
+		},
+		handler :
+		{
+			// handler function to be called
+			type : 'string'
+		},
+		astCreator :
+		{
+			// for some handlers, the ast creator function
+			// for it to call
+			type : [ 'undefined', 'protean' ] // FUTURE
+		}
+	};
+
+	def.init = [ ];
+}
 
 
 /*
 | Initializer.
 */
-tokenSpec.prototype._init =
+def.func._init =
 	function( )
 {
 
@@ -79,4 +70,4 @@ tokenSpec.prototype._init =
 };
 
 
-} )( );
+} );

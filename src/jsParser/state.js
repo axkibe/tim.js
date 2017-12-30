@@ -1,74 +1,57 @@
 /*
 | A parser state.
 */
+'use strict';
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+require( '../ouroboros' )
+.define( module, 'jsParser_state', ( def, jsParser_state ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$jsParser_state',
-		attributes :
+	def.attributes =
+	{
+		ast :
 		{
-			ast :
-			{
-				comment : 'current ast entity',
-				type :
-					require( '../typemaps/astStatement' )
-					.concat( [ 'undefined' ] )
-			},
-			tokens :
-			{
-				comment : 'list of tokens to parse',
-				type : 'jion$jsParser_tokenList'
-			},
-			pos :
-			{
-				comment : 'current position in token list',
-				type : 'integer'
-			}
+			// current ast entity
+			type :
+				require( '../typemaps/astStatement' )
+				.concat( [ 'undefined' ] )
 		},
+		tokens :
+		{
+			// list of tokens to parse
+			type : 'jion$jsParser_tokenList'
+		},
+		pos :
+		{
+			// current position in token list
+			type : 'integer'
+		}
 	};
 }
 
 
 /*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-var
-	jion_proto,
-	state;
-
-state = require( '../ouroboros' ).this( module );
-
-jion_proto = require( '../proto' );
-
-
-/*
 | True if pos is at end of the token list.
 */
-jion_proto.lazyValue(
-	state.prototype,
-	'reachedEnd',
+def.lazy.reachedEnd =
 	function( )
 {
 	return this.pos >= this.tokens.length;
-}
-);
+};
 
 
 /*
 | The current token.
 */
-jion_proto.lazyValue(
-	state.prototype,
-	'current',
+def.lazy.current =
 	function( )
 {
 	return(
@@ -76,16 +59,13 @@ jion_proto.lazyValue(
 		?  this.tokens.get( this.pos )
 		: undefined
 	);
-}
-);
+};
 
 
 /*
 | The preview token.
 */
-jion_proto.lazyValue(
-	state.prototype,
-	'preview',
+def.lazy.preview =
 	function( )
 {
 	return(
@@ -93,8 +73,8 @@ jion_proto.lazyValue(
 		? this.tokens.get( this.pos + 1 )
 		: undefined
 	);
-}
-);
+};
 
 
-} )( );
+} );
+
