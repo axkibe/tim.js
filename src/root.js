@@ -8,8 +8,6 @@
 */
 global.NODE = true;
 
-global.JION = false;
-
 global.CHECK = !!global.CHECK;
 
 /*

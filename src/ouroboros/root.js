@@ -1,5 +1,5 @@
 /*
-| Runs the jioncode generator for the jion package itself.
+| Runs the timcode generator for the tim package itself.
 */
 
 /*
@@ -13,7 +13,7 @@ Error.stackTraceLimit = 20;
 
 global.CHECK = true;
 
-global.JION = false;
+global.TIM = false;
 
 global.FREEZE = true;
 
@@ -147,7 +147,7 @@ for(
 		console.log( 'Reading ' + inFilename );
 
 		input =
-		  	'( function( module, require, JION ) { '
+		  	'( function( module, require, TIM ) { '
 			+ fs.readFileSync( inFilename, readOptions )
 			+ '\n} )';
 
@@ -166,7 +166,7 @@ for(
 				true
 			);
 
-			throw new Error( 'Requested jion definition, but non thrown' );
+			throw new Error( 'Requested tim definition, but non thrown' );
 		}
 		catch( e )
 		{
@@ -184,6 +184,6 @@ for(
 	}
 }
 
-console.log( 'jion ouroboros: done' );
+console.log( 'tim ouroboros: done' );
 
 } )( );

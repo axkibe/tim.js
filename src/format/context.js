@@ -14,12 +14,6 @@ require( '../ouroboros' )
 
 
 if( TIM )
-
-
-/*
-| The jion definition.
-*/
-if( JION )
 {
 	def.attributes =
 	{

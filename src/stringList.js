@@ -1,51 +1,40 @@
 /*
 | A list of strings.
 */
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$stringList',
-		list : [ 'string' ]
-	};
-}
-
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
-var
-	jion_stringList;
-
-jion_stringList = require( './ouroboros' ).this( module, 'source' );
+tim.ouroboros.define( module, 'stringList', ( def, tim_stringList ) => {
 
 
-/*
-| Shorthand function
-*/
-jion_stringList.stringList =
-	function(
-		array
-	)
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	return jion_stringList.create( 'list:init', array );
-};
-
+	def.list = [ 'string' ];
+}
 
 
 if( !NODE )
 {
 	// FIXME
-	tim.stringList = jion_stringList;
+	tim.stringList = tim_stringList;
 }
 
 
-} )( );
+/*
+| Shorthand function
+*/
+def.static.stringList =
+	function(
+		array
+	)
+{
+	return tim_stringList.create( 'list:init', array );
+};
+
+
+} );
