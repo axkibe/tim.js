@@ -6,11 +6,8 @@
 */
 'use strict';
 
-const jion = require( 'jion' );
-
-const recurse = require( 'recurse' );
 
 module.exports = {
-	this: jion.this,
-	define: recurse.define
+//	define: require( 'recurse' ).define
+	define: require( './define' )
 };

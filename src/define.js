@@ -249,7 +249,7 @@ module.exports =
 		tim_proto.lazyFunctionString(
 			exports.prototype,
 			name,
-			timDef.lazyFuncInt[ name ]
+			timDef.lazyFuncStr[ name ]
 		);
 	}
 
