@@ -1,6 +1,19 @@
 /*
 | Formating context.
 */
+'use strict';
+
+
+require( '../ouroboros' )
+.define( module, 'format_context', ( def, format_context ) => {
+
+
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 
 
 /*
@@ -8,125 +21,87 @@
 */
 if( JION )
 {
-	throw{
-		id : 'jion$format_context',
-		attributes :
+	def.attributes =
+	{
+		indent :
 		{
-			indent :
-			{
-				comment : 'the indentation',
-				type : 'integer',
-				defaultValue : '0'
-			},
-			check :
-			{
-				comment : 'true if within optinal CHECK code',
-				type : 'boolean',
-				defaultValue : 'false'
-			},
-			inline :
-			{
-				comment : 'true if to be formated inline',
-				type : 'boolean',
-				defaultValue : 'false'
-			},
-			root :
-			{
-				comment : 'true if in root context',
-				type : 'boolean'
-			}
+			// the indentation
+			type : 'integer',
+			defaultValue : '0'
+		},
+		check :
+		{
+			// true if within optinal CHECK code
+			type : 'boolean',
+			defaultValue : 'false'
+		},
+		inline :
+		{
+			// true if to be formated inline
+			type : 'boolean',
+			defaultValue : 'false'
+		},
+		root :
+		{
+			// true if in root context
+			type : 'boolean'
 		}
 	};
 }
 
 
-var
-	format_context;
-
-
-/*
-| Capsule
-*/
-(function() {
-'use strict';
-
-
-var
-	jion_proto,
-	tabFormat;
-
-format_context = require( '../ouroboros' ).this( module );
-
-jion_proto = require( '../proto' );
-
 /*
 | Tabbing format.
 */
-tabFormat = '\t';
+const tabFormat = '\t';
 
 
 /*
 | Seperator is a space when inline otherwise a newline.
 */
-jion_proto.lazyValue(
-	format_context.prototype,
-	'sep',
+def.lazy.sep =
 	function( )
-	{
-		return this.inline ? ' ' : '\n';
-	}
-);
+{
+	return this.inline ? ' ' : '\n';
+};
 
 
 /*
 | Transforms the context into a tab indentation.
 */
-jion_proto.lazyValue(
-	format_context.prototype,
-	'tab',
+def.lazy.tab =
 	function( )
+{
+	let indent = this.indent;
+
+	let tab = '';
+
+	if( this.inline ) return '';
+
+	if( this.check )
 	{
-		var
-			indent,
-			tab;
+		indent--;
 
-		indent = this.indent;
-
-		tab = '';
-
-		if( this.inline )
-		{
-			return '';
-		}
-
-		if( this.check )
-		{
-			indent--;
-
-			tab += '/**/';
-		}
-
-		for( var a = 0; a < indent; a++ )
-		{
-			tab += tabFormat;
-		}
-
-		return tab;
+		tab += '/**/';
 	}
-);
+
+	for( var a = 0; a < indent; a++ )
+	{
+		tab += tabFormat;
+	}
+
+	return tab;
+};
 
 
 /*
 | Increases the indentation.
 */
-jion_proto.lazyValue(
-	format_context.prototype,
-	'inc',
+def.lazy.inc =
 	function( )
-	{
-		return this.incSame.create( 'root', false );
-	}
-);
+{
+	return this.incSame.create( 'root', false );
+};
 
 
 /*
@@ -134,68 +109,48 @@ jion_proto.lazyValue(
 |
 | But keeps root context.
 */
-jion_proto.lazyValue(
-	format_context.prototype,
-	'incSame',
+def.lazy.incSame =
 	function( )
-	{
-		var
-			inc;
+{
+	const inc = this.create( 'indent', this.indent + 1 );
 
-		inc = this.create( 'indent', this.indent + 1 );
+	tim.aheadValue( inc, 'dec', this );
 
-		jion_proto.aheadValue( inc, 'dec', this );
-
-		return inc;
-	}
-);
+	return inc;
+};
 
 
 
 /*
 | Decreases the indentation.
 */
-jion_proto.lazyValue(
-	format_context.prototype,
-	'dec',
+def.lazy.dec =
 	function( )
-	{
-		var
-			dec;
+{
+	if( this.indent <= 0 ) throw new Error( );
 
-		if( this.indent <= 0 )
-		{
-			throw new Error( );
-		}
+	// root stays false, even if it goes back to
+	// zero indent its not the root context
 
-		// root stays false, even if it goes back to
-		// zero indent its not the root context
+	const dec = this.create( 'indent', this.indent - 1 );
 
-		dec = this.create( 'indent', this.indent - 1 );
+	tim.aheadValue( dec, 'inc', this );
 
-		jion_proto.aheadValue( dec, 'inc', this );
-
-		return dec;
-	}
-);
+	return dec;
+};
 
 
 /*
 | Sets the context to be inline.
 */
-jion_proto.lazyValue(
-	format_context.prototype,
-	'setInline',
+def.lazy.setInline =
 	function( )
-	{
-		if( this.inline )
-		{
-			return this;
-		}
+{
+	if( this.inline ) return this;
 
-		return( this.create( 'inline', true ) );
-	}
-);
+	return( this.create( 'inline', true ) );
+};
 
 
-} )( );
+} );
+

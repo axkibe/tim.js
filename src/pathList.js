@@ -1,77 +1,53 @@
 /*
 | A list of paths.
 */
-
-
-var
-	jion,
-	jion$pathList;
-
-
-/*
-| The jion definition.
-*/
-if( JION )
-{
-	throw{
-		id : 'jion$pathList',
-		list : [ 'jion$path' ]
-	};
-}
-
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
-var
-	prototype;
+tim.ouroboros.define( module, 'pathList', ( def, tim_pathList ) => {
 
 
-if( NODE )
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	jion$pathList = require( './ouroboros' ).this( module, 'source' );
+	def.list = [ 'path' ];
 }
-else
+
+
+if( !NODE )
 {
 	// export path like in node package for browser.
-	jion.pathList = jion$pathList;
+	tim.pathList = tim_pathList;
 }
 
-
-prototype = jion$pathList.prototype;
 
 /*
 | Shorthand function
 */
-jion$pathList.pathList =
+def.static.pathList =
 	function(
 		array
 	)
 {
-	return jion$pathList.create( 'list:init', array );
+	return tim_pathList.create( 'list:init', array );
 };
 
 
 /*
 | Returns true if this list contains path.
 */
-prototype.contains =
+def.func.contains =
 	function(
 		path
 	)
 {
-	var
-		p,
-		pZ,
-		pi;
-
-	for( p = 0, pZ = this.length; p < pZ; p++ )
+	for( let p = 0, pZ = this.length; p < pZ; p++ )
 	{
-		pi = this.get( p );
+		const pi = this.get( p );
 
 		if( pi.equals( path ) ) return true;
 	}
@@ -85,35 +61,23 @@ prototype.contains =
 |
 | Duplicates are not appended another time.
 */
-prototype.combine =
+def.func.combine =
 	function(
 		pathList
 	)
 {
-	var
-		addList,
-		aZ,
-		p,
-		path,
-		pZ;
+	const addList = [ ];
 
-	addList = [ ];
-
-	aZ = 0;
-
-	for( p = 0, pZ = pathList.length; p < pZ; p++ )
+	for( let p = 0, pZ = pathList.length; p < pZ; p++ )
 	{
-		path = pathList.get( p );
+		const path = pathList.get( p );
 
-		if( !this.contains( path ) )
-		{
-			addList[ aZ++] = path;
-		}
+		if( !this.contains( path ) ) addList.push( path );
 	}
 
 	return(
 		this.appendList(
-			aZ !== pathList.length
+			addList.length !== pathList.length
 			? pathList.create( 'list:init', addList )
 			: pathList
 		)
@@ -121,11 +85,5 @@ prototype.combine =
 };
 
 
-if( !NODE )
-{
-	// FIXME
-	tim.pathList = jion$pathList;
-}
+} );
 
-
-} )( );
