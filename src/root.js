@@ -17,10 +17,14 @@ global.CHECK = !!global.CHECK;
 */
 if( global.FREEZE === undefined ) global.FREEZE = true;
 
+
 /*
-|  The jion module.
+|  The tim module.
 */
+global.tim =
 exports = module.exports;
+
+tim.ouroboros = require( './ouroboros' );
 
 const proto =
 exports.proto = require( './proto.js' );

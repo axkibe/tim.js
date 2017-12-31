@@ -172,6 +172,7 @@ module.exports =
 		func : { },
 		lazy : { },
 		lazyFuncInt : { },
+		lazyFuncStr : { },
 	};
 
 	global.TIM = true;
@@ -236,6 +237,16 @@ module.exports =
 	for( let name in timDef.lazyFuncInt )
 	{
 		tim_proto.lazyFunctionInteger(
+			exports.prototype,
+			name,
+			timDef.lazyFuncInt[ name ]
+		);
+	}
+
+	// assigns lazy string functions to the prototype
+	for( let name in timDef.lazyFuncStr )
+	{
+		tim_proto.lazyFunctionString(
 			exports.prototype,
 			name,
 			timDef.lazyFuncInt[ name ]

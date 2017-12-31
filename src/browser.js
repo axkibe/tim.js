@@ -17,6 +17,8 @@ pass = tim_proto.pass = { };
 
 TIM = false;
 
+tim.ouroboros = { };
+
 
 // all tim modules
 var timModules = { };
@@ -26,6 +28,7 @@ if( FREEZE ) Object.freeze( pass );
 
 
 tim.define =
+tim.ouroboros.define =
 	function(
 		module,   // used by node only, ignored in browser
 		id,       // the id of the tim to be defined
@@ -37,13 +40,10 @@ tim.define =
 	const timDef =
 	{
 		static : { },
-
 		staticLazy : { },
-
 		lazy : { },
-
 		lazyFuncInt : { },
-
+		lazyFuncStr : { },
 		func : { },
 	};
 
@@ -71,6 +71,12 @@ tim.define =
 	for( let name in timDef.lazyFuncInt )
 	{
 		tim_proto.lazyFunctionInteger( tim.prototype, name, timDef.lazyFuncInt[ name ] );
+	}
+
+	// assigns lazy string functions to the prototype
+	for( let name in timDef.lazyFuncStr )
+	{
+		tim_proto.lazyFunctionString( tim.prototype, name, timDef.lazyFuncStr[ name ] );
 	}
 
 	// assigns functions to the prototype

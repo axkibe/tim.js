@@ -1,78 +1,53 @@
 /*
 | A path of an entity in a tree.
 */
+'use strict';
 
 
-var
-	jion,
-	jion$path;
+tim.ouroboros.define( module, 'path', ( def, tim_path ) => {
 
 
-/*
-| The jion definition.
-*/
-if( JION )
+/*::::::::::::::::::::::::::::.
+:: Typed immutable attributes
+':::::::::::::::::::::::::::::*/
+
+
+if( TIM )
 {
-	throw{
-		id : 'jion$path',
-		list : [ 'string' ]
-	};
+	def.list = [ 'string' ];
 }
 
 
-/*
-| Capsule
-*/
-( function ( ) {
-"use strict";
-
-
-var
-	prototype;
-
-
-if( NODE )
-{
-	jion$path = require( './ouroboros' ).this( module, 'source' );
-
-	jion = require( './proto' );
-}
-else
+if( !NODE )
 {
 	// export path like in node package for browser.
-	jion.path = jion$path;
+	tim.path = tim_path;
 }
-
-
-prototype = jion$path.prototype;
 
 
 /*
 | Returns a path with key appended
 */
-jion.lazyFunctionString(
-	prototype,
-	'append',
+def.lazyFuncStr.append =
 	function( key )
 {
 	const result = this.create( 'list:append', key );
 
-	jion.aheadValue( result, 'shorten', this );
+	tim.aheadValue( result, 'shorten', this );
 
 	return result;
-}
-);
+};
 
 
 /*
 | Same as append but without caching.
 */
-prototype.appendNC =
+def.func.appendNC =
 	function( key )
 {
 	const result = this.create( 'list:append', key );
 
-	jion.aheadValue( result, 'shorten', this );
+	tim.aheadValue( result, 'shorten', this );
 
 	return result;
 };
@@ -81,9 +56,7 @@ prototype.appendNC =
 /*
 | Returns a path with the first the entry chopped of.
 */
-jion.lazyValue(
-	prototype,
-	'chop',
+def.lazy.chop =
 	function( )
 {
 /**/if( CHECK )
@@ -99,17 +72,14 @@ jion.lazyValue(
 	// );
 
 	return result;
-}
-);
+};
 
 
 
 /*
 | Returns a path with the last entry removed.
 */
-jion.lazyValue(
-	prototype,
-	'shorten',
+def.lazy.shorten =
 	function( )
 {
 /**/	if( CHECK )
@@ -122,8 +92,7 @@ jion.lazyValue(
 	// FUTURE aheadLazyStringFunc
 
 	return result;
-}
-);
+};
 
 
 /*
@@ -131,7 +100,7 @@ jion.lazyValue(
 |
 | FUTURE cache
 */
-prototype.limit =
+def.func.limit =
 	function(
 		n
 	)
@@ -151,27 +120,25 @@ prototype.limit =
 	return path;
 };
 
+
 /*
 | Returns a path with an entry prepended.
 */
-jion.lazyFunctionString(
-	prototype,
-	'prepend',
+def.lazyFuncStr.prepend =
 	function( entry )
 {
 	const result = this.create( 'list:insert', 0, entry );
 
-	jion.aheadValue( result, 'chop', this );
+	tim.aheadValue( result, 'chop', this );
 
 	return result;
-}
-);
+};
 
 
 /*
 | True if this path is a subPath of another.
 */
-prototype.subPathOf =
+def.func.subPathOf =
 	function(
 		o,     // the other path
 		len    // the length of this path to consider.
@@ -202,9 +169,7 @@ prototype.subPathOf =
 /*
 | Turns the path to a string.
 */
-jion.lazyValue(
-	prototype,
-	'string',
+def.lazy.string =
 	function( )
 {
 	const b = [ '[ '[ 0 ] ]; // FUTURE jshint bug
@@ -220,14 +185,13 @@ jion.lazyValue(
 	b.push( ' ]' );
 
 	return b.join( '' );
-}
-);
+};
 
 
 /*
 | Create from json.
 */
-jion$path.createFromJSON =
+def.static.createFromJSON =
 	function( json )
 {
 	if( !Array.isArray( json ) )
@@ -235,14 +199,14 @@ jion$path.createFromJSON =
 		throw new Error( 'invalid json, path is no array' );
 	}
 
-	return jion$path.create( 'list:init', json );
+	return tim_path.create( 'list:init', json );
 };
 
 
 /*
 | Jsonfy.
 */
-prototype.toJSON =
+def.func.toJSON =
 	function( )
 {
 	return this._list;
@@ -252,27 +216,15 @@ prototype.toJSON =
 /*
 | Returns true is this path is empty.
 */
-jion.lazyValue(
-	prototype,
-	'isEmpty',
+def.lazy.isEmpty =
 	function( )
 {
 	return this.length === 0;
-}
-);
+};
 
 
-/*
-| An empty path.
-*/
-jion$path.empty = jion$path.create( 'list:init', [ ] );
+def.staticLazy.empty = () => tim_path.create( 'list:init', [ ] );
 
 
-if( !NODE )
-{
-	// FIXME
-	tim.path = jion$path;
-}
+} );
 
-
-} )( );
