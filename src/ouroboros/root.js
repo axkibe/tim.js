@@ -1,11 +1,6 @@
 /*
 | Runs the timcode generator for the tim package itself.
 */
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 Error.stackTraceLimit = 99999;
@@ -20,56 +15,29 @@ global.FREEZE = true;
 global.NODE = true;
 
 
-var
-	a,
-	all,
-	ast,
-	aZ,
-	arg,
-	argV,
-	fs,
-	format_formatter,
-	generator,
-	inFilename,
-	inStat,
-	jionDef,
-	jionDefRequire,
-	input,
-	listing,
-	myDir,
-	outFilename,
-	outStat,
-	output,
-	readOptions,
-	vm;
+const argV = process.argv;
 
-argV = process.argv;
+const fs = require( 'fs' );
 
-fs = require( 'fs' );
+const vm = require( 'vm' );
 
-vm = require( 'vm' );
+const format_formatter = require( '../format/formatter' );
 
-format_formatter = require( '../format/formatter' );
+const generator = require( '../generator' );
 
-generator = require( '../generator' );
+const listing = require( './listing' );
 
-listing = require( './listing' );
+let all = false;
 
-all = false;
-
-readOptions = { encoding : 'utf8' };
+const readOptions = { encoding : 'utf8' };
 
 
 /*
 | Parses arguments.
 */
-for(
-	a = 2, aZ = argV.length;
-	a < aZ;
-	a++
-)
+for( let a = 2, aZ = argV.length; a < aZ; a++ )
 {
-	arg = argV[ a ];
+	const arg = argV[ a ];
 
 	switch( arg )
 	{
@@ -88,9 +56,9 @@ for(
 }
 
 
-myDir = module.filename;
+let myDir = module.filename;
 
-for( a = 0; a < 3; a++ )
+for( let a = 0; a < 3; a++ )
 {
 	myDir = myDir.substr( 0, myDir.lastIndexOf( '/' ) );
 }
@@ -98,7 +66,8 @@ for( a = 0; a < 3; a++ )
 myDir += '/';
 
 
-jionDefRequire =
+// "sub"-require
+const srequire =
 	function( inFilename, requireFilename )
 {
 	return(
@@ -111,23 +80,39 @@ jionDefRequire =
 	);
 };
 
+// "sub"-define
+const sdefine =
+	function(
+		def,
+		module,
+		id,
+		definer
+	)
+{
+	global.TIM = true;
+
+	definer( def, { } );
+
+	def.id = id;
+
+	global.TIM = false;
+};
+
 
 /*
 | Prepares the listings filenames
 */
-for(
-	a = 0, aZ = listing.length;
-	a < aZ;
-	a++
-)
+for( let a = 0, aZ = listing.length; a < aZ; a++ )
 {
-	inFilename = listing[ a ];
+	const inFilename = listing[ a ];
 
-	outFilename =
+	const outFilename =
 		'./jioncode/'
 		+ inFilename.replace( /\//g, '-' );
 
-	inStat = fs.statSync(  inFilename );
+	const inStat = fs.statSync(  inFilename );
+
+	let outStat;
 
 	try
 	{
@@ -135,7 +120,7 @@ for(
 	}
 	catch( e )
 	{
-		outStat = undefined;
+		// nothing
 	}
 
 	if(
@@ -146,37 +131,43 @@ for(
 	{
 		console.log( 'Reading ' + inFilename );
 
-		input =
-		  	'( function( module, require, TIM ) { '
+		let input =
+		  	'( function( module, require, tim ) { '
 			+ fs.readFileSync( inFilename, readOptions )
 			+ '\n} )';
 
+		// "sub"-tim
+		const stim = { };
 
-		try
+		stim.ouroboros = stim;
+
+		const def =
 		{
-			input =
-				vm.runInThisContext(
-					input,
-					{ filename: inFilename }
-				);
+			static : { },
+			staticLazy : { },
+			func : { },
+			lazy : { },
+			lazyFuncInt : { },
+			lazyFuncStr : { },
+		};
 
-			input(
-				module,
-				jionDefRequire.bind( undefined, inFilename ),
-				true
+		stim.define = sdefine.bind( undefined, def );
+
+		input =
+			vm.runInThisContext(
+				input,
+				{ filename: inFilename }
 			);
 
-			throw new Error( 'Requested tim definition, but non thrown' );
-		}
-		catch( e )
-		{
-			if( e.id ) jionDef = e;
-			else throw e;
-		}
+		input(
+			module,
+			srequire.bind( undefined, inFilename ),
+			stim
+		);
 
-		ast = generator.generate( jionDef, 'ouroboros' );
+		const ast = generator.generate( def, def.id, undefined );
 
-		output = format_formatter.format( ast );
+		const output = format_formatter.format( ast );
 
 		console.log( 'Writing ' + outFilename );
 
@@ -186,4 +177,3 @@ for(
 
 console.log( 'tim ouroboros: done' );
 
-} )( );

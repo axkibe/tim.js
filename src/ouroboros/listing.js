@@ -1,11 +1,11 @@
 /*
-| All jioncode files to be generated for jion itself.
+| All timcode files to be generated for jion itself.
 |
 | This is needed for 'ouroboros' builds, so the code
 | can be build all at once instead of file by file with
-| posibly crazy transition problems.
+| possibly crazy transition problems.
 |
-| Order does not matter, therefore strictly alphabetically.
+| Order does not matter, therefore alphabetically.
 */
 module.exports =
 [
@@ -60,19 +60,18 @@ module.exports =
 	'src/ast/typeof.js',
 	'src/ast/var.js',
 	'src/ast/varDec.js',
-
-	'src/format/context.js',
 	'src/attribute.js',
 	'src/attributeGroup.js',
+	'src/format/context.js',
 	'src/generator.js',
 	'src/id.js',
 	'src/idGroup.js',
-	'src/path.js',
-	'src/pathList.js',
-	'src/stringList.js',
 	'src/jsLexer/token.js',
 	'src/jsLexer/tokenList.js',
 	'src/jsParser/state.js',
 	'src/jsParser/spec.js',
-	'src/jsParser/tokenList.js'
+	'src/jsParser/tokenList.js',
+	'src/path.js',
+	'src/pathList.js',
+	'src/stringList.js',
 ];
