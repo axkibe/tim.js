@@ -66,7 +66,10 @@ const findTimCodeRootDir =
 };
 
 
-const createAndLoadTimcode =
+/*
+| Creates the timcode if missing or out of date.
+*/
+const createTimcode =
 	function(
 		timDef,                // tim definition
 		id,                    // tim id
@@ -113,12 +116,26 @@ const createAndLoadTimcode =
 
 		fs.writeFileSync( timcodeRealFilename, output );
 	}
+};
 
-	// loads the timcode.
 
+
+/*
+| Loads the timcode
+*/
+const loadTimcode =
+	function(
+		timDef,                // tim definition
+		id,                    // tim id
+		module,                // defining module
+		timcodeRootDir,		   // root dir of timecode
+		timcodeFilename        // filename of timcode file
+	)
+{
 	// runs the timcode within the handed module context
 	// so module.exports match exactly even with
 	// circula references
+	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let input =
 		'( function( ' + id + ', module, require, tim_proto ) {'
@@ -191,7 +208,9 @@ module.exports =
 		.substr( timcodeRootDir.length )
 		.replace( /\//g, '-' );
 
-	createAndLoadTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
+	createTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
+
+	loadTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
 
 	const exports = module.exports;
 

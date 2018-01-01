@@ -14,6 +14,13 @@ global.FREEZE = true;
 
 global.NODE = true;
 
+global.tim =
+{
+	define : require( '../define' ),
+	proto  : require( '../proto' ),
+	ouroborosBuild : true,
+};
+
 
 const argV = process.argv;
 
@@ -80,6 +87,7 @@ const srequire =
 	);
 };
 
+
 // "sub"-define
 const sdefine =
 	function(
@@ -107,7 +115,7 @@ for( let a = 0, aZ = listing.length; a < aZ; a++ )
 	const inFilename = listing[ a ];
 
 	const outFilename =
-		'./jioncode/'
+		'./timcode/'
 		+ inFilename.replace( /\//g, '-' );
 
 	const inStat = fs.statSync(  inFilename );
