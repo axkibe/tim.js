@@ -14,10 +14,13 @@ global.FREEZE = true;
 
 global.NODE = true;
 
+const proto = require( '../proto' );
+
 global.tim =
 {
 	define : require( '../define' ),
-	proto  : require( '../proto' ),
+	proto  : proto,
+	aheadValue : proto.aheadValue,
 	ouroborosBuild : true,
 };
 
@@ -75,8 +78,18 @@ myDir += '/';
 
 // "sub"-require
 const srequire =
-	function( inFilename, requireFilename )
+	function( stim, inFilename, requireFilename )
 {
+	if( requireFilename === '../ouroboros' || requireFilename === './ouroboros' )
+	{
+		return stim;
+	}
+
+	if( requireFilename[ 0 ] !== '.' )
+	{
+		return require( requireFilename );
+	}
+
 	return(
 		require(
 			myDir
@@ -167,11 +180,16 @@ for( let a = 0, aZ = listing.length; a < aZ; a++ )
 				{ filename: inFilename }
 			);
 
-		input(
-			module,
-			srequire.bind( undefined, inFilename ),
-			stim
-		);
+		console.log( 'XX2', inFilename );
+
+		const smodule =
+		{
+			filename : myDir + inFilename,
+			require : srequire.bind( undefined, stim, inFilename ),
+			exports : { }
+		};
+
+		input( smodule, smodule.require, stim );
 
 		const ast = generator.generate( def, def.id, undefined );
 

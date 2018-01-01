@@ -208,7 +208,10 @@ module.exports =
 		.substr( timcodeRootDir.length )
 		.replace( /\//g, '-' );
 
-	createTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
+	if( !tim.ouroborosBuild )
+	{
+		createTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
+	}
 
 	loadTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
 
