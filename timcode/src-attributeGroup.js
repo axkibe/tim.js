@@ -202,12 +202,6 @@ prototype.reflect = 'attributeGroup';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'attributeGroup';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

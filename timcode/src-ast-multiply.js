@@ -366,12 +366,6 @@ prototype.reflect = 'ast_multiply';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'multiply';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

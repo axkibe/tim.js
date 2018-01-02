@@ -340,12 +340,6 @@ prototype.reflect = 'ast_block';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'block';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

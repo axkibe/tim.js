@@ -358,12 +358,6 @@ prototype.reflect = 'ast_case';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'case';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

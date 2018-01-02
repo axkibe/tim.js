@@ -366,12 +366,6 @@ prototype.reflect = 'ast_or';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'or';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

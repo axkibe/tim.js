@@ -434,12 +434,6 @@ prototype.reflect = 'ast_call';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'call';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

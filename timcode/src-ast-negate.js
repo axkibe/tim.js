@@ -254,12 +254,6 @@ prototype.reflect = 'ast_negate';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'negate';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

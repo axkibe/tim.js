@@ -324,12 +324,6 @@ prototype.reflect = 'ast_if';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'if';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

@@ -366,12 +366,6 @@ prototype.reflect = 'ast_instanceof';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'instanceof';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

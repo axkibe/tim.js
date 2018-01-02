@@ -366,12 +366,6 @@ prototype.reflect = 'ast_greaterThan';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'greaterThan';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

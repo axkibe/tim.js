@@ -254,12 +254,6 @@ prototype.reflect = 'ast_preIncrement';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'preIncrement';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

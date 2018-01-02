@@ -221,12 +221,6 @@ prototype.reflect = 'generator';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'generator';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

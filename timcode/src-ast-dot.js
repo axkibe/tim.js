@@ -292,12 +292,6 @@ prototype.reflect = 'ast_dot';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'dot';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

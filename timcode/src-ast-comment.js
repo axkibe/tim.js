@@ -242,12 +242,6 @@ prototype.reflect = 'ast_comment';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'comment';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

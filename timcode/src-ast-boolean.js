@@ -170,12 +170,6 @@ prototype.reflect = 'ast_boolean';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'boolean';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

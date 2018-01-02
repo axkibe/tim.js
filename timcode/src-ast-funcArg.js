@@ -210,12 +210,6 @@ prototype.reflect = 'ast_funcArg';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'funcArg';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

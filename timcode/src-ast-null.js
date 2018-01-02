@@ -129,12 +129,6 @@ prototype.reflect = 'ast_null';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'null';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

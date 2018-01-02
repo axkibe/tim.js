@@ -176,12 +176,6 @@ prototype.reflect = 'ast_var';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'var';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

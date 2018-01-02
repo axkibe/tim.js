@@ -291,12 +291,6 @@ prototype.reflect = 'format_context';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'context';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

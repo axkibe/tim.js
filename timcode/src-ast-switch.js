@@ -394,12 +394,6 @@ prototype.reflect = 'ast_switch';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'switch';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

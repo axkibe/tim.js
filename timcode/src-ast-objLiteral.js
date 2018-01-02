@@ -423,12 +423,6 @@ prototype.reflect = 'ast_objLiteral';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'objLiteral';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

@@ -517,12 +517,6 @@ prototype.reflect = 'ast_for';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'for';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

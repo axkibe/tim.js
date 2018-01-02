@@ -714,29 +714,20 @@ formatExpression =
 		//       // may be undefined
 	)
 {
-	var
-		bracket,
-		formatter,
-		prec,
-		pprec,
-		subcontext,
-		subtext,
-		text;
+	const prec = precTable[ expr.reflect ];
 
-	prec = precTable[ expr.reflect ];
-
-	pprec = precTable[ preflect ];
+	const pprec = precTable[ preflect ];
 
 	if( !prec )
 	{
-		throw new Error( 'cannot handle: ' + expr.reflectName );
+		throw new Error( 'cannot handle: ' + expr.reflect );
 	}
 
-	formatter = exprFormatter[ expr.reflect ];
+	const formatter = exprFormatter[ expr.reflect ];
 
 	if( !formatter ) throw new Error( expr.reflect );
 
-	bracket = pprec !== undefined && prec > pprec;
+	let bracket = pprec !== undefined && prec > pprec;
 
 	// special case, a( ).b would look ugly
 	// as ( a( ) ).b
@@ -745,9 +736,9 @@ formatExpression =
 		bracket = false;
 	}
 
-	subcontext = context;
+	let subcontext = context;
 
-	text = '';
+	let text = '';
 
 	if( bracket )
 	{
@@ -755,6 +746,8 @@ formatExpression =
 
 		subcontext = context.inc;
 	}
+
+	let subtext;
 
 	if(
 		!subcontext.inline

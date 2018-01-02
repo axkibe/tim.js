@@ -554,12 +554,6 @@ prototype.reflect = 'attribute';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'attribute';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

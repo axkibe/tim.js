@@ -181,12 +181,6 @@ prototype.reflect = 'ast_new';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'new';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

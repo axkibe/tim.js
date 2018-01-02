@@ -252,12 +252,6 @@ prototype.reflect = 'ast_fail';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'fail';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

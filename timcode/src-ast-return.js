@@ -254,12 +254,6 @@ prototype.reflect = 'ast_return';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'return';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

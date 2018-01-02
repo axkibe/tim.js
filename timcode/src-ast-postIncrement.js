@@ -254,12 +254,6 @@ prototype.reflect = 'ast_postIncrement';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'postIncrement';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

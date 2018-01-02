@@ -178,12 +178,6 @@ prototype.reflect = 'ast_check';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'check';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

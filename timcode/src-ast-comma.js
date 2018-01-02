@@ -366,12 +366,6 @@ prototype.reflect = 'ast_comma';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'comma';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

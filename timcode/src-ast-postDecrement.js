@@ -254,12 +254,6 @@ prototype.reflect = 'ast_postDecrement';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'postDecrement';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

@@ -2393,18 +2393,11 @@ def.func.genReflection =
 					this.id.$abstractPathName
 				)
 				.$( 'abstractPrototype.isAbstract = true' )
-				.$comment( 'Abstract Name Reflection.' )
-				.$(
-					'abstractPrototype.reflectName = ',
-					this.id.$abstractName
-				)
 			)
 			: undefined
 		)
 		.$comment( 'Reflection.' )
 		.$( 'prototype.reflect = ', this.id.$pathName )
-		.$comment( 'Name Reflection.' )
-		.$( 'prototype.reflectName =', this.id.$name )
 	);
 };
 

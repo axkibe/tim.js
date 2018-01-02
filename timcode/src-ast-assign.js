@@ -366,12 +366,6 @@ prototype.reflect = 'ast_assign';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'assign';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

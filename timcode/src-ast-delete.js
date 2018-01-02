@@ -254,12 +254,6 @@ prototype.reflect = 'ast_delete';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'delete';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

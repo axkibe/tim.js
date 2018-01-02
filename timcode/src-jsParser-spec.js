@@ -286,12 +286,6 @@ prototype.reflect = 'jsParser_tokenSpec';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'tokenSpec';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

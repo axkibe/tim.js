@@ -348,12 +348,6 @@ prototype.reflect = 'jsParser_state';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'state';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

@@ -366,12 +366,6 @@ prototype.reflect = 'ast_divideAssign';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'divideAssign';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

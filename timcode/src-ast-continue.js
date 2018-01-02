@@ -129,12 +129,6 @@ prototype.reflect = 'ast_continue';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'continue';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

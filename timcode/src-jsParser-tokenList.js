@@ -342,12 +342,6 @@ prototype.reflect = 'jsParser_tokenList';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'tokenList';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

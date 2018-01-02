@@ -254,12 +254,6 @@ prototype.reflect = 'ast_preDecrement';
 
 
 /*
-| Name Reflection.
-*/
-prototype.reflectName = 'preDecrement';
-
-
-/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;
