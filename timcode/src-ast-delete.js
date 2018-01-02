@@ -254,6 +254,12 @@ prototype.reflect = 'ast_delete';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_delete;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

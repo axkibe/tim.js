@@ -291,6 +291,12 @@ prototype.reflect = 'format_context';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = format_context;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

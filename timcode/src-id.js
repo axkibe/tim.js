@@ -274,6 +274,12 @@ prototype.reflect = 'id';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = id;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

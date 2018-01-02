@@ -366,6 +366,12 @@ prototype.reflect = 'ast_plus';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_plus;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

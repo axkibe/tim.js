@@ -254,6 +254,12 @@ prototype.reflect = 'ast_return';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_return;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

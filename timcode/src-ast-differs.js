@@ -366,6 +366,12 @@ prototype.reflect = 'ast_differs';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_differs;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

@@ -242,6 +242,12 @@ prototype.reflect = 'ast_comment';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_comment;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

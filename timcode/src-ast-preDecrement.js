@@ -254,6 +254,12 @@ prototype.reflect = 'ast_preDecrement';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_preDecrement;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

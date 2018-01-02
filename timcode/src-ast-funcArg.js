@@ -210,6 +210,12 @@ prototype.reflect = 'ast_funcArg';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_funcArg;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

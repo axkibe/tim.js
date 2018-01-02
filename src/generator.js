@@ -2398,6 +2398,8 @@ def.func.genReflection =
 		)
 		.$comment( 'Reflection.' )
 		.$( 'prototype.reflect = ', this.id.$pathName )
+		.$comment( 'Type reflection.' )
+		.$( 'prototype.type = ', this.id.$global )
 	);
 };
 

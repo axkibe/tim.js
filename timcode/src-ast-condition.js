@@ -478,6 +478,12 @@ prototype.reflect = 'ast_condition';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_condition;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

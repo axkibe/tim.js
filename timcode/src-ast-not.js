@@ -254,6 +254,12 @@ prototype.reflect = 'ast_not';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_not;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

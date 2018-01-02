@@ -216,6 +216,12 @@ prototype.reflect = 'jsLexer_token';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = jsLexer_token;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

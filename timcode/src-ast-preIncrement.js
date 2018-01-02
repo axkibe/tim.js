@@ -254,6 +254,12 @@ prototype.reflect = 'ast_preIncrement';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_preIncrement;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

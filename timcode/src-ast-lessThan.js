@@ -366,6 +366,12 @@ prototype.reflect = 'ast_lessThan';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_lessThan;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

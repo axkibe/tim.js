@@ -366,6 +366,12 @@ prototype.reflect = 'ast_equals';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_equals;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

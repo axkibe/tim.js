@@ -394,6 +394,12 @@ prototype.reflect = 'ast_switch';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_switch;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

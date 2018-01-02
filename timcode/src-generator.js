@@ -221,6 +221,12 @@ prototype.reflect = 'generator';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = generator;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

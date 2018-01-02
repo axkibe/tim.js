@@ -170,6 +170,12 @@ prototype.reflect = 'ast_boolean';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_boolean;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

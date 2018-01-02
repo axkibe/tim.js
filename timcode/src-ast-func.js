@@ -320,6 +320,12 @@ prototype.reflect = 'ast_func';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_func;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

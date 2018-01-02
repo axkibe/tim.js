@@ -202,6 +202,12 @@ prototype.reflect = 'idGroup';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = idGroup;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

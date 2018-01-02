@@ -366,6 +366,12 @@ prototype.reflect = 'ast_multiply';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_multiply;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

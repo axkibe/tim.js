@@ -340,6 +340,12 @@ prototype.reflect = 'ast_block';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_block;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

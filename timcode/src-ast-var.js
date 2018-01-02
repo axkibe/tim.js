@@ -176,6 +176,12 @@ prototype.reflect = 'ast_var';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_var;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

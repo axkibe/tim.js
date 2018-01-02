@@ -170,6 +170,12 @@ prototype.reflect = 'ast_number';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_number;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

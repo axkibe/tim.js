@@ -318,6 +318,12 @@ prototype.reflect = 'ast_arrayLiteral';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_arrayLiteral;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

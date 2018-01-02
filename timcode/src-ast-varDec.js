@@ -288,6 +288,12 @@ prototype.reflect = 'ast_varDec';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_varDec;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;

@@ -324,6 +324,12 @@ prototype.reflect = 'ast_if';
 
 
 /*
+| Type reflection.
+*/
+prototype.type = ast_if;
+
+
+/*
 | Sets values by path.
 */
 prototype.setPath = tim_proto.setPath;
