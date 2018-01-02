@@ -425,7 +425,7 @@ prototype.reflect = 'ast_objLiteral';
 /*
 | Type reflection.
 */
-prototype.type = ast_objLiteral;
+prototype.timtype = ast_objLiteral;
 
 
 /*

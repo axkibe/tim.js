@@ -256,7 +256,7 @@ prototype.reflect = 'ast_negate';
 /*
 | Type reflection.
 */
-prototype.type = ast_negate;
+prototype.timtype = ast_negate;
 
 
 /*

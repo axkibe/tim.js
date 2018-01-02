@@ -368,7 +368,7 @@ prototype.reflect = 'ast_member';
 /*
 | Type reflection.
 */
-prototype.type = ast_member;
+prototype.timtype = ast_member;
 
 
 /*

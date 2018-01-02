@@ -256,7 +256,7 @@ prototype.reflect = 'ast_postIncrement';
 /*
 | Type reflection.
 */
-prototype.type = ast_postIncrement;
+prototype.timtype = ast_postIncrement;
 
 
 /*

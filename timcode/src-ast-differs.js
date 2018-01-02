@@ -368,7 +368,7 @@ prototype.reflect = 'ast_differs';
 /*
 | Type reflection.
 */
-prototype.type = ast_differs;
+prototype.timtype = ast_differs;
 
 
 /*

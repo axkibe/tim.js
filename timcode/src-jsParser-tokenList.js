@@ -344,7 +344,7 @@ prototype.reflect = 'jsParser_tokenList';
 /*
 | Type reflection.
 */
-prototype.type = jsParser_tokenList;
+prototype.timtype = jsParser_tokenList;
 
 
 /*

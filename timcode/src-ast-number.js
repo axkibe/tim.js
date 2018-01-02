@@ -172,7 +172,7 @@ prototype.reflect = 'ast_number';
 /*
 | Type reflection.
 */
-prototype.type = ast_number;
+prototype.timtype = ast_number;
 
 
 /*

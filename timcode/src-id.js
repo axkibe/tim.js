@@ -276,7 +276,7 @@ prototype.reflect = 'id';
 /*
 | Type reflection.
 */
-prototype.type = id;
+prototype.timtype = id;
 
 
 /*

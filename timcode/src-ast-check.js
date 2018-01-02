@@ -180,7 +180,7 @@ prototype.reflect = 'ast_check';
 /*
 | Type reflection.
 */
-prototype.type = ast_check;
+prototype.timtype = ast_check;
 
 
 /*

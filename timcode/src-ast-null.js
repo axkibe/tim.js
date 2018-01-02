@@ -131,7 +131,7 @@ prototype.reflect = 'ast_null';
 /*
 | Type reflection.
 */
-prototype.type = ast_null;
+prototype.timtype = ast_null;
 
 
 /*

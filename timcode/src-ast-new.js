@@ -183,7 +183,7 @@ prototype.reflect = 'ast_new';
 /*
 | Type reflection.
 */
-prototype.type = ast_new;
+prototype.timtype = ast_new;
 
 
 /*

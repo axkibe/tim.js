@@ -334,7 +334,7 @@ prototype.reflect = 'ast_forIn';
 /*
 | Type reflection.
 */
-prototype.type = ast_forIn;
+prototype.timtype = ast_forIn;
 
 
 /*

@@ -244,7 +244,7 @@ prototype.reflect = 'path';
 /*
 | Type reflection.
 */
-prototype.type = path;
+prototype.timtype = path;
 
 
 /*

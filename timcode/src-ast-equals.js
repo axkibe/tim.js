@@ -368,7 +368,7 @@ prototype.reflect = 'ast_equals';
 /*
 | Type reflection.
 */
-prototype.type = ast_equals;
+prototype.timtype = ast_equals;
 
 
 /*

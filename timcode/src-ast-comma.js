@@ -368,7 +368,7 @@ prototype.reflect = 'ast_comma';
 /*
 | Type reflection.
 */
-prototype.type = ast_comma;
+prototype.timtype = ast_comma;
 
 
 /*

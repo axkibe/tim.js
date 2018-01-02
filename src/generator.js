@@ -2399,7 +2399,7 @@ def.func.genReflection =
 		.$comment( 'Reflection.' )
 		.$( 'prototype.reflect = ', this.id.$pathName )
 		.$comment( 'Type reflection.' )
-		.$( 'prototype.type = ', this.id.$global )
+		.$( 'prototype.timtype = ', this.id.$global )
 	);
 };
 
@@ -3010,7 +3010,7 @@ def.func.genAlike =
 					false
 				);
 
-			cond = cond === null ? ceq : $( cond, '&&', ceq );
+			cond = cond ? $( cond, '&&', ceq ) : ceq;
 		}
 
 		block = block.$( 'return', cond );

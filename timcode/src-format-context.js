@@ -293,7 +293,7 @@ prototype.reflect = 'format_context';
 /*
 | Type reflection.
 */
-prototype.type = format_context;
+prototype.timtype = format_context;
 
 
 /*

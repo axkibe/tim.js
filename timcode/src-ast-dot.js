@@ -294,7 +294,7 @@ prototype.reflect = 'ast_dot';
 /*
 | Type reflection.
 */
-prototype.type = ast_dot;
+prototype.timtype = ast_dot;
 
 
 /*

@@ -256,7 +256,7 @@ prototype.reflect = 'ast_return';
 /*
 | Type reflection.
 */
-prototype.type = ast_return;
+prototype.timtype = ast_return;
 
 
 /*

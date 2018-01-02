@@ -436,7 +436,7 @@ prototype.reflect = 'ast_call';
 /*
 | Type reflection.
 */
-prototype.type = ast_call;
+prototype.timtype = ast_call;
 
 
 /*

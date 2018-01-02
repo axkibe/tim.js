@@ -342,7 +342,7 @@ prototype.reflect = 'ast_block';
 /*
 | Type reflection.
 */
-prototype.type = ast_block;
+prototype.timtype = ast_block;
 
 
 /*

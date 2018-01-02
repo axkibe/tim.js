@@ -256,7 +256,7 @@ prototype.reflect = 'ast_delete';
 /*
 | Type reflection.
 */
-prototype.type = ast_delete;
+prototype.timtype = ast_delete;
 
 
 /*

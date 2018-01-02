@@ -244,7 +244,7 @@ prototype.reflect = 'stringList';
 /*
 | Type reflection.
 */
-prototype.type = stringList;
+prototype.timtype = stringList;
 
 
 /*

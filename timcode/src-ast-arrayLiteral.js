@@ -320,7 +320,7 @@ prototype.reflect = 'ast_arrayLiteral';
 /*
 | Type reflection.
 */
-prototype.type = ast_arrayLiteral;
+prototype.timtype = ast_arrayLiteral;
 
 
 /*

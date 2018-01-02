@@ -368,7 +368,7 @@ prototype.reflect = 'ast_divideAssign';
 /*
 | Type reflection.
 */
-prototype.type = ast_divideAssign;
+prototype.timtype = ast_divideAssign;
 
 
 /*

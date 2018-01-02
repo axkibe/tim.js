@@ -247,7 +247,7 @@ prototype.reflect = 'jsLexer_tokenList';
 /*
 | Type reflection.
 */
-prototype.type = jsLexer_tokenList;
+prototype.timtype = jsLexer_tokenList;
 
 
 /*

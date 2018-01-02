@@ -480,7 +480,7 @@ prototype.reflect = 'ast_condition';
 /*
 | Type reflection.
 */
-prototype.type = ast_condition;
+prototype.timtype = ast_condition;
 
 
 /*

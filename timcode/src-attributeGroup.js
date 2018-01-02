@@ -204,7 +204,7 @@ prototype.reflect = 'attributeGroup';
 /*
 | Type reflection.
 */
-prototype.type = attributeGroup;
+prototype.timtype = attributeGroup;
 
 
 /*

@@ -172,7 +172,7 @@ prototype.reflect = 'ast_boolean';
 /*
 | Type reflection.
 */
-prototype.type = ast_boolean;
+prototype.timtype = ast_boolean;
 
 
 /*

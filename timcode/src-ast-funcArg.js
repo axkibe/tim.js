@@ -212,7 +212,7 @@ prototype.reflect = 'ast_funcArg';
 /*
 | Type reflection.
 */
-prototype.type = ast_funcArg;
+prototype.timtype = ast_funcArg;
 
 
 /*

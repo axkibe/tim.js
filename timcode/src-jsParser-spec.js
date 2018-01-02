@@ -288,7 +288,7 @@ prototype.reflect = 'jsParser_tokenSpec';
 /*
 | Type reflection.
 */
-prototype.type = jsParser_tokenSpec;
+prototype.timtype = jsParser_tokenSpec;
 
 
 /*

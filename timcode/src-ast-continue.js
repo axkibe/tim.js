@@ -131,7 +131,7 @@ prototype.reflect = 'ast_continue';
 /*
 | Type reflection.
 */
-prototype.type = ast_continue;
+prototype.timtype = ast_continue;
 
 
 /*

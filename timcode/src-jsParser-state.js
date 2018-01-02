@@ -350,7 +350,7 @@ prototype.reflect = 'jsParser_state';
 /*
 | Type reflection.
 */
-prototype.type = jsParser_state;
+prototype.timtype = jsParser_state;
 
 
 /*

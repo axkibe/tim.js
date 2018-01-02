@@ -360,7 +360,7 @@ prototype.reflect = 'ast_case';
 /*
 | Type reflection.
 */
-prototype.type = ast_case;
+prototype.timtype = ast_case;
 
 
 /*

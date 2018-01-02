@@ -368,7 +368,7 @@ prototype.reflect = 'ast_multiply';
 /*
 | Type reflection.
 */
-prototype.type = ast_multiply;
+prototype.timtype = ast_multiply;
 
 
 /*

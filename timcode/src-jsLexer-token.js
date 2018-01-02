@@ -218,7 +218,7 @@ prototype.reflect = 'jsLexer_token';
 /*
 | Type reflection.
 */
-prototype.type = jsLexer_token;
+prototype.timtype = jsLexer_token;
 
 
 /*

@@ -368,7 +368,7 @@ prototype.reflect = 'ast_lessThan';
 /*
 | Type reflection.
 */
-prototype.type = ast_lessThan;
+prototype.timtype = ast_lessThan;
 
 
 /*

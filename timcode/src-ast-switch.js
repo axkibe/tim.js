@@ -396,7 +396,7 @@ prototype.reflect = 'ast_switch';
 /*
 | Type reflection.
 */
-prototype.type = ast_switch;
+prototype.timtype = ast_switch;
 
 
 /*

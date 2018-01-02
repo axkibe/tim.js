@@ -176,7 +176,7 @@ prototype.reflect = 'ast_string';
 /*
 | Type reflection.
 */
-prototype.type = ast_string;
+prototype.timtype = ast_string;
 
 
 /*

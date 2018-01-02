@@ -556,7 +556,7 @@ prototype.reflect = 'attribute';
 /*
 | Type reflection.
 */
-prototype.type = attribute;
+prototype.timtype = attribute;
 
 
 /*

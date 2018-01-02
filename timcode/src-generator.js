@@ -223,7 +223,7 @@ prototype.reflect = 'generator';
 /*
 | Type reflection.
 */
-prototype.type = generator;
+prototype.timtype = generator;
 
 
 /*

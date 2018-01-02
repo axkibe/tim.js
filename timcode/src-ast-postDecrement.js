@@ -256,7 +256,7 @@ prototype.reflect = 'ast_postDecrement';
 /*
 | Type reflection.
 */
-prototype.type = ast_postDecrement;
+prototype.timtype = ast_postDecrement;
 
 
 /*

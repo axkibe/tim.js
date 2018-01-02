@@ -256,7 +256,7 @@ prototype.reflect = 'ast_preIncrement';
 /*
 | Type reflection.
 */
-prototype.type = ast_preIncrement;
+prototype.timtype = ast_preIncrement;
 
 
 /*

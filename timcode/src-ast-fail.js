@@ -254,7 +254,7 @@ prototype.reflect = 'ast_fail';
 /*
 | Type reflection.
 */
-prototype.type = ast_fail;
+prototype.timtype = ast_fail;
 
 
 /*

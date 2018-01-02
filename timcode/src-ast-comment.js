@@ -244,7 +244,7 @@ prototype.reflect = 'ast_comment';
 /*
 | Type reflection.
 */
-prototype.type = ast_comment;
+prototype.timtype = ast_comment;
 
 
 /*

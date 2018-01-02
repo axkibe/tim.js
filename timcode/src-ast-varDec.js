@@ -290,7 +290,7 @@ prototype.reflect = 'ast_varDec';
 /*
 | Type reflection.
 */
-prototype.type = ast_varDec;
+prototype.timtype = ast_varDec;
 
 
 /*
