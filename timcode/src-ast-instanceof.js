@@ -12,12 +12,12 @@ var
 | The typed immutable.
 */
 var
-	ast_and;
+	ast_instanceof;
 
 
-if( !ast_and )
+if( !ast_instanceof )
 {
-	ast_and = { };
+	ast_instanceof = { };
 }
 
 
@@ -25,13 +25,13 @@ if( !NODE )
 {
 /**/if( CHECK )
 /**/{
-/**/	if( timModules.ast_and !== undefined )
+/**/	if( timModules.ast_instanceof !== undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/}
 
-	timModules.ast_and = ast_and;
+	timModules.ast_instanceof = ast_instanceof;
 }
 
 
@@ -88,13 +88,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_and.prototype = prototype;
+ast_instanceof.prototype = prototype;
 
 
 /*
-| Creates a new and object.
+| Creates a new instanceof object.
 */
-ast_and.create =
+ast_instanceof.create =
 prototype.create =
 	function(
 		// free strings
@@ -108,7 +108,7 @@ prototype.create =
 		v_left,
 		v_right;
 
-	if( this !== ast_and )
+	if( this !== ast_instanceof )
 	{
 		inherit = this;
 
@@ -362,13 +362,13 @@ prototype.create =
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_and';
+prototype.reflect = 'ast_instanceof';
 
 
 /*
 | Name Reflection.
 */
-prototype.reflectName = 'and';
+prototype.reflectName = 'instanceof';
 
 
 /*
@@ -401,7 +401,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_and' )
+	if( obj.reflect !== 'ast_instanceof' )
 	{
 		return false;
 	}

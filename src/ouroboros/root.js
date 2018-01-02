@@ -4,7 +4,7 @@
 'use strict';
 
 Error.stackTraceLimit = 99999;
-Error.stackTraceLimit = 20;
+//Error.stackTraceLimit = 20;
 
 global.CHECK = true;
 
@@ -179,8 +179,6 @@ for( let a = 0, aZ = listing.length; a < aZ; a++ )
 				input,
 				{ filename: inFilename }
 			);
-
-		console.log( 'XX2', inFilename );
 
 		const smodule =
 		{
