@@ -70,6 +70,19 @@ var
 	textLen,
 	precTable;
 
+const ast_and = require( '../ast/and' );
+
+const ast_arrayLiteral = require( '../ast/arrayLiteral' );
+
+const ast_assign = require( '../ast/assign' );
+
+const ast_boolean = require( '../ast/boolean' );
+
+const ast_call = require( '../ast/call' );
+
+const ast_comma = require( '../ast/comma' );
+
+const ast_condition = require( '../ast/condition' );
 
 format_context = require( './context' );
 
@@ -144,7 +157,7 @@ formatAnd =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_and' ) throw new Error( );
+/**/	if( expr.timtype !== ast_and ) throw new Error( );
 /**/}
 
 	return(
@@ -178,7 +191,7 @@ formatArrayLiteral =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_arrayLiteral' ) throw new Error( );
+/**/	if( expr.timtype !== ast_arrayLiteral ) throw new Error( );
 /**/}
 
 
@@ -239,7 +252,7 @@ formatAssign =
 		+ ' ='
 		+ context.sep;
 
-	if( assign.right.reflect !== 'ast_assign' )
+	if( assign.right.timtype !== ast_assign )
 	{
 		context = context.incSame;
 	}
@@ -351,7 +364,7 @@ formatBoolean =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_boolean' ) throw new Error( );
+/**/	if( expr.timtype !== ast_boolean ) throw new Error( );
 /**/}
 
 	return (
@@ -381,7 +394,7 @@ formatCall =
 
 /**/if( CHECK )
 /**/{
-/**/	if( call.reflect !== 'ast_call' ) throw new Error( );
+/**/	if( call.timtype !== ast_call ) throw new Error( );
 /**/}
 
 	text =
@@ -492,7 +505,7 @@ formatComma =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_comma' ) throw new Error( );
+/**/	if( expr.timtype !== ast_comma ) throw new Error( );
 /**/}
 
 	text =
@@ -561,7 +574,7 @@ formatCondition =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_condition' ) throw new Error( );
+/**/	if( expr.timtype !== ast_condition ) throw new Error( );
 /**/}
 
 	return (

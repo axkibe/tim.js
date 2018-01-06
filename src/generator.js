@@ -40,6 +40,7 @@ if( TIM )
 	def.init = [ 'timDef' ];
 }
 
+const ast_var = require( './ast/var' );
 
 const tim_id = require( './id' );
 
@@ -106,7 +107,7 @@ def.func._init =
 		function( node )
 	{
 		if(
-			node.reflect === 'ast_var'
+			node.timtype === ast_var
 			&& (
 				node.name.indexOf( '_' ) >= 0
 				|| node.name.indexOf( '$' ) >= 0
@@ -196,7 +197,7 @@ def.func._init =
 
 		let allowsUndefined = false;
 
-		if( aid.reflect === 'idGroup' )
+		if( aid.timtype === tim_idGroup )
 		{
 			if( aid.has( idNull ) )
 			{
@@ -1325,7 +1326,7 @@ def.func.genTypeCheckFailCondition =
 		abstract // if true generate for an abstract constructor
 	)
 {
-	if( idx.reflect === 'id' )
+	if( idx.timtype === tim_id )
 	{
 		return this.genSingleTypeCheckFailCondition( aVar, idx, abstract );
 	}
@@ -1333,7 +1334,7 @@ def.func.genTypeCheckFailCondition =
 
 /**/if( CHECK )
 /**/{
-/**/	if( idx.reflect !== 'idGroup' )	throw new Error( );
+/**/	if( idx.timtype !== tim_idGroup ) throw new Error( );
 /**/}
 
 	if( idx.size === 1 )
@@ -1536,7 +1537,7 @@ def.func.genCreatorPrepares =
 	const transform =
 		function( node )
 	{
-		if( node.reflect === 'ast_var' )
+		if( node.timtype === ast_var )
 		{
 			return(
 				(
@@ -1828,7 +1829,7 @@ def.func.genFromJsonCreatorAttributeParser =
 
 		default :
 
-			if( attr.id.reflect === 'id' )
+			if( attr.id.timtype === tim_id )
 			{
 				code =
 					$(
