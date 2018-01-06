@@ -161,9 +161,7 @@ const formatArrayLiteral =
 			);
 	}
 
-	text += context.tab + ']';
-
-	return text;
+	return text + context.tab + ']';
 };
 
 
@@ -409,22 +407,18 @@ const formatComma =
 		expr
 	)
 {
-	var
-		text;
-
 /**/if( CHECK )
 /**/{
 /**/	if( expr.timtype !== ast_comma ) throw new Error( );
 /**/}
 
-	text =
+	return(
 		formatExpression( context, expr.left, 'ast_comma' )
 		+ ','
 		+ context.sep
 		+ context.tab
-		+ formatExpression( context, expr.right, 'ast_comma' );
-
-	return text;
+		+ formatExpression( context, expr.right, 'ast_comma' )
+	);
 };
 
 
@@ -437,21 +431,11 @@ const formatComment =
 		comment
 	)
 {
-	var
-		a,
-		aZ,
-		c,
-		text;
+	let text = context.tab + '/*' + '\n';
 
-	text = context.tab + '/*' + '\n';
-
-	for(
-		a = 0, aZ = comment.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = comment.length; a < aZ; a++ )
 	{
-		c = comment.get( a );
+		const c = comment.get( a );
 
 		if( c === '' )
 		{
@@ -556,21 +540,17 @@ const formatDiffers =
 		expr
 	)
 {
-	var
-		text;
-
 /**/if( CHECK )
 /**/{
 /**/	if( expr.timtype !== ast_differs ) throw new Error( );
 /**/}
 
-	text =
+	return(
 		formatExpression( context, expr.left, 'ast_differs' )
 		+ context.sep
 		+ context.tab + '!==' + context.sep
-		+ formatExpression( context, expr.right, 'ast_differs' );
-
-	return text;
+		+ formatExpression( context, expr.right, 'ast_differs' )
+	);
 };
 
 
@@ -605,23 +585,19 @@ const formatEquals =
 		expr
 	)
 {
-	var
-		text;
-
 /**/if( CHECK )
 /**/{
 /**/	if( expr.timtype !== ast_equals ) throw new Error( );
 /**/}
 
-	text =
+	return(
 		formatExpression( context, expr.left, 'ast_equals' )
 		+ context.sep
 		+ context.tab
 		+ '==='
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_equals' );
-
-	return text;
+		+ formatExpression( context, expr.right, 'ast_equals' )
+	);
 };
 
 
@@ -713,20 +689,18 @@ const formatFail =
 		fail
 	)
 {
-	var
-		checkContext,
-		messageContext,
-		result;
-
 /**/if( CHECK )
 /**/{
 /**/	if( fail.timtype !== ast_fail ) throw new Error( );
 /**/}
 
-	if( !fail.message )
-	{
-		return context.tab + 'throw new Error( )';
-	}
+	if( !fail.message ) return context.tab + 'throw new Error( )';
+
+	let checkContext;
+
+	let messageContext;
+
+	let result;
 
 	if( context.check )
 	{
@@ -784,13 +758,9 @@ const formatFor =
 		forExpr
 	)
 {
-	var
-		forContext,
-		text;
+	const forContext = context.inc;
 
-	forContext = context.inc;
-
-	text =
+	return(
 		context.tab
 		+ 'for(\n'
 		+ forContext.tab
@@ -804,9 +774,8 @@ const formatFor =
 		+ '\n'
 		+ context.tab
 		+ ')\n'
-		+ formatBlock( context, forExpr.block );
-
-	return text;
+		+ formatBlock( context, forExpr.block )
+	);
 };
 
 
@@ -819,19 +788,15 @@ const formatForIn =
 		expr
 	)
 {
-	var
-		text;
-
-	text =
+	return(
 		context.tab
 		+ 'for( var '
 		+ expr.variable.name
 		+ ' in '
 		+ formatExpression( context.setInline, expr.object, 'ast_in' )
 		+ ' )\n'
-		+ formatBlock( context, expr.block );
-
-	return text;
+		+ formatBlock( context, expr.block )
+	);
 };
 
 
@@ -844,20 +809,12 @@ const formatFunc =
 		func
 	)
 {
-	var
-		a,
-		arg,
-		argSpace,
-		aZ,
-		comma,
-		text;
-
 	if( func.capsule )
 	{
 		return formatCapsuleFunc( context, func );
 	}
 
-	text = context.tab;
+	let text = context.tab;
 
 	if( func.length === 0 )
 	{
@@ -867,17 +824,13 @@ const formatFunc =
 	{
 		text += 'function(' + context.sep;
 
-		for(
-			a = 0, aZ = func.length;
-			a < aZ;
-			a++
-		)
+		for( let a = 0, aZ = func.length; a < aZ; a++ )
 		{
-			arg = func.get( a );
+			const arg = func.get( a );
 
-			comma = a + 1 < aZ ? ',' : '';
+			const comma = a + 1 < aZ ? ',' : '';
 
-			argSpace = arg.name ? ' ' : '';
+			const argSpace = arg.name ? ' ' : '';
 
 			text +=
 				context.inc.tab
@@ -912,21 +865,16 @@ const formatIf =
 		statement
 	)
 {
-	var
-		cond,
-		text;
-
-	cond = statement.condition;
-
-	if( context.inline )
-	{
-		throw 'noinline';
-	}
-
 /**/if( CHECK )
 /**/{
 /**/	if( statement.reflect !== 'ast_if' ) throw new Error( );
 /**/}
+
+	const cond = statement.condition;
+
+	if( context.inline ) throw 'noinline';
+
+	let text;
 
 	try {
 		text =
