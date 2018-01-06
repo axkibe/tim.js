@@ -1,74 +1,12 @@
 /*
 | Formats an AST into a .js file.
 */
-
-
-var
-	format_context,
-	format_formatter;
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-/*
-| Constants.
-*/
-var MAX_TEXT_WIDTH = 79;
+const MAX_TEXT_WIDTH = 79;
 
-
-format_formatter = module.exports;
-
-
-var
-	exprFormatter,
-	formatAnd,
-	formatArrayLiteral,
-	formatAssign,
-	formatBlock,
-	formatBoolean,
-	formatCall,
-	formatCapsuleFunc,
-	formatCheck,
-	formatComma,
-	formatComment,
-	formatCondition,
-	formatContinue,
-	formatDelete,
-	formatDiffers,
-	formatDot,
-	formatDualOp,
-	formatEquals,
-	formatExpression,
-	formatFail,
-	formatFor,
-	formatForIn,
-	formatFunc,
-	formatIf,
-	formatInstanceof,
-	formatMember,
-	formatMonoOp,
-	formatNew,
-	formatNumber,
-	formatNull,
-	formatOpAssign,
-	formatOr,
-	formatPostDecrement,
-	formatPostIncrement,
-	formatPreDecrement,
-	formatPreIncrement,
-	formatReturn,
-	formatStatement,
-	formatString,
-	formatSwitch,
-	formatTypeof,
-	formatVar,
-	formatVarDec,
-	textLen,
-	precTable;
+const format_formatter = module.exports;
 
 const ast_and = require( '../ast/and' );
 
@@ -84,12 +22,24 @@ const ast_comma = require( '../ast/comma' );
 
 const ast_condition = require( '../ast/condition' );
 
-format_context = require( './context' );
+const ast_continue = require( '../ast/continue' );
+
+const ast_delete = require( '../ast/delete' );
+
+const ast_differs = require( '../ast/differs' );
+
+const ast_dot = require( '../ast/dot' );
+
+const ast_equals = require( '../ast/equals' );
+
+const ast_fail = require( '../ast/fail' );
+
+const format_context = require( './context' );
 
 /*
 | Expression precedence table.
 */
-precTable =
+const precTable =
 	{
 		'ast_and' : 13,
 		'ast_arrayLiteral' : -1,
@@ -137,7 +87,7 @@ precTable =
 /*
 | Returns the length of a text
 */
-textLen =
+const textLen =
 	function(
 		txt
 	)
@@ -149,7 +99,7 @@ textLen =
 /*
 | Formats an And.
 */
-formatAnd =
+const formatAnd =
 	function(
 		context,
 		expr
@@ -176,18 +126,13 @@ formatAnd =
 |
 | FUTURE format also inline
 */
-formatArrayLiteral =
+const formatArrayLiteral =
 	function(
 		context,
 		expr
 	)
 {
-	var
-		a,
-		aZ,
-		text;
-
-	text = '';
+	let text = '';
 
 /**/if( CHECK )
 /**/{
@@ -195,23 +140,13 @@ formatArrayLiteral =
 /**/}
 
 
-	if( expr.length === 0 )
-	{
-		return context.tab + '[ ]';
-	}
+	if( expr.length === 0 ) return context.tab + '[ ]';
 
-	if( context.inline )
-	{
-		throw 'noinline';
-	}
+	if( context.inline ) throw 'noinline';
 
 	text += context.tab + '[\n';
 
-	for(
-		a = 0, aZ = expr.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = expr.length; a < aZ; a++ )
 	{
 		text +=
 			formatExpression(
@@ -235,19 +170,13 @@ formatArrayLiteral =
 /*
 | Formats an assignment.
 */
-formatAssign =
+const formatAssign =
 	function(
 		context,
 		assign
 	)
 {
-	var
-		subtext,
-		text;
-
-	text = '';
-
-	text +=
+	let text =
 		formatExpression( context, assign.left, 'ast_assign' )
 		+ ' ='
 		+ context.sep;
@@ -256,6 +185,8 @@ formatAssign =
 	{
 		context = context.incSame;
 	}
+
+	let subtext;
 
 	try
 	{
@@ -298,24 +229,18 @@ formatAssign =
 /*
 | Formats a block.
 */
-formatBlock =
+const formatBlock =
 	function(
 		context,   // the context to format in
 		block,     // the block to format to
 		noBrackets // omit brackets
 	)
 {
-	var
-		a, aZ,
-		blockContext,
-		text;
+	let text = '';
 
-	text = '';
+	if( context.inline && block.length > 1 ) throw 'noinline';
 
-	if( context.inline && block.length > 1 )
-	{
-		throw 'noinline';
-	}
+	let blockContext;
 
 	if( !noBrackets )
 	{
@@ -328,11 +253,7 @@ formatBlock =
 		blockContext = context;
 	}
 
-	for(
-		a = 0, aZ = block.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, aZ = block.length; a < aZ; a++ )
 	{
 		text +=
 			formatStatement(
@@ -355,7 +276,7 @@ formatBlock =
 /*
 | Formats a boolean literal use.
 */
-formatBoolean =
+const formatBoolean =
 	function(
 		context,
 		expr
@@ -381,23 +302,19 @@ formatBoolean =
 /*
 | Formats a call.
 */
-formatCall =
+const formatCall =
 	function(
 		context,
 		call,
 		snuggle
 	)
 {
-	var
-		a, aZ,
-		text;
-
 /**/if( CHECK )
 /**/{
 /**/	if( call.timtype !== ast_call ) throw new Error( );
 /**/}
 
-	text =
+	let text =
 		formatExpression(
 			snuggle ? context.setInline : context,
 			call.func,
@@ -412,11 +329,7 @@ formatCall =
 	{
 		text += '(' + context.sep;
 
-		for(
-			a = 0, aZ = call.length;
-			a < aZ;
-			a++
-		)
+		for( let a = 0, aZ = call.length; a < aZ; a++ )
 		{
 			text += formatExpression( context.inc, call.get( a ) );
 
@@ -440,37 +353,33 @@ formatCall =
 /*
 | Formats a capsule function.
 */
-formatCapsuleFunc =
+const formatCapsuleFunc =
 	function(
 		context,
 		func
 	)
 {
-	var
-		text;
-
 /**/if( CHECK )
 /**/{
 /**/	if( func.length !== 0 ) throw new Error( );
 /**/}
 
-	text =
+	return(
 		'function( ) {\n'
 		+ formatBlock(
 			context.dec.create( 'root', true ),
 			func.block,
 			true
 		)
-		+ '\n\n}';
-
-	return text;
+		+ '\n\n}'
+	);
 };
 
 
 /*
 | Formats a conditional checking code.
 */
-formatCheck =
+const formatCheck =
 	function(
 		context,
 		check
@@ -494,7 +403,7 @@ formatCheck =
 /*
 | Formats a comma operator.
 */
-formatComma =
+const formatComma =
 	function(
 		context,
 		expr
@@ -522,7 +431,7 @@ formatComma =
 /*
 | Formats a comment.
 */
-formatComment =
+const formatComment =
 	function(
 		context,
 		comment
@@ -565,7 +474,7 @@ formatComment =
 |
 | The ? : thing.
 */
-formatCondition =
+const formatCondition =
 	function(
 		context,
 		expr
@@ -598,7 +507,7 @@ formatCondition =
 /*
 | Formats a continue statement.
 */
-formatContinue =
+const formatContinue =
 	function(
 		context,
 		statement
@@ -607,7 +516,7 @@ formatContinue =
 
 /**/if( CHECK )
 /**/{
-/**/	if( statement.reflect !== 'ast_continue' ) throw new Error( );
+/**/	if( statement.timtype !== ast_continue ) throw new Error( );
 /**/}
 
 	return context.tab + 'continue';
@@ -618,7 +527,7 @@ formatContinue =
 /*
 | Formats a delete expression.
 */
-formatDelete =
+const formatDelete =
 	function(
 		context,
 		expr
@@ -627,7 +536,7 @@ formatDelete =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_delete' ) throw new Error( );
+/**/	if( expr.timtype !== ast_delete ) throw new Error( );
 /**/}
 
 	return(
@@ -641,7 +550,7 @@ formatDelete =
 /*
 | Formats a difference check.
 */
-formatDiffers =
+const formatDiffers =
 	function(
 		context,
 		expr
@@ -652,7 +561,7 @@ formatDiffers =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_differs' ) throw new Error( );
+/**/	if( expr.timtype !== ast_differs ) throw new Error( );
 /**/}
 
 	text =
@@ -668,7 +577,7 @@ formatDiffers =
 /*
 | Formats a Dot.
 */
-formatDot =
+const formatDot =
 	function(
 		context,
 		expr
@@ -676,7 +585,7 @@ formatDot =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_dot' ) throw new Error( );
+/**/	if( expr.timtype !== ast_dot ) throw new Error( );
 /**/}
 
 	return(
@@ -690,7 +599,7 @@ formatDot =
 /*
 | Formats an equality check.
 */
-formatEquals =
+const formatEquals =
 	function(
 		context,
 		expr
@@ -701,7 +610,7 @@ formatEquals =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_equals' ) throw new Error( );
+/**/	if( expr.timtype !== ast_equals ) throw new Error( );
 /**/}
 
 	text =
@@ -719,7 +628,7 @@ formatEquals =
 /*
 | Formats an expression.
 */
-formatExpression =
+const formatExpression =
 	function(
 		context, // context to be formated in
 		expr,    // the expression to format
@@ -731,14 +640,11 @@ formatExpression =
 
 	const pprec = precTable[ preflect ];
 
-	if( !prec )
-	{
-		throw new Error( 'cannot handle: ' + expr.reflect );
-	}
+	if( !prec ) throw new Error( );
 
 	const formatter = exprFormatter[ expr.reflect ];
 
-	if( !formatter ) throw new Error( expr.reflect );
+	if( !formatter ) throw new Error( );
 
 	let bracket = pprec !== undefined && prec > pprec;
 
@@ -801,7 +707,7 @@ formatExpression =
 /*
 | Formats a fail statement.
 */
-formatFail =
+const formatFail =
 	function(
 		context,
 		fail
@@ -814,7 +720,7 @@ formatFail =
 
 /**/if( CHECK )
 /**/{
-/**/	if( fail.reflect !== 'ast_fail' ) throw new Error( );
+/**/	if( fail.timtype !== ast_fail ) throw new Error( );
 /**/}
 
 	if( !fail.message )
@@ -872,7 +778,7 @@ formatFail =
 /*
 | Formats a classical for loop.
 */
-formatFor =
+const formatFor =
 	function(
 		context,
 		forExpr
@@ -907,7 +813,7 @@ formatFor =
 /*
 | Formats a for-in loop.
 */
-formatForIn =
+const formatForIn =
 	function(
 		context,
 		expr
@@ -932,7 +838,7 @@ formatForIn =
 /*
 | Formats a function.
 */
-formatFunc =
+const formatFunc =
 	function(
 		context,
 		func
@@ -1000,7 +906,7 @@ formatFunc =
 /*
 | Formats an if statement.
 */
-formatIf =
+const formatIf =
 	function(
 		context,
 		statement
@@ -1067,7 +973,7 @@ formatIf =
 /*
 | Formats an instanceof expression.
 */
-formatInstanceof =
+const formatInstanceof =
 	function(
 		context,
 		expr
@@ -1096,7 +1002,7 @@ formatInstanceof =
 /*
 | Formats a member.
 */
-formatMember =
+const formatMember =
 	function(
 		context,
 		expr
@@ -1122,7 +1028,7 @@ formatMember =
 /*
 | Formats a dualistic operation
 */
-formatDualOp =
+const formatDualOp =
 	function(
 		context,
 		expr
@@ -1164,7 +1070,7 @@ formatDualOp =
 /*
 | Formats a new expression.
 */
-formatNew =
+const formatNew =
 	function(
 		context,
 		expr
@@ -1191,7 +1097,7 @@ formatNew =
 /*
 | Formats a monoistic operator.
 */
-formatMonoOp =
+const formatMonoOp =
 	function(
 		context,
 		expr
@@ -1220,7 +1126,7 @@ formatMonoOp =
 /*
 | Formats a null.
 */
-formatNull =
+const formatNull =
 	function(
 		context,
 		expr
@@ -1238,7 +1144,7 @@ formatNull =
 /*
 | Formats a string literal use.
 */
-formatNumber =
+const formatNumber =
 	function(
 		context,
 		expr
@@ -1257,7 +1163,7 @@ formatNumber =
 /*
 | Formats a logical or.
 */
-formatOr =
+const formatOr =
 	function(
 		context,
 		expr
@@ -1287,7 +1193,7 @@ formatOr =
 /*
 | Formats an operation assignment (+=,-=,*=,/=)
 */
-formatOpAssign =
+const formatOpAssign =
 	function(
 		context,
 		assign
@@ -1350,7 +1256,7 @@ formatOpAssign =
 /*
 | Formats a pre-decrement.
 */
-formatPreDecrement =
+const formatPreDecrement =
 	function(
 		context,
 		expr
@@ -1373,7 +1279,7 @@ formatPreDecrement =
 /*
 | Formats a pre-increment.
 */
-formatPreIncrement =
+const formatPreIncrement =
 	function(
 		context,
 		expr
@@ -1396,7 +1302,7 @@ formatPreIncrement =
 /*
 | Formats a post-decrement.
 */
-formatPostDecrement =
+const formatPostDecrement =
 	function(
 		context,
 		expr
@@ -1418,7 +1324,7 @@ formatPostDecrement =
 /*
 | Formats a post-increment.
 */
-formatPostIncrement =
+const formatPostIncrement =
 	function(
 		context,
 		expr
@@ -1441,7 +1347,7 @@ formatPostIncrement =
 /*
 | Formats a return statement.
 */
-formatReturn =
+const formatReturn =
 	function(
 		context,
 		statement
@@ -1500,7 +1406,7 @@ formatReturn =
 /*
 | Formats a statement.
 */
-formatStatement =
+const formatStatement =
 	function(
 		context,    // context to be formated in
 		statement,  // the statement to be formated
@@ -1724,7 +1630,7 @@ formatStatement =
 /*
 | Formats a string literal.
 */
-formatString =
+const formatString =
 	function(
 		context,
 		expr
@@ -1743,7 +1649,7 @@ formatString =
 /*
 | Formats a switch statement
 */
-formatSwitch =
+const formatSwitch =
 	function(
 		context,
 		switchExpr
@@ -1824,7 +1730,7 @@ formatSwitch =
 /*
 | Formats a typeof expression.
 */
-formatTypeof =
+const formatTypeof =
 	function(
 		context,
 		expr
@@ -1922,7 +1828,7 @@ formatObjLiteral =
 /*
 | Formats a variable use.
 */
-formatVar =
+const formatVar =
 	function(
 		context,
 		expr
@@ -1941,7 +1847,7 @@ formatVar =
 /*
 | Formats a variable declaration.
 */
-formatVarDec =
+const formatVarDec =
 	function(
 		context,
 		varDec,
@@ -2066,7 +1972,7 @@ format_formatter.format =
 /*
 | Table of all expression formatters.
 */
-exprFormatter =
+const exprFormatter =
 {
 	'ast_and' : formatAnd,
 	'ast_arrayLiteral' : formatArrayLiteral,
@@ -2108,6 +2014,3 @@ exprFormatter =
 };
 
 
-
-
-} )( );
