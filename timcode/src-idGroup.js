@@ -175,7 +175,7 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	for( var k in group )
+/**/	for( let k in group )
 /**/	{
 /**/		o = group[ k ];
 /**/
@@ -292,7 +292,7 @@ prototype.equals =
 			return false;
 		}
 
-		for( var k in this._group )
+		for( let k in this._group )
 		{
 			if(
 				this._group[ k ] !== obj._group[ k ]

@@ -314,7 +314,7 @@ prototype.create =
 		(
 			v_variable === inherit.variable
 			||
-			v_variable.reflect && v_variable.equals( inherit.variable )
+			v_variable.timtype && v_variable.equals( inherit.variable )
 		)
 	)
 	{
@@ -388,7 +388,7 @@ prototype.equals =
 		(
 			this.variable === obj.variable
 			||
-			this.variable.reflect && this.variable.equals( obj.variable )
+			this.variable.timtype && this.variable.equals( obj.variable )
 		)
 	);
 };

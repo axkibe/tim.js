@@ -26,6 +26,8 @@ const ast_continue = require( '../ast/continue' );
 
 const ast_delete = require( '../ast/delete' );
 
+const ast_divide = require( '../ast/divide' );
+
 const ast_differs = require( '../ast/differs' );
 
 const ast_dot = require( '../ast/dot' );
@@ -33,6 +35,28 @@ const ast_dot = require( '../ast/dot' );
 const ast_equals = require( '../ast/equals' );
 
 const ast_fail = require( '../ast/fail' );
+
+const ast_greaterThan = require( '../ast/greaterThan' );
+
+const ast_if = require( '../ast/if' );
+
+const ast_instanceof = require( '../ast/instanceof' );
+
+const ast_lessThan = require( '../ast/lessThan' );
+
+const ast_member = require( '../ast/member' );
+
+const ast_minus = require( '../ast/minus' );
+
+const ast_multiply = require( '../ast/multiply' );
+
+const ast_negate = require( '../ast/negate' );
+
+const ast_new = require( '../ast/new' );
+
+const ast_not = require( '../ast/not' );
+
+const ast_plus = require( '../ast/plus' );
 
 const format_context = require( './context' );
 
@@ -790,7 +814,7 @@ const formatForIn =
 {
 	return(
 		context.tab
-		+ 'for( var '
+		+ 'for( let '
 		+ expr.variable.name
 		+ ' in '
 		+ formatExpression( context.setInline, expr.object, 'ast_in' )
@@ -867,7 +891,7 @@ const formatIf =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( statement.reflect !== 'ast_if' ) throw new Error( );
+/**/	if( statement.timtype !== ast_if ) throw new Error( );
 /**/}
 
 	const cond = statement.condition;
@@ -927,23 +951,19 @@ const formatInstanceof =
 		expr
 	)
 {
-	var
-		text;
-
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_instanceof' ) throw new Error( );
+/**/	if( expr.timtype !== ast_instanceof ) throw new Error( );
 /**/}
 
-	text =
+	return(
 		formatExpression( context, expr.left, 'ast_instanceof' )
 		+ context.sep
 		+ context.tab
 		+ 'instanceof'
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_instanceof' );
-
-	return text;
+		+ formatExpression( context, expr.right, 'ast_instanceof' )
+	);
 };
 
 
@@ -958,7 +978,7 @@ const formatMember =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_member' ) throw new Error( );
+/**/	if( expr.timtype !== ast_member ) throw new Error( );
 /**/}
 
 	return (
@@ -973,6 +993,20 @@ const formatMember =
 };
 
 
+let formatDualOpMap = () => {
+	const map = new Map( );
+
+	map.set( ast_divide, '/' );
+	map.set( ast_greaterThan, '>' );
+	map.set( ast_lessThan, '<' );
+	map.set( ast_minus, '-' );
+	map.set( ast_multiply, '*' );
+	map.set( ast_plus, '+' );
+
+	return map;
+};
+
+
 /*
 | Formats a dualistic operation
 */
@@ -982,36 +1016,23 @@ const formatDualOp =
 		expr
 	)
 {
-	var
-		op,
-		text;
-
-	switch( expr.reflect )
+	if( typeof( formatDualOpMap ) === 'function' )
 	{
-		case 'ast_divide' : op = '/'; break;
-
-		case 'ast_greaterThan' : op = '>'; break;
-
-		case 'ast_lessThan' : op = '<'; break;
-
-		case 'ast_minus' : op = '-'; break;
-
-		case 'ast_multiply' : op = '*'; break;
-
-		case 'ast_plus' : op = '+'; break;
-
-		default : throw new Error( );
+		formatDualOpMap = formatDualOpMap( );
 	}
 
-	text =
+	const op = formatDualOpMap.get( expr.timtype );
+
+	if( !op ) throw new Error( );
+
+	return(
 		formatExpression( context, expr.left, expr.reflect )
 		+ context.sep
 		+ context.tab
 		+ op
 		+ context.sep
-		+ formatExpression( context, expr.right, expr.reflect );
-
-	return text;
+		+ formatExpression( context, expr.right, expr.reflect )
+	);
 };
 
 
@@ -1027,7 +1048,7 @@ const formatNew =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_new' ) throw new Error( );
+/**/	if( expr.timtype !== ast_new ) throw new Error( );
 /**/}
 
 	return(
@@ -1051,14 +1072,13 @@ const formatMonoOp =
 		expr
 	)
 {
-	var
-		op;
+	let op;
 
-	switch( expr.reflect )
+	switch( expr.timtype )
 	{
-		case 'ast_negate' : op = '-'; break;
+		case ast_negate : op = '-'; break;
 
-		case 'ast_not' : op = '!'; break;
+		case ast_not : op = '!'; break;
 
 		default : throw new Error( );
 	}
@@ -1905,10 +1925,7 @@ format_formatter.format =
 		block
 	)
 {
-	var
-		context;
-
-	context = format_context.create( 'root', true );
+	const context = format_context.create( 'root', true );
 
 	if( block.reflect === 'ast_block' )
 		return formatBlock( context, block, true );

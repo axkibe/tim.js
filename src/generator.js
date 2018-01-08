@@ -2698,7 +2698,7 @@ def.func.genAttributeEquals =
 
 			if( attr.id.equalsConvention === 'can' )
 			{
-				pn = $( le, '.reflect', '&&', pn );
+				pn = $( le, '.timtype', '&&', pn );
 			}
 
 			pc =
