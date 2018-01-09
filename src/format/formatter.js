@@ -14,6 +14,8 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 const ast_assign = require( '../ast/assign' );
 
+const ast_block = require( '../ast/block' );
+
 const ast_boolean = require( '../ast/boolean' );
 
 const ast_call = require( '../ast/call' );
@@ -696,7 +698,7 @@ const formatExpression =
 
 	// special case, a( ).b would look ugly
 	// as ( a( ) ).b
-	if( preflect === 'ast_dot' && expr.reflect === 'ast_call' )
+	if( preflect === 'ast_dot' && expr.timtype === ast_call )
 	{
 		bracket = false;
 	}
@@ -1581,7 +1583,7 @@ const formatStatement =
 	{
 		case ast_varDec :
 
-			if( lookAhead && lookAhead.reflect === 'ast_varDec' )
+			if( lookAhead && lookAhead.timtype === ast_varDec )
 			{
 				return text += ',\n';
 			}
@@ -1633,7 +1635,7 @@ const formatStatement =
 
 		default :
 
-			throw new Error( statement.reflect );
+			throw new Error( );
 	}
 };
 
@@ -1894,10 +1896,7 @@ const formatVarDec =
 
 	if( !isRootFunc )
 	{
-		if(
-			!lookBehind
-			|| lookBehind.reflect !== 'ast_varDec'
-		)
+		if( !lookBehind || lookBehind.timtype !== ast_varDec )
 		{
 			if( !context.inline )
 			{
@@ -1928,7 +1927,7 @@ const formatVarDec =
 	{
 		text += ' =' + context.sep;
 
-		if( varDec.assign.reflect !== 'ast_assign' )
+		if( varDec.assign.timtype !== ast_assign )
 		{
 			context = context.inc;
 		}
@@ -1970,7 +1969,7 @@ format_formatter.format =
 {
 	const context = format_context.create( 'root', true );
 
-	if( block.reflect === 'ast_block' )
+	if( block.timtype === ast_block )
 		return formatBlock( context, block, true );
 	else
 		return formatStatement( context, block );
