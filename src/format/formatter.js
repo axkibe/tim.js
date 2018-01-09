@@ -46,6 +46,8 @@ const ast_for = require( '../ast/for' );
 
 const ast_forIn = require( '../ast/forIn' );
 
+const ast_func = require( '../ast/func' );
+
 const ast_greaterThan = require( '../ast/greaterThan' );
 
 const ast_if = require( '../ast/if' );
@@ -74,6 +76,8 @@ const ast_null = require( '../ast/null' );
 
 const ast_number = require( '../ast/number' );
 
+const ast_objLiteral = require( '../ast/objLiteral' );
+
 const ast_or = require( '../ast/or' );
 
 const ast_plus = require( '../ast/plus' );
@@ -90,7 +94,13 @@ const ast_preIncrement = require( '../ast/preIncrement' );
 
 const ast_return = require( '../ast/return' );
 
+const ast_string = require( '../ast/string' );
+
 const ast_switch = require( '../ast/switch' );
+
+const ast_typeof = require( '../ast/typeof' );
+
+const ast_var = require( '../ast/var' );
 
 const ast_varDec = require( '../ast/varDec' );
 
@@ -1567,9 +1577,9 @@ const formatStatement =
 			}
 	}
 
-	switch( statement.reflect )
+	switch( statement.timtype )
 	{
-		case 'ast_varDec' :
+		case ast_varDec :
 
 			if( lookAhead && lookAhead.reflect === 'ast_varDec' )
 			{
@@ -1582,42 +1592,42 @@ const formatStatement =
 
 			break;
 
-		case 'ast_assign' :
-		case 'ast_boolean' :
-		case 'ast_call' :
-		case 'ast_continue' :
-		case 'ast_delete' :
-		case 'ast_divide' :
-		case 'ast_dot' :
-		case 'ast_fail' :
-		case 'ast_greaterThan' :
-		case 'ast_lessThan' :
-		case 'ast_member' :
-		case 'ast_minus' :
-		case 'ast_minusAssign' :
-		case 'ast_multiply' :
-		case 'ast_multiplyAssign' :
-		case 'ast_negate' :
-		case 'ast_new' :
-		case 'ast_not' :
-		case 'ast_number' :
-		case 'ast_plus' :
-		case 'ast_plusAssign' :
-		case 'ast_postIncrement' :
-		case 'ast_postDecrement' :
-		case 'ast_preIncrement' :
-		case 'ast_preDecrement' :
-		case 'ast_return' :
-		case 'ast_string' :
-		case 'ast_var' :
+		case ast_assign :
+		case ast_boolean :
+		case ast_call :
+		case ast_continue :
+		case ast_delete :
+		case ast_divide :
+		case ast_dot :
+		case ast_fail :
+		case ast_greaterThan :
+		case ast_lessThan :
+		case ast_member :
+		case ast_minus :
+		case ast_minusAssign :
+		case ast_multiply :
+		case ast_multiplyAssign :
+		case ast_negate :
+		case ast_new :
+		case ast_not :
+		case ast_number :
+		case ast_plus :
+		case ast_plusAssign :
+		case ast_postIncrement :
+		case ast_postDecrement :
+		case ast_preIncrement :
+		case ast_preDecrement :
+		case ast_return :
+		case ast_string :
+		case ast_var :
 
 			return text + ';' + context.sep;
 
-		case 'ast_check' :
-		case 'ast_for' :
-		case 'ast_forIn' :
-		case 'ast_if' :
-		case 'ast_switch' :
+		case ast_check :
+		case ast_for :
+		case ast_forIn :
+		case ast_if :
+		case ast_switch :
 
 			return text + context.sep;
 
@@ -1640,7 +1650,7 @@ const formatString =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_string' ) throw new Error( );
+/**/	if( expr.timtype !== ast_string ) throw new Error( );
 /**/}
 
 	return context.tab + '\'' + expr.string + '\'';
@@ -1740,7 +1750,7 @@ const formatTypeof =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_typeof' ) throw new Error( );
+/**/	if( expr.timtype !== ast_typeof ) throw new Error( );
 /**/}
 
 	return(
@@ -1782,7 +1792,7 @@ formatObjLiteral =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_objLiteral' ) throw new Error( );
+/**/	if( expr.timtype !== ast_objLiteral ) throw new Error( );
 /**/}
 
 
@@ -1838,7 +1848,7 @@ const formatVar =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_var' ) throw new Error( );
+/**/	if( expr.timtype !== ast_var ) throw new Error( );
 /**/}
 
 	return context.tab + expr.name;
@@ -1868,13 +1878,13 @@ const formatVarDec =
 
 	if( context.root && varDec.assign )
 	{
-		if( varDec.assign.reflect === 'ast_func' )
+		if( varDec.assign.timtype === ast_func )
 		{
 			isRootFunc = true;
 		}
 		else if(
-			varDec.assign.reflect === 'ast_assign'
-			&& varDec.assign.right.reflect === 'ast_func'
+			varDec.assign.timtype === ast_assign
+			&& varDec.assign.right.timtype === ast_func
 		)
 		{
 			// FUTURUE allow abitrary amount of assignments
