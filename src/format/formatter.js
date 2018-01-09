@@ -18,7 +18,11 @@ const ast_boolean = require( '../ast/boolean' );
 
 const ast_call = require( '../ast/call' );
 
+const ast_check = require( '../ast/check' );
+
 const ast_comma = require( '../ast/comma' );
+
+const ast_comment = require( '../ast/comment' );
 
 const ast_condition = require( '../ast/condition' );
 
@@ -28,6 +32,8 @@ const ast_delete = require( '../ast/delete' );
 
 const ast_divide = require( '../ast/divide' );
 
+const ast_divideAssign = require( '../ast/divideAssign' );
+
 const ast_differs = require( '../ast/differs' );
 
 const ast_dot = require( '../ast/dot' );
@@ -35,6 +41,10 @@ const ast_dot = require( '../ast/dot' );
 const ast_equals = require( '../ast/equals' );
 
 const ast_fail = require( '../ast/fail' );
+
+const ast_for = require( '../ast/for' );
+
+const ast_forIn = require( '../ast/forIn' );
 
 const ast_greaterThan = require( '../ast/greaterThan' );
 
@@ -48,6 +58,10 @@ const ast_member = require( '../ast/member' );
 
 const ast_minus = require( '../ast/minus' );
 
+const ast_minusAssign = require( '../ast/minusAssign' );
+
+const ast_multiplyAssign = require( '../ast/multiplyAssign' );
+
 const ast_multiply = require( '../ast/multiply' );
 
 const ast_negate = require( '../ast/negate' );
@@ -56,7 +70,29 @@ const ast_new = require( '../ast/new' );
 
 const ast_not = require( '../ast/not' );
 
+const ast_null = require( '../ast/null' );
+
+const ast_number = require( '../ast/number' );
+
+const ast_or = require( '../ast/or' );
+
 const ast_plus = require( '../ast/plus' );
+
+const ast_plusAssign = require( '../ast/plusAssign' );
+
+const ast_postIncrement = require( '../ast/postIncrement' );
+
+const ast_postDecrement = require( '../ast/postDecrement' );
+
+const ast_preDecrement = require( '../ast/preDecrement' );
+
+const ast_preIncrement = require( '../ast/preIncrement' );
+
+const ast_return = require( '../ast/return' );
+
+const ast_switch = require( '../ast/switch' );
+
+const ast_varDec = require( '../ast/varDec' );
 
 const format_context = require( './context' );
 
@@ -1102,7 +1138,7 @@ const formatNull =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_null' ) throw new Error( );
+/**/	if( expr.timtype !== ast_null ) throw new Error( );
 /**/}
 
 	return context.tab + 'null';
@@ -1121,7 +1157,7 @@ const formatNumber =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_number' ) throw new Error( );
+/**/	if( expr.timtype !== ast_number ) throw new Error( );
 /**/}
 
 	return context.tab + '' + expr.number;
@@ -1142,7 +1178,7 @@ const formatOr =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_or' ) throw new Error( );
+/**/	if( expr.timtype !== ast_or ) throw new Error( );
 /**/}
 
 	text =
@@ -1173,15 +1209,15 @@ const formatOpAssign =
 
 	context = context.incSame;
 
-	switch( assign.reflect )
+	switch( assign.timtype )
 	{
-		case 'ast_divideAssign' : op = '/='; break;
+		case ast_divideAssign : op = '/='; break;
 
-		case 'ast_minusAssign' : op = '-='; break;
+		case ast_minusAssign : op = '-='; break;
 
-		case 'ast_multiplyAssign' : op = '*='; break;
+		case ast_multiplyAssign : op = '*='; break;
 
-		case 'ast_plusAssign' : op = '+='; break;
+		case ast_plusAssign : op = '+='; break;
 
 		default : throw new Error( );
 	}
@@ -1233,7 +1269,7 @@ const formatPreDecrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_preDecrement' ) throw new Error( );
+/**/	if( expr.timtype !== ast_preDecrement ) throw new Error( );
 /**/}
 
 	return(
@@ -1256,7 +1292,7 @@ const formatPreIncrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_preIncrement' ) throw new Error( );
+/**/	if( expr.timtype !== ast_preIncrement ) throw new Error( );
 /**/}
 
 	return(
@@ -1279,7 +1315,7 @@ const formatPostDecrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_postDecrement' ) throw new Error( );
+/**/	if( expr.timtype !== ast_postDecrement ) throw new Error( );
 /**/}
 
 	return(
@@ -1301,7 +1337,7 @@ const formatPostIncrement =
 
 /**/if( CHECK )
 /**/{
-/**/	if( expr.reflect !== 'ast_postIncrement' ) throw new Error( );
+/**/	if( expr.timtype !== ast_postIncrement ) throw new Error( );
 /**/}
 
 	return(
@@ -1326,7 +1362,7 @@ const formatReturn =
 
 /**/if( CHECK )
 /**/{
-/**/	if( statement.reflect !== 'ast_return' ) throw new Error( );
+/**/	if( statement.timtype !== ast_return ) throw new Error( );
 /**/}
 
 	try
@@ -1390,10 +1426,10 @@ const formatStatement =
 
 	if(
 		lookBehind
-		&& lookBehind.reflect !== 'ast_comment'
+		&& lookBehind.timtype !== ast_comment
 		&& !(
-			lookBehind.reflect === 'ast_varDec'
-			&& statement.reflect === 'ast_varDec'
+			lookBehind.timtype === ast_varDec
+			&& statement.timtype === ast_varDec
 		)
 	)
 	{
@@ -1411,12 +1447,9 @@ const formatStatement =
 		}
 	}
 
-	if( statement.reflect === 'ast_comment' )
+	if( statement.timtype === ast_comment )
 	{
-		if(
-			lookBehind
-			&& lookBehind.reflect === 'ast_comment'
-		)
+		if( lookBehind && lookBehind.timtype === ast_comment )
 		{
 			text += '\n\n';
 		}
@@ -1426,27 +1459,27 @@ const formatStatement =
 		return text;
 	}
 
-	switch( statement.reflect )
+	switch( statement.timtype )
 	{
-		case 'ast_check' :
+		case ast_check :
 
 			text += formatCheck( context, statement );
 
 			break;
 
-		case 'ast_continue' :
+		case ast_continue :
 
 			text += formatContinue( context, statement );
 
 			break;
 
-		case 'ast_if' :
+		case ast_if :
 
 			text += formatIf( context, statement );
 
 			break;
 
-		case 'ast_fail' :
+		case ast_fail :
 
 			try
 			{
@@ -1474,31 +1507,31 @@ const formatStatement =
 
 			break;
 
-		case 'ast_for' :
+		case ast_for :
 
 			text += formatFor( context, statement );
 
 			break;
 
-		case 'ast_forIn' :
+		case ast_forIn :
 
 			text += formatForIn( context, statement );
 
 			break;
 
-		case 'ast_return' :
+		case ast_return :
 
 			text += formatReturn( context, statement );
 
 			break;
 
-		case 'ast_switch' :
+		case ast_switch :
 
 			text += formatSwitch( context, statement );
 
 			break;
 
-		case 'ast_varDec' :
+		case ast_varDec :
 
 			text += formatVarDec( context, statement, lookBehind );
 
