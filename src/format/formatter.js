@@ -112,48 +112,49 @@ const format_context = require( './context' );
 | Expression precedence table.
 */
 const precTable =
-	{
-		'ast_and' : 13,
-		'ast_arrayLiteral' : -1,
-		'ast_assign' : 17,
-		'ast_boolean' : -1,
-		'ast_call' : 2,
-		'ast_comma' : 18,
-		'ast_condition' : 15,
-		'ast_delete' : 4,
-		'ast_differs' : 9,
-		'ast_divide' : 5,
-		'ast_dot' : 1,
-		'ast_equals' : 9,
+	new Map(
+	[
+		[ ast_and,            13 ],
+		[ ast_arrayLiteral,   -1 ],
+		[ ast_assign,         17 ],
+		[ ast_boolean,        -1 ],
+		[ ast_call,            2 ],
+		[ ast_comma,          18 ],
+		[ ast_condition,      15 ],
+		[ ast_delete,          4 ],
+		[ ast_differs,         9 ],
+		[ ast_divide,          5 ],
+		[ ast_dot,             1 ],
+		[ ast_equals,          9 ],
 		// this is random guess, must be larger than call
 		// so the capsule is generated right.
-		'ast_func' : 3,
-		'ast_greaterThan' : 8,
-		'ast_in' : 8,
-		'ast_instanceof' : 8,
-		'ast_lessThan' : 8,
-		'ast_member' : 1,
-		'ast_minus' : 6,
-		'ast_minusAssign' : 17,
-		'ast_multiply' : 5,
-		'ast_multiplyAssign' : 17,
-		'ast_negate' : 4,
-		'ast_new' : 2,
-		'ast_not' : 4,
-		'ast_null' : -1,
-		'ast_number' : -1,
-		'ast_objLiteral' : -1,
-		'ast_or' : 14,
-		'ast_plus' : 6,
-		'ast_plusAssign' : 17,
-		'ast_postDecrement' : 3,
-		'ast_postIncrement' : 3,
-		'ast_preDecrement' : 4,
-		'ast_preIncrement' : 4,
-		'ast_string' : -1,
-		'ast_typeof' : 4,
-		'ast_var' : -1
-	};
+		[ ast_func,            3 ],
+		[ ast_greaterThan,     8 ],
+//		[ ast_in,              8 ],
+		[ ast_instanceof,      8 ],
+		[ ast_lessThan,        8 ],
+		[ ast_member,          1 ],
+		[ ast_minus,           6 ],
+		[ ast_minusAssign,    17 ],
+		[ ast_multiply,        5 ],
+		[ ast_multiplyAssign, 17 ],
+		[ ast_negate,          4 ],
+		[ ast_new,             2 ],
+		[ ast_not,             4 ],
+		[ ast_null,           -1 ],
+		[ ast_number,         -1 ],
+		[ ast_objLiteral,     -1 ],
+		[ ast_or,             14 ],
+		[ ast_plus,            6 ],
+		[ ast_plusAssign,     17 ],
+		[ ast_postDecrement,   3 ],
+		[ ast_postIncrement,   3 ],
+		[ ast_preDecrement,    4 ],
+		[ ast_preIncrement,    4 ],
+		[ ast_string,         -1 ],
+		[ ast_typeof,          4 ],
+		[ ast_var,            -1 ]
+	] );
 
 
 /*
@@ -183,12 +184,12 @@ const formatAnd =
 /**/}
 
 	return(
-		formatExpression( context, expr.left, 'ast_and')
+		formatExpression( context, expr.left, ast_and )
 		+ context.sep
 		+ context.tab
 		+ '&&'
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_and' )
+		+ formatExpression( context, expr.right, ast_and )
 	);
 };
 
@@ -224,7 +225,7 @@ const formatArrayLiteral =
 			formatExpression(
 				context.inc,
 				expr.get( a ),
-				'ast_arrayLiteral'
+				ast_arrayLiteral
 			)
 			+ (
 				a + 1 < aZ
@@ -247,7 +248,7 @@ const formatAssign =
 	)
 {
 	let text =
-		formatExpression( context, assign.left, 'ast_assign' )
+		formatExpression( context, assign.left, ast_assign )
 		+ ' ='
 		+ context.sep;
 
@@ -265,7 +266,7 @@ const formatAssign =
 			+ formatExpression(
 				context.setInline,
 				assign.right,
-				'ast_assign'
+				ast_assign
 			);
 	}
 	catch( e )
@@ -289,7 +290,7 @@ const formatAssign =
 	}
 	else
 	{
-		text += formatExpression( context, assign.right, 'ast_assign' );
+		text += formatExpression( context, assign.right, ast_assign );
 	}
 
 	return text;
@@ -388,7 +389,7 @@ const formatCall =
 		formatExpression(
 			snuggle ? context.setInline : context,
 			call.func,
-			'ast_call'
+			ast_call
 		);
 
 	if( call.length === 0 )
@@ -485,11 +486,11 @@ const formatComma =
 /**/}
 
 	return(
-		formatExpression( context, expr.left, 'ast_comma' )
+		formatExpression( context, expr.left, ast_comma )
 		+ ','
 		+ context.sep
 		+ context.tab
-		+ formatExpression( context, expr.right, 'ast_comma' )
+		+ formatExpression( context, expr.right, ast_comma )
 	);
 };
 
@@ -543,19 +544,15 @@ const formatCondition =
 /**/}
 
 	return (
-		formatExpression( context, expr.condition, 'ast_condition' )
+		formatExpression( context, expr.condition, ast_condition )
 		+ context.sep
 		+ context.tab
 		+ '? '
-		+ formatExpression(
-			context.setInline,
-			expr.then,
-			'ast_condition'
-		)
+		+ formatExpression( context.setInline, expr.then, ast_condition )
 		+ context.sep
 		+ context.tab
 		+ ': '
-		+ formatExpression( context.setInline, expr.elsewise, 'ast_condition' )
+		+ formatExpression( context.setInline, expr.elsewise, ast_condition )
 	);
 };
 
@@ -598,7 +595,7 @@ const formatDelete =
 	return(
 		context.tab
 		+ 'delete '
-		+ formatExpression( context, expr.expr, 'ast_delete' )
+		+ formatExpression( context, expr.expr, ast_delete )
 	);
 };
 
@@ -618,10 +615,10 @@ const formatDiffers =
 /**/}
 
 	return(
-		formatExpression( context, expr.left, 'ast_differs' )
+		formatExpression( context, expr.left, ast_differs )
 		+ context.sep
 		+ context.tab + '!==' + context.sep
-		+ formatExpression( context, expr.right, 'ast_differs' )
+		+ formatExpression( context, expr.right, ast_differs )
 	);
 };
 
@@ -641,7 +638,7 @@ const formatDot =
 /**/}
 
 	return(
-		formatExpression( context, expr.expr, 'ast_dot' )
+		formatExpression( context, expr.expr, ast_dot )
 		+ '.'
 		+ expr.member
 	);
@@ -663,12 +660,12 @@ const formatEquals =
 /**/}
 
 	return(
-		formatExpression( context, expr.left, 'ast_equals' )
+		formatExpression( context, expr.left, ast_equals )
 		+ context.sep
 		+ context.tab
 		+ '==='
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_equals' )
+		+ formatExpression( context, expr.right, ast_equals )
 	);
 };
 
@@ -680,13 +677,13 @@ const formatExpression =
 	function(
 		context, // context to be formated in
 		expr,    // the expression to format
-		preflect // reflection string of parenting expression
+		ptimtype // reflection string of parenting expression
 		//       // may be undefined
 	)
 {
-	const prec = precTable[ expr.reflect ];
+	const prec = precTable.get( expr.timtype );
 
-	const pprec = precTable[ preflect ];
+	const pprec = precTable.get( ptimtype );
 
 	if( !prec ) throw new Error( );
 
@@ -698,7 +695,7 @@ const formatExpression =
 
 	// special case, a( ).b would look ugly
 	// as ( a( ) ).b
-	if( preflect === 'ast_dot' && expr.timtype === ast_call )
+	if( ptimtype === ast_dot && expr.timtype === ast_call )
 	{
 		bracket = false;
 	}
@@ -865,7 +862,7 @@ const formatForIn =
 		+ 'for( let '
 		+ expr.variable.name
 		+ ' in '
-		+ formatExpression( context.setInline, expr.object, 'ast_in' )
+		+ formatExpression( context.setInline, expr.object, ast_instanceof )
 		+ ' )\n'
 		+ formatBlock( context, expr.block )
 	);
@@ -1005,12 +1002,12 @@ const formatInstanceof =
 /**/}
 
 	return(
-		formatExpression( context, expr.left, 'ast_instanceof' )
+		formatExpression( context, expr.left, ast_instanceof )
 		+ context.sep
 		+ context.tab
 		+ 'instanceof'
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_instanceof' )
+		+ formatExpression( context, expr.right, ast_instanceof )
 	);
 };
 
@@ -1030,7 +1027,7 @@ const formatMember =
 /**/}
 
 	return (
-		formatExpression( context, expr.expr, 'ast_member' )
+		formatExpression( context, expr.expr, ast_member )
 		+ '['
 		+ context.sep
 		+ formatExpression( context.inc, expr.member )
@@ -1074,12 +1071,12 @@ const formatDualOp =
 	if( !op ) throw new Error( );
 
 	return(
-		formatExpression( context, expr.left, expr.reflect )
+		formatExpression( context, expr.left, expr.timtype )
 		+ context.sep
 		+ context.tab
 		+ op
 		+ context.sep
-		+ formatExpression( context, expr.right, expr.reflect )
+		+ formatExpression( context, expr.right, expr.timtype )
 	);
 };
 
@@ -1134,7 +1131,7 @@ const formatMonoOp =
 	return(
 		context.tab
 		+ op
-		+ formatExpression( context, expr.expr, expr.reflect )
+		+ formatExpression( context, expr.expr, expr.timtype )
 	);
 };
 
@@ -1194,12 +1191,12 @@ const formatOr =
 /**/}
 
 	text =
-		formatExpression( context, expr.left, 'ast_or' )
+		formatExpression( context, expr.left, ast_or )
 		+ context.sep
 		+ context.tab
 		+ '||'
 		+ context.sep
-		+ formatExpression( context, expr.right, 'ast_or' );
+		+ formatExpression( context, expr.right, ast_or );
 
 	return text;
 };
@@ -1242,13 +1239,13 @@ const formatOpAssign =
 			formatExpression(
 				context.setInline,
 				assign.left,
-				assign.reflect
+				assign.timtype
 			)
 			+ ' ' + op + ' '
 			+ formatExpression(
 				context.setInline,
 				assign.right,
-				assign.reflect
+				assign.timtype
 			);
 	}
 	catch( e )
@@ -1287,7 +1284,7 @@ const formatPreDecrement =
 	return(
 		context.tab
 		+ '--'
-		+ formatExpression( context, expr.expr, 'ast_preDecrement' )
+		+ formatExpression( context, expr.expr, ast_preDecrement )
 	);
 };
 
@@ -1310,7 +1307,7 @@ const formatPreIncrement =
 	return(
 		context.tab
 		+ '++'
-		+ formatExpression( context, expr.expr, 'ast_preIncrement' )
+		+ formatExpression( context, expr.expr, ast_preIncrement )
 	);
 };
 
@@ -1332,10 +1329,11 @@ const formatPostDecrement =
 
 	return(
 		context.tab
-		+ formatExpression( context, expr.expr, 'ast_postIncrement' )
+		+ formatExpression( context, expr.expr, ast_postIncrement )
 		+ '--'
 	);
 };
+
 
 /*
 | Formats a post-increment.
@@ -1346,7 +1344,6 @@ const formatPostIncrement =
 		expr
 	)
 {
-
 /**/if( CHECK )
 /**/{
 /**/	if( expr.timtype !== ast_postIncrement ) throw new Error( );
@@ -1354,7 +1351,7 @@ const formatPostIncrement =
 
 	return(
 		context.tab
-		+ formatExpression( context, expr.expr, 'ast_postIncrement' )
+		+ formatExpression( context, expr.expr, ast_postIncrement )
 		+ '++'
 	);
 };
@@ -1369,13 +1366,12 @@ const formatReturn =
 		statement
 	)
 {
-	var
-		text;
-
 /**/if( CHECK )
 /**/{
 /**/	if( statement.timtype !== ast_return ) throw new Error( );
 /**/}
+
+	let text;
 
 	try
 	{
@@ -1759,15 +1755,9 @@ const formatTypeof =
 		context.tab
 		+ 'typeof('
 		+ context.sep
-		+ formatExpression(
-			context.inc,
-			expr.expr,
-			precTable.ast_typeof
-		)
-		+
-		context.sep
-		+
-		')'
+		+ formatExpression( context.inc, expr.expr, ast_typeof )
+		+ context.sep
+		+ ')'
 	);
 };
 
