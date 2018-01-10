@@ -21,6 +21,8 @@ if( TIM )
 
 const ast_comment = require( './comment' );
 
+const ast_return = require( './return' );
+
 const parser = require( '../jsParser/parser' );
 
 const shorthand = require( './shorthand' );
@@ -36,12 +38,11 @@ def.func.$ =
 
 	if( ast === undefined ) return this;
 
-	if( ast.reflect === 'ast_block' )
-	{
-		return this.appendList( ast );
-	}
-
-	return this.append( ast );
+	return(
+		ast.timtype === ast_block
+		? this.appendList( ast )
+		: this.append( ast )
+	);
 };
 
 
@@ -106,7 +107,7 @@ def.func.$comment =
 		header
 	)
 {
-	if( header.reflect !== 'ast_comment' )
+	if( header.timtype !== ast_comment )
 	{
 		// arguments have to be a list of strings otherwise
 		header =
@@ -238,7 +239,7 @@ def.func.$return =
 		expr
 	)
 {
-	if( expr.reflect !== 'ast_return' )
+	if( expr.timtype !== ast_return )
 	{
 		expr = shorthand.$return( expr );
 	}
