@@ -204,8 +204,6 @@ def.func._init =
 				aid = aid.create( 'group:remove', 'null' );
 
 				allowsNull = true;
-
-				if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
 			}
 
 			if( aid.has( idUndefined ) )
@@ -213,9 +211,9 @@ def.func._init =
 				aid = aid.create( 'group:remove', 'undefined' );
 
 				allowsUndefined = true;
-
-				if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
 			}
+
+			if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
 		}
 
 		const attr =
@@ -1766,7 +1764,7 @@ def.func.genFromJsonCreatorVariables =
 
 	if( this.hasJson )
 	{
-		if( this.group ) varList.push( 'group', 'k', 'o' );
+		if( this.group ) varList.push( 'jgroup', 'group', 'k', 'o' );
 
 		if( this.list ) varList.push( 'jlist', 'o', 'list', 'r', 'rZ' );
 
@@ -2044,14 +2042,39 @@ def.func.genFromJsonCreatorGroupProcessing =
 
 	let haveNull = false;
 
+	// FIXME dirty workaround
+	if( keyList.length === 1 && keyList[ 0 ] === 'string' )
+	{
+		return(
+			$block( )
+			.$if( '!jgroup', $fail( ) )
+			.$( 'group = jgroup' )
+		);
+	}
+
 	const result =
 		$block( )
 		.$if( '!jgroup', $fail( ) )
 		.$( 'group = { }' );
 
-	let loopSwitch =
-		$switch( 'jgroup[ r ].type' )
-		.$default( $fail( ) );
+	let loopSwitch = $switch( 'jgroup[ k ].type' );
+
+	if( group.get( 'string' ) )
+	{
+		loopSwitch =
+			loopSwitch
+			.$default(
+				$if(
+					$( 'typeof( jgroup[ k ] ) === "string"' ),
+					$( 'group[ k ] = jgroup[ k ]' ),
+					$fail( )
+				)
+			);
+	}
+	else
+	{
+		loopSwitch = loopSwitch.$default( $fail( ) );
+	}
 
 	for( let g = 0, gZ = keyList.length; g < gZ; g++ )
 	{
