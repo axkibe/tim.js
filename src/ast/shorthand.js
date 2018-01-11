@@ -162,7 +162,7 @@ parser = require( '../jsParser/parser' );
 ensureBlock =
 	function( ast )
 {
-	if( ast.reflect === 'ast_block' ) return ast;
+	if( ast.timtype === ast_block ) return ast;
 
 	return ast_block.create( ).append( ast );
 };

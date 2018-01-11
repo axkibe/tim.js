@@ -37,7 +37,7 @@ def.func.$elsewise =
 		elsewise
 	)
 {
-	if( elsewise.reflect !== 'ast_block' )
+	if( elsewise.timtype !== ast_block )
 	{
 		elsewise = ast_block.create( ).append( elsewise );
 	}
