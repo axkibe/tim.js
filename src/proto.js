@@ -424,26 +424,19 @@ tim_proto.groupAddGroup =
 		group
 	)
 {
-	var
-		g,
-		k;
-
 /**/if( CHECK )
 /**/{
-/**/	if( this.reflect !== group.reflect )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( this.timtype !== group.timtype ) throw new Error( );
 /**/}
 
-	g = { };
+	const g = { };
 
-	for( k in this._group )
+	for( let k in this._group )
 	{
 		g[ k ] = this._group[ k ];
 	}
 
-	for( k in group._group )
+	for( let k in group._group )
 	{
 		g[ k ] = group._group[ k ];
 	}

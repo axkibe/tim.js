@@ -4,159 +4,97 @@
 | This parser must not use ast-shorthands,
 | because these are using the parser.
 */
-
-
-var
-	parser;
-
-parser =
-module.exports =
-	{ };
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	ast_and,
-	ast_arrayLiteral,
-	ast_assign,
-	ast_boolean,
-	ast_call,
-	ast_comma,
-	ast_condition,
-	ast_delete,
-	ast_differs,
-	ast_divide,
-	ast_divideAssign,
-	ast_dot,
-	ast_equals,
-	ast_greaterThan,
-	ast_instanceof,
-	ast_lessThan,
-	ast_member,
-	ast_minus,
-	ast_minusAssign,
-	ast_multiply,
-	ast_multiplyAssign,
-	ast_negate,
-	ast_new,
-	ast_not,
-	ast_null,
-	ast_number,
-	ast_objLiteral,
-	ast_or,
-	ast_plus,
-	ast_plusAssign,
-	ast_postDecrement,
-	ast_postIncrement,
-	ast_preDecrement,
-	ast_preIncrement,
-	ast_return,
-	ast_string,
-	ast_typeof,
-	ast_var,
-	getSpec,
-	jion_proto,
-	jsParser_spec,
-	jsParser_tokenList,
-	lexer,
-	parseToken,
-	state,
-	leftSpecs,
-	rightSpecs,
-	statementSpecs;
+let parser = module.exports = { };
 
 
-ast_and = require( '../ast/and' );
+const ast_and = require( '../ast/and' );
 
-ast_arrayLiteral = require( '../ast/arrayLiteral' );
+const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
-ast_assign = require( '../ast/assign' );
+const ast_assign = require( '../ast/assign' );
 
-ast_boolean = require( '../ast/boolean' );
+const ast_boolean = require( '../ast/boolean' );
 
-ast_call = require( '../ast/call' );
+const ast_call = require( '../ast/call' );
 
-ast_comma = require( '../ast/comma' );
+const ast_comma = require( '../ast/comma' );
 
-ast_condition = require( '../ast/condition' );
+const ast_condition = require( '../ast/condition' );
 
-ast_delete = require( '../ast/delete' );
+const ast_delete = require( '../ast/delete' );
 
-ast_differs = require( '../ast/differs' );
+const ast_differs = require( '../ast/differs' );
 
-ast_divide = require( '../ast/divide' );
+const ast_divide = require( '../ast/divide' );
 
-ast_divideAssign = require( '../ast/divideAssign' );
+const ast_divideAssign = require( '../ast/divideAssign' );
 
-ast_dot = require( '../ast/dot' );
+const ast_dot = require( '../ast/dot' );
 
-ast_equals = require( '../ast/equals' );
+const ast_equals = require( '../ast/equals' );
 
-ast_greaterThan = require( '../ast/greaterThan' );
+const ast_greaterThan = require( '../ast/greaterThan' );
 
-ast_instanceof = require( '../ast/instanceof' );
+const ast_instanceof = require( '../ast/instanceof' );
 
-ast_lessThan = require( '../ast/lessThan' );
+const ast_lessThan = require( '../ast/lessThan' );
 
-ast_member = require( '../ast/member' );
+const ast_member = require( '../ast/member' );
 
-ast_minus = require( '../ast/minus' );
+const ast_minus = require( '../ast/minus' );
 
-ast_minusAssign = require( '../ast/minusAssign' );
+const ast_minusAssign = require( '../ast/minusAssign' );
 
-ast_multiply = require( '../ast/multiply' );
+const ast_multiply = require( '../ast/multiply' );
 
-ast_multiplyAssign = require( '../ast/multiplyAssign' );
+const ast_multiplyAssign = require( '../ast/multiplyAssign' );
 
-ast_negate = require( '../ast/negate' );
+const ast_negate = require( '../ast/negate' );
 
-ast_new = require( '../ast/new' );
+const ast_new = require( '../ast/new' );
 
-ast_not = require( '../ast/not' );
+const ast_not = require( '../ast/not' );
 
-ast_null = require( '../ast/null' );
+const ast_null = require( '../ast/null' );
 
-ast_number = require( '../ast/number' );
+const ast_number = require( '../ast/number' );
 
-ast_objLiteral = require( '../ast/objLiteral' );
+const ast_objLiteral = require( '../ast/objLiteral' );
 
-ast_or = require( '../ast/or' );
+const ast_or = require( '../ast/or' );
 
-ast_plus = require( '../ast/plus' );
+const ast_plus = require( '../ast/plus' );
 
-ast_plusAssign = require( '../ast/plusAssign' );
+const ast_plusAssign = require( '../ast/plusAssign' );
 
-ast_preDecrement = require( '../ast/preDecrement' );
+const ast_postDecrement = require( '../ast/postDecrement' );
 
-ast_preIncrement = require( '../ast/preIncrement' );
+const ast_postIncrement = require( '../ast/postIncrement' );
 
-ast_postDecrement = require( '../ast/postDecrement' );
+const ast_preDecrement = require( '../ast/preDecrement' );
 
-ast_postIncrement = require( '../ast/postIncrement' );
+const ast_preIncrement = require( '../ast/preIncrement' );
 
-ast_return = require( '../ast/return' );
+const ast_return = require( '../ast/return' );
 
-ast_string = require( '../ast/string' );
+const ast_string = require( '../ast/string' );
 
-ast_typeof = require( '../ast/typeof' );
+const ast_typeof = require( '../ast/typeof' );
 
-ast_var = require( '../ast/var' );
+const ast_var = require( '../ast/var' );
 
-lexer = require( '../jsLexer/lexer' );
+const lexer = require( '../jsLexer/lexer' );
 
-state = require( './state' );
+const jsLexer_token = require( '../jsLexer/token' );
 
-jion_proto = require( '../proto' );
+const state = require( './state' );
 
-jsParser_tokenList = require( './tokenList' );
+const jsParser_tokenList = require( './tokenList' );
 
-jsParser_spec = require( './spec' );
+const jsParser_spec = require( './spec' );
 
 
 /*
@@ -168,22 +106,13 @@ parser.handleArrayLiteral =
 		spec   // operator spec
 	)
 {
-	var
-		alit,
-		ast;
-
-	ast = state.ast;
-
 /**/if( CHECK )
 /**/{
-/**/	if( state.ast )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( state.ast ) throw new Error( );
 /**/}
 
 	// this is an array literal
-	alit = ast_arrayLiteral.create( );
+	let alit = ast_arrayLiteral.create( );
 
 	state =
 		state.create(
@@ -191,10 +120,7 @@ parser.handleArrayLiteral =
 			'pos', state.pos + 1
 		);
 
-	if( state.reachedEnd )
-	{
-		throw new Error( 'missing "]"' );
-	}
+	if( state.reachedEnd ) throw new Error( 'missing "]"' );
 
 	if( state.current.type !== ']' )
 	{
@@ -267,8 +193,7 @@ parser.handleBooleanLiteral =
 		// spec   // operator spec
 	)
 {
-	var
-		bool;
+	let bool;
 
 	switch( state.current.type )
 	{
@@ -296,21 +221,14 @@ parser.handleCall =
 		spec   // operator spec
 	)
 {
-	var
-		call,
-		ast;
-
-	ast = state.ast;
+	const ast = state.ast;
 
 /**/if( CHECK )
 /**/{
-/**/	if( !ast )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( !ast ) throw new Error( );
 /**/}
 
-	call = ast_call.create( 'func', ast );
+	let call = ast_call.create( 'func', ast );
 
 	state =
 		state.create(
@@ -318,10 +236,7 @@ parser.handleCall =
 			'pos', state.pos + 1
 		);
 
-	if( state.reachedEnd )
-	{
-		throw new Error( 'missing ")"' );
-	}
+	if( state.reachedEnd ) throw new Error( 'missing ")"' );
 
 	if( state.current.type !== ')' )
 	{
@@ -339,10 +254,7 @@ parser.handleCall =
 				&& state.current.type !== ','
 			);
 
-			if( state.reachedEnd )
-			{
-				throw new Error( 'missing ")"' );
-			}
+			if( state.reachedEnd ) throw new Error( 'missing ")"' );
 
 			if( state.ast )
 			{
@@ -363,10 +275,7 @@ parser.handleCall =
 						'pos', state.pos + 1
 					);
 
-				if( state.current.type === ')' )
-				{
-					throw new Error( 'parser error' );
-				}
+				if( state.current.type === ')' ) throw new Error( 'parser error' );
 
 				continue;
 			}
@@ -403,15 +312,9 @@ parser.handleCondition =
 
 /**/if( CHECK )
 /**/{
-/**/	if( !condition )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( !condition ) throw new Error( );
 /**/
-/**/	if( state.current.type !== '?' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( state.current.type !== '?' ) throw new Error( );
 /**/}
 
 	state =
@@ -420,19 +323,13 @@ parser.handleCondition =
 			'pos', state.pos + 1
 		);
 
-	if( state.reachedEnd )
-	{
-		throw new Error( 'parser error' );
-	}
+	if( state.reachedEnd ) throw new Error( 'parser error' );
 
 	state = parseToken( state, spec );
 
 	then = state.ast;
 
-	if( state.current.type !== ':' )
-	{
-		throw new Error( 'missing ":"' );
-	}
+	if( state.current.type !== ':' ) throw new Error( 'missing ":"' );
 
 	state =
 		state.create(
@@ -466,18 +363,11 @@ parser.handleDot =
 		// spec   // operator spec
 	)
 {
-	var
-		ast,
-		name;
+	const ast = state.ast;
 
-	ast = state.ast;
+	if( !ast ) throw new Error( );
 
-	if( !ast )
-	{
-		throw new Error( );
-	}
-
-	name = state.preview;
+	const name = state.preview;
 
 	if( name.type !== 'identifier' ) throw new Error( );
 
@@ -504,15 +394,9 @@ parser.handleDualisticOps =
 		spec   // operator spec
 	)
 {
-	var
-		ast;
+	const ast = state.ast;
 
-	ast = state.ast;
-
-	if( !ast )
-	{
-		throw new Error( 'parser error' );
-	}
+	if( !ast ) throw new Error( 'parser error' );
 
 	state =
 		state.create(
@@ -547,10 +431,7 @@ parser.handleGrouping =
 
 /**/if( CHECK )
 /**/{
-/**/	if( state.ast )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( state.ast ) throw new Error( );
 /**/}
 
 	state =
@@ -612,10 +493,7 @@ parser.handleMember =
 
 /**/if( CHECK )
 /**/{
-/**/	if( !ast )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( !ast ) throw new Error( );
 /**/}
 
 	state =
@@ -656,10 +534,7 @@ parser.handleMonoOps =
 		spec   // operator spec
 	)
 {
-	var
-		ast;
-
-	ast = state.ast;
+	const ast = state.ast;
 
 	if( ast )
 	{
@@ -909,7 +784,7 @@ parser.handleString =
 | Left token specifications for unary operants.
 | They are consulted when the current parse buffer is empty.
 */
-leftSpecs = { };
+const leftSpecs = { };
 
 leftSpecs.identifier =
 	jsParser_spec.create(
@@ -1041,7 +916,7 @@ leftSpecs.start =
 | Right token specifications for unary operants.
 | They are consulted when the current parse buffer is empty.
 */
-rightSpecs = { };
+const rightSpecs = { };
 
 rightSpecs[ '(' ] =
 	jsParser_spec.create(
@@ -1243,7 +1118,7 @@ rightSpecs[ ':' ] =
 /*
 | Statement token specifications.
 */
-statementSpecs = { };
+const statementSpecs = { };
 
 statementSpecs[ 'return' ] =
 	jsParser_spec.create(
@@ -1254,7 +1129,7 @@ statementSpecs[ 'return' ] =
 /*
 | Returns the spec for a state
 */
-getSpec =
+const getSpec =
 	function(
 		state,
 		statement
@@ -1292,7 +1167,7 @@ getSpec =
 /*
 | Parses a token at pos from a tokenList.
 */
-parseToken =
+const parseToken =
 	function(
 		state,
 		spec
@@ -1304,7 +1179,7 @@ parseToken =
 
 	// this is already a preparsed astTree.
 
-	if( !state.ast && state.current.reflect !== 'jsLexer_token' )
+	if( !state.ast && state.current.timtype !== jsLexer_token )
 	{
 		state = state.create( 'ast', state.current, 'pos', state.pos + 1 );
 	}
@@ -1361,7 +1236,7 @@ parser.tokenizeArray =
 
 		if( arg === undefined ) continue;
 
-		if( jion_proto.isString( arg ) )
+		if( typeof( arg ) === 'string' )
 		{
 			tokens = tokens.appendList( lexer.tokenize( arg ) );
 		}
@@ -1426,4 +1301,3 @@ parser.parse =
 };
 
 
-} )( );

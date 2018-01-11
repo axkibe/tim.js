@@ -52,7 +52,7 @@ def.func.$case =
 {
 	let caseExpr;
 
-	if( coc.reflect !== 'ast_case' )
+	if( coc.timtype !== ast_case )
 	{
 		const args = Array.prototype.slice.call( arguments );
 
@@ -60,7 +60,7 @@ def.func.$case =
 
 		let block = parser.parseArray( args );
 
-		if( block.reflect !== 'ast_block' )
+		if( block.timtype !== ast_block )
 		{
 			block = ast_block.create( ).append( block );
 		}
@@ -93,7 +93,7 @@ def.func.$default =
 
 	block = parser.parseArray( arguments );
 
-	if( block.reflect !== 'ast_block' )
+	if( block.timtype !== ast_block )
 	{
 		block = ast_block.create( ).append( block );
 	}

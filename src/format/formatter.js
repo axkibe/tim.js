@@ -677,7 +677,7 @@ const formatExpression =
 	function(
 		context, // context to be formated in
 		expr,    // the expression to format
-		ptimtype // reflection string of parenting expression
+		ptimtype // timtype of parenting expression
 		//       // may be undefined
 	)
 {
@@ -687,7 +687,7 @@ const formatExpression =
 
 	if( !prec ) throw new Error( );
 
-	const formatter = exprFormatter[ expr.reflect ];
+	const formatter = exprFormatter.get( expr.timtype );
 
 	if( !formatter ) throw new Error( );
 
@@ -1970,44 +1970,44 @@ format_formatter.format =
 | Table of all expression formatters.
 */
 const exprFormatter =
-{
-	'ast_and' : formatAnd,
-	'ast_arrayLiteral' : formatArrayLiteral,
-	'ast_assign' : formatAssign,
-	'ast_boolean' : formatBoolean,
-	'ast_call' : formatCall,
-	'ast_comma' : formatComma,
-	'ast_condition' : formatCondition,
-	'ast_delete' : formatDelete,
-	'ast_differs' : formatDiffers,
-	'ast_divide' : formatDualOp,
-	'ast_dot' : formatDot,
-	'ast_equals' : formatEquals,
-	'ast_func' : formatFunc,
-	'ast_greaterThan' : formatDualOp,
-	'ast_instanceof' : formatInstanceof,
-	'ast_lessThan' : formatDualOp,
-	'ast_member' : formatMember,
-	'ast_minus' : formatDualOp,
-	'ast_minusAssign' : formatOpAssign,
-	'ast_multiply' : formatDualOp,
-	'ast_multiplyAssign' : formatOpAssign,
-	'ast_negate' : formatMonoOp,
-	'ast_new' : formatNew,
-	'ast_not' : formatMonoOp,
-	'ast_null' : formatNull,
-	'ast_number' : formatNumber,
-	'ast_objLiteral' : formatObjLiteral,
-	'ast_or' : formatOr,
-	'ast_plus' : formatDualOp,
-	'ast_plusAssign' : formatOpAssign,
-	'ast_postDecrement' : formatPostDecrement,
-	'ast_postIncrement' : formatPostIncrement,
-	'ast_preDecrement' : formatPreDecrement,
-	'ast_preIncrement' : formatPreIncrement,
-	'ast_string' : formatString,
-	'ast_typeof' : formatTypeof,
-	'ast_var' : formatVar
-};
+	new Map( [
+		[ ast_and,            formatAnd           ],
+		[ ast_arrayLiteral,   formatArrayLiteral  ],
+		[ ast_assign,         formatAssign        ],
+		[ ast_boolean,        formatBoolean       ],
+		[ ast_call,           formatCall          ],
+		[ ast_comma,          formatComma         ],
+		[ ast_condition,      formatCondition     ],
+		[ ast_delete,         formatDelete        ],
+		[ ast_differs,        formatDiffers       ],
+		[ ast_divide,         formatDualOp        ],
+		[ ast_dot,            formatDot           ],
+		[ ast_equals,         formatEquals        ],
+		[ ast_func,           formatFunc          ],
+		[ ast_greaterThan,    formatDualOp        ],
+		[ ast_instanceof,     formatInstanceof    ],
+		[ ast_lessThan,       formatDualOp        ],
+		[ ast_member,         formatMember        ],
+		[ ast_minus,          formatDualOp        ],
+		[ ast_minusAssign,    formatOpAssign      ],
+		[ ast_multiply,       formatDualOp        ],
+		[ ast_multiplyAssign, formatOpAssign      ],
+		[ ast_negate,         formatMonoOp        ],
+		[ ast_new,            formatNew           ],
+		[ ast_not,            formatMonoOp        ],
+		[ ast_null,           formatNull          ],
+		[ ast_number,         formatNumber        ],
+		[ ast_objLiteral,     formatObjLiteral    ],
+		[ ast_or,             formatOr            ],
+		[ ast_plus,           formatDualOp        ],
+		[ ast_plusAssign,     formatOpAssign      ],
+		[ ast_postDecrement,  formatPostDecrement ],
+		[ ast_postIncrement,  formatPostIncrement ],
+		[ ast_preDecrement,   formatPreDecrement  ],
+		[ ast_preIncrement,   formatPreIncrement  ],
+		[ ast_string,         formatString        ],
+		[ ast_typeof,         formatTypeof        ],
+		[ ast_var,            formatVar           ]
+	] );
 
 
