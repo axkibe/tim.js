@@ -2,36 +2,46 @@
 
 /*
 | This is in node obviously.
-|
-| FUTURE: Altering globals as package is not nice
-|         but dunno better right now.
 */
-global.NODE = true;
+if( !global.NODE ) throw new Error( );
 
-global.CHECK = !!global.CHECK;
+if( typeof( global.CHECK ) !== 'boolean' ) throw new Error( );
 
 /*
 | If freezing is unconfigured, default to yes
 */
 if( global.FREEZE === undefined ) global.FREEZE = true;
 
-
 /*
 |  The tim module.
 */
-global.tim =
-exports = module.exports;
+exports = global.tim = module.exports;
+
+console.log( module );
+
+tim._timPaths = [ ];
+
+( ( ) => {
+	let path = module.filename.split( '/' );
+	path.pop( );
+	path.pop( );
+	tim._timPaths.push( path.join( '/' ) + '/' );
+} ) ( );
+
+/*
+| Adds a path to the timPaths
+*/
+tim.addPath = ( path ) => tim._timPaths.push( path );
 
 tim.ouroboros = require( './ouroboros' );
 
-const proto =
-exports.proto = require( './proto.js' );
+const proto = exports.proto = require( './proto.js' );
 
 exports.path = require( './path.js' );
 
 exports.pathList = require( './pathList.js' );
 
-exports.stringList = require( './stringList.js' );
+exports.stringList = require( './stringList' );
 
 exports.copy = proto.copy;
 
