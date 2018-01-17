@@ -17,8 +17,6 @@ if( global.FREEZE === undefined ) global.FREEZE = true;
 */
 exports = global.tim = module.exports;
 
-console.log( module );
-
 tim._timPaths = [ ];
 
 ( ( ) => {
