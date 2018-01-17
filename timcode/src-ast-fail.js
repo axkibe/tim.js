@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	ast_fail;
+	ast_fail,
+	_leaf;
 
 
-if( !ast_fail )
+if( !NODE )
 {
-	ast_fail = { };
+	ast_fail = _leaf || { };
 }
 
 

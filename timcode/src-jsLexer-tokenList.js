@@ -13,12 +13,13 @@ var
 | The typed immutable.
 */
 var
-	jsLexer_tokenList;
+	jsLexer_tokenList,
+	_leaf;
 
 
-if( !jsLexer_tokenList )
+if( !NODE )
 {
-	jsLexer_tokenList = { };
+	jsLexer_tokenList = _leaf || { };
 }
 
 

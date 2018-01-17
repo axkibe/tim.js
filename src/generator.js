@@ -398,9 +398,11 @@ def.func.genImports =
 		.$varDec( 'timModules' )
 		.$comment( 'The typed immutable.' )
 		.$varDec( this.id.global )
-		.$if( $( '!', this.id.$global ),
-			$( this.id.$global, '= { }' )
-		);
+		.$varDec( '_leaf' )
+		.$if( '!NODE', $( this.id.$global, '= _leaf || { }' ) );
+//		.$if( $( '!', this.id.$global ),
+//			$( this.id.$global, '= { }' )
+//		);
 
 	result =
 		result

@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	jsParser_tokenSpec;
+	jsParser_tokenSpec,
+	_leaf;
 
 
-if( !jsParser_tokenSpec )
+if( !NODE )
 {
-	jsParser_tokenSpec = { };
+	jsParser_tokenSpec = _leaf || { };
 }
 
 

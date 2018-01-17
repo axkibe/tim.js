@@ -192,13 +192,19 @@ module.exports =
 		lazyFuncStr : { },
 	};
 
+	// FIXME this is a dirty hack
+	const previousTIM = global.TIM;
+
 	global.TIM = true;
 
 	definer( timDef, module.exports );
 
-	global.TIM = false;
+	global.TIM = previousTIM;
 
 	const filename = module.filename;
+
+	// FIXME this here adds too much.
+	tim.tree.addLeaf( filename );
 
 	const timcodeRootDir = findTimCodeRootDir( filename );
 

@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	generator;
+	generator,
+	_leaf;
 
 
-if( !generator )
+if( !NODE )
 {
-	generator = { };
+	generator = _leaf || { };
 }
 
 

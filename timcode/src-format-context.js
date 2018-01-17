@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	format_context;
+	format_context,
+	_leaf;
 
 
-if( !format_context )
+if( !NODE )
 {
-	format_context = { };
+	format_context = _leaf || { };
 }
 
 
