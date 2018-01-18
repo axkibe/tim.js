@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	jsParser_state;
+	jsParser_state,
+	_leaf;
 
 
-if( !jsParser_state )
+if( !NODE )
 {
-	jsParser_state = { };
+	jsParser_state = _leaf || { };
 }
 
 

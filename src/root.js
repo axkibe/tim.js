@@ -17,23 +17,11 @@ if( global.FREEZE === undefined ) global.FREEZE = true;
 */
 exports = global.tim = module.exports;
 
-tim._timPaths = [ ];
-
-( ( ) => {
-	let path = module.filename.split( '/' );
-	path.pop( );
-	path.pop( );
-	tim._timPaths.push( path.join( '/' ) + '/' );
-} ) ( );
-
-/*
-| Adds a path to the timPaths
-*/
-tim.addPath = ( path ) => tim._timPaths.push( path );
-
 tim.ouroboros = require( './ouroboros' );
 
 const proto = exports.proto = require( './proto.js' );
+
+exports.tree = require( './tree/node.js' );
 
 exports.path = require( './path.js' );
 
@@ -59,10 +47,18 @@ exports.aheadValue = proto.aheadValue;
 
 exports.define = require( './define' );
 
+const fs = require( 'fs' );
+
 exports.browserSource =
-	require( 'fs' ).readFileSync(
+	fs.readFileSync(
 		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
 		+ 'browser.js'
+	);
+
+exports.browserTreeSource =
+	fs.readFileSync(
+		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
+		+ 'tree/browser.js'
 	);
 
 if( FREEZE ) Object.freeze( exports );

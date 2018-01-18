@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	idGroup;
+	idGroup,
+	_leaf;
 
 
-if( !idGroup )
+if( !NODE )
 {
-	idGroup = { };
+	idGroup = _leaf || { };
 }
 
 

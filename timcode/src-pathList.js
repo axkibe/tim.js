@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	pathList;
+	pathList,
+	_leaf;
 
 
-if( !pathList )
+if( !NODE )
 {
-	pathList = { };
+	pathList = _leaf || { };
 }
 
 

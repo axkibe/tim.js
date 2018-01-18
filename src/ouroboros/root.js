@@ -20,6 +20,7 @@ global.tim =
 {
 	define : require( '../define' ),
 	proto  : proto,
+	tree : require( '../tree/node' ),
 	aheadValue : proto.aheadValue,
 	ouroborosBuild : true,
 };

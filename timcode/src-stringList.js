@@ -12,12 +12,13 @@ var
 | The typed immutable.
 */
 var
-	stringList;
+	stringList,
+	_leaf;
 
 
-if( !stringList )
+if( !NODE )
 {
-	stringList = { };
+	stringList = _leaf || { };
 }
 
 
