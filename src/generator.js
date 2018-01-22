@@ -2132,6 +2132,16 @@ def.func.genFromJsonCreatorListProcessing =
 
 	const keyList = list.sortedKeys;
 
+	// FIXME dirty workaround
+	if( keyList.length === 1 && keyList[ 0 ] === 'string' )
+	{
+		return(
+			$block( )
+			.$if( '!jlist', $fail( ) )
+			.$( 'list = jlist' )
+		);
+	}
+
 	const result =
 		$block( )
 		.$if( '!jlist', $fail( ) )
