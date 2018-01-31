@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	ast_delete,
-	_leaf;
-
-
-if( !NODE )
-{
-	ast_delete = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.ast_delete !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.ast_delete = ast_delete;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let ast_delete = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -231,15 +200,7 @@ prototype.create =
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		(
-			v_expr === inherit.expr
-			||
-			v_expr.equals( inherit.expr )
-		)
-	)
+	if( inherit && ( v_expr === inherit.expr || v_expr.equals( inherit.expr ) ) )
 	{
 		return inherit;
 	}

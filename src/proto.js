@@ -27,7 +27,10 @@ if( NODE )
 	// FIXME check if this needs to be here
 	tim_proto.source = require( 'fs' ).readFileSync( module.filename );
 }
-
+else
+{
+	tim_proto = { };
+}
 
 
 

@@ -182,6 +182,17 @@ module.exports =
 		definer   // callback to get the timDef
 	)
 {
+	/*
+	const pr = module.require;
+
+	module.require =
+		function( path )
+	{
+		console.log( 'tim.js require', path, 'from', module.filename );
+		return pr.apply( this, arguments );
+	};
+	*/
+
 	const timDef =
 	{
 		static : { },

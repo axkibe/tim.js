@@ -61,16 +61,16 @@ def.lazy.sep =
 
 
 /*
-| Transforms the context into a tab indentation.
+| The tabbed indentation for the context.
 */
 def.lazy.tab =
 	function( )
 {
+	if( this.inline ) return '';
+
 	let indent = this.indent;
 
 	let tab = '';
-
-	if( this.inline ) return '';
 
 	if( this.check )
 	{
@@ -79,7 +79,7 @@ def.lazy.tab =
 		tab += '/**/';
 	}
 
-	for( var a = 0; a < indent; a++ )
+	for( let a = 0; a < indent; a++ )
 	{
 		tab += tabFormat;
 	}

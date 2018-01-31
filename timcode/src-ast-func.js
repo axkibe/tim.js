@@ -3,38 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	ast_funcArg,
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	ast_func,
-	_leaf;
-
-
-if( !NODE )
-{
-	ast_func = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.ast_func !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.ast_func = ast_func;
-}
 
 
 /*
@@ -46,14 +14,15 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	ast_funcArg = require( '../ast/funcArg' );
+let ast_func = NODE ? module.exports : module;
 
-	tim_proto = tim.proto;
-}
+
+let ast_funcArg = require( '../ast/funcArg' );
+
+
+let tim_proto = tim.proto;
 
 
 /*

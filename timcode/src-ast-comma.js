@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	ast_comma,
-	_leaf;
-
-
-if( !NODE )
-{
-	ast_comma = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.ast_comma !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.ast_comma = ast_comma;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let ast_comma = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*

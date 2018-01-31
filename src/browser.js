@@ -10,18 +10,25 @@ var module, pass, tim, tim_proto, TIM;
 
 module = undefined;
 
-tim = tim_proto = { };
+tim = { };
+
+tim.proto = tim_proto;
+
+tim.aheadValue = tim_proto.aheadValue;
+
+tim.aheadFunctionInteger = tim_proto.aheadFunctionInteger;
+
+tim.copy = tim_proto.copy;
+
+tim.hasLazyValueSet = tim_proto.hasLazyValueSet;
+
 
 // global pass flag for creators
-pass = tim_proto.pass = { };
+pass = tim.pass = { };
 
 TIM = false;
 
 tim.ouroboros = { };
-
-
-// all tim modules
-var timModules = { };
 
 
 if( FREEZE ) Object.freeze( pass );
@@ -35,7 +42,7 @@ tim.ouroboros.define =
 		definer   // defined functions
 	)
 {
-	const tim = timModules[ id ];
+	const tim = module;
 
 	const timDef =
 	{

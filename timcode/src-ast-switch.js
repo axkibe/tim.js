@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	ast_switch,
-	_leaf;
-
-
-if( !NODE )
-{
-	ast_switch = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.ast_switch !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.ast_switch = ast_switch;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let ast_switch = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -369,9 +338,7 @@ prototype.create =
 		(
 			v_defaultCase === inherit.defaultCase
 			||
-			v_defaultCase !== undefined
-			&&
-			v_defaultCase.equals( inherit.defaultCase )
+			v_defaultCase !== undefined && v_defaultCase.equals( inherit.defaultCase )
 		)
 		&&
 		(
@@ -519,9 +486,7 @@ prototype.equals =
 		(
 			this.defaultCase === obj.defaultCase
 			||
-			this.defaultCase !== undefined
-			&&
-			this.defaultCase.equals( obj.defaultCase )
+			this.defaultCase !== undefined && this.defaultCase.equals( obj.defaultCase )
 		)
 		&&
 		(

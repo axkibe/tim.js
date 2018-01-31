@@ -4,7 +4,7 @@
 'use strict';
 
 
-const MAX_TEXT_WIDTH = 79;
+const MAX_TEXT_WIDTH = 99;
 
 const format_formatter = module.exports;
 
@@ -27,6 +27,8 @@ const ast_comma = require( '../ast/comma' );
 const ast_comment = require( '../ast/comment' );
 
 const ast_condition = require( '../ast/condition' );
+
+const ast_const = require( '../ast/const' );
 
 const ast_continue = require( '../ast/continue' );
 
@@ -57,6 +59,8 @@ const ast_if = require( '../ast/if' );
 const ast_instanceof = require( '../ast/instanceof' );
 
 const ast_lessThan = require( '../ast/lessThan' );
+
+const ast_let = require( '../ast/let' );
 
 const ast_member = require( '../ast/member' );
 
@@ -165,7 +169,7 @@ const textLen =
 		txt
 	)
 {
-	return txt.replace( '\t', '        ' ).length;
+	return txt.replace( '\t', '    ' ).length;
 };
 
 
@@ -324,14 +328,14 @@ const formatBlock =
 		blockContext = context;
 	}
 
-	for( let a = 0, aZ = block.length; a < aZ; a++ )
+	for( let a = 0, al = block.length; a < al; a++ )
 	{
 		text +=
 			formatStatement(
 				blockContext,
 				block.get( a ),
 				a > 0 ?  block.get( a - 1 ) : undefined,
-				a + 1 < aZ ?  block.get( a + 1 ) : undefined
+				a + 1 < al ?  block.get( a + 1 ) : undefined
 			);
 	}
 
@@ -554,6 +558,49 @@ const formatCondition =
 		+ ': '
 		+ formatExpression( context.setInline, expr.elsewise, ast_condition )
 	);
+};
+
+
+/*
+| Formats a constant variable declaration.
+*/
+const formatConst =
+	function(
+		context,
+		expr
+	)
+{
+	let text = context.tab + 'const ' + expr.name;
+
+	if( expr.assign )
+	{
+		text += ' =' + context.sep;
+
+		if( expr.assign.timtype !== ast_assign ) context = context.inc;
+
+		let aText;
+
+		try
+		{
+			aText =
+				context.tab
+				+ formatExpression( context.setInline, expr.assign );
+		}
+		catch( e )
+		{
+			// rethrows any real error
+			if( e !== 'noinline' ) throw e;
+		}
+
+		if( aText === undefined || textLen( aText ) > MAX_TEXT_WIDTH )
+		{
+			aText = formatExpression( context, expr.assign );
+		}
+
+		text += aText;
+	}
+
+	return text;
 };
 
 
@@ -1013,6 +1060,49 @@ const formatInstanceof =
 
 
 /*
+| Formats a variable declaration.
+*/
+const formatLet =
+	function(
+		context,
+		expr
+	)
+{
+	let text = context.tab + 'let ' + expr.name;
+
+	if( expr.assign )
+	{
+		text += ' =' + context.sep;
+
+		if( expr.assign.timtype !== ast_assign ) context = context.inc;
+
+		let aText;
+
+		try
+		{
+			aText =
+				context.tab
+				+ formatExpression( context.setInline, expr.assign );
+		}
+		catch( e )
+		{
+			// rethrows any real error
+			if( e !== 'noinline' ) throw e;
+		}
+
+		if( aText === undefined || textLen( aText ) > MAX_TEXT_WIDTH )
+		{
+			aText = formatExpression( context, expr.assign );
+		}
+
+		text += aText;
+	}
+
+	return text;
+};
+
+
+/*
 | Formats a member.
 */
 const formatMember =
@@ -1426,19 +1516,14 @@ const formatStatement =
 		lookAhead   // the next statement (or undefined)
 	)
 {
-	var
-		text,
-		subtext;
+	let text = '';
 
-	text = '';
+	let subtext;
 
 	if(
 		lookBehind
 		&& lookBehind.timtype !== ast_comment
-		&& !(
-			lookBehind.timtype === ast_varDec
-			&& statement.timtype === ast_varDec
-		)
+		&& !( lookBehind.timtype === ast_varDec && statement.timtype === ast_varDec )
 	)
 	{
 		text +=
@@ -1475,6 +1560,12 @@ const formatStatement =
 
 			break;
 
+		case ast_const :
+
+			text += formatConst( context, statement );
+
+			break;
+
 		case ast_continue :
 
 			text += formatContinue( context, statement );
@@ -1491,17 +1582,12 @@ const formatStatement =
 
 			try
 			{
-				subtext =
-					context.tab
-					+ formatFail( context.setInline, statement );
+				subtext = context.tab + formatFail( context.setInline, statement );
 			}
 			catch( e )
 			{
 				// rethrows any real error
-				if( e !== 'noinline' )
-				{
-					throw e;
-				}
+				if( e !== 'noinline' ) throw e;
 			}
 
 			if( subtext !== undefined && textLen( subtext ) < MAX_TEXT_WIDTH )
@@ -1524,6 +1610,29 @@ const formatStatement =
 		case ast_forIn :
 
 			text += formatForIn( context, statement );
+
+			break;
+
+		case ast_let :
+
+			try
+			{
+				subtext = context.tab + formatLet( context.setInline, statement );
+			}
+			catch( e )
+			{
+				// rethrows any real error
+				if( e !== 'noinline' ) throw e;
+			}
+
+			if( subtext !== undefined && textLen( subtext ) < MAX_TEXT_WIDTH )
+			{
+				text += subtext;
+			}
+			else
+			{
+				text += formatLet( context, statement );
+			}
 
 			break;
 
@@ -1593,6 +1702,7 @@ const formatStatement =
 		case ast_assign :
 		case ast_boolean :
 		case ast_call :
+		case ast_const :
 		case ast_continue :
 		case ast_delete :
 		case ast_divide :
@@ -1600,6 +1710,7 @@ const formatStatement =
 		case ast_fail :
 		case ast_greaterThan :
 		case ast_lessThan :
+		case ast_let :
 		case ast_member :
 		case ast_minus :
 		case ast_minusAssign :

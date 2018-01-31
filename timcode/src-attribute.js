@@ -3,38 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	ast_var,
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	attribute,
-	_leaf;
-
-
-if( !NODE )
-{
-	attribute = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.attribute !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.attribute = attribute;
-}
 
 
 /*
@@ -46,14 +14,15 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	ast_var = require( './ast/var' );
+let attribute = NODE ? module.exports : module;
 
-	tim_proto = tim.proto;
-}
+
+let ast_var = require( './ast/var' );
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -317,11 +286,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		typeof( v_assign ) !== 'string'
-/**/		&&
-/**/		!( v_assign instanceof String )
-/**/	)
+/**/	if( typeof( v_assign ) !== 'string' && !( v_assign instanceof String ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -455,11 +420,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		typeof( v_name ) !== 'string'
-/**/		&&
-/**/		!( v_name instanceof String )
-/**/	)
+/**/	if( typeof( v_name ) !== 'string' && !( v_name instanceof String ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -471,11 +432,7 @@ prototype.create =
 /**/
 /**/	if( v_prepare !== undefined )
 /**/	{
-/**/		if(
-/**/			typeof( v_prepare ) !== 'string'
-/**/			&&
-/**/			!( v_prepare instanceof String )
-/**/		)
+/**/		if( typeof( v_prepare ) !== 'string' && !( v_prepare instanceof String ) )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -509,9 +466,7 @@ prototype.create =
 		(
 			v_defaultValue === inherit.defaultValue
 			||
-			v_defaultValue !== undefined
-			&&
-			v_defaultValue.equals( inherit.defaultValue )
+			v_defaultValue !== undefined && v_defaultValue.equals( inherit.defaultValue )
 		)
 		&&
 		v_id === inherit.id
@@ -605,9 +560,7 @@ prototype.equals =
 		(
 			this.defaultValue === obj.defaultValue
 			||
-			this.defaultValue !== undefined
-			&&
-			this.defaultValue.equals( obj.defaultValue )
+			this.defaultValue !== undefined && this.defaultValue.equals( obj.defaultValue )
 		)
 		&&
 		this.id === obj.id

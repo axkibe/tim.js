@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	jsParser_tokenList,
-	_leaf;
-
-
-if( !NODE )
-{
-	jsParser_tokenList = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.jsParser_tokenList !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.jsParser_tokenList = jsParser_tokenList;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let jsParser_tokenList = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -241,6 +210,8 @@ prototype.create =
 /**/			&&
 /**/			o.reflect !== 'ast_condition'
 /**/			&&
+/**/			o.reflect !== 'ast_const'
+/**/			&&
 /**/			o.reflect !== 'ast_continue'
 /**/			&&
 /**/			o.reflect !== 'ast_delete'
@@ -270,6 +241,8 @@ prototype.create =
 /**/			o.reflect !== 'ast_instanceof'
 /**/			&&
 /**/			o.reflect !== 'ast_lessThan'
+/**/			&&
+/**/			o.reflect !== 'ast_let'
 /**/			&&
 /**/			o.reflect !== 'ast_member'
 /**/			&&

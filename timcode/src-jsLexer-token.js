@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	jsLexer_token,
-	_leaf;
-
-
-if( !NODE )
-{
-	jsLexer_token = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.jsLexer_token !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.jsLexer_token = jsLexer_token;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let jsLexer_token = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -166,11 +135,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		typeof( v_type ) !== 'string'
-/**/		&&
-/**/		!( v_type instanceof String )
-/**/	)
+/**/	if( typeof( v_type ) !== 'string' && !( v_type instanceof String ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}

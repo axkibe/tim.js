@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	jsParser_state,
-	_leaf;
-
-
-if( !NODE )
-{
-	jsParser_state = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.jsParser_state !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.jsParser_state = jsParser_state;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let jsParser_state = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -197,6 +166,8 @@ prototype.create =
 /**/			&&
 /**/			v_ast.reflect !== 'ast_condition'
 /**/			&&
+/**/			v_ast.reflect !== 'ast_const'
+/**/			&&
 /**/			v_ast.reflect !== 'ast_continue'
 /**/			&&
 /**/			v_ast.reflect !== 'ast_delete'
@@ -226,6 +197,8 @@ prototype.create =
 /**/			v_ast.reflect !== 'ast_instanceof'
 /**/			&&
 /**/			v_ast.reflect !== 'ast_lessThan'
+/**/			&&
+/**/			v_ast.reflect !== 'ast_let'
 /**/			&&
 /**/			v_ast.reflect !== 'ast_member'
 /**/			&&

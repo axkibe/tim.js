@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	jsParser_tokenSpec,
-	_leaf;
-
-
-if( !NODE )
-{
-	jsParser_tokenSpec = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.jsParser_tokenSpec !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.jsParser_tokenSpec = jsParser_tokenSpec;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let jsParser_tokenSpec = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -201,11 +170,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		typeof( v_associativity ) !== 'string'
-/**/		&&
-/**/		!( v_associativity instanceof String )
-/**/	)
+/**/	if( typeof( v_associativity ) !== 'string' && !( v_associativity instanceof String ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -225,11 +190,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		typeof( v_handler ) !== 'string'
-/**/		&&
-/**/		!( v_handler instanceof String )
-/**/	)
+/**/	if( typeof( v_handler ) !== 'string' && !( v_handler instanceof String ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -269,14 +230,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return (
-		new Constructor(
-			v_associativity,
-			v_astCreator,
-			v_handler,
-			v_prec
-		)
-	);
+	return new Constructor( v_associativity, v_astCreator, v_handler, v_prec );
 };
 
 

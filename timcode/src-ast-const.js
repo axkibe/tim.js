@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_varDec = NODE ? module.exports : module;
+let ast_const = NODE ? module.exports : module;
 
 
 let tim_proto = tim.proto;
@@ -58,13 +58,13 @@ Constructor =
 prototype = Constructor.prototype;
 
 
-ast_varDec.prototype = prototype;
+ast_const.prototype = prototype;
 
 
 /*
-| Creates a new varDec object.
+| Creates a new const object.
 */
-ast_varDec.create =
+ast_const.create =
 prototype.create =
 	function(
 		// free strings
@@ -78,7 +78,7 @@ prototype.create =
 		v_assign,
 		v_name;
 
-	if( this !== ast_varDec )
+	if( this !== ast_const )
 	{
 		inherit = this;
 
@@ -250,13 +250,13 @@ prototype.create =
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_varDec';
+prototype.reflect = 'ast_const';
 
 
 /*
 | Type reflection.
 */
-prototype.timtype = ast_varDec;
+prototype.timtype = ast_const;
 
 
 /*
@@ -289,7 +289,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_varDec' )
+	if( obj.reflect !== 'ast_const' )
 	{
 		return false;
 	}

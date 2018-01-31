@@ -3,38 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	ast_call,
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	ast_new,
-	_leaf;
-
-
-if( !NODE )
-{
-	ast_new = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.ast_new !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.ast_new = ast_new;
-}
 
 
 /*
@@ -46,14 +14,15 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	ast_call = require( '../ast/call' );
+let ast_new = NODE ? module.exports : module;
 
-	tim_proto = tim.proto;
-}
+
+let ast_call = require( '../ast/call' );
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -158,15 +127,7 @@ prototype.create =
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		(
-			v_call === inherit.call
-			||
-			v_call.equals( inherit.call )
-		)
-	)
+	if( inherit && ( v_call === inherit.call || v_call.equals( inherit.call ) ) )
 	{
 		return inherit;
 	}

@@ -3,37 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	ast_funcArg,
-	_leaf;
-
-
-if( !NODE )
-{
-	ast_funcArg = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.ast_funcArg !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.ast_funcArg = ast_funcArg;
-}
 
 
 /*
@@ -45,12 +14,12 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	tim_proto = tim.proto;
-}
+let ast_funcArg = NODE ? module.exports : module;
+
+
+let tim_proto = tim.proto;
 
 
 /*
@@ -161,11 +130,7 @@ prototype.create =
 /**/
 /**/	if( v_comment !== undefined )
 /**/	{
-/**/		if(
-/**/			typeof( v_comment ) !== 'string'
-/**/			&&
-/**/			!( v_comment instanceof String )
-/**/		)
+/**/		if( typeof( v_comment ) !== 'string' && !( v_comment instanceof String ) )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -178,24 +143,14 @@ prototype.create =
 /**/
 /**/	if( v_name !== undefined )
 /**/	{
-/**/		if(
-/**/			typeof( v_name ) !== 'string'
-/**/			&&
-/**/			!( v_name instanceof String )
-/**/		)
+/**/		if( typeof( v_name ) !== 'string' && !( v_name instanceof String ) )
 /**/		{
 /**/			throw new Error( );
 /**/		}
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		v_comment === inherit.comment
-		&&
-		v_name === inherit.name
-	)
+	if( inherit && v_comment === inherit.comment && v_name === inherit.name )
 	{
 		return inherit;
 	}

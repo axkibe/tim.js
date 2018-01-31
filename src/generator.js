@@ -370,10 +370,11 @@ def.func.genImports =
 {
 	let result = $block( );
 
-	const imports = this.imports;
+	// const imports = this.imports;
 
-	const idKeys = imports.sortedKeys;
+	// const idKeys = imports.sortedKeys;
 
+	/*
 	for( let a = 0, aZ = idKeys.length; a < aZ; a++ )
 	{
 		const idKey = idKeys[ a ];
@@ -381,6 +382,8 @@ def.func.genImports =
 		let id = imports.get( idKey );
 
 		if( id.isPrimitive ) continue;
+
+		if( id.equals( this.id ) ) continue;
 
 		// no need to require tim itself
 		if( id.packet === 'tim' ) continue;
@@ -391,40 +394,24 @@ def.func.genImports =
 
 		result = result.$varDec( id.global );
 	}
+	*/
 
 	result =
 		result
-		.$varDec( 'tim_proto' )
-		.$varDec( 'timModules' )
 		.$comment( 'The typed immutable.' )
-		.$varDec( this.id.global )
-		.$varDec( '_leaf' )
-		.$if( '!NODE', $( this.id.$global, '= _leaf || { }' ) );
+		.$let( this.id.global, 'NODE ? module.exports : module' );
 //		.$if( $( '!', this.id.$global ),
 //			$( this.id.$global, '= { }' )
 //		);
-
-	result =
-		result
-		.$if( '!NODE',
-			$block( )
-			.$check(
-				$if(
-					$( 'timModules.', this.id.pathName, ' !== undefined' ),
-					$fail( )
-				)
-			)
-			.$( 'timModules.', this.id.pathName,' = ', this.id.$global )
-		);
 
 	return result;
 };
 
 
 /*
-| Generates the node includes.
+| Generates the requires.
 */
-def.func.genNodeIncludes =
+def.func.genRequires =
 	function( )
 {
 	let block = $block( );
@@ -462,47 +449,41 @@ def.func.genNodeIncludes =
 		{
 			block =
 				block
-				.$(
-					id.global, '=',
-					'require( "' + id.packet + '" ).',
-					id.pathName
+				.$let(
+					id.global,
+					$(
+					  'require( "' + id.packet + '" ).',
+					  id.pathName
+					)
 				);
 		}
 		else
 		{
 			block =
 				block
-				.$(
+				.$let(
 					id.global,
-					' = require( "'
-					+ this.id.rootPath
-					+ id.path
-					+ '" )'
+					'require( "' + this.id.rootPath + id.path + '" )'
 				);
 		}
 	}
 
 	if( this.ouroboros )
 	{
-		block =
+		return(
 			block.$(
 				'require( '
 				+ '"'
 				+ this.id.rootPath
 				+ 'proto"'
 				+ ' )'
-			);
+			)
+		);
 	}
 	else
 	{
-		block = block.$( 'tim_proto = tim.proto' );
+		return block.$let( 'tim_proto = tim.proto' );
 	}
-
-	return(
-		$block( )
-		.$comment( 'Node includes.' )
-		.$if( 'NODE', block )
-	);
 };
 
 
@@ -3065,25 +3046,6 @@ def.func.genAlike =
 
 
 /*
-| Returns the generated export block.
-*/
-def.func.genExport =
-	function( )
-{
-	return(
-		$block( )
-		.$comment( 'Export.' )
-		.$varDec( this.id.global )
-		.$if(
-			'NODE',
-			$( this.id.global, ' = module.exports' ),
-			$( this.id.global, ' = { }' )
-		)
-	);
-};
-
-
-/*
 | Generates the preamble.
 */
 def.func.genPreamble =
@@ -3104,7 +3066,8 @@ def.func.genCapsule =
 	let capsule =
 		$block( )
 		.$( '"use strict"' )
-		.$( this.genNodeIncludes( ) )
+		.$( this.genImports( ) )
+		.$( this.genRequires( ) )
 		.$( this.hasAbstract ? this.genConstructor( true ) : undefined )
 		.$( this.genConstructor( false ) );
 
@@ -3174,7 +3137,6 @@ def.static.generate =
 			'',
 			'Editing this might be rather futile.'
 		)
-		.$( gi.genImports( ) )
 		.$( gi.genCapsule( ) );
 
 	return result;

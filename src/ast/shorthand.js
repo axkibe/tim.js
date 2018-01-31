@@ -18,148 +18,102 @@ module.exports =
 'use strict';
 
 
-var
-	ast_and,
-	ast_arrayLiteral,
-	ast_assign,
-	ast_block,
-	ast_boolean,
-	ast_call,
-	ast_check,
-	ast_comma,
-	ast_comment,
-	ast_condition,
-	ast_continue,
-	ast_delete,
-	ast_differs,
-	ast_dot,
-	ast_equals,
-	ast_fail,
-	ast_for,
-	ast_forIn,
-	ast_func,
-	ast_funcArg,
-	ast_greaterThan,
-	ast_if,
-	ast_instanceof,
-	ast_lessThan,
-	ast_member,
-	ast_multiply,
-	ast_multiplyAssign,
-	ast_new,
-	ast_not,
-	ast_null,
-	ast_number,
-	ast_objLiteral,
-	ast_or,
-	ast_plus,
-	ast_plusAssign,
-	ast_preIncrement,
-	ast_return,
-	ast_string,
-	ast_switch,
-	ast_typeof,
-	ast_var,
-	ast_varDec,
-	ensureBlock,
-	parser,
-	jion_proto;
+const ast_and = require( './and' );
 
+const ast_arrayLiteral = require( './arrayLiteral' );
 
-ast_and = require( './and' );
+const ast_assign = require( './assign' );
 
-ast_arrayLiteral = require( './arrayLiteral' );
+const ast_block = require( './block' );
 
-ast_assign = require( './assign' );
+const ast_boolean = require( './boolean' );
 
-ast_block = require( './block' );
+const ast_call = require( './call' );
 
-ast_boolean = require( './boolean' );
+const ast_check = require( './check' );
 
-ast_call = require( './call' );
+const ast_comma = require( './comma' );
 
-ast_check = require( './check' );
+const ast_comment = require( './comment' );
 
-ast_comma = require( './comma' );
+const ast_condition = require( './condition' );
 
-ast_comment = require( './comment' );
+const ast_const = require( './const' );
 
-ast_condition = require( './condition' );
+const ast_continue = require( './continue' );
 
-ast_continue = require( './continue' );
+const ast_delete = require( './delete' );
 
-ast_delete = require( './delete' );
+const ast_differs = require( './differs' );
 
-ast_differs = require( './differs' );
+const ast_dot = require( './dot' );
 
-ast_dot = require( './dot' );
+const ast_equals = require( './equals' );
 
-ast_equals = require( './equals' );
+const ast_fail = require( './fail' );
 
-ast_fail = require( './fail' );
+const ast_for = require( './for' );
 
-ast_for = require( './for' );
+const ast_forIn = require( './forIn' );
 
-ast_forIn = require( './forIn' );
+const ast_func = require( './func' );
 
-ast_func = require( './func' );
+const ast_greaterThan = require( './greaterThan' );
 
-ast_funcArg = require( './funcArg' );
+const ast_if = require( './if' );
 
-ast_greaterThan = require( './greaterThan' );
+const ast_instanceof = require( './instanceof' );
 
-ast_if = require( './if' );
+const ast_lessThan = require( './lessThan' );
 
-ast_instanceof = require( './instanceof' );
+const ast_let = require( './let' );
 
-ast_lessThan = require( './lessThan' );
+const ast_member = require( './member' );
 
-ast_member = require( './member' );
+const ast_multiply = require( './multiply' );
 
-ast_multiply = require( './multiply' );
+const ast_multiplyAssign = require( './multiplyAssign' );
 
-ast_multiplyAssign = require( './multiplyAssign' );
+const ast_new = require( './new' );
 
-ast_new = require( './new' );
+const ast_not = require( './not' );
 
-ast_not = require( './not' );
+const ast_null = require( './null' );
 
-ast_null = require( './null' );
+const ast_number = require( './number' );
 
-ast_number = require( './number' );
+const ast_objLiteral = require( './objLiteral' );
 
-ast_objLiteral = require( './objLiteral' );
+const ast_or = require( './or' );
 
-ast_or = require( './or' );
+const ast_plus = require( './plus' );
 
-ast_plus = require( './plus' );
+const ast_plusAssign = require( './plusAssign' );
 
-ast_plusAssign = require( './plusAssign' );
+const ast_preIncrement = require( './preIncrement' );
 
-ast_preIncrement = require( './preIncrement' );
+const ast_return = require( './return' );
 
-ast_return = require( './return' );
+const ast_string = require( './string' );
 
-ast_string = require( './string' );
+const ast_switch = require( './switch' );
 
-ast_switch = require( './switch' );
+const ast_typeof = require( './typeof' );
 
-ast_typeof = require( './typeof' );
+const ast_var = require( './var' );
 
-ast_var = require( './var' );
+const ast_varDec = require( './varDec' );
 
-ast_varDec = require( './varDec' );
+const jion_proto = require( '../proto' );
 
-jion_proto = require( '../proto' );
-
-parser = require( '../jsParser/parser' );
+const parser = require( '../jsParser/parser' );
 
 
 /*
 | Ensures ast is a block.
 | Ff not appends it to a new block.
 */
-ensureBlock =
+const ensureBlock =
 	function( ast )
 {
 	if( ast.timtype === ast_block ) return ast;
@@ -178,12 +132,9 @@ shorthand.$and =
 		// or more
 	)
 {
-	var
-		args;
-
 	if( arguments.length > 2 )
 	{
-		args = Array.prototype.slice.call( arguments );
+		const args = Array.prototype.slice.call( arguments );
 
 		args.splice(
 			0,
@@ -275,16 +226,9 @@ shorthand.$call =
 		// args
 	)
 {
-	var
-		call;
+	let call = ast_call.create( 'func', parser.parse( func ) );
 
-	call = ast_call.create( 'func', parser.parse( func ) );
-
-	for(
-		var a = 1, aZ = arguments.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 1, al = arguments.length; a < al; a++ )
 	{
 		call = call.$argument( arguments[ a ] );
 	}
@@ -317,12 +261,9 @@ shorthand.$comma =
 		// or more
 	)
 {
-	var
-		args;
-
 	if( arguments.length > 2 )
 	{
-		args = Array.prototype.slice.call( arguments );
+		const args = Array.prototype.slice.call( arguments );
 
 		args.splice(
 			0,
@@ -377,6 +318,27 @@ shorthand.$condition =
 			'condition', parser.parse( condition ),
 			'then', parser.parse( then ),
 			'elsewise', parser.parse( elsewise )
+		)
+	);
+};
+
+
+/*
+| Shorthand for let variable declerations.
+*/
+shorthand.$const =
+	function(
+		name,   // variable name
+		assign  // variable assignment
+	)
+{
+	return(
+		ast_const.create(
+			'name', name,
+			'assign',
+				arguments.length > 1
+				? parser.parse( assign )
+				: undefined
 		)
 	);
 };
@@ -488,6 +450,27 @@ shorthand.$lessThan =
 		ast_lessThan.create(
 			'left', parser.parse( left ),
 			'right', parser.parse( right )
+		)
+	);
+};
+
+
+/*
+| Shorthand for let variable declerations.
+*/
+shorthand.$let =
+	function(
+		name,   // variable name
+		assign  // variable assignment
+	)
+{
+	return(
+		ast_let.create(
+			'name', name,
+			'assign',
+				arguments.length > 1
+				? parser.parse( assign )
+				: undefined
 		)
 	);
 };

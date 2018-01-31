@@ -75,11 +75,7 @@ def.func.$call =
 		// args...
 	)
 {
-	return(
-		this.append(
-			shorthand.$call.apply( shorthand, arguments )
-		)
-	);
+	return this.append( shorthand.$call.apply( shorthand, arguments ) );
 };
 
 
@@ -91,11 +87,7 @@ def.func.$check =
 		// block
 	)
 {
-	return(
-		this.append(
-			shorthand.$check.apply( shorthand, arguments )
-		)
-	);
+	return this.append( shorthand.$check.apply( shorthand, arguments ) );
 };
 
 
@@ -198,13 +190,21 @@ def.func.$forIn =
 		block
 	)
 {
-	return(
-		this.append(
-			shorthand.$forIn( variable, object, block )
-		)
-	);
+	return this.append( shorthand.$forIn( variable, object, block ) );
 };
 
+
+/*
+| Returns the block with a variable decleration appended.
+*/
+def.func.$let =
+	function(
+		// name,   // variable name
+		// assign  // variable assignment
+	)
+{
+	return this.append( shorthand.$let.apply( shorthand, arguments ) );
+};
 
 /*
 | Shorthand for creating new calls.
@@ -257,11 +257,7 @@ def.func.$varDec =
 		// assign  // variable assignment
 	)
 {
-	return(
-		this.append(
-			shorthand.$varDec.apply( shorthand, arguments )
-		)
-	);
+	return this.append( shorthand.$varDec.apply( shorthand, arguments ) );
 };
 
 

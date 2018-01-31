@@ -3,38 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-var
-	jsLexer_token,
-	tim_proto,
-	timModules;
-
-
-/*
-| The typed immutable.
-*/
-var
-	jsLexer_tokenList,
-	_leaf;
-
-
-if( !NODE )
-{
-	jsLexer_tokenList = _leaf || { };
-}
-
-
-if( !NODE )
-{
-/**/if( CHECK )
-/**/{
-/**/	if( timModules.jsLexer_tokenList !== undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/}
-
-	timModules.jsLexer_tokenList = jsLexer_tokenList;
-}
 
 
 /*
@@ -46,14 +14,15 @@ function( ) {
 
 
 /*
-| Node includes.
+| The typed immutable.
 */
-if( NODE )
-{
-	jsLexer_token = require( '../jsLexer/token' );
+let jsLexer_tokenList = NODE ? module.exports : module;
 
-	tim_proto = tim.proto;
-}
+
+let jsLexer_token = require( '../jsLexer/token' );
+
+
+let tim_proto = tim.proto;
 
 
 /*
