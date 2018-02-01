@@ -19,6 +19,9 @@ function( ) {
 let ast_func = NODE ? module.exports : module;
 
 
+let ast_block = require( '../ast/block' );
+
+
 let ast_funcArg = require( '../ast/funcArg' );
 
 
@@ -226,7 +229,7 @@ prototype.create =
 /**/
 /**/	if( v_block !== undefined )
 /**/	{
-/**/		if( v_block.reflect !== 'ast_block' )
+/**/		if( v_block.timtype !== ast_block )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -255,7 +258,7 @@ prototype.create =
 /**/	{
 /**/		o = list[ r ];
 /**/
-/**/		if( o.reflect !== 'ast_funcArg' )
+/**/		if( o.timtype !== ast_funcArg )
 /**/		{
 /**/			throw new Error( );
 /**/		}

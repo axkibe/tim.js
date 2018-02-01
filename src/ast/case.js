@@ -21,7 +21,7 @@ if( TIM )
 		block :
 		{
 			// the statement
-			type : 'jion$ast_block'
+			type : 'ast_block'
 		}
 	};
 

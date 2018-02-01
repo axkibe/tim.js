@@ -19,6 +19,117 @@ function( ) {
 let ast_condition = NODE ? module.exports : module;
 
 
+let ast_and = require( '../ast/and' );
+
+
+let ast_arrayLiteral = require( '../ast/arrayLiteral' );
+
+
+let ast_assign = require( '../ast/assign' );
+
+
+let ast_boolean = require( '../ast/boolean' );
+
+
+let ast_call = require( '../ast/call' );
+
+
+let ast_comma = require( '../ast/comma' );
+
+
+let ast_delete = require( '../ast/delete' );
+
+
+let ast_differs = require( '../ast/differs' );
+
+
+let ast_divide = require( '../ast/divide' );
+
+
+let ast_divideAssign = require( '../ast/divideAssign' );
+
+
+let ast_dot = require( '../ast/dot' );
+
+
+let ast_equals = require( '../ast/equals' );
+
+
+let ast_func = require( '../ast/func' );
+
+
+let ast_greaterThan = require( '../ast/greaterThan' );
+
+
+let ast_instanceof = require( '../ast/instanceof' );
+
+
+let ast_lessThan = require( '../ast/lessThan' );
+
+
+let ast_member = require( '../ast/member' );
+
+
+let ast_minus = require( '../ast/minus' );
+
+
+let ast_minusAssign = require( '../ast/minusAssign' );
+
+
+let ast_multiply = require( '../ast/multiply' );
+
+
+let ast_multiplyAssign = require( '../ast/multiplyAssign' );
+
+
+let ast_negate = require( '../ast/negate' );
+
+
+let ast_new = require( '../ast/new' );
+
+
+let ast_not = require( '../ast/not' );
+
+
+let ast_null = require( '../ast/null' );
+
+
+let ast_number = require( '../ast/number' );
+
+
+let ast_objLiteral = require( '../ast/objLiteral' );
+
+
+let ast_or = require( '../ast/or' );
+
+
+let ast_plus = require( '../ast/plus' );
+
+
+let ast_plusAssign = require( '../ast/plusAssign' );
+
+
+let ast_postDecrement = require( '../ast/postDecrement' );
+
+
+let ast_postIncrement = require( '../ast/postIncrement' );
+
+
+let ast_preDecrement = require( '../ast/preDecrement' );
+
+
+let ast_preIncrement = require( '../ast/preIncrement' );
+
+
+let ast_string = require( '../ast/string' );
+
+
+let ast_typeof = require( '../ast/typeof' );
+
+
+let ast_var = require( '../ast/var' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -149,81 +260,81 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_condition.reflect !== 'ast_and'
+/**/		v_condition.timtype !== ast_and
 /**/		&&
-/**/		v_condition.reflect !== 'ast_arrayLiteral'
+/**/		v_condition.timtype !== ast_arrayLiteral
 /**/		&&
-/**/		v_condition.reflect !== 'ast_assign'
+/**/		v_condition.timtype !== ast_assign
 /**/		&&
-/**/		v_condition.reflect !== 'ast_boolean'
+/**/		v_condition.timtype !== ast_boolean
 /**/		&&
-/**/		v_condition.reflect !== 'ast_call'
+/**/		v_condition.timtype !== ast_call
 /**/		&&
-/**/		v_condition.reflect !== 'ast_comma'
+/**/		v_condition.timtype !== ast_comma
 /**/		&&
-/**/		v_condition.reflect !== 'ast_condition'
+/**/		v_condition.timtype !== ast_condition
 /**/		&&
-/**/		v_condition.reflect !== 'ast_delete'
+/**/		v_condition.timtype !== ast_delete
 /**/		&&
-/**/		v_condition.reflect !== 'ast_differs'
+/**/		v_condition.timtype !== ast_differs
 /**/		&&
-/**/		v_condition.reflect !== 'ast_divide'
+/**/		v_condition.timtype !== ast_divide
 /**/		&&
-/**/		v_condition.reflect !== 'ast_divideAssign'
+/**/		v_condition.timtype !== ast_divideAssign
 /**/		&&
-/**/		v_condition.reflect !== 'ast_dot'
+/**/		v_condition.timtype !== ast_dot
 /**/		&&
-/**/		v_condition.reflect !== 'ast_equals'
+/**/		v_condition.timtype !== ast_equals
 /**/		&&
-/**/		v_condition.reflect !== 'ast_func'
+/**/		v_condition.timtype !== ast_func
 /**/		&&
-/**/		v_condition.reflect !== 'ast_greaterThan'
+/**/		v_condition.timtype !== ast_greaterThan
 /**/		&&
-/**/		v_condition.reflect !== 'ast_instanceof'
+/**/		v_condition.timtype !== ast_instanceof
 /**/		&&
-/**/		v_condition.reflect !== 'ast_lessThan'
+/**/		v_condition.timtype !== ast_lessThan
 /**/		&&
-/**/		v_condition.reflect !== 'ast_member'
+/**/		v_condition.timtype !== ast_member
 /**/		&&
-/**/		v_condition.reflect !== 'ast_minus'
+/**/		v_condition.timtype !== ast_minus
 /**/		&&
-/**/		v_condition.reflect !== 'ast_minusAssign'
+/**/		v_condition.timtype !== ast_minusAssign
 /**/		&&
-/**/		v_condition.reflect !== 'ast_multiply'
+/**/		v_condition.timtype !== ast_multiply
 /**/		&&
-/**/		v_condition.reflect !== 'ast_multiplyAssign'
+/**/		v_condition.timtype !== ast_multiplyAssign
 /**/		&&
-/**/		v_condition.reflect !== 'ast_negate'
+/**/		v_condition.timtype !== ast_negate
 /**/		&&
-/**/		v_condition.reflect !== 'ast_new'
+/**/		v_condition.timtype !== ast_new
 /**/		&&
-/**/		v_condition.reflect !== 'ast_not'
+/**/		v_condition.timtype !== ast_not
 /**/		&&
-/**/		v_condition.reflect !== 'ast_null'
+/**/		v_condition.timtype !== ast_null
 /**/		&&
-/**/		v_condition.reflect !== 'ast_number'
+/**/		v_condition.timtype !== ast_number
 /**/		&&
-/**/		v_condition.reflect !== 'ast_objLiteral'
+/**/		v_condition.timtype !== ast_objLiteral
 /**/		&&
-/**/		v_condition.reflect !== 'ast_or'
+/**/		v_condition.timtype !== ast_or
 /**/		&&
-/**/		v_condition.reflect !== 'ast_plus'
+/**/		v_condition.timtype !== ast_plus
 /**/		&&
-/**/		v_condition.reflect !== 'ast_plusAssign'
+/**/		v_condition.timtype !== ast_plusAssign
 /**/		&&
-/**/		v_condition.reflect !== 'ast_postDecrement'
+/**/		v_condition.timtype !== ast_postDecrement
 /**/		&&
-/**/		v_condition.reflect !== 'ast_postIncrement'
+/**/		v_condition.timtype !== ast_postIncrement
 /**/		&&
-/**/		v_condition.reflect !== 'ast_preDecrement'
+/**/		v_condition.timtype !== ast_preDecrement
 /**/		&&
-/**/		v_condition.reflect !== 'ast_preIncrement'
+/**/		v_condition.timtype !== ast_preIncrement
 /**/		&&
-/**/		v_condition.reflect !== 'ast_string'
+/**/		v_condition.timtype !== ast_string
 /**/		&&
-/**/		v_condition.reflect !== 'ast_typeof'
+/**/		v_condition.timtype !== ast_typeof
 /**/		&&
-/**/		v_condition.reflect !== 'ast_var'
+/**/		v_condition.timtype !== ast_var
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -240,81 +351,81 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_elsewise.reflect !== 'ast_and'
+/**/		v_elsewise.timtype !== ast_and
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_arrayLiteral'
+/**/		v_elsewise.timtype !== ast_arrayLiteral
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_assign'
+/**/		v_elsewise.timtype !== ast_assign
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_boolean'
+/**/		v_elsewise.timtype !== ast_boolean
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_call'
+/**/		v_elsewise.timtype !== ast_call
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_comma'
+/**/		v_elsewise.timtype !== ast_comma
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_condition'
+/**/		v_elsewise.timtype !== ast_condition
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_delete'
+/**/		v_elsewise.timtype !== ast_delete
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_differs'
+/**/		v_elsewise.timtype !== ast_differs
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_divide'
+/**/		v_elsewise.timtype !== ast_divide
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_divideAssign'
+/**/		v_elsewise.timtype !== ast_divideAssign
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_dot'
+/**/		v_elsewise.timtype !== ast_dot
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_equals'
+/**/		v_elsewise.timtype !== ast_equals
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_func'
+/**/		v_elsewise.timtype !== ast_func
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_greaterThan'
+/**/		v_elsewise.timtype !== ast_greaterThan
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_instanceof'
+/**/		v_elsewise.timtype !== ast_instanceof
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_lessThan'
+/**/		v_elsewise.timtype !== ast_lessThan
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_member'
+/**/		v_elsewise.timtype !== ast_member
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_minus'
+/**/		v_elsewise.timtype !== ast_minus
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_minusAssign'
+/**/		v_elsewise.timtype !== ast_minusAssign
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_multiply'
+/**/		v_elsewise.timtype !== ast_multiply
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_multiplyAssign'
+/**/		v_elsewise.timtype !== ast_multiplyAssign
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_negate'
+/**/		v_elsewise.timtype !== ast_negate
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_new'
+/**/		v_elsewise.timtype !== ast_new
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_not'
+/**/		v_elsewise.timtype !== ast_not
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_null'
+/**/		v_elsewise.timtype !== ast_null
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_number'
+/**/		v_elsewise.timtype !== ast_number
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_objLiteral'
+/**/		v_elsewise.timtype !== ast_objLiteral
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_or'
+/**/		v_elsewise.timtype !== ast_or
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_plus'
+/**/		v_elsewise.timtype !== ast_plus
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_plusAssign'
+/**/		v_elsewise.timtype !== ast_plusAssign
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_postDecrement'
+/**/		v_elsewise.timtype !== ast_postDecrement
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_postIncrement'
+/**/		v_elsewise.timtype !== ast_postIncrement
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_preDecrement'
+/**/		v_elsewise.timtype !== ast_preDecrement
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_preIncrement'
+/**/		v_elsewise.timtype !== ast_preIncrement
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_string'
+/**/		v_elsewise.timtype !== ast_string
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_typeof'
+/**/		v_elsewise.timtype !== ast_typeof
 /**/		&&
-/**/		v_elsewise.reflect !== 'ast_var'
+/**/		v_elsewise.timtype !== ast_var
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -331,81 +442,81 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_then.reflect !== 'ast_and'
+/**/		v_then.timtype !== ast_and
 /**/		&&
-/**/		v_then.reflect !== 'ast_arrayLiteral'
+/**/		v_then.timtype !== ast_arrayLiteral
 /**/		&&
-/**/		v_then.reflect !== 'ast_assign'
+/**/		v_then.timtype !== ast_assign
 /**/		&&
-/**/		v_then.reflect !== 'ast_boolean'
+/**/		v_then.timtype !== ast_boolean
 /**/		&&
-/**/		v_then.reflect !== 'ast_call'
+/**/		v_then.timtype !== ast_call
 /**/		&&
-/**/		v_then.reflect !== 'ast_comma'
+/**/		v_then.timtype !== ast_comma
 /**/		&&
-/**/		v_then.reflect !== 'ast_condition'
+/**/		v_then.timtype !== ast_condition
 /**/		&&
-/**/		v_then.reflect !== 'ast_delete'
+/**/		v_then.timtype !== ast_delete
 /**/		&&
-/**/		v_then.reflect !== 'ast_differs'
+/**/		v_then.timtype !== ast_differs
 /**/		&&
-/**/		v_then.reflect !== 'ast_divide'
+/**/		v_then.timtype !== ast_divide
 /**/		&&
-/**/		v_then.reflect !== 'ast_divideAssign'
+/**/		v_then.timtype !== ast_divideAssign
 /**/		&&
-/**/		v_then.reflect !== 'ast_dot'
+/**/		v_then.timtype !== ast_dot
 /**/		&&
-/**/		v_then.reflect !== 'ast_equals'
+/**/		v_then.timtype !== ast_equals
 /**/		&&
-/**/		v_then.reflect !== 'ast_func'
+/**/		v_then.timtype !== ast_func
 /**/		&&
-/**/		v_then.reflect !== 'ast_greaterThan'
+/**/		v_then.timtype !== ast_greaterThan
 /**/		&&
-/**/		v_then.reflect !== 'ast_instanceof'
+/**/		v_then.timtype !== ast_instanceof
 /**/		&&
-/**/		v_then.reflect !== 'ast_lessThan'
+/**/		v_then.timtype !== ast_lessThan
 /**/		&&
-/**/		v_then.reflect !== 'ast_member'
+/**/		v_then.timtype !== ast_member
 /**/		&&
-/**/		v_then.reflect !== 'ast_minus'
+/**/		v_then.timtype !== ast_minus
 /**/		&&
-/**/		v_then.reflect !== 'ast_minusAssign'
+/**/		v_then.timtype !== ast_minusAssign
 /**/		&&
-/**/		v_then.reflect !== 'ast_multiply'
+/**/		v_then.timtype !== ast_multiply
 /**/		&&
-/**/		v_then.reflect !== 'ast_multiplyAssign'
+/**/		v_then.timtype !== ast_multiplyAssign
 /**/		&&
-/**/		v_then.reflect !== 'ast_negate'
+/**/		v_then.timtype !== ast_negate
 /**/		&&
-/**/		v_then.reflect !== 'ast_new'
+/**/		v_then.timtype !== ast_new
 /**/		&&
-/**/		v_then.reflect !== 'ast_not'
+/**/		v_then.timtype !== ast_not
 /**/		&&
-/**/		v_then.reflect !== 'ast_null'
+/**/		v_then.timtype !== ast_null
 /**/		&&
-/**/		v_then.reflect !== 'ast_number'
+/**/		v_then.timtype !== ast_number
 /**/		&&
-/**/		v_then.reflect !== 'ast_objLiteral'
+/**/		v_then.timtype !== ast_objLiteral
 /**/		&&
-/**/		v_then.reflect !== 'ast_or'
+/**/		v_then.timtype !== ast_or
 /**/		&&
-/**/		v_then.reflect !== 'ast_plus'
+/**/		v_then.timtype !== ast_plus
 /**/		&&
-/**/		v_then.reflect !== 'ast_plusAssign'
+/**/		v_then.timtype !== ast_plusAssign
 /**/		&&
-/**/		v_then.reflect !== 'ast_postDecrement'
+/**/		v_then.timtype !== ast_postDecrement
 /**/		&&
-/**/		v_then.reflect !== 'ast_postIncrement'
+/**/		v_then.timtype !== ast_postIncrement
 /**/		&&
-/**/		v_then.reflect !== 'ast_preDecrement'
+/**/		v_then.timtype !== ast_preDecrement
 /**/		&&
-/**/		v_then.reflect !== 'ast_preIncrement'
+/**/		v_then.timtype !== ast_preIncrement
 /**/		&&
-/**/		v_then.reflect !== 'ast_string'
+/**/		v_then.timtype !== ast_string
 /**/		&&
-/**/		v_then.reflect !== 'ast_typeof'
+/**/		v_then.timtype !== ast_typeof
 /**/		&&
-/**/		v_then.reflect !== 'ast_var'
+/**/		v_then.timtype !== ast_var
 /**/	)
 /**/	{
 /**/		throw new Error( );

@@ -20,7 +20,7 @@ if( TIM )
 		block :
 		{
 			// function code
-			type : [ 'undefined', 'jion$ast_block' ]
+			type : [ 'undefined', 'ast_block' ]
 		},
 		capsule :
 		{

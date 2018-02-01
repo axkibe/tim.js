@@ -18,7 +18,7 @@ if( TIM )
 {
 	def.list =
 		require( '../typemaps/astStatement' )
-		.concat( [ 'jion$jsLexer_token' ] );
+		.concat( [ 'jsLexer_token' ] );
 }
 
 

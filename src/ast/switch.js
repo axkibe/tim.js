@@ -25,12 +25,12 @@ if( TIM )
 		defaultCase :
 		{
 			// the default block
-			type : [ 'undefined', 'jion$ast_block' ]
+			type : [ 'undefined', 'ast_block' ]
 		}
 	};
 
 	// the case statements
-	def.list = [ 'jion$ast_case' ];
+	def.list = [ 'ast_case' ];
 }
 
 

@@ -19,6 +19,9 @@ function( ) {
 let pathList = NODE ? module.exports : module;
 
 
+let path = require( './path' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -189,7 +192,7 @@ prototype.create =
 /**/	{
 /**/		o = list[ r ];
 /**/
-/**/		if( o.reflect !== 'path' )
+/**/		if( o.timtype !== path )
 /**/		{
 /**/			throw new Error( );
 /**/		}

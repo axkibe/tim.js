@@ -58,6 +58,7 @@ module.exports =
 	'src/ast/preDecrement.js',
 	'src/ast/preIncrement.js',
 	'src/ast/return.js',
+	'src/ast/shorthand.js',
 	'src/ast/string.js',
 	'src/ast/switch.js',
 	'src/ast/typeof.js',

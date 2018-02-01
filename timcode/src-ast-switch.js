@@ -19,6 +19,126 @@ function( ) {
 let ast_switch = NODE ? module.exports : module;
 
 
+let ast_and = require( '../ast/and' );
+
+
+let ast_arrayLiteral = require( '../ast/arrayLiteral' );
+
+
+let ast_assign = require( '../ast/assign' );
+
+
+let ast_block = require( '../ast/block' );
+
+
+let ast_boolean = require( '../ast/boolean' );
+
+
+let ast_call = require( '../ast/call' );
+
+
+let ast_case = require( '../ast/case' );
+
+
+let ast_comma = require( '../ast/comma' );
+
+
+let ast_condition = require( '../ast/condition' );
+
+
+let ast_delete = require( '../ast/delete' );
+
+
+let ast_differs = require( '../ast/differs' );
+
+
+let ast_divide = require( '../ast/divide' );
+
+
+let ast_divideAssign = require( '../ast/divideAssign' );
+
+
+let ast_dot = require( '../ast/dot' );
+
+
+let ast_equals = require( '../ast/equals' );
+
+
+let ast_func = require( '../ast/func' );
+
+
+let ast_greaterThan = require( '../ast/greaterThan' );
+
+
+let ast_instanceof = require( '../ast/instanceof' );
+
+
+let ast_lessThan = require( '../ast/lessThan' );
+
+
+let ast_member = require( '../ast/member' );
+
+
+let ast_minus = require( '../ast/minus' );
+
+
+let ast_minusAssign = require( '../ast/minusAssign' );
+
+
+let ast_multiply = require( '../ast/multiply' );
+
+
+let ast_multiplyAssign = require( '../ast/multiplyAssign' );
+
+
+let ast_negate = require( '../ast/negate' );
+
+
+let ast_new = require( '../ast/new' );
+
+
+let ast_not = require( '../ast/not' );
+
+
+let ast_null = require( '../ast/null' );
+
+
+let ast_number = require( '../ast/number' );
+
+
+let ast_objLiteral = require( '../ast/objLiteral' );
+
+
+let ast_or = require( '../ast/or' );
+
+
+let ast_plus = require( '../ast/plus' );
+
+
+let ast_plusAssign = require( '../ast/plusAssign' );
+
+
+let ast_postDecrement = require( '../ast/postDecrement' );
+
+
+let ast_postIncrement = require( '../ast/postIncrement' );
+
+
+let ast_preDecrement = require( '../ast/preDecrement' );
+
+
+let ast_preIncrement = require( '../ast/preIncrement' );
+
+
+let ast_string = require( '../ast/string' );
+
+
+let ast_typeof = require( '../ast/typeof' );
+
+
+let ast_var = require( '../ast/var' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -218,7 +338,7 @@ prototype.create =
 /**/
 /**/	if( v_defaultCase !== undefined )
 /**/	{
-/**/		if( v_defaultCase.reflect !== 'ast_block' )
+/**/		if( v_defaultCase.timtype !== ast_block )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -235,81 +355,81 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_statement.reflect !== 'ast_and'
+/**/		v_statement.timtype !== ast_and
 /**/		&&
-/**/		v_statement.reflect !== 'ast_arrayLiteral'
+/**/		v_statement.timtype !== ast_arrayLiteral
 /**/		&&
-/**/		v_statement.reflect !== 'ast_assign'
+/**/		v_statement.timtype !== ast_assign
 /**/		&&
-/**/		v_statement.reflect !== 'ast_boolean'
+/**/		v_statement.timtype !== ast_boolean
 /**/		&&
-/**/		v_statement.reflect !== 'ast_call'
+/**/		v_statement.timtype !== ast_call
 /**/		&&
-/**/		v_statement.reflect !== 'ast_comma'
+/**/		v_statement.timtype !== ast_comma
 /**/		&&
-/**/		v_statement.reflect !== 'ast_condition'
+/**/		v_statement.timtype !== ast_condition
 /**/		&&
-/**/		v_statement.reflect !== 'ast_delete'
+/**/		v_statement.timtype !== ast_delete
 /**/		&&
-/**/		v_statement.reflect !== 'ast_differs'
+/**/		v_statement.timtype !== ast_differs
 /**/		&&
-/**/		v_statement.reflect !== 'ast_divide'
+/**/		v_statement.timtype !== ast_divide
 /**/		&&
-/**/		v_statement.reflect !== 'ast_divideAssign'
+/**/		v_statement.timtype !== ast_divideAssign
 /**/		&&
-/**/		v_statement.reflect !== 'ast_dot'
+/**/		v_statement.timtype !== ast_dot
 /**/		&&
-/**/		v_statement.reflect !== 'ast_equals'
+/**/		v_statement.timtype !== ast_equals
 /**/		&&
-/**/		v_statement.reflect !== 'ast_func'
+/**/		v_statement.timtype !== ast_func
 /**/		&&
-/**/		v_statement.reflect !== 'ast_greaterThan'
+/**/		v_statement.timtype !== ast_greaterThan
 /**/		&&
-/**/		v_statement.reflect !== 'ast_instanceof'
+/**/		v_statement.timtype !== ast_instanceof
 /**/		&&
-/**/		v_statement.reflect !== 'ast_lessThan'
+/**/		v_statement.timtype !== ast_lessThan
 /**/		&&
-/**/		v_statement.reflect !== 'ast_member'
+/**/		v_statement.timtype !== ast_member
 /**/		&&
-/**/		v_statement.reflect !== 'ast_minus'
+/**/		v_statement.timtype !== ast_minus
 /**/		&&
-/**/		v_statement.reflect !== 'ast_minusAssign'
+/**/		v_statement.timtype !== ast_minusAssign
 /**/		&&
-/**/		v_statement.reflect !== 'ast_multiply'
+/**/		v_statement.timtype !== ast_multiply
 /**/		&&
-/**/		v_statement.reflect !== 'ast_multiplyAssign'
+/**/		v_statement.timtype !== ast_multiplyAssign
 /**/		&&
-/**/		v_statement.reflect !== 'ast_negate'
+/**/		v_statement.timtype !== ast_negate
 /**/		&&
-/**/		v_statement.reflect !== 'ast_new'
+/**/		v_statement.timtype !== ast_new
 /**/		&&
-/**/		v_statement.reflect !== 'ast_not'
+/**/		v_statement.timtype !== ast_not
 /**/		&&
-/**/		v_statement.reflect !== 'ast_null'
+/**/		v_statement.timtype !== ast_null
 /**/		&&
-/**/		v_statement.reflect !== 'ast_number'
+/**/		v_statement.timtype !== ast_number
 /**/		&&
-/**/		v_statement.reflect !== 'ast_objLiteral'
+/**/		v_statement.timtype !== ast_objLiteral
 /**/		&&
-/**/		v_statement.reflect !== 'ast_or'
+/**/		v_statement.timtype !== ast_or
 /**/		&&
-/**/		v_statement.reflect !== 'ast_plus'
+/**/		v_statement.timtype !== ast_plus
 /**/		&&
-/**/		v_statement.reflect !== 'ast_plusAssign'
+/**/		v_statement.timtype !== ast_plusAssign
 /**/		&&
-/**/		v_statement.reflect !== 'ast_postDecrement'
+/**/		v_statement.timtype !== ast_postDecrement
 /**/		&&
-/**/		v_statement.reflect !== 'ast_postIncrement'
+/**/		v_statement.timtype !== ast_postIncrement
 /**/		&&
-/**/		v_statement.reflect !== 'ast_preDecrement'
+/**/		v_statement.timtype !== ast_preDecrement
 /**/		&&
-/**/		v_statement.reflect !== 'ast_preIncrement'
+/**/		v_statement.timtype !== ast_preIncrement
 /**/		&&
-/**/		v_statement.reflect !== 'ast_string'
+/**/		v_statement.timtype !== ast_string
 /**/		&&
-/**/		v_statement.reflect !== 'ast_typeof'
+/**/		v_statement.timtype !== ast_typeof
 /**/		&&
-/**/		v_statement.reflect !== 'ast_var'
+/**/		v_statement.timtype !== ast_var
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -323,7 +443,7 @@ prototype.create =
 /**/	{
 /**/		o = list[ r ];
 /**/
-/**/		if( o.reflect !== 'ast_case' )
+/**/		if( o.timtype !== ast_case )
 /**/		{
 /**/			throw new Error( );
 /**/		}

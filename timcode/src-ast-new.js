@@ -121,7 +121,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_call.reflect !== 'ast_call' )
+/**/	if( v_call.timtype !== ast_call )
 /**/	{
 /**/		throw new Error( );
 /**/	}

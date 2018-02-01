@@ -30,6 +30,21 @@ if( TIM )
 
 const shorthand = require( './ast/shorthand' );
 
+const primitives =
+	{
+		'boolean'   : true,
+		'date'      : true,
+		'integer'   : true,
+		'function'  : true,
+		'null'      : true,
+		'number'    : true,
+		'protean'   : true,
+		'string'    : true,
+		'undefined' : true,
+	};
+
+/**/if( FREEZE ) Object.freeze( primitives );
+
 
 /*
 | Create the id from a string specifier.
@@ -54,21 +69,13 @@ def.static.createFromString =
 
 	if( !packet && split.length <= 1 )
 	{
-		switch( string )
+		// XXX FIXME
+		/*
+		if( !primitives[ string ] )
 		{
-			case 'boolean' : break;
-			case 'date' : break;
-			case 'integer' : break;
-			case 'function' : break;
-			case 'null' : break;
-			case 'number' : break;
-			case 'protean' : break;
-			case 'string' : break;
-			case 'undefined' : break;
-
-//			XXX FIXME
-//			default : throw new Error( 'bad id: ' + string );
+			throw new Error( 'bad id: ' + string );
 		}
+		*/
 
 		return tim_id.create( 'list:init', [ string ] );
 	}
@@ -168,6 +175,7 @@ def.lazy.equalsConvention =
 /*
 | This id as global varname
 */
+// FIXME rename
 def.lazy.global =
 	function( )
 {
@@ -200,9 +208,12 @@ def.lazy.$global =
 def.lazy.isPrimitive =
 	function( )
 {
-	return !this.packet && this.length === 1;
-};
+	if( this.packet ) return false;
 
+	if( this.length > 1 ) return false;
+
+	return !!primitives[ this.get( 0 ) ];
+};
 
 
 /*

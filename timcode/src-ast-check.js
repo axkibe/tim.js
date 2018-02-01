@@ -19,6 +19,9 @@ function( ) {
 let ast_check = NODE ? module.exports : module;
 
 
+let ast_block = require( '../ast/block' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -118,7 +121,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_block.reflect !== 'ast_block' )
+/**/	if( v_block.timtype !== ast_block )
 /**/	{
 /**/		throw new Error( );
 /**/	}

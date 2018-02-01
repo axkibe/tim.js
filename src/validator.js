@@ -1,5 +1,5 @@
 /*
-| Checks if a jion definition is ok.
+| Checks if a tim definition is ok.
 */
 
 
@@ -21,31 +21,10 @@ var
 validator = module.exports;
 
 
-var
-	attributeBlacklist,
-	attributeGroupBlacklist,
-	attributeListBlacklist,
-	attributeTwigBlacklist,
-	checkAlikes,
-	checkAttribute,
-	checkAttributeSingleType,
-	checkGroup,
-	checkPrepare,
-	checkList,
-	checkTwig,
-	isString,
-	jion_proto,
-	jionWhitelist;
-
-jion_proto = require( './proto' );
-
-isString = jion_proto.isString;
-
-
 /*
 | Attributes must not be named like these.
 */
-attributeBlacklist =
+const attributeBlacklist =
 	Object.freeze( {
 		'create' : true,
 		'getPath' : true,
@@ -56,7 +35,7 @@ attributeBlacklist =
 /*
 | Groups must not have these attributes.
 */
-attributeGroupBlacklist =
+const attributeGroupBlacklist =
 	Object.freeze( {
 		'group' : true,
 		'size' : true
@@ -65,7 +44,7 @@ attributeGroupBlacklist =
 /*
 | Lists must not have these attributes.
 */
-attributeListBlacklist =
+const attributeListBlacklist =
 	Object.freeze( {
 		'length' : true,
 		'list' : true
@@ -74,7 +53,7 @@ attributeListBlacklist =
 /*
 | Twigs must not have these attributes.
 */
-attributeTwigBlacklist =
+const attributeTwigBlacklist =
 	Object.freeze( {
 		'atRank' : true,
 		'ranks' : true,
@@ -86,7 +65,7 @@ attributeTwigBlacklist =
 /*
 | A jion definition may have these.
 */
-jionWhitelist =
+const timWhitelist =
 	Object.freeze( {
 		'alike' : true,
 		'attributes' : true,
@@ -103,7 +82,7 @@ jionWhitelist =
 /*
 | Checks if a jion prepare looks ok.
 */
-checkPrepare =
+const checkPrepare =
 	function(
 		// attr
 	)
@@ -116,7 +95,7 @@ checkPrepare =
 /*
 | Checks the alike definitions.
 */
-checkAlikes =
+const checkAlikes =
 	function(
 		jion // the jion definition
 	)
@@ -179,7 +158,7 @@ checkAlikes =
 |   for this and list/twig, just create
 |   an idGroup, it will complain anyway.
 */
-checkGroup =
+const checkGroup =
 	function(
 		jion // the jion definition
 	)
@@ -206,7 +185,7 @@ checkGroup =
 	{
 		entry = group[ a ];
 
-		if( !isString( entry ) )
+		if( typeof( entry ) !== 'string' )
 		{
 			throw new Error(
 				'group definition entry not a string'
@@ -231,7 +210,7 @@ checkGroup =
 /*
 | Checks the list definition.
 */
-checkList =
+const checkList =
 	function(
 		jion // the jion definition
 	)
@@ -258,7 +237,7 @@ checkList =
 	{
 		entry = list[ a ];
 
-		if( !isString( entry ) )
+		if( typeof( entry ) !== 'string' )
 		{
 			throw new Error(
 				'twig definition entry not a string'
@@ -282,7 +261,7 @@ checkList =
 /*
 | Checks the twig definition.
 */
-checkTwig =
+const checkTwig =
 	function(
 		jion // the jion definition
 	)
@@ -313,11 +292,9 @@ checkTwig =
 	{
 		entry = twig[ a ];
 
-		if( !isString( entry ) )
+		if( typeof( entry ) !== 'string' )
 		{
-			throw new Error(
-				'twig definition entry not a string'
-			);
+			throw new Error( 'twig definition entry not a string' );
 		}
 
 		if( map[ entry ] )
@@ -338,13 +315,13 @@ checkTwig =
 |
 | This does not include sets, it checks a single type.
 */
-checkAttributeSingleType =
+const checkAttributeSingleType =
 	function(
 		name, // attribute name
 		type  // the type specifier to check
 	)
 {
-	if( !isString( type ) )
+	if( typeof( type ) !== 'string' )
 	{
 		throw new Error(
 			'attribute "' + name + '" has invalid type: ' + type
@@ -384,7 +361,7 @@ checkAttributeSingleType =
 /*
 | Checks if a jion attribute definition looks ok.
 */
-checkAttribute =
+const checkAttribute =
 	function(
 		jion,	// the jion definition
 		name	// the attribute name
@@ -430,7 +407,7 @@ checkAttribute =
 
 	type = attr.type;
 
-	if( isString( type ) )
+	if( typeof( type ) !== 'string' )
 	{
 		checkAttributeSingleType( name, type );
 	}
@@ -458,7 +435,7 @@ checkAttribute =
 		{
 			case 'defaultValue' :
 
-				if( !isString( attr.defaultValue ) )
+				if( typeof( attr.defaultValue ) !== 'string' )
 				{
 					throw new Error( 'defaultValue not a string expression' );
 				}
@@ -483,7 +460,7 @@ checkAttribute =
 
 			case 'assign' :
 
-				if( !isString( attr.assign ) )
+				if( typeof( attr.assign ) !== 'string' )
 				{
 					throw new Error( 'assign not a string' );
 				}
@@ -526,22 +503,17 @@ validator.check =
 		attr,
 		name;
 
-	if( !jion )
-	{
-		throw new Error( );
-	}
+	if( !jion ) throw new Error( );
 
 	for( name in jion )
 	{
-		if( !jionWhitelist[ name ] )
+		if( !timWhitelist[ name ] )
 		{
-			throw new Error(
-				'invalid jion parameter: ' + name
-			);
+			throw new Error( 'invalid jion parameter: ' + name );
 		}
 	}
 
-	if( !isString( jion.id ) )
+	if( typeof( jion.id ) !== 'string' )
 	{
 		throw new Error( 'id missing' );
 	}

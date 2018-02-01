@@ -20,7 +20,7 @@ if( TIM )
 		block :
 		{
 			// the code block',
-			type : 'jion$ast_block'
+			type : 'ast_block'
 		}
 	};
 }

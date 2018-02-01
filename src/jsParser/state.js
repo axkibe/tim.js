@@ -27,7 +27,7 @@ if( TIM )
 		tokens :
 		{
 			// list of tokens to parse
-			type : 'jion$jsParser_tokenList'
+			type : 'jsParser_tokenList'
 		},
 		pos :
 		{

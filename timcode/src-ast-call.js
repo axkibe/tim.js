@@ -19,6 +19,117 @@ function( ) {
 let ast_call = NODE ? module.exports : module;
 
 
+let ast_and = require( '../ast/and' );
+
+
+let ast_arrayLiteral = require( '../ast/arrayLiteral' );
+
+
+let ast_assign = require( '../ast/assign' );
+
+
+let ast_boolean = require( '../ast/boolean' );
+
+
+let ast_comma = require( '../ast/comma' );
+
+
+let ast_condition = require( '../ast/condition' );
+
+
+let ast_delete = require( '../ast/delete' );
+
+
+let ast_differs = require( '../ast/differs' );
+
+
+let ast_divide = require( '../ast/divide' );
+
+
+let ast_divideAssign = require( '../ast/divideAssign' );
+
+
+let ast_dot = require( '../ast/dot' );
+
+
+let ast_equals = require( '../ast/equals' );
+
+
+let ast_func = require( '../ast/func' );
+
+
+let ast_greaterThan = require( '../ast/greaterThan' );
+
+
+let ast_instanceof = require( '../ast/instanceof' );
+
+
+let ast_lessThan = require( '../ast/lessThan' );
+
+
+let ast_member = require( '../ast/member' );
+
+
+let ast_minus = require( '../ast/minus' );
+
+
+let ast_minusAssign = require( '../ast/minusAssign' );
+
+
+let ast_multiply = require( '../ast/multiply' );
+
+
+let ast_multiplyAssign = require( '../ast/multiplyAssign' );
+
+
+let ast_negate = require( '../ast/negate' );
+
+
+let ast_new = require( '../ast/new' );
+
+
+let ast_not = require( '../ast/not' );
+
+
+let ast_null = require( '../ast/null' );
+
+
+let ast_number = require( '../ast/number' );
+
+
+let ast_objLiteral = require( '../ast/objLiteral' );
+
+
+let ast_or = require( '../ast/or' );
+
+
+let ast_plus = require( '../ast/plus' );
+
+
+let ast_plusAssign = require( '../ast/plusAssign' );
+
+
+let ast_postDecrement = require( '../ast/postDecrement' );
+
+
+let ast_postIncrement = require( '../ast/postIncrement' );
+
+
+let ast_preDecrement = require( '../ast/preDecrement' );
+
+
+let ast_preIncrement = require( '../ast/preIncrement' );
+
+
+let ast_string = require( '../ast/string' );
+
+
+let ast_typeof = require( '../ast/typeof' );
+
+
+let ast_var = require( '../ast/var' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -207,81 +318,81 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_func.reflect !== 'ast_and'
+/**/		v_func.timtype !== ast_and
 /**/		&&
-/**/		v_func.reflect !== 'ast_arrayLiteral'
+/**/		v_func.timtype !== ast_arrayLiteral
 /**/		&&
-/**/		v_func.reflect !== 'ast_assign'
+/**/		v_func.timtype !== ast_assign
 /**/		&&
-/**/		v_func.reflect !== 'ast_boolean'
+/**/		v_func.timtype !== ast_boolean
 /**/		&&
-/**/		v_func.reflect !== 'ast_call'
+/**/		v_func.timtype !== ast_call
 /**/		&&
-/**/		v_func.reflect !== 'ast_comma'
+/**/		v_func.timtype !== ast_comma
 /**/		&&
-/**/		v_func.reflect !== 'ast_condition'
+/**/		v_func.timtype !== ast_condition
 /**/		&&
-/**/		v_func.reflect !== 'ast_delete'
+/**/		v_func.timtype !== ast_delete
 /**/		&&
-/**/		v_func.reflect !== 'ast_differs'
+/**/		v_func.timtype !== ast_differs
 /**/		&&
-/**/		v_func.reflect !== 'ast_divide'
+/**/		v_func.timtype !== ast_divide
 /**/		&&
-/**/		v_func.reflect !== 'ast_divideAssign'
+/**/		v_func.timtype !== ast_divideAssign
 /**/		&&
-/**/		v_func.reflect !== 'ast_dot'
+/**/		v_func.timtype !== ast_dot
 /**/		&&
-/**/		v_func.reflect !== 'ast_equals'
+/**/		v_func.timtype !== ast_equals
 /**/		&&
-/**/		v_func.reflect !== 'ast_func'
+/**/		v_func.timtype !== ast_func
 /**/		&&
-/**/		v_func.reflect !== 'ast_greaterThan'
+/**/		v_func.timtype !== ast_greaterThan
 /**/		&&
-/**/		v_func.reflect !== 'ast_instanceof'
+/**/		v_func.timtype !== ast_instanceof
 /**/		&&
-/**/		v_func.reflect !== 'ast_lessThan'
+/**/		v_func.timtype !== ast_lessThan
 /**/		&&
-/**/		v_func.reflect !== 'ast_member'
+/**/		v_func.timtype !== ast_member
 /**/		&&
-/**/		v_func.reflect !== 'ast_minus'
+/**/		v_func.timtype !== ast_minus
 /**/		&&
-/**/		v_func.reflect !== 'ast_minusAssign'
+/**/		v_func.timtype !== ast_minusAssign
 /**/		&&
-/**/		v_func.reflect !== 'ast_multiply'
+/**/		v_func.timtype !== ast_multiply
 /**/		&&
-/**/		v_func.reflect !== 'ast_multiplyAssign'
+/**/		v_func.timtype !== ast_multiplyAssign
 /**/		&&
-/**/		v_func.reflect !== 'ast_negate'
+/**/		v_func.timtype !== ast_negate
 /**/		&&
-/**/		v_func.reflect !== 'ast_new'
+/**/		v_func.timtype !== ast_new
 /**/		&&
-/**/		v_func.reflect !== 'ast_not'
+/**/		v_func.timtype !== ast_not
 /**/		&&
-/**/		v_func.reflect !== 'ast_null'
+/**/		v_func.timtype !== ast_null
 /**/		&&
-/**/		v_func.reflect !== 'ast_number'
+/**/		v_func.timtype !== ast_number
 /**/		&&
-/**/		v_func.reflect !== 'ast_objLiteral'
+/**/		v_func.timtype !== ast_objLiteral
 /**/		&&
-/**/		v_func.reflect !== 'ast_or'
+/**/		v_func.timtype !== ast_or
 /**/		&&
-/**/		v_func.reflect !== 'ast_plus'
+/**/		v_func.timtype !== ast_plus
 /**/		&&
-/**/		v_func.reflect !== 'ast_plusAssign'
+/**/		v_func.timtype !== ast_plusAssign
 /**/		&&
-/**/		v_func.reflect !== 'ast_postDecrement'
+/**/		v_func.timtype !== ast_postDecrement
 /**/		&&
-/**/		v_func.reflect !== 'ast_postIncrement'
+/**/		v_func.timtype !== ast_postIncrement
 /**/		&&
-/**/		v_func.reflect !== 'ast_preDecrement'
+/**/		v_func.timtype !== ast_preDecrement
 /**/		&&
-/**/		v_func.reflect !== 'ast_preIncrement'
+/**/		v_func.timtype !== ast_preIncrement
 /**/		&&
-/**/		v_func.reflect !== 'ast_string'
+/**/		v_func.timtype !== ast_string
 /**/		&&
-/**/		v_func.reflect !== 'ast_typeof'
+/**/		v_func.timtype !== ast_typeof
 /**/		&&
-/**/		v_func.reflect !== 'ast_var'
+/**/		v_func.timtype !== ast_var
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -296,81 +407,81 @@ prototype.create =
 /**/		o = list[ r ];
 /**/
 /**/		if(
-/**/			o.reflect !== 'ast_and'
+/**/			o.timtype !== ast_and
 /**/			&&
-/**/			o.reflect !== 'ast_arrayLiteral'
+/**/			o.timtype !== ast_arrayLiteral
 /**/			&&
-/**/			o.reflect !== 'ast_assign'
+/**/			o.timtype !== ast_assign
 /**/			&&
-/**/			o.reflect !== 'ast_boolean'
+/**/			o.timtype !== ast_boolean
 /**/			&&
-/**/			o.reflect !== 'ast_call'
+/**/			o.timtype !== ast_call
 /**/			&&
-/**/			o.reflect !== 'ast_comma'
+/**/			o.timtype !== ast_comma
 /**/			&&
-/**/			o.reflect !== 'ast_condition'
+/**/			o.timtype !== ast_condition
 /**/			&&
-/**/			o.reflect !== 'ast_delete'
+/**/			o.timtype !== ast_delete
 /**/			&&
-/**/			o.reflect !== 'ast_differs'
+/**/			o.timtype !== ast_differs
 /**/			&&
-/**/			o.reflect !== 'ast_divide'
+/**/			o.timtype !== ast_divide
 /**/			&&
-/**/			o.reflect !== 'ast_divideAssign'
+/**/			o.timtype !== ast_divideAssign
 /**/			&&
-/**/			o.reflect !== 'ast_dot'
+/**/			o.timtype !== ast_dot
 /**/			&&
-/**/			o.reflect !== 'ast_equals'
+/**/			o.timtype !== ast_equals
 /**/			&&
-/**/			o.reflect !== 'ast_func'
+/**/			o.timtype !== ast_func
 /**/			&&
-/**/			o.reflect !== 'ast_greaterThan'
+/**/			o.timtype !== ast_greaterThan
 /**/			&&
-/**/			o.reflect !== 'ast_instanceof'
+/**/			o.timtype !== ast_instanceof
 /**/			&&
-/**/			o.reflect !== 'ast_lessThan'
+/**/			o.timtype !== ast_lessThan
 /**/			&&
-/**/			o.reflect !== 'ast_member'
+/**/			o.timtype !== ast_member
 /**/			&&
-/**/			o.reflect !== 'ast_minus'
+/**/			o.timtype !== ast_minus
 /**/			&&
-/**/			o.reflect !== 'ast_minusAssign'
+/**/			o.timtype !== ast_minusAssign
 /**/			&&
-/**/			o.reflect !== 'ast_multiply'
+/**/			o.timtype !== ast_multiply
 /**/			&&
-/**/			o.reflect !== 'ast_multiplyAssign'
+/**/			o.timtype !== ast_multiplyAssign
 /**/			&&
-/**/			o.reflect !== 'ast_negate'
+/**/			o.timtype !== ast_negate
 /**/			&&
-/**/			o.reflect !== 'ast_new'
+/**/			o.timtype !== ast_new
 /**/			&&
-/**/			o.reflect !== 'ast_not'
+/**/			o.timtype !== ast_not
 /**/			&&
-/**/			o.reflect !== 'ast_null'
+/**/			o.timtype !== ast_null
 /**/			&&
-/**/			o.reflect !== 'ast_number'
+/**/			o.timtype !== ast_number
 /**/			&&
-/**/			o.reflect !== 'ast_objLiteral'
+/**/			o.timtype !== ast_objLiteral
 /**/			&&
-/**/			o.reflect !== 'ast_or'
+/**/			o.timtype !== ast_or
 /**/			&&
-/**/			o.reflect !== 'ast_plus'
+/**/			o.timtype !== ast_plus
 /**/			&&
-/**/			o.reflect !== 'ast_plusAssign'
+/**/			o.timtype !== ast_plusAssign
 /**/			&&
-/**/			o.reflect !== 'ast_postDecrement'
+/**/			o.timtype !== ast_postDecrement
 /**/			&&
-/**/			o.reflect !== 'ast_postIncrement'
+/**/			o.timtype !== ast_postIncrement
 /**/			&&
-/**/			o.reflect !== 'ast_preDecrement'
+/**/			o.timtype !== ast_preDecrement
 /**/			&&
-/**/			o.reflect !== 'ast_preIncrement'
+/**/			o.timtype !== ast_preIncrement
 /**/			&&
-/**/			o.reflect !== 'ast_string'
+/**/			o.timtype !== ast_string
 /**/			&&
-/**/			o.reflect !== 'ast_typeof'
+/**/			o.timtype !== ast_typeof
 /**/			&&
-/**/			o.reflect !== 'ast_var'
+/**/			o.timtype !== ast_var
 /**/		)
 /**/		{
 /**/			throw new Error( );

@@ -1,21 +1,14 @@
 /*
 | Various shorthands for abstract syntax trees.
+|
+| FIXME lazy the empty creates
+| FIXME actually move this alltogether to the respective tims.
 */
-
-
-var
-	shorthand;
-
-shorthand =
-module.exports =
-	{ };
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
+
+
+require( '../ouroboros' )
+.define( module, 'ast_shorthand', ( def, ast_shorthand ) => {
 
 
 const ast_and = require( './and' );
@@ -125,7 +118,7 @@ const ensureBlock =
 /*
 | Shorthand for creating ands.
 */
-shorthand.$and =
+def.static.$and =
 	function(
 		left,
 		right
@@ -145,7 +138,7 @@ shorthand.$and =
 			)
 		);
 
-		return shorthand.$and.apply( this, args );
+		return ast_shorthand.$and.apply( this, args );
 	}
 
 	return(
@@ -160,7 +153,7 @@ shorthand.$and =
 /*
 | Shorthand for creating array literals.
 */
-shorthand.astArrayLiteral =
+def.static.astArrayLiteral =
 	function( )
 {
 	return ast_arrayLiteral.create( );
@@ -170,7 +163,7 @@ shorthand.astArrayLiteral =
 /*
 | Shorthand for creating assignments.
 */
-shorthand.$assign =
+def.static.$assign =
 	function(
 		left,
 		right
@@ -188,7 +181,7 @@ shorthand.$assign =
 /*
 | Shorthand for creating blocks.
 */
-shorthand.$block =
+def.static.$block =
 	function( )
 {
 	return ast_block.create( );
@@ -198,7 +191,7 @@ shorthand.$block =
 /*
 | Shorthand for creating capsule function.
 */
-shorthand.$capsule =
+def.static.$capsule =
 	function(
 		block
 	)
@@ -220,7 +213,7 @@ shorthand.$capsule =
 /*
 | Shorthand for creating calls.
 */
-shorthand.$call =
+def.static.$call =
 	function(
 		func
 		// args
@@ -240,21 +233,19 @@ shorthand.$call =
 /*
 | Shorthand for creating ast check blocks.
 */
-shorthand.$check =
+def.static.$check =
 	function(
 		block // or statement/expression
 	)
 {
-	return(
-		ast_check.create( 'block', ensureBlock( block ) )
-	);
+	return ast_check.create( 'block', ensureBlock( block ) );
 };
 
 
 /*
 | Shorthand for creating comma operators
 */
-shorthand.$comma =
+def.static.$comma =
 	function(
 		left,
 		right
@@ -274,7 +265,7 @@ shorthand.$comma =
 			)
 		);
 
-		return shorthand.$comma.apply( this, args );
+		return ast_shorthand.$comma.apply( this, args );
 	}
 
 	return(
@@ -289,7 +280,7 @@ shorthand.$comma =
 /*
 | Shorthand for creating comments
 */
-shorthand.$comment =
+def.static.$comment =
 	function(
 		// list of strings
 	)
@@ -306,7 +297,7 @@ shorthand.$comment =
 /*
 | Shorthand for creating conditions.
 */
-shorthand.$condition =
+def.static.$condition =
 	function(
 		condition,
 		then,
@@ -326,7 +317,7 @@ shorthand.$condition =
 /*
 | Shorthand for let variable declerations.
 */
-shorthand.$const =
+def.static.$const =
 	function(
 		name,   // variable name
 		assign  // variable assignment
@@ -347,12 +338,12 @@ shorthand.$const =
 /*
 | Shorthand for ast continue.
 */
-shorthand.$continue = ast_continue.create( );
+def.static.$continue = ast_continue.create( );
 
 /*
 | Shorthand for creating differs.
 */
-shorthand.$differs =
+def.static.$differs =
 	function(
 		left,
 		right
@@ -370,7 +361,7 @@ shorthand.$differs =
 /*
 | Shorthand for creating delete calls.
 */
-shorthand.$delete =
+def.static.$delete =
 	function(
 		expr
 	)
@@ -382,7 +373,7 @@ shorthand.$delete =
 /*
 | Shorthand for creating dots.
 */
-shorthand.$dot =
+def.static.$dot =
 	function(
 		expr,
 		member
@@ -395,7 +386,7 @@ shorthand.$dot =
 /*
 | Shorthand for creating equals.
 */
-shorthand.$equals =
+def.static.$equals =
 	function(
 		left,
 		right
@@ -413,13 +404,13 @@ shorthand.$equals =
 /*
 | Shorthand for 'false' literals.
 */
-shorthand.$false = ast_boolean.create( 'boolean', false );
+def.staticLazy.$false = ( ) => ast_boolean.create( 'boolean', false );
 
 
 /*
 | Shorthand for ast code that throws a fail.
 */
-shorthand.$fail =
+def.static.$fail =
 	function(
 		message
 	)
@@ -440,7 +431,7 @@ shorthand.$fail =
 /*
 | Shorthand for creating less-than comparisons.
 */
-shorthand.$lessThan =
+def.static.$lessThan =
 	function(
 		left,
 		right
@@ -458,7 +449,7 @@ shorthand.$lessThan =
 /*
 | Shorthand for let variable declerations.
 */
-shorthand.$let =
+def.static.$let =
 	function(
 		name,   // variable name
 		assign  // variable assignment
@@ -479,7 +470,7 @@ shorthand.$let =
 /*
 | Shorthand for creating greater-than comparisons.
 */
-shorthand.$greaterThan =
+def.static.$greaterThan =
 	function(
 		left,
 		right
@@ -497,7 +488,7 @@ shorthand.$greaterThan =
 /*
 | Shorthand for creating ifs.
 */
-shorthand.$if =
+def.static.$if =
 	function(
 		condition,
 		then,
@@ -517,7 +508,7 @@ shorthand.$if =
 /*
 | Shorthand for creating for loops.
 */
-shorthand.$for =
+def.static.$for =
 	function(
 		init,
 		condition,
@@ -539,7 +530,7 @@ shorthand.$for =
 /*
 | Shorthand for creating for in loops.
 */
-shorthand.$forIn =
+def.static.$forIn =
 	function(
 		variable,
 		object,
@@ -559,7 +550,7 @@ shorthand.$forIn =
 /*
 | Shorthand for creating functions.
 */
-shorthand.$func =
+def.static.$func =
 	function(
 		block
 	)
@@ -571,7 +562,7 @@ shorthand.$func =
 /*
 | Shorthand for creating instanceof expressions.
 */
-shorthand.$instanceof =
+def.static.$instanceof =
 	function(
 		left,
 		right
@@ -590,7 +581,7 @@ shorthand.$instanceof =
 /*
 | Shorthand for creating members.
 */
-shorthand.$member =
+def.static.$member =
 	function(
 		expr,
 		member
@@ -603,19 +594,16 @@ shorthand.$member =
 /*
 | Shorthand for creating multiplies.
 */
-shorthand.$multiply =
+def.static.$multiply =
 	function(
 		left,
 		right
 		// or more
 	)
 {
-	var
-		args;
-
 	if( arguments.length > 2 )
 	{
-		args = Array.prototype.slice.call( arguments );
+		const args = Array.prototype.slice.call( arguments );
 
 		args.splice(
 			0,
@@ -626,7 +614,7 @@ shorthand.$multiply =
 			)
 		);
 
-		return shorthand.$multiply.apply( this, args );
+		return ast_shorthand.$multiply.apply( this, args );
 	}
 
 	return(
@@ -641,7 +629,7 @@ shorthand.$multiply =
 /*
 | Shorthand for creating multiply-assignments.
 */
-shorthand.$multiplyAssign =
+def.static.$multiplyAssign =
 	function(
 		left,
 		right
@@ -659,7 +647,7 @@ shorthand.$multiplyAssign =
 /*
 | Shorthand for creating new calls.
 */
-shorthand.$new =
+def.static.$new =
 	function(
 		call
 	)
@@ -671,7 +659,7 @@ shorthand.$new =
 /*
 | Shorthand for creating negations.
 */
-shorthand.$not =
+def.static.$not =
 	function(
 		expr
 	)
@@ -683,13 +671,13 @@ shorthand.$not =
 /*
 | Shorthand for ast nulls.
 */
-shorthand.$null = ast_null.create( );
+def.static.$null = ast_null.create( );
 
 
 /*
 | Shorthand for creating number literals.
 */
-shorthand.$number =
+def.static.$number =
 	function(
 		number
 	)
@@ -701,7 +689,7 @@ shorthand.$number =
 /*
 | Shorthand for creating object literals.
 */
-shorthand.$objLiteral =
+def.static.$objLiteral =
 	function( )
 {
 	return ast_objLiteral.create( );
@@ -711,19 +699,16 @@ shorthand.$objLiteral =
 /*
 | Shorthand for creating ors.
 */
-shorthand.$or =
+def.static.$or =
 	function(
 		left,
 		right
 		// or more
 	)
 {
-	var
-		args;
-
 	if( arguments.length > 2 )
 	{
-		args = Array.prototype.slice.call( arguments );
+		const args = Array.prototype.slice.call( arguments );
 
 		args.splice(
 			0,
@@ -734,7 +719,7 @@ shorthand.$or =
 			)
 		);
 
-		return shorthand.$or.apply( this, args );
+		return ast_shorthand.$or.apply( this, args );
 	}
 
 	return(
@@ -749,19 +734,16 @@ shorthand.$or =
 /*
 | Shorthand for creating pluses.
 */
-shorthand.$plus =
+def.static.$plus =
 	function(
 		left,
 		right
 		// or more
 	)
 {
-	var
-		args;
-
 	if( arguments.length > 2 )
 	{
-		args = Array.prototype.slice.call( arguments );
+		const args = Array.prototype.slice.call( arguments );
 
 		args.splice(
 			0,
@@ -772,7 +754,7 @@ shorthand.$plus =
 			)
 		);
 
-		return shorthand.$plus.apply( this, args );
+		return ast_shorthand.$plus.apply( this, args );
 	}
 
 	return(
@@ -787,7 +769,7 @@ shorthand.$plus =
 /*
 | Shorthand for creating plus-assignments.
 */
-shorthand.$plusAssign =
+def.static.$plusAssign =
 	function(
 		left,
 		right
@@ -806,7 +788,7 @@ shorthand.$plusAssign =
 /*
 | Shorthand for creating pre-increments.
 */
-shorthand.$preIncrement =
+def.static.$preIncrement =
 	function(
 		expr
 	)
@@ -820,7 +802,7 @@ shorthand.$preIncrement =
 /*
 | Shorthand for creating a return statement
 */
-shorthand.$return =
+def.static.$return =
 	function(
 		expr
 	)
@@ -833,7 +815,7 @@ shorthand.$return =
 /*
 | Shorthand for creating string literals.
 */
-shorthand.$string =
+def.static.$string =
 	function(
 		string
 	)
@@ -845,7 +827,7 @@ shorthand.$string =
 /*
 | Shorthand for creating switch statements.
 */
-shorthand.$switch =
+def.static.$switch =
 	function(
 		statement
 	)
@@ -857,14 +839,14 @@ shorthand.$switch =
 /*
 | Shorthand for 'true' literals.
 */
-shorthand.$true = ast_boolean.create( 'boolean', true );
+def.staticLazy.$true = ( ) => ast_boolean.create( 'boolean', true );
 
 
 
 /*
 | Shorthand for creating typeofs.
 */
-shorthand.$typeof =
+def.static.$typeof =
 	function(
 		expr
 	)
@@ -877,7 +859,7 @@ shorthand.$typeof =
 /*
 | Shorthand for creating variable uses.
 */
-shorthand.$var =
+def.static.$var =
 	function(
 		name
 	)
@@ -889,7 +871,7 @@ shorthand.$var =
 /*
 | Shorthand for variable declerations.
 */
-shorthand.$varDec =
+def.static.$varDec =
 	function(
 		name,   // variable name
 		assign  // variable assignment
@@ -910,7 +892,8 @@ shorthand.$varDec =
 /*
 | Shorthand for 'undefined'
 */
-shorthand.$undefined = ast_var.create( 'name', 'undefined' );
+def.staticLazy.$undefined = ( ) => ast_var.create( 'name', 'undefined' );
 
 
-} )( );
+} );
+

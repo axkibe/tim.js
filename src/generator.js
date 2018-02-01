@@ -375,7 +375,7 @@ def.func.genImports =
 	// const idKeys = imports.sortedKeys;
 
 	/*
-	for( let a = 0, aZ = idKeys.length; a < aZ; a++ )
+	for( let a = 0, al = idKeys.length; a < al; a++ )
 	{
 		const idKey = idKeys[ a ];
 
@@ -420,7 +420,7 @@ def.func.genRequires =
 
 	const idKeys = imports.sortedKeys;
 
-	for( let a = 0, aZ = idKeys.length; a < aZ; a++ )
+	for( let a = 0, al = idKeys.length; a < al; a++ )
 	{
 		const idKey = idKeys[ a ];
 
@@ -511,7 +511,7 @@ def.func.genConstructor =
 	const attributes = this.attributes;
 
 	// assigns the variables
-	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
 		const name = attributes.sortedKeys[ a ];
 
@@ -541,7 +541,7 @@ def.func.genConstructor =
 	{
 		let initCall = $( 'this._init( )' );
 
-		for( let a = 0, aZ = this.init.length; a < aZ; a++ )
+		for( let a = 0, al = this.init.length; a < al; a++ )
 		{
 			const name = this.init[ a ];
 
@@ -607,7 +607,7 @@ def.func.genConstructor =
 		? this.abstractConstructorList
 		: this.constructorList;
 
-	for( let a = 0, aZ = cList.length; a < aZ; a++ )
+	for( let a = 0, al = cList.length; a < al; a++ )
 	{
 		const name = cList[ a ];
 
@@ -742,7 +742,7 @@ def.func.CreatorVariables =
 
 	const aKeys = this.attributes.keys;
 
-	for( let a = 0, aZ = aKeys.length; a < aZ; a++ )
+	for( let a = 0, al = aKeys.length; a < al; a++ )
 	{
 		const name = aKeys[ a ];
 
@@ -777,7 +777,7 @@ def.func.CreatorVariables =
 
 	let result = $block( );
 
-	for( let a = 0, aZ = varList.length; a < aZ; a++ )
+	for( let a = 0, al = varList.length; a < al; a++ )
 	{
 		result = result.$varDec( varList[ a ] );
 	}
@@ -803,7 +803,7 @@ def.func.genCreatorVariables =
 
 	const aKeys = this.attributes.keys;
 
-	for( let a = 0, aZ = aKeys.length; a < aZ; a++ )
+	for( let a = 0, al = aKeys.length; a < al; a++ )
 	{
 		const name = aKeys[ a ];
 
@@ -838,7 +838,7 @@ def.func.genCreatorVariables =
 
 	let result = $block( );
 
-	for( let a = 0, aZ = varList.length; a < aZ; a++ )
+	for( let a = 0, al = varList.length; a < al; a++ )
 	{
 		result = result.$varDec( varList[ a ] );
 	}
@@ -888,7 +888,7 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'twigDup = false' );
 	}
 
-	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
 		const name = this.attributes.sortedKeys[ a ];
 
@@ -957,7 +957,7 @@ def.func.genCreatorFreeStringsParser =
 
 	let switchExpr = $switch( 'arguments[ a ]' );
 
-	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
 		const name = this.attributes.sortedKeys[ a ];
 
@@ -1196,7 +1196,7 @@ def.func.genCreatorDefaults =
 
 	let result = $block( );
 
-	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
 		const name = this.attributes.sortedKeys[ a ];
 
@@ -1283,14 +1283,14 @@ def.func.genSingleTypeCheckFailCondition =
 
 			if( !abstract )
 			{
-				return $( aVar, '.reflect !== ', id.$pathName );
+				return $( aVar, '.timtype !== ', id.global );
 			}
 			else
 			{
 				return $(
-					aVar, '.reflect !== ', id.$pathName,
+					aVar, '.timtype !== ', id.global,
 					'&&',
-					aVar, '.reflect !== ', id.$abstractPathName
+					aVar, '.timtype !== ', id.global, '.abstract'
 				);
 			}
 	}
@@ -1333,7 +1333,7 @@ def.func.genTypeCheckFailCondition =
 
 	const keyList = idx.sortedKeys;
 
-	for( let a = 0, aZ = keyList.length; a < aZ; a++ )
+	for( let a = 0, al = keyList.length; a < al; a++ )
 	{
 		const id = idx.get( keyList[ a ] );
 
@@ -1382,7 +1382,7 @@ def.func.genCreatorChecks =
 
 	let check = $block( );
 
-	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
 		const name = this.attributes.sortedKeys[ a ];
 
@@ -1471,7 +1471,8 @@ def.func.genCreatorChecks =
 			);
 	}
 
-	if( this.twig )
+	// FIXME XXX dirty
+	if( this.twig && !this.hasAbstract )
 	{
 		// FUTURE check if ranks and twig keys match
 		check =
@@ -1535,7 +1536,7 @@ def.func.genCreatorPrepares =
 		}
 	};
 
-	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
 		const name = this.attributes.sortedKeys[ a ];
 
@@ -1582,7 +1583,7 @@ def.func.genCreatorUnchanged =
 
 	const attributes = this.attributes;
 
-	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
 		const name = attributes.sortedKeys[ a ];
 
@@ -1642,7 +1643,7 @@ def.func.genCreatorReturn =
 
 	let call = $( conName ,'( )' );
 
-	for( let a = 0, aZ = argList.length; a < aZ; a++ )
+	for( let a = 0, al = argList.length; a < al; a++ )
 	{
 		const argName = argList[ a ];
 
@@ -1732,7 +1733,7 @@ def.func.genFromJsonCreatorVariables =
 
 	const aKeys = this.attributes.keys;
 
-	for( let a = 0, aZ = aKeys.length; a < aZ; a++ )
+	for( let a = 0, al = aKeys.length; a < al; a++ )
 	{
 		const name = aKeys[ a ];
 
@@ -1770,7 +1771,7 @@ def.func.genFromJsonCreatorVariables =
 
 	let result = $block( );
 
-	for( let a = 0, aZ = varList.length; a < aZ; a++ )
+	for( let a = 0, al = varList.length; a < al; a++ )
 	{
 		result = result.$varDec( varList[ a ] );
 	}
@@ -1976,7 +1977,7 @@ def.func.genFromJsonCreatorParser =
 			.$case( '"ranks"', 'ranks = arg' );
 	}
 
-	for( let a = 0, aZ = jsonList.length; a < aZ; a++ )
+	for( let a = 0, al = jsonList.length; a < al; a++ )
 	{
 		const name = jsonList[ a ];
 
@@ -2217,7 +2218,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 
 	const keyList = twig.sortedKeys;
 
-	for( let a = 0, aZ = keyList.length; a < aZ; a++ )
+	for( let a = 0, al = keyList.length; a < al; a++ )
 	{
 		const twigID = twig.get( keyList[ a ] );
 
@@ -2276,7 +2277,7 @@ def.func.genFromJsonCreatorReturn =
 {
 	let call = $( 'Constructor( )' );
 
-	for( let a = 0, aZ = this.constructorList.length; a < aZ; a++ )
+	for( let a = 0, al = this.constructorList.length; a < al; a++ )
 	{
 		const name = this.constructorList[ a ];
 
@@ -2333,7 +2334,7 @@ def.func.genFromJsonCreator =
 	// all attributes expected from json
 	const jsonList = [ ];
 
-	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
 		const name = this.attributes.sortedKeys[ a ];
 
@@ -2406,8 +2407,9 @@ def.func.genReflection =
 				$block( )
 				.$comment( 'Abstract Reflection.' )
 				.$(
-					'abstractPrototype.reflect = ',
-					this.id.$abstractPathName
+					'abstractPrototype.timtype = ',
+					this.id.global,
+					'.abstract'
 				)
 				.$( 'abstractPrototype.isAbstract = true' )
 			)
@@ -2623,7 +2625,7 @@ def.func.genToJson =
 		$objLiteral( )
 		.add( 'type', this.mapJsonTypeName( this.id.pathName ) );
 
-	for( let a = 0, aZ = this.attributes.size; a < aZ; a++ )
+	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
 		const name = this.attributes.sortedKeys[ a ];
 
@@ -2873,7 +2875,7 @@ def.func.genEqualsFuncBody =
 
 	let cond;
 
-	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
 		const name = attributes.sortedKeys[ a ];
 
@@ -2985,7 +2987,7 @@ def.func.genAlike =
 
 	let result = $block( );
 
-	for( let a = 0, aZ = alikeList.length; a < aZ; a++ )
+	for( let a = 0, al = alikeList.length; a < al; a++ )
 	{
 		const alikeName = alikeList[ a ];
 

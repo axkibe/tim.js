@@ -30,7 +30,7 @@ if( TIM )
 		block :
 		{
 			// the for block
-			type : 'jion$ast_block'
+			type : 'ast_block'
 		}
 	};
 }

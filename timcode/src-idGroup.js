@@ -19,6 +19,9 @@ function( ) {
 let idGroup = NODE ? module.exports : module;
 
 
+let id = require( './id' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -149,7 +152,7 @@ prototype.create =
 /**/	{
 /**/		o = group[ k ];
 /**/
-/**/		if( o.reflect !== 'id' )
+/**/		if( o.timtype !== id )
 /**/		{
 /**/			throw new Error( );
 /**/		}

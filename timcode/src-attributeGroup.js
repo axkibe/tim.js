@@ -19,6 +19,9 @@ function( ) {
 let attributeGroup = NODE ? module.exports : module;
 
 
+let attribute = require( './attribute' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -149,7 +152,7 @@ prototype.create =
 /**/	{
 /**/		o = group[ k ];
 /**/
-/**/		if( o.reflect !== 'attribute' )
+/**/		if( o.timtype !== attribute )
 /**/		{
 /**/			throw new Error( );
 /**/		}

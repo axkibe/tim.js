@@ -192,7 +192,7 @@ prototype.create =
 /**/	{
 /**/		o = list[ r ];
 /**/
-/**/		if( o.reflect !== 'jsLexer_token' )
+/**/		if( o.timtype !== jsLexer_token )
 /**/		{
 /**/			throw new Error( );
 /**/		}

@@ -19,9 +19,9 @@ if( TIM )
 	{
 		condition : { type : require( '../typemaps/astExpression' ) },
 
-		then : { type : 'jion$ast_block' },
+		then : { type : 'ast_block' },
 
-		elsewise : { type : [ 'undefined', 'jion$ast_block' ] }
+		elsewise : { type : [ 'undefined', 'ast_block' ] }
 	};
 }
 

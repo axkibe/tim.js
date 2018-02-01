@@ -19,6 +19,9 @@ function( ) {
 let generator = NODE ? module.exports : module;
 
 
+let id = require( './id' );
+
+
 let tim_proto = tim.proto;
 
 
@@ -146,7 +149,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_id.reflect !== 'id' )
+/**/	if( v_id.timtype !== id )
 /**/	{
 /**/		throw new Error( );
 /**/	}
