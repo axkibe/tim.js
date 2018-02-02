@@ -167,6 +167,44 @@ tree.getBrowserTreeInitCode =
 };
 
 
+/*
+| Recursive helper for tree.getBrowserNoMangle
+*/
+const getBrowserNoMangleBranch =
+	function(
+		table,   // add this branch to this table
+		branch   // the branch to process
+	)
+{
+	for( let key in branch )
+	{
+		if( key === '_parent' ) continue;
+
+		table[ key ] = true;
+
+		console.log( key );
+
+		getBrowserNoMangleBranch( table, branch[ key ] );
+	}
+};
+
+
+/*
+| Returns a table of all names better not to mangle.
+*/
+tree.getBrowserNoMangle =
+	function( )
+{
+	const table = { };
+
+	for( let t = 0; t < timtrees.length; t++ )
+	{
+		getBrowserNoMangleBranch( table, timtrees[ t ].tree );
+	}
+
+	return table;
+};
+
 
 /*
 | Returns the preamble to be prepended
