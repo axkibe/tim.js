@@ -33,20 +33,6 @@ else
 }
 
 
-
-/*
-| Returns true if o is a String.
-|
-| FIXME remove
-*/
-tim_proto.isString  =
-	function( o )
-{
-	return typeof( o ) === 'string' || ( o instanceof String );
-};
-
-
-
 /*
 | A value is computed and fixated only when needed.
 */
@@ -61,10 +47,10 @@ tim_proto.lazyValue =
 
 /**/if( CHECK )
 /**/{
-/**/	// lazy valued stuff must be jions
+/**/	// lazy valued stuff must be tims
 /**/	if( !proto.create ) throw new Error( );
 /**/
-/**/	// there is something amiss if static and jion obj
+/**/	// there is something amiss if static and tim obj
 /**/	// lazyness is used together
 /**/	if( proto.__lazy ) throw new Error( );
 /**/}
@@ -75,10 +61,7 @@ tim_proto.lazyValue =
 		{
 			get : function( )
 			{
-				var
-					val;
-
-				val = this.__lazy[ key ];
+				let val = this.__lazy[ key ];
 
 				if( val !== undefined ) return val;
 
@@ -142,10 +125,10 @@ tim_proto.lazyFunctionString =
 {
 /**/if( CHECK )
 /**/{
-/**/	// lazy valued stuff must be jions
+/**/	// lazy valued stuff must be tims
 /**/	if( !proto.create ) throw new Error( );
 /**/
-/**/	// there is something amiss if static and jion obj
+/**/	// there is something amiss if static and tim
 /**/	// lazyness is used together
 /**/	if( proto.__lazy ) throw new Error( );
 /**/}
@@ -155,13 +138,9 @@ tim_proto.lazyFunctionString =
 	proto[ key ] =
 		function( str )
 	{
-		var
-			ckey,
-			val;
+		const ckey = key + '__' + str;
 
-		ckey = key + '__' + str;
-
-		val = this.__lazy[ ckey ];
+		const val = this.__lazy[ ckey ];
 
 		if( val !== undefined ) return val;
 
@@ -185,10 +164,10 @@ tim_proto.lazyFunctionInteger =
 
 /**/if( CHECK )
 /**/{
-/**/	// lazy valued stuff must be jions
+/**/	// lazy valued stuff must be tims
 /**/	if( !proto.create ) throw new Error( );
 /**/
-/**/	// there is something amiss if static and jion obj
+/**/	// there is something amiss if static and tim obj
 /**/	// lazyness is used together
 /**/	if( proto.__lazy ) throw new Error( );
 /**/}
@@ -198,10 +177,6 @@ tim_proto.lazyFunctionInteger =
 	proto[ key ] =
 		function( integer )
 	{
-		var
-			cArr,
-			val;
-
 /**/	if( CHECK )
 /**/	{
 /**/		if(
@@ -210,11 +185,11 @@ tim_proto.lazyFunctionInteger =
 /**/		) throw new Error( );
 /**/	}
 
-		cArr = this.__lazy[ key ];
+		let cArr = this.__lazy[ key ];
 
 		if( !cArr ) cArr = this.__lazy[ key ] = [ ];
 
-		val = cArr[ integer ];
+		const val = cArr[ integer ];
 
 		if( val !== undefined ) return val;
 
@@ -235,9 +210,6 @@ tim_proto.aheadFunctionInteger =
 		value     // value ( result ) to ahead
 	)
 {
-	var
-		cArr;
-
 /**/if( CHECK )
 /**/{
 /**/	if( value === undefined ) throw new Error( );
@@ -245,7 +217,7 @@ tim_proto.aheadFunctionInteger =
 /**/	if( integer === undefined ) throw new Error( );
 /**/}
 
-	cArr = obj.__lazy[ key ];
+	let cArr = obj.__lazy[ key ];
 
 	if( !cArr ) cArr = obj.__lazy[ key ] = [ ];
 
@@ -255,7 +227,7 @@ tim_proto.aheadFunctionInteger =
 
 /*
 | A value is computed and fixated only when needed
-| but not from a jion but a static object.
+| but not from a tim but a static object.
 */
 tim_proto.lazyStaticValue =
 	function(
@@ -266,7 +238,7 @@ tim_proto.lazyStaticValue =
 {
 /**/if( CHECK )
 /**/{
-/**/	// there is something amiss if static and jion obj
+/**/	// there is something amiss if static and tim obj
 /**/	// lazyness is used together
 /**/	if( obj.__have_lazy ) throw new Error( );
 /**/}
@@ -305,14 +277,9 @@ tim_proto.copy =
 		o  // the object to copy from
 	)
 {
-	var c, k;
+	const c = { };
 
-	c = { };
-
-	for( k in o )
-	{
-		c[ k ] = o[ k ];
-	}
+	for( let k in o ) c[ k ] = o[ k ];
 
 	return c;
 };
@@ -327,12 +294,7 @@ tim_proto.setPath =
 		pos    // position in the path
 	)
 {
-	var key, pZ;
-
-	if( pos === undefined )
-	{
-		pos = 0;
-	}
+	if( pos === undefined ) pos = 0;
 
 /**/if( CHECK )
 /**/{
@@ -341,23 +303,17 @@ tim_proto.setPath =
 /**/	if( path.length === pos ) throw new Error( );
 /**/}
 
-	pZ = path.length;
+	const pl = path.length;
 
-	key = path.get( pos );
+	let key = path.get( pos );
 
 	if( key === 'twig' )
 	{
-		if( pos + 1 === pZ )
-		{
-			throw new Error( );
-		}
+		if( pos + 1 === pl ) throw new Error( );
 
 		key = path.get( pos + 1 );
 
-		if( pos + 2 === pZ )
-		{
-			return this.create( 'twig:set', key, value );
-		}
+		if( pos + 2 === pl ) return this.create( 'twig:set', key, value );
 
 		return(
 			this.create(
@@ -368,10 +324,7 @@ tim_proto.setPath =
 		);
 	}
 
-	if( pos + 1 === pZ )
-	{
-		return this.create( key, value );
-	}
+	if( pos + 1 === pl ) return this.create( key, value );
 
 	return this.create( key, this[ key ].setPath( path, value, pos + 1 ) );
 };
@@ -386,33 +339,28 @@ tim_proto.getPath =
 		pos    // position in the path
 	)
 {
-	var
-		key,
-		pZ,
-		tk;
-
 	if( pos === undefined ) pos = 0;
 
 	if( path.length === pos ) return this;
 
-	pZ = path.length,
+	const pl = path.length;
 
-	key = path.get( pos );
+	let key = path.get( pos );
 
 	if( key === 'twig' )
 	{
-		if( pos + 1 === pZ ) throw new Error( );
+		if( pos + 1 === pl ) throw new Error( );
 
 		key = path.get( pos + 1 );
 
-		tk = this._twig[ key ];
+		const tk = this._twig[ key ];
 
-		if( pos + 2 === pZ || tk === undefined ) return tk;
+		if( pos + 2 === pl || tk === undefined ) return tk;
 
 		return tk.getPath( path, pos + 2 );
 	}
 
-	if( pos + 1 === pZ ) return this[ key ];
+	if( pos + 1 === pl ) return this[ key ];
 
 	return this[ key ].getPath( path, pos + 1 );
 };
@@ -466,10 +414,7 @@ tim_proto.groupGet =
 tim_proto.groupKeys =
 	function( )
 {
-	var
-		keys;
-
-	keys = Object.keys( this._group );
+	const keys = Object.keys( this._group );
 
 	if( FREEZE ) Object.freeze( keys );
 
@@ -483,12 +428,7 @@ tim_proto.groupKeys =
 tim_proto.groupSortedKeys =
 	function( )
 {
-	var
-		keys;
-
-	keys = this.keys;
-
-	keys = keys.slice( ).sort( );
+	const keys = this.keys.slice( ).sort( );
 
 	if( FREEZE ) Object.freeze( keys );
 
@@ -744,14 +684,6 @@ tim_proto.twigSet =
 {
 	return this.create( 'twig:set', key, entry );
 };
-
-
-//FUTURE right now disabled since
-//browser makes tim_proto to jion and adds jion.path.
-//if( FREEZE )
-//{
-//	Object.freeze( tim_proto );
-//}
 
 
 } )( );

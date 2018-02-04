@@ -31,8 +31,6 @@ exports.stringList = require( './stringList' );
 
 exports.copy = proto.copy;
 
-exports.isString = proto.isString;
-
 exports.lazyFunctionInteger = proto.lazyFunctionInteger;
 
 exports.lazyFunctionString = proto.lazyFunctionString;

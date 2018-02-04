@@ -223,7 +223,7 @@ const formatArrayLiteral =
 
 	text += context.tab + '[\n';
 
-	for( let a = 0, aZ = expr.length; a < aZ; a++ )
+	for( let a = 0, al = expr.length; a < al; a++ )
 	{
 		text +=
 			formatExpression(
@@ -232,7 +232,7 @@ const formatArrayLiteral =
 				ast_arrayLiteral
 			)
 			+ (
-				a + 1 < aZ
+				a + 1 < al
 				? ',\n'
 				: '\n'
 			);
@@ -404,11 +404,11 @@ const formatCall =
 	{
 		text += '(' + context.sep;
 
-		for( let a = 0, aZ = call.length; a < aZ; a++ )
+		for( let a = 0, al = call.length; a < al; a++ )
 		{
 			text += formatExpression( context.inc, call.get( a ) );
 
-			if( a + 1 < aZ )
+			if( a + 1 < al )
 			{
 				text += ',' + context.sep;
 			}
@@ -510,7 +510,7 @@ const formatComment =
 {
 	let text = context.tab + '/*' + '\n';
 
-	for( let a = 0, aZ = comment.length; a < aZ; a++ )
+	for( let a = 0, al = comment.length; a < al; a++ )
 	{
 		const c = comment.get( a );
 
@@ -940,11 +940,11 @@ const formatFunc =
 	{
 		text += 'function(' + context.sep;
 
-		for( let a = 0, aZ = func.length; a < aZ; a++ )
+		for( let a = 0, al = func.length; a < al; a++ )
 		{
 			const arg = func.get( a );
 
-			const comma = a + 1 < aZ ? ',' : '';
+			const comma = a + 1 < al ? ',' : '';
 
 			const argSpace = arg.name ? ' ' : '';
 
@@ -1272,23 +1272,20 @@ const formatOr =
 		expr
 	)
 {
-	var
-		text;
 
 /**/if( CHECK )
 /**/{
 /**/	if( expr.timtype !== ast_or ) throw new Error( );
 /**/}
 
-	text =
+	return(
 		formatExpression( context, expr.left, ast_or )
 		+ context.sep
 		+ context.tab
 		+ '||'
 		+ context.sep
-		+ formatExpression( context, expr.right, ast_or );
-
-	return text;
+		+ formatExpression( context, expr.right, ast_or )
+	);
 };
 
 
@@ -1302,11 +1299,9 @@ const formatOpAssign =
 		assign
 	)
 {
-	var
-		op,
-		text;
-
 	context = context.incSame;
+
+	let op;
 
 	switch( assign.timtype )
 	{
@@ -1320,6 +1315,8 @@ const formatOpAssign =
 
 		default : throw new Error( );
 	}
+
+	let text;
 
 	try
 	{
@@ -1775,18 +1772,9 @@ const formatSwitch =
 		switchExpr
 	)
 {
-	var
-		a,
-		aZ,
-		b,
-		bZ,
-		caseContext,
-		caseExpr,
-		text;
+	const caseContext = context.inc;
 
-	caseContext = context.inc;
-
-	text =
+	let text =
 		context.tab
 		+ 'switch( '
 		+ formatExpression( context.setInline, switchExpr.statement )
@@ -1794,22 +1782,15 @@ const formatSwitch =
 		+ context.tab
 		+ '{\n';
 
-	for(
-		a = 0, aZ = switchExpr.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, al = switchExpr.length; a < al; a++ )
 	{
-		caseExpr = switchExpr.get( a );
+		const caseExpr = switchExpr.get( a );
 
-		if( a > 0 )
-		{
-			text += '\n';
-		}
+		if( a > 0 ) text += '\n';
 
 		// FUTURE this is broken for
 		// caseExpr.length > 1
-		for( b = 0, bZ = caseExpr.length; b < bZ; b++ )
+		for( let b = 0, bl = caseExpr.length; b < bl; b++ )
 		{
 			text +=
 				caseContext.tab
@@ -1886,8 +1867,6 @@ formatObjLiteral =
 	)
 {
 	var
-		a,
-		aZ,
 		key,
 		text;
 
@@ -1897,7 +1876,6 @@ formatObjLiteral =
 /**/{
 /**/	if( expr.timtype !== ast_objLiteral ) throw new Error( );
 /**/}
-
 
 	if( expr.length === 0 )
 	{
@@ -1911,11 +1889,7 @@ formatObjLiteral =
 
 	text += context.tab + '{\n';
 
-	for(
-		a = 0, aZ = expr.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, al = expr.length; a < al; a++ )
 	{
 		key = expr.getKey( a );
 
@@ -1930,7 +1904,7 @@ formatObjLiteral =
 				expr.get( key )
 				// FUTURE, precTable.Objliteral
 			)
-			+ ( a + 1 < aZ ? ',\n' : '\n' );
+			+ ( a + 1 < al ? ',\n' : '\n' );
 	}
 
 	text += context.tab + '}';

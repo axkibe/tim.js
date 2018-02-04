@@ -2,14 +2,10 @@
 | Runs the node Read-Eval-Print-Loop for debugging
 | in a ideoloom environment supporting tims etc.
 */
+'use strict';
+
 
 Error.stackTraceLimit = Infinity;
-
-/*
-| Capsule.
-*/
-(function( ) {
-'use strict';
 
 
 // repl runs in full checking
@@ -39,6 +35,7 @@ global.format = global.format_formatter.format;
 
 global.util = require( 'util' );
 
+
 /*
 | Comfort function, inspects with infinite depth as default.
 */
@@ -51,70 +48,52 @@ global.inspect =
 };
 
 
-var
-	defaultEval,
-	fs,
-	history,
-	historyFileName,
-	maxHistory,
-	repl;
+const historyFileName = '.repl-history';
 
-historyFileName = '.repl-history';
+const maxHistory = 1000;
 
-maxHistory = 1000;
+const fs = require( 'fs' );
 
-fs = require( 'fs' );
+let repl = require( 'repl' );
 
-repl = require( 'repl' );
+let hist;
 
 try
 {
-	history = fs.readFileSync( historyFileName );
+	hist = fs.readFileSync( historyFileName ) + '';
 
-	history = history + '';
-
-	history = history.split( '\n' );
+	hist = hist.split( '\n' );
 }
 catch( err )
 {
-	history = [ ];
+	hist = [ ];
 }
 
 repl = repl.start( 'repl> ' );
 
-repl.rli.history = history.reverse( );
+repl.rli.history = hist.reverse( );
 
 // strange wording to make jshint happy
-defaultEval = repl[ '_eval'.substr( 1 ) ];
+//const defaultEval = repl[ '_eval'.substr( 1 ) ];
+const defaultEval = repl.eval;
 
 repl[ '_eval'.substr( 1 ) ] =
 	function( cmd, context, filename, callback )
+{
+	const c = cmd.trim( );
+
+	if( c !== '' )
 	{
-		var
-			c;
+		hist.push( c );
 
-		c = cmd.trim( );
-
-		if( c !== '' )
+		if( history.length > maxHistory )
 		{
-			history.push( c );
-
-			if( history.length > maxHistory )
-			{
-				history.shift( );
-			}
+			history.shift( );
 		}
-
-		defaultEval.call( repl, cmd, context, filename, callback );
-	};
-
-repl.on(
-	'exit',
-	function( )
-	{
-		fs.writeFileSync( historyFileName, history.join( '\n' ) );
 	}
-);
 
+	defaultEval.call( repl, cmd, context, filename, callback );
+};
 
-} )( );
+repl.on( 'exit', ( ) => fs.writeFileSync( historyFileName, history.join( '\n' ) ) );
+

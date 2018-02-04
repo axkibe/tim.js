@@ -182,8 +182,6 @@ const getBrowserNoMangleBranch =
 
 		table[ key ] = true;
 
-		console.log( key );
-
 		getBrowserNoMangleBranch( table, branch[ key ] );
 	}
 };

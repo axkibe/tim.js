@@ -387,7 +387,6 @@ def.func.genImports =
 
 		// no need to require tim itself
 		if( id.packet === 'tim' ) continue;
-		if( id.packet === 'jion' ) continue;
 
 		// FUTURE make this more elegant
 		if( idKey.indexOf( ':' ) >= 0 ) continue;
@@ -443,7 +442,6 @@ def.func.genRequires =
 
 		// no need to require tim itself
 		if( id.packet === 'tim' ) continue;
-		if( id.packet === 'jion' ) continue;
 
 		if( id.packet && id.packet !== this.id.packet )
 		{
@@ -2486,9 +2484,9 @@ def.func.$protoLazyValueSet =
 
 
 /*
-| Generates the jionProto stuff.
+| Generates the timProto stuff.
 */
-def.func.genJionProto =
+def.func.genTimProto =
 	function( )
 {
 	let result =
@@ -3091,7 +3089,7 @@ def.func.genCapsule =
 	capsule =
 		capsule
 		.$( this.genReflection( ) )
-		.$( this.genJionProto( ) );
+		.$( this.genTimProto( ) );
 
 	if( this.hasJson )
 	{
@@ -3114,7 +3112,7 @@ def.func.genCapsule =
 
 
 /*
-| Generates code from a jion definition.
+| Generates code from a tim definition.
 */
 def.static.generate =
 	function(

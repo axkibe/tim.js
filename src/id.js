@@ -17,9 +17,9 @@ if( TIM )
 {
 	def.attributes =
 	{
-		'packet' :
+		packet :
 		{
-			comment : 'the jion is in/from a package',
+			comment : 'the tim is in/from a package',
 			type : [ 'undefined', 'string' ]
 		}
 	};
@@ -134,27 +134,6 @@ def.static.compare =
 };
 
 
-
-/*
-| This name as ast string.
-*/
-def.lazy.$abstractName =
-	function( )
-{
-	return shorthand.$string( this.name + ':abstract' );
-};
-
-
-/*
-| This id as abstract as ast string.
-*/
-def.lazy.$abstractPathName =
-	function( )
-{
-	return shorthand.$string( this.pathName + ':abstract' );
-};
-
-
 /*
 | Returns if equalness of this object must be used by a
 | .equals( ) call, may have an .equals( ) func or never
@@ -223,17 +202,6 @@ def.lazy.name =
 	function( )
 {
 	return this.get( this.length - 1 );
-};
-
-
-
-/*
-| This name as ast string.
-*/
-def.lazy.$name =
-	function( )
-{
-	return shorthand.$string( this.name );
 };
 
 

@@ -1,4 +1,4 @@
-/*
+/* var
 | A partial parser for javascript.
 |
 | This parser must not use ast-shorthands,
@@ -304,11 +304,7 @@ parser.handleCondition =
 		spec   // operator spec
 	)
 {
-	var
-		condition,
-		then;
-
-	condition = state.ast;
+	const condition = state.ast;
 
 /**/if( CHECK )
 /**/{
@@ -327,7 +323,7 @@ parser.handleCondition =
 
 	state = parseToken( state, spec );
 
-	then = state.ast;
+	const then = state.ast;
 
 	if( state.current.type !== ':' ) throw new Error( 'missing ":"' );
 
@@ -486,10 +482,7 @@ parser.handleMember =
 		spec   // operator spec
 	)
 {
-	var
-		ast;
-
-	ast = state.ast;
+	const ast = state.ast;
 
 /**/if( CHECK )
 /**/{
@@ -574,15 +567,9 @@ parser.handleNew =
 		spec   // operator spec
 	)
 {
-	var
-		ast;
+	const ast = state.ast;
 
-	ast = state.ast;
-
-	if( ast )
-	{
-		throw new Error( 'parse error' );
-	}
+	if( ast ) throw new Error( 'parse error' );
 
 	state =
 		state.create(
@@ -652,19 +639,12 @@ parser.handleObjectLiteral =
 		// spec   // operator spec
 	)
 {
-	var
-		olit,
-		ast;
+	const ast = state.ast;
 
-	ast = state.ast;
-
-	if( ast )
-	{
-		throw new Error( 'parser error' );
-	}
+	if( ast ) throw new Error( 'parser error' );
 
 	// this is an array literal
-	olit = ast_objLiteral.create( );
+	const olit = ast_objLiteral.create( );
 
 	state =
 		state.create(
@@ -730,33 +710,18 @@ parser.handleReturn =
 		state // current parser state
 	)
 {
-	var
-		ast;
-
-	ast = state.ast;
-
 /**/if( CHECK )
 /**/{
-/**/	if( state.ast )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( state.ast ) throw new Error( );
 /**/
-/**/	if( state.current.type !== 'return' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( state.current.type !== 'return' ) throw new Error( );
 /**/}
 
 	state = state.create( 'pos', state.pos + 1 );
 
 	state = parseToken( state, leftSpecs.start );
 
-	return(
-		state.create(
-			'ast', ast_return.create( 'expr', state.ast )
-		)
-	);
+	return state.create( 'ast', ast_return.create( 'expr', state.ast ) );
 };
 
 
@@ -1135,8 +1100,7 @@ const getSpec =
 		statement
 	)
 {
-	var
-		spec;
+	let spec;
 
 	if( !state.ast )
 	{
@@ -1173,10 +1137,6 @@ const parseToken =
 		spec
 	)
 {
-	var
-		nextSpec,
-		tokenSpec;
-
 	// this is already a preparsed astTree.
 
 	if( !state.ast && state.current.timtype !== jsLexer_token )
@@ -1185,14 +1145,14 @@ const parseToken =
 	}
 	else
 	{
-		tokenSpec = getSpec( state, spec.prec === 99 );
+		const tokenSpec = getSpec( state, spec.prec === 99 );
 
 		state = parser[ tokenSpec.handler ]( state, tokenSpec );
 	}
 
 	while( !state.reachedEnd )
 	{
-		nextSpec = getSpec( state, false );
+		const nextSpec = getSpec( state, false );
 
 		if(
 			nextSpec.prec === undefined
@@ -1223,14 +1183,12 @@ parser.tokenizeArray =
 	)
 {
 	var
-		a,
 		arg,
-		aZ,
 		tokens;
 
 	tokens = jsParser_tokenList.create( );
 
-	for( a = 0, aZ = array.length; a < aZ; a++ )
+	for( let a = 0, al = array.length; a < al; a++ )
 	{
 		arg = array[ a ];
 

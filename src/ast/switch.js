@@ -88,10 +88,7 @@ def.func.$default =
 		// ... parseable
 	)
 {
-	var
-		block;
-
-	block = parser.parseArray( arguments );
+	let block = parser.parseArray( arguments );
 
 	if( block.timtype !== ast_block )
 	{

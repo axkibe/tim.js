@@ -1,24 +1,11 @@
 /*
 | Checks if a tim definition is ok.
 */
-
-
-/*
-| Exports.
-*/
-var
-	validator;
-
-
-/*
-| Capsule.
-*/
-(function( ) {
 'use strict';
 
 
-
-validator = module.exports;
+require( './ouroboros' )
+.define( module, 'validator', ( def, validator ) => {
 
 
 /*
@@ -63,7 +50,7 @@ const attributeTwigBlacklist =
 
 
 /*
-| A jion definition may have these.
+| A tim definition may have these.
 */
 const timWhitelist =
 	Object.freeze( {
@@ -80,7 +67,7 @@ const timWhitelist =
 
 
 /*
-| Checks if a jion prepare looks ok.
+| Checks if a tim prepare looks ok.
 */
 const checkPrepare =
 	function(
@@ -97,54 +84,40 @@ const checkPrepare =
 */
 const checkAlikes =
 	function(
-		jion // the jion definition
+		def // the tim definition
 	)
 {
-	var
-		alike,
-		adef,
-		ignores,
-		name;
+	const alike = def.alike;
 
-	alike = jion.alike;
-
-	if( !jion.attributes )
+	if( !def.attributes )
 	{
-		throw new Error(
-			'there cannot be alikes without attributes'
-		);
+		throw new Error( 'there cannot be alikes without attributes' );
 	}
 
-	for( name in alike )
+	for( let name in alike )
 	{
-		adef = alike[ name ];
+		const adef = alike[ name ];
 
-		for( var spec in adef )
+		for( let spec in adef )
 		{
 			if( spec !== 'ignores' )
 			{
-				throw new Error(
-					'alike ' + name + ' has invalid specifier ' + spec
-				);
+				throw new Error( 'alike ' + name + ' has invalid specifier ' + spec );
 			}
 		}
 
-		ignores = adef.ignores;
+		const ignores = adef.ignores;
 
 		if( typeof( ignores ) !== 'object' )
 		{
-			throw new Error(
-				'alike ' + name + ' misses ignores.'
-			);
+			throw new Error( 'alike ' + name + ' misses ignores.' );
 		}
 
-		for( var attr in ignores )
+		for( let attr in ignores )
 		{
-			if( !jion.attributes[ attr ] )
+			if( !def.attributes[ attr ] )
 			{
-				throw new Error(
-					'alike ' + name + ' ignores unknown attribute ' + attr
-				);
+				throw new Error( 'alike ' + name + ' ignores unknown attribute ' + attr );
 			}
 		}
 	}
@@ -160,36 +133,25 @@ const checkAlikes =
 */
 const checkGroup =
 	function(
-		jion // the jion definition
+		def // the tim definition
 	)
 {
-	var
-		a,
-		aZ,
-		entry,
-		map,
-		group;
+	const group = tim.group;
 
-	group = jion.group;
-
-	map = { };
+	const map = { };
 
 	if( !( Array.isArray( group ) ) )
 	{
-		throw new Error(
-			'group definition must be an Array'
-		);
+		throw new Error( 'group definition must be an Array' );
 	}
 
-	for( a = 0, aZ = group.length; a < aZ; a++ )
+	for( let a = 0, al = group.length; a < al; a++ )
 	{
-		entry = group[ a ];
+		const entry = group[ a ];
 
 		if( typeof( entry ) !== 'string' )
 		{
-			throw new Error(
-				'group definition entry not a string'
-			);
+			throw new Error( 'group definition entry not a string' );
 		}
 
 		if( map[ entry ] )
@@ -212,19 +174,12 @@ const checkGroup =
 */
 const checkList =
 	function(
-		jion // the jion definition
+		tim // the tim definition
 	)
 {
-	var
-		a,
-		aZ,
-		entry,
-		list,
-		map;
+	const list = tim.list;
 
-	list = jion.list;
-
-	map = { };
+	const map = { };
 
 	if( !( Array.isArray( list ) ) )
 	{
@@ -233,9 +188,9 @@ const checkList =
 		);
 	}
 
-	for( a = 0, aZ = list.length; a < aZ; a++ )
+	for( let a = 0, al = list.length; a < al; a++ )
 	{
-		entry = list[ a ];
+		const entry = list[ a ];
 
 		if( typeof( entry ) !== 'string' )
 		{
@@ -263,34 +218,21 @@ const checkList =
 */
 const checkTwig =
 	function(
-		jion // the jion definition
+		def // the tim definition
 	)
 {
-	var
-		a,
-		aZ,
-		entry,
-		map,
-		twig;
+	const twig = def.twig;
 
-	twig = jion.twig;
-
-	map = { };
+	const map = { };
 
 	if( !( Array.isArray( twig ) ) )
 	{
-		throw new Error(
-			'twig definition must be an Array'
-		);
+		throw new Error( 'twig definition must be an Array' );
 	}
 
-	for(
-		a = 0, aZ = twig.length;
-		a < aZ;
-		a++
-	)
+	for( let a = 0, al = twig.length; a < al; a++ )
 	{
-		entry = twig[ a ];
+		const entry = twig[ a ];
 
 		if( typeof( entry ) !== 'string' )
 		{
@@ -359,53 +301,37 @@ const checkAttributeSingleType =
 
 
 /*
-| Checks if a jion attribute definition looks ok.
+| Checks if a tim attribute definition looks ok.
 */
 const checkAttribute =
 	function(
-		jion,	// the jion definition
+		def,	// the tim definition
 		name	// the attribute name
 	)
 {
-	var
-		a,
-		aZ,
-		attr,
-		key,
-		type,
-		value;
-
 	if( attributeBlacklist[ name ] )
 	{
-		throw new Error(
-			'attribute must not be named "' + name + '"'
-		);
+		throw new Error( 'attribute must not be named "' + name + '"' );
 	}
 
-	if( jion.group && attributeGroupBlacklist[ name ] )
+	if( def.group && attributeGroupBlacklist[ name ] )
 	{
-		throw new Error(
-			'groups must not have an attribute named "' + name + '"'
-		);
+		throw new Error( 'groups must not have an attribute named "' + name + '"' );
 	}
 
-	if( jion.group && attributeListBlacklist[ name ] )
+	if( def.group && attributeListBlacklist[ name ] )
 	{
-		throw new Error(
-			'lists must not have an attribute named "' + name + '"'
-		);
+		throw new Error( 'lists must not have an attribute named "' + name + '"' );
 	}
 
-	if( jion.group && attributeTwigBlacklist[ name ] )
+	if( def.group && attributeTwigBlacklist[ name ] )
 	{
-		throw new Error(
-			'twigs must not have an attribute named "' + name + '"'
-		);
+		throw new Error( 'twigs must not have an attribute named "' + name + '"' );
 	}
 
-	attr = jion.attributes[ name ];
+	const attr = def.attributes[ name ];
 
-	type = attr.type;
+	const type = attr.type;
 
 	if( typeof( type ) !== 'string' )
 	{
@@ -415,21 +341,19 @@ const checkAttribute =
 	{
 		// for now assuming its okay
 
-		for( a = 0, aZ = type.length; a < aZ; a++ )
+		for( let a = 0, al = type.length; a < al; a++ )
 		{
 			checkAttributeSingleType( name, type[ a ] );
 		}
 	}
 	else
 	{
-		throw new Error(
-			'attribute "' + name + '" has invalid type: ' + type
-		);
+		throw new Error( 'attribute "' + name + '" has invalid type: ' + type );
 	}
 
-	for( key in attr )
+	for( let key in attr )
 	{
-		value = attr[ key ];
+		const value = attr[ key ];
 
 		switch( key )
 		{
@@ -492,74 +416,59 @@ const checkAttribute =
 
 
 /*
-| Checks if a jion definition looks ok.
+| Checks if a tim definition looks ok.
 */
-validator.check =
+def.static.check =
 	function(
-		jion // the jion object definition
+		def // the tim definition
 	)
 {
-	var
-		attr,
-		name;
+	if( !def ) throw new Error( );
 
-	if( !jion ) throw new Error( );
-
-	for( name in jion )
+	for( let name in def )
 	{
 		if( !timWhitelist[ name ] )
 		{
-			throw new Error( 'invalid jion parameter: ' + name );
+			throw new Error( 'invalid tim parameter: ' + name );
 		}
 	}
 
-	if( typeof( jion.id ) !== 'string' )
+	if( typeof( def.id ) !== 'string' )
 	{
 		throw new Error( 'id missing' );
 	}
 
-	attr = jion.attributes;
+	const attr = def.attributes;
 
 	if( attr )
 	{
-		for( name in attr )
-		{
-			checkAttribute( jion, name );
-		}
+		for( let name in attr ) checkAttribute( def, name );
 	}
 
-	if( jion.alike )
+	if( def.alike ) checkAlikes( def );
+
+	if( def.group && def.list )
 	{
-		checkAlikes( jion );
+		throw new Error( 'a tim cannot be a group and list at the same time' );
 	}
 
-	if( jion.group && jion.list )
+	if( def.group && def.twig )
 	{
-		throw new Error(
-			'a jion cannot be a group and list at the same time'
-		);
+		throw new Error( 'a tim cannot be a group and twig at the same time' );
 	}
 
-	if( jion.group && jion.twig )
+	if( def.list && def.twig )
 	{
-		throw new Error(
-			'a jion cannot be a group and twig at the same time'
-		);
+		throw new Error( 'a tim cannot be a list and twig at the same time' );
 	}
 
-	if( jion.list && jion.twig )
-	{
-		throw new Error(
-			'a jion cannot be a list and twig at the same time'
-		);
-	}
+	if( def.group ) checkGroup( def );
 
-	if( jion.group ) checkGroup( jion );
+	if( def.list ) checkList( def );
 
-	if( jion.list ) checkList( jion );
-
-	if( jion.twig ) checkTwig( jion );
+	if( def.twig ) checkTwig( def );
 };
 
 
-} )( );
+} );
+

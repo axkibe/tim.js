@@ -239,9 +239,6 @@ module.exports =
 
 	exports.timcode = fs.readFileSync( timcodeRootDir + timcodeFilename, readOptions );
 
-	// FIXME
-	exports.jionId = timDef.id;
-
 	exports.timcodeFilename = timcodeFilename;
 
 	exports.hasJson = timDefHasJson( timDef );

@@ -1,5 +1,5 @@
 /*
-| All timcode files to be generated for jion itself.
+| All timcode files to be generated for tim.js itself.
 |
 | This is needed for 'ouroboros' builds, so the code
 | can be build all at once instead of file by file with

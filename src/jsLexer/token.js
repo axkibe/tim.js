@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'jsLexer_token', ( def, jsLexer_token ) => {
+.define( module, 'jsLexer_token', ( def, token ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -93,6 +93,19 @@ def.func._init =
 /**/	if( !tokenList[ this.type ] ) throw new Error( );
 /**/}
 
+};
+
+
+/*
+| Shortcut to create a token of type t with value v.
+*/
+def.static.tv =
+	function(
+		t,  // type
+		v   // value maybe undefined
+	)
+{
+	return token.create( 'type', t, 'value', v );
 };
 
 

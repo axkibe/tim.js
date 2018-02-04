@@ -97,8 +97,6 @@ const ast_var = require( './var' );
 
 const ast_varDec = require( './varDec' );
 
-const jion_proto = require( '../proto' );
-
 const parser = require( '../jsParser/parser' );
 
 
@@ -419,7 +417,7 @@ def.static.$fail =
 	{
 		message = undefined;
 	}
-	else if( jion_proto.isString( message ) )
+	else if( typeof( message ) === 'string' )
 	{
 		message = ast_string.create( 'string', message );
 	}

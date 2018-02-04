@@ -42,17 +42,11 @@ const ast_member = require( './member' );
 def.func._init =
 	function( )
 {
-	var
-		regex;
-
 /**/if( CHECK )
 /**/{
-/**/	regex =	/^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
+/**/	const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
 /**/
-/**/	if( !regex.test( this.member ) )
-/**/	{
-/**/		throw new Error( 'invalid member name' );
-/**/	}
+/**/	if( !regex.test( this.member ) ) throw new Error( 'invalid member name' );
 /**/
 /**/	switch( this.name )
 /**/	{

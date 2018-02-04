@@ -1,32 +1,15 @@
 /*
 | The javascript lexer turns a string into a series of tokens.
 */
-
-
-var
-	jsLexer;
-
-
-jsLexer = module.exports;
-
-
-/*
-| Capsule
-*/
-(function() {
 'use strict';
 
 
-var
-	jion_proto,
-	jsLexer_token,
-	jsLexer_tokenList;
+let jsLexer = module.exports;
 
-jion_proto = require( '../proto' );
 
-jsLexer_token = require( './token' );
+const token = require( './token' ).tv;
 
-jsLexer_tokenList = require( './tokenList' );
+const tokenList = require( './tokenList' );
 
 
 /*
@@ -37,33 +20,23 @@ jsLexer_tokenList = require( './tokenList' );
 jsLexer.tokenize =
 	function( code )
 {
-	var
-		c,
-		ch,
-		cZ,
-		value,
-		tokens;
+	if( typeof( code ) !== 'string' ) throw new Error( 'cannot tokenize non-strings' );
 
-	if( !jion_proto.isString( code ) )
+	const tokens = [ ];
+
+	for( let c = 0, cl = code.length; c < cl; c++ )
 	{
-		throw new Error( 'cannot tokenize non-strings' );
-	}
-
-	tokens = [ ];
-
-	for( c = 0, cZ = code.length; c < cZ; c++ )
-	{
-		ch = code[ c ];
+		const ch = code[ c ];
 
 		// skips whitespaces
 		if( ch.match( /\s/ ) ) continue;
 
 		if( ch.match( /[a-zA-Z_$]/ ) )
 		{
-			value = ch;
+			let value = ch;
 
 			// a name specifier
-			while( c + 1 < cZ && code[ c+ 1 ].match( /[a-zA-Z0-9_$]/ ) )
+			while( c + 1 < cl && code[ c+ 1 ].match( /[a-zA-Z0-9_$]/ ) )
 			{
 				value += code[ ++c ];
 			}
@@ -79,20 +52,13 @@ jsLexer.tokenize =
 				case 'true' :
 				case 'typeof' :
 
-					tokens.push(
-						jsLexer_token.create( 'type', value )
-					);
+					tokens.push( token( value ) );
 
 					continue;
 
 				default :
 
-					tokens.push(
-						jsLexer_token.create(
-							'type', 'identifier',
-							'value', value
-						)
-					);
+					tokens.push( token( 'identifier', value ) );
 
 					continue;
 			}
@@ -103,18 +69,16 @@ jsLexer.tokenize =
 		if( ch.match(/[0-9]/ ) )
 		{
 			// a number
-			value = ch;
+			let value = ch;
 
-			while( c + 1 < cZ && code[ c + 1 ].match( /[0-9]/ ) )
+			while( c + 1 < cl && code[ c + 1 ].match( /[0-9]/ ) )
 			{
 				value += code[ ++c ];
 			}
 
 			value = parseInt( value, 10 );
 
-			tokens.push(
-				jsLexer_token.create( 'type', 'number', 'value', value )
-			);
+			tokens.push( token( 'number', value ) );
 
 			continue;
 		}
@@ -122,11 +86,11 @@ jsLexer.tokenize =
 		if( ch === '"' )
 		{
 			// a string literal
-			value = '';
+			let value = '';
 
 			c++;
 
-			if( c >= cZ ) throw new Error( '" missing' );
+			if( c >= cl ) throw new Error( '" missing' );
 
 			// FUTURE handle \"
 			while( code[ c ] !== '"' )
@@ -135,12 +99,10 @@ jsLexer.tokenize =
 
 				c++;
 
-				if( c >= cZ ) throw new Error( '" missing' );
+				if( c >= cl ) throw new Error( '" missing' );
 			}
 
-			tokens.push(
-				jsLexer_token.create( 'type', 'string', 'value', value )
-			);
+			tokens.push( token( 'string', value ) );
 
 			continue;
 		}
@@ -160,19 +122,17 @@ jsLexer.tokenize =
 			case '{' :
 			case '}' :
 
-				tokens.push(
-					jsLexer_token.create( 'type', ch )
-				);
+				tokens.push( token( ch ) );
 
 				continue;
 
 			case '=' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					if( c + 2 < cZ && code[ c + 2 ] === '=' )
+					if( c + 2 < cl && code[ c + 2 ] === '=' )
 					{
-						tokens.push( jsLexer_token.create( 'type', '===' ) );
+						tokens.push( token( '===' ) );
 
 						c += 2;
 
@@ -185,22 +145,18 @@ jsLexer.tokenize =
 				}
 				else
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '=' )
-					);
+					tokens.push( token( '=' ) );
 				}
 
 				continue;
 
 			case '!' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					if( c + 2 < cZ && code[ c + 2 ] === '=' )
+					if( c + 2 < cl && code[ c + 2 ] === '=' )
 					{
-						tokens.push(
-							jsLexer_token.create( 'type', '!==' )
-						);
+						tokens.push( token( '!==' ) );
 
 						c += 2;
 
@@ -213,104 +169,88 @@ jsLexer.tokenize =
 				}
 				else
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '!' )
-					);
+					tokens.push( token( '!' ) );
 				}
 
 				continue;
 
 			case '+' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '+' )
+				if( c + 1 < cl && code[ c + 1 ] === '+' )
 				{
-					tokens.push( jsLexer_token.create( 'type', '++' ) );
+					tokens.push( token( '++' ) );
 
 					c++;
 				}
-				else if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				else if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( jsLexer_token.create( 'type', '+=' ) );
+					tokens.push( token( '+=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '+' )
-					);
+					tokens.push( token( '+' ) );
 				}
 
 				continue;
 
 			case '-' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '-' )
+				if( c + 1 < cl && code[ c + 1 ] === '-' )
 				{
-					tokens.push( jsLexer_token.create( 'type', '--' ) );
+					tokens.push( token( '--' ) );
 
 					c++;
 				}
-				else if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				else if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( jsLexer_token.create( 'type', '-=' ) );
+					tokens.push( token( '-=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '-' )
-					);
+					tokens.push( token( '-' ) );
 				}
 
 				continue;
 
 			case '*' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '*=' )
-					);
+					tokens.push( token( '*=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '*' )
-					);
+					tokens.push( token( '*' ) );
 				}
 
 				continue;
 
 			case '/' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '=' )
+				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '/=' )
-					);
+					tokens.push( token( '/=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '/' )
-					);
+					tokens.push( token( '/' ) );
 				}
 
 				continue;
 
 			case '|' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '|' )
+				if( c + 1 < cl && code[ c + 1 ] === '|' )
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '||' )
-					);
+					tokens.push( token( '||' ) );
 
 					c++;
 				}
@@ -323,11 +263,9 @@ jsLexer.tokenize =
 
 			case '&' :
 
-				if( c + 1 < cZ && code[ c + 1 ] === '&' )
+				if( c + 1 < cl && code[ c + 1 ] === '&' )
 				{
-					tokens.push(
-						jsLexer_token.create( 'type', '&&' )
-					);
+					tokens.push( token( '&&' ) );
 
 					c++;
 				}
@@ -344,8 +282,6 @@ jsLexer.tokenize =
 		}
 	}
 
-	return jsLexer_tokenList.create( 'list:init', tokens );
+	return tokenList.create( 'list:init', tokens );
 };
 
-
-} )( );
