@@ -46,7 +46,15 @@ tree.addTree =
 
 	path = path.join( '/' ) + '/';
 
-	tree.addTree( path, 'timjs' );
+	// auto detects if this is the backed of
+	// an ouroboros build
+
+	tree.addTree(
+		path, 
+		path.indexOf( '/ouroboros/' < 0 )
+		? 'ouroboros'
+		: 'timjs'
+	);
 } )( );
 
 
