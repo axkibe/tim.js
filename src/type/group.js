@@ -4,7 +4,7 @@
 'use strict';
 
 
-require( './ouroboros' )
+require( '../ouroboros' )
 .define( module, 'type_group', ( def, type_group ) => {
 
 
@@ -26,25 +26,25 @@ const tim_id = require( '../id' );
 | Creates an id repository from an
 | array of id strings.
 */
-def.static.createFromIDStrings =
+def.static.createFromArray =
 	function(
-		idStrings
+		array
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( !Array.isArray( idStrings ) ) throw new Error( );
+/**/	if( !Array.isArray( array ) ) throw new Error( );
 /**/}
 
 	const ids = { };
 
-	for( let a = 0, al = idStrings.length; a < al; a++ )
+	for( let a = 0, al = array.length; a < al; a++ )
 	{
-		const s = idStrings[ a ];
+		const s = array[ a ];
 
 		if( s.substring( 0, 2 ) !== '->' )
 		{
-			const id = tim_id.createFromString( idStrings[ a ] );
+			const id = tim_id.createFromString( array[ a ] );
 
 			ids[ id.pathName ] = id;
 		}
@@ -52,11 +52,11 @@ def.static.createFromIDStrings =
 		{
 			// FUTURE may check for circular requirements
 			const subList =
-				type_group.createFromIDStrings(
+				type_group.createFromArray(
 					require( '../typemaps/' + s.substring( 2 ) )
 				).idList;
 
-			for( let b = 0, bZ = subList.length; b < bZ; b++ )
+			for( let b = 0, bl = subList.length; b < bl; b++ )
 			{
 				const subId = subList[ b ];
 

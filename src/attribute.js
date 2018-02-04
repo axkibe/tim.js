@@ -60,7 +60,7 @@ if( TIM )
 		id :
 		{
 			// attribute type id
-			type : [ 'id', 'idGroup' ]
+			type : [ 'id', 'type_group' ]
 		},
 		varRef :
 		{

@@ -44,7 +44,7 @@ const ast_var = require( './ast/var' );
 
 const tim_id = require( './id' );
 
-const tim_idGroup = require( './idGroup' );
+const type_group = require( './type/group' );
 
 const tim_attribute = require( './attribute' );
 
@@ -101,7 +101,7 @@ def.func._init =
 	const constructorList = [ ];
 
 	// foreign ids to be imported
-	let imports = tim_idGroup.create( );
+	let imports = type_group.create( );
 
 	const searchIdWalk =
 		function( node )
@@ -149,7 +149,7 @@ def.func._init =
 		}
 		else
 		{
-			aid = tim_idGroup.createFromIDStrings( type );
+			aid = type_group.createFromArray( type );
 
 			imports = imports.addGroup( aid );
 
@@ -197,7 +197,7 @@ def.func._init =
 
 		let allowsUndefined = false;
 
-		if( aid.timtype === tim_idGroup )
+		if( aid.timtype === type_group )
 		{
 			if( aid.has( idNull ) )
 			{
@@ -318,7 +318,7 @@ def.func._init =
 
 	if( timDef.group )
 	{
-		this.group = tim_idGroup.createFromIDStrings( timDef.group );
+		this.group = type_group.createFromArray( timDef.group );
 
 		imports = imports.addGroup( this.group );
 	}
@@ -329,7 +329,7 @@ def.func._init =
 
 	if( timDef.list )
 	{
-		this.list = tim_idGroup.createFromIDStrings( timDef.list );
+		this.list = type_group.createFromArray( timDef.list );
 
 		imports = imports.addGroup( this.list );
 	}
@@ -340,7 +340,7 @@ def.func._init =
 
 	if( timDef.twig )
 	{
-		this.twig = tim_idGroup.createFromIDStrings( timDef.twig );
+		this.twig = type_group.createFromArray( timDef.twig );
 
 		imports = imports.addGroup( this.twig );
 
@@ -1301,7 +1301,7 @@ def.func.genSingleTypeCheckFailCondition =
 def.func.genTypeCheckFailCondition =
 	function(
 		aVar,    // the variable to check
-		idx,     // the id or idGroup it has to match
+		idx,     // the id or type_group it has to match
 		abstract // if true generate for an abstract constructor
 	)
 {
@@ -1313,7 +1313,7 @@ def.func.genTypeCheckFailCondition =
 
 /**/if( CHECK )
 /**/{
-/**/	if( idx.timtype !== tim_idGroup ) throw new Error( );
+/**/	if( idx.timtype !== type_group ) throw new Error( );
 /**/}
 
 	if( idx.size === 1 )

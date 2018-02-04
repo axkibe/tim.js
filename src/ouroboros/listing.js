@@ -69,7 +69,6 @@ module.exports =
 	'src/format/context.js',
 	'src/generator.js',
 	'src/id.js',
-	'src/idGroup.js',
 	'src/jsLexer/token.js',
 	'src/jsLexer/tokenList.js',
 	'src/jsParser/state.js',

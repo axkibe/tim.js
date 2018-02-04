@@ -129,7 +129,7 @@ const checkAlikes =
 |
 | FUTURE
 |   for this and list/twig, just create
-|   an idGroup, it will complain anyway.
+|   an type group, it will complain anyway.
 */
 const checkGroup =
 	function(

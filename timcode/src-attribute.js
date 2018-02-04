@@ -136,7 +136,7 @@ let ast_var = require( './ast/var' );
 let id = require( './id' );
 
 
-let idGroup = require( './idGroup' );
+let type_group = require( './type/group' );
 
 
 let tim_proto = tim.proto;
@@ -507,7 +507,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_id.timtype !== id && v_id.timtype !== idGroup )
+/**/	if( v_id.timtype !== id && v_id.timtype !== type_group )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -586,7 +586,11 @@ prototype.create =
 			v_defaultValue !== undefined && v_defaultValue.equals( inherit.defaultValue )
 		)
 		&&
-		v_id === inherit.id
+		(
+			v_id === inherit.id
+			||
+			v_id.timtype && v_id.equals( inherit.id )
+		)
 		&&
 		v_json === inherit.json
 		&&
@@ -680,7 +684,11 @@ prototype.equals =
 			this.defaultValue !== undefined && this.defaultValue.equals( obj.defaultValue )
 		)
 		&&
-		this.id === obj.id
+		(
+			this.id === obj.id
+			||
+			this.id.timtype && this.id.equals( obj.id )
+		)
 		&&
 		this.json === obj.json
 		&&
