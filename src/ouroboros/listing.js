@@ -78,4 +78,6 @@ module.exports =
 	'src/path.js',
 	'src/pathList.js',
 	'src/stringList.js',
+	'src/type/boolean.js',
+	'src/type/group.js',
 ];
