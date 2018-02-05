@@ -1,4 +1,4 @@
-/* var
+/*
 | A partial parser for javascript.
 |
 | This parser must not use ast-shorthands,
@@ -559,6 +559,31 @@ parser.handleMonoOps =
 
 
 /*
+| Handler for let.
+*/
+parser.handleLet =
+	function(
+		state // current parser state
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( state.ast ) throw new Error( );
+/**/
+/**/	if( state.current.type !== 'let' ) throw new Error( );
+/**/}
+
+	state = state.create( 'pos', state.pos + 1 );
+
+	state = parseToken( state, leftSpecs.start );
+
+	throw new Error( 'TODO' );
+
+	return state.create( 'ast', ast_let.create( 'expr', state.ast ) );
+};
+
+
+/*
 | Handler for new operations.
 */
 parser.handleNew =
@@ -579,13 +604,7 @@ parser.handleNew =
 
 	state = parseToken( state, spec );
 
-	state =
-		state.create(
-			'ast',
-				ast_new.create(
-					'call', state.ast
-				)
-		);
+	state = state.create( 'ast', ast_new.create( 'call', state.ast ) );
 
 	return state;
 };
@@ -652,10 +671,7 @@ parser.handleObjectLiteral =
 			'pos', state.pos + 1
 		);
 
-	if( state.reachedEnd )
-	{
-		throw new Error( 'missing "}"' );
-	}
+	if( state.reachedEnd ) throw new Error( 'missing "}"' );
 
 	if( state.current.type !== '}' )
 	{
@@ -1085,10 +1101,9 @@ rightSpecs[ ':' ] =
 */
 const statementSpecs = { };
 
-statementSpecs[ 'return' ] =
-	jsParser_spec.create(
-		'handler', 'handleReturn'
-	);
+statementSpecs[ 'let' ] = jsParser_spec.create( 'handler', 'handleLet' );
+
+statementSpecs[ 'return' ] = jsParser_spec.create( 'handler', 'handleReturn' );
 
 
 /*
@@ -1182,15 +1197,11 @@ parser.tokenizeArray =
 		array
 	)
 {
-	var
-		arg,
-		tokens;
-
-	tokens = jsParser_tokenList.create( );
+	let tokens = jsParser_tokenList.create( );
 
 	for( let a = 0, al = array.length; a < al; a++ )
 	{
-		arg = array[ a ];
+		const arg = array[ a ];
 
 		if( arg === undefined ) continue;
 
@@ -1220,15 +1231,11 @@ parser.parseArray =
 		array
 	)
 {
-	var
-		st,
-		tokens;
-
-	tokens = parser.tokenizeArray( array );
+	const tokens = parser.tokenizeArray( array );
 
 	if( tokens.length === 0 ) return undefined;
 
-	st =
+	let st =
 		state.create(
 			'tokens', tokens,
 			'pos', 0,

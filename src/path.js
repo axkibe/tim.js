@@ -172,14 +172,11 @@ def.func.subPathOf =
 def.lazy.string =
 	function( )
 {
-	const b = [ '[ '[ 0 ] ]; // FUTURE jshint bug
+	const b = [ '[' ];
 
-	for( let a = 0, aZ = this.length; a < aZ; a++ )
+	for( let a = 0, al = this.length; a < al; a++ )
 	{
-		b.push(
-			( a > 0 ?  ', ' : ' ' ),
-			this.get( a )
-		);
+		b.push( ( a > 0 ?  ', ' : ' ' ), this.get( a ) );
 	}
 
 	b.push( ' ]' );

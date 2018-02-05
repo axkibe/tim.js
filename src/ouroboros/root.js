@@ -46,7 +46,7 @@ const readOptions = { encoding : 'utf8' };
 /*
 | Parses arguments.
 */
-for( let a = 2, aZ = argV.length; a < aZ; a++ )
+for( let a = 2, al = argV.length; a < al; a++ )
 {
 	const arg = argV[ a ];
 
@@ -124,13 +124,11 @@ const sdefine =
 /*
 | Prepares the listings filenames
 */
-for( let a = 0, aZ = listing.length; a < aZ; a++ )
+for( let a = 0, al = listing.length; a < al; a++ )
 {
 	const inFilename = listing[ a ];
 
-	const outFilename =
-		'./timcode/'
-		+ inFilename.replace( /\//g, '-' );
+	const outFilename = './timcode/' + inFilename.replace( /\//g, '-' );
 
 	const inStat = fs.statSync(  inFilename );
 

@@ -53,7 +53,7 @@ def.func.walk =
 
 	const args = [ ];
 
-	for( let a = 0, aZ = this.length; a < aZ; a++ )
+	for( let a = 0, al = this.length; a < al; a++ )
 	{
 		args[ a ] = this.get( a ).walk( transform );
 	}

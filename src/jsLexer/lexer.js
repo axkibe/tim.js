@@ -43,9 +43,11 @@ jsLexer.tokenize =
 
 			switch( value )
 			{
+				case 'const' :
 				case 'delete' :
 				case 'false' :
 				case 'instanceof' :
+				case 'let' :
 				case 'new' :
 				case 'null' :
 				case 'return' :
