@@ -25,12 +25,7 @@ let tim_proto = tim.proto;
 /*
 | Constructor.
 */
-var
-	Constructor,
-	prototype;
-
-
-Constructor =
+const Constructor =
 	function( )
 {
 	if( prototype.__have_lazy )
@@ -48,7 +43,7 @@ Constructor =
 /*
 | Prototype shortcut
 */
-prototype = Constructor.prototype;
+const prototype = Constructor.prototype;
 
 
 type_boolean.prototype = prototype;
@@ -57,8 +52,7 @@ type_boolean.prototype = prototype;
 /*
 | Singleton
 */
-var
-	_singleton;
+let _singleton;
 
 
 /*

@@ -25,12 +25,7 @@ let tim_proto = tim.proto;
 /*
 | Constructor.
 */
-var
-	Constructor,
-	prototype;
-
-
-Constructor =
+const Constructor =
 	function(
 		v_number
 	)
@@ -52,7 +47,7 @@ Constructor =
 /*
 | Prototype shortcut
 */
-prototype = Constructor.prototype;
+const prototype = Constructor.prototype;
 
 
 ast_number.prototype = prototype;
@@ -68,9 +63,6 @@ prototype.create =
 	)
 {
 	var
-		a,
-		aZ,
-		arg,
 		inherit,
 		v_number;
 
@@ -82,12 +74,12 @@ prototype.create =
 	}
 
 	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
+		let a = 0, al = arguments.length;
+		a < al;
 		a += 2
 	)
 	{
-		arg = arguments[ a + 1 ];
+		let arg = arguments[ a + 1 ];
 
 		switch( arguments[ a ] )
 		{

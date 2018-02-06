@@ -19,118 +19,7 @@ function( ) {
 let ast_let = NODE ? module.exports : module;
 
 
-let ast_and = require( '../ast/and' );
-
-
-let ast_arrayLiteral = require( '../ast/arrayLiteral' );
-
-
-let ast_assign = require( '../ast/assign' );
-
-
-let ast_boolean = require( '../ast/boolean' );
-
-
-let ast_call = require( '../ast/call' );
-
-
-let ast_comma = require( '../ast/comma' );
-
-
-let ast_condition = require( '../ast/condition' );
-
-
-let ast_delete = require( '../ast/delete' );
-
-
-let ast_differs = require( '../ast/differs' );
-
-
-let ast_divide = require( '../ast/divide' );
-
-
-let ast_divideAssign = require( '../ast/divideAssign' );
-
-
-let ast_dot = require( '../ast/dot' );
-
-
-let ast_equals = require( '../ast/equals' );
-
-
-let ast_func = require( '../ast/func' );
-
-
-let ast_greaterThan = require( '../ast/greaterThan' );
-
-
-let ast_instanceof = require( '../ast/instanceof' );
-
-
-let ast_lessThan = require( '../ast/lessThan' );
-
-
-let ast_member = require( '../ast/member' );
-
-
-let ast_minus = require( '../ast/minus' );
-
-
-let ast_minusAssign = require( '../ast/minusAssign' );
-
-
-let ast_multiply = require( '../ast/multiply' );
-
-
-let ast_multiplyAssign = require( '../ast/multiplyAssign' );
-
-
-let ast_negate = require( '../ast/negate' );
-
-
-let ast_new = require( '../ast/new' );
-
-
-let ast_not = require( '../ast/not' );
-
-
-let ast_null = require( '../ast/null' );
-
-
-let ast_number = require( '../ast/number' );
-
-
-let ast_objLiteral = require( '../ast/objLiteral' );
-
-
-let ast_or = require( '../ast/or' );
-
-
-let ast_plus = require( '../ast/plus' );
-
-
-let ast_plusAssign = require( '../ast/plusAssign' );
-
-
-let ast_postDecrement = require( '../ast/postDecrement' );
-
-
-let ast_postIncrement = require( '../ast/postIncrement' );
-
-
-let ast_preDecrement = require( '../ast/preDecrement' );
-
-
-let ast_preIncrement = require( '../ast/preIncrement' );
-
-
-let ast_string = require( '../ast/string' );
-
-
-let ast_typeof = require( '../ast/typeof' );
-
-
-let ast_var = require( '../ast/var' );
+let ast_letEntry = require( '../ast/letEntry' );
 
 
 let tim_proto = tim.proto;
@@ -139,15 +28,9 @@ let tim_proto = tim.proto;
 /*
 | Constructor.
 */
-var
-	Constructor,
-	prototype;
-
-
-Constructor =
+const Constructor =
 	function(
-		v_assign,
-		v_name
+		list // list
 	)
 {
 	if( prototype.__have_lazy )
@@ -155,12 +38,12 @@ Constructor =
 		this.__lazy = { };
 	}
 
-	this.assign = v_assign;
-
-	this.name = v_name;
+	this._list = list;
 
 	if( FREEZE )
 	{
+		Object.freeze( list );
+
 		Object.freeze( this );
 	}
 };
@@ -169,7 +52,7 @@ Constructor =
 /*
 | Prototype shortcut
 */
-prototype = Constructor.prototype;
+const prototype = Constructor.prototype;
 
 
 ast_let.prototype = prototype;
@@ -185,47 +68,100 @@ prototype.create =
 	)
 {
 	var
-		a,
-		aZ,
-		arg,
 		inherit,
-		v_assign,
-		v_name;
+		list,
+		listDup;
 
 	if( this !== ast_let )
 	{
 		inherit = this;
 
-		v_assign = this.assign;
+		list = inherit._list;
 
-		v_name = this.name;
+		listDup = false;
+	}
+	else
+	{
+		list = [ ];
+
+		listDup = true;
 	}
 
 	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
+		let a = 0, al = arguments.length;
+		a < al;
 		a += 2
 	)
 	{
-		arg = arguments[ a + 1 ];
+		let arg = arguments[ a + 1 ];
 
 		switch( arguments[ a ] )
 		{
-			case 'assign' :
+			case 'list:init' :
 
-				if( arg !== pass )
-				{
-					v_assign = arg;
-				}
+/**/			if( CHECK )
+/**/			{
+/**/				if( !Array.isArray( arg ) )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/			}
+
+				list = arg;
+
+				listDup = 'init';
 
 				break;
 
-			case 'name' :
+			case 'list:append' :
 
-				if( arg !== pass )
+				if( !listDup )
 				{
-					v_name = arg;
+					list = list.slice( );
+
+					listDup = true;
 				}
+
+				list.push( arg );
+
+				break;
+
+			case 'list:insert' :
+
+				if( !listDup )
+				{
+					list = list.slice( );
+
+					listDup = true;
+				}
+
+				list.splice( arg, 0, arguments[ ++a + 1 ] );
+
+				break;
+
+			case 'list:remove' :
+
+				if( !listDup )
+				{
+					list = list.slice( );
+
+					listDup = true;
+				}
+
+				list.splice( arg, 1 );
+
+				break;
+
+			case 'list:set' :
+
+				if( !listDup )
+				{
+					list = list.slice( );
+
+					listDup = true;
+				}
+
+				list[ arg ] = arguments[ ++a + 1 ];
 
 				break;
 
@@ -237,127 +173,27 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_assign === null )
+/**/	for(
+/**/		let r = 0, rl = list.length;
+/**/		r < rl;
+/**/		++r
+/**/	)
 /**/	{
-/**/		throw new Error( );
-/**/	}
+/**/		const o = list[ r ];
 /**/
-/**/	if( v_assign !== undefined )
-/**/	{
-/**/		if(
-/**/			v_assign.timtype !== ast_and
-/**/			&&
-/**/			v_assign.timtype !== ast_arrayLiteral
-/**/			&&
-/**/			v_assign.timtype !== ast_assign
-/**/			&&
-/**/			v_assign.timtype !== ast_boolean
-/**/			&&
-/**/			v_assign.timtype !== ast_call
-/**/			&&
-/**/			v_assign.timtype !== ast_comma
-/**/			&&
-/**/			v_assign.timtype !== ast_condition
-/**/			&&
-/**/			v_assign.timtype !== ast_delete
-/**/			&&
-/**/			v_assign.timtype !== ast_differs
-/**/			&&
-/**/			v_assign.timtype !== ast_divide
-/**/			&&
-/**/			v_assign.timtype !== ast_divideAssign
-/**/			&&
-/**/			v_assign.timtype !== ast_dot
-/**/			&&
-/**/			v_assign.timtype !== ast_equals
-/**/			&&
-/**/			v_assign.timtype !== ast_func
-/**/			&&
-/**/			v_assign.timtype !== ast_greaterThan
-/**/			&&
-/**/			v_assign.timtype !== ast_instanceof
-/**/			&&
-/**/			v_assign.timtype !== ast_lessThan
-/**/			&&
-/**/			v_assign.timtype !== ast_member
-/**/			&&
-/**/			v_assign.timtype !== ast_minus
-/**/			&&
-/**/			v_assign.timtype !== ast_minusAssign
-/**/			&&
-/**/			v_assign.timtype !== ast_multiply
-/**/			&&
-/**/			v_assign.timtype !== ast_multiplyAssign
-/**/			&&
-/**/			v_assign.timtype !== ast_negate
-/**/			&&
-/**/			v_assign.timtype !== ast_new
-/**/			&&
-/**/			v_assign.timtype !== ast_not
-/**/			&&
-/**/			v_assign.timtype !== ast_null
-/**/			&&
-/**/			v_assign.timtype !== ast_number
-/**/			&&
-/**/			v_assign.timtype !== ast_objLiteral
-/**/			&&
-/**/			v_assign.timtype !== ast_or
-/**/			&&
-/**/			v_assign.timtype !== ast_plus
-/**/			&&
-/**/			v_assign.timtype !== ast_plusAssign
-/**/			&&
-/**/			v_assign.timtype !== ast_postDecrement
-/**/			&&
-/**/			v_assign.timtype !== ast_postIncrement
-/**/			&&
-/**/			v_assign.timtype !== ast_preDecrement
-/**/			&&
-/**/			v_assign.timtype !== ast_preIncrement
-/**/			&&
-/**/			v_assign.timtype !== ast_string
-/**/			&&
-/**/			v_assign.timtype !== ast_typeof
-/**/			&&
-/**/			v_assign.timtype !== ast_var
-/**/		)
+/**/		if( o.timtype !== ast_letEntry )
 /**/		{
 /**/			throw new Error( );
 /**/		}
 /**/	}
-/**/
-/**/	if( v_name === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_name === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_name ) !== 'string' && !( v_name instanceof String ) )
-/**/	{
-/**/		throw new Error( );
-/**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		(
-			v_assign === inherit.assign
-			||
-			v_assign !== undefined && v_assign.equals( inherit.assign )
-		)
-		&&
-		v_name === inherit.name
-	)
+	if( inherit && listDup === false )
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_assign, v_name );
+	return new Constructor( list );
 };
 
 
@@ -386,6 +222,54 @@ prototype.getPath = tim_proto.getPath;
 
 
 /*
+| Returns the list with an element appended.
+*/
+prototype.append = tim_proto.listAppend;
+
+
+/*
+| Returns the list with another list appended.
+*/
+prototype.appendList = tim_proto.listAppendList;
+
+
+/*
+| Returns the length of the list.
+*/
+tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
+
+
+/*
+| Returns one element from the list.
+*/
+prototype.get = tim_proto.listGet;
+
+
+/*
+| Returns a slice from the list.
+*/
+prototype.slice = tim_proto.listSlice;
+
+
+/*
+| Returns the list with one element inserted.
+*/
+prototype.insert = tim_proto.listInsert;
+
+
+/*
+| Returns the list with one element removed.
+*/
+prototype.remove = tim_proto.listRemove;
+
+
+/*
+| Returns the list with one element set.
+*/
+prototype.set = tim_proto.listSet;
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =
@@ -408,15 +292,35 @@ prototype.equals =
 		return false;
 	}
 
-	return (
-		(
-			this.assign === obj.assign
-			||
-			this.assign !== undefined && this.assign.equals( obj.assign )
+	if( this._list !== obj._list )
+	{
+		if( this.length !== obj.length )
+		{
+			return false;
+		}
+
+		for(
+			let a = 0, al = this.length;
+			a < al;
+			++a
 		)
-		&&
-		this.name === obj.name
-	);
+		{
+			if(
+				this._list[ a ] !== obj._list[ a ]
+				&&
+				(
+					!this._list[ a ].equals
+					||
+					!this._list[ a ].equals( obj._list[ a ] )
+				)
+			)
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
 };
 
 

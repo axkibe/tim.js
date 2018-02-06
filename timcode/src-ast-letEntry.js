@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_not = NODE ? module.exports : module;
+let ast_letEntry = NODE ? module.exports : module;
 
 
 let ast_and = require( '../ast/and' );
@@ -91,6 +91,9 @@ let ast_negate = require( '../ast/negate' );
 let ast_new = require( '../ast/new' );
 
 
+let ast_not = require( '../ast/not' );
+
+
 let ast_null = require( '../ast/null' );
 
 
@@ -138,7 +141,8 @@ let tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v_expr
+		v_assign,
+		v_name
 	)
 {
 	if( prototype.__have_lazy )
@@ -146,7 +150,9 @@ const Constructor =
 		this.__lazy = { };
 	}
 
-	this.expr = v_expr;
+	this.assign = v_assign;
+
+	this.name = v_name;
 
 	if( FREEZE )
 	{
@@ -161,13 +167,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_not.prototype = prototype;
+ast_letEntry.prototype = prototype;
 
 
 /*
-| Creates a new not object.
+| Creates a new letEntry object.
 */
-ast_not.create =
+ast_letEntry.create =
 prototype.create =
 	function(
 		// free strings
@@ -175,13 +181,16 @@ prototype.create =
 {
 	var
 		inherit,
-		v_expr;
+		v_assign,
+		v_name;
 
-	if( this !== ast_not )
+	if( this !== ast_letEntry )
 	{
 		inherit = this;
 
-		v_expr = this.expr;
+		v_assign = this.assign;
+
+		v_name = this.name;
 	}
 
 	for(
@@ -194,11 +203,20 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'expr' :
+			case 'assign' :
 
 				if( arg !== pass )
 				{
-					v_expr = arg;
+					v_assign = arg;
+				}
+
+				break;
+
+			case 'name' :
+
+				if( arg !== pass )
+				{
+					v_name = arg;
 				}
 
 				break;
@@ -211,117 +229,140 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_expr === undefined )
+/**/	if( v_assign === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_expr === null )
+/**/	if( v_assign !== undefined )
+/**/	{
+/**/		if(
+/**/			v_assign.timtype !== ast_and
+/**/			&&
+/**/			v_assign.timtype !== ast_arrayLiteral
+/**/			&&
+/**/			v_assign.timtype !== ast_assign
+/**/			&&
+/**/			v_assign.timtype !== ast_boolean
+/**/			&&
+/**/			v_assign.timtype !== ast_call
+/**/			&&
+/**/			v_assign.timtype !== ast_comma
+/**/			&&
+/**/			v_assign.timtype !== ast_condition
+/**/			&&
+/**/			v_assign.timtype !== ast_delete
+/**/			&&
+/**/			v_assign.timtype !== ast_differs
+/**/			&&
+/**/			v_assign.timtype !== ast_divide
+/**/			&&
+/**/			v_assign.timtype !== ast_divideAssign
+/**/			&&
+/**/			v_assign.timtype !== ast_dot
+/**/			&&
+/**/			v_assign.timtype !== ast_equals
+/**/			&&
+/**/			v_assign.timtype !== ast_func
+/**/			&&
+/**/			v_assign.timtype !== ast_greaterThan
+/**/			&&
+/**/			v_assign.timtype !== ast_instanceof
+/**/			&&
+/**/			v_assign.timtype !== ast_lessThan
+/**/			&&
+/**/			v_assign.timtype !== ast_member
+/**/			&&
+/**/			v_assign.timtype !== ast_minus
+/**/			&&
+/**/			v_assign.timtype !== ast_minusAssign
+/**/			&&
+/**/			v_assign.timtype !== ast_multiply
+/**/			&&
+/**/			v_assign.timtype !== ast_multiplyAssign
+/**/			&&
+/**/			v_assign.timtype !== ast_negate
+/**/			&&
+/**/			v_assign.timtype !== ast_new
+/**/			&&
+/**/			v_assign.timtype !== ast_not
+/**/			&&
+/**/			v_assign.timtype !== ast_null
+/**/			&&
+/**/			v_assign.timtype !== ast_number
+/**/			&&
+/**/			v_assign.timtype !== ast_objLiteral
+/**/			&&
+/**/			v_assign.timtype !== ast_or
+/**/			&&
+/**/			v_assign.timtype !== ast_plus
+/**/			&&
+/**/			v_assign.timtype !== ast_plusAssign
+/**/			&&
+/**/			v_assign.timtype !== ast_postDecrement
+/**/			&&
+/**/			v_assign.timtype !== ast_postIncrement
+/**/			&&
+/**/			v_assign.timtype !== ast_preDecrement
+/**/			&&
+/**/			v_assign.timtype !== ast_preIncrement
+/**/			&&
+/**/			v_assign.timtype !== ast_string
+/**/			&&
+/**/			v_assign.timtype !== ast_typeof
+/**/			&&
+/**/			v_assign.timtype !== ast_var
+/**/		)
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
+/**/	if( v_name === undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		v_expr.timtype !== ast_and
-/**/		&&
-/**/		v_expr.timtype !== ast_arrayLiteral
-/**/		&&
-/**/		v_expr.timtype !== ast_assign
-/**/		&&
-/**/		v_expr.timtype !== ast_boolean
-/**/		&&
-/**/		v_expr.timtype !== ast_call
-/**/		&&
-/**/		v_expr.timtype !== ast_comma
-/**/		&&
-/**/		v_expr.timtype !== ast_condition
-/**/		&&
-/**/		v_expr.timtype !== ast_delete
-/**/		&&
-/**/		v_expr.timtype !== ast_differs
-/**/		&&
-/**/		v_expr.timtype !== ast_divide
-/**/		&&
-/**/		v_expr.timtype !== ast_divideAssign
-/**/		&&
-/**/		v_expr.timtype !== ast_dot
-/**/		&&
-/**/		v_expr.timtype !== ast_equals
-/**/		&&
-/**/		v_expr.timtype !== ast_func
-/**/		&&
-/**/		v_expr.timtype !== ast_greaterThan
-/**/		&&
-/**/		v_expr.timtype !== ast_instanceof
-/**/		&&
-/**/		v_expr.timtype !== ast_lessThan
-/**/		&&
-/**/		v_expr.timtype !== ast_member
-/**/		&&
-/**/		v_expr.timtype !== ast_minus
-/**/		&&
-/**/		v_expr.timtype !== ast_minusAssign
-/**/		&&
-/**/		v_expr.timtype !== ast_multiply
-/**/		&&
-/**/		v_expr.timtype !== ast_multiplyAssign
-/**/		&&
-/**/		v_expr.timtype !== ast_negate
-/**/		&&
-/**/		v_expr.timtype !== ast_new
-/**/		&&
-/**/		v_expr.timtype !== ast_not
-/**/		&&
-/**/		v_expr.timtype !== ast_null
-/**/		&&
-/**/		v_expr.timtype !== ast_number
-/**/		&&
-/**/		v_expr.timtype !== ast_objLiteral
-/**/		&&
-/**/		v_expr.timtype !== ast_or
-/**/		&&
-/**/		v_expr.timtype !== ast_plus
-/**/		&&
-/**/		v_expr.timtype !== ast_plusAssign
-/**/		&&
-/**/		v_expr.timtype !== ast_postDecrement
-/**/		&&
-/**/		v_expr.timtype !== ast_postIncrement
-/**/		&&
-/**/		v_expr.timtype !== ast_preDecrement
-/**/		&&
-/**/		v_expr.timtype !== ast_preIncrement
-/**/		&&
-/**/		v_expr.timtype !== ast_string
-/**/		&&
-/**/		v_expr.timtype !== ast_typeof
-/**/		&&
-/**/		v_expr.timtype !== ast_var
-/**/	)
+/**/	if( v_name === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_name ) !== 'string' && !( v_name instanceof String ) )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/}
 
-	if( inherit && ( v_expr === inherit.expr || v_expr.equals( inherit.expr ) ) )
+	if(
+		inherit
+		&&
+		(
+			v_assign === inherit.assign
+			||
+			v_assign !== undefined && v_assign.equals( inherit.assign )
+		)
+		&&
+		v_name === inherit.name
+	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_expr );
+	return new Constructor( v_assign, v_name );
 };
 
 
 /*
 | Reflection.
 */
-prototype.reflect = 'ast_not';
+prototype.reflect = 'ast_letEntry';
 
 
 /*
 | Type reflection.
 */
-prototype.timtype = ast_not;
+prototype.timtype = ast_letEntry;
 
 
 /*
@@ -354,12 +395,20 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_not' )
+	if( obj.reflect !== 'ast_letEntry' )
 	{
 		return false;
 	}
 
-	return this.expr === obj.expr || this.expr.equals( obj.expr );
+	return (
+		(
+			this.assign === obj.assign
+			||
+			this.assign !== undefined && this.assign.equals( obj.assign )
+		)
+		&&
+		this.name === obj.name
+	);
 };
 
 

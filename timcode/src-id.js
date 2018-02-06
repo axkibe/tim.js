@@ -25,12 +25,7 @@ let tim_proto = tim.proto;
 /*
 | Constructor.
 */
-var
-	Constructor,
-	prototype;
-
-
-Constructor =
+const Constructor =
 	function(
 		list, // list
 		v_packet
@@ -57,7 +52,7 @@ Constructor =
 /*
 | Prototype shortcut
 */
-prototype = Constructor.prototype;
+const prototype = Constructor.prototype;
 
 
 id.prototype = prototype;
@@ -73,15 +68,9 @@ prototype.create =
 	)
 {
 	var
-		a,
-		aZ,
-		arg,
 		inherit,
 		list,
 		listDup,
-		o,
-		r,
-		rZ,
 		v_packet;
 
 	if( this !== id )
@@ -102,12 +91,12 @@ prototype.create =
 	}
 
 	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
+		let a = 0, al = arguments.length;
+		a < al;
 		a += 2
 	)
 	{
-		arg = arguments[ a + 1 ];
+		let arg = arguments[ a + 1 ];
 
 		switch( arguments[ a ] )
 		{
@@ -210,12 +199,12 @@ prototype.create =
 /**/	}
 /**/
 /**/	for(
-/**/		r = 0, rZ = list.length;
-/**/		r < rZ;
+/**/		let r = 0, rl = list.length;
+/**/		r < rl;
 /**/		++r
 /**/	)
 /**/	{
-/**/		o = list[ r ];
+/**/		const o = list[ r ];
 /**/
 /**/		if( typeof( o ) !== 'string' && !( o instanceof String ) )
 /**/		{
@@ -313,10 +302,6 @@ prototype.equals =
 		obj // object to compare to
 	)
 {
-	var
-		a,
-		aZ;
-
 	if( this === obj )
 	{
 		return true;
@@ -340,8 +325,8 @@ prototype.equals =
 		}
 
 		for(
-			a = 0, aZ = this.length;
-			a < aZ;
+			let a = 0, al = this.length;
+			a < al;
 			++a
 		)
 		{

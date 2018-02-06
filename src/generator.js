@@ -368,42 +368,11 @@ def.func._init =
 def.func.genImports =
 	function( )
 {
-	let result = $block( );
-
-	// const imports = this.imports;
-
-	// const idKeys = imports.sortedKeys;
-
-	/*
-	for( let a = 0, al = idKeys.length; a < al; a++ )
-	{
-		const idKey = idKeys[ a ];
-
-		let id = imports.get( idKey );
-
-		if( id.isPrimitive ) continue;
-
-		if( id.equals( this.id ) ) continue;
-
-		// no need to require tim itself
-		if( id.packet === 'tim' ) continue;
-
-		// FUTURE make this more elegant
-		if( idKey.indexOf( ':' ) >= 0 ) continue;
-
-		result = result.$varDec( id.global );
-	}
-	*/
-
-	result =
-		result
+	return(
+		$block( )
 		.$comment( 'The typed immutable.' )
-		.$let( this.id.global, 'NODE ? module.exports : module' );
-//		.$if( $( '!', this.id.$global ),
-//			$( this.id.$global, '= { }' )
-//		);
-
-	return result;
+		.$let( this.id.global, 'NODE ? module.exports : module' )
+	);
 };
 
 
@@ -686,11 +655,9 @@ def.func.genConstructor =
 		return(
 			$block( )
 			.$comment( 'Constructor.' )
-			.$varDec( 'Constructor' )
-			.$varDec( 'prototype' )
-			.$( 'Constructor = ', cf )
+			.$const( 'Constructor', cf )
 			.$comment( 'Prototype shortcut' )
-			.$( 'prototype = Constructor.prototype' )
+			.$const( 'prototype', 'Constructor.prototype' )
 			.$( this.id.$global, '.prototype = prototype' )
 		);
 	}
@@ -699,10 +666,8 @@ def.func.genConstructor =
 		return(
 			$block( )
 			.$comment( 'Abstract constructor.' )
-			.$varDec( 'AbstractConstructor' )
-			.$varDec( 'abstractPrototype' )
-			.$( 'AbstractConstructor = ', cf )
-			.$( 'abstractPrototype = AbstractConstructor.prototype' )
+			.$const( 'AbstractConstructor', cf )
+			.$const( 'abstractPrototype', 'AbstractConstructor.prototype' )
 		);
 	}
 };
@@ -718,7 +683,7 @@ def.func.genSingleton =
 	return(
 		$block( )
 		.$comment( 'Singleton' )
-		.$varDec( '_singleton' )
+		.$let( '_singleton' )
 	);
 };
 
@@ -749,26 +714,19 @@ def.func.CreatorVariables =
 
 	varList.push( 'inherit' );
 
-	if( this.creatorHasFreeStringsParser )
-	{
-		varList.push( 'arg', 'a', 'aZ' );
-	}
-
 	if( this.group )
 	{
-		varList.push( 'o', 'group', 'groupDup' );
+		varList.push( 'group', 'groupDup' );
 	}
 
 	if( this.list )
 	{
-		varList.push( 'o', 'r', 'rZ', 'list', 'listDup' );
+		varList.push( 'list', 'listDup' );
 	}
 
 	if( this.twig )
 	{
-		varList.push( 'o', 'key', 'rank', 'ranks', 'twig', 'twigDup' );
-
-		varList.push( 't', 'tZ' );
+		varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
 	}
 
 	varList.sort( );
@@ -810,26 +768,19 @@ def.func.genCreatorVariables =
 
 	varList.push( 'inherit' );
 
-	if( this.creatorHasFreeStringsParser )
-	{
-		varList.push( 'arg', 'a', 'aZ' );
-	}
-
 	if( this.group )
 	{
-		varList.push( 'o', 'group', 'groupDup' );
+		varList.push( 'group', 'groupDup' );
 	}
 
 	if( this.list )
 	{
-		varList.push( 'o', 'r', 'rZ', 'list', 'listDup' );
+		varList.push( 'list', 'listDup' );
 	}
 
 	if( this.twig )
 	{
-		varList.push( 'o', 'key', 'rank', 'ranks', 'twig', 'twigDup' );
-
-		varList.push( 't', 'tZ' );
+		varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
 	}
 
 	varList.sort( );
@@ -951,7 +902,7 @@ def.func.genCreatorFreeStringsParser =
 {
 	let loop =
 		$block( )
-		.$( 'arg = arguments[ a + 1 ]' );
+		.$let( 'arg', 'arguments[ a + 1 ]' );
 
 	let switchExpr = $switch( 'arguments[ a ]' );
 
@@ -1090,9 +1041,8 @@ def.func.genCreatorFreeStringsParser =
 						$fail( )
 					)
 					.$for(
-						//'let t = 0, tZ = ranks.length',
-						't = 0, tZ = ranks.length',
-						't < tZ',
+						'let t = 0, tl = ranks.length',
+						't < tl',
 						't++',
 						$block( )
 						.$if(
@@ -1170,8 +1120,8 @@ def.func.genCreatorFreeStringsParser =
 	return(
 		$block( )
 		.$for(
-			'a = 0, aZ = arguments.length',
-			'a < aZ',
+			'let a = 0, al = arguments.length',
+			'a < al',
 			'a += 2',
 			loop
 		)
@@ -1445,7 +1395,7 @@ def.func.genCreatorChecks =
 			.$forIn(
 				'k', 'group',
 				$block( )
-				.$( 'o = group[ k ]' )
+				.$const( 'o', 'group[ k ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), this.group, abstract ),
 					$fail( )
@@ -1458,11 +1408,11 @@ def.func.genCreatorChecks =
 		check =
 			check
 			.$for(
-				'r = 0, rZ = list.length',
-				'r < rZ',
+				'let r = 0, rl = list.length',
+				'r < rl',
 				'++r',
 				$block( )
-				.$( 'o = list[ r ]' )
+				.$const( 'o', 'list[ r ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), this.list, abstract ),
 					$fail( )
@@ -1470,18 +1420,19 @@ def.func.genCreatorChecks =
 			);
 	}
 
-	// FIXME XXX dirty
-	if( this.twig && !this.hasAbstract )
+	if( this.twig )
 	{
 		// FUTURE check if ranks and twig keys match
 		check =
 			check
 			.$for(
-				'a = 0, aZ = ranks.length',
-				'a < aZ',
+				'let a = 0, al = ranks.length',
+				'a < al',
 				'++a',
 				$block( )
-				.$( 'o = twig[ ranks[ a ] ]' )
+				// XXX very dirty hack 
+				.$if( 'prototype.abstract', $block( ).$continue( ) )
+				.$const( 'o', 'twig[ ranks[ a ] ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), this.twig, abstract ),
 					$fail( )
@@ -1743,23 +1694,18 @@ def.func.genFromJsonCreatorVariables =
 		varList.push( attr.varRef.name );
 	}
 
-	varList.push( 'arg' );
-
 	if( this.hasJson )
 	{
-		if( this.group ) varList.push( 'jgroup', 'group', 'k', 'o' );
+		if( this.group ) varList.push( 'jgroup', 'group', 'k' );
 
-		if( this.list ) varList.push( 'jlist', 'o', 'list', 'r', 'rZ' );
+		if( this.list ) varList.push( 'jlist', 'list' );
 
 		if( this.twig )
 		{
 			varList.push(
-				'a',
-				'aZ',
 				'key',
 				'jval',
 				'jwig',
-				'o',
 				'ranks',
 				'twig'
 			);
@@ -1830,7 +1776,7 @@ def.func.genFromJsonCreatorAttributeParser =
 
 				const keyList = attr.id.sortedKeys;
 
-				for( let t = 0, tZ = keyList.length; t < tZ; t++ )
+				for( let t = 0, tl = keyList.length; t < tl; t++ )
 				{
 					const id = attr.id.get( keyList[ t ] );
 
@@ -2006,7 +1952,7 @@ def.func.genFromJsonCreatorParser =
 			'name',
 			'json',
 			$block( )
-			.$( 'arg = json[ name ]' )
+			.$const( 'arg', 'json[ name ]' )
 			.append( nameSwitch )
 		)
 	);
@@ -2136,7 +2082,7 @@ def.func.genFromJsonCreatorListProcessing =
 
 	let haveUndefined = false;
 
-	for( let r = 0, rZ = keyList.length; r < rZ; r++ )
+	for( let r = 0, rl = keyList.length; r < rl; r++ )
 	{
 		const rid = list.get( keyList[ r ] );
 
@@ -2196,8 +2142,8 @@ def.func.genFromJsonCreatorListProcessing =
 	return(
 		result
 		.$for(
-			'r = 0, rZ = jlist.length',
-			'r < rZ',
+			'let r = 0, rl = jlist.length',
+			'r < rl',
 			'++r',
 			loopBody
 		)
@@ -2259,8 +2205,8 @@ def.func.genFromJsonCreatorTwigProcessing =
 			$fail( )
 		)
 		.$for(
-			'a = 0, aZ = ranks.length',
-			'a < aZ',
+			'let a = 0, al = ranks.length',
+			'a < al',
 			'++a',
 			loop
 		)
@@ -2618,8 +2564,6 @@ def.func.mapJsonTypeName =
 def.func.genToJson =
 	function( )
 {
-	let block = $block( ).$varDec( 'json' );
-
 	let olit =
 		$objLiteral( )
 		.add( 'type', this.mapJsonTypeName( this.id.pathName ) );
@@ -2650,9 +2594,9 @@ def.func.genToJson =
 			.add( 'twig', 'this._twig' );
 	}
 
-	block =
-		block
-		.$( 'json =', olit )
+	let block =
+		$block( )
+		.$const( 'json', olit )
 		.$if(
 			'FREEZE',
 			$( 'Object.freeze( json )' )
@@ -2741,14 +2685,6 @@ def.func.genEqualsFuncBody =
 {
 	let body = $block( );
 
-	if( this.list || this.twig )
-	{
-		body =
-			body
-			.$varDec( 'a' )
-			.$varDec( 'aZ' );
-	}
-
 	if( this.twig )
 	{
 		body = body.$varDec( 'key' );
@@ -2818,8 +2754,8 @@ def.func.genEqualsFuncBody =
 			)
 			.$for(
 				// this.length?
-				'a = 0, aZ = this.length',
-				'a < aZ',
+				'let a = 0, al = this.length',
+				'a < al',
 				'++a',
 				listTestLoopBody
 			);
@@ -2852,8 +2788,8 @@ def.func.genEqualsFuncBody =
 				$( 'return false' )
 			)
 			.$for(
-				'a = 0, aZ = this.length',
-				'a < aZ',
+				'let a = 0, al = this.length',
+				'a < al',
 				'++a',
 				twigTestLoopBody
 			);
@@ -2863,8 +2799,7 @@ def.func.genEqualsFuncBody =
 			.$if(
 				$(
 					'this._twig !== obj._twig',
-					'||',
-					'this._ranks !== obj._ranks'
+					'||', 'this._ranks !== obj._ranks'
 				),
 				twigTest
 			);

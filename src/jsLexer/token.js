@@ -50,6 +50,7 @@ let tokenList;
 /**/	tokenList[ '>' ] = true;
 /**/	tokenList[ '?' ] = true;
 /**/	tokenList[ ':' ] = true;
+/**/	tokenList[ ';' ] = true;
 /**/	tokenList[ '!' ] = true;
 /**/	tokenList[ '[' ] = true;
 /**/	tokenList[ ']' ] = true;

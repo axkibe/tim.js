@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_let', ( def, ast_let ) => {
+.define( module, 'ast_letEntry', ( def, ast_letEntry ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -15,7 +15,21 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = [ 'ast_letEntry' ];
+	def.attributes =
+	{
+		name :
+		{
+			// variable name
+			type : 'string'
+		},
+		assign :
+		{
+			// assignment of variable
+			type :
+				require( '../typemaps/astExpression' )
+				.concat( [ 'undefined' ] )
+		}
+	};
 }
 
 
@@ -37,7 +51,7 @@ def.func.inspect =
 
 	if( !opts.ast )
 	{
-		result = 'ast{ ';
+		result = 'ast{ letEntry ';
 
 		postfix = ' }';
 	}
@@ -48,13 +62,11 @@ def.func.inspect =
 
 	opts.ast = true;
 
-	result += 'let ';
+	result += this.name;
 
-	for( let a = 0, al = this.length; a < al; a++ )
+	if( this.assign )
 	{
-		if( a > 0 ) result += ', ';
-
-		result += util.inspect( this.get( a ), opts );
+		result += ' = ' + util.inspect( this.assign, opts );
 	}
 
 	return result + postfix;

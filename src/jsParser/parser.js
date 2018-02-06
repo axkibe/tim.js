@@ -42,6 +42,10 @@ const ast_instanceof = require( '../ast/instanceof' );
 
 const ast_lessThan = require( '../ast/lessThan' );
 
+const ast_let = require( '../ast/let' );
+
+const ast_letEntry = require( '../ast/letEntry' );
+
 const ast_member = require( '../ast/member' );
 
 const ast_minus = require( '../ast/minus' );
@@ -137,21 +141,12 @@ parser.handleArrayLiteral =
 				&& state.current.type !== ','
 			);
 
-			if( state.reachedEnd )
-			{
-				throw new Error( 'missing "]"' );
-			}
+			if( state.reachedEnd ) throw new Error( 'missing "]"' );
 
-			if( state.ast )
-			{
-				alit = alit.append( state.ast );
-			}
+			if( state.ast ) alit = alit.append( state.ast );
 
-			if( state.current.type === ']' )
-			{
-				// fiinished array literal
-				break;
-			}
+			// fiinished array literal?
+			if( state.current.type === ']' ) break;
 
 			if( state.current.type === ',' )
 			{
@@ -161,10 +156,7 @@ parser.handleArrayLiteral =
 						'pos', state.pos + 1
 					);
 
-				if( state.current.type === ']' )
-				{
-					throw new Error( 'parser error' );
-				}
+				if( state.current.type === ']' ) throw new Error( 'parser error' );
 
 				continue;
 			}
@@ -256,24 +248,14 @@ parser.handleCall =
 
 			if( state.reachedEnd ) throw new Error( 'missing ")"' );
 
-			if( state.ast )
-			{
-				call = call.append( state.ast );
-			}
+			if( state.ast ) call = call.append( state.ast );
 
-			if( state.current.type === ')' )
-			{
-				// finished call
-				break;
-			}
+			// finished call?
+			if( state.current.type === ')' ) break;
 
 			if( state.current.type === ',' )
 			{
-				state =
-					state.create(
-						'ast', undefined,
-						'pos', state.pos + 1
-					);
+				state = state.create( 'ast', undefined, 'pos', state.pos + 1 );
 
 				if( state.current.type === ')' ) throw new Error( 'parser error' );
 
@@ -573,13 +555,62 @@ parser.handleLet =
 /**/	if( state.current.type !== 'let' ) throw new Error( );
 /**/}
 
+	let _let = ast_let.create( );
+
 	state = state.create( 'pos', state.pos + 1 );
 
-	state = parseToken( state, leftSpecs.start );
+	for( ;; )
+	{
+		if( state.reachedEnd ) return state.create( 'ast', _let );
 
-	throw new Error( 'TODO' );
+		if( state.current.type !== 'identifier' ) throw new Error( 'identifier expected' );
 
-	return state.create( 'ast', ast_let.create( 'expr', state.ast ) );
+		let name = state.current.value;
+
+		state = state.create( 'pos', state.pos + 1 );
+
+		if( state.reachedEnd )
+		{
+			let entry = ast_letEntry.create( 'name', name );
+
+			_let = _let.append( entry );
+
+			return state.create( 'ast', _let );
+		}
+
+		switch( state.current.type )
+		{
+			case '=' :
+			{
+				state = state.create( 'ast', undefined, 'pos', state.pos + 1 );
+
+				state = parseToken( state, leftSpecs.start, true );
+
+				let entry = ast_letEntry.create( 'name', name, 'assign', state.ast );
+
+				_let = _let.append( entry );
+
+				state = state.create( 'pos', state.pos + 1 );
+
+				break;
+			}
+
+			case ',' :
+			{
+				state = state.create( 'ast', undefined, 'pos', state.pos + 1 );
+
+				let entry = ast_letEntry.create( 'name', name );
+
+				_let = _let.append( entry );
+
+				break;
+			}
+
+			case ';' : return state.create( 'ast', _let, 'pos', state.pos + 1 );
+
+			default : throw new Error( 'unexpected token', state.current.type );
+		}
+	}
 };
 
 
@@ -1119,25 +1150,16 @@ const getSpec =
 
 	if( !state.ast )
 	{
-		if( statement )
-		{
-			spec = statementSpecs[ state.current.type ];
-		}
+		if( statement ) spec = statementSpecs[ state.current.type ];
 
-		if( !spec )
-		{
-			spec = leftSpecs[ state.current.type ];
-		}
+		if( !spec ) spec = leftSpecs[ state.current.type ];
 	}
 	else
 	{
 		spec = rightSpecs[ state.current.type ];
 	}
 
-	if( !spec )
-	{
-		throw new Error( 'unexpected ' + state.current.type );
-	}
+	if( !spec ) throw new Error( 'unexpected ' + state.current.type );
 
 	return spec;
 };
@@ -1149,13 +1171,13 @@ const getSpec =
 const parseToken =
 	function(
 		state,
-		spec
+		spec,
+		noComma
 	)
 {
-	// this is already a preparsed astTree.
-
 	if( !state.ast && state.current.timtype !== jsLexer_token )
 	{
+		// this is already a preparsed astTree.
 		state = state.create( 'ast', state.current, 'pos', state.pos + 1 );
 	}
 	else
@@ -1167,16 +1189,15 @@ const parseToken =
 
 	while( !state.reachedEnd )
 	{
+		if( noComma && state.current.type === ',' ) return state;
+
 		const nextSpec = getSpec( state, false );
 
 		if(
 			nextSpec.prec === undefined
-			||
-			nextSpec.prec > spec.prec
-			||
-			( nextSpec.prec === spec.prec && spec.associativity === 'l2r' )
-			||
-			nextSpec.handler === 'handlePass'
+			|| nextSpec.prec > spec.prec
+			|| ( nextSpec.prec === spec.prec && spec.associativity === 'l2r' )
+			|| nextSpec.handler === 'handlePass'
 		)
 		{
 			break;
@@ -1244,10 +1265,7 @@ parser.parseArray =
 
 	st = parseToken( st, leftSpecs.start );
 
-	if( !st.reachedEnd )
-	{
-		throw new Error( 'internal fail, premature end' );
-	}
+	if( !st.reachedEnd ) throw new Error( 'internal fail, premature end' );
 
 	return st.ast;
 };

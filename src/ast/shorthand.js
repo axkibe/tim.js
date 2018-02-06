@@ -61,6 +61,8 @@ const ast_lessThan = require( './lessThan' );
 
 const ast_let = require( './let' );
 
+const ast_letEntry = require( './letEntry' );
+
 const ast_member = require( './member' );
 
 const ast_multiply = require( './multiply' );
@@ -455,11 +457,16 @@ def.static.$let =
 {
 	return(
 		ast_let.create(
-			'name', name,
-			'assign',
-				arguments.length > 1
-				? parser.parse( assign )
-				: undefined
+			'list:init',
+			[
+				ast_letEntry.create(
+					'name', name,
+					'assign',
+						arguments.length > 1
+						? parser.parse( assign )
+						: undefined
+				)
+			]
 		)
 	);
 };

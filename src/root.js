@@ -19,6 +19,11 @@ exports = global.tim = module.exports;
 
 tim.ouroboros = require( './ouroboros' );
 
+/*
+| In case a peer ouroboros changed the global, change it back.
+*/
+global.tim = module.exports;
+
 const proto = exports.proto = require( './proto.js' );
 
 exports.tree = require( './tree/node.js' );

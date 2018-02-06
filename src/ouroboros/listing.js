@@ -39,6 +39,7 @@ module.exports =
 	'src/ast/lessThan.js',
 	'src/ast/lessThan.js',
 	'src/ast/let.js',
+	'src/ast/letEntry.js',
 	'src/ast/member.js',
 	'src/ast/minus.js',
 	'src/ast/minusAssign.js',

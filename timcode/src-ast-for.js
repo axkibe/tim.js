@@ -73,6 +73,9 @@ let ast_instanceof = require( '../ast/instanceof' );
 let ast_lessThan = require( '../ast/lessThan' );
 
 
+let ast_let = require( '../ast/let' );
+
+
 let ast_member = require( '../ast/member' );
 
 
@@ -142,12 +145,7 @@ let tim_proto = tim.proto;
 /*
 | Constructor.
 */
-var
-	Constructor,
-	prototype;
-
-
-Constructor =
+const Constructor =
 	function(
 		v_block,
 		v_condition,
@@ -178,7 +176,7 @@ Constructor =
 /*
 | Prototype shortcut
 */
-prototype = Constructor.prototype;
+const prototype = Constructor.prototype;
 
 
 ast_for.prototype = prototype;
@@ -194,9 +192,6 @@ prototype.create =
 	)
 {
 	var
-		a,
-		aZ,
-		arg,
 		inherit,
 		v_block,
 		v_condition,
@@ -217,12 +212,12 @@ prototype.create =
 	}
 
 	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
+		let a = 0, al = arguments.length;
+		a < al;
 		a += 2
 	)
 	{
-		arg = arguments[ a + 1 ];
+		let arg = arguments[ a + 1 ];
 
 		switch( arguments[ a ] )
 		{
@@ -420,6 +415,8 @@ prototype.create =
 /**/		v_init.timtype !== ast_instanceof
 /**/		&&
 /**/		v_init.timtype !== ast_lessThan
+/**/		&&
+/**/		v_init.timtype !== ast_let
 /**/		&&
 /**/		v_init.timtype !== ast_member
 /**/		&&

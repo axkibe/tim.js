@@ -116,6 +116,7 @@ jsLexer.tokenize =
 			case '.' :
 			case '?' :
 			case ':' :
+			case ';' :
 			case ',' :
 			case '(' :
 			case ')' :

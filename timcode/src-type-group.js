@@ -28,12 +28,7 @@ let tim_proto = tim.proto;
 /*
 | Constructor.
 */
-var
-	Constructor,
-	prototype;
-
-
-Constructor =
+const Constructor =
 	function(
 		group // group
 	)
@@ -57,7 +52,7 @@ Constructor =
 /*
 | Prototype shortcut
 */
-prototype = Constructor.prototype;
+const prototype = Constructor.prototype;
 
 
 type_group.prototype = prototype;
@@ -73,13 +68,9 @@ prototype.create =
 	)
 {
 	var
-		a,
-		aZ,
-		arg,
 		group,
 		groupDup,
-		inherit,
-		o;
+		inherit;
 
 	if( this !== type_group )
 	{
@@ -97,12 +88,12 @@ prototype.create =
 	}
 
 	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
+		let a = 0, al = arguments.length;
+		a < al;
 		a += 2
 	)
 	{
-		arg = arguments[ a + 1 ];
+		let arg = arguments[ a + 1 ];
 
 		switch( arguments[ a ] )
 		{
@@ -150,7 +141,7 @@ prototype.create =
 /**/{
 /**/	for( let k in group )
 /**/	{
-/**/		o = group[ k ];
+/**/		const o = group[ k ];
 /**/
 /**/		if( o.timtype !== id )
 /**/		{

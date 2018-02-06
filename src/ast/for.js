@@ -20,7 +20,9 @@ if( TIM )
 		init :
 		{
 			// the initialization
-			type : require( '../typemaps/astExpression' )
+			type :
+				require( '../typemaps/astExpression' )
+				.concat( [ 'ast_let' ] )
 		},
 		condition :
 		{

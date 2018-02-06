@@ -48,7 +48,7 @@ global.inspect =
 };
 
 
-const historyFileName = '.repl-history';
+const histFileName = '.repl-history';
 
 const maxHistory = 1000;
 
@@ -60,7 +60,7 @@ let hist;
 
 try
 {
-	hist = fs.readFileSync( historyFileName ) + '';
+	hist = fs.readFileSync( histFileName ) + '';
 
 	hist = hist.split( '\n' );
 }
@@ -86,14 +86,11 @@ repl[ '_eval'.substr( 1 ) ] =
 	{
 		hist.push( c );
 
-		if( history.length > maxHistory )
-		{
-			history.shift( );
-		}
+		if( hist.length > maxHistory ) hist.shift( );
 	}
 
 	defaultEval.call( repl, cmd, context, filename, callback );
 };
 
-repl.on( 'exit', ( ) => fs.writeFileSync( historyFileName, history.join( '\n' ) ) );
+repl.on( 'exit', ( ) => fs.writeFileSync( histFileName, hist.join( '\n' ) ) );
 

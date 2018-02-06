@@ -113,6 +113,19 @@ def.func.$comment =
 
 
 /*
+| Returns the block with a const decleration appended.
+*/
+def.func.$const =
+	function(
+		// name,
+		// assign
+	)
+{
+	return this.append( shorthand.$const.apply( shorthand, arguments ) );
+};
+
+
+/*
 | Returns the block with a continue statement appended.
 */
 def.func.$continue =
@@ -205,6 +218,7 @@ def.func.$let =
 {
 	return this.append( shorthand.$let.apply( shorthand, arguments ) );
 };
+
 
 /*
 | Shorthand for creating new calls.

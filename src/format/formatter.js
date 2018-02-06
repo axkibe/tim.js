@@ -137,6 +137,7 @@ const precTable =
 //		[ ast_in,              8 ],
 		[ ast_instanceof,      8 ],
 		[ ast_lessThan,        8 ],
+		[ ast_let,            -1 ],
 		[ ast_member,          1 ],
 		[ ast_minus,           6 ],
 		[ ast_minusAssign,    17 ],
@@ -1068,34 +1069,43 @@ const formatLet =
 		expr
 	)
 {
-	let text = context.tab + 'let ' + expr.name;
+	let text = context.tab + 'let ';
 
-	if( expr.assign )
+	for( let a = 0, al = expr.length; a < al; a++ )
 	{
-		text += ' =' + context.sep;
+		if( a > 0 ) text += ',' + context.sep + context.tab + context.tab;
 
-		if( expr.assign.timtype !== ast_assign ) context = context.inc;
+		const entry = expr.get( a );
 
-		let aText;
+		text += entry.name;
 
-		try
+		if( entry.assign )
 		{
-			aText =
-				context.tab
-				+ formatExpression( context.setInline, expr.assign );
-		}
-		catch( e )
-		{
-			// rethrows any real error
-			if( e !== 'noinline' ) throw e;
-		}
+			text += ' =' + context.sep;
 
-		if( aText === undefined || textLen( aText ) > MAX_TEXT_WIDTH )
-		{
-			aText = formatExpression( context, expr.assign );
-		}
+			if( entry.assign.timtype !== ast_assign ) context = context.inc;
 
-		text += aText;
+			let aText;
+
+			try
+			{
+				aText =
+					context.tab
+					+ formatExpression( context.setInline, entry.assign );
+			}
+			catch( e )
+			{
+				// rethrows any real error
+				if( e !== 'noinline' ) throw e;
+			}
+
+			if( aText === undefined || textLen( aText ) > MAX_TEXT_WIDTH )
+			{
+				aText = formatExpression( context, entry.assign );
+			}
+
+			text += aText;
+		}
 	}
 
 	return text;
@@ -1559,7 +1569,24 @@ const formatStatement =
 
 		case ast_const :
 
-			text += formatConst( context, statement );
+			try
+			{
+				subtext = context.tab + formatConst( context.setInline, statement );
+			}
+			catch( e )
+			{
+				// rethrows any real error
+				if( e !== 'noinline' ) throw e;
+			}
+
+			if( subtext !== undefined && textLen( subtext ) < MAX_TEXT_WIDTH )
+			{
+				text += subtext;
+			}
+			else
+			{
+				text += formatConst( context, statement );
+			}
 
 			break;
 
@@ -2072,6 +2099,7 @@ const exprFormatter =
 		[ ast_greaterThan,    formatDualOp        ],
 		[ ast_instanceof,     formatInstanceof    ],
 		[ ast_lessThan,       formatDualOp        ],
+		[ ast_let,            formatLet           ],
 		[ ast_member,         formatMember        ],
 		[ ast_minus,          formatDualOp        ],
 		[ ast_minusAssign,    formatOpAssign      ],

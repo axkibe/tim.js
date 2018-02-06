@@ -136,12 +136,7 @@ let tim_proto = tim.proto;
 /*
 | Constructor.
 */
-var
-	Constructor,
-	prototype;
-
-
-Constructor =
+const Constructor =
 	function(
 		twig, // twig
 		ranks // twig ranks
@@ -170,7 +165,7 @@ Constructor =
 /*
 | Prototype shortcut
 */
-prototype = Constructor.prototype;
+const prototype = Constructor.prototype;
 
 
 ast_objLiteral.prototype = prototype;
@@ -186,16 +181,10 @@ prototype.create =
 	)
 {
 	var
-		a,
-		aZ,
-		arg,
 		inherit,
 		key,
-		o,
 		rank,
 		ranks,
-		t,
-		tZ,
 		twig,
 		twigDup;
 
@@ -219,12 +208,12 @@ prototype.create =
 	}
 
 	for(
-		a = 0, aZ = arguments.length;
-		a < aZ;
+		let a = 0, al = arguments.length;
+		a < al;
 		a += 2
 	)
 	{
-		arg = arguments[ a + 1 ];
+		let arg = arguments[ a + 1 ];
 
 		switch( arguments[ a ] )
 		{
@@ -270,8 +259,8 @@ prototype.create =
 /**/				}
 /**/
 /**/				for(
-/**/					t = 0, tZ = ranks.length;
-/**/					t < tZ;
+/**/					let t = 0, tl = ranks.length;
+/**/					t < tl;
 /**/					t++
 /**/				)
 /**/				{
@@ -398,12 +387,17 @@ prototype.create =
 /**/if( CHECK )
 /**/{
 /**/	for(
-/**/		a = 0, aZ = ranks.length;
-/**/		a < aZ;
+/**/		let a = 0, al = ranks.length;
+/**/		a < al;
 /**/		++a
 /**/	)
 /**/	{
-/**/		o = twig[ ranks[ a ] ];
+/**/		if( prototype.abstract )
+/**/		{
+/**/			continue;
+/**/		}
+/**/
+/**/		const o = twig[ ranks[ a ] ];
 /**/
 /**/		if(
 /**/			o.timtype !== ast_and
@@ -566,8 +560,6 @@ prototype.equals =
 	)
 {
 	var
-		a,
-		aZ,
 		key;
 
 	if( this === obj )
@@ -593,8 +585,8 @@ prototype.equals =
 		}
 
 		for(
-			a = 0, aZ = this.length;
-			a < aZ;
+			let a = 0, al = this.length;
+			a < al;
 			++a
 		)
 		{
