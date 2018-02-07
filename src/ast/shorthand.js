@@ -326,10 +326,7 @@ def.static.$const =
 	return(
 		ast_const.create(
 			'name', name,
-			'assign',
-				arguments.length > 1
-				? parser.parse( assign )
-				: undefined
+			'assign', assign && parser.parse( assign )
 		)
 	);
 };
@@ -461,10 +458,7 @@ def.static.$let =
 			[
 				ast_letEntry.create(
 					'name', name,
-					'assign',
-						arguments.length > 1
-						? parser.parse( assign )
-						: undefined
+					'assign', assign && parser.parse( assign )
 				)
 			]
 		)
@@ -545,6 +539,28 @@ def.static.$forIn =
 	return(
 		ast_forIn.create(
 			'variable', parser.parse( variable ),
+			'letVar', false,
+			'object', parser.parse( object ),
+			'block', ensureBlock( parser.parse( block ) )
+		)
+	);
+};
+
+
+/*
+| Shorthand for creating for in loops with 'let' for variable.
+*/
+def.static.$forInLet =
+	function(
+		variable,
+		object,
+		block
+	)
+{
+	return(
+		ast_forIn.create(
+			'variable', parser.parse( variable ),
+			'letVar', true,
 			'object', parser.parse( object ),
 			'block', ensureBlock( parser.parse( block ) )
 		)

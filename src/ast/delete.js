@@ -20,7 +20,7 @@ if( TIM )
 		expr :
 		{
 			// the expression to delete
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		}
 	};
 }

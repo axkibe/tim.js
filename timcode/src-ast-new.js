@@ -19,10 +19,10 @@ function( ) {
 let ast_new = NODE ? module.exports : module;
 
 
-let ast_call = require( '../ast/call' );
+const ast_call = require( '../ast/call' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -65,9 +65,9 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_call;
+	let inherit;
+
+	let v_call;
 
 	if( this !== ast_new )
 	{

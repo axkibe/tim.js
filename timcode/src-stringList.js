@@ -19,7 +19,7 @@ function( ) {
 let stringList = NODE ? module.exports : module;
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -64,10 +64,11 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		list,
-		listDup;
+	let inherit;
+
+	let list;
+
+	let listDup;
 
 	if( this !== stringList )
 	{

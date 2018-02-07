@@ -17,7 +17,7 @@ if( TIM )
 {
 	def.attributes =
 	{
-		condition : { type : require( '../typemaps/astExpression' ) },
+		condition : { type : require( './typemap-expression' ) },
 
 		then : { type : 'ast_block' },
 

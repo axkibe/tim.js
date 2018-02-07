@@ -21,18 +21,18 @@ if( TIM )
 		{
 			// the initialization
 			type :
-				require( '../typemaps/astExpression' )
+				require( './typemap-expression' )
 				.concat( [ 'ast_let' ] )
 		},
 		condition :
 		{
 			// the continue condition
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		},
 		iterate :
 		{
 			// the iteration expression
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		},
 		block :
 		{

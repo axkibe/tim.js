@@ -124,7 +124,7 @@ def.func._init =
 
 	this.init = timDef.init;
 
-	// in case of attributes, group, twig or list
+	// in case of attributes, group, list, set or twig
 	// it will be turned off again
 	let singleton = true;
 
@@ -256,6 +256,15 @@ def.func._init =
 		constructorList.unshift( 'list' );
 	}
 
+	if( timDef.set )
+	{
+		singleton = false;
+
+		abstractConstructorList.unshift( 'set' );
+
+		constructorList.unshift( 'set' );
+	}
+
 	if( timDef.twig )
 	{
 		singleton = false;
@@ -289,6 +298,8 @@ def.func._init =
 				case 'groupDup' :
 				case 'list' :
 				case 'listDup' :
+				case 'set' :
+				case 'setDup' :
 
 					constructorList.unshift( name );
 
@@ -296,9 +307,7 @@ def.func._init =
 
 				default :
 
-					throw new Error(
-						'invalid init value: ' + name
-					);
+					throw new Error( 'invalid init value: ' + name );
 			}
 		}
 	}
@@ -338,6 +347,17 @@ def.func._init =
 		this.list = undefined;
 	}
 
+	if( timDef.set )
+	{
+		this.set = type_group.createFromArray( timDef.set );
+
+		imports = imports.addGroup( this.set );
+	}
+	else
+	{
+		this.set = undefined;
+	}
+
 	if( timDef.twig )
 	{
 		this.twig = type_group.createFromArray( timDef.twig );
@@ -357,22 +377,9 @@ def.func._init =
 	this.creatorHasFreeStringsParser =
 		this.group
 		|| this.list
+		|| this.set
 		|| this.twig
 		|| this.attributes.size > 0;
-};
-
-
-/*
-| Generates the imports.
-*/
-def.func.genImports =
-	function( )
-{
-	return(
-		$block( )
-		.$comment( 'The typed immutable.' )
-		.$let( this.id.global, 'NODE ? module.exports : module' )
-	);
 };
 
 
@@ -416,7 +423,7 @@ def.func.genRequires =
 		{
 			block =
 				block
-				.$let(
+				.$const(
 					id.global,
 					$(
 					  'require( "' + id.packet + '" ).',
@@ -428,7 +435,7 @@ def.func.genRequires =
 		{
 			block =
 				block
-				.$let(
+				.$const(
 					id.global,
 					'require( "' + this.id.rootPath + id.path + '" )'
 				);
@@ -449,7 +456,7 @@ def.func.genRequires =
 	}
 	else
 	{
-		return block.$let( 'tim_proto = tim.proto' );
+		return block.$const( 'tim_proto', 'tim.proto' );
 	}
 };
 
@@ -495,6 +502,8 @@ def.func.genConstructor =
 
 	if( this.list ) block = block.$( 'this._list = list' );
 
+	if( this.set ) block = block.$( 'this._set = set' );
+
 	if( this.twig )
 	{
 		block =
@@ -539,17 +548,14 @@ def.func.genConstructor =
 
 
 	// immutes the new object
+	// FIXME make it into one freeze call
 	let freezeBlock = $block( );
 
-	if( this.group )
-	{
-		freezeBlock = freezeBlock.$( 'Object.freeze( group )' );
-	}
+	if( this.group ) freezeBlock = freezeBlock.$( 'Object.freeze( group )' );
 
-	if( this.list )
-	{
-		freezeBlock = freezeBlock.$( 'Object.freeze( list )' );
-	}
+	if( this.list ) freezeBlock = freezeBlock.$( 'Object.freeze( list )' );
+
+	if( this.set ) freezeBlock = freezeBlock.$( 'Object.freeze( set )' );
 
 	if( this.twig )
 	{
@@ -624,6 +630,22 @@ def.func.genConstructor =
 
 				break;
 
+			case 'set' :
+
+				cf = cf.$arg( 'set', 'set' );
+
+				break;
+
+			case 'mapDup' :
+
+				cf =
+					cf.$arg(
+						'setDup',
+						'true if set is already been duplicated'
+					);
+
+				break;
+
 			case 'twig' :
 
 				cf = cf.$arg( 'twig', 'twig' );
@@ -691,60 +713,6 @@ def.func.genSingleton =
 /*
 | Generates the creators variable list.
 */
-def.func.CreatorVariables =
-	function(
-		abstract  // if true generates the abstract creator
-	)
-{
-/**/if( CHECK )
-/**/{
-/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
-/**/}
-
-	const varList = [ ];
-
-	const aKeys = this.attributes.keys;
-
-	for( let a = 0, al = aKeys.length; a < al; a++ )
-	{
-		const name = aKeys[ a ];
-
-		varList.push( this.attributes.get( name ).varRef.name );
-	}
-
-	varList.push( 'inherit' );
-
-	if( this.group )
-	{
-		varList.push( 'group', 'groupDup' );
-	}
-
-	if( this.list )
-	{
-		varList.push( 'list', 'listDup' );
-	}
-
-	if( this.twig )
-	{
-		varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
-	}
-
-	varList.sort( );
-
-	let result = $block( );
-
-	for( let a = 0, al = varList.length; a < al; a++ )
-	{
-		result = result.$varDec( varList[ a ] );
-	}
-
-	return result;
-};
-
-
-/*
-| Generates the creators variable list.
-*/
 def.func.genCreatorVariables =
 	function(
 		abstract  // if true generates the abstract creator
@@ -768,20 +736,13 @@ def.func.genCreatorVariables =
 
 	varList.push( 'inherit' );
 
-	if( this.group )
-	{
-		varList.push( 'group', 'groupDup' );
-	}
+	if( this.group ) varList.push( 'group', 'groupDup' );
 
-	if( this.list )
-	{
-		varList.push( 'list', 'listDup' );
-	}
+	if( this.list ) varList.push( 'list', 'listDup' );
 
-	if( this.twig )
-	{
-		varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
-	}
+	if( this.set ) varList.push( 'set', 'setDup' );
+
+	if( this.twig ) varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
 
 	varList.sort( );
 
@@ -789,7 +750,7 @@ def.func.genCreatorVariables =
 
 	for( let a = 0, al = varList.length; a < al; a++ )
 	{
-		result = result.$varDec( varList[ a ] );
+		result = result.$let( varList[ a ] );
 	}
 
 	return result;
@@ -826,6 +787,14 @@ def.func.genCreatorInheritanceReceiver =
 			receiver
 			.$( 'list = inherit._list' )
 			.$( 'listDup = false' );
+	}
+
+	if( this.set )
+	{
+		receiver =
+			receiver
+			.$( 'set = inherit._set' )
+			.$( 'setDup = false' );
 	}
 
 	if( this.twig )
@@ -873,6 +842,17 @@ def.func.genCreatorInheritanceReceiver =
 				$block( )
 				.$( 'list = [ ]' )
 				.$( 'listDup = true' )
+			);
+	}
+
+	if( this.set )
+	{
+		result =
+			result
+			.$elsewise(
+				$block( )
+				.$( 'set = new Set( )' )
+				.$( 'setDup = true' )
 			);
 	}
 
@@ -999,6 +979,41 @@ def.func.genCreatorFreeStringsParser =
 				$block( )
 				.append( listDupCheck )
 				.$( 'list[ arg ] = arguments[ ++a + 1 ]' )
+			);
+	}
+
+	if( this.set )
+	{
+		const setDupCheck =
+			$if(
+				'!setDup',
+				$block( )
+				.$( 'set = new Set( set )' )
+				.$( 'setDup = true' )
+			);
+
+		switchExpr =
+			switchExpr
+			.$case(
+				'"set:init"',
+				$block( )
+				.$check(
+					$if( '!( arg instanceof Set )', $fail( ) )
+				)
+				.$( 'set = arg' )
+				.$( 'setDup = "init"' )   // TODO just set it true
+			)
+			.$case(
+				'"set:set"',
+				$block( )
+				.append( setDupCheck )
+				.$( 'set.set( arg, val )' )
+			)
+			.$case(
+				'"set:remove"',
+				$block( )
+				.append( setDupCheck )
+				.$( 'set.delete( arg )' )
 			);
 	}
 
@@ -1392,7 +1407,7 @@ def.func.genCreatorChecks =
 	{
 		check =
 			check
-			.$forIn(
+			.$forInLet(
 				'k', 'group',
 				$block( )
 				.$const( 'o', 'group[ k ]' )
@@ -1418,6 +1433,26 @@ def.func.genCreatorChecks =
 					$fail( )
 				)
 			);
+	}
+
+	if( this.set )
+	{
+		// FIXME XXX
+		/*
+		check =
+			check
+			.$for(
+				'let r = 0, rl = list.length',
+				'r < rl',
+				'++r',
+				$block( )
+				.$const( 'o', 'list[ r ]' )
+				.$if(
+					this.genTypeCheckFailCondition( $( 'o' ), this.list, abstract ),
+					$fail( )
+				)
+			);
+		*/
 	}
 
 	if( this.twig )
@@ -1529,6 +1564,8 @@ def.func.genCreatorUnchanged =
 
 	if( this.list ) cond = $( cond, '&& listDup === false' );
 
+	if( this.set ) cond = $( cond, '&& setDup === false' );
+
 	if( this.twig ) cond = $( cond, '&& twigDup === false' );
 
 	const attributes = this.attributes;
@@ -1605,6 +1642,8 @@ def.func.genCreatorReturn =
 			case 'ranks' :
 			case 'list' :
 			case 'listDup' :
+			case 'set' :
+			case 'setDup' :
 			case 'twig' :
 			case 'twigDup' :
 
@@ -1700,16 +1739,7 @@ def.func.genFromJsonCreatorVariables =
 
 		if( this.list ) varList.push( 'jlist', 'list' );
 
-		if( this.twig )
-		{
-			varList.push(
-				'key',
-				'jval',
-				'jwig',
-				'ranks',
-				'twig'
-			);
-		}
+		if( this.twig ) varList.push( 'key', 'jval', 'jwig', 'ranks', 'twig' );
 	}
 
 	varList.sort( );
@@ -1718,7 +1748,7 @@ def.func.genFromJsonCreatorVariables =
 
 	for( let a = 0, al = varList.length; a < al; a++ )
 	{
-		result = result.$varDec( varList[ a ] );
+		result = result.$let( varList[ a ] );
 	}
 
 	return result;
@@ -1902,16 +1932,17 @@ def.func.genFromJsonCreatorParser =
 
 	if( this.group )
 	{
-		nameSwitch =
-			nameSwitch
-			.$case( '"group"', 'jgroup = arg' );
+		nameSwitch = nameSwitch.$case( '"group"', 'jgroup = arg' );
 	}
 
 	if( this.list )
 	{
-		nameSwitch =
-			nameSwitch
-			.$case( '"list"', 'jlist = arg' );
+		nameSwitch = nameSwitch.$case( '"list"', 'jlist = arg' );
+	}
+
+	if( this.set )
+	{
+		nameSwitch = nameSwitch.$case( '"set"', 'jset = arg' );
 	}
 
 	if( this.twig )
@@ -1930,6 +1961,7 @@ def.func.genFromJsonCreatorParser =
 			name === 'group'
 			|| name === 'ranks'
 			|| name === 'list'
+			|| name === 'set'
 			|| name === 'twig'
 		)
 		{
@@ -1948,7 +1980,7 @@ def.func.genFromJsonCreatorParser =
 
 	return(
 		$block( )
-		.$forIn(
+		.$forInLet(
 			'name',
 			'json',
 			$block( )
@@ -2045,7 +2077,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			.$( loopSwitch );
 	}
 
-	return result.$forIn( 'k', 'jgroup', loopBody );
+	return result.$forInLet( 'k', 'jgroup', loopBody );
 };
 
 
@@ -2315,6 +2347,11 @@ def.func.genFromJsonCreator =
 			.$( this.genFromJsonCreatorListProcessing( ) );
 	}
 
+	if( this.set )
+	{
+		throw new Error( 'FIXME, fromJSON for sets not implemented' );
+	}
+
 	if( this.twig )
 	{
 		funcBlock =
@@ -2503,6 +2540,23 @@ def.func.genTimProto =
 			.$( this.$protoSet( 'set', 'tim_proto.listSet' ) );
 	}
 
+	if( this.set )
+	{
+		result =
+			result
+			.$comment( 'Returns true if the set has an element.' )
+			.$( this.$protoSet( 'has', 'tim_proto.setHas' ) )
+
+			.$comment( 'Returns an iterator for the set.' )
+			.$( this.$protoSet( 'iterator', 'tim_proto.setIterator' ) )
+
+			.$comment( 'Returns the set with one element removed.' )
+			.$( this.$protoSet( 'remove', 'tim_proto.setRemove' ) )
+
+			.$comment( 'Returns the set with one element set.' )
+			.$( this.$protoSet( 'set', 'tim_proto.setSet' ) );
+	}
+
 	if( this.twig )
 	{
 		result =
@@ -2585,6 +2639,8 @@ def.func.genToJson =
 	}
 
 	if( this.list ) olit = olit.add( 'list', 'this._list' );
+
+	if( this.set ) throw new Error( 'FIXME not implemented' );
 
 	if( this.twig )
 	{
@@ -2683,15 +2739,8 @@ def.func.genEqualsFuncBody =
 		eqFuncName  // name of equals func to call
 	)
 {
-	let body = $block( );
-
-	if( this.twig )
-	{
-		body = body.$varDec( 'key' );
-	}
-
-	body =
-		body
+	let body =
+		$block( )
 		.$if( 'this === obj', $( 'return true' ) )
 		.$if( '!obj', $( 'return false' ) )
 		.$if(
@@ -2721,11 +2770,7 @@ def.func.genEqualsFuncBody =
 				'this.size !== obj.size',
 				$( 'return false' )
 			)
-			.$forIn(
-				'k',
-				'this._group',
-				groupTestLoopBody
-			);
+			.$forInLet( 'k', 'this._group', groupTestLoopBody );
 
 		body = body.$if( 'this._group !== obj._group', groupTest );
 	}
@@ -2763,11 +2808,29 @@ def.func.genEqualsFuncBody =
 		body = body.$if( 'this._list !== obj._list', listTest );
 	}
 
+	if( this.set )
+	{
+		const setTest =
+			$block( )
+			.$const( 'ait', 'this._list.keys( )' )
+			.$const( 'bit', 'obj._list.keys( )' )
+			.$let( 'an', 'ait.next( )' )
+			.$let( 'bn', 'bit.next( )' )
+			.$while(
+				'!an.done && !bn.done',
+				$block( )
+				.$if( 'an.value !== bn.value', $( 'return false' ) )
+			)
+			.$if(' !an.done || !bn.done', $( 'return false' ) );
+
+		body = body.$if( 'this._set !== obj._set', setTest );
+	}
+
 	if( this.twig )
 	{
 		const twigTestLoopBody =
 			$block( )
-			.$( 'key = this._ranks[ a ]' )
+			.$const( 'key', 'this._ranks[ a ]' )
 			.$if(
 				$(
 					'key !== obj._ranks[ a ]',
@@ -3002,7 +3065,8 @@ def.func.genCapsule =
 	let capsule =
 		$block( )
 		.$( '"use strict"' )
-		.$( this.genImports( ) )
+		.$comment( 'The typed immutable.' )
+		.$let( this.id.global, 'NODE ? module.exports : module' )
 		.$( this.genRequires( ) )
 		.$( this.hasAbstract ? this.genConstructor( true ) : undefined )
 		.$( this.genConstructor( false ) );

@@ -19,7 +19,7 @@ function( ) {
 let ast_null = NODE ? module.exports : module;
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -64,8 +64,7 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit;
+	let inherit;
 
 	if( this !== ast_null )
 	{

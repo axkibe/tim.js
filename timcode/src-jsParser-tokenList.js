@@ -19,163 +19,163 @@ function( ) {
 let jsParser_tokenList = NODE ? module.exports : module;
 
 
-let ast_and = require( '../ast/and' );
+const ast_and = require( '../ast/and' );
 
 
-let ast_arrayLiteral = require( '../ast/arrayLiteral' );
+const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 
-let ast_assign = require( '../ast/assign' );
+const ast_assign = require( '../ast/assign' );
 
 
-let ast_block = require( '../ast/block' );
+const ast_block = require( '../ast/block' );
 
 
-let ast_boolean = require( '../ast/boolean' );
+const ast_boolean = require( '../ast/boolean' );
 
 
-let ast_call = require( '../ast/call' );
+const ast_call = require( '../ast/call' );
 
 
-let ast_check = require( '../ast/check' );
+const ast_check = require( '../ast/check' );
 
 
-let ast_comma = require( '../ast/comma' );
+const ast_comma = require( '../ast/comma' );
 
 
-let ast_comment = require( '../ast/comment' );
+const ast_comment = require( '../ast/comment' );
 
 
-let ast_condition = require( '../ast/condition' );
+const ast_condition = require( '../ast/condition' );
 
 
-let ast_const = require( '../ast/const' );
+const ast_const = require( '../ast/const' );
 
 
-let ast_continue = require( '../ast/continue' );
+const ast_continue = require( '../ast/continue' );
 
 
-let ast_delete = require( '../ast/delete' );
+const ast_delete = require( '../ast/delete' );
 
 
-let ast_differs = require( '../ast/differs' );
+const ast_differs = require( '../ast/differs' );
 
 
-let ast_divide = require( '../ast/divide' );
+const ast_divide = require( '../ast/divide' );
 
 
-let ast_divideAssign = require( '../ast/divideAssign' );
+const ast_divideAssign = require( '../ast/divideAssign' );
 
 
-let ast_dot = require( '../ast/dot' );
+const ast_dot = require( '../ast/dot' );
 
 
-let ast_equals = require( '../ast/equals' );
+const ast_equals = require( '../ast/equals' );
 
 
-let ast_fail = require( '../ast/fail' );
+const ast_fail = require( '../ast/fail' );
 
 
-let ast_for = require( '../ast/for' );
+const ast_for = require( '../ast/for' );
 
 
-let ast_forIn = require( '../ast/forIn' );
+const ast_forIn = require( '../ast/forIn' );
 
 
-let ast_func = require( '../ast/func' );
+const ast_func = require( '../ast/func' );
 
 
-let ast_greaterThan = require( '../ast/greaterThan' );
+const ast_greaterThan = require( '../ast/greaterThan' );
 
 
-let ast_if = require( '../ast/if' );
+const ast_if = require( '../ast/if' );
 
 
-let ast_instanceof = require( '../ast/instanceof' );
+const ast_instanceof = require( '../ast/instanceof' );
 
 
-let ast_lessThan = require( '../ast/lessThan' );
+const ast_lessThan = require( '../ast/lessThan' );
 
 
-let ast_let = require( '../ast/let' );
+const ast_let = require( '../ast/let' );
 
 
-let ast_member = require( '../ast/member' );
+const ast_member = require( '../ast/member' );
 
 
-let ast_minus = require( '../ast/minus' );
+const ast_minus = require( '../ast/minus' );
 
 
-let ast_minusAssign = require( '../ast/minusAssign' );
+const ast_minusAssign = require( '../ast/minusAssign' );
 
 
-let ast_multiply = require( '../ast/multiply' );
+const ast_multiply = require( '../ast/multiply' );
 
 
-let ast_multiplyAssign = require( '../ast/multiplyAssign' );
+const ast_multiplyAssign = require( '../ast/multiplyAssign' );
 
 
-let ast_negate = require( '../ast/negate' );
+const ast_negate = require( '../ast/negate' );
 
 
-let ast_new = require( '../ast/new' );
+const ast_new = require( '../ast/new' );
 
 
-let ast_not = require( '../ast/not' );
+const ast_not = require( '../ast/not' );
 
 
-let ast_null = require( '../ast/null' );
+const ast_null = require( '../ast/null' );
 
 
-let ast_number = require( '../ast/number' );
+const ast_number = require( '../ast/number' );
 
 
-let ast_objLiteral = require( '../ast/objLiteral' );
+const ast_objLiteral = require( '../ast/objLiteral' );
 
 
-let ast_or = require( '../ast/or' );
+const ast_or = require( '../ast/or' );
 
 
-let ast_plus = require( '../ast/plus' );
+const ast_plus = require( '../ast/plus' );
 
 
-let ast_plusAssign = require( '../ast/plusAssign' );
+const ast_plusAssign = require( '../ast/plusAssign' );
 
 
-let ast_postDecrement = require( '../ast/postDecrement' );
+const ast_postDecrement = require( '../ast/postDecrement' );
 
 
-let ast_postIncrement = require( '../ast/postIncrement' );
+const ast_postIncrement = require( '../ast/postIncrement' );
 
 
-let ast_preDecrement = require( '../ast/preDecrement' );
+const ast_preDecrement = require( '../ast/preDecrement' );
 
 
-let ast_preIncrement = require( '../ast/preIncrement' );
+const ast_preIncrement = require( '../ast/preIncrement' );
 
 
-let ast_return = require( '../ast/return' );
+const ast_return = require( '../ast/return' );
 
 
-let ast_string = require( '../ast/string' );
+const ast_string = require( '../ast/string' );
 
 
-let ast_switch = require( '../ast/switch' );
+const ast_switch = require( '../ast/switch' );
 
 
-let ast_typeof = require( '../ast/typeof' );
+const ast_typeof = require( '../ast/typeof' );
 
 
-let ast_var = require( '../ast/var' );
+const ast_var = require( '../ast/var' );
 
 
-let ast_varDec = require( '../ast/varDec' );
+const ast_varDec = require( '../ast/varDec' );
 
 
-let jsLexer_token = require( '../jsLexer/token' );
+const jsLexer_token = require( '../jsLexer/token' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -220,10 +220,11 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		list,
-		listDup;
+	let inherit;
+
+	let list;
+
+	let listDup;
 
 	if( this !== jsParser_tokenList )
 	{

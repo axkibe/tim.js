@@ -92,7 +92,7 @@ const ast_var = require( '../ast/var' );
 
 const lexer = require( '../jsLexer/lexer' );
 
-const jsLexer_token = require( '../jsLexer/token' );
+const token = require( '../jsLexer/token' );
 
 const state = require( './state' );
 
@@ -345,9 +345,14 @@ parser.handleDot =
 
 	if( !ast ) throw new Error( );
 
-	const name = state.preview;
+	let name = state.preview;
 
-	if( name.type !== 'identifier' ) throw new Error( );
+	if( name.type === 'delete' )
+	{
+		// "delete" may be used as identifier here
+		name = token.tv( 'identifier', 'delete' );
+	}
+	else if( name.type !== 'identifier' ) throw new Error( );
 
 	state =
 		state.create(
@@ -1175,7 +1180,7 @@ const parseToken =
 		noComma
 	)
 {
-	if( !state.ast && state.current.timtype !== jsLexer_token )
+	if( !state.ast && state.current.timtype !== token )
 	{
 		// this is already a preparsed astTree.
 		state = state.create( 'ast', state.current, 'pos', state.pos + 1 );

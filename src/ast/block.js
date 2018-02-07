@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = require( '../typemaps/astStatement' );
+	def.list = require( './typemap-statement' );
 }
 
 
@@ -204,6 +204,20 @@ def.func.$forIn =
 	)
 {
 	return this.append( shorthand.$forIn( variable, object, block ) );
+};
+
+
+/*
+| Returns the block with a for-in loop appended.
+*/
+def.func.$forInLet =
+	function(
+		variable,
+		object,
+		block
+	)
+{
+	return this.append( shorthand.$forInLet( variable, object, block ) );
 };
 
 

@@ -20,12 +20,16 @@ if( TIM )
 		variable :
 		{
 			// the loop variable
-			type : [ 'string', 'ast_var' ]
+			type : 'ast_var'
+		},
+		letVar :
+		{
+			type : 'boolean'
 		},
 		object :
 		{
 			// the object expression to iterate over
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		},
 		block :
 		{

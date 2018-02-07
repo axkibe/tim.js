@@ -20,7 +20,7 @@ if( TIM )
 		statement :
 		{
 			// the statement expression
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		},
 		defaultCase :
 		{

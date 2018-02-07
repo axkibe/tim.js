@@ -2,7 +2,7 @@
 | ast statements.
 */
 module.exports =
-	require( './astExpression' )
+	require( './typemap-expression' )
 	.concat(
 		[
 		'ast_block',

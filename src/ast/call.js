@@ -17,10 +17,10 @@ if( TIM )
 {
 	def.attributes =
 	{
-		func : { type : require( '../typemaps/astExpression' ) },
+		func : { type : require( './typemap-expression' ) },
 	};
 
-	def.list = require( '../typemaps/astExpression' );
+	def.list = require( './typemap-expression' );
 }
 
 

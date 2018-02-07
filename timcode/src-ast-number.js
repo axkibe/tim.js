@@ -19,7 +19,7 @@ function( ) {
 let ast_number = NODE ? module.exports : module;
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -62,9 +62,9 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_number;
+	let inherit;
+
+	let v_number;
 
 	if( this !== ast_number )
 	{

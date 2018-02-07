@@ -65,6 +65,7 @@ module.exports =
 	'src/ast/typeof.js',
 	'src/ast/var.js',
 	'src/ast/varDec.js',
+	'src/ast/while.js',
 	'src/attribute.js',
 	'src/attributeGroup.js',
 	'src/format/context.js',
@@ -80,4 +81,5 @@ module.exports =
 	'src/stringList.js',
 	'src/type/boolean.js',
 	'src/type/group.js',
+//	'src/type/set.js',
 ];

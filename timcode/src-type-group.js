@@ -19,10 +19,10 @@ function( ) {
 let type_group = NODE ? module.exports : module;
 
 
-let id = require( '../id' );
+const id = require( '../id' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -67,10 +67,11 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		group,
-		groupDup,
-		inherit;
+	let group;
+
+	let groupDup;
+
+	let inherit;
 
 	if( this !== type_group )
 	{

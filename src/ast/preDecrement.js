@@ -20,7 +20,7 @@ if( TIM )
 		expr :
 		{
 			// the expression to pre decrement
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		}
 	};
 }

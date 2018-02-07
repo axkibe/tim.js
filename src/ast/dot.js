@@ -20,7 +20,7 @@ if( TIM )
 		expr :
 		{
 			// the expression to get the member of
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		},
 		member :
 		{

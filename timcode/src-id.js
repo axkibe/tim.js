@@ -19,7 +19,7 @@ function( ) {
 let id = NODE ? module.exports : module;
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -67,11 +67,13 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		list,
-		listDup,
-		v_packet;
+	let inherit;
+
+	let list;
+
+	let listDup;
+
+	let v_packet;
 
 	if( this !== id )
 	{

@@ -19,10 +19,10 @@ function( ) {
 let jsLexer_tokenList = NODE ? module.exports : module;
 
 
-let jsLexer_token = require( '../jsLexer/token' );
+const jsLexer_token = require( '../jsLexer/token' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -67,10 +67,11 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		list,
-		listDup;
+	let inherit;
+
+	let list;
+
+	let listDup;
 
 	if( this !== jsLexer_tokenList )
 	{

@@ -21,7 +21,7 @@ if( TIM )
 		{
 			// current ast entity
 			type :
-				require( '../typemaps/astStatement' )
+				require( '../ast/typemap-statement' )
 				.concat( [ 'undefined' ] )
 		},
 		tokens :

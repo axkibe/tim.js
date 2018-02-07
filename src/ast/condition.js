@@ -20,11 +20,11 @@ if( TIM )
 
 	def.attributes =
 	{
-		condition : { type : require( '../typemaps/astExpression' ) },
+		condition : { type : require( './typemap-expression' ) },
 
-		then : { type : require( '../typemaps/astExpression' ) },
+		then : { type : require( './typemap-expression' ) },
 
-		elsewise : { type : require( '../typemaps/astExpression' ) }
+		elsewise : { type : require( './typemap-expression' ) }
 	};
 }
 

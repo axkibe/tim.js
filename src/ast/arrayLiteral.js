@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = require( '../typemaps/astExpression' );
+	def.list = require( './typemap-expression' );
 }
 
 

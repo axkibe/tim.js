@@ -19,10 +19,10 @@ function( ) {
 let ast_check = NODE ? module.exports : module;
 
 
-let ast_block = require( '../ast/block' );
+const ast_block = require( '../ast/block' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -65,9 +65,9 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_block;
+	let inherit;
+
+	let v_block;
 
 	if( this !== ast_check )
 	{

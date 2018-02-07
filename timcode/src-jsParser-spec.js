@@ -19,7 +19,7 @@ function( ) {
 let jsParser_tokenSpec = NODE ? module.exports : module;
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -73,12 +73,15 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_associativity,
-		v_astCreator,
-		v_handler,
-		v_prec;
+	let inherit;
+
+	let v_associativity;
+
+	let v_astCreator;
+
+	let v_handler;
+
+	let v_prec;
 
 	if( this !== jsParser_tokenSpec )
 	{

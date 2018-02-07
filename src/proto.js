@@ -603,6 +603,46 @@ tim_proto.listSet =
 
 
 /*
+| Returns true if the set has an element.
+*/
+tim_proto.setHas =
+	function( e )
+{
+	return this._set.has( e );
+};
+
+
+/*
+| Returns an iterator for the set.
+*/
+tim_proto.setIterator =
+	function( )
+{
+	return this._set.keys( );
+};
+
+
+/*
+| Returns the set with one element removed.
+*/
+tim_proto.setRemove =
+	function( e )
+{
+	return this.create( 'set:remove', e );
+};
+
+
+/*
+| Returns the set with one element set.
+*/
+tim_proto.setSet =
+	function( e )
+{
+	return this.create( 'set:set', e );
+};
+
+
+/*
 | Returns the element at rank.
 */
 tim_proto.twigAtRank =

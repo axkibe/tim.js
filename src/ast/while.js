@@ -1,11 +1,11 @@
 /*
-| Case statements in abstract syntax trees.
+| Ast; a while loop.
 */
 'use strict';
 
 
 require( '../ouroboros' )
-.define( module, 'ast_case', ( def, ast_case ) => {
+.define( module, 'ast_while', ( def, ast_while ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -15,18 +15,19 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-
 	def.attributes =
 	{
+		condition :
+		{
+			// the while condition
+			type : require( './typemap-expression' )
+		},
 		block :
 		{
-			// the statement
+			// the for block
 			type : 'ast_block'
 		}
 	};
-
-	// list of case values
-	def.list = require( './typemap-expression' );
 }
 
 

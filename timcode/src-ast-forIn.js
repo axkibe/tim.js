@@ -19,124 +19,124 @@ function( ) {
 let ast_forIn = NODE ? module.exports : module;
 
 
-let ast_and = require( '../ast/and' );
+const ast_and = require( '../ast/and' );
 
 
-let ast_arrayLiteral = require( '../ast/arrayLiteral' );
+const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 
-let ast_assign = require( '../ast/assign' );
+const ast_assign = require( '../ast/assign' );
 
 
-let ast_block = require( '../ast/block' );
+const ast_block = require( '../ast/block' );
 
 
-let ast_boolean = require( '../ast/boolean' );
+const ast_boolean = require( '../ast/boolean' );
 
 
-let ast_call = require( '../ast/call' );
+const ast_call = require( '../ast/call' );
 
 
-let ast_comma = require( '../ast/comma' );
+const ast_comma = require( '../ast/comma' );
 
 
-let ast_condition = require( '../ast/condition' );
+const ast_condition = require( '../ast/condition' );
 
 
-let ast_delete = require( '../ast/delete' );
+const ast_delete = require( '../ast/delete' );
 
 
-let ast_differs = require( '../ast/differs' );
+const ast_differs = require( '../ast/differs' );
 
 
-let ast_divide = require( '../ast/divide' );
+const ast_divide = require( '../ast/divide' );
 
 
-let ast_divideAssign = require( '../ast/divideAssign' );
+const ast_divideAssign = require( '../ast/divideAssign' );
 
 
-let ast_dot = require( '../ast/dot' );
+const ast_dot = require( '../ast/dot' );
 
 
-let ast_equals = require( '../ast/equals' );
+const ast_equals = require( '../ast/equals' );
 
 
-let ast_func = require( '../ast/func' );
+const ast_func = require( '../ast/func' );
 
 
-let ast_greaterThan = require( '../ast/greaterThan' );
+const ast_greaterThan = require( '../ast/greaterThan' );
 
 
-let ast_instanceof = require( '../ast/instanceof' );
+const ast_instanceof = require( '../ast/instanceof' );
 
 
-let ast_lessThan = require( '../ast/lessThan' );
+const ast_lessThan = require( '../ast/lessThan' );
 
 
-let ast_member = require( '../ast/member' );
+const ast_member = require( '../ast/member' );
 
 
-let ast_minus = require( '../ast/minus' );
+const ast_minus = require( '../ast/minus' );
 
 
-let ast_minusAssign = require( '../ast/minusAssign' );
+const ast_minusAssign = require( '../ast/minusAssign' );
 
 
-let ast_multiply = require( '../ast/multiply' );
+const ast_multiply = require( '../ast/multiply' );
 
 
-let ast_multiplyAssign = require( '../ast/multiplyAssign' );
+const ast_multiplyAssign = require( '../ast/multiplyAssign' );
 
 
-let ast_negate = require( '../ast/negate' );
+const ast_negate = require( '../ast/negate' );
 
 
-let ast_new = require( '../ast/new' );
+const ast_new = require( '../ast/new' );
 
 
-let ast_not = require( '../ast/not' );
+const ast_not = require( '../ast/not' );
 
 
-let ast_null = require( '../ast/null' );
+const ast_null = require( '../ast/null' );
 
 
-let ast_number = require( '../ast/number' );
+const ast_number = require( '../ast/number' );
 
 
-let ast_objLiteral = require( '../ast/objLiteral' );
+const ast_objLiteral = require( '../ast/objLiteral' );
 
 
-let ast_or = require( '../ast/or' );
+const ast_or = require( '../ast/or' );
 
 
-let ast_plus = require( '../ast/plus' );
+const ast_plus = require( '../ast/plus' );
 
 
-let ast_plusAssign = require( '../ast/plusAssign' );
+const ast_plusAssign = require( '../ast/plusAssign' );
 
 
-let ast_postDecrement = require( '../ast/postDecrement' );
+const ast_postDecrement = require( '../ast/postDecrement' );
 
 
-let ast_postIncrement = require( '../ast/postIncrement' );
+const ast_postIncrement = require( '../ast/postIncrement' );
 
 
-let ast_preDecrement = require( '../ast/preDecrement' );
+const ast_preDecrement = require( '../ast/preDecrement' );
 
 
-let ast_preIncrement = require( '../ast/preIncrement' );
+const ast_preIncrement = require( '../ast/preIncrement' );
 
 
-let ast_string = require( '../ast/string' );
+const ast_string = require( '../ast/string' );
 
 
-let ast_typeof = require( '../ast/typeof' );
+const ast_typeof = require( '../ast/typeof' );
 
 
-let ast_var = require( '../ast/var' );
+const ast_var = require( '../ast/var' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -145,6 +145,7 @@ let tim_proto = tim.proto;
 const Constructor =
 	function(
 		v_block,
+		v_letVar,
 		v_object,
 		v_variable
 	)
@@ -155,6 +156,8 @@ const Constructor =
 	}
 
 	this.block = v_block;
+
+	this.letVar = v_letVar;
 
 	this.object = v_object;
 
@@ -185,17 +188,23 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_block,
-		v_object,
-		v_variable;
+	let inherit;
+
+	let v_block;
+
+	let v_letVar;
+
+	let v_object;
+
+	let v_variable;
 
 	if( this !== ast_forIn )
 	{
 		inherit = this;
 
 		v_block = this.block;
+
+		v_letVar = this.letVar;
 
 		v_object = this.object;
 
@@ -217,6 +226,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_block = arg;
+				}
+
+				break;
+
+			case 'letVar' :
+
+				if( arg !== pass )
+				{
+					v_letVar = arg;
 				}
 
 				break;
@@ -258,6 +276,21 @@ prototype.create =
 /**/	}
 /**/
 /**/	if( v_block.timtype !== ast_block )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_letVar === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_letVar === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_letVar ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -363,13 +396,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		v_variable.timtype !== ast_var
-/**/		&&
-/**/		typeof( v_variable ) !== 'string'
-/**/		&&
-/**/		!( v_variable instanceof String )
-/**/	)
+/**/	if( v_variable.timtype !== ast_var )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -384,6 +411,8 @@ prototype.create =
 			v_block.equals( inherit.block )
 		)
 		&&
+		v_letVar === inherit.letVar
+		&&
 		(
 			v_object === inherit.object
 			||
@@ -393,14 +422,14 @@ prototype.create =
 		(
 			v_variable === inherit.variable
 			||
-			v_variable.timtype && v_variable.equals( inherit.variable )
+			v_variable.equals( inherit.variable )
 		)
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_block, v_object, v_variable );
+	return new Constructor( v_block, v_letVar, v_object, v_variable );
 };
 
 
@@ -458,6 +487,8 @@ prototype.equals =
 			this.block.equals( obj.block )
 		)
 		&&
+		this.letVar === obj.letVar
+		&&
 		(
 			this.object === obj.object
 			||
@@ -467,7 +498,7 @@ prototype.equals =
 		(
 			this.variable === obj.variable
 			||
-			this.variable.timtype && this.variable.equals( obj.variable )
+			this.variable.equals( obj.variable )
 		)
 	);
 };

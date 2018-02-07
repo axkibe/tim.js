@@ -21,7 +21,7 @@ if( TIM )
 		{
 			// the error message expression
 			type :
-				require( '../typemaps/astExpression' )
+				require( './typemap-expression' )
 				.concat( ['undefined' ] )
 		}
 	};

@@ -907,7 +907,8 @@ const formatForIn =
 {
 	return(
 		context.tab
-		+ 'for( let '
+		+ 'for( '
+		+ ( expr.letVar ? 'let ' : '' )
 		+ expr.variable.name
 		+ ' in '
 		+ formatExpression( context.setInline, expr.object, ast_instanceof )

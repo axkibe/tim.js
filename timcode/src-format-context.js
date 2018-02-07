@@ -19,7 +19,7 @@ function( ) {
 let format_context = NODE ? module.exports : module;
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -71,12 +71,15 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_check,
-		v_indent,
-		v_inline,
-		v_root;
+	let inherit;
+
+	let v_check;
+
+	let v_indent;
+
+	let v_inline;
+
+	let v_root;
 
 	if( this !== format_context )
 	{

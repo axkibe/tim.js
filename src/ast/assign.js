@@ -15,12 +15,12 @@ if( TIM )
 		left :
 		{
 			// left-hand side
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		},
 		right :
 		{
 			// right-hand side
-			type : require( '../typemaps/astExpression' )
+			type : require( './typemap-expression' )
 		}
 	};
 }

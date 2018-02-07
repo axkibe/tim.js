@@ -26,7 +26,7 @@ if( TIM )
 		{
 			// assignment of variable
 			type :
-				require( '../typemaps/astExpression' )
+				require( './typemap-expression' )
 				.concat( [ 'undefined' ] )
 		}
 	};

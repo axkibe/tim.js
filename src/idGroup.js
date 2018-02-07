@@ -40,29 +40,9 @@ def.static.createFromIDStrings =
 
 	for( let a = 0, aZ = idStrings.length; a < aZ; a++ )
 	{
-		const s = idStrings[ a ];
+		const id = tim_id.createFromString( idStrings[ a ] );
 
-		if( s.substring( 0, 2 ) !== '->' )
-		{
-			const id = tim_id.createFromString( idStrings[ a ] );
-
-			ids[ id.pathName ] = id;
-		}
-		else
-		{
-			// FUTURE may check for circular requirements
-			const subList =
-				tim_idGroup.createFromIDStrings(
-					require( '../typemaps/' + s.substring( 2 ) )
-				).idList;
-
-			for( let b = 0, bZ = subList.length; b < bZ; b++ )
-			{
-				const subId = subList[ b ];
-
-				ids[ subId.pathName ] = subId;
-			}
-		}
+		ids[ id.pathName ] = id;
 	}
 
 	return tim_idGroup.create( 'group:init', ids );

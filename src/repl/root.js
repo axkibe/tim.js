@@ -18,6 +18,8 @@ global.TIM = false;
 
 global.NODE = true;
 
+require( '../root' );
+
 // hackish needed due to circular requirements
 require( '../ast/shorthand' );
 

@@ -19,7 +19,7 @@ function( ) {
 let jsLexer_token = NODE ? module.exports : module;
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -67,10 +67,11 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_type,
-		v_value;
+	let inherit;
+
+	let v_type;
+
+	let v_value;
 
 	if( this !== jsLexer_token )
 	{

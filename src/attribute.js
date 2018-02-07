@@ -38,7 +38,7 @@ if( TIM )
 		{
 			// default value
 			type :
-				require( './typemaps/astExpression' )
+				require( './ast/typemap-expression' )
 				.concat( [ 'undefined' ] )
 		},
 		json :

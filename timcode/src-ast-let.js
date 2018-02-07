@@ -19,10 +19,10 @@ function( ) {
 let ast_let = NODE ? module.exports : module;
 
 
-let ast_letEntry = require( '../ast/letEntry' );
+const ast_letEntry = require( '../ast/letEntry' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -67,10 +67,11 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		list,
-		listDup;
+	let inherit;
+
+	let list;
+
+	let listDup;
 
 	if( this !== ast_let )
 	{

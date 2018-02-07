@@ -19,13 +19,13 @@ function( ) {
 let ast_func = NODE ? module.exports : module;
 
 
-let ast_block = require( '../ast/block' );
+const ast_block = require( '../ast/block' );
 
 
-let ast_funcArg = require( '../ast/funcArg' );
+const ast_funcArg = require( '../ast/funcArg' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -76,12 +76,15 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		list,
-		listDup,
-		v_block,
-		v_capsule;
+	let inherit;
+
+	let list;
+
+	let listDup;
+
+	let v_block;
+
+	let v_capsule;
 
 	if( this !== ast_func )
 	{

@@ -19,10 +19,10 @@ function( ) {
 let generator = NODE ? module.exports : module;
 
 
-let id = require( './id' );
+const id = require( './id' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -71,11 +71,13 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		v_id,
-		v_jsonTypeMap,
-		v_timDef;
+	let inherit;
+
+	let v_id;
+
+	let v_jsonTypeMap;
+
+	let v_timDef;
 
 	if( this !== generator )
 	{

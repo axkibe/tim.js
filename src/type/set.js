@@ -1,13 +1,11 @@
 /*
 | A group of types.
-|
-| FIXME remove
 */
 'use strict';
 
 
 require( '../ouroboros' )
-.define( module, 'type_group', ( def, type_group ) => {
+.define( module, 'type_set', ( def, type_set ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.group = [ 'id' ];
+	def.set = [ 'id' ];
 }
 
 
@@ -47,19 +45,7 @@ def.static.createFromArray =
 		ids[ id.pathName ] = id;
 	}
 
-	return type_group.create( 'group:init', ids );
-};
-
-
-/*
-| Returns an idGroup with an id added.
-*/
-def.func.add =
-	function(
-		id
-	)
-{
-	return this.create( 'group:set', id.pathName, id );
+	return type_set.create( 'set:init', ids );
 };
 
 
@@ -117,18 +103,6 @@ def.lazy.equalsConvention =
 	}
 
 	return ec;
-};
-
-
-/*
-| Returns true if the idGroup has that id.
-*/
-def.func.has =
-	function(
-		id
-	)
-{
-	return this.get( id.pathName ) !== undefined;
 };
 
 

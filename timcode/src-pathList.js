@@ -19,10 +19,10 @@ function( ) {
 let pathList = NODE ? module.exports : module;
 
 
-let path = require( './path' );
+const path = require( './path' );
 
 
-let tim_proto = tim.proto;
+const tim_proto = tim.proto;
 
 
 /*
@@ -67,10 +67,11 @@ prototype.create =
 		// free strings
 	)
 {
-	var
-		inherit,
-		list,
-		listDup;
+	let inherit;
+
+	let list;
+
+	let listDup;
 
 	if( this !== pathList )
 	{
