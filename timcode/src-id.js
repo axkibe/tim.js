@@ -225,12 +225,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'id';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = id;
@@ -314,7 +308,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'id' )
+	if( obj.timtype !== id )
 	{
 		return false;
 	}

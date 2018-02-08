@@ -434,12 +434,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_greaterThan';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_greaterThan;
@@ -475,7 +469,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_greaterThan' )
+	if( obj.timtype !== ast_greaterThan )
 	{
 		return false;
 	}

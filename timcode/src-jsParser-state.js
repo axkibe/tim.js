@@ -28,31 +28,16 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 const ast_assign = require( '../ast/assign' );
 
 
-const ast_block = require( '../ast/block' );
-
-
 const ast_boolean = require( '../ast/boolean' );
 
 
 const ast_call = require( '../ast/call' );
 
 
-const ast_check = require( '../ast/check' );
-
-
 const ast_comma = require( '../ast/comma' );
 
 
-const ast_comment = require( '../ast/comment' );
-
-
 const ast_condition = require( '../ast/condition' );
-
-
-const ast_const = require( '../ast/const' );
-
-
-const ast_continue = require( '../ast/continue' );
 
 
 const ast_delete = require( '../ast/delete' );
@@ -73,31 +58,16 @@ const ast_dot = require( '../ast/dot' );
 const ast_equals = require( '../ast/equals' );
 
 
-const ast_fail = require( '../ast/fail' );
-
-
-const ast_for = require( '../ast/for' );
-
-
-const ast_forIn = require( '../ast/forIn' );
-
-
 const ast_func = require( '../ast/func' );
 
 
 const ast_greaterThan = require( '../ast/greaterThan' );
 
 
-const ast_if = require( '../ast/if' );
-
-
 const ast_instanceof = require( '../ast/instanceof' );
 
 
 const ast_lessThan = require( '../ast/lessThan' );
-
-
-const ast_let = require( '../ast/let' );
 
 
 const ast_member = require( '../ast/member' );
@@ -154,13 +124,7 @@ const ast_preDecrement = require( '../ast/preDecrement' );
 const ast_preIncrement = require( '../ast/preIncrement' );
 
 
-const ast_return = require( '../ast/return' );
-
-
 const ast_string = require( '../ast/string' );
-
-
-const ast_switch = require( '../ast/switch' );
 
 
 const ast_typeof = require( '../ast/typeof' );
@@ -169,7 +133,46 @@ const ast_typeof = require( '../ast/typeof' );
 const ast_var = require( '../ast/var' );
 
 
+const ast_block = require( '../ast/block' );
+
+
+const ast_check = require( '../ast/check' );
+
+
+const ast_comment = require( '../ast/comment' );
+
+
+const ast_const = require( '../ast/const' );
+
+
+const ast_continue = require( '../ast/continue' );
+
+
+const ast_fail = require( '../ast/fail' );
+
+
+const ast_for = require( '../ast/for' );
+
+
+const ast_forIn = require( '../ast/forIn' );
+
+
+const ast_if = require( '../ast/if' );
+
+
+const ast_let = require( '../ast/let' );
+
+
+const ast_return = require( '../ast/return' );
+
+
+const ast_switch = require( '../ast/switch' );
+
+
 const ast_varDec = require( '../ast/varDec' );
+
+
+const ast_while = require( '../ast/while' );
 
 
 const jsParser_tokenList = require( '../jsParser/tokenList' );
@@ -302,23 +305,13 @@ prototype.create =
 /**/			&&
 /**/			v_ast.timtype !== ast_assign
 /**/			&&
-/**/			v_ast.timtype !== ast_block
-/**/			&&
 /**/			v_ast.timtype !== ast_boolean
 /**/			&&
 /**/			v_ast.timtype !== ast_call
 /**/			&&
-/**/			v_ast.timtype !== ast_check
-/**/			&&
 /**/			v_ast.timtype !== ast_comma
 /**/			&&
-/**/			v_ast.timtype !== ast_comment
-/**/			&&
 /**/			v_ast.timtype !== ast_condition
-/**/			&&
-/**/			v_ast.timtype !== ast_const
-/**/			&&
-/**/			v_ast.timtype !== ast_continue
 /**/			&&
 /**/			v_ast.timtype !== ast_delete
 /**/			&&
@@ -332,23 +325,13 @@ prototype.create =
 /**/			&&
 /**/			v_ast.timtype !== ast_equals
 /**/			&&
-/**/			v_ast.timtype !== ast_fail
-/**/			&&
-/**/			v_ast.timtype !== ast_for
-/**/			&&
-/**/			v_ast.timtype !== ast_forIn
-/**/			&&
 /**/			v_ast.timtype !== ast_func
 /**/			&&
 /**/			v_ast.timtype !== ast_greaterThan
 /**/			&&
-/**/			v_ast.timtype !== ast_if
-/**/			&&
 /**/			v_ast.timtype !== ast_instanceof
 /**/			&&
 /**/			v_ast.timtype !== ast_lessThan
-/**/			&&
-/**/			v_ast.timtype !== ast_let
 /**/			&&
 /**/			v_ast.timtype !== ast_member
 /**/			&&
@@ -386,17 +369,39 @@ prototype.create =
 /**/			&&
 /**/			v_ast.timtype !== ast_preIncrement
 /**/			&&
-/**/			v_ast.timtype !== ast_return
-/**/			&&
 /**/			v_ast.timtype !== ast_string
-/**/			&&
-/**/			v_ast.timtype !== ast_switch
 /**/			&&
 /**/			v_ast.timtype !== ast_typeof
 /**/			&&
 /**/			v_ast.timtype !== ast_var
 /**/			&&
+/**/			v_ast.timtype !== ast_block
+/**/			&&
+/**/			v_ast.timtype !== ast_check
+/**/			&&
+/**/			v_ast.timtype !== ast_comment
+/**/			&&
+/**/			v_ast.timtype !== ast_const
+/**/			&&
+/**/			v_ast.timtype !== ast_continue
+/**/			&&
+/**/			v_ast.timtype !== ast_fail
+/**/			&&
+/**/			v_ast.timtype !== ast_for
+/**/			&&
+/**/			v_ast.timtype !== ast_forIn
+/**/			&&
+/**/			v_ast.timtype !== ast_if
+/**/			&&
+/**/			v_ast.timtype !== ast_let
+/**/			&&
+/**/			v_ast.timtype !== ast_return
+/**/			&&
+/**/			v_ast.timtype !== ast_switch
+/**/			&&
 /**/			v_ast.timtype !== ast_varDec
+/**/			&&
+/**/			v_ast.timtype !== ast_while
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -466,12 +471,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'jsParser_state';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = jsParser_state;
@@ -507,7 +506,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jsParser_state' )
+	if( obj.timtype !== jsParser_state )
 	{
 		return false;
 	}

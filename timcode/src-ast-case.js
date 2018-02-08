@@ -19,6 +19,9 @@ function( ) {
 let ast_case = NODE ? module.exports : module;
 
 
+const ast_block = require( '../ast/block' );
+
+
 const ast_and = require( '../ast/and' );
 
 
@@ -26,9 +29,6 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 
 const ast_assign = require( '../ast/assign' );
-
-
-const ast_block = require( '../ast/block' );
 
 
 const ast_boolean = require( '../ast/boolean' );
@@ -430,12 +430,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_case';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_case;
@@ -519,7 +513,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_case' )
+	if( obj.timtype !== ast_case )
 	{
 		return false;
 	}

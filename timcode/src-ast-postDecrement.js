@@ -313,12 +313,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_postDecrement';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_postDecrement;
@@ -354,7 +348,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_postDecrement' )
+	if( obj.timtype !== ast_postDecrement )
 	{
 		return false;
 	}

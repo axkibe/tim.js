@@ -28,9 +28,6 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 const ast_assign = require( '../ast/assign' );
 
 
-const ast_block = require( '../ast/block' );
-
-
 const ast_boolean = require( '../ast/boolean' );
 
 
@@ -71,9 +68,6 @@ const ast_instanceof = require( '../ast/instanceof' );
 
 
 const ast_lessThan = require( '../ast/lessThan' );
-
-
-const ast_let = require( '../ast/let' );
 
 
 const ast_member = require( '../ast/member' );
@@ -137,6 +131,12 @@ const ast_typeof = require( '../ast/typeof' );
 
 
 const ast_var = require( '../ast/var' );
+
+
+const ast_let = require( '../ast/let' );
+
+
+const ast_block = require( '../ast/block' );
 
 
 const tim_proto = tim.proto;
@@ -419,8 +419,6 @@ prototype.create =
 /**/		&&
 /**/		v_init.timtype !== ast_lessThan
 /**/		&&
-/**/		v_init.timtype !== ast_let
-/**/		&&
 /**/		v_init.timtype !== ast_member
 /**/		&&
 /**/		v_init.timtype !== ast_minus
@@ -462,6 +460,8 @@ prototype.create =
 /**/		v_init.timtype !== ast_typeof
 /**/		&&
 /**/		v_init.timtype !== ast_var
+/**/		&&
+/**/		v_init.timtype !== ast_let
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -595,12 +595,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_for';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_for;
@@ -636,7 +630,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_for' )
+	if( obj.timtype !== ast_for )
 	{
 		return false;
 	}

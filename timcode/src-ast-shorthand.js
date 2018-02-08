@@ -86,12 +86,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_shorthand';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_shorthand;
@@ -127,7 +121,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_shorthand' )
+	if( obj.timtype !== ast_shorthand )
 	{
 		return false;
 	}

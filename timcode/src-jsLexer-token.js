@@ -141,13 +141,13 @@ prototype.create =
 /**/	if( v_value !== undefined )
 /**/	{
 /**/		if(
-/**/			typeof( v_value ) !== 'boolean'
-/**/			&&
 /**/			(
 /**/				typeof( v_value ) !== 'number'
 /**/				||
 /**/				Number.isNaN( v_value )
 /**/			)
+/**/			&&
+/**/			typeof( v_value ) !== 'boolean'
 /**/			&&
 /**/			typeof( v_value ) !== 'string'
 /**/			&&
@@ -166,12 +166,6 @@ prototype.create =
 
 	return new Constructor( v_type, v_value );
 };
-
-
-/*
-| Reflection.
-*/
-prototype.reflect = 'jsLexer_token';
 
 
 /*
@@ -210,7 +204,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jsLexer_token' )
+	if( obj.timtype !== jsLexer_token )
 	{
 		return false;
 	}

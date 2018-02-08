@@ -230,12 +230,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'jsParser_tokenSpec';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = jsParser_tokenSpec;
@@ -271,7 +265,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jsParser_tokenSpec' )
+	if( obj.timtype !== jsParser_tokenSpec )
 	{
 		return false;
 	}

@@ -434,12 +434,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_or';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_or;
@@ -475,7 +469,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_or' )
+	if( obj.timtype !== ast_or )
 	{
 		return false;
 	}

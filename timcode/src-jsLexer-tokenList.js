@@ -199,12 +199,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'jsLexer_tokenList';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = jsLexer_tokenList;
@@ -288,7 +282,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'jsLexer_tokenList' )
+	if( obj.timtype !== jsLexer_tokenList )
 	{
 		return false;
 	}

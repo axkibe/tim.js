@@ -4,14 +4,17 @@
 'use strict';
 
 
-require( './ouroboros' )
+require( '../ouroboros' )
 .define( module, 'type_boolean', ( def, type_boolean ) => {
 
 
 if( TIM ) def.attr = { };
 
 
-def.staticLazy.singleton = ( ) => type_boolean.create( );
+def.func.equalsConvention = 'mustnot';
+
+
+def.func.isPrimitive = true;
 
 
 } );

@@ -434,12 +434,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_lessThan';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_lessThan;
@@ -475,7 +469,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_lessThan' )
+	if( obj.timtype !== ast_lessThan )
 	{
 		return false;
 	}

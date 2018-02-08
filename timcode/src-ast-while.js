@@ -28,9 +28,6 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 const ast_assign = require( '../ast/assign' );
 
 
-const ast_block = require( '../ast/block' );
-
-
 const ast_boolean = require( '../ast/boolean' );
 
 
@@ -134,6 +131,9 @@ const ast_typeof = require( '../ast/typeof' );
 
 
 const ast_var = require( '../ast/var' );
+
+
+const ast_block = require( '../ast/block' );
 
 
 const tim_proto = tim.proto;
@@ -364,12 +364,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_while';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_while;
@@ -405,7 +399,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_while' )
+	if( obj.timtype !== ast_while )
 	{
 		return false;
 	}

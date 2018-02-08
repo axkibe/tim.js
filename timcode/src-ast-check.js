@@ -129,12 +129,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_check';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_check;
@@ -170,7 +164,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_check' )
+	if( obj.timtype !== ast_check )
 	{
 		return false;
 	}

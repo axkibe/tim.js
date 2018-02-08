@@ -355,12 +355,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_varDec';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_varDec;
@@ -396,7 +390,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_varDec' )
+	if( obj.timtype !== ast_varDec )
 	{
 		return false;
 	}

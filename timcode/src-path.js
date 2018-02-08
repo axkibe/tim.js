@@ -196,12 +196,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'path';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = path;
@@ -285,7 +279,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'path' )
+	if( obj.timtype !== path )
 	{
 		return false;
 	}

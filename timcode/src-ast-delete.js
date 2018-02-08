@@ -313,12 +313,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_delete';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_delete;
@@ -354,7 +348,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_delete' )
+	if( obj.timtype !== ast_delete )
 	{
 		return false;
 	}

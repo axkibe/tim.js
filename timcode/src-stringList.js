@@ -196,12 +196,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'stringList';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = stringList;
@@ -285,7 +279,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'stringList' )
+	if( obj.timtype !== stringList )
 	{
 		return false;
 	}

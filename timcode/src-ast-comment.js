@@ -196,12 +196,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_comment';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_comment;
@@ -285,7 +279,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_comment' )
+	if( obj.timtype !== ast_comment )
 	{
 		return false;
 	}

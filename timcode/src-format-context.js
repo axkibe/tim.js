@@ -250,12 +250,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'format_context';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = format_context;
@@ -291,7 +285,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'format_context' )
+	if( obj.timtype !== format_context )
 	{
 		return false;
 	}

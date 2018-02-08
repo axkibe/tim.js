@@ -19,6 +19,9 @@ function( ) {
 let ast_forIn = NODE ? module.exports : module;
 
 
+const ast_var = require( '../ast/var' );
+
+
 const ast_and = require( '../ast/and' );
 
 
@@ -26,9 +29,6 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 
 const ast_assign = require( '../ast/assign' );
-
-
-const ast_block = require( '../ast/block' );
 
 
 const ast_boolean = require( '../ast/boolean' );
@@ -133,7 +133,7 @@ const ast_string = require( '../ast/string' );
 const ast_typeof = require( '../ast/typeof' );
 
 
-const ast_var = require( '../ast/var' );
+const ast_block = require( '../ast/block' );
 
 
 const tim_proto = tim.proto;
@@ -434,12 +434,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_forIn';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_forIn;
@@ -475,7 +469,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_forIn' )
+	if( obj.timtype !== ast_forIn )
 	{
 		return false;
 	}

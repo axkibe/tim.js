@@ -136,7 +136,28 @@ const ast_var = require( './ast/var' );
 const id = require( './id' );
 
 
-const type_group = require( './type/group' );
+const type_boolean = require( './type/boolean' );
+
+
+const type_date = require( './type/date' );
+
+
+const type_function = require( './type/function' );
+
+
+const type_integer = require( './type/integer' );
+
+
+const type_null = require( './type/null' );
+
+
+const type_number = require( './type/number' );
+
+
+const type_undefined = require( './type/undefined' );
+
+
+const type_set = require( './type/set' );
 
 
 const tim_proto = tim.proto;
@@ -507,7 +528,25 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_id.timtype !== id && v_id.timtype !== type_group )
+/**/	if(
+/**/		v_id.timtype !== id
+/**/		&&
+/**/		v_id.timtype !== type_boolean
+/**/		&&
+/**/		v_id.timtype !== type_date
+/**/		&&
+/**/		v_id.timtype !== type_function
+/**/		&&
+/**/		v_id.timtype !== type_integer
+/**/		&&
+/**/		v_id.timtype !== type_null
+/**/		&&
+/**/		v_id.timtype !== type_number
+/**/		&&
+/**/		v_id.timtype !== type_undefined
+/**/		&&
+/**/		v_id.timtype !== type_set
+/**/	)
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -625,12 +664,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'attribute';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = attribute;
@@ -666,7 +699,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'attribute' )
+	if( obj.timtype !== attribute )
 	{
 		return false;
 	}

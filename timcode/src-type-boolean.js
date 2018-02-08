@@ -86,12 +86,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'type_boolean';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = type_boolean;
@@ -127,7 +121,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'type_boolean' )
+	if( obj.timtype !== type_boolean )
 	{
 		return false;
 	}

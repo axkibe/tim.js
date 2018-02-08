@@ -28,16 +28,10 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 const ast_assign = require( '../ast/assign' );
 
 
-const ast_block = require( '../ast/block' );
-
-
 const ast_boolean = require( '../ast/boolean' );
 
 
 const ast_call = require( '../ast/call' );
-
-
-const ast_case = require( '../ast/case' );
 
 
 const ast_comma = require( '../ast/comma' );
@@ -137,6 +131,12 @@ const ast_typeof = require( '../ast/typeof' );
 
 
 const ast_var = require( '../ast/var' );
+
+
+const ast_block = require( '../ast/block' );
+
+
+const ast_case = require( '../ast/case' );
 
 
 const tim_proto = tim.proto;
@@ -468,12 +468,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_switch';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_switch;
@@ -557,7 +551,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_switch' )
+	if( obj.timtype !== ast_switch )
 	{
 		return false;
 	}

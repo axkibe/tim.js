@@ -182,12 +182,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'generator';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = generator;
@@ -223,7 +217,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'generator' )
+	if( obj.timtype !== generator )
 	{
 		return false;
 	}

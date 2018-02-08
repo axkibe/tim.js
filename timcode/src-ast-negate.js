@@ -313,12 +313,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_negate';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_negate;
@@ -354,7 +348,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_negate' )
+	if( obj.timtype !== ast_negate )
 	{
 		return false;
 	}

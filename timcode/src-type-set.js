@@ -22,6 +22,27 @@ let type_set = NODE ? module.exports : module;
 const id = require( '../id' );
 
 
+const type_boolean = require( '../type/boolean' );
+
+
+const type_date = require( '../type/date' );
+
+
+const type_function = require( '../type/function' );
+
+
+const type_integer = require( '../type/integer' );
+
+
+const type_null = require( '../type/null' );
+
+
+const type_number = require( '../type/number' );
+
+
+const type_undefined = require( '../type/undefined' );
+
+
 const tim_proto = tim.proto;
 
 
@@ -158,7 +179,23 @@ prototype.create =
 /**/	{
 /**/		const v = i.value;
 /**/
-/**/		if( v.timtype !== id )
+/**/		if(
+/**/			v.timtype !== id
+/**/			&&
+/**/			v.timtype !== type_boolean
+/**/			&&
+/**/			v.timtype !== type_date
+/**/			&&
+/**/			v.timtype !== type_function
+/**/			&&
+/**/			v.timtype !== type_integer
+/**/			&&
+/**/			v.timtype !== type_null
+/**/			&&
+/**/			v.timtype !== type_number
+/**/			&&
+/**/			v.timtype !== type_undefined
+/**/		)
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -172,12 +209,6 @@ prototype.create =
 
 	return new Constructor( set );
 };
-
-
-/*
-| Reflection.
-*/
-prototype.reflect = 'type_set';
 
 
 /*
@@ -252,7 +283,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'type_set' )
+	if( obj.timtype !== type_set )
 	{
 		return false;
 	}

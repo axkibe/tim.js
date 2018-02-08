@@ -161,12 +161,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'attributeGroup';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = attributeGroup;
@@ -245,7 +239,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'attributeGroup' )
+	if( obj.timtype !== attributeGroup )
 	{
 		return false;
 	}

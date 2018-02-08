@@ -434,12 +434,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_multiplyAssign';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_multiplyAssign;
@@ -475,7 +469,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_multiplyAssign' )
+	if( obj.timtype !== ast_multiplyAssign )
 	{
 		return false;
 	}

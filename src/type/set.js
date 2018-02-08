@@ -15,11 +15,11 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.set = [ 'id' ];
+	def.set = require( './typemap' );
 }
 
 
-const tim_id = require( '../id' );
+const any = require( './any' );
 
 
 /*
@@ -36,13 +36,13 @@ def.static.createFromArray =
 /**/	if( !Array.isArray( array ) ) throw new Error( );
 /**/}
 
-	const ids = { };
+	const ids = new Set( );
 
 	for( let a = 0, al = array.length; a < al; a++ )
 	{
-		const id = tim_id.createFromString( array[ a ] );
+		const id = any.createFromString( array[ a ] );
 
-		ids[ id.pathName ] = id;
+		ids.add( id );
 	}
 
 	return type_set.create( 'set:init', ids );
@@ -58,15 +58,17 @@ def.static.createFromArray =
 def.lazy.equalsConvention =
 	function( )
 {
-	const keys = this.keys;
+	const it = this.iterator( );
 
-	const ec = this.get( keys[ 0 ] ).equalsConvention;
+	let i = it.next( );
+
+	const ec = i.value.equalsConvention;
 
 	if( ec === 'can' ) return 'can';
 
-	for( let a = 1, al = keys.length; a < al; a++ )
+	for( i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const iec = this.get( keys[ a ] ).equalsConvention;
+		const iec = i.value.equalsConvention;
 
 		if( iec === 'can' ) return 'can';
 

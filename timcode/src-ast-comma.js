@@ -434,12 +434,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_comma';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_comma;
@@ -475,7 +469,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_comma' )
+	if( obj.timtype !== ast_comma )
 	{
 		return false;
 	}

@@ -383,12 +383,6 @@ prototype.create =
 
 
 /*
-| Reflection.
-*/
-prototype.reflect = 'ast_arrayLiteral';
-
-
-/*
 | Type reflection.
 */
 prototype.timtype = ast_arrayLiteral;
@@ -472,7 +466,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.reflect !== 'ast_arrayLiteral' )
+	if( obj.timtype !== ast_arrayLiteral )
 	{
 		return false;
 	}
