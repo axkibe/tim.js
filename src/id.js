@@ -46,6 +46,9 @@ const primitives =
 /**/if( FREEZE ) Object.freeze( primitives );
 
 
+const pool = { };
+
+
 /*
 | Create the id from a string specifier.
 */
@@ -69,23 +72,31 @@ def.static.createFromString =
 
 	if( !packet && split.length <= 1 )
 	{
-		// XXX FIXME
-		/*
-		if( !primitives[ string ] )
-		{
-			throw new Error( 'bad id: ' + string );
-		}
-		*/
-
 		return tim_id.create( 'list:init', [ string ] );
 	}
 
-	return(
-		tim_id.create(
-			'packet', packet,
-			'list:init', split
-		)
-	);
+
+	// looks up cache
+	let p = pool[ packet + '' ];
+
+	if( !p ) p = pool[ packet + '' ] = { };
+
+	for( let a = 0, al = split.length; a < al; a++ )
+	{
+		let s = split[ a ];
+
+		let pn = p[ s ];
+
+		if( !pn ) pn = p[ s ] = { };
+
+		p = pn;
+	}
+
+	let pn = p[ '.js' ];
+
+	if( pn ) return pn;
+
+	return( p[ '.js' ] = tim_id.create( 'packet', packet, 'list:init', split ) );
 };
 
 

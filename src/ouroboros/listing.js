@@ -79,7 +79,15 @@ module.exports =
 	'src/path.js',
 	'src/pathList.js',
 	'src/stringList.js',
+	'src/type/any.js',
 	'src/type/boolean.js',
-	'src/type/group.js',
-//	'src/type/set.js',
+	'src/type/date.js',
+	'src/type/function.js',
+	'src/type/integer.js',
+	'src/type/null.js',
+	'src/type/number.js',
+	'src/type/set.js',
+	'src/type/string.js',
+	'src/type/undefined.js',
 ];
+

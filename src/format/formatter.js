@@ -110,6 +110,8 @@ const ast_var = require( '../ast/var' );
 
 const ast_varDec = require( '../ast/varDec' );
 
+const ast_while = require( '../ast/while' );
+
 const format_context = require( './context' );
 
 /*
@@ -872,7 +874,7 @@ const formatFail =
 const formatFor =
 	function(
 		context,
-		forExpr
+		expr
 	)
 {
 	const forContext = context.inc;
@@ -881,17 +883,17 @@ const formatFor =
 		context.tab
 		+ 'for(\n'
 		+ forContext.tab
-		+ formatExpression( forContext.setInline, forExpr.init )
+		+ formatExpression( forContext.setInline, expr.init )
 		+ ';\n'
 		+ forContext.tab
-		+ formatExpression( forContext.setInline, forExpr.condition )
+		+ formatExpression( forContext.setInline, expr.condition )
 		+ ';\n'
 		+ forContext.tab
-		+ formatExpression( forContext.setInline, forExpr.iterate )
+		+ formatExpression( forContext.setInline, expr.iterate )
 		+ '\n'
 		+ context.tab
 		+ ')\n'
-		+ formatBlock( context, forExpr.block )
+		+ formatBlock( context, expr.block )
 	);
 };
 
@@ -1550,10 +1552,7 @@ const formatStatement =
 
 	if( statement.timtype === ast_comment )
 	{
-		if( lookBehind && lookBehind.timtype === ast_comment )
-		{
-			text += '\n\n';
-		}
+		if( lookBehind && lookBehind.timtype === ast_comment ) text += '\n\n';
 
 		text += formatComment( context, statement );
 
@@ -1562,11 +1561,7 @@ const formatStatement =
 
 	switch( statement.timtype )
 	{
-		case ast_check :
-
-			text += formatCheck( context, statement );
-
-			break;
+		case ast_check : text += formatCheck( context, statement ); break;
 
 		case ast_const :
 
@@ -1591,17 +1586,9 @@ const formatStatement =
 
 			break;
 
-		case ast_continue :
+		case ast_continue : text += formatContinue( context, statement ); break;
 
-			text += formatContinue( context, statement );
-
-			break;
-
-		case ast_if :
-
-			text += formatIf( context, statement );
-
-			break;
+		case ast_if : text += formatIf( context, statement ); break;
 
 		case ast_fail :
 
@@ -1626,17 +1613,9 @@ const formatStatement =
 
 			break;
 
-		case ast_for :
+		case ast_for : text += formatFor( context, statement ); break;
 
-			text += formatFor( context, statement );
-
-			break;
-
-		case ast_forIn :
-
-			text += formatForIn( context, statement );
-
-			break;
+		case ast_forIn : text += formatForIn( context, statement ); break;
 
 		case ast_let :
 
@@ -1661,23 +1640,13 @@ const formatStatement =
 
 			break;
 
-		case ast_return :
+		case ast_return : text += formatReturn( context, statement ); break;
 
-			text += formatReturn( context, statement );
+		case ast_switch : text += formatSwitch( context, statement ); break;
 
-			break;
+		case ast_varDec : text += formatVarDec( context, statement, lookBehind ); break;
 
-		case ast_switch :
-
-			text += formatSwitch( context, statement );
-
-			break;
-
-		case ast_varDec :
-
-			text += formatVarDec( context, statement, lookBehind );
-
-			break;
+		case ast_while : text += formatWhile( context, statement ); break;
 
 		default :
 
@@ -1762,6 +1731,7 @@ const formatStatement =
 		case ast_forIn :
 		case ast_if :
 		case ast_switch :
+		case ast_while :
 
 			return text + context.sep;
 
@@ -1883,22 +1853,42 @@ const formatTypeof =
 
 
 /*
-| Formats an object literal.
-|
-| FUTURE format also inline
+| Formats a while loop.
 */
-var
-formatObjLiteral =
+const formatWhile =
 	function(
 		context,
 		expr
 	)
 {
-	var
-		key,
-		text;
+	const subContext = context.inc;
 
-	text = '';
+	return(
+		context.tab
+		+ 'while('
+		+ subContext.sep
+		+ subContext.tab
+		+ formatExpression( subContext.setInline, expr.condition )
+		+ subContext.sep
+		+ subContext.tab
+		+ ')\n'
+		+ formatBlock( context, expr.block )
+	);
+};
+
+
+/*
+| Formats an object literal.
+|
+| FUTURE format also inline
+*/
+const formatObjLiteral =
+	function(
+		context,
+		expr
+	)
+{
+	let text = '';
 
 /**/if( CHECK )
 /**/{
@@ -1919,7 +1909,7 @@ formatObjLiteral =
 
 	for( let a = 0, al = expr.length; a < al; a++ )
 	{
-		key = expr.getKey( a );
+		const key = expr.getKey( a );
 
 		text +=
 			context.inc.tab
@@ -1970,16 +1960,10 @@ const formatVarDec =
 		lookBehind
 	)
 {
-	var
-		// formated assignment
-		aText,
-		isRootFunc,
-		text;
-
 	// true when this is a root function
-	isRootFunc = false;
+	let isRootFunc = false;
 
-	text = '';
+	let text = '';
 
 	if( context.root && varDec.assign )
 	{
@@ -2034,6 +2018,8 @@ const formatVarDec =
 		{
 			context = context.inc;
 		}
+
+		let aText;
 
 		try
 		{

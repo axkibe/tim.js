@@ -281,12 +281,26 @@ def.func.$return =
 */
 def.func.$varDec =
 	function(
-		// name,   // variable name
-		// assign  // variable assignment
+		name,   // variable name
+		assign  // variable assignment
 	)
 {
-	return this.append( shorthand.$varDec.apply( shorthand, arguments ) );
+	return this.append( shorthand.$varDec( name, assign ) );
 };
+
+
+/*
+| Returns the block with a classical for loop appended.
+*/
+def.func.$while =
+	function(
+		condition,
+		block
+	)
+{
+	return this.append( shorthand.$while( condition, block ) );
+};
+
 
 
 } );

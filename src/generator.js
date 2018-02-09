@@ -6,7 +6,6 @@
 
 require( './ouroboros' )
 .define( module, 'generator', ( def, generator ) => {
-// FIXME timjs$
 
 
 /*::::::::::::::::::::::::::::.
@@ -44,11 +43,27 @@ const ast_var = require( './ast/var' );
 
 const tim_id = require( './id' );
 
-const type_group = require( './type/group' );
-
 const tim_attribute = require( './attribute' );
 
 const tim_attributeGroup = require( './attributeGroup' );
+
+const type_any = require( './type/any' );
+
+const type_boolean = require( './type/boolean' );
+
+const type_date = require( './type/date' );
+
+const type_function = require( './type/function' );
+
+const type_integer = require( './type/integer' );
+
+const type_null = require( './type/null' );
+
+const type_number = require( './type/number' );
+
+const type_set = require( './type/set' );
+
+const type_undefined = require( './type/undefined' );
 
 //const tim_validator = require( './validator' );
 
@@ -56,9 +71,6 @@ const parser = require( './jsParser/parser' );
 
 const shorthand = require( './ast/shorthand' );
 
-const idNull = tim_id.createFromString( 'null' );
-
-const idUndefined = tim_id.createFromString( 'undefined' );
 
 /*
 | Shorthanding Shorthands.
@@ -101,7 +113,7 @@ def.func._init =
 	const constructorList = [ ];
 
 	// foreign ids to be imported
-	let imports = type_group.create( );
+	let imports = type_set.create( );
 
 	const searchIdWalk =
 		function( node )
@@ -114,7 +126,7 @@ def.func._init =
 			)
 		)
 		{
-			imports = imports.add( tim_id.createFromString( node.name ) );
+			imports = imports.add( type_any.createFromString( node.name ) );
 		}
 
 		return node;
@@ -143,17 +155,17 @@ def.func._init =
 
 		if( !Array.isArray( type ) )
 		{
-			aid = tim_id.createFromString( type );
+			aid = type_any.createFromString( type );
 
 			imports = imports.add( aid );
 		}
 		else
 		{
-			aid = type_group.createFromArray( type );
+			aid = type_set.createFromArray( type );
 
-			imports = imports.addGroup( aid );
+			imports = imports.addSet( aid );
 
-			if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
+			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
 		}
 
 		if( jAttr.json ) this.hasJson = true;
@@ -197,7 +209,37 @@ def.func._init =
 
 		let allowsUndefined = false;
 
-		if( aid.timtype === type_group )
+		if( aid.timtype === type_set )
+		{
+			const it = aid.iterator( );
+
+			// FIXME deloop again
+			for( let i = it.next( ); !i.done; i = it.next( ) )
+			{
+				const id = i.value;
+
+				if( id.timtype === type_undefined )
+				{
+					aid = aid.create( 'set:remove', id );
+
+					allowsUndefined = true;
+				}
+				else if( id.timtype === type_null )
+				{
+					aid = aid.create( 'set:remove', id );
+
+					allowsNull = true;
+				}
+			}
+
+			if( aid.size === 1 )
+			{
+				aid = aid.iterator( ).next( ).value;
+			}
+		}
+
+		/*
+		if( aid.timtype === type_set )
 		{
 			if( aid.has( idNull ) )
 			{
@@ -215,6 +257,7 @@ def.func._init =
 
 			if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
 		}
+		*/
 
 		const attr =
 			tim_attribute.create(
@@ -327,9 +370,9 @@ def.func._init =
 
 	if( timDef.group )
 	{
-		this.group = type_group.createFromArray( timDef.group );
+		this.group = type_set.createFromArray( timDef.group );
 
-		imports = imports.addGroup( this.group );
+		imports = imports.addSet( this.group );
 	}
 	else
 	{
@@ -338,9 +381,9 @@ def.func._init =
 
 	if( timDef.list )
 	{
-		this.list = type_group.createFromArray( timDef.list );
+		this.list = type_set.createFromArray( timDef.list );
 
-		imports = imports.addGroup( this.list );
+		imports = imports.addSet( this.list );
 	}
 	else
 	{
@@ -349,9 +392,9 @@ def.func._init =
 
 	if( timDef.set )
 	{
-		this.set = type_group.createFromArray( timDef.set );
+		this.set = type_set.createFromArray( timDef.set );
 
-		imports = imports.addGroup( this.set );
+		imports = imports.addSet( this.set );
 	}
 	else
 	{
@@ -360,10 +403,9 @@ def.func._init =
 
 	if( timDef.twig )
 	{
-		this.twig = type_group.createFromArray( timDef.twig );
+		this.twig = type_set.createFromArray( timDef.twig );
 
-		imports = imports.addGroup( this.twig );
-
+		imports = imports.addSet( this.twig );
 	}
 	else
 	{
@@ -393,22 +435,13 @@ def.func.genRequires =
 
 	const imports = this.imports;
 
-	const idKeys = imports.sortedKeys;
+	const it = imports.iterator( );
 
-	for( let a = 0, al = idKeys.length; a < al; a++ )
+	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const idKey = idKeys[ a ];
+		const id = i.value;
 
-		if( idKey.indexOf( ':' ) >= 0 )
-		{
-			// abstract
-			// FUTURE more elegant
-			continue;
-		}
-
-		const id = imports.get( idKey );
-
-		if( id.equals( this.id ) )
+		if( id.equals( this.id ) ) // FIXME ===
 		{
 			// the timcode shouldn't require itself
 			continue;
@@ -995,6 +1028,12 @@ def.func.genCreatorFreeStringsParser =
 		switchExpr =
 			switchExpr
 			.$case(
+				'"set:add"',
+				$block( )
+				.append( setDupCheck )
+				.$( 'set.add( arg, arguments[ a + 1 ] )' )
+			)
+			.$case(
 				'"set:init"',
 				$block( )
 				.$check(
@@ -1002,12 +1041,6 @@ def.func.genCreatorFreeStringsParser =
 				)
 				.$( 'set = arg' )
 				.$( 'setDup = "init"' )   // TODO just set it true
-			)
-			.$case(
-				'"set:set"',
-				$block( )
-				.append( setDupCheck )
-				.$( 'set.set( arg, val )' )
 			)
 			.$case(
 				'"set:remove"',
@@ -1199,41 +1232,39 @@ def.func.genSingleTypeCheckFailCondition =
 		abstract
 	)
 {
-	switch( id.pathName )
+	switch( id.timtype )
 	{
-		case 'boolean' :
+		case type_date : return $( '!(', aVar, 'instanceof Date )' );
 
-			return $( 'typeof( ', aVar, ' ) !== "boolean"' );
+		case type_null : throw new Error( );
 
-		case 'date' :
+		case type_boolean : return $( 'typeof( ', aVar, ' ) !== "boolean"' );
 
-			return $( '!(', aVar, 'instanceof Date )' );
-
-		case 'integer' :
-
-			return $(
-				$( 'typeof( ', aVar, ' ) !== "number"' ),
-				'||',
-				'Number.isNaN( ', aVar, ' )',
-				'||',
-				$( 'Math.floor( ', aVar, ' ) !== ', aVar )
-			);
-
-		case 'function' :
-
-			return $( 'typeof( ', aVar, ' ) !== "function"' );
-
-		case 'null' :
-
-			throw new Error( );
-
-		case 'number' :
+		case type_number :
 
 			return $(
 				'typeof( ', aVar, ' ) !== "number"',
-				'||',
-				'Number.isNaN( ', aVar, ' )'
+				'|| Number.isNaN( ', aVar, ' )'
 			);
+
+		case type_integer :
+
+			return $(
+				$( 'typeof( ', aVar, ' ) !== "number"' ),
+				'|| Number.isNaN( ', aVar, ' )',
+				'|| Math.floor( ', aVar, ' ) !== ', aVar
+			);
+
+		case type_function : return $( 'typeof( ', aVar, ' ) !== "function"' );
+	}
+
+	switch( id.pathName ) //XX
+	{
+		case 'boolean' : throw new Error( ); // XXX
+		case 'number' : throw new Error( ); // XXX
+		case 'date' : throw new Error( ); // XXX
+		case 'integer' : throw new Error( );
+		case 'function' : throw new Error( );
 
 		case 'string' :
 
@@ -1267,27 +1298,21 @@ def.func.genSingleTypeCheckFailCondition =
 def.func.genTypeCheckFailCondition =
 	function(
 		aVar,    // the variable to check
-		idx,     // the id or type_group it has to match
+		idx,     // the id or type_set it has to match
 		abstract // if true generate for an abstract constructor
 	)
 {
-	if( idx.timtype === tim_id )
+	if( idx.timtype !== type_set )
 	{
 		return this.genSingleTypeCheckFailCondition( aVar, idx, abstract );
 	}
-
-
-/**/if( CHECK )
-/**/{
-/**/	if( idx.timtype !== type_group ) throw new Error( );
-/**/}
 
 	if( idx.size === 1 )
 	{
 		return(
 			this.genSingleTypeCheckFailCondition(
 				aVar,
-				idx.get( idx.keys[ 0 ] ),
+				idx.iterator( ).next( ).value,
 				abstract
 			)
 		);
@@ -1295,21 +1320,21 @@ def.func.genTypeCheckFailCondition =
 
 	const condArray = [ ];
 
-	const keyList = idx.sortedKeys;
+	const it = idx.iterator( );
 
-	for( let a = 0, al = keyList.length; a < al; a++ )
+	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const id = idx.get( keyList[ a ] );
+		const id = i.value;
 
-		switch( id.pathName )
+		switch( id.timtype )
 		{
-			case 'null' :
+			case type_null :
 
 				condArray.unshift( $( aVar, '!== null' ) );
 
 				continue;
 
-			case 'undefined' :
+			case type_undefined :
 
 				condArray.unshift( $( aVar, '!== undefined' ) );
 
@@ -1437,22 +1462,20 @@ def.func.genCreatorChecks =
 
 	if( this.set )
 	{
-		// FIXME XXX
-		/*
 		check =
 			check
+			.$const( 'it', 'set.keys( )' )
 			.$for(
-				'let r = 0, rl = list.length',
-				'r < rl',
-				'++r',
+				'let i = it.next( )',
+				'!i.done',
+				'i = it.next( )',
 				$block( )
-				.$const( 'o', 'list[ r ]' )
+				.$const( 'v', 'i.value' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.list, abstract ),
+					this.genTypeCheckFailCondition( $( 'v' ), this.set, abstract ),
 					$fail( )
 				)
 			);
-		*/
 	}
 
 	if( this.twig )
@@ -1773,11 +1796,12 @@ def.func.genFromJsonCreatorAttributeParser =
 	// the code switch
 	let cSwitch;
 
-	switch( attr.id.pathName )
+	// FIXXXME workaround
+	switch( attr.id.timtype === tim_id ? attr.id.pathName : attr.id.timtype )
 	{
-		case 'boolean' :
-		case 'integer' :
-		case 'number' :
+		case type_boolean :
+		case type_integer :
+		case type_number :
 		case 'string' :
 
 			code = $( attr.varRef, ' = arg' );
@@ -1804,15 +1828,16 @@ def.func.genFromJsonCreatorAttributeParser =
 
 				cSwitch = undefined;
 
-				const keyList = attr.id.sortedKeys;
+				const it = attr.id.iterator( );
 
-				for( let t = 0, tl = keyList.length; t < tl; t++ )
+				for( let i = it.next( ); !i.done; i = it.next( ) )
 				{
-					const id = attr.id.get( keyList[ t ] );
+					const id = i.value;
 
-					switch( id.pathName )
+					// FIXXME
+					switch( id.timtype === tim_id ? id.pathName : id.timtype )
 					{
-						case 'boolean' :
+						case type_boolean :
 
 							sif =
 								$if(
@@ -1822,7 +1847,7 @@ def.func.genFromJsonCreatorAttributeParser =
 
 							break;
 
-						case 'number' :
+						case type_number :
 
 							sif =
 								$if(
@@ -2037,6 +2062,8 @@ def.func.genFromJsonCreatorGroupProcessing =
 		loopSwitch = loopSwitch.$default( $fail( ) );
 	}
 
+	// XXX FIXME
+
 	for( let g = 0, gZ = keyList.length; g < gZ; g++ )
 	{
 		const gid = group.get( keyList[ g ] );
@@ -2089,10 +2116,8 @@ def.func.genFromJsonCreatorListProcessing =
 {
 	const list = this.list;
 
-	const keyList = list.sortedKeys;
-
 	// FIXME dirty workaround
-	if( keyList.length === 1 && keyList[ 0 ] === 'string' )
+	if( list.size === 1 && list.iterator( ).next( ).value === 'string' )
 	{
 		return(
 			$block( )
@@ -2114,18 +2139,20 @@ def.func.genFromJsonCreatorListProcessing =
 
 	let haveUndefined = false;
 
-	for( let r = 0, rl = keyList.length; r < rl; r++ )
-	{
-		const rid = list.get( keyList[ r ] );
+	const it = list.iterator( );
 
-		if( rid.pathName === 'null' )
+	for( let i = it.next( ); !i.done; i = it.next( ) )
+	{
+		const rid = i.value;
+
+		if( rid.timtype === type_null )
 		{
 			haveNull = true;
 
 			continue;
 		}
 
-		if( rid.pathName === 'undefined' )
+		if( rid.timtype === type_undefined )
 		{
 			haveUndefined = true;
 
@@ -2193,11 +2220,11 @@ def.func.genFromJsonCreatorTwigProcessing =
 
 	const twig = this.twig;
 
-	const keyList = twig.sortedKeys;
+	const it = twig.iterator( );
 
-	for( let a = 0, al = keyList.length; a < al; a++ )
+	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const twigID = twig.get( keyList[ a ] );
+		const twigID = i.value;
 
 		switchExpr =
 			switchExpr
@@ -2397,8 +2424,6 @@ def.func.genReflection =
 			)
 			: undefined
 		)
-		.$comment( 'Reflection.' )
-		.$( 'prototype.reflect = ', this.id.$pathName )
 		.$comment( 'Type reflection.' )
 		.$( 'prototype.timtype = ', this.id.$global )
 	);
@@ -2544,6 +2569,12 @@ def.func.genTimProto =
 	{
 		result =
 			result
+			.$comment( 'Returns the set with one element added.' )
+			.$( this.$protoSet( 'add', 'tim_proto.setAdd' ) )
+
+			.$comment( 'Returns the set with another set added.' )
+			.$( this.$protoSet( 'addSet', 'tim_proto.setAddSet' ) )
+
 			.$comment( 'Returns true if the set has an element.' )
 			.$( this.$protoSet( 'has', 'tim_proto.setHas' ) )
 
@@ -2553,8 +2584,8 @@ def.func.genTimProto =
 			.$comment( 'Returns the set with one element removed.' )
 			.$( this.$protoSet( 'remove', 'tim_proto.setRemove' ) )
 
-			.$comment( 'Returns the set with one element set.' )
-			.$( this.$protoSet( 'set', 'tim_proto.setSet' ) );
+			.$comment( 'Returns the size of the set.' )
+			.$( this.$protoLazyValueSet( '"size"', 'tim_proto.setSize' ) );
 	}
 
 	if( this.twig )
@@ -2744,7 +2775,7 @@ def.func.genEqualsFuncBody =
 		.$if( 'this === obj', $( 'return true' ) )
 		.$if( '!obj', $( 'return false' ) )
 		.$if(
-			$( 'obj.reflect !== ', this.id.$pathName ),
+			$( 'obj.timtype !== ', this.id.global ),
 			$(' return false' )
 		);
 
@@ -2812,14 +2843,16 @@ def.func.genEqualsFuncBody =
 	{
 		const setTest =
 			$block( )
-			.$const( 'ait', 'this._list.keys( )' )
-			.$const( 'bit', 'obj._list.keys( )' )
+			.$const( 'ait', 'this._list.iterator( )' )
+			.$const( 'bit', 'obj._list.iterator( )' )
 			.$let( 'an', 'ait.next( )' )
 			.$let( 'bn', 'bit.next( )' )
 			.$while(
 				'!an.done && !bn.done',
 				$block( )
 				.$if( 'an.value !== bn.value', $( 'return false' ) )
+				.$( 'an = ait.next( )' )
+				.$( 'bn = bit.next( )' )
 			)
 			.$if(' !an.done || !bn.done', $( 'return false' ) );
 

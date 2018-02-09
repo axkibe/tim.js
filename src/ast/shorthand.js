@@ -2,7 +2,6 @@
 | Various shorthands for abstract syntax trees.
 |
 | FIXME lazy the empty creates
-| FIXME actually move this alltogether to the respective tims.
 */
 'use strict';
 
@@ -98,6 +97,8 @@ const ast_typeof = require( './typeof' );
 const ast_var = require( './var' );
 
 const ast_varDec = require( './varDec' );
+
+const ast_while = require( './while' );
 
 const parser = require( '../jsParser/parser' );
 
@@ -876,6 +877,11 @@ def.static.$typeof =
 };
 
 
+/*
+| Shorthand for 'undefined'
+*/
+def.staticLazy.$undefined = ( ) => ast_var.create( 'name', 'undefined' );
+
 
 /*
 | Shorthand for creating variable uses.
@@ -911,9 +917,21 @@ def.static.$varDec =
 
 
 /*
-| Shorthand for 'undefined'
+| Shorthand for creating for loops.
 */
-def.staticLazy.$undefined = ( ) => ast_var.create( 'name', 'undefined' );
+def.static.$while =
+	function(
+		condition,
+		block
+	)
+{
+	return(
+		ast_while.create(
+			'condition', parser.parse( condition ),
+			'block', ensureBlock( parser.parse( block ) )
+		)
+	);
+};
 
 
 } );

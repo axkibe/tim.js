@@ -60,7 +60,9 @@ if( TIM )
 		id :
 		{
 			// attribute type id
-			type : [ 'id', 'type_group' ]
+			type :
+				require( './type/typemap' )
+				.concat( [ 'type_set' ] )
 		},
 		varRef :
 		{

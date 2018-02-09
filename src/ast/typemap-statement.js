@@ -17,6 +17,7 @@ module.exports =
 		'ast_let',
 		'ast_return',
 		'ast_switch',
-		'ast_varDec'
+		'ast_varDec',
+		'ast_while'
 		]
 	);

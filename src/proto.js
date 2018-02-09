@@ -585,20 +585,43 @@ tim_proto.listSet =
 		e
 	)
 {
-	if( idx < 0 )
-	{
-		idx += this.length;
-	}
+	if( idx < 0 ) idx += this.length;
 
 /**/if( CHECK )
 /**/{
-/**/	if( idx < 0 || idx >= this.length )
-/**/	{
-/**/		throw new Error( );
-/**/	}
+/**/	if( idx < 0 || idx >= this.length ) throw new Error( );
 /**/}
 
 	return this.create( 'list:set', idx, e );
+};
+
+
+/*
+| Returns the set with one element added.
+*/
+tim_proto.setAdd =
+	function( e )
+{
+	return this.create( 'set:add', e );
+};
+
+
+/*
+| Returns the set with another set added.
+*/
+tim_proto.setAddSet =
+	function( set )
+{
+	let s = new Set( this._set );
+
+	let it = set._set.keys( );
+
+	for( let i = it.next( ); !i.done; i = it.next( ) )
+	{
+		s.add( i.value );
+	}
+
+	return this.create( 'set:init', s );
 };
 
 
@@ -633,12 +656,22 @@ tim_proto.setRemove =
 
 
 /*
-| Returns the set with one element set.
+| Returns the set with one element added.
 */
-tim_proto.setSet =
+tim_proto.setAdd =
 	function( e )
 {
-	return this.create( 'set:set', e );
+	return this.create( 'set:add', e );
+};
+
+
+/*
+| Returns the size of the group.
+*/
+tim_proto.setSize =
+	function( )
+{
+	return this._set.size;
 };
 
 
