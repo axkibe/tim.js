@@ -165,7 +165,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_associativity ) !== 'string' && !( v_associativity instanceof String ) )
+/**/	if( typeof( v_associativity ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -185,7 +185,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_handler ) !== 'string' && !( v_handler instanceof String ) )
+/**/	if( typeof( v_handler ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}

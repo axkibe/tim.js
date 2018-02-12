@@ -61,7 +61,13 @@ const type_null = require( './type/null' );
 
 const type_number = require( './type/number' );
 
+const type_protean = require( './type/protean' );
+
 const type_set = require( './type/set' );
+
+const type_string = require( './type/string' );
+
+const type_tim = require( './type/tim' );
 
 const type_undefined = require( './type/undefined' );
 
@@ -466,12 +472,24 @@ def.func.genRequires =
 		}
 		else
 		{
-			block =
-				block
-				.$const(
-					id.global,
-					'require( "' + this.id.rootPath + id.path + '" )'
-				);
+			if( id.timtype === type_tim ) // FIXXME
+			{
+				block =
+					block
+					.$const(
+						id.varname,
+						'require( "./' + id.path + '" )'
+					);
+			}
+			else
+			{
+				block =
+					block
+					.$const(
+						id.global,
+						'require( "' + this.id.rootPath + id.path + '" )'
+					);
+			}
 		}
 	}
 
@@ -1256,6 +1274,19 @@ def.func.genSingleTypeCheckFailCondition =
 			);
 
 		case type_function : return $( 'typeof( ', aVar, ' ) !== "function"' );
+
+		case type_string : return $( 'typeof( ', aVar, ' ) !== "string"' );
+
+		case type_tim :
+
+			return(
+				abstract ?
+					$(
+						aVar, '.timtype !== ', id.$varname, '&&',
+						aVar, '.timtype !== ', id.$varname, '.abstract'
+					)
+					: $( aVar, '.timtype !== ', id.$varname )
+			);
 	}
 
 	switch( id.pathName ) //XX
@@ -1265,14 +1296,7 @@ def.func.genSingleTypeCheckFailCondition =
 		case 'date' : throw new Error( ); // XXX
 		case 'integer' : throw new Error( );
 		case 'function' : throw new Error( );
-
-		case 'string' :
-
-			return $(
-				'typeof( ', aVar, ' ) !== "string"',
-				'&&',
-				'!( ', aVar, ' instanceof String )'
-			);
+		case 'string' : throw new Error( );
 
 		default :
 
@@ -1395,7 +1419,7 @@ def.func.genCreatorChecks =
 			check = check.$if( $( av, ' === null' ), $fail( ));
 		}
 
-		if( attr.id.pathName === 'protean' ) continue;
+		if( attr.timtype === type_protean || attr.id.pathName === 'protean' ) continue; // FIXXME
 
 		let cond;
 
@@ -1802,7 +1826,7 @@ def.func.genFromJsonCreatorAttributeParser =
 		case type_boolean :
 		case type_integer :
 		case type_number :
-		case 'string' :
+		case type_string :
 
 			code = $( attr.varRef, ' = arg' );
 
@@ -1810,7 +1834,17 @@ def.func.genFromJsonCreatorAttributeParser =
 
 		default :
 
-			if( attr.id.timtype === tim_id )
+
+			if( attr.id.timtype === type_tim )
+			{
+				code =
+					$(
+						attr.varRef, ' = ',
+						attr.id.$varname,
+						'.createFromJSON( arg )'
+					);
+			}
+			else if( attr.id.timtype === tim_id ) // FIXXME
 			{
 				code =
 					$(
@@ -1857,15 +1891,11 @@ def.func.genFromJsonCreatorAttributeParser =
 
 							break;
 
-						case 'string' :
+						case type_string :
 
 							sif =
 								$if(
-									$(
-										'typeof( arg ) === "string"',
-										'||',
-										'arg instanceof String'
-									),
+									$( 'typeof( arg ) === "string"' ),
 									$( attr.varRef, ' = arg' )
 								);
 
@@ -2607,7 +2637,7 @@ def.func.genTimProto =
 			// FUTURE for abstracts as well
 			.$comment( 'Returns the rank of the key.' )
 			.$(
-				'tim_proto.lazyFunctionString( ',
+				'tim_proto.lazyFunctionString(',
 					'prototype, "rankOf", tim_proto.twigRankOf ',
 				')'
 			)

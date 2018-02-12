@@ -20,7 +20,7 @@ if( TIM )
 		call :
 		{
 			// the constructor call
-			type : 'ast_call'
+			type : './call'
 		}
 	};
 }

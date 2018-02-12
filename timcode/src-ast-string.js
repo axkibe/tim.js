@@ -110,7 +110,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_string ) !== 'string' && !( v_string instanceof String ) )
+/**/	if( typeof( v_string ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}

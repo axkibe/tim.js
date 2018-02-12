@@ -40,7 +40,16 @@ const type_null = require( '../type/null' );
 const type_number = require( '../type/number' );
 
 
+const type_protean = require( '../type/protean' );
+
+
 const type_undefined = require( '../type/undefined' );
+
+
+const type_string = require( '../type/string' );
+
+
+const type_tim = require( '../type/tim' );
 
 
 const tim_proto = tim.proto;
@@ -194,7 +203,13 @@ prototype.create =
 /**/			&&
 /**/			v.timtype !== type_number
 /**/			&&
+/**/			v.timtype !== type_protean
+/**/			&&
 /**/			v.timtype !== type_undefined
+/**/			&&
+/**/			v.timtype !== type_string
+/**/			&&
+/**/			v.timtype !== type_tim
 /**/		)
 /**/		{
 /**/			throw new Error( );

@@ -194,7 +194,7 @@ prototype.create =
 /**/
 /**/	if( v_packet !== undefined )
 /**/	{
-/**/		if( typeof( v_packet ) !== 'string' && !( v_packet instanceof String ) )
+/**/		if( typeof( v_packet ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -208,7 +208,7 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( typeof( o ) !== 'string' && !( o instanceof String ) )
+/**/		if( typeof( o ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}

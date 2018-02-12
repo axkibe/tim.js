@@ -27,17 +27,17 @@ if( TIM )
 		condition :
 		{
 			// the continue condition
-			type : require( './typemap-expression' )
+			type : tim.typemap( module, './expr' ),
 		},
 		iterate :
 		{
 			// the iteration expression
-			type : require( './typemap-expression' )
+			type : tim.typemap( module, './expr' ),
 		},
 		block :
 		{
 			// the for block
-			type : 'ast_block'
+			type : './block'
 		}
 	};
 }

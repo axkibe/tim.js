@@ -1,5 +1,5 @@
 /*
-| Referencing the undefined "type".
+| Referencing the function type.
 */
 'use strict';
 

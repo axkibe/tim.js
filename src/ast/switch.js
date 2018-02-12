@@ -20,17 +20,17 @@ if( TIM )
 		statement :
 		{
 			// the statement expression
-			type : require( './typemap-expression' )
+			type : tim.typemap( module, './expr' ),
 		},
 		defaultCase :
 		{
 			// the default block
-			type : [ 'undefined', 'ast_block' ]
+			type : [ 'undefined', './block' ]
 		}
 	};
 
 	// the case statements
-	def.list = [ 'ast_case' ];
+	def.list = [ './case' ];
 }
 
 

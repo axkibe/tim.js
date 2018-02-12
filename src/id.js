@@ -57,6 +57,8 @@ def.static.createFromString =
 		string
 	)
 {
+	console.log( 'WARNING, old style id used: ' + string );
+
 	let packet;
 
 	let split = string.split( '$' );

@@ -1,11 +1,12 @@
 /*
-| Referencing the date type.
+| Referencing the non-type "protean" for any mutable
+| objects.
 */
 'use strict';
 
 
 require( '../ouroboros' )
-.define( module, 'type_date', ( def, type_date ) => {
+.define( module, 'type_protean', ( def, type_protean ) => {
 
 
 if( TIM ) def.attr = { };

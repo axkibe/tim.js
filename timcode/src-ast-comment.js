@@ -179,7 +179,7 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( typeof( o ) !== 'string' && !( o instanceof String ) )
+/**/		if( typeof( o ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}

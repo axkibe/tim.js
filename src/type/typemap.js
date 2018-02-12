@@ -13,6 +13,9 @@ module.exports =
 	'type_integer',
 	'type_null',
 	'type_number',
+	'type_protean',
 	'type_undefined',
+	'type_string',
+	'type_tim',
 ];
 

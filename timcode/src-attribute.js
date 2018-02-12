@@ -154,7 +154,16 @@ const type_null = require( './type/null' );
 const type_number = require( './type/number' );
 
 
+const type_protean = require( './type/protean' );
+
+
 const type_undefined = require( './type/undefined' );
+
+
+const type_string = require( './type/string' );
+
+
+const type_tim = require( './type/tim' );
 
 
 const type_set = require( './type/set' );
@@ -424,7 +433,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_assign ) !== 'string' && !( v_assign instanceof String ) )
+/**/	if( typeof( v_assign ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -543,7 +552,13 @@ prototype.create =
 /**/		&&
 /**/		v_id.timtype !== type_number
 /**/		&&
+/**/		v_id.timtype !== type_protean
+/**/		&&
 /**/		v_id.timtype !== type_undefined
+/**/		&&
+/**/		v_id.timtype !== type_string
+/**/		&&
+/**/		v_id.timtype !== type_tim
 /**/		&&
 /**/		v_id.timtype !== type_set
 /**/	)
@@ -576,7 +591,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_name ) !== 'string' && !( v_name instanceof String ) )
+/**/	if( typeof( v_name ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -588,7 +603,7 @@ prototype.create =
 /**/
 /**/	if( v_prepare !== undefined )
 /**/	{
-/**/		if( typeof( v_prepare ) !== 'string' && !( v_prepare instanceof String ) )
+/**/		if( typeof( v_prepare ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}

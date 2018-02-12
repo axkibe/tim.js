@@ -1,5 +1,5 @@
 /*
-| Referencing the undefined "type".
+| Referencing the number type.
 */
 'use strict';
 

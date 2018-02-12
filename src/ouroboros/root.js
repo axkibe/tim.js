@@ -18,13 +18,13 @@ const proto = require( '../proto' );
 
 global.tim =
 {
-	define : require( '../define' ),
-	proto  : proto,
-	tree : require( '../tree/node' ),
-	aheadValue : proto.aheadValue,
+	define         : require( '../define' ),
+	proto          : proto,
+	tree           : require( '../tree/node' ),
+	aheadValue     : proto.aheadValue,
 	ouroborosBuild : true,
+	typemap        : require( '../typemap' ),
 };
-
 
 const argV = process.argv;
 
@@ -160,6 +160,8 @@ for( let a = 0, al = listing.length; a < al; a++ )
 		const stim = { };
 
 		stim.ouroboros = stim;
+
+		stim.typemap = tim.typemap;
 
 		const def =
 		{

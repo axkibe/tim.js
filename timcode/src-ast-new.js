@@ -19,7 +19,7 @@ function( ) {
 let ast_new = NODE ? module.exports : module;
 
 
-const ast_call = require( '../ast/call' );
+const tt_call = require( './call' );
 
 
 const tim_proto = tim.proto;
@@ -113,7 +113,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_call.timtype !== ast_call )
+/**/	if( v_call.timtype !== tt_call )
 /**/	{
 /**/		throw new Error( );
 /**/	}

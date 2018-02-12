@@ -29,6 +29,10 @@ const type_number = require( './number' );
 
 const type_undefined = require( './undefined' );
 
+const type_string = require( './string' );
+
+const type_tim = require( './tim' );
+
 
 /*
 | Create the id from a string specifier.
@@ -38,6 +42,8 @@ def.static.createFromString =
 		str
 	)
 {
+	if( str.indexOf( '/' ) >= 0 ) return type_tim.createFromString( str );
+
 	switch( str )
 	{
 		case 'boolean' : return type_boolean.create( );
@@ -51,6 +57,8 @@ def.static.createFromString =
 		case 'null' : return type_null.create( );
 
 		case 'number' : return type_number.create( );
+
+		case 'string' : return type_string.create( );
 
 		case 'undefined' : return type_undefined.create( );
 

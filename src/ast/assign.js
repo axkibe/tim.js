@@ -15,12 +15,12 @@ if( TIM )
 		left :
 		{
 			// left-hand side
-			type : require( './typemap-expression' )
+			type : tim.typemap( module, './expr' )
 		},
 		right :
 		{
 			// right-hand side
-			type : require( './typemap-expression' )
+			type : tim.typemap( module, './expr' )
 		}
 	};
 }

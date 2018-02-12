@@ -136,7 +136,121 @@ const ast_var = require( '../ast/var' );
 const ast_let = require( '../ast/let' );
 
 
-const ast_block = require( '../ast/block' );
+const tt_and = require( './and' );
+
+
+const tt_arrayLiteral = require( './arrayLiteral' );
+
+
+const tt_assign = require( './assign' );
+
+
+const tt_boolean = require( './boolean' );
+
+
+const tt_call = require( './call' );
+
+
+const tt_comma = require( './comma' );
+
+
+const tt_condition = require( './condition' );
+
+
+const tt_delete = require( './delete' );
+
+
+const tt_differs = require( './differs' );
+
+
+const tt_divide = require( './divide' );
+
+
+const tt_divideAssign = require( './divideAssign' );
+
+
+const tt_dot = require( './dot' );
+
+
+const tt_equals = require( './equals' );
+
+
+const tt_func = require( './func' );
+
+
+const tt_greaterThan = require( './greaterThan' );
+
+
+const tt_instanceof = require( './instanceof' );
+
+
+const tt_lessThan = require( './lessThan' );
+
+
+const tt_member = require( './member' );
+
+
+const tt_minus = require( './minus' );
+
+
+const tt_minusAssign = require( './minusAssign' );
+
+
+const tt_multiply = require( './multiply' );
+
+
+const tt_multiplyAssign = require( './multiplyAssign' );
+
+
+const tt_negate = require( './negate' );
+
+
+const tt_new = require( './new' );
+
+
+const tt_not = require( './not' );
+
+
+const tt_null = require( './null' );
+
+
+const tt_number = require( './number' );
+
+
+const tt_objLiteral = require( './objLiteral' );
+
+
+const tt_or = require( './or' );
+
+
+const tt_plus = require( './plus' );
+
+
+const tt_plusAssign = require( './plusAssign' );
+
+
+const tt_postDecrement = require( './postDecrement' );
+
+
+const tt_postIncrement = require( './postIncrement' );
+
+
+const tt_preDecrement = require( './preDecrement' );
+
+
+const tt_preIncrement = require( './preIncrement' );
+
+
+const tt_string = require( './string' );
+
+
+const tt_typeof = require( './typeof' );
+
+
+const tt_var = require( './var' );
+
+
+const tt_block = require( './block' );
 
 
 const tim_proto = tim.proto;
@@ -278,7 +392,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_block.timtype !== ast_block )
+/**/	if( v_block.timtype !== tt_block )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -294,81 +408,81 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_condition.timtype !== ast_and
+/**/		v_condition.timtype !== tt_and
 /**/		&&
-/**/		v_condition.timtype !== ast_arrayLiteral
+/**/		v_condition.timtype !== tt_arrayLiteral
 /**/		&&
-/**/		v_condition.timtype !== ast_assign
+/**/		v_condition.timtype !== tt_assign
 /**/		&&
-/**/		v_condition.timtype !== ast_boolean
+/**/		v_condition.timtype !== tt_boolean
 /**/		&&
-/**/		v_condition.timtype !== ast_call
+/**/		v_condition.timtype !== tt_call
 /**/		&&
-/**/		v_condition.timtype !== ast_comma
+/**/		v_condition.timtype !== tt_comma
 /**/		&&
-/**/		v_condition.timtype !== ast_condition
+/**/		v_condition.timtype !== tt_condition
 /**/		&&
-/**/		v_condition.timtype !== ast_delete
+/**/		v_condition.timtype !== tt_delete
 /**/		&&
-/**/		v_condition.timtype !== ast_differs
+/**/		v_condition.timtype !== tt_differs
 /**/		&&
-/**/		v_condition.timtype !== ast_divide
+/**/		v_condition.timtype !== tt_divide
 /**/		&&
-/**/		v_condition.timtype !== ast_divideAssign
+/**/		v_condition.timtype !== tt_divideAssign
 /**/		&&
-/**/		v_condition.timtype !== ast_dot
+/**/		v_condition.timtype !== tt_dot
 /**/		&&
-/**/		v_condition.timtype !== ast_equals
+/**/		v_condition.timtype !== tt_equals
 /**/		&&
-/**/		v_condition.timtype !== ast_func
+/**/		v_condition.timtype !== tt_func
 /**/		&&
-/**/		v_condition.timtype !== ast_greaterThan
+/**/		v_condition.timtype !== tt_greaterThan
 /**/		&&
-/**/		v_condition.timtype !== ast_instanceof
+/**/		v_condition.timtype !== tt_instanceof
 /**/		&&
-/**/		v_condition.timtype !== ast_lessThan
+/**/		v_condition.timtype !== tt_lessThan
 /**/		&&
-/**/		v_condition.timtype !== ast_member
+/**/		v_condition.timtype !== tt_member
 /**/		&&
-/**/		v_condition.timtype !== ast_minus
+/**/		v_condition.timtype !== tt_minus
 /**/		&&
-/**/		v_condition.timtype !== ast_minusAssign
+/**/		v_condition.timtype !== tt_minusAssign
 /**/		&&
-/**/		v_condition.timtype !== ast_multiply
+/**/		v_condition.timtype !== tt_multiply
 /**/		&&
-/**/		v_condition.timtype !== ast_multiplyAssign
+/**/		v_condition.timtype !== tt_multiplyAssign
 /**/		&&
-/**/		v_condition.timtype !== ast_negate
+/**/		v_condition.timtype !== tt_negate
 /**/		&&
-/**/		v_condition.timtype !== ast_new
+/**/		v_condition.timtype !== tt_new
 /**/		&&
-/**/		v_condition.timtype !== ast_not
+/**/		v_condition.timtype !== tt_not
 /**/		&&
-/**/		v_condition.timtype !== ast_null
+/**/		v_condition.timtype !== tt_null
 /**/		&&
-/**/		v_condition.timtype !== ast_number
+/**/		v_condition.timtype !== tt_number
 /**/		&&
-/**/		v_condition.timtype !== ast_objLiteral
+/**/		v_condition.timtype !== tt_objLiteral
 /**/		&&
-/**/		v_condition.timtype !== ast_or
+/**/		v_condition.timtype !== tt_or
 /**/		&&
-/**/		v_condition.timtype !== ast_plus
+/**/		v_condition.timtype !== tt_plus
 /**/		&&
-/**/		v_condition.timtype !== ast_plusAssign
+/**/		v_condition.timtype !== tt_plusAssign
 /**/		&&
-/**/		v_condition.timtype !== ast_postDecrement
+/**/		v_condition.timtype !== tt_postDecrement
 /**/		&&
-/**/		v_condition.timtype !== ast_postIncrement
+/**/		v_condition.timtype !== tt_postIncrement
 /**/		&&
-/**/		v_condition.timtype !== ast_preDecrement
+/**/		v_condition.timtype !== tt_preDecrement
 /**/		&&
-/**/		v_condition.timtype !== ast_preIncrement
+/**/		v_condition.timtype !== tt_preIncrement
 /**/		&&
-/**/		v_condition.timtype !== ast_string
+/**/		v_condition.timtype !== tt_string
 /**/		&&
-/**/		v_condition.timtype !== ast_typeof
+/**/		v_condition.timtype !== tt_typeof
 /**/		&&
-/**/		v_condition.timtype !== ast_var
+/**/		v_condition.timtype !== tt_var
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -478,81 +592,81 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_iterate.timtype !== ast_and
+/**/		v_iterate.timtype !== tt_and
 /**/		&&
-/**/		v_iterate.timtype !== ast_arrayLiteral
+/**/		v_iterate.timtype !== tt_arrayLiteral
 /**/		&&
-/**/		v_iterate.timtype !== ast_assign
+/**/		v_iterate.timtype !== tt_assign
 /**/		&&
-/**/		v_iterate.timtype !== ast_boolean
+/**/		v_iterate.timtype !== tt_boolean
 /**/		&&
-/**/		v_iterate.timtype !== ast_call
+/**/		v_iterate.timtype !== tt_call
 /**/		&&
-/**/		v_iterate.timtype !== ast_comma
+/**/		v_iterate.timtype !== tt_comma
 /**/		&&
-/**/		v_iterate.timtype !== ast_condition
+/**/		v_iterate.timtype !== tt_condition
 /**/		&&
-/**/		v_iterate.timtype !== ast_delete
+/**/		v_iterate.timtype !== tt_delete
 /**/		&&
-/**/		v_iterate.timtype !== ast_differs
+/**/		v_iterate.timtype !== tt_differs
 /**/		&&
-/**/		v_iterate.timtype !== ast_divide
+/**/		v_iterate.timtype !== tt_divide
 /**/		&&
-/**/		v_iterate.timtype !== ast_divideAssign
+/**/		v_iterate.timtype !== tt_divideAssign
 /**/		&&
-/**/		v_iterate.timtype !== ast_dot
+/**/		v_iterate.timtype !== tt_dot
 /**/		&&
-/**/		v_iterate.timtype !== ast_equals
+/**/		v_iterate.timtype !== tt_equals
 /**/		&&
-/**/		v_iterate.timtype !== ast_func
+/**/		v_iterate.timtype !== tt_func
 /**/		&&
-/**/		v_iterate.timtype !== ast_greaterThan
+/**/		v_iterate.timtype !== tt_greaterThan
 /**/		&&
-/**/		v_iterate.timtype !== ast_instanceof
+/**/		v_iterate.timtype !== tt_instanceof
 /**/		&&
-/**/		v_iterate.timtype !== ast_lessThan
+/**/		v_iterate.timtype !== tt_lessThan
 /**/		&&
-/**/		v_iterate.timtype !== ast_member
+/**/		v_iterate.timtype !== tt_member
 /**/		&&
-/**/		v_iterate.timtype !== ast_minus
+/**/		v_iterate.timtype !== tt_minus
 /**/		&&
-/**/		v_iterate.timtype !== ast_minusAssign
+/**/		v_iterate.timtype !== tt_minusAssign
 /**/		&&
-/**/		v_iterate.timtype !== ast_multiply
+/**/		v_iterate.timtype !== tt_multiply
 /**/		&&
-/**/		v_iterate.timtype !== ast_multiplyAssign
+/**/		v_iterate.timtype !== tt_multiplyAssign
 /**/		&&
-/**/		v_iterate.timtype !== ast_negate
+/**/		v_iterate.timtype !== tt_negate
 /**/		&&
-/**/		v_iterate.timtype !== ast_new
+/**/		v_iterate.timtype !== tt_new
 /**/		&&
-/**/		v_iterate.timtype !== ast_not
+/**/		v_iterate.timtype !== tt_not
 /**/		&&
-/**/		v_iterate.timtype !== ast_null
+/**/		v_iterate.timtype !== tt_null
 /**/		&&
-/**/		v_iterate.timtype !== ast_number
+/**/		v_iterate.timtype !== tt_number
 /**/		&&
-/**/		v_iterate.timtype !== ast_objLiteral
+/**/		v_iterate.timtype !== tt_objLiteral
 /**/		&&
-/**/		v_iterate.timtype !== ast_or
+/**/		v_iterate.timtype !== tt_or
 /**/		&&
-/**/		v_iterate.timtype !== ast_plus
+/**/		v_iterate.timtype !== tt_plus
 /**/		&&
-/**/		v_iterate.timtype !== ast_plusAssign
+/**/		v_iterate.timtype !== tt_plusAssign
 /**/		&&
-/**/		v_iterate.timtype !== ast_postDecrement
+/**/		v_iterate.timtype !== tt_postDecrement
 /**/		&&
-/**/		v_iterate.timtype !== ast_postIncrement
+/**/		v_iterate.timtype !== tt_postIncrement
 /**/		&&
-/**/		v_iterate.timtype !== ast_preDecrement
+/**/		v_iterate.timtype !== tt_preDecrement
 /**/		&&
-/**/		v_iterate.timtype !== ast_preIncrement
+/**/		v_iterate.timtype !== tt_preIncrement
 /**/		&&
-/**/		v_iterate.timtype !== ast_string
+/**/		v_iterate.timtype !== tt_string
 /**/		&&
-/**/		v_iterate.timtype !== ast_typeof
+/**/		v_iterate.timtype !== tt_typeof
 /**/		&&
-/**/		v_iterate.timtype !== ast_var
+/**/		v_iterate.timtype !== tt_var
 /**/	)
 /**/	{
 /**/		throw new Error( );

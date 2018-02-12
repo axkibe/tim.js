@@ -86,8 +86,10 @@ module.exports =
 	'src/type/integer.js',
 	'src/type/null.js',
 	'src/type/number.js',
+	'src/type/protean.js',
 	'src/type/set.js',
 	'src/type/string.js',
+	'src/type/tim.js',
 	'src/type/undefined.js',
 ];
 

@@ -330,7 +330,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_member ) !== 'string' && !( v_member instanceof String ) )
+/**/	if( typeof( v_member ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}

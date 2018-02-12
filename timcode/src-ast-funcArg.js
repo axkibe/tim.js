@@ -123,7 +123,7 @@ prototype.create =
 /**/
 /**/	if( v_comment !== undefined )
 /**/	{
-/**/		if( typeof( v_comment ) !== 'string' && !( v_comment instanceof String ) )
+/**/		if( typeof( v_comment ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -136,7 +136,7 @@ prototype.create =
 /**/
 /**/	if( v_name !== undefined )
 /**/	{
-/**/		if( typeof( v_name ) !== 'string' && !( v_name instanceof String ) )
+/**/		if( typeof( v_name ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}

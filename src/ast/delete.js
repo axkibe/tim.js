@@ -20,7 +20,7 @@ if( TIM )
 		expr :
 		{
 			// the expression to delete
-			type : require( './typemap-expression' )
+			type : tim.typemap( module, './expr' ),
 		}
 	};
 }

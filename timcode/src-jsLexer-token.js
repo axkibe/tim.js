@@ -128,7 +128,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_type ) !== 'string' && !( v_type instanceof String ) )
+/**/	if( typeof( v_type ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -150,8 +150,6 @@ prototype.create =
 /**/			typeof( v_value ) !== 'boolean'
 /**/			&&
 /**/			typeof( v_value ) !== 'string'
-/**/			&&
-/**/			!( v_value instanceof String )
 /**/		)
 /**/		{
 /**/			throw new Error( );
