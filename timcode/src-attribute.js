@@ -16,157 +16,157 @@ function( ) {
 /*
 | The typed immutable.
 */
-let attribute = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
-const ast_and = require( './ast/and' );
+const tt_ast_and = require( './ast/and' );
 
 
-const ast_arrayLiteral = require( './ast/arrayLiteral' );
+const tt_ast_arrayLiteral = require( './ast/arrayLiteral' );
 
 
-const ast_assign = require( './ast/assign' );
+const tt_ast_assign = require( './ast/assign' );
 
 
-const ast_boolean = require( './ast/boolean' );
+const tt_ast_boolean = require( './ast/boolean' );
 
 
-const ast_call = require( './ast/call' );
+const tt_ast_call = require( './ast/call' );
 
 
-const ast_comma = require( './ast/comma' );
+const tt_ast_comma = require( './ast/comma' );
 
 
-const ast_condition = require( './ast/condition' );
+const tt_ast_condition = require( './ast/condition' );
 
 
-const ast_delete = require( './ast/delete' );
+const tt_ast_delete = require( './ast/delete' );
 
 
-const ast_differs = require( './ast/differs' );
+const tt_ast_differs = require( './ast/differs' );
 
 
-const ast_divide = require( './ast/divide' );
+const tt_ast_divide = require( './ast/divide' );
 
 
-const ast_divideAssign = require( './ast/divideAssign' );
+const tt_ast_divideAssign = require( './ast/divideAssign' );
 
 
-const ast_dot = require( './ast/dot' );
+const tt_ast_dot = require( './ast/dot' );
 
 
-const ast_equals = require( './ast/equals' );
+const tt_ast_equals = require( './ast/equals' );
 
 
-const ast_func = require( './ast/func' );
+const tt_ast_func = require( './ast/func' );
 
 
-const ast_greaterThan = require( './ast/greaterThan' );
+const tt_ast_greaterThan = require( './ast/greaterThan' );
 
 
-const ast_instanceof = require( './ast/instanceof' );
+const tt_ast_instanceof = require( './ast/instanceof' );
 
 
-const ast_lessThan = require( './ast/lessThan' );
+const tt_ast_lessThan = require( './ast/lessThan' );
 
 
-const ast_member = require( './ast/member' );
+const tt_ast_member = require( './ast/member' );
 
 
-const ast_minus = require( './ast/minus' );
+const tt_ast_minus = require( './ast/minus' );
 
 
-const ast_minusAssign = require( './ast/minusAssign' );
+const tt_ast_minusAssign = require( './ast/minusAssign' );
 
 
-const ast_multiply = require( './ast/multiply' );
+const tt_ast_multiply = require( './ast/multiply' );
 
 
-const ast_multiplyAssign = require( './ast/multiplyAssign' );
+const tt_ast_multiplyAssign = require( './ast/multiplyAssign' );
 
 
-const ast_negate = require( './ast/negate' );
+const tt_ast_negate = require( './ast/negate' );
 
 
-const ast_new = require( './ast/new' );
+const tt_ast_new = require( './ast/new' );
 
 
-const ast_not = require( './ast/not' );
+const tt_ast_not = require( './ast/not' );
 
 
-const ast_null = require( './ast/null' );
+const tt_ast_null = require( './ast/null' );
 
 
-const ast_number = require( './ast/number' );
+const tt_ast_number = require( './ast/number' );
 
 
-const ast_objLiteral = require( './ast/objLiteral' );
+const tt_ast_objLiteral = require( './ast/objLiteral' );
 
 
-const ast_or = require( './ast/or' );
+const tt_ast_or = require( './ast/or' );
 
 
-const ast_plus = require( './ast/plus' );
+const tt_ast_plus = require( './ast/plus' );
 
 
-const ast_plusAssign = require( './ast/plusAssign' );
+const tt_ast_plusAssign = require( './ast/plusAssign' );
 
 
-const ast_postDecrement = require( './ast/postDecrement' );
+const tt_ast_postDecrement = require( './ast/postDecrement' );
 
 
-const ast_postIncrement = require( './ast/postIncrement' );
+const tt_ast_postIncrement = require( './ast/postIncrement' );
 
 
-const ast_preDecrement = require( './ast/preDecrement' );
+const tt_ast_preDecrement = require( './ast/preDecrement' );
 
 
-const ast_preIncrement = require( './ast/preIncrement' );
+const tt_ast_preIncrement = require( './ast/preIncrement' );
 
 
-const ast_string = require( './ast/string' );
+const tt_ast_string = require( './ast/string' );
 
 
-const ast_typeof = require( './ast/typeof' );
+const tt_ast_typeof = require( './ast/typeof' );
 
 
-const ast_var = require( './ast/var' );
+const tt_ast_var = require( './ast/var' );
 
 
-const id = require( './id' );
+const tt_type_id = require( './type/id' );
 
 
-const type_boolean = require( './type/boolean' );
+const tt_type_boolean = require( './type/boolean' );
 
 
-const type_date = require( './type/date' );
+const tt_type_date = require( './type/date' );
 
 
-const type_function = require( './type/function' );
+const tt_type_function = require( './type/function' );
 
 
-const type_integer = require( './type/integer' );
+const tt_type_integer = require( './type/integer' );
 
 
-const type_null = require( './type/null' );
+const tt_type_null = require( './type/null' );
 
 
-const type_number = require( './type/number' );
+const tt_type_number = require( './type/number' );
 
 
-const type_protean = require( './type/protean' );
+const tt_type_protean = require( './type/protean' );
 
 
-const type_undefined = require( './type/undefined' );
+const tt_type_undefined = require( './type/undefined' );
 
 
-const type_string = require( './type/string' );
+const tt_type_string = require( './type/string' );
 
 
-const type_tim = require( './type/tim' );
+const tt_type_tim = require( './type/tim' );
 
 
-const type_set = require( './type/set' );
+const tt_type_set = require( './type/set' );
 
 
 const tim_proto = tim.proto;
@@ -224,13 +224,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-attribute.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new attribute object.
+| Creates a new object.
 */
-attribute.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -256,7 +256,7 @@ prototype.create =
 
 	let v_varRef;
 
-	if( this !== attribute )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -446,81 +446,81 @@ prototype.create =
 /**/	if( v_defaultValue !== undefined )
 /**/	{
 /**/		if(
-/**/			v_defaultValue.timtype !== ast_and
+/**/			v_defaultValue.timtype !== tt_ast_and
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_arrayLiteral
+/**/			v_defaultValue.timtype !== tt_ast_arrayLiteral
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_assign
+/**/			v_defaultValue.timtype !== tt_ast_assign
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_boolean
+/**/			v_defaultValue.timtype !== tt_ast_boolean
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_call
+/**/			v_defaultValue.timtype !== tt_ast_call
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_comma
+/**/			v_defaultValue.timtype !== tt_ast_comma
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_condition
+/**/			v_defaultValue.timtype !== tt_ast_condition
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_delete
+/**/			v_defaultValue.timtype !== tt_ast_delete
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_differs
+/**/			v_defaultValue.timtype !== tt_ast_differs
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_divide
+/**/			v_defaultValue.timtype !== tt_ast_divide
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_divideAssign
+/**/			v_defaultValue.timtype !== tt_ast_divideAssign
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_dot
+/**/			v_defaultValue.timtype !== tt_ast_dot
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_equals
+/**/			v_defaultValue.timtype !== tt_ast_equals
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_func
+/**/			v_defaultValue.timtype !== tt_ast_func
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_greaterThan
+/**/			v_defaultValue.timtype !== tt_ast_greaterThan
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_instanceof
+/**/			v_defaultValue.timtype !== tt_ast_instanceof
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_lessThan
+/**/			v_defaultValue.timtype !== tt_ast_lessThan
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_member
+/**/			v_defaultValue.timtype !== tt_ast_member
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_minus
+/**/			v_defaultValue.timtype !== tt_ast_minus
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_minusAssign
+/**/			v_defaultValue.timtype !== tt_ast_minusAssign
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_multiply
+/**/			v_defaultValue.timtype !== tt_ast_multiply
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_multiplyAssign
+/**/			v_defaultValue.timtype !== tt_ast_multiplyAssign
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_negate
+/**/			v_defaultValue.timtype !== tt_ast_negate
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_new
+/**/			v_defaultValue.timtype !== tt_ast_new
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_not
+/**/			v_defaultValue.timtype !== tt_ast_not
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_null
+/**/			v_defaultValue.timtype !== tt_ast_null
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_number
+/**/			v_defaultValue.timtype !== tt_ast_number
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_objLiteral
+/**/			v_defaultValue.timtype !== tt_ast_objLiteral
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_or
+/**/			v_defaultValue.timtype !== tt_ast_or
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_plus
+/**/			v_defaultValue.timtype !== tt_ast_plus
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_plusAssign
+/**/			v_defaultValue.timtype !== tt_ast_plusAssign
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_postDecrement
+/**/			v_defaultValue.timtype !== tt_ast_postDecrement
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_postIncrement
+/**/			v_defaultValue.timtype !== tt_ast_postIncrement
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_preDecrement
+/**/			v_defaultValue.timtype !== tt_ast_preDecrement
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_preIncrement
+/**/			v_defaultValue.timtype !== tt_ast_preIncrement
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_string
+/**/			v_defaultValue.timtype !== tt_ast_string
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_typeof
+/**/			v_defaultValue.timtype !== tt_ast_typeof
 /**/			&&
-/**/			v_defaultValue.timtype !== ast_var
+/**/			v_defaultValue.timtype !== tt_ast_var
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -538,29 +538,29 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_id.timtype !== id
+/**/		v_id.timtype !== tt_type_id
 /**/		&&
-/**/		v_id.timtype !== type_boolean
+/**/		v_id.timtype !== tt_type_boolean
 /**/		&&
-/**/		v_id.timtype !== type_date
+/**/		v_id.timtype !== tt_type_date
 /**/		&&
-/**/		v_id.timtype !== type_function
+/**/		v_id.timtype !== tt_type_function
 /**/		&&
-/**/		v_id.timtype !== type_integer
+/**/		v_id.timtype !== tt_type_integer
 /**/		&&
-/**/		v_id.timtype !== type_null
+/**/		v_id.timtype !== tt_type_null
 /**/		&&
-/**/		v_id.timtype !== type_number
+/**/		v_id.timtype !== tt_type_number
 /**/		&&
-/**/		v_id.timtype !== type_protean
+/**/		v_id.timtype !== tt_type_protean
 /**/		&&
-/**/		v_id.timtype !== type_undefined
+/**/		v_id.timtype !== tt_type_undefined
 /**/		&&
-/**/		v_id.timtype !== type_string
+/**/		v_id.timtype !== tt_type_string
 /**/		&&
-/**/		v_id.timtype !== type_tim
+/**/		v_id.timtype !== tt_type_tim
 /**/		&&
-/**/		v_id.timtype !== type_set
+/**/		v_id.timtype !== tt_type_set
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -619,7 +619,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_varRef.timtype !== ast_var )
+/**/	if( v_varRef.timtype !== tt_ast_var )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -643,7 +643,7 @@ prototype.create =
 		(
 			v_id === inherit.id
 			||
-			v_id.timtype && v_id.equals( inherit.id )
+			v_id.equals( inherit.id )
 		)
 		&&
 		v_json === inherit.json
@@ -681,7 +681,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = attribute;
+prototype.timtype = self;
 
 
 /*
@@ -714,7 +714,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== attribute )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}
@@ -735,7 +735,7 @@ prototype.equals =
 		(
 			this.id === obj.id
 			||
-			this.id.timtype && this.id.equals( obj.id )
+			this.id.equals( obj.id )
 		)
 		&&
 		this.json === obj.json

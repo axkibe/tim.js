@@ -16,40 +16,40 @@ function( ) {
 /*
 | The typed immutable.
 */
-let type_set = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
-const id = require( '../id' );
+const tt_id = require( './id' );
 
 
-const type_boolean = require( '../type/boolean' );
+const tt_boolean = require( './boolean' );
 
 
-const type_date = require( '../type/date' );
+const tt_date = require( './date' );
 
 
-const type_function = require( '../type/function' );
+const tt_function = require( './function' );
 
 
-const type_integer = require( '../type/integer' );
+const tt_integer = require( './integer' );
 
 
-const type_null = require( '../type/null' );
+const tt_null = require( './null' );
 
 
-const type_number = require( '../type/number' );
+const tt_number = require( './number' );
 
 
-const type_protean = require( '../type/protean' );
+const tt_protean = require( './protean' );
 
 
-const type_undefined = require( '../type/undefined' );
+const tt_undefined = require( './undefined' );
 
 
-const type_string = require( '../type/string' );
+const tt_string = require( './string' );
 
 
-const type_tim = require( '../type/tim' );
+const tt_tim = require( './tim' );
 
 
 const tim_proto = tim.proto;
@@ -85,13 +85,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-type_set.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new set object.
+| Creates a new object.
 */
-type_set.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -103,7 +103,7 @@ prototype.create =
 
 	let setDup;
 
-	if( this !== type_set )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -189,27 +189,27 @@ prototype.create =
 /**/		const v = i.value;
 /**/
 /**/		if(
-/**/			v.timtype !== id
+/**/			v.timtype !== tt_id
 /**/			&&
-/**/			v.timtype !== type_boolean
+/**/			v.timtype !== tt_boolean
 /**/			&&
-/**/			v.timtype !== type_date
+/**/			v.timtype !== tt_date
 /**/			&&
-/**/			v.timtype !== type_function
+/**/			v.timtype !== tt_function
 /**/			&&
-/**/			v.timtype !== type_integer
+/**/			v.timtype !== tt_integer
 /**/			&&
-/**/			v.timtype !== type_null
+/**/			v.timtype !== tt_null
 /**/			&&
-/**/			v.timtype !== type_number
+/**/			v.timtype !== tt_number
 /**/			&&
-/**/			v.timtype !== type_protean
+/**/			v.timtype !== tt_protean
 /**/			&&
-/**/			v.timtype !== type_undefined
+/**/			v.timtype !== tt_undefined
 /**/			&&
-/**/			v.timtype !== type_string
+/**/			v.timtype !== tt_string
 /**/			&&
-/**/			v.timtype !== type_tim
+/**/			v.timtype !== tt_tim
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -229,7 +229,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = type_set;
+prototype.timtype = self;
 
 
 /*
@@ -298,7 +298,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== type_set )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

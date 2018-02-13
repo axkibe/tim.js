@@ -4,7 +4,7 @@
 'use strict';
 
 
-require( './ouroboros' )
+require( '../ouroboros' )
 .define( module, 'id', ( def, tim_id ) => {
 
 
@@ -28,7 +28,7 @@ if( TIM )
 }
 
 
-const shorthand = require( './ast/shorthand' );
+const shorthand = require( '../ast/shorthand' );
 
 const primitives =
 	{

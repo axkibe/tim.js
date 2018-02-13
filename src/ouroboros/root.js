@@ -113,6 +113,14 @@ const sdefine =
 {
 	global.TIM = true;
 
+	// FIXME
+	if( arguments.length === 3 )
+	{
+		definer = id;
+
+		id = undefined;
+	}
+
 	definer( def, { } );
 
 	def.id = id;

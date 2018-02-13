@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_dot', ( def, ast_dot ) => {
+.define( module, ( def, ast_dot ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,16 +17,11 @@ if( TIM )
 {
 	def.attributes =
 	{
-		expr :
-		{
-			// the expression to get the member of
-			type : require( './typemap-expression' )
-		},
-		member :
-		{
-			// the members name
-			type : 'string'
-		}
+		// the expression to get the member of
+		expr : { type : tim.typemap( module, './expr' ) },
+
+		// the members name
+		member : { type : 'string' },
 	};
 
 	def.init = [ ];

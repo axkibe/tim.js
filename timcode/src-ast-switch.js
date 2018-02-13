@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_switch = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tt_and = require( './and' );
@@ -178,13 +178,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_switch.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new switch object.
+| Creates a new object.
 */
-ast_switch.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -200,7 +200,7 @@ prototype.create =
 
 	let v_statement;
 
-	if( this !== ast_switch )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -470,7 +470,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_switch;
+prototype.timtype = self;
 
 
 /*
@@ -551,7 +551,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_switch )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

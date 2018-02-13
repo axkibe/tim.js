@@ -17,11 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		expr :
-		{
-			// the expression to post increment
-			type : require( './typemap-expression' )
-		}
+		// the expression to post-increment
+		expr : { type : tim.typemap( module, './expr' ) },
 	};
 }
 

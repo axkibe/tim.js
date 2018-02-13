@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_instanceof', ( def, ast_instanceof ) => {
+.define( module, ( def, ast_instanceof ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,9 +17,9 @@ if( TIM )
 {
 	def.attributes =
 	{
-		left : { type : require( './typemap-expression' ) },
+		left : { type : tim.typemap( module, './expr' ) },
 
-		right : { type : require( './typemap-expression' ) }
+		right : { type : tim.typemap( module, './expr' ) }
 	};
 }
 

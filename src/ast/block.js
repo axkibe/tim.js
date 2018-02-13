@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_block', ( def, ast_block ) => {
+.define( module, ( def, ast_block ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = require( './typemap-statement' );
+	def.list = tim.typemap( module, './statement' );
 }
 
 

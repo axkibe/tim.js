@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let attributeGroup = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const attribute = require( './attribute' );
@@ -55,13 +55,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-attributeGroup.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new attributeGroup object.
+| Creates a new object.
 */
-attributeGroup.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -73,7 +73,7 @@ prototype.create =
 
 	let inherit;
 
-	if( this !== attributeGroup )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -163,7 +163,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = attributeGroup;
+prototype.timtype = self;
 
 
 /*
@@ -239,7 +239,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== attributeGroup )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

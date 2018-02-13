@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.set = require( './typemap' );
+	def.set = tim.typemap( module, './type' );
 }
 
 

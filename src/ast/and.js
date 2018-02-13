@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_and', ( def, ast_and ) => {
+.define( module, ( def, ast_and ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -19,7 +19,7 @@ if( TIM )
 	{
 		left : { type : tim.typemap( module, './expr' ) },
 
-		right : { type : tim.typemap( module, './expr' ) }
+		right : { type : tim.typemap( module, './expr' ) },
 	};
 }
 

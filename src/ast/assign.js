@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_assign', ( def, ast_assign ) => {
+.define( module, ( def, ast_assign ) => {
 
 
 if( TIM )

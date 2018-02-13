@@ -17,16 +17,11 @@ if( TIM )
 {
 	def.attributes =
 	{
-		expr :
-		{
-			// the expression to get the member of
-			type : require( './typemap-expression' )
-		},
-		member :
-		{
-			// the member expression
-			type : require( './typemap-expression' )
-		}
+		// the expression to get the member of
+		expr : { type : tim.typemap( module, './expr' ) },
+
+		// the member expression
+		member : { type : tim.typemap( module, './expr' ) },
 	};
 }
 

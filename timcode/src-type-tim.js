@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let type_tim = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -52,13 +52,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-type_tim.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new tim object.
+| Creates a new object.
 */
-type_tim.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -70,7 +70,7 @@ prototype.create =
 
 	let listDup;
 
-	if( this !== type_tim )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -198,7 +198,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = type_tim;
+prototype.timtype = self;
 
 
 /*
@@ -279,7 +279,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== type_tim )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

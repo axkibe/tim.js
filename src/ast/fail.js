@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_fail', ( def, ast_fail ) => {
+.define( module, ( def, ast_fail ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -21,7 +21,7 @@ if( TIM )
 		{
 			// the error message expression
 			type :
-				require( './typemap-expression' )
+				tim.typemap( module, './expr' )
 				.concat( ['undefined' ] )
 		}
 	};

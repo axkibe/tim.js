@@ -17,16 +17,14 @@ if( TIM )
 {
 	def.attributes =
 	{
-		name :
-		{
-			// variable name
-			type : 'string'
-		},
+		// variable name
+		name : { type : 'string' },
+
+		// assignment of variable
 		assign :
 		{
-			// assignment of variable
 			type :
-				require( './typemap-expression' )
+				tim.typemap( module, './expr' )
 				.concat( [ 'undefined' ] )
 		}
 	};

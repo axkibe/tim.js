@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_forIn', ( def, ast_forIn ) => {
+.define( module, ( def, ast_forIn ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,27 +17,20 @@ if( TIM )
 {
 	def.attributes =
 	{
-		variable :
-		{
-			// the loop variable
-			type : 'ast_var'
-		},
-		letVar :
-		{
-			type : 'boolean'
-		},
-		object :
-		{
-			// the object expression to iterate over
-			type : require( './typemap-expression' )
-		},
-		block :
-		{
-			// the for block
-			type : 'ast_block'
-		}
+		// the loop variable
+		variable : { type : './var' },
+
+		// true if the for loop variable has a let
+		letVar : { type : 'boolean' },
+
+		// the object expression to iterate over
+		object : { type : tim.typemap( module, './expr' ), },
+
+		// the loop block
+		block : { type : './block' },
 	};
 }
 
 
 } );
+

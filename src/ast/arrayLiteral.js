@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_arrayLiteral', ( def, ast_arrayLiteral ) => {
+.define( module, ( def, ast_arrayLiteral ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = require( './typemap-expression' );
+	def.list =  tim.typemap( module, './expr' );
 }
 
 

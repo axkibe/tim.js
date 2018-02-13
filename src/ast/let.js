@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = [ 'ast_letEntry' ];
+	def.list = [ './letEntry' ];
 }
 
 

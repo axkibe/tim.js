@@ -16,10 +16,10 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_let = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
-const ast_letEntry = require( '../ast/letEntry' );
+const tt_letEntry = require( './letEntry' );
 
 
 const tim_proto = tim.proto;
@@ -55,13 +55,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_let.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new let object.
+| Creates a new object.
 */
-ast_let.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -73,7 +73,7 @@ prototype.create =
 
 	let listDup;
 
-	if( this !== ast_let )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -182,7 +182,7 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( o.timtype !== ast_letEntry )
+/**/		if( o.timtype !== tt_letEntry )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -201,7 +201,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_let;
+prototype.timtype = self;
 
 
 /*
@@ -282,7 +282,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_let )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

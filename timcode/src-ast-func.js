@@ -16,13 +16,13 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_func = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
-const ast_block = require( '../ast/block' );
+const tt_block = require( './block' );
 
 
-const ast_funcArg = require( '../ast/funcArg' );
+const tt_funcArg = require( './funcArg' );
 
 
 const tim_proto = tim.proto;
@@ -64,13 +64,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_func.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new func object.
+| Creates a new object.
 */
-ast_func.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -86,7 +86,7 @@ prototype.create =
 
 	let v_capsule;
 
-	if( this !== ast_func )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -221,7 +221,7 @@ prototype.create =
 /**/
 /**/	if( v_block !== undefined )
 /**/	{
-/**/		if( v_block.timtype !== ast_block )
+/**/		if( v_block.timtype !== tt_block )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -250,7 +250,7 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( o.timtype !== ast_funcArg )
+/**/		if( o.timtype !== tt_funcArg )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -281,7 +281,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_func;
+prototype.timtype = self;
 
 
 /*
@@ -362,7 +362,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_func )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

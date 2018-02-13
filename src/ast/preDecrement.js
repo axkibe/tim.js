@@ -17,11 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		expr :
-		{
-			// the expression to pre decrement
-			type : require( './typemap-expression' )
-		}
+		// the expression to pre-decrement
+		expr : { type : tim.typemap( module, './expr' ) },
 	};
 }
 

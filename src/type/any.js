@@ -13,7 +13,7 @@ require( '../ouroboros' )
 ':::::::::::::::::::::::::::::*/
 
 
-const id = require( '../id' );
+const id = require( './id' );
 
 const type_boolean = require( './boolean' );
 

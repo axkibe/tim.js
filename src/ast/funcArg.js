@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_funcArg', ( def, ast_funcArg ) => {
+.define( module, ( def, ast_funcArg ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,16 +17,11 @@ if( TIM )
 {
 	def.attributes =
 	{
-		name :
-		{
-			// argument name
-			type : [ 'undefined', 'string' ]
-		},
-		comment :
-		{
-			// argument comment, FIXME remove!
-			type : [ 'undefined', 'string' ]
-		}
+		// argument name
+		name : { type : [ 'undefined', 'string' ] },
+
+		// argument comment, FIXME remove!
+		comment : { type : [ 'undefined', 'string' ] }
 	};
 }
 

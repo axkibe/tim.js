@@ -17,8 +17,8 @@ require( '../ouroboros' )
 if( TIM )
 {
 	def.list =
-		require( '../ast/typemap-statement' )
-		.concat( [ 'jsLexer_token' ] );
+		tim.typemap( module, '../ast/statement' )
+		.concat( [ '../jsLexer/token' ] );
 }
 
 

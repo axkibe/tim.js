@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_greaterThan = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tt_and = require( './and' );
@@ -167,13 +167,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_greaterThan.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new greaterThan object.
+| Creates a new object.
 */
-ast_greaterThan.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -185,7 +185,7 @@ prototype.create =
 
 	let v_right;
 
-	if( this !== ast_greaterThan )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -439,7 +439,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_greaterThan;
+prototype.timtype = self;
 
 
 /*
@@ -472,7 +472,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_greaterThan )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

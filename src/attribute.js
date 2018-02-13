@@ -38,7 +38,7 @@ if( TIM )
 		{
 			// default value
 			type :
-				require( './ast/typemap-expression' )
+				tim.typemap( module, './ast/expr' )
 				.concat( [ 'undefined' ] )
 		},
 		json :
@@ -61,13 +61,13 @@ if( TIM )
 		{
 			// attribute type id
 			type :
-				require( './type/typemap' )
-				.concat( [ 'type_set' ] )
+				tim.typemap( module, './type/type' )
+				.concat( [ './type/set' ] )
 		},
 		varRef :
 		{
 			// attribute variable used in generate
-			type : 'ast_var'
+			type : './ast/var'
 		}
 	};
 }

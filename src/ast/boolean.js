@@ -6,7 +6,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_boolean', ( def, ast_boolean ) => {
+.define( module, ( def, ast_boolean ) => {
 
 
 /*::::::::::::::::::::::::::::.

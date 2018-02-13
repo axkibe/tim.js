@@ -20,7 +20,7 @@ if( TIM )
 		id :
 		{
 			// id to be generated
-			type : 'id',  // FIXME
+			type : [ 'undefined', 'type_id' ]  // FIXME
 		},
 		timDef :
 		{
@@ -30,6 +30,7 @@ if( TIM )
 		},
 		jsonTypeMap :
 		{
+			// FIXXME remove
 			// if defined a typemap for json generation/parsing
 			type : [ 'undefined', 'protean' ],
 			defaultValue : 'undefined'
@@ -41,7 +42,7 @@ if( TIM )
 
 const ast_var = require( './ast/var' );
 
-const tim_id = require( './id' );
+const tim_id = require( './type/id' );
 
 const tim_attribute = require( './attribute' );
 
@@ -138,6 +139,7 @@ def.func._init =
 		return node;
 	};
 
+	// FIXXME remove
 	this.hasJson = !!timDef.json;
 
 	this.init = timDef.init;
@@ -428,6 +430,8 @@ def.func._init =
 		|| this.set
 		|| this.twig
 		|| this.attributes.size > 0;
+
+	this.json = timDef.json;
 };
 
 
@@ -447,11 +451,13 @@ def.func.genRequires =
 	{
 		const id = i.value;
 
-		if( id.equals( this.id ) ) // FIXME ===
+		/*
+		if( id.equals( this.id ) ) // FIXME
 		{
 			// the timcode shouldn't require itself
 			continue;
 		}
+		*/
 
 		if( id.isPrimitive ) continue;
 
@@ -483,6 +489,8 @@ def.func.genRequires =
 			}
 			else
 			{
+				if( !this.id ) throw new Error( );
+
 				block =
 					block
 					.$const(
@@ -493,22 +501,7 @@ def.func.genRequires =
 		}
 	}
 
-	if( this.ouroboros )
-	{
-		return(
-			block.$(
-				'require( '
-				+ '"'
-				+ this.id.rootPath
-				+ 'proto"'
-				+ ' )'
-			)
-		);
-	}
-	else
-	{
-		return block.$const( 'tim_proto', 'tim.proto' );
-	}
+	return block.$const( 'tim_proto', 'tim.proto' );
 };
 
 
@@ -731,7 +724,8 @@ def.func.genConstructor =
 			.$const( 'Constructor', cf )
 			.$comment( 'Prototype shortcut' )
 			.$const( 'prototype', 'Constructor.prototype' )
-			.$( this.id.$global, '.prototype = prototype' )
+			.$( 'self.prototype = prototype' )
+//YY			.$( this.id.$global, '.prototype = prototype' )
 		);
 	}
 	else
@@ -870,7 +864,8 @@ def.func.genCreatorInheritanceReceiver =
 
 	let result =
 		$if(
-			$( 'this !== ', this.id.global ),
+			$( 'this !== self' ),
+//YY			$( 'this !== ', this.id.global ),
 			receiver
 		);
 
@@ -1557,6 +1552,7 @@ def.func.genCreatorPrepares =
 				(
 					node.name.indexOf( '_' ) >= 0
 					|| node.name === 'undefined'
+					|| node.name === 'self'
 				)
 				? node
 				: node.create( 'name', 'v_' + node.name )
@@ -1744,11 +1740,12 @@ def.func.genCreator =
 		$block( )
 		.$comment(
 			abstract
-			? 'Creates an ' + this.id.name + ' object.'
-			: 'Creates a new ' + this.id.name + ' object.'
+			? 'Creates an abstract object.'
+			: 'Creates a new object.'
 		)
 		.$(
-			this.id.global, '.', funcName,
+//YY			this.id.global, '.', funcName,
+			'self.', funcName,
 			this.hasAbstract
 				? [ ' = ', 'abstractPrototype.', funcName ]
 				: undefined,
@@ -1975,7 +1972,25 @@ def.func.genFromJsonCreatorParser =
 	)
 {
 	// the switch
-	let nameSwitch =
+	let nameSwitch;
+
+	if( typeof( this.json ) === 'string' )
+	{
+		nameSwitch =
+		$switch( 'name' )
+		.$case(
+			'"type"',
+			$if(
+				$( 'arg !== ', $string( this.json ) ),
+				$fail( )
+			)
+		);
+	}
+	else
+	{
+		console.log( 'WARNING: old json style!' );
+
+		nameSwitch =
 		$switch( 'name' )
 		.$case(
 			'"type"',
@@ -1984,6 +1999,7 @@ def.func.genFromJsonCreatorParser =
 				$fail( )
 			)
 		);
+	}
 
 	if( this.group )
 	{
@@ -2423,9 +2439,10 @@ def.func.genFromJsonCreator =
 
 	return(
 		$block( )
-		.$comment( 'Creates a new ' + this.id.name + ' object from json.' )
+		.$comment( 'Creates a new object from json.' )
 		.$(
-			this.id.global, '.createFromJSON =',
+//YY			this.id.global, '.createFromJSON =',
+			'self.createFromJSON =',
 			$func( funcBlock ).$arg( 'json', 'the json object' )
 		)
 	);
@@ -2447,7 +2464,8 @@ def.func.genReflection =
 				.$comment( 'Abstract Reflection.' )
 				.$(
 					'abstractPrototype.timtype = ',
-					this.id.global,
+//YY					this.id.global,
+					'self',
 					'.abstract'
 				)
 				.$( 'abstractPrototype.isAbstract = true' )
@@ -2455,7 +2473,8 @@ def.func.genReflection =
 			: undefined
 		)
 		.$comment( 'Type reflection.' )
-		.$( 'prototype.timtype = ', this.id.$global )
+//YY		.$( 'prototype.timtype = ', this.id.$global )
+		.$( 'prototype.timtype = self' )
 	);
 };
 
@@ -2674,14 +2693,25 @@ def.func.mapJsonTypeName =
 
 
 /*
-| Generates the toJson converter.
+| Generates the toJSON converter.
 */
 def.func.genToJson =
 	function( )
 {
-	let olit =
-		$objLiteral( )
-		.add( 'type', this.mapJsonTypeName( this.id.pathName ) );
+	let olit;
+
+	if( typeof( this.json ) === 'string' )
+	{
+		olit = $objLiteral( ).add( 'type', $string( this.json ) );
+	}
+	else
+	{
+		console.log( 'WARNING old style json' );
+
+		olit =
+			$objLiteral( )
+			.add( 'type', this.mapJsonTypeName( this.id.pathName ) );
+	}
 
 	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
@@ -2722,7 +2752,7 @@ def.func.genToJson =
 
 	return(
 		$block( )
-		.$comment( 'Converts a ' + this.id.name + ' into json.' )
+		.$comment( 'Converts into json.' )
 		.$(
 			'tim_proto.lazyValue( prototype, "toJSON", ', $func( block ), ')'
 		)
@@ -2805,7 +2835,8 @@ def.func.genEqualsFuncBody =
 		.$if( 'this === obj', $( 'return true' ) )
 		.$if( '!obj', $( 'return false' ) )
 		.$if(
-			$( 'obj.timtype !== ', this.id.global ),
+//YY			$( 'obj.timtype !== ', this.id.global ),
+			$( 'obj.timtype !== self' ),
 			$(' return false' )
 		);
 
@@ -3129,7 +3160,8 @@ def.func.genCapsule =
 		$block( )
 		.$( '"use strict"' )
 		.$comment( 'The typed immutable.' )
-		.$let( this.id.global, 'NODE ? module.exports : module' )
+//YY		.$let( this.id.global, 'NODE ? module.exports : module' )
+		.$let( 'self', 'NODE ? module.exports : module' )
 		.$( this.genRequires( ) )
 		.$( this.hasAbstract ? this.genConstructor( true ) : undefined )
 		.$( this.genConstructor( false ) );
@@ -3188,7 +3220,7 @@ def.static.generate =
 
 	const gi =
 		generator.create(
-			'id', tim_id.createFromString( id ),
+			'id', id && tim_id.createFromString( id ),
 			'timDef', timDef,
 			'jsonTypeMap', jsonTypeMap
 		);

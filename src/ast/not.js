@@ -17,11 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		expr :
-		{
-			// the expression to negate
-			type : require( './typemap-expression' )
-		}
+		// the expression to negate
+		expr : { type : tim.typemap( module, './expr' ) },
 	};
 }
 

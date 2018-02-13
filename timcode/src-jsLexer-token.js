@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let jsLexer_token = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -55,13 +55,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-jsLexer_token.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new token object.
+| Creates a new object.
 */
-jsLexer_token.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -73,7 +73,7 @@ prototype.create =
 
 	let v_value;
 
-	if( this !== jsLexer_token )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -169,7 +169,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = jsLexer_token;
+prototype.timtype = self;
 
 
 /*
@@ -202,7 +202,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== jsLexer_token )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

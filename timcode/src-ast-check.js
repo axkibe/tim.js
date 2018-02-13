@@ -16,10 +16,10 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_check = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
-const ast_block = require( '../ast/block' );
+const tt_block = require( './block' );
 
 
 const tim_proto = tim.proto;
@@ -53,13 +53,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_check.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new check object.
+| Creates a new object.
 */
-ast_check.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -69,7 +69,7 @@ prototype.create =
 
 	let v_block;
 
-	if( this !== ast_check )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -113,7 +113,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_block.timtype !== ast_block )
+/**/	if( v_block.timtype !== tt_block )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -131,7 +131,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_check;
+prototype.timtype = self;
 
 
 /*
@@ -164,7 +164,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_check )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

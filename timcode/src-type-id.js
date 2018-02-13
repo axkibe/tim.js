@@ -19,9 +19,6 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
-const path = require( './path' );
-
-
 const tim_proto = tim.proto;
 
 
@@ -30,13 +27,16 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		list // list
+		list, // list
+		v_packet
 	)
 {
 	if( prototype.__have_lazy )
 	{
 		this.__lazy = { };
 	}
+
+	this.packet = v_packet;
 
 	this._list = list;
 
@@ -73,6 +73,8 @@ prototype.create =
 
 	let listDup;
 
+	let v_packet;
+
 	if( this !== self )
 	{
 		inherit = this;
@@ -80,6 +82,8 @@ prototype.create =
 		list = inherit._list;
 
 		listDup = false;
+
+		v_packet = this.packet;
 	}
 	else
 	{
@@ -98,6 +102,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'packet' :
+
+				if( arg !== pass )
+				{
+					v_packet = arg;
+				}
+
+				break;
+
 			case 'list:init' :
 
 /**/			if( CHECK )
@@ -174,6 +187,19 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( v_packet === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_packet !== undefined )
+/**/	{
+/**/		if( typeof( v_packet ) !== 'string' )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	for(
 /**/		let r = 0, rl = list.length;
 /**/		r < rl;
@@ -182,19 +208,19 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( o.timtype !== path )
+/**/		if( typeof( o ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
 /**/	}
 /**/}
 
-	if( inherit && listDup === false )
+	if( inherit && listDup === false && v_packet === inherit.packet )
 	{
 		return inherit;
 	}
 
-	return new Constructor( list );
+	return new Constructor( list, v_packet );
 };
 
 
@@ -315,7 +341,7 @@ prototype.equals =
 		}
 	}
 
-	return true;
+	return this.packet === obj.packet;
 };
 
 

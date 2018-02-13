@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_continue = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -46,7 +46,7 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_continue.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
@@ -56,9 +56,9 @@ let _singleton;
 
 
 /*
-| Creates a new continue object.
+| Creates a new object.
 */
-ast_continue.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -66,7 +66,7 @@ prototype.create =
 {
 	let inherit;
 
-	if( this !== ast_continue )
+	if( this !== self )
 	{
 		inherit = this;
 	}
@@ -88,7 +88,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_continue;
+prototype.timtype = self;
 
 
 /*
@@ -121,7 +121,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_continue )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

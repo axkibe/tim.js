@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let format_context = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -59,13 +59,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-format_context.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new context object.
+| Creates a new object.
 */
-format_context.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -81,7 +81,7 @@ prototype.create =
 
 	let v_root;
 
-	if( this !== format_context )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -252,7 +252,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = format_context;
+prototype.timtype = self;
 
 
 /*
@@ -285,7 +285,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== format_context )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_case', ( def, ast_case ) => {
+.define( module, ( def, ast_case ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -18,15 +18,12 @@ if( TIM )
 
 	def.attributes =
 	{
-		block :
-		{
-			// the statement
-			type : 'ast_block'
-		}
+		// the statement
+		block : { type : './block' }
 	};
 
 	// list of case values
-	def.list = require( './typemap-expression' );
+	def.list =  tim.typemap( module, './expr' );
 }
 
 

@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let jsParser_tokenSpec = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -61,13 +61,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-jsParser_tokenSpec.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new tokenSpec object.
+| Creates a new object.
 */
-jsParser_tokenSpec.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -83,7 +83,7 @@ prototype.create =
 
 	let v_prec;
 
-	if( this !== jsParser_tokenSpec )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -232,7 +232,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = jsParser_tokenSpec;
+prototype.timtype = self;
 
 
 /*
@@ -265,7 +265,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== jsParser_tokenSpec )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

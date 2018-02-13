@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_func', ( def, ast_func ) => {
+.define( module, ( def, ast_func ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,11 +17,12 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// function code
 		block :
 		{
-			// function code
-			type : [ 'undefined', 'ast_block' ]
+			type : [ 'undefined', './block' ]
 		},
+
 		capsule :
 		{
 			// if true its the capsule
@@ -32,7 +33,7 @@ if( TIM )
 		}
 	};
 
-	def.list = [ 'ast_funcArg' ];
+	def.list = [ './funcArg' ];
 }
 
 

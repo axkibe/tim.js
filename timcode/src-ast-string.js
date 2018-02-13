@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_string = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -50,13 +50,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_string.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new string object.
+| Creates a new object.
 */
-ast_string.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -66,7 +66,7 @@ prototype.create =
 
 	let v_string;
 
-	if( this !== ast_string )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -128,7 +128,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_string;
+prototype.timtype = self;
 
 
 /*
@@ -161,7 +161,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_string )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

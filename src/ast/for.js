@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_for', ( def, ast_for ) => {
+.define( module, ( def, ast_for ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,28 +17,20 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// the initialization
 		init :
 		{
-			// the initialization
-			type :
-				require( './typemap-expression' )
-				.concat( [ 'ast_let' ] )
+			type : tim.typemap( module, './expr' ).concat( [ './let' ] )
 		},
-		condition :
-		{
-			// the continue condition
-			type : tim.typemap( module, './expr' ),
-		},
-		iterate :
-		{
-			// the iteration expression
-			type : tim.typemap( module, './expr' ),
-		},
-		block :
-		{
-			// the for block
-			type : './block'
-		}
+
+		// the continue condition
+		condition : { type : tim.typemap( module, './expr' ), },
+
+		// the iteration expression
+		iterate : { type : tim.typemap( module, './expr' ), },
+
+		// the loop block
+		block : { type : './block' }
 	};
 }
 

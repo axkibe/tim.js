@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_or = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tt_and = require( './and' );
@@ -167,13 +167,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_or.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new or object.
+| Creates a new object.
 */
-ast_or.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -185,7 +185,7 @@ prototype.create =
 
 	let v_right;
 
-	if( this !== ast_or )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -439,7 +439,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_or;
+prototype.timtype = self;
 
 
 /*
@@ -472,7 +472,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_or )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let jsLexer_tokenList = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const jsLexer_token = require( '../jsLexer/token' );
@@ -55,13 +55,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-jsLexer_tokenList.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new tokenList object.
+| Creates a new object.
 */
-jsLexer_tokenList.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -73,7 +73,7 @@ prototype.create =
 
 	let listDup;
 
-	if( this !== jsLexer_tokenList )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -201,7 +201,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = jsLexer_tokenList;
+prototype.timtype = self;
 
 
 /*
@@ -282,7 +282,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== jsLexer_tokenList )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

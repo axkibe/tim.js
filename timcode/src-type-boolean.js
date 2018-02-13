@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let type_boolean = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -46,7 +46,7 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-type_boolean.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
@@ -56,9 +56,9 @@ let _singleton;
 
 
 /*
-| Creates a new boolean object.
+| Creates a new object.
 */
-type_boolean.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -66,7 +66,7 @@ prototype.create =
 {
 	let inherit;
 
-	if( this !== type_boolean )
+	if( this !== self )
 	{
 		inherit = this;
 	}
@@ -88,7 +88,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = type_boolean;
+prototype.timtype = self;
 
 
 /*
@@ -121,7 +121,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== type_boolean )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

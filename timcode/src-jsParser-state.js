@@ -16,163 +16,163 @@ function( ) {
 /*
 | The typed immutable.
 */
-let jsParser_state = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
-const ast_and = require( '../ast/and' );
+const tt_$_ast_and = require( './../ast/and' );
 
 
-const ast_arrayLiteral = require( '../ast/arrayLiteral' );
+const tt_$_ast_arrayLiteral = require( './../ast/arrayLiteral' );
 
 
-const ast_assign = require( '../ast/assign' );
+const tt_$_ast_assign = require( './../ast/assign' );
 
 
-const ast_boolean = require( '../ast/boolean' );
+const tt_$_ast_boolean = require( './../ast/boolean' );
 
 
-const ast_call = require( '../ast/call' );
+const tt_$_ast_call = require( './../ast/call' );
 
 
-const ast_comma = require( '../ast/comma' );
+const tt_$_ast_comma = require( './../ast/comma' );
 
 
-const ast_condition = require( '../ast/condition' );
+const tt_$_ast_condition = require( './../ast/condition' );
 
 
-const ast_delete = require( '../ast/delete' );
+const tt_$_ast_delete = require( './../ast/delete' );
 
 
-const ast_differs = require( '../ast/differs' );
+const tt_$_ast_differs = require( './../ast/differs' );
 
 
-const ast_divide = require( '../ast/divide' );
+const tt_$_ast_divide = require( './../ast/divide' );
 
 
-const ast_divideAssign = require( '../ast/divideAssign' );
+const tt_$_ast_divideAssign = require( './../ast/divideAssign' );
 
 
-const ast_dot = require( '../ast/dot' );
+const tt_$_ast_dot = require( './../ast/dot' );
 
 
-const ast_equals = require( '../ast/equals' );
+const tt_$_ast_equals = require( './../ast/equals' );
 
 
-const ast_func = require( '../ast/func' );
+const tt_$_ast_func = require( './../ast/func' );
 
 
-const ast_greaterThan = require( '../ast/greaterThan' );
+const tt_$_ast_greaterThan = require( './../ast/greaterThan' );
 
 
-const ast_instanceof = require( '../ast/instanceof' );
+const tt_$_ast_instanceof = require( './../ast/instanceof' );
 
 
-const ast_lessThan = require( '../ast/lessThan' );
+const tt_$_ast_lessThan = require( './../ast/lessThan' );
 
 
-const ast_member = require( '../ast/member' );
+const tt_$_ast_member = require( './../ast/member' );
 
 
-const ast_minus = require( '../ast/minus' );
+const tt_$_ast_minus = require( './../ast/minus' );
 
 
-const ast_minusAssign = require( '../ast/minusAssign' );
+const tt_$_ast_minusAssign = require( './../ast/minusAssign' );
 
 
-const ast_multiply = require( '../ast/multiply' );
+const tt_$_ast_multiply = require( './../ast/multiply' );
 
 
-const ast_multiplyAssign = require( '../ast/multiplyAssign' );
+const tt_$_ast_multiplyAssign = require( './../ast/multiplyAssign' );
 
 
-const ast_negate = require( '../ast/negate' );
+const tt_$_ast_negate = require( './../ast/negate' );
 
 
-const ast_new = require( '../ast/new' );
+const tt_$_ast_new = require( './../ast/new' );
 
 
-const ast_not = require( '../ast/not' );
+const tt_$_ast_not = require( './../ast/not' );
 
 
-const ast_null = require( '../ast/null' );
+const tt_$_ast_null = require( './../ast/null' );
 
 
-const ast_number = require( '../ast/number' );
+const tt_$_ast_number = require( './../ast/number' );
 
 
-const ast_objLiteral = require( '../ast/objLiteral' );
+const tt_$_ast_objLiteral = require( './../ast/objLiteral' );
 
 
-const ast_or = require( '../ast/or' );
+const tt_$_ast_or = require( './../ast/or' );
 
 
-const ast_plus = require( '../ast/plus' );
+const tt_$_ast_plus = require( './../ast/plus' );
 
 
-const ast_plusAssign = require( '../ast/plusAssign' );
+const tt_$_ast_plusAssign = require( './../ast/plusAssign' );
 
 
-const ast_postDecrement = require( '../ast/postDecrement' );
+const tt_$_ast_postDecrement = require( './../ast/postDecrement' );
 
 
-const ast_postIncrement = require( '../ast/postIncrement' );
+const tt_$_ast_postIncrement = require( './../ast/postIncrement' );
 
 
-const ast_preDecrement = require( '../ast/preDecrement' );
+const tt_$_ast_preDecrement = require( './../ast/preDecrement' );
 
 
-const ast_preIncrement = require( '../ast/preIncrement' );
+const tt_$_ast_preIncrement = require( './../ast/preIncrement' );
 
 
-const ast_string = require( '../ast/string' );
+const tt_$_ast_string = require( './../ast/string' );
 
 
-const ast_typeof = require( '../ast/typeof' );
+const tt_$_ast_typeof = require( './../ast/typeof' );
 
 
-const ast_var = require( '../ast/var' );
+const tt_$_ast_var = require( './../ast/var' );
 
 
-const ast_block = require( '../ast/block' );
+const tt_$_ast_block = require( './../ast/block' );
 
 
-const ast_check = require( '../ast/check' );
+const tt_$_ast_check = require( './../ast/check' );
 
 
-const ast_comment = require( '../ast/comment' );
+const tt_$_ast_comment = require( './../ast/comment' );
 
 
-const ast_const = require( '../ast/const' );
+const tt_$_ast_const = require( './../ast/const' );
 
 
-const ast_continue = require( '../ast/continue' );
+const tt_$_ast_continue = require( './../ast/continue' );
 
 
-const ast_fail = require( '../ast/fail' );
+const tt_$_ast_fail = require( './../ast/fail' );
 
 
-const ast_for = require( '../ast/for' );
+const tt_$_ast_for = require( './../ast/for' );
 
 
-const ast_forIn = require( '../ast/forIn' );
+const tt_$_ast_forIn = require( './../ast/forIn' );
 
 
-const ast_if = require( '../ast/if' );
+const tt_$_ast_if = require( './../ast/if' );
 
 
-const ast_let = require( '../ast/let' );
+const tt_$_ast_let = require( './../ast/let' );
 
 
-const ast_return = require( '../ast/return' );
+const tt_$_ast_return = require( './../ast/return' );
 
 
-const ast_switch = require( '../ast/switch' );
+const tt_$_ast_switch = require( './../ast/switch' );
 
 
-const ast_varDec = require( '../ast/varDec' );
+const tt_$_ast_varDec = require( './../ast/varDec' );
 
 
-const ast_while = require( '../ast/while' );
+const tt_$_ast_while = require( './../ast/while' );
 
 
 const jsParser_tokenList = require( '../jsParser/tokenList' );
@@ -215,13 +215,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-jsParser_state.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new state object.
+| Creates a new object.
 */
-jsParser_state.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -235,7 +235,7 @@ prototype.create =
 
 	let v_tokens;
 
-	if( this !== jsParser_state )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -299,109 +299,109 @@ prototype.create =
 /**/	if( v_ast !== undefined )
 /**/	{
 /**/		if(
-/**/			v_ast.timtype !== ast_and
+/**/			v_ast.timtype !== tt_$_ast_and
 /**/			&&
-/**/			v_ast.timtype !== ast_arrayLiteral
+/**/			v_ast.timtype !== tt_$_ast_arrayLiteral
 /**/			&&
-/**/			v_ast.timtype !== ast_assign
+/**/			v_ast.timtype !== tt_$_ast_assign
 /**/			&&
-/**/			v_ast.timtype !== ast_boolean
+/**/			v_ast.timtype !== tt_$_ast_boolean
 /**/			&&
-/**/			v_ast.timtype !== ast_call
+/**/			v_ast.timtype !== tt_$_ast_call
 /**/			&&
-/**/			v_ast.timtype !== ast_comma
+/**/			v_ast.timtype !== tt_$_ast_comma
 /**/			&&
-/**/			v_ast.timtype !== ast_condition
+/**/			v_ast.timtype !== tt_$_ast_condition
 /**/			&&
-/**/			v_ast.timtype !== ast_delete
+/**/			v_ast.timtype !== tt_$_ast_delete
 /**/			&&
-/**/			v_ast.timtype !== ast_differs
+/**/			v_ast.timtype !== tt_$_ast_differs
 /**/			&&
-/**/			v_ast.timtype !== ast_divide
+/**/			v_ast.timtype !== tt_$_ast_divide
 /**/			&&
-/**/			v_ast.timtype !== ast_divideAssign
+/**/			v_ast.timtype !== tt_$_ast_divideAssign
 /**/			&&
-/**/			v_ast.timtype !== ast_dot
+/**/			v_ast.timtype !== tt_$_ast_dot
 /**/			&&
-/**/			v_ast.timtype !== ast_equals
+/**/			v_ast.timtype !== tt_$_ast_equals
 /**/			&&
-/**/			v_ast.timtype !== ast_func
+/**/			v_ast.timtype !== tt_$_ast_func
 /**/			&&
-/**/			v_ast.timtype !== ast_greaterThan
+/**/			v_ast.timtype !== tt_$_ast_greaterThan
 /**/			&&
-/**/			v_ast.timtype !== ast_instanceof
+/**/			v_ast.timtype !== tt_$_ast_instanceof
 /**/			&&
-/**/			v_ast.timtype !== ast_lessThan
+/**/			v_ast.timtype !== tt_$_ast_lessThan
 /**/			&&
-/**/			v_ast.timtype !== ast_member
+/**/			v_ast.timtype !== tt_$_ast_member
 /**/			&&
-/**/			v_ast.timtype !== ast_minus
+/**/			v_ast.timtype !== tt_$_ast_minus
 /**/			&&
-/**/			v_ast.timtype !== ast_minusAssign
+/**/			v_ast.timtype !== tt_$_ast_minusAssign
 /**/			&&
-/**/			v_ast.timtype !== ast_multiply
+/**/			v_ast.timtype !== tt_$_ast_multiply
 /**/			&&
-/**/			v_ast.timtype !== ast_multiplyAssign
+/**/			v_ast.timtype !== tt_$_ast_multiplyAssign
 /**/			&&
-/**/			v_ast.timtype !== ast_negate
+/**/			v_ast.timtype !== tt_$_ast_negate
 /**/			&&
-/**/			v_ast.timtype !== ast_new
+/**/			v_ast.timtype !== tt_$_ast_new
 /**/			&&
-/**/			v_ast.timtype !== ast_not
+/**/			v_ast.timtype !== tt_$_ast_not
 /**/			&&
-/**/			v_ast.timtype !== ast_null
+/**/			v_ast.timtype !== tt_$_ast_null
 /**/			&&
-/**/			v_ast.timtype !== ast_number
+/**/			v_ast.timtype !== tt_$_ast_number
 /**/			&&
-/**/			v_ast.timtype !== ast_objLiteral
+/**/			v_ast.timtype !== tt_$_ast_objLiteral
 /**/			&&
-/**/			v_ast.timtype !== ast_or
+/**/			v_ast.timtype !== tt_$_ast_or
 /**/			&&
-/**/			v_ast.timtype !== ast_plus
+/**/			v_ast.timtype !== tt_$_ast_plus
 /**/			&&
-/**/			v_ast.timtype !== ast_plusAssign
+/**/			v_ast.timtype !== tt_$_ast_plusAssign
 /**/			&&
-/**/			v_ast.timtype !== ast_postDecrement
+/**/			v_ast.timtype !== tt_$_ast_postDecrement
 /**/			&&
-/**/			v_ast.timtype !== ast_postIncrement
+/**/			v_ast.timtype !== tt_$_ast_postIncrement
 /**/			&&
-/**/			v_ast.timtype !== ast_preDecrement
+/**/			v_ast.timtype !== tt_$_ast_preDecrement
 /**/			&&
-/**/			v_ast.timtype !== ast_preIncrement
+/**/			v_ast.timtype !== tt_$_ast_preIncrement
 /**/			&&
-/**/			v_ast.timtype !== ast_string
+/**/			v_ast.timtype !== tt_$_ast_string
 /**/			&&
-/**/			v_ast.timtype !== ast_typeof
+/**/			v_ast.timtype !== tt_$_ast_typeof
 /**/			&&
-/**/			v_ast.timtype !== ast_var
+/**/			v_ast.timtype !== tt_$_ast_var
 /**/			&&
-/**/			v_ast.timtype !== ast_block
+/**/			v_ast.timtype !== tt_$_ast_block
 /**/			&&
-/**/			v_ast.timtype !== ast_check
+/**/			v_ast.timtype !== tt_$_ast_check
 /**/			&&
-/**/			v_ast.timtype !== ast_comment
+/**/			v_ast.timtype !== tt_$_ast_comment
 /**/			&&
-/**/			v_ast.timtype !== ast_const
+/**/			v_ast.timtype !== tt_$_ast_const
 /**/			&&
-/**/			v_ast.timtype !== ast_continue
+/**/			v_ast.timtype !== tt_$_ast_continue
 /**/			&&
-/**/			v_ast.timtype !== ast_fail
+/**/			v_ast.timtype !== tt_$_ast_fail
 /**/			&&
-/**/			v_ast.timtype !== ast_for
+/**/			v_ast.timtype !== tt_$_ast_for
 /**/			&&
-/**/			v_ast.timtype !== ast_forIn
+/**/			v_ast.timtype !== tt_$_ast_forIn
 /**/			&&
-/**/			v_ast.timtype !== ast_if
+/**/			v_ast.timtype !== tt_$_ast_if
 /**/			&&
-/**/			v_ast.timtype !== ast_let
+/**/			v_ast.timtype !== tt_$_ast_let
 /**/			&&
-/**/			v_ast.timtype !== ast_return
+/**/			v_ast.timtype !== tt_$_ast_return
 /**/			&&
-/**/			v_ast.timtype !== ast_switch
+/**/			v_ast.timtype !== tt_$_ast_switch
 /**/			&&
-/**/			v_ast.timtype !== ast_varDec
+/**/			v_ast.timtype !== tt_$_ast_varDec
 /**/			&&
-/**/			v_ast.timtype !== ast_while
+/**/			v_ast.timtype !== tt_$_ast_while
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -473,7 +473,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = jsParser_state;
+prototype.timtype = self;
 
 
 /*
@@ -506,7 +506,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== jsParser_state )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

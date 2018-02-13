@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_delete = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tt_and = require( './and' );
@@ -164,13 +164,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_delete.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new delete object.
+| Creates a new object.
 */
-ast_delete.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -180,7 +180,7 @@ prototype.create =
 
 	let v_expr;
 
-	if( this !== ast_delete )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -318,7 +318,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_delete;
+prototype.timtype = self;
 
 
 /*
@@ -351,7 +351,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_delete )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

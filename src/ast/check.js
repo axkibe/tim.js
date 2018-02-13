@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_check', ( def, ast_check ) => {
+.define( module, ( def, ast_check ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -20,7 +20,7 @@ if( TIM )
 		block :
 		{
 			// the code block',
-			type : 'ast_block'
+			type : './block'
 		}
 	};
 }

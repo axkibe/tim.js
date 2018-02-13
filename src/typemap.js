@@ -13,6 +13,11 @@ module.exports =
 		path     // the path of the typemap
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 2 ) throw new Error( );
+/**/}
+
 	const lio = path.lastIndexOf( '/' );
 
 	const prefix = lio >= 0 ? path.substr( 0, lio + 1 ) : './';

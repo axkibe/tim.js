@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_funcArg = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -53,13 +53,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_funcArg.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new funcArg object.
+| Creates a new object.
 */
-ast_funcArg.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -71,7 +71,7 @@ prototype.create =
 
 	let v_name;
 
-	if( this !== ast_funcArg )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -155,7 +155,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_funcArg;
+prototype.timtype = self;
 
 
 /*
@@ -188,7 +188,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_funcArg )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

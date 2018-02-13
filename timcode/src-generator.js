@@ -16,10 +16,10 @@ function( ) {
 /*
 | The typed immutable.
 */
-let generator = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
-const id = require( './id' );
+const type_id = require( './type/id' );
 
 
 const tim_proto = tim.proto;
@@ -59,13 +59,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-generator.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new generator object.
+| Creates a new object.
 */
-generator.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -79,7 +79,7 @@ prototype.create =
 
 	let v_timDef;
 
-	if( this !== generator )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -133,19 +133,17 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_id === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_id === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_id.timtype !== id )
+/**/	if( v_id !== undefined )
 /**/	{
-/**/		throw new Error( );
+/**/		if( v_id.timtype !== type_id )
+/**/		{
+/**/			throw new Error( );
+/**/		}
 /**/	}
 /**/
 /**/	if( v_jsonTypeMap === null )
@@ -167,7 +165,11 @@ prototype.create =
 	if(
 		inherit
 		&&
-		v_id === inherit.id
+		(
+			v_id === inherit.id
+			||
+			v_id !== undefined && v_id.equals( inherit.id )
+		)
 		&&
 		v_jsonTypeMap === inherit.jsonTypeMap
 		&&
@@ -184,7 +186,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = generator;
+prototype.timtype = self;
 
 
 /*
@@ -217,12 +219,20 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== generator )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}
 
-	return this.id === obj.id && this.jsonTypeMap === obj.jsonTypeMap;
+	return (
+		(
+			this.id === obj.id
+			||
+			this.id !== undefined && this.id.equals( obj.id )
+		)
+		&&
+		this.jsonTypeMap === obj.jsonTypeMap
+	);
 };
 
 

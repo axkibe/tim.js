@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_comma', ( def, ast_comma ) => {
+.define( module, ( def, ast_comma ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,16 +17,9 @@ if( TIM )
 {
 	def.attributes =
 	{
-		left :
-		{
-			// left expression
-			type : require( './typemap-expression' )
-		},
-		right :
-		{
-			// right expression
-			type : require( './typemap-expression' )
-		}
+		left : { type : tim.typemap( module, './expr' ) },
+
+		right : { type : tim.typemap( module, './expr' ) }
 	};
 }
 

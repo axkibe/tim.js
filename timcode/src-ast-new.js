@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let ast_new = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tt_call = require( './call' );
@@ -53,13 +53,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-ast_new.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new new object.
+| Creates a new object.
 */
-ast_new.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -69,7 +69,7 @@ prototype.create =
 
 	let v_call;
 
-	if( this !== ast_new )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -131,7 +131,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = ast_new;
+prototype.timtype = self;
 
 
 /*
@@ -164,7 +164,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== ast_new )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

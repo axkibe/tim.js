@@ -16,7 +16,7 @@ function( ) {
 /*
 | The typed immutable.
 */
-let path = NODE ? module.exports : module;
+let self = NODE ? module.exports : module;
 
 
 const tim_proto = tim.proto;
@@ -52,13 +52,13 @@ const Constructor =
 const prototype = Constructor.prototype;
 
 
-path.prototype = prototype;
+self.prototype = prototype;
 
 
 /*
-| Creates a new path object.
+| Creates a new object.
 */
-path.create =
+self.create =
 prototype.create =
 	function(
 		// free strings
@@ -70,7 +70,7 @@ prototype.create =
 
 	let listDup;
 
-	if( this !== path )
+	if( this !== self )
 	{
 		inherit = this;
 
@@ -198,7 +198,7 @@ prototype.create =
 /*
 | Type reflection.
 */
-prototype.timtype = path;
+prototype.timtype = self;
 
 
 /*
@@ -279,7 +279,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( obj.timtype !== path )
+	if( obj.timtype !== self )
 	{
 		return false;
 	}

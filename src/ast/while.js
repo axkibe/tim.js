@@ -17,16 +17,11 @@ if( TIM )
 {
 	def.attributes =
 	{
-		condition :
-		{
-			// the while condition
-			type : require( './typemap-expression' )
-		},
-		block :
-		{
-			// the for block
-			type : 'ast_block'
-		}
+		// the while condition
+		condition : { type : tim.typemap( module, './expr' ), },
+
+		// the looped block
+		block : { type : './block' }
 	};
 }
 

@@ -138,7 +138,8 @@ const loadTimcode =
 	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let input =
-		'( function( ' + id + ', module, require, tim_proto ) {'
+//YY		'( function( ' + id + ', module, require, tim_proto ) {'
+		'( function( module, require, tim_proto ) {'
 		+ fs.readFileSync( timcodeRealFilename, readOptions )
 		+ '\n} )';
 
@@ -148,7 +149,8 @@ const loadTimcode =
 			{ filename: timcodeRealFilename }
 		);
 
-	input( module.exports, module, module.require.bind( module ), tim_proto );
+//YY	input( module.exports, module, module.require.bind( module ), tim_proto );
+	input( module, module.require.bind( module ), tim_proto );
 };
 
 
@@ -182,6 +184,14 @@ module.exports =
 		definer   // callback to get the timDef
 	)
 {
+	// FIXME
+	if( arguments.length === 2 )
+	{
+		definer = id;
+
+		id = undefined;
+	}
+
 	/*
 	const pr = module.require;
 
