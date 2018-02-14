@@ -5,7 +5,7 @@
 
 
 require( './ouroboros' )
-.define( module, 'attribute', ( def, tim_attribute ) => {
+.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.

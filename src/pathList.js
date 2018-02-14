@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, 'pathList', ( def, tim_pathList ) => {
+tim.ouroboros.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -14,14 +14,14 @@ tim.ouroboros.define( module, 'pathList', ( def, tim_pathList ) => {
 
 if( TIM )
 {
-	def.list = [ 'path' ];
+	def.list = [ './path' ];
 }
 
 
 if( !NODE )
 {
 	// export path like in node package for browser.
-	tim.pathList = tim_pathList;
+	tim.pathList = self;
 }
 
 
@@ -33,7 +33,7 @@ def.static.pathList =
 		array
 	)
 {
-	return tim_pathList.create( 'list:init', array );
+	return self.create( 'list:init', array );
 };
 
 

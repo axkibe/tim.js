@@ -5,7 +5,7 @@
 
 
 require( './ouroboros' )
-.define( module, 'generator', ( def, generator ) => {
+.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -20,7 +20,7 @@ if( TIM )
 		id :
 		{
 			// id to be generated
-			type : [ 'undefined', 'type_id' ]  // FIXME
+			type : [ 'undefined', './type/id' ]  // FIXME
 		},
 		timDef :
 		{
@@ -198,10 +198,7 @@ def.func._init =
 
 		const prepare = jAttr.prepare;
 
-		if( prepare )
-		{
-			$( prepare ).walk( searchIdWalk );
-		}
+		if( prepare ) $( prepare ).walk( searchIdWalk );
 
 		const jdv = jAttr.defaultValue;
 
@@ -1260,6 +1257,10 @@ def.func.genSingleTypeCheckFailCondition =
 				'|| Number.isNaN( ', aVar, ' )'
 			);
 
+		case type_protean : throw new Error( );
+
+		case type_undefined : throw new Error( );
+
 		case type_integer :
 
 			return $(
@@ -1284,29 +1285,18 @@ def.func.genSingleTypeCheckFailCondition =
 			);
 	}
 
-	switch( id.pathName ) //XX
+	// FIXME remove
+	if( !abstract )
 	{
-		case 'boolean' : throw new Error( ); // XXX
-		case 'number' : throw new Error( ); // XXX
-		case 'date' : throw new Error( ); // XXX
-		case 'integer' : throw new Error( );
-		case 'function' : throw new Error( );
-		case 'string' : throw new Error( );
-
-		default :
-
-			if( !abstract )
-			{
-				return $( aVar, '.timtype !== ', id.global );
-			}
-			else
-			{
-				return $(
-					aVar, '.timtype !== ', id.global,
-					'&&',
-					aVar, '.timtype !== ', id.global, '.abstract'
-				);
-			}
+		return $( aVar, '.timtype !== ', id.global );
+	}
+	else
+	{
+		return $(
+			aVar, '.timtype !== ', id.global,
+			'&&',
+			aVar, '.timtype !== ', id.global, '.abstract'
+		);
 	}
 };
 
@@ -1414,7 +1404,7 @@ def.func.genCreatorChecks =
 			check = check.$if( $( av, ' === null' ), $fail( ));
 		}
 
-		if( attr.timtype === type_protean || attr.id.pathName === 'protean' ) continue; // FIXXME
+		if( attr.id.timtype === type_protean || attr.id.pathName === 'protean' ) continue; // FIXXME
 
 		let cond;
 
@@ -1507,7 +1497,7 @@ def.func.genCreatorChecks =
 				'a < al',
 				'++a',
 				$block( )
-				// XXX very dirty hack 
+				// XXX very dirty hack
 				.$if( 'prototype.abstract', $block( ).$continue( ) )
 				.$const( 'o', 'twig[ ranks[ a ] ]' )
 				.$if(
@@ -1817,8 +1807,7 @@ def.func.genFromJsonCreatorAttributeParser =
 	// the code switch
 	let cSwitch;
 
-	// FIXXXME workaround
-	switch( attr.id.timtype === tim_id ? attr.id.pathName : attr.id.timtype )
+	switch( attr.id.timtype )
 	{
 		case type_boolean :
 		case type_integer :
@@ -1830,7 +1819,6 @@ def.func.genFromJsonCreatorAttributeParser =
 			break;
 
 		default :
-
 
 			if( attr.id.timtype === type_tim )
 			{
@@ -1865,8 +1853,7 @@ def.func.genFromJsonCreatorAttributeParser =
 				{
 					const id = i.value;
 
-					// FIXXME
-					switch( id.timtype === tim_id ? id.pathName : id.timtype )
+					switch( id.timtype )
 					{
 						case type_boolean :
 
@@ -1905,24 +1892,25 @@ def.func.genFromJsonCreatorAttributeParser =
 							break;
 					}
 
+					if( id.timtype === type_tim )
+					{
 					if( sif )
 					{
-						mif =
-							!mif
-							? sif
-							: mif.$elsewise( sif );
+						mif = !mif ? sif : mif.$elsewise( sif );
 					}
 					else
 					{
 						if( !cSwitch )
 						{
-							cSwitch =
-								$switch( 'arg.type' ) .$default( $fail( ) );
+							cSwitch = $switch( 'arg.type' ) .$default( $fail( ) );
 						}
 
+						throw new Error( 'YYY' );
+						/*
 						cSwitch =
 							cSwitch
 							.$case(
+								// XXX
 								this.mapJsonTypeName( id.pathName ),
 								$(
 									attr.varRef, ' = ',
@@ -1930,6 +1918,35 @@ def.func.genFromJsonCreatorAttributeParser =
 									'.createFromJSON', '( arg )'
 								)
 							);
+						*/
+					}
+					}
+					else
+					{
+					// FIXME remove
+					if( sif )
+					{
+						mif = !mif ? sif : mif.$elsewise( sif );
+					}
+					else
+					{
+						if( !cSwitch )
+						{
+							cSwitch = $switch( 'arg.type' ) .$default( $fail( ) );
+						}
+
+						cSwitch =
+							cSwitch
+							.$case(
+								// XXX
+								this.mapJsonTypeName( id.pathName ),
+								$(
+									attr.varRef, ' = ',
+									id.$global,
+									'.createFromJSON', '( arg )'
+								)
+							);
+					}
 					}
 				}
 
@@ -2422,7 +2439,7 @@ def.func.genFromJsonCreator =
 
 	if( this.set )
 	{
-		throw new Error( 'FIXME, fromJSON for sets not implemented' );
+		throw new Error( 'FIXME, fromJson for sets not implemented' );
 	}
 
 	if( this.twig )
@@ -3219,7 +3236,7 @@ def.static.generate =
 	// tim_validator.check( timDef ); FIXME!
 
 	const gi =
-		generator.create(
+		self.create(
 			'id', id && tim_id.createFromString( id ),
 			'timDef', timDef,
 			'jsonTypeMap', jsonTypeMap

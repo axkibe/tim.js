@@ -19,7 +19,7 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
-const type_id = require( './type/id' );
+const tt_type_id = require( './type/id' );
 
 
 const tim_proto = tim.proto;
@@ -140,7 +140,7 @@ prototype.create =
 /**/
 /**/	if( v_id !== undefined )
 /**/	{
-/**/		if( v_id.timtype !== type_id )
+/**/		if( v_id.timtype !== tt_type_id )
 /**/		{
 /**/			throw new Error( );
 /**/		}

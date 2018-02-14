@@ -5,7 +5,7 @@
 
 
 require( './ouroboros' )
-.define( module, 'attributeGroup', ( def, tim_attributeGroup ) => {
+.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -15,7 +15,7 @@ require( './ouroboros' )
 
 if( TIM )
 {
-	def.group = [ 'attribute' ];
+	def.group = [ './attribute' ];
 }
 
 

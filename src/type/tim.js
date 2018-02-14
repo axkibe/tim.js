@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'type_tim', ( def, type_tim ) => {
+.define( module, ( def, type_tim ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -150,7 +150,7 @@ def.func.isPrimitive = false;
 
 
 /*
-| This id as path relative to project root dir.
+| This id as path relative to the owner.
 */
 def.lazy.path =
 	function( )

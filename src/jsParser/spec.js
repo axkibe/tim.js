@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'jsParser_tokenSpec', ( def, jsParser_tokenSpec ) => {
+.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.

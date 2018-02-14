@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'format_context', ( def, format_context ) => {
+.define( module, ( def, format_context ) => {
 
 
 /*::::::::::::::::::::::::::::.

@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_var', ( def, ast_var ) => {
+.define( module, ( def, ast_var ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,11 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		name :
-		{
-			// the variable name
-			type : 'string'
-		}
+		// the variable name
+		name : { type : 'string' }
 	};
 
 	def.init = [ ];

@@ -6,7 +6,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'jsParser_tokenList', ( def, jsParser_tokenList ) => {
+.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -23,3 +23,4 @@ if( TIM )
 
 
 } );
+

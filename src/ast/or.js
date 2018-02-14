@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_or', ( def, ast_or ) => {
+.define( module, ( def, ast_or ) => {
 
 
 /*::::::::::::::::::::::::::::.

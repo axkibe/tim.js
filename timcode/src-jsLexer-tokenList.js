@@ -19,7 +19,7 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
-const jsLexer_token = require( '../jsLexer/token' );
+const tt_token = require( './token' );
 
 
 const tim_proto = tim.proto;
@@ -182,7 +182,7 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( o.timtype !== jsLexer_token )
+/**/		if( o.timtype !== tt_token )
 /**/		{
 /**/			throw new Error( );
 /**/		}

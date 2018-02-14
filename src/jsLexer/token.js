@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'jsLexer_token', ( def, token ) => {
+.define( module, ( def, token ) => {
 
 
 /*::::::::::::::::::::::::::::.

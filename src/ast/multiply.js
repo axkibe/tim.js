@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_multiply', ( def, ast_multiply ) => {
+.define( module, ( def, ast_multiply ) => {
 
 
 /*::::::::::::::::::::::::::::.

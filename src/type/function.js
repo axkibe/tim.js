@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'type_function', ( def, type_function ) => {
+.define( module, ( def, type_function ) => {
 
 
 if( TIM ) def.attr = { };

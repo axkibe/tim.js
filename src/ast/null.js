@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_null', ( def, ast_null ) => {
+.define( module, ( def, ast_null ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -16,6 +16,7 @@ require( '../ouroboros' )
 if( TIM )
 {
 	// there are not attributes
+	def.attributes = { };
 }
 
 

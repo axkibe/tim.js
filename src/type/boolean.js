@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'type_boolean', ( def, type_boolean ) => {
+.define( module, ( def, type_boolean ) => {
 
 
 if( TIM ) def.attr = { };

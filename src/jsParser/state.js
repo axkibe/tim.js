@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'jsParser_state', ( def, jsParser_state ) => {
+.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -24,16 +24,12 @@ if( TIM )
 				tim.typemap( module, '../ast/statement' )
 				.concat( [ 'undefined' ] )
 		},
-		tokens :
-		{
-			// list of tokens to parse
-			type : 'jsParser_tokenList'
-		},
-		pos :
-		{
-			// current position in token list
-			type : 'integer'
-		}
+
+		// list of tokens to parse
+		tokens : { type : './tokenList' },
+
+		// current position in token list
+		pos : { type : 'integer' }
 	};
 }
 

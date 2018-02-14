@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_while', ( def, ast_while ) => {
+.define( module, ( def, ast_while ) => {
 
 
 /*::::::::::::::::::::::::::::.

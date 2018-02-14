@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_new', ( def, ast_new ) => {
+.define( module, ( def, ast_new ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,11 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		call :
-		{
-			// the constructor call
-			type : './call'
-		}
+		// the constructor call
+		call : { type : './call' }
 	};
 }
 

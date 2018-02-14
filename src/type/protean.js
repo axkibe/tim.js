@@ -6,7 +6,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'type_protean', ( def, type_protean ) => {
+.define( module, ( def, type_protean ) => {
 
 
 if( TIM ) def.attr = { };

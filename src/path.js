@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, 'path', ( def, tim_path ) => {
+tim.ouroboros.define( module, ( def, tim_path ) => {
 
 
 /*::::::::::::::::::::::::::::.

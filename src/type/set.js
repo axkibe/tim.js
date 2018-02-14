@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'type_set', ( def, type_set ) => {
+.define( module, ( def, type_set ) => {
 
 
 /*::::::::::::::::::::::::::::.

@@ -7,7 +7,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_shorthand', ( def, ast_shorthand ) => {
+.define( module, ( def, ast_shorthand ) => {
 
 
 const ast_and = require( './and' );

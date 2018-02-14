@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'id', ( def, tim_id ) => {
+.define( module, ( def, tim_id ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -19,7 +19,7 @@ if( TIM )
 	{
 		packet :
 		{
-			comment : 'the tim is in/from a package',
+			// the tim is in/from a package
 			type : [ 'undefined', 'string' ]
 		}
 	};

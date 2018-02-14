@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'type_any', ( def, type_any ) => {
+.define( module, ( def, type_any ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -26,6 +26,8 @@ const type_integer = require( './integer' );
 const type_null = require( './null' );
 
 const type_number = require( './number' );
+
+const type_protean = require( './protean' );
 
 const type_undefined = require( './undefined' );
 
@@ -57,6 +59,8 @@ def.static.createFromString =
 		case 'null' : return type_null.create( );
 
 		case 'number' : return type_number.create( );
+
+		case 'protean' : return type_protean.create( );
 
 		case 'string' : return type_string.create( );
 

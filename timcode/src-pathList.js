@@ -19,7 +19,7 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
-const path = require( './path' );
+const tt_path = require( './path' );
 
 
 const tim_proto = tim.proto;
@@ -182,7 +182,7 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( o.timtype !== path )
+/**/		if( o.timtype !== tt_path )
 /**/		{
 /**/			throw new Error( );
 /**/		}

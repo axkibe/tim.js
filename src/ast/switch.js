@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_switch', ( def, ast_switch ) => {
+.define( module, ( def, ast_switch ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -17,16 +17,11 @@ if( TIM )
 {
 	def.attributes =
 	{
-		statement :
-		{
-			// the statement expression
-			type : tim.typemap( module, './expr' ),
-		},
-		defaultCase :
-		{
-			// the default block
-			type : [ 'undefined', './block' ]
-		}
+		// the statement expression
+		statement : { type : tim.typemap( module, './expr' ) },
+
+		// the default block
+		defaultCase : { type : [ 'undefined', './block' ] }
 	};
 
 	// the case statements

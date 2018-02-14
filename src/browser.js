@@ -42,6 +42,12 @@ tim.ouroboros.define =
 		definer   // defined functions
 	)
 {
+	// FIXXME
+	if( arguments.length === 2 )
+	{
+		definer = id;
+	}
+
 	const tim = module;
 
 	const timDef =

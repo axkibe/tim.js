@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, 'stringList', ( def, tim_stringList ) => {
+tim.ouroboros.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -21,7 +21,7 @@ if( TIM )
 if( !NODE )
 {
 	// FIXME
-	tim.stringList = tim_stringList;
+	tim.stringList = self;
 }
 
 
@@ -33,7 +33,7 @@ def.static.stringList =
 		array
 	)
 {
-	return tim_stringList.create( 'list:init', array );
+	return self.create( 'list:init', array );
 };
 
 

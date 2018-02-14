@@ -175,7 +175,7 @@ const tt_$_ast_varDec = require( './../ast/varDec' );
 const tt_$_ast_while = require( './../ast/while' );
 
 
-const jsParser_tokenList = require( '../jsParser/tokenList' );
+const tt_tokenList = require( './tokenList' );
 
 
 const tim_proto = tim.proto;
@@ -439,7 +439,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_tokens.timtype !== jsParser_tokenList )
+/**/	if( v_tokens.timtype !== tt_tokenList )
 /**/	{
 /**/		throw new Error( );
 /**/	}

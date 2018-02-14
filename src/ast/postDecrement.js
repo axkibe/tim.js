@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'ast_postDecrement', ( def, ast_postDecrement ) => {
+.define( module, ( def, ast_postDecrement ) => {
 
 
 /*::::::::::::::::::::::::::::.

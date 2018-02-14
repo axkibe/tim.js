@@ -5,7 +5,7 @@
 
 
 require( '../ouroboros' )
-.define( module, 'jsLexer_tokenList', ( def, jsLexer_tokenList ) => {
+.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = [ 'jsLexer_token' ];
+	def.list = [ './token' ];
 }
 
 

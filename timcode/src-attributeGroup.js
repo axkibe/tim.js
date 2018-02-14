@@ -19,7 +19,7 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
-const attribute = require( './attribute' );
+const tt_attribute = require( './attribute' );
 
 
 const tim_proto = tim.proto;
@@ -144,7 +144,7 @@ prototype.create =
 /**/	{
 /**/		const o = group[ k ];
 /**/
-/**/		if( o.timtype !== attribute )
+/**/		if( o.timtype !== tt_attribute )
 /**/		{
 /**/			throw new Error( );
 /**/		}
