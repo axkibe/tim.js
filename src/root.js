@@ -30,9 +30,6 @@ exports.tree = require( './tree/node.js' );
 
 exports.import = require( './import.js' );
 
-// FIXME remove
-exports.path = require( './path.js' );
-
 exports.copy = proto.copy;
 
 exports.lazyFunctionInteger = proto.lazyFunctionInteger;

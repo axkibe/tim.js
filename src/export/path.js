@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, tim_path ) => {
+tim.ouroboros.define( module, ( def, self ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -15,13 +15,6 @@ tim.ouroboros.define( module, ( def, tim_path ) => {
 if( TIM )
 {
 	def.list = [ 'string' ];
-}
-
-
-if( !NODE )
-{
-	// export path like in node package for browser.
-	tim.path = tim_path;
 }
 
 
@@ -196,7 +189,7 @@ def.static.createFromJSON =
 		throw new Error( 'invalid json, path is no array' );
 	}
 
-	return tim_path.create( 'list:init', json );
+	return self.create( 'list:init', json );
 };
 
 
@@ -220,7 +213,7 @@ def.lazy.isEmpty =
 };
 
 
-def.staticLazy.empty = () => tim_path.create( 'list:init', [ ] );
+def.staticLazy.empty = () => self.create( 'list:init', [ ] );
 
 
 } );
