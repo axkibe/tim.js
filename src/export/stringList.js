@@ -18,13 +18,6 @@ if( TIM )
 }
 
 
-if( !NODE )
-{
-	// FIXME
-	tim.stringList = self;
-}
-
-
 /*
 | Shorthand function
 */

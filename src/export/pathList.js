@@ -14,7 +14,8 @@ tim.ouroboros.define( module, ( def, self ) => {
 
 if( TIM )
 {
-	def.list = [ './path' ];
+	// FIXME
+	def.list = [ '../path' ];
 }
 
 

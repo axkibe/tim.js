@@ -4,7 +4,6 @@
 | Runs the generator from node.js for the module
 | that defines a tim class.
 */
-
 'use strict';
 
 
@@ -225,7 +224,7 @@ module.exports =
 	const filename = module.filename;
 
 	// FIXME this here adds too much.
-	tim.tree.addLeaf( filename );
+	tim.tree.addLeaf( filename, timDef.json );
 
 	const timcodeRootDir = findTimCodeRootDir( filename );
 

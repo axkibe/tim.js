@@ -15,16 +15,11 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	/*
 	def.attributes =
 	{
-		packet :
-		{
-			comment : 'the tim is in/from a package',
-			type : [ 'undefined', 'string' ]
-		}
+		// defined if the tim is imported from a another package
+		imported : { type : [ 'undefined', 'string' ] }
 	};
-	*/
 
 	def.list = [ 'string' ];
 }
@@ -45,7 +40,16 @@ def.static.createFromString =
 {
 	const split = string.split( '/' );
 
-	if( split[ 0 ] === '.' ) split.shift( );
+	let imported;
+
+	switch( split[ 0 ] )
+	{
+		case '.' : split.shift( ); break;
+
+		case '..' : break;
+
+		default : imported = split.shift( ); break;
+	}
 
 	let p = pool;
 
@@ -64,7 +68,7 @@ def.static.createFromString =
 
 	if( pn ) return pn;
 
-	return( p[ '.js' ] = type_tim.create( 'list:init', split ) );
+	return( p[ '.js' ] = type_tim.create( 'list:init', split, 'imported', imported ) );
 };
 
 
@@ -147,6 +151,23 @@ def.lazy.$varname =
 | This id references a primitive.
 */
 def.func.isPrimitive = false;
+
+
+/*
+| The require statement used for this type.
+*/
+def.lazy.require =
+	function( )
+{
+	if( this.imported )
+	{
+		return 'tim.import( "' + this.imported + '", "' + this.path + '" )';
+	}
+	else
+	{
+		return 'require( "./' + this.path + '" )';
+	}
+};
 
 
 /*

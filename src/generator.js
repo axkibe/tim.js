@@ -1,5 +1,7 @@
 /*
 | Generates timcode from a tim definition.
+|
+| FIXME parse defaultValues and lift requires...
 */
 'use strict';
 
@@ -101,6 +103,8 @@ const $objLiteral = shorthand.$objLiteral;
 const $string = shorthand.$string;
 
 const $switch = shorthand.$switch;
+
+const $undefined = shorthand.$undefined;
 
 const $var = shorthand.$var;
 
@@ -206,7 +210,7 @@ def.func._init =
 		{
 			defaultValue =
 				jdv === 'undefined'
-				? shorthand.$undefined
+				? $undefined
 				: $( jdv );
 		}
 
@@ -448,53 +452,24 @@ def.func.genRequires =
 	{
 		const id = i.value;
 
-		/*
-		if( id.equals( this.id ) ) // FIXME
-		{
-			// the timcode shouldn't require itself
-			continue;
-		}
-		*/
-
 		if( id.isPrimitive ) continue;
 
-		// no need to require tim itself
-		if( id.packet === 'tim' ) continue;
-
-		if( id.packet && id.packet !== this.id.packet )
+		if( id.timtype === type_tim ) // FIXXME
 		{
+			block = block.$const( id.varname, id.require );
+		}
+		else
+		{
+			if( !this.id ) throw new Error( );
+
+			if( id.packet ) continue;
+
 			block =
 				block
 				.$const(
 					id.global,
-					$(
-					  'require( "' + id.packet + '" ).',
-					  id.pathName
-					)
+					'require( "' + this.id.rootPath + id.path + '" )'
 				);
-		}
-		else
-		{
-			if( id.timtype === type_tim ) // FIXXME
-			{
-				block =
-					block
-					.$const(
-						id.varname,
-						'require( "./' + id.path + '" )'
-					);
-			}
-			else
-			{
-				if( !this.id ) throw new Error( );
-
-				block =
-					block
-					.$const(
-						id.global,
-						'require( "' + this.id.rootPath + id.path + '" )'
-					);
-			}
 		}
 	}
 
@@ -1213,8 +1188,7 @@ def.func.genCreatorDefaults =
 
 		if(
 			attr.defaultValue !== undefined
-			&&
-			!attr.defaultValue.equals( shorthand.$undefined )
+			&& !attr.defaultValue.equals( $undefined )
 		)
 		{
 			result =

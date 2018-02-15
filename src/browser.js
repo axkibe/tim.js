@@ -1,12 +1,10 @@
 /*
 | Manages the tim environment in the browser.
 */
-
-
 'use strict';
 
 
-var module, pass, tim, tim_proto, TIM;
+var module, pass, tim, tim_proto, TIM, _timtrees;
 
 module = undefined;
 
@@ -98,3 +96,39 @@ tim.ouroboros.define =
 		tim.prototype[ name ] = timDef.func[ name ];
 	}
 };
+
+
+/*
+| The tim trees global.
+*/
+var _timtrees;
+
+/*
+| Imports tims from other packages.
+*/
+tim.import =
+	function(
+		rmod, // required module (or tim itself)
+		path  // exported path
+	)
+{
+	let branch = _timtrees[ rmod ];
+
+	if( !branch ) throw new Error( );
+
+	branch = branch.export;
+
+	if( !branch ) throw new Error( );
+
+	const split = path.split( );
+
+	for( let a = 0, al = split.length; a < al; a++ )
+	{
+		branch = branch[ split[ a ] ];
+
+		if( !branch ) throw new Error( );
+	}
+
+	return branch;
+};
+

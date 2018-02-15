@@ -50,10 +50,10 @@ tree.addTree =
 	// an ouroboros build
 
 	tree.addTree(
-		path, 
-		path.indexOf( '/ouroboros/' < 0 )
+		path,
+		path.indexOf( '/ouroboros/' ) >= 0
 		? 'ouroboros'
-		: 'timjs'
+		: 'tim.js'
 	);
 } )( );
 
@@ -63,7 +63,8 @@ tree.addTree =
 */
 tree.addLeaf =
 	function(
-		filename
+		filename,
+		json
 	)
 {
 	let timtree;
@@ -88,16 +89,9 @@ tree.addLeaf =
 
 	let branch = timtree.tree;
 
-	for( let p = 0; p < path.length; p++ )
+	for( let p = 0; p < path.length - 1; p++ )
 	{
 		let key = path[ p ];
-
-		if( p + 1 === path.length )
-		{
-			// removes the .js from the key
-			key = key.substr( 0, key.length - 3 );
-		}
-
 
 		if( !branch[ key ] )
 		{
@@ -105,6 +99,24 @@ tree.addLeaf =
 		}
 
 		branch = branch[ key ];
+	}
+
+	// removes the .js from the key
+	let key = path[ path.length - 1 ];
+
+	key = key.substr( 0, key.length - 3 );
+
+	// already added?
+	if( branch[ key ] )
+	{
+		if( branch[ key ].json !== json ) throw new Error( );
+	}
+	else
+	{
+		branch[ key ] =
+			json
+			? { _parent: branch, json: json  }
+			: { _parent: branch };
 	}
 };
 
@@ -130,7 +142,7 @@ const getBrowserTreeBranch =
 
 		const b = branch[ key ];
 
-		// if it has only the _parent bacllink
+		// if it has only the _parent backlink
 		if( Object.keys( b ).length === 1 )
 		{
 			text += indent + key + ': { },\n';
@@ -162,7 +174,10 @@ tree.getBrowserTreeInitCode =
 	{
 		const timtree = timtrees[ t ];
 
-		text += '\t' + timtree.id + ': {\n';
+		// in case the name has a dot single quotes are put around it
+		const sq = timtree.id.indexOf( '.' ) >= 0 ? '\'' : '';
+
+		text += '\t' + sq + timtree.id + sq + ': {\n';
 
 		text += getBrowserTreeBranch( '\t\t', timtree.tree );
 
@@ -225,7 +240,7 @@ tree.getBrowserPreamble =
 
 	let text = '';
 
-	text += 'var module = _timtrees.';
+	text += 'var module = _timtrees';
 
 	for( let t = 0; t < timtrees.length; t++ )
 	{
@@ -241,7 +256,14 @@ tree.getBrowserPreamble =
 
 	if( !timtree ) throw new Error( );
 
-	text += timtree.id;
+	if( timtree.id.indexOf( '.' ) >= 0 )
+	{
+		text += '[ \'' + timtree.id + '\' ]';
+	}
+	else
+	{
+		text += '.' + timtree.id;
+	}
 
 	let path = filename.substr( timtree.path.length, filename.length );
 

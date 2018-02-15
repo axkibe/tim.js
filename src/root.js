@@ -28,11 +28,10 @@ const proto = exports.proto = require( './proto.js' );
 
 exports.tree = require( './tree/node.js' );
 
+exports.import = require( './import.js' );
+
+// FIXME remove
 exports.path = require( './path.js' );
-
-exports.pathList = require( './pathList.js' );
-
-exports.stringList = require( './stringList' );
 
 exports.copy = proto.copy;
 
