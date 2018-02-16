@@ -2197,14 +2197,29 @@ def.func.genFromJsonCreatorListProcessing =
 			continue;
 		}
 
-		console.log( tim.tree.getLeaf( this.module, './' + rid.path ) );
+		if( rid.timtype === type_tim )
+		{
+			const jsontype = tim.tree.getLeaf( this.module, './' + rid.path ).json;
 
-		loopSwitch =
-			loopSwitch
-			.$case(
-				this.mapJsonTypeName( rid.pathName ),
-				'list[ r ] =', rid.$global, '.createFromJSON( jlist[ r ] )'
-			);
+			if( !jsontype ) throw new Error( );
+
+			loopSwitch =
+				loopSwitch
+				.$case(
+					$string( jsontype ),
+					'list[ r ] =', rid.$varname, '.createFromJSON( jlist[ r ] )'
+				);
+		}
+		else
+		{
+			// FIXXME remove
+			loopSwitch =
+				loopSwitch
+				.$case(
+					this.mapJsonTypeName( rid.pathName ),
+					'list[ r ] =', rid.$global, '.createFromJSON( jlist[ r ] )'
+				);
+		}
 	}
 
 	let loopBody = $block( );

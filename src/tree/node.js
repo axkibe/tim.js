@@ -67,7 +67,6 @@ tree.addLeaf =
 		json
 	)
 {
-	console.log( 'XA', filename, json ); 
 	let timtree;
 
 	for( let t = 0; t < timtrees.length; t++ )
@@ -300,8 +299,8 @@ tree.getBrowserPreamble =
 */
 tree.getLeaf =
 	function(
-		module,
-		path
+		module,   // the module relative to which the path is given
+		path      // the relative path
 	)
 {
 	// first makes sure the leaf is loaded
@@ -326,27 +325,44 @@ tree.getLeaf =
 
 	if( !timtree ) throw new Error( );
 
-	path = path.substr( timtree.path.length, path.length );
-
-	path = path.split( '/' );
+	let split = filename.substr( timtree.path.length, filename.length ).split( '/' );
 
 	let branch = timtree.tree;
 
-	for( let p = 0; p < path.length - 1; p++ )
+	for( let p = 0; p < split.length - 1; p++ )
 	{
-		let key = path[ p ];
-
-		branch = branch[ key ];
+		branch = branch[ split[ p ] ];
 	}
 
-	let key = path[ path.length - 1 ];
+	// the last step is actually not necessary since the directory
+	// is taken again. However just for completeness it is currently left there.
+
+	let key = split[ split.length - 1 ];
 
 	// removes the .js from the key
 	key = key.substr( 0, key.length - 3 );
 
-	console.log( 'XXXG', branch[ key ] );
+	branch = branch[ key ]._parent;
 
-	return branch[ key ];
+	// now moves from this branch according to relative path
+
+	split = path.split( '/' );
+
+	for( let p = 0; p < split.length; p++ )
+	{
+		let key = split[ p ];
+
+		switch( key )
+		{
+			case '.' : continue;
+
+			case '..' : branch = branch._parent; continue;
+
+			default : branch = branch[ key ]; continue;
+		}
+	}
+
+	return branch;
 };
 
 
