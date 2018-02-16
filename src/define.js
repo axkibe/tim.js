@@ -109,7 +109,7 @@ const createTimcode =
 		}
 		catch( e ) { /* ignore */ }
 
-		const ast = generator.generate( timDef, id, jsonTypeMap );
+		const ast = generator.generate( timDef, id, jsonTypeMap, module );
 
 		const output = format_formatter.format( ast );
 

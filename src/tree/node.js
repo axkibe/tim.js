@@ -67,6 +67,7 @@ tree.addLeaf =
 		json
 	)
 {
+	console.log( 'XA', filename, json ); 
 	let timtree;
 
 	for( let t = 0; t < timtrees.length; t++ )
@@ -101,9 +102,9 @@ tree.addLeaf =
 		branch = branch[ key ];
 	}
 
-	// removes the .js from the key
 	let key = path[ path.length - 1 ];
 
+	// removes the .js from the key
 	key = key.substr( 0, key.length - 3 );
 
 	// already added?
@@ -291,6 +292,61 @@ tree.getBrowserPreamble =
 	text += '; var require = _require.bind( module );';
 
 	return text;
+};
+
+
+/*
+| Returns the leaf for a path.
+*/
+tree.getLeaf =
+	function(
+		module,
+		path
+	)
+{
+	// first makes sure the leaf is loaded
+	module.require( path );
+
+	let timtree;
+
+	const filename = module.filename;
+
+	// gets the leaf for the current module
+	for( let t = 0; t < timtrees.length; t++ )
+	{
+		const tpath = timtrees[ t ].path;
+
+		if( filename.substr( 0, tpath.length ) === tpath )
+		{
+			timtree = timtrees[ t ];
+
+			break;
+		}
+	}
+
+	if( !timtree ) throw new Error( );
+
+	path = path.substr( timtree.path.length, path.length );
+
+	path = path.split( '/' );
+
+	let branch = timtree.tree;
+
+	for( let p = 0; p < path.length - 1; p++ )
+	{
+		let key = path[ p ];
+
+		branch = branch[ key ];
+	}
+
+	let key = path[ path.length - 1 ];
+
+	// removes the .js from the key
+	key = key.substr( 0, key.length - 3 );
+
+	console.log( 'XXXG', branch[ key ] );
+
+	return branch[ key ];
 };
 
 

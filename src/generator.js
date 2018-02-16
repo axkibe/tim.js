@@ -37,6 +37,7 @@ if( TIM )
 			type : [ 'undefined', 'protean' ],
 			defaultValue : 'undefined'
 		},
+		module : { type: 'protean' }
 	};
 
 	def.init = [ 'timDef' ];
@@ -2196,6 +2197,8 @@ def.func.genFromJsonCreatorListProcessing =
 			continue;
 		}
 
+		console.log( tim.tree.getLeaf( this.module, './' + rid.path ) );
+
 		loopSwitch =
 			loopSwitch
 			.$case(
@@ -3202,9 +3205,10 @@ def.func.genCapsule =
 */
 def.static.generate =
 	function(
-		timDef,      // the tim definition
-		id,          // the id to be defined
-		jsonTypeMap  // if defined a typemap for json generation/parsing
+		timDef,       // the tim definition
+		id,           // the id to be defined
+		jsonTypeMap,  // if defined a typemap for json generation/parsing
+		module        // the module relative to which types are
 	)
 {
 	// tim_validator.check( timDef ); FIXME!
@@ -3213,7 +3217,8 @@ def.static.generate =
 		self.create(
 			'id', id && tim_id.createFromString( id ),
 			'timDef', timDef,
-			'jsonTypeMap', jsonTypeMap
+			'jsonTypeMap', jsonTypeMap,
+			'module', module
 		);
 
 	const result =

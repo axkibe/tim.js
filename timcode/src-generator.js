@@ -32,6 +32,7 @@ const Constructor =
 	function(
 		v_id,
 		v_jsonTypeMap,
+		v_module,
 		v_timDef
 	)
 {
@@ -43,6 +44,8 @@ const Constructor =
 	this.id = v_id;
 
 	this.jsonTypeMap = v_jsonTypeMap;
+
+	this.module = v_module;
 
 	this._init( v_timDef );
 
@@ -77,6 +80,8 @@ prototype.create =
 
 	let v_jsonTypeMap;
 
+	let v_module;
+
 	let v_timDef;
 
 	if( this !== self )
@@ -86,6 +91,8 @@ prototype.create =
 		v_id = this.id;
 
 		v_jsonTypeMap = this.jsonTypeMap;
+
+		v_module = this.module;
 	}
 
 	for(
@@ -112,6 +119,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_jsonTypeMap = arg;
+				}
+
+				break;
+
+			case 'module' :
+
+				if( arg !== pass )
+				{
+					v_module = arg;
 				}
 
 				break;
@@ -151,6 +167,16 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_module === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_module === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_timDef === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -173,13 +199,15 @@ prototype.create =
 		&&
 		v_jsonTypeMap === inherit.jsonTypeMap
 		&&
+		v_module === inherit.module
+		&&
 		v_timDef === undefined
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_id, v_jsonTypeMap, v_timDef );
+	return new Constructor( v_id, v_jsonTypeMap, v_module, v_timDef );
 };
 
 
@@ -232,6 +260,8 @@ prototype.equals =
 		)
 		&&
 		this.jsonTypeMap === obj.jsonTypeMap
+		&&
+		this.module === obj.module
 	);
 };
 
