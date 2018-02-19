@@ -30,6 +30,13 @@ module.exports =
 	{
 		for( let a = 0, al = ar.length; a < al; a++ )
 		{
+			switch( ar[ a ] )
+			{
+				// FIXME this wouldn't be necesarry if typemaps would
+				//       enforce relative types
+				case 'number' : continue;
+			}
+
 			ar[ a ] = prefix + ar[ a ];
 		}
 	}

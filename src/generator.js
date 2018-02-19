@@ -1880,20 +1880,20 @@ def.func.genFromJsonCreatorAttributeParser =
 							cSwitch = $switch( 'arg.type' ) .$default( $fail( ) );
 						}
 
-						throw new Error( 'YYY' );
-						/*
+						const jsontype = tim.tree.getLeaf( this.module, './' + id.path ).json;
+
+						console.log( 'XXX', jsontype, this.module.filename, './' + id.path );
+
 						cSwitch =
 							cSwitch
 							.$case(
-								// XXX
-								this.mapJsonTypeName( id.pathName ),
+								$string( jsontype ),
 								$(
 									attr.varRef, ' = ',
-									id.$global,
+									id.$varname,
 									'.createFromJSON', '( arg )'
 								)
 							);
-						*/
 					}
 					}
 					else
