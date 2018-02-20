@@ -300,7 +300,7 @@ tree.getBrowserPreamble =
 tree.getLeaf =
 	function(
 		module,   // the module relative to which the path is given
-		path      // the relative path
+		path      // the relative path FIXME this is currently a string, change it to array
 	)
 {
 	// first makes sure the leaf is loaded

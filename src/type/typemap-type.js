@@ -6,16 +6,16 @@
 
 module.exports =
 [
-	'id',
-	'boolean',
-	'date',
-	'function',
-	'integer',
-	'null',
-	'number',
-	'protean',
-	'undefined',
-	'string',
-	'tim',
+	'./id',
+	'./boolean',
+	'./date',
+	'./function',
+	'./integer',
+	'./null',
+	'./number',
+	'./protean',
+	'./undefined',
+	'./string',
+	'./tim',
 ];
 

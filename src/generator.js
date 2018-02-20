@@ -1880,6 +1880,7 @@ def.func.genFromJsonCreatorAttributeParser =
 							cSwitch = $switch( 'arg.type' ) .$default( $fail( ) );
 						}
 
+						// FIXME remove the './' part of all getLeaf calls
 						const jsontype = tim.tree.getLeaf( this.module, './' + id.path ).json;
 
 						console.log( 'XXX', jsontype, this.module.filename, './' + id.path );
@@ -2279,17 +2280,32 @@ def.func.genFromJsonCreatorTwigProcessing =
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const twigID = i.value;
+		const twigId = i.value;
 
-		switchExpr =
-			switchExpr
-			.$case(
-				this.mapJsonTypeName( twigID.pathName ),
-				$(
-					'twig[ key ] =',
-					twigID.$global, '.createFromJSON( jval )'
-				)
-			);
+		if( twigId.timtype === type_tim )
+		{
+			const jsontype = tim.tree.getLeaf( this.module, './' + twigId.path ).json;
+
+			switchExpr =
+				switchExpr
+				.$case(
+					$string( jsontype ),
+					$( 'twig[ key ] =', twigId.$varname, '.createFromJSON( jval )' )
+				);
+		}
+		else
+		{
+			// FIXME remove
+			switchExpr =
+				switchExpr
+				.$case(
+					this.mapJsonTypeName( twigId.pathName ),
+					$(
+						'twig[ key ] =',
+						twigId.$global, '.createFromJSON( jval )'
+					)
+				);
+		}
 	}
 
 	switchExpr =
@@ -3221,8 +3237,8 @@ def.func.genCapsule =
 def.static.generate =
 	function(
 		timDef,       // the tim definition
-		id,           // the id to be defined
-		jsonTypeMap,  // if defined a typemap for json generation/parsing
+		id,           // the id to be defined FIXME remove
+		jsonTypeMap,  // if defined a typemap for json generation/parsing FIXME remove
 		module        // the module relative to which types are
 	)
 {

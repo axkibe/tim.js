@@ -51,6 +51,9 @@ def.static.createFromString =
 		default : imported = split.shift( ); break;
 	}
 
+	// FIXME this is a dirty hack to counteract created '././' nonsense
+	while( split[ 0 ] === '.' ) split.shift( );
+
 	let p = pool;
 
 	for( let a = 0, al = split.length; a < al; a++ )

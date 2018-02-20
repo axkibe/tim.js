@@ -30,11 +30,19 @@ module.exports =
 	{
 		for( let a = 0, al = ar.length; a < al; a++ )
 		{
-			switch( ar[ a ] )
+			// FIXME this is a whacky workaround solution
+			if( ar[ a ].substr( 0, 2 ) === './' )
 			{
-				// FIXME this wouldn't be necesarry if typemaps would
-				//       enforce relative types
-				case 'number' : continue;
+				ar[ a ] = ar[ a ].substr( 2, ar[ a ].length );
+			}
+			else
+			{
+				switch( ar[ a ] )
+				{
+					// FIXME this wouldn't be necesarry if typemaps would
+					//       enforce relative types
+					case 'number' : continue;
+				}
 			}
 
 			ar[ a ] = prefix + ar[ a ];

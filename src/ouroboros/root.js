@@ -198,7 +198,7 @@ for( let a = 0, al = listing.length; a < al; a++ )
 
 		input( smodule, smodule.require, stim );
 
-		const ast = generator.generate( def, def.id, undefined, smodule );
+		const ast = generator.generate( def, undefined, undefined, smodule );
 
 		const output = format_formatter.format( ast );
 
