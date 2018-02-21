@@ -78,14 +78,13 @@ def.static.createFromString =
 /*
 | Compares two ids.
 */
+/*
 def.static.compare =
 	function(
 		o1,
 		o2
 	)
 {
-	console.log( 'XXX is this ever used?' );
-
 	const l1 = o1.length;
 
 	const l2 = o2.length;
@@ -105,6 +104,7 @@ def.static.compare =
 
 	return 0;
 };
+*/
 
 
 /*

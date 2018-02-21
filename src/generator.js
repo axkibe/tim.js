@@ -1883,8 +1883,6 @@ def.func.genFromJsonCreatorAttributeParser =
 						// FIXME remove the './' part of all getLeaf calls
 						const jsontype = tim.tree.getLeaf( this.module, './' + id.path ).json;
 
-						console.log( 'XXX', jsontype, this.module.filename, './' + id.path );
-
 						cSwitch =
 							cSwitch
 							.$case(
