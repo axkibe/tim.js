@@ -240,7 +240,7 @@ tree.getBrowserPreamble =
 
 	let text = '';
 
-	text += 'var module = _timtrees';
+	text += '( ( ) => { let module = _timtrees';
 
 	for( let t = 0; t < timtrees.length; t++ )
 	{
@@ -288,7 +288,7 @@ tree.getBrowserPreamble =
 		if( !branch ) throw new Error( );
 	}
 
-	text += '; var require = _require.bind( module );';
+	text += '; let require = _require.bind( module );';
 
 	return text;
 };
