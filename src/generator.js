@@ -2061,12 +2061,20 @@ def.func.genFromJsonCreatorGroupProcessing =
 {
 	const group = this.group;
 
-	const keyList = group.sortedKeys;
-
 	let haveNull = false;
 
 	// FIXME dirty workaround
-	if( keyList.length === 1 && keyList[ 0 ] === 'string' )
+	if( group.size === 1 && group.iterator( ).next( ).value.timtype === type_string )
+	{
+		return(
+			$block( )
+			.$if( '!jgroup', $fail( ) )
+			.$( 'group = jgroup' )
+		);
+	}
+
+	// FIXME dirty workaround 2
+	if( group.size === 1 && group.iterator( ).next( ).value.timtype === type_boolean )
 	{
 		return(
 			$block( )
@@ -2082,42 +2090,67 @@ def.func.genFromJsonCreatorGroupProcessing =
 
 	let loopSwitch = $switch( 'jgroup[ k ].type' );
 
-	if( group.get( 'string' ) )
-	{
-		loopSwitch =
-			loopSwitch
-			.$default(
-				$if(
-					$( 'typeof( jgroup[ k ] ) === "string"' ),
-					$( 'group[ k ] = jgroup[ k ]' ),
-					$fail( )
-				)
-			);
-	}
-	else
-	{
-		loopSwitch = loopSwitch.$default( $fail( ) );
-	}
+	loopSwitch = loopSwitch.$default( $fail( ) );
 
-	// XXX FIXME
+	// FIXME allow more than one non-tim type
+	let customDefault = false;
 
-	for( let g = 0, gZ = keyList.length; g < gZ; g++ )
+	const it = group.iterator( );
+
+	for( let i = it.next(); !i.done; i = it.next( ) )
 	{
-		const gid = group.get( keyList[ g ] );
+		const gid = i.value;
 
-		if( gid.pathName === 'null' )
+		if( gid.timtype === type_null ) { haveNull = true; continue; }
+
+		if( gid.timtype === type_string )
 		{
-			haveNull = true;
+			if( customDefault ) throw new Error( );
+
+			customDefault = true;
+
+			loopSwitch =
+				loopSwitch
+				.$default(
+					$if(
+						$( 'typeof( jgroup[ k ] ) === "string"' ),
+						$( 'group[ k ] = jgroup[ k ]' ),
+						$fail( )
+					)
+				);
 
 			continue;
 		}
 
+		if( gid.timtype === type_boolean )
+		{
+			if( customDefault ) throw new Error( );
+
+			customDefault = true;
+
+			loopSwitch =
+				loopSwitch
+				.$default(
+					$if(
+						$( 'typeof( jgroup[ k ] ) === "boolean"' ),
+						$( 'group[ k ] = jgroup[ k ]' ),
+						$fail( )
+					)
+				);
+
+			continue;
+		}
+
+		const jsontype = tim.tree.getLeaf( this.module, './' + gid.path ).json;
+
+		if( !jsontype ) throw new Error( );
+
 		loopSwitch =
 			loopSwitch
 			.$case(
-				this.mapJsonTypeName( gid.pathName ),
+				$string( jsontype ),
 				'group[ k ] =',
-				gid.$global,
+				gid.$varname,
 				'.createFromJSON( jgroup[ k ] )'
 			);
 	}
@@ -2135,7 +2168,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			$if(
 				'jgroup[ k ] === null',
 				$block( )
-				.$(' group[ k ] = null' )
+				.$( 'group[ k ] = null' )
 				.$continue( )
 			)
 			.$( loopSwitch );
@@ -2154,7 +2187,7 @@ def.func.genFromJsonCreatorListProcessing =
 	const list = this.list;
 
 	// FIXME dirty workaround
-	if( list.size === 1 && list.iterator( ).next( ).value === 'string' )
+	if( list.size === 1 && list.iterator( ).next( ).value.timtype === type_string )
 	{
 		return(
 			$block( )
