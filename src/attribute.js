@@ -17,58 +17,32 @@ if( TIM )
 {
 	def.attributes =
 	{
-		allowsNull :
-		{
-			// attribute may be null
-			type : 'boolean',
-			defaultValue : 'false'
-		},
-		allowsUndefined :
-		{
-			// attribute may be undefined
-			type : 'boolean',
-			defaultValue : 'false'
-		},
-		assign :
-		{
-			// variable name to assign to
-			type : 'string'
-		},
-		defaultValue :
-		{
-			// default value
-			type :
-				tim.typemap( module, './ast/expr' )
-				.concat( [ 'undefined' ] )
-		},
-		json :
-		{
-			// include in JSON export/import
-			type : 'boolean',
-			defaultValue : 'false'
-		},
-		name :
-		{
-			// attribute name
-			type : 'string'
-		},
-		prepare :
-		{
-			// attribute preparation code
-			type : [ 'undefined', 'string' ]
-		},
-		id :
-		{
-			// attribute type id
-			type :
-				tim.typemap( module, './type/type' )
-				.concat( [ './type/set' ] )
-		},
-		varRef :
-		{
-			// attribute variable used in generate
-			type : './ast/var'
-		}
+		// attribute may be null
+		allowsNull : { type : 'boolean', defaultValue : 'false' },
+
+		// attribute may be undefined
+		allowsUndefined : { type : 'boolean', defaultValue : 'false' },
+
+		// variable name to assign to
+		assign : { type : 'string' },
+
+		// default value
+		defaultValue : { type : tim.typemap( module, './ast/expr' ).concat( [ 'undefined' ] ) },
+
+		// include in JSON export/import
+		json : { type : 'boolean', defaultValue : 'false' },
+
+		// attribute name
+		name : { type : 'string' },
+
+		// attribute preparation code
+		prepare : { type : [ 'undefined', 'string' ] },
+
+		// attribute type id
+		id : { type : tim.typemap( module, './type/type' ).concat( [ './type/set' ] ) },
+
+		// attribute variable used in generate
+		varRef : { type : './ast/var' },
 	};
 }
 

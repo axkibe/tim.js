@@ -82,7 +82,6 @@ module.exports =
 	'src/type/boolean.js',
 	'src/type/date.js',
 	'src/type/function.js',
-	'src/type/id.js',
 	'src/type/integer.js',
 	'src/type/null.js',
 	'src/type/number.js',

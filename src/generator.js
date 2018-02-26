@@ -30,13 +30,6 @@ if( TIM )
 			type : 'protean',
 			assign : ''
 		},
-		jsonTypeMap :
-		{
-			// FIXXME remove
-			// if defined a typemap for json generation/parsing
-			type : [ 'undefined', 'protean' ],
-			defaultValue : 'undefined'
-		},
 		module : { type: 'protean' }
 	};
 
@@ -1867,8 +1860,6 @@ def.func.genFromJsonCreatorAttributeParser =
 							break;
 					}
 
-					if( id.timtype === type_tim )
-					{
 					if( sif )
 					{
 						mif = !mif ? sif : mif.$elsewise( sif );
@@ -1893,34 +1884,6 @@ def.func.genFromJsonCreatorAttributeParser =
 									'.createFromJSON', '( arg )'
 								)
 							);
-					}
-					}
-					else
-					{
-					// FIXME remove
-					if( sif )
-					{
-						mif = !mif ? sif : mif.$elsewise( sif );
-					}
-					else
-					{
-						if( !cSwitch )
-						{
-							cSwitch = $switch( 'arg.type' ) .$default( $fail( ) );
-						}
-
-						cSwitch =
-							cSwitch
-							.$case(
-								// XXX
-								this.mapJsonTypeName( id.pathName ),
-								$(
-									attr.varRef, ' = ',
-									id.$global,
-									'.createFromJSON', '( arg )'
-								)
-							);
-					}
 					}
 				}
 
@@ -1963,11 +1926,7 @@ def.func.genFromJsonCreatorParser =
 	)
 {
 	// the switch
-	let nameSwitch;
-
-	if( typeof( this.json ) === 'string' )
-	{
-		nameSwitch =
+	let nameSwitch =
 		$switch( 'name' )
 		.$case(
 			'"type"',
@@ -1976,21 +1935,6 @@ def.func.genFromJsonCreatorParser =
 				$fail( )
 			)
 		);
-	}
-	else
-	{
-		console.log( 'WARNING: old json style!' );
-
-		nameSwitch =
-		$switch( 'name' )
-		.$case(
-			'"type"',
-			$if(
-				$( 'arg !== ', this.mapJsonTypeName( this.id.pathName ) ),
-				$fail( )
-			)
-		);
-	}
 
 	if( this.group )
 	{
@@ -2099,8 +2043,6 @@ def.func.genFromJsonCreatorGroupProcessing =
 		loopSwitch = loopSwitch.$default( $fail( ) );
 	}
 
-	// XXX FIXME
-
 	for( let g = 0, gZ = keyList.length; g < gZ; g++ )
 	{
 		const gid = group.get( keyList[ g ] );
@@ -2112,12 +2054,14 @@ def.func.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
+		const jsontype = tim.tree.getLeaf( this.module, './' + gid.path ).json;
+
 		loopSwitch =
 			loopSwitch
 			.$case(
-				this.mapJsonTypeName( gid.pathName ),
+				$string( jsontype ),
 				'group[ k ] =',
-				gid.$global,
+				gid.$varname,
 				'.createFromJSON( jgroup[ k ] )'
 			);
 	}
@@ -2196,29 +2140,16 @@ def.func.genFromJsonCreatorListProcessing =
 			continue;
 		}
 
-		if( rid.timtype === type_tim )
-		{
-			const jsontype = tim.tree.getLeaf( this.module, './' + rid.path ).json;
+		const jsontype = tim.tree.getLeaf( this.module, './' + rid.path ).json;
 
-			if( !jsontype ) throw new Error( );
+		if( !jsontype ) throw new Error( );
 
-			loopSwitch =
-				loopSwitch
-				.$case(
-					$string( jsontype ),
-					'list[ r ] =', rid.$varname, '.createFromJSON( jlist[ r ] )'
-				);
-		}
-		else
-		{
-			// FIXXME remove
-			loopSwitch =
-				loopSwitch
-				.$case(
-					this.mapJsonTypeName( rid.pathName ),
-					'list[ r ] =', rid.$global, '.createFromJSON( jlist[ r ] )'
-				);
-		}
+		loopSwitch =
+			loopSwitch
+			.$case(
+				$string( jsontype ),
+				'list[ r ] =', rid.$varname, '.createFromJSON( jlist[ r ] )'
+			);
 	}
 
 	let loopBody = $block( );
@@ -2280,30 +2211,14 @@ def.func.genFromJsonCreatorTwigProcessing =
 	{
 		const twigId = i.value;
 
-		if( twigId.timtype === type_tim )
-		{
-			const jsontype = tim.tree.getLeaf( this.module, './' + twigId.path ).json;
+		const jsontype = tim.tree.getLeaf( this.module, './' + twigId.path ).json;
 
-			switchExpr =
-				switchExpr
-				.$case(
-					$string( jsontype ),
-					$( 'twig[ key ] =', twigId.$varname, '.createFromJSON( jval )' )
-				);
-		}
-		else
-		{
-			// FIXME remove
-			switchExpr =
-				switchExpr
-				.$case(
-					this.mapJsonTypeName( twigId.pathName ),
-					$(
-						'twig[ key ] =',
-						twigId.$global, '.createFromJSON( jval )'
-					)
-				);
-		}
+		switchExpr =
+			switchExpr
+			.$case(
+				$string( jsontype ),
+				$( 'twig[ key ] =', twigId.$varname, '.createFromJSON( jval )' )
+			);
 	}
 
 	switchExpr =
@@ -2693,29 +2608,6 @@ def.func.genTimProto =
 
 
 /*
-| Returns the json type name for a path name.
-|
-| If it is not in the jsonTypeMap it stays the same,
-| otherwise it is mapped.
-*/
-def.func.mapJsonTypeName =
-	function(
-		pathName
-	)
-{
-	const jtm = this.jsonTypeMap;
-
-	return(
-		shorthand.$string(
-			!jtm
-			? pathName
-			: ( jtm[ pathName ] || pathName )
-		)
-	);
-};
-
-
-/*
 | Generates the toJSON converter.
 */
 def.func.genToJson =
@@ -2723,18 +2615,7 @@ def.func.genToJson =
 {
 	let olit;
 
-	if( typeof( this.json ) === 'string' )
-	{
-		olit = $objLiteral( ).add( 'type', $string( this.json ) );
-	}
-	else
-	{
-		console.log( 'WARNING old style json' );
-
-		olit =
-			$objLiteral( )
-			.add( 'type', this.mapJsonTypeName( this.id.pathName ) );
-	}
+	olit = $objLiteral( ).add( 'type', $string( this.json ) );
 
 	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
@@ -3246,7 +3127,6 @@ def.static.generate =
 		self.create(
 			'id', id && tim_id.createFromString( id ),
 			'timDef', timDef,
-			'jsonTypeMap', jsonTypeMap,
 			'module', module
 		);
 

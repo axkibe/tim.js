@@ -6,7 +6,6 @@
 
 module.exports =
 [
-	'./id',
 	'./boolean',
 	'./date',
 	'./function',
