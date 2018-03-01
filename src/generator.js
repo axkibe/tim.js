@@ -154,7 +154,7 @@ def.func._init =
 		}
 		else
 		{
-			aid = type_set.createFromArray( type );
+			aid = type_set.createFromArray( this.module, type );
 
 			imports = imports.addSet( aid );
 
@@ -358,7 +358,7 @@ def.func._init =
 
 	if( timDef.group )
 	{
-		this.group = type_set.createFromArray( timDef.group );
+		this.group = type_set.createFromArray( this.module, timDef.group );
 
 		imports = imports.addSet( this.group );
 	}
@@ -369,7 +369,7 @@ def.func._init =
 
 	if( timDef.list )
 	{
-		this.list = type_set.createFromArray( timDef.list );
+		this.list = type_set.createFromArray( this.module, timDef.list );
 
 		imports = imports.addSet( this.list );
 	}
@@ -380,7 +380,7 @@ def.func._init =
 
 	if( timDef.set )
 	{
-		this.set = type_set.createFromArray( timDef.set );
+		this.set = type_set.createFromArray( this.module, timDef.set );
 
 		imports = imports.addSet( this.set );
 	}
@@ -391,7 +391,7 @@ def.func._init =
 
 	if( timDef.twig )
 	{
-		this.twig = type_set.createFromArray( timDef.twig );
+		this.twig = type_set.createFromArray( this.module, timDef.twig );
 
 		imports = imports.addSet( this.twig );
 	}

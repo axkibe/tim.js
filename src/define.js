@@ -71,7 +71,6 @@ const findTimCodeRootDir =
 const createTimcode =
 	function(
 		timDef,                // tim definition
-		id,                    // tim id
 		module,                // defining module
 		timcodeRootDir,		   // root dir of timecode
 		timcodeFilename        // filename of timcode file
@@ -101,15 +100,7 @@ const createTimcode =
 
 		const format_formatter = require( './format/formatter' );
 
-		let jsonTypeMap;
-
-		try
-		{
-			jsonTypeMap = require( timcodeRootDir + 'src/json/typemap' );
-		}
-		catch( e ) { /* ignore */ }
-
-		const ast = generator.generate( timDef, id, jsonTypeMap, module );
+		const ast = generator.generate( timDef, module );
 
 		const output = format_formatter.format( ast );
 
@@ -125,7 +116,6 @@ const createTimcode =
 const loadTimcode =
 	function(
 		timDef,                // tim definition
-		id,                    // tim id
 		module,                // defining module
 		timcodeRootDir,		   // root dir of timecode
 		timcodeFilename        // filename of timcode file
@@ -137,7 +127,6 @@ const loadTimcode =
 	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let input =
-//YY		'( function( ' + id + ', module, require, tim_proto ) {'
 		'( function( module, require, tim_proto ) {'
 		+ fs.readFileSync( timcodeRealFilename, readOptions )
 		+ '\n} )';
@@ -179,17 +168,10 @@ const timDefHasJson =
 module.exports =
 	function(
 		module,   // module that makes the define
-		id,       // the id to be generated
 		definer   // callback to get the timDef
 	)
 {
-	// FIXME
-	if( arguments.length === 2 )
-	{
-		definer = id;
-
-		id = undefined;
-	}
+	if( arguments.length !== 2 ) throw new Error( );
 
 	/*
 	const pr = module.require;
@@ -236,10 +218,10 @@ module.exports =
 
 	if( !tim.ouroborosBuild )
 	{
-		createTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
+		createTimcode( timDef, module, timcodeRootDir, timcodeFilename );
 	}
 
-	loadTimcode( timDef, id, module, timcodeRootDir, timcodeFilename );
+	loadTimcode( timDef, module, timcodeRootDir, timcodeFilename );
 
 	const exports = module.exports;
 

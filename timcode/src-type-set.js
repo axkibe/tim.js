@@ -19,9 +19,6 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
-const tt_id = require( './id' );
-
-
 const tt_boolean = require( './boolean' );
 
 
@@ -189,8 +186,6 @@ prototype.create =
 /**/		const v = i.value;
 /**/
 /**/		if(
-/**/			v.timtype !== tt_id
-/**/			&&
 /**/			v.timtype !== tt_boolean
 /**/			&&
 /**/			v.timtype !== tt_date

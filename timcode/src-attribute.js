@@ -133,9 +133,6 @@ const tt_ast_typeof = require( './ast/typeof' );
 const tt_ast_var = require( './ast/var' );
 
 
-const tt_type_id = require( './type/id' );
-
-
 const tt_type_boolean = require( './type/boolean' );
 
 
@@ -538,8 +535,6 @@ prototype.create =
 /**/	}
 /**/
 /**/	if(
-/**/		v_id.timtype !== tt_type_id
-/**/		&&
 /**/		v_id.timtype !== tt_type_boolean
 /**/		&&
 /**/		v_id.timtype !== tt_type_date

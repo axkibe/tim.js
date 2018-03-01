@@ -19,9 +19,6 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
-const tt_type_id = require( './type/id' );
-
-
 const tim_proto = tim.proto;
 
 
@@ -30,8 +27,6 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v_id,
-		v_jsonTypeMap,
 		v_module,
 		v_timDef
 	)
@@ -40,10 +35,6 @@ const Constructor =
 	{
 		this.__lazy = { };
 	}
-
-	this.id = v_id;
-
-	this.jsonTypeMap = v_jsonTypeMap;
 
 	this.module = v_module;
 
@@ -76,10 +67,6 @@ prototype.create =
 {
 	let inherit;
 
-	let v_id;
-
-	let v_jsonTypeMap;
-
 	let v_module;
 
 	let v_timDef;
@@ -87,10 +74,6 @@ prototype.create =
 	if( this !== self )
 	{
 		inherit = this;
-
-		v_id = this.id;
-
-		v_jsonTypeMap = this.jsonTypeMap;
 
 		v_module = this.module;
 	}
@@ -105,24 +88,6 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'id' :
-
-				if( arg !== pass )
-				{
-					v_id = arg;
-				}
-
-				break;
-
-			case 'jsonTypeMap' :
-
-				if( arg !== pass )
-				{
-					v_jsonTypeMap = arg;
-				}
-
-				break;
-
 			case 'module' :
 
 				if( arg !== pass )
@@ -149,24 +114,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_id === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_id !== undefined )
-/**/	{
-/**/		if( v_id.timtype !== tt_type_id )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_jsonTypeMap === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_module === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -188,26 +135,12 @@ prototype.create =
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		(
-			v_id === inherit.id
-			||
-			v_id !== undefined && v_id.equals( inherit.id )
-		)
-		&&
-		v_jsonTypeMap === inherit.jsonTypeMap
-		&&
-		v_module === inherit.module
-		&&
-		v_timDef === undefined
-	)
+	if( inherit && v_module === inherit.module && v_timDef === undefined )
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_id, v_jsonTypeMap, v_module, v_timDef );
+	return new Constructor( v_module, v_timDef );
 };
 
 
@@ -252,17 +185,7 @@ prototype.equals =
 		return false;
 	}
 
-	return (
-		(
-			this.id === obj.id
-			||
-			this.id !== undefined && this.id.equals( obj.id )
-		)
-		&&
-		this.jsonTypeMap === obj.jsonTypeMap
-		&&
-		this.module === obj.module
-	);
+	return this.module === obj.module;
 };
 
 

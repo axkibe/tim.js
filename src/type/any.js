@@ -13,8 +13,6 @@ require( '../ouroboros' )
 ':::::::::::::::::::::::::::::*/
 
 
-const id = require( './id' );
-
 const type_boolean = require( './boolean' );
 
 const type_date = require( './date' );
@@ -37,7 +35,7 @@ const type_tim = require( './tim' );
 
 
 /*
-| Create the id from a string specifier.
+| Create the type from a string specifier.
 */
 def.static.createFromString =
 	function(
@@ -66,7 +64,7 @@ def.static.createFromString =
 
 		case 'undefined' : return type_undefined.create( );
 
-		default : return id.createFromString( str );
+		default : throw new Error( );
 	}
 };
 
