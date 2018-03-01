@@ -19,17 +19,9 @@ if( TIM )
 {
 	def.attributes =
 	{
-		id :
-		{
-			// id to be generated
-			type : [ 'undefined', './type/id' ]  // FIXME
-		},
-		timDef :
-		{
-			// the tim definition
-			type : 'protean',
-			assign : ''
-		},
+		// the tim definition
+		timDef : { type : 'protean', assign : '' },
+
 		module : { type: 'protean' }
 	};
 
@@ -37,8 +29,6 @@ if( TIM )
 }
 
 const ast_var = require( './ast/var' );
-
-const tim_id = require( './type/id' );
 
 const tim_attribute = require( './attribute' );
 
@@ -137,9 +127,6 @@ def.func._init =
 		return node;
 	};
 
-	// FIXXME remove
-	this.hasJson = !!timDef.json;
-
 	this.init = timDef.init;
 
 	// in case of attributes, group, list, set or twig
@@ -173,8 +160,6 @@ def.func._init =
 
 			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
 		}
-
-		if( jAttr.json ) this.hasJson = true;
 
 		const assign =
 			jAttr.assign !== undefined
@@ -448,23 +433,7 @@ def.func.genRequires =
 
 		if( id.isPrimitive ) continue;
 
-		if( id.timtype === type_tim ) // FIXXME
-		{
-			block = block.$const( id.varname, id.require );
-		}
-		else
-		{
-			if( !this.id ) throw new Error( );
-
-			if( id.packet ) continue;
-
-			block =
-				block
-				.$const(
-					id.global,
-					'require( "' + this.id.rootPath + id.path + '" )'
-				);
-		}
+		block = block.$const( id.varname, id.require );
 	}
 
 	return block.$const( 'tim_proto', 'tim.proto' );
@@ -691,7 +660,6 @@ def.func.genConstructor =
 			.$comment( 'Prototype shortcut' )
 			.$const( 'prototype', 'Constructor.prototype' )
 			.$( 'self.prototype = prototype' )
-//YY			.$( this.id.$global, '.prototype = prototype' )
 		);
 	}
 	else
@@ -831,7 +799,6 @@ def.func.genCreatorInheritanceReceiver =
 	let result =
 		$if(
 			$( 'this !== self' ),
-//YY			$( 'this !== ', this.id.global ),
 			receiver
 		);
 
@@ -1372,7 +1339,7 @@ def.func.genCreatorChecks =
 			check = check.$if( $( av, ' === null' ), $fail( ));
 		}
 
-		if( attr.id.timtype === type_protean || attr.id.pathName === 'protean' ) continue; // FIXXME
+		if( attr.id.timtype === type_protean ) continue;
 
 		let cond;
 
@@ -1702,7 +1669,6 @@ def.func.genCreator =
 			: 'Creates a new object.'
 		)
 		.$(
-//YY			this.id.global, '.', funcName,
 			'self.', funcName,
 			this.hasAbstract
 				? [ ' = ', 'abstractPrototype.', funcName ]
@@ -1735,7 +1701,7 @@ def.func.genFromJsonCreatorVariables =
 		varList.push( attr.varRef.name );
 	}
 
-	if( this.hasJson )
+	if( this.json )
 	{
 		if( this.group ) varList.push( 'jgroup', 'group', 'k' );
 
@@ -1794,15 +1760,6 @@ def.func.genFromJsonCreatorAttributeParser =
 					$(
 						attr.varRef, ' = ',
 						attr.id.$varname,
-						'.createFromJSON( arg )'
-					);
-			}
-			else if( attr.id.timtype === tim_id ) // FIXXME
-			{
-				code =
-					$(
-						attr.varRef, ' = ',
-						attr.id.$global,
 						'.createFromJSON( arg )'
 					);
 			}
@@ -2005,12 +1962,20 @@ def.func.genFromJsonCreatorGroupProcessing =
 {
 	const group = this.group;
 
-	const keyList = group.sortedKeys;
-
 	let haveNull = false;
 
 	// FIXME dirty workaround
-	if( keyList.length === 1 && keyList[ 0 ] === 'string' )
+	if( group.size === 1 && group.iterator( ).next( ).value.timtype === type_string )
+	{
+		return(
+			$block( )
+			.$if( '!jgroup', $fail( ) )
+			.$( 'group = jgroup' )
+		);
+	}
+
+	// FIXME dirty workaround 2
+	if( group.size === 1 && group.iterator( ).next( ).value.timtype === type_boolean )
 	{
 		return(
 			$block( )
@@ -2026,35 +1991,60 @@ def.func.genFromJsonCreatorGroupProcessing =
 
 	let loopSwitch = $switch( 'jgroup[ k ].type' );
 
-	if( group.get( 'string' ) )
-	{
-		loopSwitch =
-			loopSwitch
-			.$default(
-				$if(
-					$( 'typeof( jgroup[ k ] ) === "string"' ),
-					$( 'group[ k ] = jgroup[ k ]' ),
-					$fail( )
-				)
-			);
-	}
-	else
-	{
-		loopSwitch = loopSwitch.$default( $fail( ) );
-	}
+	loopSwitch = loopSwitch.$default( $fail( ) );
 
-	for( let g = 0, gZ = keyList.length; g < gZ; g++ )
-	{
-		const gid = group.get( keyList[ g ] );
+	// FIXME allow more than one non-tim type
+	let customDefault = false;
 
-		if( gid.pathName === 'null' )
+	const it = group.iterator( );
+
+	for( let i = it.next(); !i.done; i = it.next( ) )
+	{
+		const gid = i.value;
+
+		if( gid.timtype === type_null ) { haveNull = true; continue; }
+
+		if( gid.timtype === type_string )
 		{
-			haveNull = true;
+			if( customDefault ) throw new Error( );
+
+			customDefault = true;
+
+			loopSwitch =
+				loopSwitch
+				.$default(
+					$if(
+						$( 'typeof( jgroup[ k ] ) === "string"' ),
+						$( 'group[ k ] = jgroup[ k ]' ),
+						$fail( )
+					)
+				);
+
+			continue;
+		}
+
+		if( gid.timtype === type_boolean )
+		{
+			if( customDefault ) throw new Error( );
+
+			customDefault = true;
+
+			loopSwitch =
+				loopSwitch
+				.$default(
+					$if(
+						$( 'typeof( jgroup[ k ] ) === "boolean"' ),
+						$( 'group[ k ] = jgroup[ k ]' ),
+						$fail( )
+					)
+				);
 
 			continue;
 		}
 
 		const jsontype = tim.tree.getLeaf( this.module, './' + gid.path ).json;
+
+		if( !jsontype ) throw new Error( );
 
 		loopSwitch =
 			loopSwitch
@@ -2079,7 +2069,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			$if(
 				'jgroup[ k ] === null',
 				$block( )
-				.$(' group[ k ] = null' )
+				.$( 'group[ k ] = null' )
 				.$continue( )
 			)
 			.$( loopSwitch );
@@ -2098,7 +2088,7 @@ def.func.genFromJsonCreatorListProcessing =
 	const list = this.list;
 
 	// FIXME dirty workaround
-	if( list.size === 1 && list.iterator( ).next( ).value === 'string' )
+	if( list.size === 1 && list.iterator( ).next( ).value.timtype === type_string )
 	{
 		return(
 			$block( )
@@ -2379,7 +2369,6 @@ def.func.genFromJsonCreator =
 		$block( )
 		.$comment( 'Creates a new object from json.' )
 		.$(
-//YY			this.id.global, '.createFromJSON =',
 			'self.createFromJSON =',
 			$func( funcBlock ).$arg( 'json', 'the json object' )
 		)
@@ -2400,18 +2389,12 @@ def.func.genReflection =
 			? $(
 				$block( )
 				.$comment( 'Abstract Reflection.' )
-				.$(
-					'abstractPrototype.timtype = ',
-//YY					this.id.global,
-					'self',
-					'.abstract'
-				)
+				.$( 'abstractPrototype.timtype = self.abstract' )
 				.$( 'abstractPrototype.isAbstract = true' )
 			)
 			: undefined
 		)
 		.$comment( 'Type reflection.' )
-//YY		.$( 'prototype.timtype = ', this.id.$global )
 		.$( 'prototype.timtype = self' )
 	);
 };
@@ -2739,7 +2722,6 @@ def.func.genEqualsFuncBody =
 		.$if( 'this === obj', $( 'return true' ) )
 		.$if( '!obj', $( 'return false' ) )
 		.$if(
-//YY			$( 'obj.timtype !== ', this.id.global ),
 			$( 'obj.timtype !== self' ),
 			$(' return false' )
 		);
@@ -2916,9 +2898,7 @@ def.func.genEquals =
 
 	const normalEqFuncBody = this.genEqualsFuncBody( 'normal', 'equals' );
 
-	const jsonEqFuncBody =
-		this.hasJson
-		&& this.genEqualsFuncBody( 'json', 'equalsJSON' );
+	const jsonEqFuncBody = this.json && this.genEqualsFuncBody( 'json', 'equalsJSON' );
 
 	if( !normalEqFuncBody.equals( jsonEqFuncBody ) )
 	{
@@ -2932,7 +2912,7 @@ def.func.genEquals =
 					.$arg( 'obj', 'object to compare to' )
 			);
 
-		if( this.hasJson )
+		if( this.json )
 		{
 			block = block.$comment( 'Tests equality of json representation.' );
 
@@ -3064,7 +3044,6 @@ def.func.genCapsule =
 		$block( )
 		.$( '"use strict"' )
 		.$comment( 'The typed immutable.' )
-//YY		.$let( this.id.global, 'NODE ? module.exports : module' )
 		.$let( 'self', 'NODE ? module.exports : module' )
 		.$( this.genRequires( ) )
 		.$( this.hasAbstract ? this.genConstructor( true ) : undefined )
@@ -3080,7 +3059,7 @@ def.func.genCapsule =
 		.$( this.hasAbstract ? this.genCreator( true ) : undefined )
 		.$( this.genCreator( false ) );
 
-	if( this.hasJson )
+	if( this.json )
 	{
 		capsule = capsule.$( this.genFromJsonCreator( ) );
 	}
@@ -3090,10 +3069,7 @@ def.func.genCapsule =
 		.$( this.genReflection( ) )
 		.$( this.genTimProto( ) );
 
-	if( this.hasJson )
-	{
-		capsule = capsule.$( this.genToJson( ) );
-	}
+	if( this.json ) capsule = capsule.$( this.genToJson( ) );
 
 	capsule = capsule.$( this.genEquals( ) );
 
@@ -3116,8 +3092,6 @@ def.func.genCapsule =
 def.static.generate =
 	function(
 		timDef,       // the tim definition
-		id,           // the id to be defined FIXME remove
-		jsonTypeMap,  // if defined a typemap for json generation/parsing FIXME remove
 		module        // the module relative to which types are
 	)
 {
@@ -3125,7 +3099,6 @@ def.static.generate =
 
 	const gi =
 		self.create(
-			'id', id && tim_id.createFromString( id ),
 			'timDef', timDef,
 			'module', module
 		);
