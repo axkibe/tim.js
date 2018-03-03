@@ -64,9 +64,22 @@ def.static.createFromArray =
 				? prefix + 'types-' + postfix + '.txt'
 				: prefix + 'types.txt';
 
-			const lines = fs.readFileSync( filename );
+			let mpath = module.filename;
 
-			console.log( 'XXX', lines );
+			mpath = mpath.substr( 0, mpath.lastIndexOf( '/' ) + 1 );
+
+			const lines = ( fs.readFileSync( mpath + filename ) + '' ).split( '\n' );
+
+			for( let a = 0, al = lines.length; a < al; a++ )
+			{
+				const line = lines[ a ].trim( );
+
+				if( line === '' || line[ 0 ] === '#' ) continue;
+
+				const id = any.createFromString( line );
+
+				ids.add( id );
+			}
 
 			continue;
 		}

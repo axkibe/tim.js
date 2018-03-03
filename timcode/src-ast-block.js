@@ -19,6 +19,48 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
+const tt_block = require( './block' );
+
+
+const tt_check = require( './check' );
+
+
+const tt_comment = require( './comment' );
+
+
+const tt_const = require( './const' );
+
+
+const tt_continue = require( './continue' );
+
+
+const tt_fail = require( './fail' );
+
+
+const tt_for = require( './for' );
+
+
+const tt_forIn = require( './forIn' );
+
+
+const tt_if = require( './if' );
+
+
+const tt_let = require( './let' );
+
+
+const tt_return = require( './return' );
+
+
+const tt_switch = require( './switch' );
+
+
+const tt_varDec = require( './varDec' );
+
+
+const tt_while = require( './while' );
+
+
 const tt_and = require( './and' );
 
 
@@ -131,48 +173,6 @@ const tt_typeof = require( './typeof' );
 
 
 const tt_var = require( './var' );
-
-
-const tt_block = require( './block' );
-
-
-const tt_check = require( './check' );
-
-
-const tt_comment = require( './comment' );
-
-
-const tt_const = require( './const' );
-
-
-const tt_continue = require( './continue' );
-
-
-const tt_fail = require( './fail' );
-
-
-const tt_for = require( './for' );
-
-
-const tt_forIn = require( './forIn' );
-
-
-const tt_if = require( './if' );
-
-
-const tt_let = require( './let' );
-
-
-const tt_return = require( './return' );
-
-
-const tt_switch = require( './switch' );
-
-
-const tt_varDec = require( './varDec' );
-
-
-const tt_while = require( './while' );
 
 
 const tim_proto = tim.proto;
@@ -336,6 +336,34 @@ prototype.create =
 /**/		const o = list[ r ];
 /**/
 /**/		if(
+/**/			o.timtype !== tt_block
+/**/			&&
+/**/			o.timtype !== tt_check
+/**/			&&
+/**/			o.timtype !== tt_comment
+/**/			&&
+/**/			o.timtype !== tt_const
+/**/			&&
+/**/			o.timtype !== tt_continue
+/**/			&&
+/**/			o.timtype !== tt_fail
+/**/			&&
+/**/			o.timtype !== tt_for
+/**/			&&
+/**/			o.timtype !== tt_forIn
+/**/			&&
+/**/			o.timtype !== tt_if
+/**/			&&
+/**/			o.timtype !== tt_let
+/**/			&&
+/**/			o.timtype !== tt_return
+/**/			&&
+/**/			o.timtype !== tt_switch
+/**/			&&
+/**/			o.timtype !== tt_varDec
+/**/			&&
+/**/			o.timtype !== tt_while
+/**/			&&
 /**/			o.timtype !== tt_and
 /**/			&&
 /**/			o.timtype !== tt_arrayLiteral
@@ -411,34 +439,6 @@ prototype.create =
 /**/			o.timtype !== tt_typeof
 /**/			&&
 /**/			o.timtype !== tt_var
-/**/			&&
-/**/			o.timtype !== tt_block
-/**/			&&
-/**/			o.timtype !== tt_check
-/**/			&&
-/**/			o.timtype !== tt_comment
-/**/			&&
-/**/			o.timtype !== tt_const
-/**/			&&
-/**/			o.timtype !== tt_continue
-/**/			&&
-/**/			o.timtype !== tt_fail
-/**/			&&
-/**/			o.timtype !== tt_for
-/**/			&&
-/**/			o.timtype !== tt_forIn
-/**/			&&
-/**/			o.timtype !== tt_if
-/**/			&&
-/**/			o.timtype !== tt_let
-/**/			&&
-/**/			o.timtype !== tt_return
-/**/			&&
-/**/			o.timtype !== tt_switch
-/**/			&&
-/**/			o.timtype !== tt_varDec
-/**/			&&
-/**/			o.timtype !== tt_while
 /**/		)
 /**/		{
 /**/			throw new Error( );

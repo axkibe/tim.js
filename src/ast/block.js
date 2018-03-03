@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = tim.typemap( module, './statement' );
+	def.list = [ '< ./statement', '< ./expr' ];
 }
 
 
