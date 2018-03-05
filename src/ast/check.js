@@ -17,11 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		block :
-		{
-			// the code block',
-			type : './block'
-		}
+		// the code block',
+		block : { type : './block' },
 	};
 }
 

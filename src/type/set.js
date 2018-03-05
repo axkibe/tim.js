@@ -51,18 +51,7 @@ def.static.createFromArray =
 
 			while( entry[ s ] === ' ' ) s++;
 
-			const path = entry.substr( s, entry.length );
-
-			const lio = path.lastIndexOf( '/' );
-
-			const prefix = lio >= 0 ? path.substr( 0, lio + 1 ) : './';
-
-			const postfix = lio >= 0 ? path.substr( lio + 1, path.length ) : path;
-
-			const filename =
-				postfix
-				? prefix + 'types-' + postfix + '.txt'
-				: prefix + 'types.txt';
+			const filename = entry.substr( s, entry.length ) + '.txt';
 
 			let mpath = module.filename;
 

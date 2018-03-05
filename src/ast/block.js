@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = [ '< ./statement', '< ./expr' ];
+	def.list = [ '< ./types-statement', '< ./types-expr' ];
 }
 
 

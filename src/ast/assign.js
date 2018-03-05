@@ -12,16 +12,9 @@ if( TIM )
 {
 	def.attributes =
 	{
-		left :
-		{
-			// left-hand side
-			type : tim.typemap( module, './expr' )
-		},
-		right :
-		{
-			// right-hand side
-			type : tim.typemap( module, './expr' )
-		}
+		left : { type : [ '< ./types-expr' ] },
+
+		right : { type : [ '< ./types-expr' ] },
 	};
 }
 
