@@ -20,11 +20,11 @@ if( TIM )
 
 	def.attributes =
 	{
-		condition : { type : tim.typemap( module, './expr' ) },
+		condition : { type : [ '< ./types-expr' ] },
 
-		then : { type : tim.typemap( module, './expr' ) },
+		then : { type : [ '< ./types-expr' ] },
 
-		elsewise : { type : tim.typemap( module, './expr' ) }
+		elsewise : { type : [ '< ./types-expr' ] },
 	};
 }
 

@@ -141,7 +141,8 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		list // list
+		twig, // twig
+		ranks // twig ranks
 	)
 {
 	if( prototype.__have_lazy )
@@ -149,11 +150,15 @@ const Constructor =
 		this.__lazy = { };
 	}
 
-	this._list = list;
+	this._twig = twig;
+
+	this._ranks = ranks;
 
 	if( FREEZE )
 	{
-		Object.freeze( list );
+		Object.freeze( twig );
+
+		Object.freeze( ranks );
 
 		Object.freeze( this );
 	}
@@ -180,23 +185,33 @@ prototype.create =
 {
 	let inherit;
 
-	let list;
+	let key;
 
-	let listDup;
+	let rank;
+
+	let ranks;
+
+	let twig;
+
+	let twigDup;
 
 	if( this !== self )
 	{
 		inherit = this;
 
-		list = inherit._list;
+		twig = inherit._twig;
 
-		listDup = false;
+		ranks = inherit._ranks;
+
+		twigDup = false;
 	}
 	else
 	{
-		list = [ ];
+		twig = { };
 
-		listDup = true;
+		ranks = [ ];
+
+		twigDup = true;
 	}
 
 	for(
@@ -209,71 +224,164 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'list:init' :
+			case 'twig:add' :
+
+				if( twigDup !== true )
+				{
+					twig = tim_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg;
+
+				arg = arguments[ ++a + 1 ];
+
+				if( twig[ key ] !== undefined )
+				{
+					throw new Error( );
+				}
+
+				twig[ key ] = arg;
+
+				ranks.push( key );
+
+				break;
+
+			case 'twig:init' :
+
+				twigDup = true;
+
+				twig = arg;
+
+				ranks = arguments[ ++a + 1 ];
 
 /**/			if( CHECK )
 /**/			{
-/**/				if( !Array.isArray( arg ) )
+/**/				if( Object.keys( twig ).length !== ranks.length )
 /**/				{
 /**/					throw new Error( );
 /**/				}
+/**/
+/**/				for(
+/**/					let t = 0, tl = ranks.length;
+/**/					t < tl;
+/**/					t++
+/**/				)
+/**/				{
+/**/					if( twig[ ranks[ t ] ] === undefined )
+/**/					{
+/**/						throw new Error( );
+/**/					}
+/**/				}
 /**/			}
 
-				list = arg;
+				break;
 
-				listDup = 'init';
+			case 'twig:set+' :
+
+				if( twigDup !== true )
+				{
+					twig = tim_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg;
+
+				arg = arguments[ ++a + 1 ];
+
+				if( twig[ key ] === undefined )
+				{
+					ranks.push( key );
+				}
+
+				twig[ key ] = arg;
 
 				break;
 
-			case 'list:append' :
+			case 'twig:set' :
 
-				if( !listDup )
+				if( twigDup !== true )
 				{
-					list = list.slice( );
+					twig = tim_proto.copy( twig );
 
-					listDup = true;
+					ranks = ranks.slice( );
+
+					twigDup = true;
 				}
 
-				list.push( arg );
+				key = arg;
+
+				arg = arguments[ ++a + 1 ];
+
+				if( twig[ key ] === undefined )
+				{
+					throw new Error( );
+				}
+
+				twig[ key ] = arg;
 
 				break;
 
-			case 'list:insert' :
+			case 'twig:insert' :
 
-				if( !listDup )
+				if( twigDup !== true )
 				{
-					list = list.slice( );
+					twig = tim_proto.copy( twig );
 
-					listDup = true;
+					ranks = ranks.slice( );
+
+					twigDup = true;
 				}
 
-				list.splice( arg, 0, arguments[ ++a + 1 ] );
+				key = arg;
+
+				rank = arguments[ a + 2 ];
+
+				arg = arguments[ a + 3 ];
+
+				a += 2;
+
+				if( twig[ key ] !== undefined )
+				{
+					throw new Error( );
+				}
+
+				if( rank < 0 || rank > ranks.length )
+				{
+					throw new Error( );
+				}
+
+				twig[ key ] = arg;
+
+				ranks.splice( rank, 0, key );
 
 				break;
 
-			case 'list:remove' :
+			case 'twig:remove' :
 
-				if( !listDup )
+				if( twigDup !== true )
 				{
-					list = list.slice( );
+					twig = tim_proto.copy( twig );
 
-					listDup = true;
+					ranks = ranks.slice( );
+
+					twigDup = true;
 				}
 
-				list.splice( arg, 1 );
-
-				break;
-
-			case 'list:set' :
-
-				if( !listDup )
+				if( twig[ arg ] === undefined )
 				{
-					list = list.slice( );
-
-					listDup = true;
+					throw new Error( );
 				}
 
-				list[ arg ] = arguments[ ++a + 1 ];
+				delete twig[ arg ];
+
+				ranks.splice( ranks.indexOf( arg ), 1 );
 
 				break;
 
@@ -286,12 +394,17 @@ prototype.create =
 /**/if( CHECK )
 /**/{
 /**/	for(
-/**/		let r = 0, rl = list.length;
-/**/		r < rl;
-/**/		++r
+/**/		let a = 0, al = ranks.length;
+/**/		a < al;
+/**/		++a
 /**/	)
 /**/	{
-/**/		const o = list[ r ];
+/**/		if( prototype.abstract )
+/**/		{
+/**/			continue;
+/**/		}
+/**/
+/**/		const o = twig[ ranks[ a ] ];
 /**/
 /**/		if(
 /**/			o.timtype !== tt_and
@@ -376,12 +489,12 @@ prototype.create =
 /**/	}
 /**/}
 
-	if( inherit && listDup === false )
+	if( inherit && twigDup === false )
 	{
 		return inherit;
 	}
 
-	return new Constructor( list );
+	return new Constructor( twig, ranks );
 };
 
 
@@ -404,51 +517,39 @@ prototype.getPath = tim_proto.getPath;
 
 
 /*
-| Returns the list with an element appended.
+| Returns the element at rank.
 */
-prototype.append = tim_proto.listAppend;
+prototype.atRank = tim_proto.twigAtRank;
 
 
 /*
-| Returns the list with another list appended.
+| Returns the element by key.
 */
-prototype.appendList = tim_proto.listAppendList;
+prototype.get = tim_proto.twigGet;
 
 
 /*
-| Returns the length of the list.
+| Returns the key at a rank.
 */
-tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
+prototype.getKey = tim_proto.twigGetKey;
 
 
 /*
-| Returns one element from the list.
+| Returns the length of the twig.
 */
-prototype.get = tim_proto.listGet;
+tim_proto.lazyValue( prototype, 'length', tim_proto.twigLength );
 
 
 /*
-| Returns a slice from the list.
+| Returns the rank of the key.
 */
-prototype.slice = tim_proto.listSlice;
+tim_proto.lazyFunctionString( prototype, 'rankOf', tim_proto.twigRankOf );
 
 
 /*
-| Returns the list with one element inserted.
+| Returns the twig with the element at key set.
 */
-prototype.insert = tim_proto.listInsert;
-
-
-/*
-| Returns the list with one element removed.
-*/
-prototype.remove = tim_proto.listRemove;
-
-
-/*
-| Returns the list with one element set.
-*/
-prototype.set = tim_proto.listSet;
+prototype.set = tim_proto.twigSet;
 
 
 /*
@@ -474,7 +575,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( this._list !== obj._list )
+	if( this._twig !== obj._twig || this._ranks !== obj._ranks )
 	{
 		if( this.length !== obj.length )
 		{
@@ -487,13 +588,15 @@ prototype.equals =
 			++a
 		)
 		{
+			const key = this._ranks[ a ];
+
 			if(
-				this._list[ a ] !== obj._list[ a ]
-				&&
+				key !== obj._ranks[ a ]
+				||
 				(
-					!this._list[ a ].equals
-					||
-					!this._list[ a ].equals( obj._list[ a ] )
+					this._twig[ key ].equals
+					? !this._twig[ key ].equals( obj._twig[ key ] )
+					: this._twig[ key ] !== obj._twig[ key ]
 				)
 			)
 			{

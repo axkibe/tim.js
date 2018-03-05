@@ -19,7 +19,7 @@ if( TIM )
 	{
 		// the statement expression
 		// FIXME the "statement" being an expression is just stupid
-		statement : { type : tim.typemap( module, './expr' ) },
+		statement : { type : [ '< ./types-expr' ] },
 
 		// the default block
 		defaultCase : { type : [ 'undefined', './block' ] }

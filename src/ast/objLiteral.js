@@ -15,7 +15,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.twig = tim.typemap( module, './expr' );
+	def.twig = [ '< ./types-expr' ];
 }
 
 

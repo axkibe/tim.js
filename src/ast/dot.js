@@ -18,7 +18,7 @@ if( TIM )
 	def.attributes =
 	{
 		// the expression to get the member of
-		expr : { type : tim.typemap( module, './expr' ) },
+		expr : { type : [ '< ./types-expr' ] },
 
 		// the members name
 		member : { type : 'string' },

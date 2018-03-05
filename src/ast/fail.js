@@ -17,13 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		message :
-		{
-			// the error message expression
-			type :
-				tim.typemap( module, './expr' )
-				.concat( ['undefined' ] )
-		}
+		// the error message expression
+		message : { type : [ '< ./types-expr', 'undefined' ] },
 	};
 }
 

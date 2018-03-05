@@ -21,12 +21,7 @@ if( TIM )
 		name : { type : 'string' },
 
 		// assignment of variable
-		assign :
-		{
-			type :
-				tim.typemap( module, './expr' )
-				.concat( [ 'undefined' ] )
-		},
+		assign : { type : [ '< ./types-expr', 'undefined' ] },
 	};
 }
 

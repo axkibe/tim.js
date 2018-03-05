@@ -23,7 +23,7 @@ if( TIM )
 	};
 
 	// list of case values
-	def.list =  tim.typemap( module, './expr' );
+	def.list =  [ '< ./types-expr' ];
 }
 
 

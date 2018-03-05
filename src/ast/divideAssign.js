@@ -17,9 +17,9 @@ if( TIM )
 {
 	def.attributes =
 	{
-		left : { type : tim.typemap( module, './expr' ) },
+		left : { type : [ '< ./types-expr' ] },
 
-		right : { type : tim.typemap( module, './expr' ) }
+		right : { type : [ '< ./types-expr' ] },
 	};
 }
 

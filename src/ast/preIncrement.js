@@ -18,7 +18,7 @@ if( TIM )
 	def.attributes =
 	{
 		// the expression to pre-increment
-		expr : { type : tim.typemap( module, './expr' ) },
+		expr : { type : [ '< ./types-expr' ] },
 	};
 }
 

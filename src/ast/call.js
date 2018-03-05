@@ -17,10 +17,12 @@ if( TIM )
 {
 	def.attributes =
 	{
-		func : { type : tim.typemap( module, './expr' ) },
+		// the expression yielding a function to call
+		func : { type : [ '< ./types-expr' ] },
 	};
 
-	def.list = tim.typemap( module, './expr' );
+	// the arguments
+	def.list = [ '< ./types-expr' ];
 }
 
 

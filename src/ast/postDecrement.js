@@ -18,7 +18,7 @@ if( TIM )
 	def.attributes =
 	{
 		// the expression to post-decrement
-		expr : { type : tim.typemap( module, './expr' ) },
+		expr : { type : [ '< ./types-expr' ] },
 	};
 }
 

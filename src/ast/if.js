@@ -17,7 +17,7 @@ if( TIM )
 {
 	def.attributes =
 	{
-		condition : { type : tim.typemap( module, './expr' ) },
+		condition : { type : [ '< ./types-expr' ] },
 
 		then : { type : './block' },
 

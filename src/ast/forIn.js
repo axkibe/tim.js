@@ -24,7 +24,7 @@ if( TIM )
 		letVar : { type : 'boolean' },
 
 		// the object expression to iterate over
-		object : { type : tim.typemap( module, './expr' ), },
+		object : { type : [ '< ./types-expr' ] },
 
 		// the loop block
 		block : { type : './block' },

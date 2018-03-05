@@ -17,11 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		expr :
-		{
-			// the expression to delete
-			type : tim.typemap( module, './expr' ),
-		}
+		// the expression to delete
+		expr : { type : [ '< ./types-expr' ] },
 	};
 }
 

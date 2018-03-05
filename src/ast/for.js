@@ -18,16 +18,13 @@ if( TIM )
 	def.attributes =
 	{
 		// the initialization
-		init :
-		{
-			type : tim.typemap( module, './expr' ).concat( [ './let' ] )
-		},
+		init : { type : [ '< ./types-expr', './let' ] },
 
 		// the continue condition
-		condition : { type : tim.typemap( module, './expr' ), },
+		condition : { type : [ '< ./types-expr' ] },
 
 		// the iteration expression
-		iterate : { type : tim.typemap( module, './expr' ), },
+		iterate : { type : [ '< ./types-expr' ] },
 
 		// the loop block
 		block : { type : './block' }

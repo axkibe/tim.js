@@ -18,7 +18,7 @@ if( TIM )
 	def.attributes =
 	{
 		// the while condition
-		condition : { type : tim.typemap( module, './expr' ), },
+		condition : { type : [ '< ./types-expr' ] },
 
 		// the looped block
 		block : { type : './block' }
