@@ -6,7 +6,7 @@
 
 
 require( '../ouroboros' )
-.define( module, ( def, self ) => {
+.define( module, ( def ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -16,9 +16,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list =
-		tim.typemap( module, '../ast/statement' )
-		.concat( [ '../jsLexer/token' ] );
+	def.list = [ '< ../ast/types-statement', '< ../ast/types-expr', '../jsLexer/token' ];
 }
 
 

@@ -19,6 +19,48 @@ function( ) {
 let self = NODE ? module.exports : module;
 
 
+const tt_$_ast_block = require( './../ast/block' );
+
+
+const tt_$_ast_check = require( './../ast/check' );
+
+
+const tt_$_ast_comment = require( './../ast/comment' );
+
+
+const tt_$_ast_const = require( './../ast/const' );
+
+
+const tt_$_ast_continue = require( './../ast/continue' );
+
+
+const tt_$_ast_fail = require( './../ast/fail' );
+
+
+const tt_$_ast_for = require( './../ast/for' );
+
+
+const tt_$_ast_forIn = require( './../ast/forIn' );
+
+
+const tt_$_ast_if = require( './../ast/if' );
+
+
+const tt_$_ast_let = require( './../ast/let' );
+
+
+const tt_$_ast_return = require( './../ast/return' );
+
+
+const tt_$_ast_switch = require( './../ast/switch' );
+
+
+const tt_$_ast_varDec = require( './../ast/varDec' );
+
+
+const tt_$_ast_while = require( './../ast/while' );
+
+
 const tt_$_ast_and = require( './../ast/and' );
 
 
@@ -131,48 +173,6 @@ const tt_$_ast_typeof = require( './../ast/typeof' );
 
 
 const tt_$_ast_var = require( './../ast/var' );
-
-
-const tt_$_ast_block = require( './../ast/block' );
-
-
-const tt_$_ast_check = require( './../ast/check' );
-
-
-const tt_$_ast_comment = require( './../ast/comment' );
-
-
-const tt_$_ast_const = require( './../ast/const' );
-
-
-const tt_$_ast_continue = require( './../ast/continue' );
-
-
-const tt_$_ast_fail = require( './../ast/fail' );
-
-
-const tt_$_ast_for = require( './../ast/for' );
-
-
-const tt_$_ast_forIn = require( './../ast/forIn' );
-
-
-const tt_$_ast_if = require( './../ast/if' );
-
-
-const tt_$_ast_let = require( './../ast/let' );
-
-
-const tt_$_ast_return = require( './../ast/return' );
-
-
-const tt_$_ast_switch = require( './../ast/switch' );
-
-
-const tt_$_ast_varDec = require( './../ast/varDec' );
-
-
-const tt_$_ast_while = require( './../ast/while' );
 
 
 const tt_$_jsLexer_token = require( './../jsLexer/token' );
@@ -339,6 +339,34 @@ prototype.create =
 /**/		const o = list[ r ];
 /**/
 /**/		if(
+/**/			o.timtype !== tt_$_ast_block
+/**/			&&
+/**/			o.timtype !== tt_$_ast_check
+/**/			&&
+/**/			o.timtype !== tt_$_ast_comment
+/**/			&&
+/**/			o.timtype !== tt_$_ast_const
+/**/			&&
+/**/			o.timtype !== tt_$_ast_continue
+/**/			&&
+/**/			o.timtype !== tt_$_ast_fail
+/**/			&&
+/**/			o.timtype !== tt_$_ast_for
+/**/			&&
+/**/			o.timtype !== tt_$_ast_forIn
+/**/			&&
+/**/			o.timtype !== tt_$_ast_if
+/**/			&&
+/**/			o.timtype !== tt_$_ast_let
+/**/			&&
+/**/			o.timtype !== tt_$_ast_return
+/**/			&&
+/**/			o.timtype !== tt_$_ast_switch
+/**/			&&
+/**/			o.timtype !== tt_$_ast_varDec
+/**/			&&
+/**/			o.timtype !== tt_$_ast_while
+/**/			&&
 /**/			o.timtype !== tt_$_ast_and
 /**/			&&
 /**/			o.timtype !== tt_$_ast_arrayLiteral
@@ -414,34 +442,6 @@ prototype.create =
 /**/			o.timtype !== tt_$_ast_typeof
 /**/			&&
 /**/			o.timtype !== tt_$_ast_var
-/**/			&&
-/**/			o.timtype !== tt_$_ast_block
-/**/			&&
-/**/			o.timtype !== tt_$_ast_check
-/**/			&&
-/**/			o.timtype !== tt_$_ast_comment
-/**/			&&
-/**/			o.timtype !== tt_$_ast_const
-/**/			&&
-/**/			o.timtype !== tt_$_ast_continue
-/**/			&&
-/**/			o.timtype !== tt_$_ast_fail
-/**/			&&
-/**/			o.timtype !== tt_$_ast_for
-/**/			&&
-/**/			o.timtype !== tt_$_ast_forIn
-/**/			&&
-/**/			o.timtype !== tt_$_ast_if
-/**/			&&
-/**/			o.timtype !== tt_$_ast_let
-/**/			&&
-/**/			o.timtype !== tt_$_ast_return
-/**/			&&
-/**/			o.timtype !== tt_$_ast_switch
-/**/			&&
-/**/			o.timtype !== tt_$_ast_varDec
-/**/			&&
-/**/			o.timtype !== tt_$_ast_while
 /**/			&&
 /**/			o.timtype !== tt_$_jsLexer_token
 /**/		)

@@ -17,13 +17,8 @@ if( TIM )
 {
 	def.attributes =
 	{
-		ast :
-		{
-			// current ast entity
-			type :
-				tim.typemap( module, '../ast/statement' )
-				.concat( [ 'undefined' ] )
-		},
+		// current ast entity
+		ast : { type : [ '< ../ast/types-statement', '< ../ast/types-expr', 'undefined' ] },
 
 		// list of tokens to parse
 		tokens : { type : './tokenList' },
