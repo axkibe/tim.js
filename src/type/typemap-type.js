@@ -1,4 +1,5 @@
 /*
+| XXX remove
 | Typemap of all types.
 */
 'use strict';

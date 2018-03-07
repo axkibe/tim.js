@@ -1,5 +1,6 @@
 /*
 | ast statements.
+| XXX remove
 */
 module.exports =
 	require( './typemap-expr' )

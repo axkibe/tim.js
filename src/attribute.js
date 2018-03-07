@@ -27,7 +27,7 @@ if( TIM )
 		assign : { type : 'string' },
 
 		// default value
-		defaultValue : { type : tim.typemap( module, './ast/expr' ).concat( [ 'undefined' ] ) },
+		defaultValue : { type : [ '< ./ast/types-expr', 'undefined' ] },
 
 		// include in JSON export/import
 		json : { type : 'boolean', defaultValue : 'false' },
@@ -39,7 +39,7 @@ if( TIM )
 		prepare : { type : [ 'undefined', 'string' ] },
 
 		// attribute type id
-		id : { type : tim.typemap( module, './type/type' ).concat( [ './type/set' ] ) },
+		id : { type : [ '< ./type/types', './type/set' ] },
 
 		// attribute variable used in generate
 		varRef : { type : './ast/var' },

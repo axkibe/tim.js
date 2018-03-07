@@ -15,13 +15,15 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.set = tim.typemap( module, './type' );
+	def.set = [ '< ./types' ];
 }
 
 
 const any = require( './any' );
 
 const fs = require( 'fs' );
+
+const type_tim = require( './tim' );
 
 
 /*
@@ -65,7 +67,51 @@ def.static.createFromArray =
 
 				if( line === '' || line[ 0 ] === '#' ) continue;
 
-				const id = any.createFromString( line );
+				if( line[ 0 ] !== '.' )
+				{
+					// it is not a tim or an imported tim
+					const id = any.createFromString( line );
+
+					ids.add( id );
+				}
+
+				// the relative used to get the typeset file has to
+				// be combined with the relative path of tims
+
+				const rpath = filename.substr( 0, filename.lastIndexOf( '/' ) );
+
+				const rpa = rpath.split( '/' );
+
+				const la = line.split( '/' );
+
+				// just cut out all the '.' path parts
+				for( let a = 0, al = rpa.length; a < al; a++ )
+				{
+					if( rpa[ a ] !== '.' ) continue;
+
+					rpa.splice( a, 1 ); a--; al--;
+				}
+
+				for( let a = 0, al = la.length; a < al; a++ )
+				{
+					if( la[ a ] !== '.' ) continue;
+
+					la.splice( a, 1 ); a--; al--;
+				}
+
+				while( la[ 0 ] === '..' )
+				{
+					la.shift( );
+
+					rpa.pop( );
+				}
+
+
+				// FIXME this is paradox to have to join
+				//       it just to be splitted again
+				const combined = rpa.concat( la ).join( '/' );
+
+				const id = type_tim.createFromString( './' + combined );
 
 				ids.add( id );
 			}

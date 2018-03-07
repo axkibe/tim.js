@@ -1,0 +1,13 @@
+# Typeset of all types.
+
+./boolean
+./date
+./function
+./integer
+./null
+./number
+./protean
+./undefined
+./string
+./tim
+
