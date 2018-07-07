@@ -1732,7 +1732,7 @@ def.func.genFromJsonCreatorAttributeParser =
 		attr
 	)
 {
-	// a signle if
+	// a single if
 	let sif;
 
 	// code to return
@@ -1752,18 +1752,19 @@ def.func.genFromJsonCreatorAttributeParser =
 
 			break;
 
-		default :
+		case type_tim :
 
-			if( attr.id.timtype === type_tim )
-			{
-				code =
-					$(
-						attr.varRef, ' = ',
-						attr.id.$varname,
-						'.createFromJSON( arg )'
-					);
-			}
-			else
+			code =
+				$(
+					attr.varRef, ' = ',
+					attr.id.$varname,
+					'.createFromJSON( arg )'
+				);
+
+			break;
+
+		default :
+			
 			{
 				// the multi if
 				let mif;
@@ -1825,7 +1826,7 @@ def.func.genFromJsonCreatorAttributeParser =
 					{
 						if( !cSwitch )
 						{
-							cSwitch = $switch( 'arg.type' ) .$default( $fail( ) );
+							cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 						}
 
 						// FIXME remove the './' part of all getLeaf calls

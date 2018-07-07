@@ -27,8 +27,8 @@ const type_tim = require( './tim' );
 
 
 /*
-| Creates an id repository from an
-| array of id strings.
+| Creates a type set from an
+| array of type strings.
 */
 def.static.createFromArray =
 	function(
@@ -73,6 +73,8 @@ def.static.createFromArray =
 					const id = any.createFromString( line );
 
 					ids.add( id );
+
+					continue;
 				}
 
 				// the relative used to get the typeset file has to
@@ -99,12 +101,12 @@ def.static.createFromArray =
 					la.splice( a, 1 ); a--; al--;
 				}
 
-				while( la[ 0 ] === '..' )
-				{
-					la.shift( );
-
-					rpa.pop( );
-				}
+//				while( la[ 0 ] === '..' )
+//				{
+//					la.shift( );
+//
+//					rpa.pop( );
+//				}
 
 
 				// FIXME this is paradox to have to join
