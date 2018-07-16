@@ -22,8 +22,7 @@ global.tim =
 	proto          : proto,
 	tree           : require( '../tree/node' ),
 	aheadValue     : proto.aheadValue,
-	ouroborosBuild : true,
-	typemap        : require( '../typemap' ),
+	ouroborosBuild : true
 };
 
 const argV = process.argv;

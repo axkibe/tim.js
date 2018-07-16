@@ -60,11 +60,5 @@ exports.browserTreeSource =
 		+ 'tree/browser.js'
 	);
 
-/*
-| Loads a module exporting an array
-*/
-exports.typemap = require( './typemap' );
-
-
 if( FREEZE ) Object.freeze( exports );
 

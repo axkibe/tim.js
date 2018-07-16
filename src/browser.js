@@ -36,16 +36,9 @@ tim.define =
 tim.ouroboros.define =
 	function(
 		module,   // used by node only, ignored in browser
-		id,       // the id of the tim to be defined
 		definer   // defined functions
 	)
 {
-	// FIXXME
-	if( arguments.length === 2 )
-	{
-		definer = id;
-	}
-
 	const tim = module;
 
 	const timDef =
