@@ -172,6 +172,9 @@ const tt_$_ast_string = require( './../ast/string' );
 const tt_$_ast_typeof = require( './../ast/typeof' );
 
 
+const tt_$_ast_undefined = require( './../ast/undefined' );
+
+
 const tt_$_ast_var = require( './../ast/var' );
 
 
@@ -440,6 +443,8 @@ prototype.create =
 /**/			o.timtype !== tt_$_ast_string
 /**/			&&
 /**/			o.timtype !== tt_$_ast_typeof
+/**/			&&
+/**/			o.timtype !== tt_$_ast_undefined
 /**/			&&
 /**/			o.timtype !== tt_$_ast_var
 /**/			&&

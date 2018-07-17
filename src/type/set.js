@@ -101,14 +101,6 @@ def.static.createFromArray =
 					la.splice( a, 1 ); a--; al--;
 				}
 
-//				while( la[ 0 ] === '..' )
-//				{
-//					la.shift( );
-//
-//					rpa.pop( );
-//				}
-
-
 				// FIXME this is paradox to have to join
 				//       it just to be splitted again
 				const combined = rpa.concat( la ).join( '/' );

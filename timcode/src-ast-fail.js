@@ -130,6 +130,9 @@ const tt_string = require( './string' );
 const tt_typeof = require( './typeof' );
 
 
+const tt_undefined = require( './undefined' );
+
+
 const tt_var = require( './var' );
 
 
@@ -295,6 +298,8 @@ prototype.create =
 /**/			v_message.timtype !== tt_string
 /**/			&&
 /**/			v_message.timtype !== tt_typeof
+/**/			&&
+/**/			v_message.timtype !== tt_undefined
 /**/			&&
 /**/			v_message.timtype !== tt_var
 /**/		)

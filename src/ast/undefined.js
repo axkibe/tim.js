@@ -1,11 +1,11 @@
 /*
-| A null to be generated.
+| An undefined literal to be generated.
 */
 'use strict';
 
 
 require( '../ouroboros' )
-.define( module, ( def, ast_null ) => {
+.define( module, ( def, ast_undefined ) => {
 
 
 /*::::::::::::::::::::::::::::.
@@ -60,7 +60,7 @@ def.func.inspect =
 
 	opts.ast = true;
 
-	result += 'null';
+	result += 'undefined';
 
 	return result + postfix;
 };

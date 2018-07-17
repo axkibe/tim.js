@@ -63,6 +63,7 @@ module.exports =
 	'src/ast/string.js',
 	'src/ast/switch.js',
 	'src/ast/typeof.js',
+	'src/ast/undefined.js',
 	'src/ast/var.js',
 	'src/ast/varDec.js',
 	'src/ast/while.js',
