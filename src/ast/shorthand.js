@@ -94,6 +94,8 @@ const ast_switch = require( './switch' );
 
 const ast_typeof = require( './typeof' );
 
+const ast_undefined = require( './undefined' );
+
 const ast_var = require( './var' );
 
 const ast_varDec = require( './varDec' );
@@ -880,7 +882,7 @@ def.static.$typeof =
 /*
 | Shorthand for 'undefined'
 */
-def.staticLazy.$undefined = ( ) => ast_var.create( 'name', 'undefined' );
+def.static.$undefined = ast_undefined.create( );
 
 
 /*

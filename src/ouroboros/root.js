@@ -3,8 +3,8 @@
 */
 'use strict';
 
-Error.stackTraceLimit = 99999;
-//Error.stackTraceLimit = 20;
+//Error.stackTraceLimit = 99999;
+Error.stackTraceLimit = 20;
 
 global.CHECK = true;
 
