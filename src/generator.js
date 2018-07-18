@@ -94,6 +94,13 @@ const $var = shorthand.$var;
 
 
 /*
+| Type singletons
+*/
+const tsUndefined = type_undefined.create( );
+
+const tsNull = type_null.create( );
+
+/*
 | Initializes a generator.
 */
 def.func._init =
@@ -199,25 +206,18 @@ def.func._init =
 
 		if( aid.timtype === type_set )
 		{
-			const it = aid.iterator( );
-
-			// FIXME deloop again
-			for( let i = it.next( ); !i.done; i = it.next( ) )
+			if( aid.has( tsUndefined ) )
 			{
-				const id = i.value;
+				aid = aid.create( 'set:remove', tsUndefined );
 
-				if( id.timtype === type_undefined )
-				{
-					aid = aid.create( 'set:remove', id );
+				allowsUndefined = true;
+			}
+			
+			if( aid.has( tsNull ) )
+			{
+				aid = aid.create( 'set:remove', tsNull );
 
-					allowsUndefined = true;
-				}
-				else if( id.timtype === type_null )
-				{
-					aid = aid.create( 'set:remove', id );
-
-					allowsNull = true;
-				}
+				allowsUndefined = true;
 			}
 
 			if( aid.size === 1 )
@@ -225,27 +225,6 @@ def.func._init =
 				aid = aid.iterator( ).next( ).value;
 			}
 		}
-
-		/*
-		if( aid.timtype === type_set )
-		{
-			if( aid.has( idNull ) )
-			{
-				aid = aid.create( 'group:remove', 'null' );
-
-				allowsNull = true;
-			}
-
-			if( aid.has( idUndefined ) )
-			{
-				aid = aid.create( 'group:remove', 'undefined' );
-
-				allowsUndefined = true;
-			}
-
-			if( aid.size === 1 ) aid = aid.get( aid.keys[ 0 ] );
-		}
-		*/
 
 		const attr =
 			tim_attribute.create(
@@ -2117,14 +2096,14 @@ def.func.genFromJsonCreatorListProcessing =
 	{
 		const rid = i.value;
 
-		if( rid.timtype === type_null )
+		if( rid === tsNull )
 		{
 			haveNull = true;
 
 			continue;
 		}
 
-		if( rid.timtype === type_undefined )
+		if( rid === tsUndefined )
 		{
 			haveUndefined = true;
 
