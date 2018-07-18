@@ -67,7 +67,7 @@ tim_proto.lazyValue =
 
 				val = getter.call( this );
 
-				// FIXME freeze
+				if( FREEZE ) Object.freeze( val );
 
 				return( this.__lazy[ key ] = val );
 			}
