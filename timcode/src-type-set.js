@@ -69,9 +69,7 @@ const Constructor =
 
 	if( FREEZE )
 	{
-		Object.freeze( set );
-
-		Object.freeze( this );
+		Object.freeze( this, set );
 	}
 };
 

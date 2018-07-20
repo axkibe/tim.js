@@ -507,29 +507,20 @@ def.func.genConstructor =
 
 	// immutes the new object
 	// FIXME make it into one freeze call
-	let freezeBlock = $block( );
 
-	if( this.group ) freezeBlock = freezeBlock.$( 'Object.freeze( group )' );
+	let freezeCall = $( 'Object.freeze( this )' );
 
-	if( this.list ) freezeBlock = freezeBlock.$( 'Object.freeze( list )' );
+	if( this.group ) freezeCall = freezeCall.$argument ( 'group' );
 
-	if( this.set ) freezeBlock = freezeBlock.$( 'Object.freeze( set )' );
+	if( this.list ) freezeCall = freezeCall.$argument( 'list' );
 
-	if( this.twig )
-	{
-		freezeBlock =
-			freezeBlock
-			.$( 'Object.freeze( twig )' )
-			.$( 'Object.freeze( ranks )' );
-	}
+	if( this.set ) freezeCall = freezeCall.$argument( 'set' );
 
-	freezeBlock =
-		freezeBlock
-		.$( 'Object.freeze( this )' );
+	if( this.twig ) freezeCall = freezeCall.$argument( 'twig' ).$argument( 'ranks' );
 
 	// FUTURE force freezing date attributes
 
-	block = block.$if( 'FREEZE', freezeBlock );
+	block = block.$if( 'FREEZE', freezeCall );
 
 	let cf = $func( block );
 

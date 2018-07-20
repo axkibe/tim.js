@@ -42,9 +42,7 @@ const Constructor =
 
 	if( FREEZE )
 	{
-		Object.freeze( group );
-
-		Object.freeze( this );
+		Object.freeze( this, group );
 	}
 };
 

@@ -159,9 +159,7 @@ const Constructor =
 
 	if( FREEZE )
 	{
-		Object.freeze( list );
-
-		Object.freeze( this );
+		Object.freeze( this, list );
 	}
 };
 

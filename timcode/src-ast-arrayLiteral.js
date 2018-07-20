@@ -159,11 +159,7 @@ const Constructor =
 
 	if( FREEZE )
 	{
-		Object.freeze( twig );
-
-		Object.freeze( ranks );
-
-		Object.freeze( this );
+		Object.freeze( this, twig, ranks );
 	}
 };
 
