@@ -303,8 +303,13 @@ tree.getLeaf =
 		path      // the relative path FIXME this is currently a string, change it to array
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( !path.pathString ) throw new Error( );
+/**/}
+
 	// first makes sure the leaf is loaded
-	module.require( path );
+	module.require( './' + path.pathString );
 
 	let timtree;
 
@@ -346,11 +351,9 @@ tree.getLeaf =
 
 	// now moves from this branch according to relative path
 
-	split = path.split( '/' );
-
-	for( let p = 0; p < split.length; p++ )
+	for( let p = 0; p < path.length; p++ )
 	{
-		let key = split[ p ];
+		let key = path.get( p );
 
 		switch( key )
 		{

@@ -164,19 +164,29 @@ def.lazy.require =
 {
 	if( this.imported )
 	{
-		return 'tim.import( "' + this.imported + '", "' + this.path + '" )';
+		return 'tim.import( "' + this.imported + '", "' + this.pathString + '" )';
 	}
 	else
 	{
-		return 'require( "./' + this.path + '" )';
+		return 'require( "./' + this.pathString + '" )';
 	}
 };
 
 
 /*
-| This id as path relative to the owner.
+| This id as string path relative to the owner.
 */
 def.lazy.path =
+	function( )
+{
+	throw new Error( 'FIXME!' );
+};
+
+
+/*
+| This id as string path relative to the owner.
+*/
+def.lazy.pathString =
 	function( )
 {
 	let p = '';

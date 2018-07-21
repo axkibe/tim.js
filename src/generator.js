@@ -1799,8 +1799,7 @@ def.func.genFromJsonCreatorAttributeParser =
 							cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 						}
 
-						// FIXME remove the './' part of all getLeaf calls
-						const jsontype = tim.tree.getLeaf( this.module, './' + id.path ).json;
+						const jsontype = tim.tree.getLeaf( this.module, id ).json;
 
 						cSwitch =
 							cSwitch
@@ -2013,7 +2012,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
-		const jsontype = tim.tree.getLeaf( this.module, './' + gid.path ).json;
+		const jsontype = tim.tree.getLeaf( this.module, gid ).json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -2101,7 +2100,7 @@ def.func.genFromJsonCreatorListProcessing =
 			continue;
 		}
 
-		const jsontype = tim.tree.getLeaf( this.module, './' + rid.path ).json;
+		const jsontype = tim.tree.getLeaf( this.module, rid ).json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -2172,7 +2171,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 	{
 		const twigId = i.value;
 
-		const jsontype = tim.tree.getLeaf( this.module, './' + twigId.path ).json;
+		const jsontype = tim.tree.getLeaf( this.module, twigId ).json;
 
 		switchExpr =
 			switchExpr

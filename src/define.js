@@ -109,9 +109,8 @@ const createTimcode =
 };
 
 
-
 /*
-| Loads the timcode
+| Loads the timcode.
 */
 const loadTimcode =
 	function(
@@ -137,7 +136,7 @@ const loadTimcode =
 			{ filename: timcodeRealFilename }
 		);
 
-//YY	input( module.exports, module, module.require.bind( module ), tim_proto );
+//FIXME  input( module.exports, module, module.require.bind( module ), tim_proto );
 	input( module, module.require.bind( module ), tim_proto );
 };
 
