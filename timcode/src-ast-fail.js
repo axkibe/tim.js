@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -373,7 +366,3 @@ prototype.equals =
 		this.message !== undefined && this.message.equals( obj.message )
 	);
 };
-
-
-}
-)( );

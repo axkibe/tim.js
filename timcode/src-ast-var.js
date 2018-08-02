@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -170,7 +163,3 @@ prototype.equals =
 
 	return this.name === obj.name;
 };
-
-
-}
-)( );

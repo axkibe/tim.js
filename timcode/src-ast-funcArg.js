@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -195,7 +188,3 @@ prototype.equals =
 
 	return this.comment === obj.comment && this.name === obj.name;
 };
-
-
-}
-)( );

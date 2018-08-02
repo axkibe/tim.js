@@ -22,15 +22,6 @@ if( TIM )
 		{
 			type : [ 'undefined', './block' ]
 		},
-
-		capsule :
-		{
-			// if true its the capsule
-			// to be formatted a little different
-			// FIXME remove!
-			type : 'boolean',
-			defaultValue : 'false'
-		}
 	};
 
 	def.list = [ './funcArg' ];

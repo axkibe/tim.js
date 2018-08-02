@@ -1,7 +1,5 @@
 /*
 | Various shorthands for abstract syntax trees.
-|
-| FIXME lazy the empty creates
 */
 'use strict';
 
@@ -11,8 +9,6 @@ require( '../ouroboros' )
 
 
 const ast_and = require( './and' );
-
-const ast_arrayLiteral = require( './arrayLiteral' );
 
 const ast_assign = require( './assign' );
 
@@ -110,7 +106,9 @@ const parser = require( '../jsParser/parser' );
 | Ff not appends it to a new block.
 */
 const ensureBlock =
-	function( ast )
+	function(
+		ast
+	)
 {
 	if( ast.timtype === ast_block ) return ast;
 
@@ -154,16 +152,6 @@ def.static.$and =
 
 
 /*
-| Shorthand for creating array literals.
-*/
-def.static.astArrayLiteral =
-	function( )
-{
-	return ast_arrayLiteral.create( );
-};
-
-
-/*
 | Shorthand for creating assignments.
 */
 def.static.$assign =
@@ -184,33 +172,7 @@ def.static.$assign =
 /*
 | Shorthand for creating blocks.
 */
-def.static.$block =
-	function( )
-{
-	return ast_block.create( );
-};
-
-
-/*
-| Shorthand for creating capsule function.
-*/
-def.static.$capsule =
-	function(
-		block
-	)
-{
-	if( block ) block = ensureBlock( block );
-
-	return(
-		ast_call.create(
-			'func',
-			ast_func.create(
-				'block', block || undefined,
-				'capsule', true
-			)
-		)
-	);
-};
+def.staticLazy.$block = ( ) => ast_block.create( );
 
 
 /*

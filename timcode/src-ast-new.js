@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -171,7 +164,3 @@ prototype.equals =
 
 	return this.call === obj.call || this.call.equals( obj.call );
 };
-
-
-}
-)( );

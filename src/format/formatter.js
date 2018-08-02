@@ -132,8 +132,6 @@ const precTable =
 		[ ast_divide,          5 ],
 		[ ast_dot,             1 ],
 		[ ast_equals,          9 ],
-		// this is random guess, must be larger than call
-		// so the capsule is generated right.
 		[ ast_func,            3 ],
 		[ ast_greaterThan,     8 ],
 //		[ ast_in,              8 ],
@@ -425,32 +423,6 @@ const formatCall =
 	}
 
 	return text;
-};
-
-
-/*
-| Formats a capsule function.
-*/
-const formatCapsuleFunc =
-	function(
-		context,
-		func
-	)
-{
-/**/if( CHECK )
-/**/{
-/**/	if( func.length !== 0 ) throw new Error( );
-/**/}
-
-	return(
-		'function( ) {\n'
-		+ formatBlock(
-			context.dec.create( 'root', true ),
-			func.block,
-			true
-		)
-		+ '\n\n}'
-	);
 };
 
 
@@ -929,11 +901,6 @@ const formatFunc =
 		func
 	)
 {
-	if( func.capsule )
-	{
-		return formatCapsuleFunc( context, func );
-	}
-
 	let text = context.tab;
 
 	if( func.length === 0 )

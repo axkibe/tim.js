@@ -126,7 +126,7 @@ const loadTimcode =
 	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let input =
-		'( function( module, require, tim_proto ) {'
+		'( function( module, require ) {'
 		+ fs.readFileSync( timcodeRealFilename, readOptions )
 		+ '\n} )';
 
@@ -136,8 +136,8 @@ const loadTimcode =
 			{ filename: timcodeRealFilename }
 		);
 
-//FIXME  input( module.exports, module, module.require.bind( module ), tim_proto );
-	input( module, module.require.bind( module ), tim_proto );
+	// FIXME module.exports
+	input( module, module.require.bind( module ) );
 };
 
 
@@ -164,6 +164,9 @@ const timDefHasJson =
 };
 
 
+/*
+| The tim.define function.
+*/
 module.exports =
 	function(
 		module,   // module that makes the define
@@ -171,17 +174,6 @@ module.exports =
 	)
 {
 	if( arguments.length !== 2 ) throw new Error( );
-
-	/*
-	const pr = module.require;
-
-	module.require =
-		function( path )
-	{
-		console.log( 'tim.js require', path, 'from', module.filename );
-		return pr.apply( this, arguments );
-	};
-	*/
 
 	const timDef =
 	{
@@ -204,7 +196,7 @@ module.exports =
 
 	const filename = module.filename;
 
-	// FIXME this here adds too much.
+	// FUTURE this here adds too much.
 	tim.tree.addLeaf( filename, timDef.json );
 
 	const timcodeRootDir = findTimCodeRootDir( filename );
@@ -224,7 +216,6 @@ module.exports =
 
 	const exports = module.exports;
 
-	// FIXME check if this is really needs to be here
 	exports.source = fs.readFileSync( filename, readOptions );
 
 	exports.timcode = fs.readFileSync( timcodeRootDir + timcodeFilename, readOptions );

@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -238,7 +231,7 @@ prototype.create =
 
 				list = arg;
 
-				listDup = 'init';
+				listDup = true;
 
 				break;
 
@@ -626,7 +619,3 @@ prototype.equals =
 
 	return this.func === obj.func || this.func.equals( obj.func );
 };
-
-
-}
-)( );

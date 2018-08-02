@@ -24,7 +24,6 @@ if( NODE )
 	if( FREEZE ) Object.freeze( pass );
 
 	// exports the own source for use in browsers
-	// FIXME check if this needs to be here
 	tim_proto.source = require( 'fs' ).readFileSync( module.filename );
 }
 else

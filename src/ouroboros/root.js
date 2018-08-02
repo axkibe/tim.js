@@ -3,8 +3,8 @@
 */
 'use strict';
 
-//Error.stackTraceLimit = 99999;
-Error.stackTraceLimit = 20;
+Error.stackTraceLimit = 99999;
+//Error.stackTraceLimit = 20;
 
 global.CHECK = true;
 
@@ -106,16 +106,23 @@ const sdefine =
 	function(
 		def,
 		module,
+		id,
 		definer
 	)
 {
-	if( arguments.length !== 3 ) throw new Error( );
-	
 	global.TIM = true;
+
+	// FIXME
+	if( arguments.length === 3 )
+	{
+		definer = id;
+
+		id = undefined;
+	}
 
 	definer( def, { } );
 
-//	def.id = id;
+	def.id = id;
 
 	global.TIM = false;
 };

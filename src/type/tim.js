@@ -40,6 +40,8 @@ def.static.createFromString =
 {
 	const split = string.split( '/' );
 
+	// FIXME use createFromPath
+
 	let imported;
 
 	switch( split[ 0 ] )
@@ -50,9 +52,6 @@ def.static.createFromString =
 
 		default : imported = split.shift( ); break;
 	}
-
-	// FIXME this is a dirty hack to counteract created '././' nonsense
-	while( split[ 0 ] === '.' ) split.shift( );
 
 	let p = pool;
 
@@ -76,35 +75,46 @@ def.static.createFromString =
 
 
 /*
-| Compares two ids.
+| Create the id from an array of path parts.
 */
-/*
-def.static.compare =
+def.static.createFromPath =
 	function(
-		o1,
-		o2
+		path
 	)
 {
-	const l1 = o1.length;
+	let imported;
 
-	const l2 = o2.length;
+	path = path.slice( );
 
-	for( let a = 0; a < l1; a++ )
+	switch( path[ 0 ] )
 	{
-		const u1 = o1.get( a );
+		case '.' : path.shift( ); break;
 
-		const u2 = o2.get( a );
+		case '..' : break;
 
-		if( u1 > u2 ) return 1;
-
-		if( u1 < u2 ) return -1;
+		default : imported = path.shift( ); break;
 	}
 
-	if( l1 !== l2 ) return 1;
+	let p = pool;
 
-	return 0;
+	for( let a = 0, al = path.length; a < al; a++ )
+	{
+		let s = path[ a ];
+
+		let pn = p[ s ];
+
+		if( !pn ) pn = p[ s ] = { };
+
+		p = pn;
+	}
+
+	let pn = p[ '.js' ];
+
+	if( pn ) return pn;
+
+	return( p[ '.js' ] = type_tim.create( 'list:init', path, 'imported', imported ) );
 };
-*/
+
 
 
 /*
@@ -170,16 +180,6 @@ def.lazy.require =
 	{
 		return 'require( "./' + this.pathString + '" )';
 	}
-};
-
-
-/*
-| This id as string path relative to the owner.
-*/
-def.lazy.path =
-	function( )
-{
-	throw new Error( 'FIXME!' );
 };
 
 

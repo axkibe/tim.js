@@ -14,15 +14,7 @@ tim.ouroboros.define( module, ( def, self ) => {
 
 if( TIM )
 {
-	// FIXME
 	def.list = [ './path' ];
-}
-
-
-if( !NODE )
-{
-	// export path like in node package for browser.
-	tim.pathList = self;
 }
 
 

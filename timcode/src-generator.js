@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -187,7 +180,3 @@ prototype.equals =
 
 	return this.module === obj.module;
 };
-
-
-}
-)( );

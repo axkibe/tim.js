@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -100,7 +93,7 @@ prototype.create =
 
 				group = arg;
 
-				groupDup = 'init';
+				groupDup = true;
 
 				break;
 
@@ -268,7 +261,3 @@ prototype.equals =
 
 	return true;
 };
-
-
-}
-)( );

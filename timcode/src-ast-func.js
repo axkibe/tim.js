@@ -3,13 +3,6 @@
 |
 | Editing this might be rather futile.
 */
-
-
-/*
-| Capsule
-*/
-(
-function( ) {
 'use strict';
 
 
@@ -34,8 +27,7 @@ const tim_proto = tim.proto;
 const Constructor =
 	function(
 		list, // list
-		v_block,
-		v_capsule
+		v_block
 	)
 {
 	if( prototype.__have_lazy )
@@ -44,8 +36,6 @@ const Constructor =
 	}
 
 	this.block = v_block;
-
-	this.capsule = v_capsule;
 
 	this._list = list;
 
@@ -82,8 +72,6 @@ prototype.create =
 
 	let v_block;
 
-	let v_capsule;
-
 	if( this !== self )
 	{
 		inherit = this;
@@ -93,8 +81,6 @@ prototype.create =
 		listDup = false;
 
 		v_block = this.block;
-
-		v_capsule = this.capsule;
 	}
 	else
 	{
@@ -122,15 +108,6 @@ prototype.create =
 
 				break;
 
-			case 'capsule' :
-
-				if( arg !== pass )
-				{
-					v_capsule = arg;
-				}
-
-				break;
-
 			case 'list:init' :
 
 /**/			if( CHECK )
@@ -143,7 +120,7 @@ prototype.create =
 
 				list = arg;
 
-				listDup = 'init';
+				listDup = true;
 
 				break;
 
@@ -205,11 +182,6 @@ prototype.create =
 		}
 	}
 
-	if( v_capsule === undefined )
-	{
-		v_capsule = false;
-	}
-
 /**/if( CHECK )
 /**/{
 /**/	if( v_block === null )
@@ -223,21 +195,6 @@ prototype.create =
 /**/		{
 /**/			throw new Error( );
 /**/		}
-/**/	}
-/**/
-/**/	if( v_capsule === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_capsule === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_capsule ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
 /**/	}
 /**/
 /**/	for(
@@ -265,14 +222,12 @@ prototype.create =
 			||
 			v_block !== undefined && v_block.equals( inherit.block )
 		)
-		&&
-		v_capsule === inherit.capsule
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( list, v_block, v_capsule );
+	return new Constructor( list, v_block );
 };
 
 
@@ -393,17 +348,5 @@ prototype.equals =
 		}
 	}
 
-	return (
-		(
-			this.block === obj.block
-			||
-			this.block !== undefined && this.block.equals( obj.block )
-		)
-		&&
-		this.capsule === obj.capsule
-	);
+	return this.block === obj.block || this.block !== undefined && this.block.equals( obj.block );
 };
-
-
-}
-)( );
