@@ -6,12 +6,6 @@
 'use strict';
 
 
-/*
-| The typed immutable.
-*/
-let self = NODE ? module.exports : module;
-
-
 const tt_call = require( './call' );
 
 

@@ -106,23 +106,17 @@ const sdefine =
 	function(
 		def,
 		module,
-		id,
 		definer
 	)
 {
 	global.TIM = true;
 
-	// FIXME
-	if( arguments.length === 3 )
-	{
-		definer = id;
-
-		id = undefined;
-	}
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 3 ) throw new Error( );
+/**/}
 
 	definer( def, { } );
-
-	def.id = id;
 
 	global.TIM = false;
 };

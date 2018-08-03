@@ -233,14 +233,24 @@ tree.getBrowserNoMangle =
 */
 tree.getBrowserPreamble =
 	function(
-		filename
+		filename,  // the filename to preamble
+		timcode    // true if this is for timcode
 	)
 {
+
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 2 ) throw new Error( );
+/**/}
+
 	let timtree;
 
 	let text = '';
 
-	text += '( ( ) => { let module = _timtrees';
+	text +=
+		'( ( ) => { let '
+		+ ( timcode ? 'self' : 'module' )
+		+ ' = _timtrees';
 
 	for( let t = 0; t < timtrees.length; t++ )
 	{
@@ -288,7 +298,10 @@ tree.getBrowserPreamble =
 		if( !branch ) throw new Error( );
 	}
 
-	text += '; let require = _require.bind( module );';
+	text +=
+		'; let require = _require.bind( '
+		+ ( timcode ? 'self' : 'module' )
+		+ ' );';
 
 	return text;
 };

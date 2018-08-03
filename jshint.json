@@ -16,9 +16,9 @@
 		"CHECK" : true,
 		"FREEZE" : true,
 		"NODE" : true,
-		"JION" : true,
 		"pass" : true,
 		"root" : true,
+		"self" : true,
 		"tim"  : true,
 		"TIM" : true
 	}

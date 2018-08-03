@@ -101,19 +101,7 @@ def.static.createFromArray =
 					la.splice( a, 1 ); a--; al--;
 				}
 
-//				while( la[ 0 ] === '..' )
-//				{
-//					la.shift( );
-//
-//					rpa.pop( );
-//				}
-
-
-				// FIXME this is paradox to have to join
-				//       it just to be splitted again
-				const combined = rpa.concat( la ).join( '/' );
-
-				const id = type_tim.createFromString( './' + combined );
+				const id = type_tim.createFromPath(  [ '.' ].concat( rpa ).concat( la ) );
 
 				ids.add( id );
 			}

@@ -126,7 +126,7 @@ const loadTimcode =
 	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let input =
-		'( function( module, require ) {'
+		'( function( self, require ) {'
 		+ fs.readFileSync( timcodeRealFilename, readOptions )
 		+ '\n} )';
 
@@ -136,8 +136,7 @@ const loadTimcode =
 			{ filename: timcodeRealFilename }
 		);
 
-	// FIXME module.exports
-	input( module, module.require.bind( module ) );
+	input( module.exports, module.require.bind( module ) );
 };
 
 

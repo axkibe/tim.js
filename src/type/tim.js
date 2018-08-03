@@ -31,50 +31,6 @@ const pool = { };
 
 
 /*
-| Create the id from a string specifier.
-*/
-def.static.createFromString =
-	function(
-		string
-	)
-{
-	const split = string.split( '/' );
-
-	// FIXME use createFromPath
-
-	let imported;
-
-	switch( split[ 0 ] )
-	{
-		case '.' : split.shift( ); break;
-
-		case '..' : break;
-
-		default : imported = split.shift( ); break;
-	}
-
-	let p = pool;
-
-	for( let a = 0, al = split.length; a < al; a++ )
-	{
-		let s = split[ a ];
-
-		let pn = p[ s ];
-
-		if( !pn ) pn = p[ s ] = { };
-
-		p = pn;
-	}
-
-	let pn = p[ '.js' ];
-
-	if( pn ) return pn;
-
-	return( p[ '.js' ] = type_tim.create( 'list:init', split, 'imported', imported ) );
-};
-
-
-/*
 | Create the id from an array of path parts.
 */
 def.static.createFromPath =

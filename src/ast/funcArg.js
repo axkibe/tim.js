@@ -20,7 +20,7 @@ if( TIM )
 		// argument name
 		name : { type : [ 'undefined', 'string' ] },
 
-		// argument comment, FIXME remove!
+		// argument comment
 		comment : { type : [ 'undefined', 'string' ] }
 	};
 }

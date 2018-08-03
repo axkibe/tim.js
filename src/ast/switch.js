@@ -18,7 +18,6 @@ if( TIM )
 	def.attributes =
 	{
 		// the statement expression
-		// FIXME the "statement" being an expression is just stupid
 		statement : { type : [ '< ./types-expr' ] },
 
 		// the default block

@@ -1393,7 +1393,7 @@ def.func.genCreatorChecks =
 				'a < al',
 				'++a',
 				$block
-				// XXX very dirty hack
+				// FIXME very dirty hack
 				.$if( 'prototype.abstract', $block.$continue( ) )
 				.$const( 'o', 'twig[ ranks[ a ] ]' )
 				.$if(
@@ -2621,7 +2621,11 @@ def.func.genAttributeEquals =
 
 	const ceq = $( le, ' === ', re );
 
-	let pc, pn; // TODO what do they do?
+	// current test
+	let pc;
+
+	// next test (to be appended on current)
+	let pn;
 
 	switch( attr.id.equalsConvention )
 	{
@@ -2636,10 +2640,7 @@ def.func.genAttributeEquals =
 			{
 				pn = $( le, ' !== undefined' );
 
-				pc =
-					pc
-					? $( pc, '&&', pn )
-					: pn;
+				pc = pc ? $( pc, '&&', pn ) : pn;
 			}
 
 			pn = $( le, '.', eqFuncName, '(', re, ')' );
@@ -2649,10 +2650,7 @@ def.func.genAttributeEquals =
 				pn = $( le, '.timtype', '&&', pn );
 			}
 
-			pc =
-				pc
-				? $( pc, '&&', pn )
-				: pn;
+			pc = pc ? $( pc, '&&', pn ) : pn;
 
 			return $( ceq, '||', pc );
 
@@ -2997,8 +2995,9 @@ def.func.genRoot =
 	let block =
 		$block
 		.$( '"use strict"' )
-		.$comment( 'The typed immutable.' )
-		.$let( 'self', 'NODE ? module.exports : module' )
+//		FIXME
+//		.$comment( 'The typed immutable.' )
+//		.$let( 'self', 'NODE ? module.exports : module' )
 		.$( this.genRequires( ) )
 		.$( this.hasAbstract ? this.genConstructor( true ) : undefined )
 		.$( this.genConstructor( false ) );

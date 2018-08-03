@@ -42,7 +42,7 @@ def.static.createFromString =
 		str
 	)
 {
-	if( str.indexOf( '/' ) >= 0 ) return type_tim.createFromString( str );
+	if( str.indexOf( '/' ) >= 0 ) return type_tim.createFromPath( str.split( '/' ) );
 
 	switch( str )
 	{
