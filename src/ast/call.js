@@ -47,8 +47,7 @@ def.func.$argument =
 */
 def.func.walk =
 	function(
-		transform	// a function to be called for all
-		//			// walked nodes.
+		transform	// a function to be called for all walked nodes.
 	)
 {
 	const func = this.func.walk( transform );
@@ -60,11 +59,7 @@ def.func.walk =
 		args[ a ] = this.get( a ).walk( transform );
 	}
 
-	return(
-		transform(
-			this.create( 'func', func, 'list:init', args )
-		)
-	);
+	return transform( this.create( 'func', func, 'list:init', args ) );
 };
 
 

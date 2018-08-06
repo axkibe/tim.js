@@ -60,6 +60,7 @@ const timWhitelist =
 		'group' : true,
 		'hasAbstract' : true,
 		'init' : true,
+		'json' : true,
 		'lazy' : true,
 		'lazyFuncInt' : true,
 		'lazyFuncStr' : true,

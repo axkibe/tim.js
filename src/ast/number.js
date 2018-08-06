@@ -54,4 +54,17 @@ def.func.inspect =
 };
 
 
+/*
+| Walks the ast tree depth-first, pre-order
+| creating a transformed copy.
+*/
+def.func.walk =
+	function(
+		transform	// a function to be called for all walked nodes.
+	)
+{
+	return transform( this );
+};
+
+
 } );

@@ -60,8 +60,7 @@ def.func._init =
 */
 def.func.walk =
 	function(
-		transform	// a function to be called for all
-		//			// walked nodes.
+		transform	// a function to be called for all walked nodes.
 	)
 {
 	const expr = this.expr.walk( transform );

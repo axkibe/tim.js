@@ -192,10 +192,7 @@ def.func._init =
 
 		if( jdv )
 		{
-			defaultValue =
-				jdv === 'undefined'
-				? $undefined
-				: $( jdv );
+			defaultValue = jdv === 'undefined' ? $undefined : $( jdv );
 		}
 
 		let allowsNull = false;
@@ -1084,6 +1081,19 @@ def.func.genCreatorFreeStringsParser =
 };
 
 
+
+/*
+| Used by walker to raise requires in defaultValue.
+*/
+const transformRaiseRequire =
+	function(
+		node
+	)
+{
+	return node;
+};
+
+
 /*
 | Generates the creators default values
 */
@@ -1113,11 +1123,12 @@ def.func.genCreatorDefaults =
 			&& !attr.defaultValue.equals( $undefined )
 		)
 		{
+			// raise requires
 			result =
 				result
 				.$if(
 					$( attr.varRef, ' === undefined' ),
-					$( attr.varRef, ' = ', attr.defaultValue )
+					$( attr.varRef, ' = ', attr.defaultValue.walk( transformRaiseRequire ) )
 				);
 		}
 	}
@@ -1422,33 +1433,36 @@ def.func.genCreatorChecks =
 
 
 /*
+| Transforms variables in prepares.
+*/
+const transformPrepares =
+	function(
+		node
+	)
+{
+	if(
+		node.timtype !== ast_var
+		|| node.name.indexOf( '_' ) >= 0
+		|| node.name === 'undefined'
+		|| node.name === 'self'
+	)
+	{
+		return node;
+	}
+
+
+	return node.create( 'name', 'v_' + node.name );
+};
+
+
+
+/*
 | Generates the creators prepares.
 */
 def.func.genCreatorPrepares =
 	function( )
 {
 	let result = $block;
-
-	const transform =
-		function( node )
-	{
-		if( node.timtype === ast_var )
-		{
-			return(
-				(
-					node.name.indexOf( '_' ) >= 0
-					|| node.name === 'undefined'
-					|| node.name === 'self'
-				)
-				? node
-				: node.create( 'name', 'v_' + node.name )
-			);
-		}
-		else
-		{
-			return node;
-		}
-	};
 
 	for( let a = 0, as = this.attributes.size; a < as; a++ )
 	{
@@ -1462,7 +1476,7 @@ def.func.genCreatorPrepares =
 
 		let pAst = $( prepare );
 
-		pAst = pAst.walk( transform );
+		pAst = pAst.walk( transformPrepares );
 
 		result = result.$( attr.varRef, ' = ', pAst );
 	}

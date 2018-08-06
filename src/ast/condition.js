@@ -47,8 +47,7 @@ def.func.$elsewise =
 */
 def.func.walk =
 	function(
-		transform	// a function to be called for all
-		//			// walked nodes.
+		transform	// a function to be called for all walked nodes.
 	)
 {
 	const condition = this.condition.walk( transform );

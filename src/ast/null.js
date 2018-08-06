@@ -26,8 +26,7 @@ if( TIM )
 */
 def.func.walk =
 	function(
-		transform	// a function to be called for all
-		//			// walked nodes.
+		transform	// a function to be called for all walked nodes.
 	)
 {
 	return transform( this );
