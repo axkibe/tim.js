@@ -8,9 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, type_boolean ) => {
 
 
-if( TIM ) def.attr = { };
-
-
 def.func.equalsConvention = 'mustnot';
 
 

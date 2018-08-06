@@ -5,7 +5,7 @@
 
 
 require( './ouroboros' )
-.define( module, 'validator', ( def, validator ) => {
+.define( module, ( def, self ) => {
 
 
 /*
@@ -56,12 +56,17 @@ const timWhitelist =
 	Object.freeze( {
 		'alike' : true,
 		'attributes' : true,
-		'hasAbstract' : true,
-		'id' : true,
-		'init' : true,
-		'json' : true,
+		'func' : true,
 		'group' : true,
+		'hasAbstract' : true,
+		'init' : true,
+		'lazy' : true,
+		'lazyFuncInt' : true,
+		'lazyFuncStr' : true,
 		'list' : true,
+		'set' : true,
+		'static' : true,
+		'staticLazy' : true,
 		'twig' : true,
 	} );
 
@@ -136,7 +141,7 @@ const checkGroup =
 		def // the tim definition
 	)
 {
-	const group = tim.group;
+	const group = def.group;
 
 	const map = { };
 
@@ -174,10 +179,10 @@ const checkGroup =
 */
 const checkList =
 	function(
-		tim // the tim definition
+		def // the tim definition
 	)
 {
-	const list = tim.list;
+	const list = def.list;
 
 	const map = { };
 
@@ -270,7 +275,7 @@ const checkAttributeSingleType =
 		);
 	}
 
-	if( type.indexOf( '_' ) < 0 && type.indexOf( '$' ) < 0 )
+	if( type.indexOf( '/' ) < 0 )
 	{
 		switch( type )
 		{
@@ -333,14 +338,12 @@ const checkAttribute =
 
 	const type = attr.type;
 
-	if( typeof( type ) !== 'string' )
+	if( typeof( type ) === 'string' )
 	{
 		checkAttributeSingleType( name, type );
 	}
 	else if( Array.isArray( type ) )
 	{
-		// for now assuming its okay
-
 		for( let a = 0, al = type.length; a < al; a++ )
 		{
 			checkAttributeSingleType( name, type[ a ] );
@@ -427,15 +430,7 @@ def.static.check =
 
 	for( let name in def )
 	{
-		if( !timWhitelist[ name ] )
-		{
-			throw new Error( 'invalid tim parameter: ' + name );
-		}
-	}
-
-	if( typeof( def.id ) !== 'string' )
-	{
-		throw new Error( 'id missing' );
+		if( !timWhitelist[ name ] ) throw new Error( 'invalid tim parameter: ' + name );
 	}
 
 	const attr = def.attributes;

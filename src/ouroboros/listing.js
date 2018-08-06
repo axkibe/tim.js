@@ -91,5 +91,6 @@ module.exports =
 	'src/type/string.js',
 	'src/type/tim.js',
 	'src/type/undefined.js',
+	'src/validator.js',
 ];
 

@@ -58,7 +58,7 @@ const type_tim = require( './type/tim' );
 
 const type_undefined = require( './type/undefined' );
 
-//const tim_validator = require( './validator' );
+const validator = require( './validator' );
 
 const parser = require( './jsParser/parser' );
 
@@ -210,7 +210,7 @@ def.func._init =
 
 				allowsUndefined = true;
 			}
-			
+
 			if( aid.has( tsNull ) )
 			{
 				aid = aid.create( 'set:remove', tsNull );
@@ -1952,7 +1952,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 
 	loopSwitch = loopSwitch.$default( $fail( ) );
 
-	// FIXME allow more than one non-tim type
+	// FUTURE allow more than one non-tim type
 	let customDefault = false;
 
 	const it = group.iterator( );
@@ -2046,7 +2046,7 @@ def.func.genFromJsonCreatorListProcessing =
 {
 	const list = this.list;
 
-	// FIXME dirty workaround
+	// FUTURE dirty workaround
 	if( list.size === 1 && list.iterator( ).next( ).value.timtype === type_string )
 	{
 		return(
@@ -2986,50 +2986,6 @@ def.func.genPreamble =
 
 
 /*
-| Returns the generated root block.
-| FIXME remove and put into generate( )
-*/
-def.func.genRoot =
-	function( )
-{
-	let block =
-		$block
-		.$( '"use strict"' )
-//		FIXME
-//		.$comment( 'The typed immutable.' )
-//		.$let( 'self', 'NODE ? module.exports : module' )
-		.$( this.genRequires( ) )
-		.$( this.hasAbstract ? this.genConstructor( true ) : undefined )
-		.$( this.genConstructor( false ) );
-
-	if( this.singleton )
-	{
-		block = block.$( this.genSingleton( ) );
-	}
-
-	block =
-		block
-		.$( this.hasAbstract ? this.genCreator( true ) : undefined )
-		.$( this.genCreator( false ) );
-
-	if( this.json ) block = block.$( this.genFromJsonCreator( ) );
-
-	block =
-		block
-		.$( this.genReflection( ) )
-		.$( this.genTimProto( ) );
-
-	if( this.json ) block = block.$( this.genToJson( ) );
-
-	block = block.$( this.genEquals( ) );
-
-	if( this.alike ) block = block.$( this.genAlike( ) );
-
-	return block;
-};
-
-
-/*
 | Generates code from a tim definition.
 */
 def.static.generate =
@@ -3038,25 +2994,37 @@ def.static.generate =
 		module        // the module relative to which types are
 	)
 {
-	// tim_validator.check( timDef ); FIXME!
+	validator.check( timDef );
 
-	const gi =
+	const g =
 		self.create(
 			'timDef', timDef,
 			'module', module
 		);
 
-	const result =
+	return(
 		$block
 		.$comment(
 			'This is an auto generated file.',
 			'',
 			'Editing this might be rather futile.'
 		)
-		.$( gi.genRoot( ) );
-
-	return result;
+		.$( '"use strict"' )
+		.$( g.genRequires( ) )
+		.$( g.hasAbstract ? g.genConstructor( true ) : undefined )
+		.$( g.genConstructor( false ) )
+		.$( g.singleton ? g.genSingleton( ) : undefined )
+		.$( g.hasAbstract ? g.genCreator( true ) : undefined )
+		.$( g.genCreator( false ) )
+		.$( g.json ? g.genFromJsonCreator( ) : undefined )
+		.$( g.genReflection( ) )
+		.$( g.genTimProto( ) )
+		.$( g.json ? g.genToJson( ) : undefined )
+		.$( g.genEquals( ) )
+		.$( g.alike ? g.genAlike( ) : undefined )
+	);
 };
 
 
 } );
+

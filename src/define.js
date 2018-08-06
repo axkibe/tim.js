@@ -184,7 +184,6 @@ module.exports =
 		lazyFuncStr : { },
 	};
 
-	// FIXME this is a dirty hack
 	const previousTIM = global.TIM;
 
 	global.TIM = true;

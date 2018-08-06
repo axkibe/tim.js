@@ -9,9 +9,6 @@ require( '../ouroboros' )
 .define( module, ( def, type_protean ) => {
 
 
-if( TIM ) def.attr = { };
-
-
 def.func.equalsConvention = 'mustnot';
 
 
