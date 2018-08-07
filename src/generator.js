@@ -117,8 +117,10 @@ def.func._init =
 	// foreign ids to be imported
 	let imports = type_set.create( );
 
-	const searchIdWalk =
-		function( node )
+	const transformPrepare =
+		function(
+			node
+		)
 	{
 		if(
 			node.timtype === ast_var
@@ -131,7 +133,17 @@ def.func._init =
 			imports = imports.add( type_any.createFromString( node.name ) );
 		}
 
-		return node;
+		if(
+			node.timtype !== ast_var
+			|| node.name.indexOf( '_' ) >= 0
+			|| node.name === 'undefined'
+			|| node.name === 'self'
+		)
+		{
+			return node;
+		}
+
+		return node.create( 'name', 'v_' + node.name );
 	};
 
 	this.init = timDef.init;
@@ -186,9 +198,9 @@ def.func._init =
 
 		let defaultValue;
 
-		const prepare = jAttr.prepare;
+		let prepare = jAttr.prepare;
 
-		if( prepare ) $( prepare ).walk( searchIdWalk );
+		if( prepare ) prepare = $( prepare ).walk( transformPrepare );
 
 		const jdv = jAttr.defaultValue;
 
@@ -388,28 +400,6 @@ def.func._init =
 		|| this.attributes.size > 0;
 
 	this.json = timDef.json;
-};
-
-
-/*
-| Transforms variables in prepares.
-*/
-const transformPrepares =
-	function(
-		node
-	)
-{
-	if(
-		node.timtype !== ast_var
-		|| node.name.indexOf( '_' ) >= 0
-		|| node.name === 'undefined'
-		|| node.name === 'self'
-	)
-	{
-		return node;
-	}
-
-	return node.create( 'name', 'v_' + node.name );
 };
 
 
@@ -1484,11 +1474,7 @@ def.func.genCreatorPrepares =
 
 		if( !prepare ) continue;
 
-		let pAst = $( prepare );
-
-		pAst = pAst.walk( transformPrepares );
-
-		result = result.$( attr.varRef, ' = ', pAst );
+		result = result.$( attr.varRef, ' = ', prepare );
 	}
 
 	return result;

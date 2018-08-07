@@ -36,7 +36,7 @@ if( TIM )
 		name : { type : 'string' },
 
 		// attribute preparation code
-		prepare : { type : [ 'undefined', 'string' ] },
+		prepare : { type : [ '< ./ast/types-expr', 'undefined' ] },
 
 		// attribute type id
 		id : { type : [ '< ./type/types', './type/set' ] },

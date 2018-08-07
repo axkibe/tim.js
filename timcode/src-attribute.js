@@ -590,7 +590,85 @@ prototype.create =
 /**/
 /**/	if( v_prepare !== undefined )
 /**/	{
-/**/		if( typeof( v_prepare ) !== 'string' )
+/**/		if(
+/**/			v_prepare.timtype !== tt_ast_and
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_arrayLiteral
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_assign
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_boolean
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_call
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_comma
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_condition
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_delete
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_differs
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_divide
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_divideAssign
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_dot
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_equals
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_func
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_greaterThan
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_instanceof
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_lessThan
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_member
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_minus
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_minusAssign
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_multiply
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_multiplyAssign
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_negate
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_new
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_not
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_null
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_number
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_objLiteral
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_or
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_plus
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_plusAssign
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_postDecrement
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_postIncrement
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_preDecrement
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_preIncrement
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_string
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_typeof
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_undefined
+/**/			&&
+/**/			v_prepare.timtype !== tt_ast_var
+/**/		)
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -637,7 +715,11 @@ prototype.create =
 		&&
 		v_name === inherit.name
 		&&
-		v_prepare === inherit.prepare
+		(
+			v_prepare === inherit.prepare
+			||
+			v_prepare !== undefined && v_prepare.equals( inherit.prepare )
+		)
 		&&
 		(
 			v_varRef === inherit.varRef
@@ -729,7 +811,11 @@ prototype.equals =
 		&&
 		this.name === obj.name
 		&&
-		this.prepare === obj.prepare
+		(
+			this.prepare === obj.prepare
+			||
+			this.prepare !== undefined && this.prepare.equals( obj.prepare )
+		)
 		&&
 		(
 			this.varRef === obj.varRef
