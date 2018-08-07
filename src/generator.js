@@ -28,6 +28,8 @@ if( TIM )
 	def.init = [ 'timDef' ];
 }
 
+const ast_call = require( './ast/call' );
+
 const ast_var = require( './ast/var' );
 
 const tim_attribute = require( './attribute' );
@@ -386,6 +388,50 @@ def.func._init =
 		|| this.attributes.size > 0;
 
 	this.json = timDef.json;
+};
+
+
+/*
+| Transforms variables in prepares.
+*/
+const transformPrepares =
+	function(
+		node
+	)
+{
+	if(
+		node.timtype !== ast_var
+		|| node.name.indexOf( '_' ) >= 0
+		|| node.name === 'undefined'
+		|| node.name === 'self'
+	)
+	{
+		return node;
+	}
+
+	return node.create( 'name', 'v_' + node.name );
+};
+
+
+/*
+| Used by walker to raise requires in defaultValue.
+*/
+const transformRaiseRequire =
+	function(
+		node
+	)
+{
+	if( node.timtype !== ast_call ) return node;
+
+	const func= node.func;
+
+	if( func.timtype !== ast_var ) return node;
+
+	if( func.name !== 'require' ) return node;
+
+	console.log( 'XXX', node );
+
+	return node;
 };
 
 
@@ -1083,18 +1129,6 @@ def.func.genCreatorFreeStringsParser =
 
 
 /*
-| Used by walker to raise requires in defaultValue.
-*/
-const transformRaiseRequire =
-	function(
-		node
-	)
-{
-	return node;
-};
-
-
-/*
 | Generates the creators default values
 */
 def.func.genCreatorDefaults =
@@ -1430,30 +1464,6 @@ def.func.genCreatorChecks =
 		return check;
 	}
 };
-
-
-/*
-| Transforms variables in prepares.
-*/
-const transformPrepares =
-	function(
-		node
-	)
-{
-	if(
-		node.timtype !== ast_var
-		|| node.name.indexOf( '_' ) >= 0
-		|| node.name === 'undefined'
-		|| node.name === 'self'
-	)
-	{
-		return node;
-	}
-
-
-	return node.create( 'name', 'v_' + node.name );
-};
-
 
 
 /*

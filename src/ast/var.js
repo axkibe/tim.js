@@ -1,5 +1,5 @@
 /*
-| A variable reference to be generated
+| A variable reference to be generated.
 */
 'use strict';
 
@@ -135,3 +135,4 @@ def.func.inspect =
 
 
 } );
+
