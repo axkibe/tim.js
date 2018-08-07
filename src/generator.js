@@ -117,34 +117,30 @@ def.func._init =
 	// foreign ids to be imported
 	let imports = type_set.create( );
 
+	// walker to transform local variables in prepares
 	const transformPrepare =
 		function(
 			node
 		)
 	{
 		if(
-			node.timtype === ast_var
-			&& (
-				node.name.indexOf( '_' ) >= 0
-				|| node.name.indexOf( '$' ) >= 0
-			)
-		)
-		{
-			imports = imports.add( type_any.createFromString( node.name ) );
-		}
-
-		if(
 			node.timtype !== ast_var
-			|| node.name.indexOf( '_' ) >= 0
 			|| node.name === 'undefined'
 			|| node.name === 'self'
-		)
-		{
-			return node;
-		}
+		) return node;
 
 		return node.create( 'name', 'v_' + node.name );
 	};
+
+	/* XXX
+	const transformDefaultValue =
+		function(
+			node
+		)
+	{
+
+	}
+	*/
 
 	this.init = timDef.init;
 
@@ -206,7 +202,8 @@ def.func._init =
 
 		if( jdv )
 		{
-			defaultValue = jdv === 'undefined' ? $undefined : $( jdv );
+//			defaultValue = jdv === 'undefined' ? $undefined : $( jdv );
+			defaultValue = $( jdv );
 		}
 
 		let allowsNull = false;
