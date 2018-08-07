@@ -30,6 +30,8 @@ if( TIM )
 
 const ast_call = require( './ast/call' );
 
+const ast_string = require( './ast/string' );
+
 const ast_var = require( './ast/var' );
 
 const tim_attribute = require( './attribute' );
@@ -132,15 +134,40 @@ def.func._init =
 		return node.create( 'name', 'v_' + node.name );
 	};
 
-	/* XXX
+	// walkter to transform default value
+	// replaces require( 'path' ) with the import variable
 	const transformDefaultValue =
 		function(
 			node
 		)
 	{
+		if( node.timtype !== ast_call ) return node;
 
-	}
-	*/
+		const func = node.func;
+
+		if( func.timtype !== ast_var ) return node;
+
+		if( func.name !== 'require' ) return node;
+
+		if( node.length !== 1 )
+		{
+			throw new Error( 'require in defaultValue must have one argument' );
+		}
+
+		// require path argument
+		const rpa = node.get( 0 );
+
+		if( rpa.timtype !== ast_string )
+		{
+			throw new Error( 'require argument in defaultValue must be string' );
+		}
+
+		const rid = type_tim.createFromPath( rpa.string.split( '/' ) );
+
+		imports = imports.add( rid );
+
+		return rid.$varname;
+	};
 
 	this.init = timDef.init;
 
@@ -192,18 +219,17 @@ def.func._init =
 			constructorList.push( name );
 		}
 
-		let defaultValue;
-
 		let prepare = jAttr.prepare;
 
 		if( prepare ) prepare = $( prepare ).walk( transformPrepare );
 
 		const jdv = jAttr.defaultValue;
 
+		let defaultValue;
+
 		if( jdv )
 		{
-//			defaultValue = jdv === 'undefined' ? $undefined : $( jdv );
-			defaultValue = $( jdv );
+			defaultValue = $( jdv ).walk( transformDefaultValue );
 		}
 
 		let allowsNull = false;
@@ -397,28 +423,6 @@ def.func._init =
 		|| this.attributes.size > 0;
 
 	this.json = timDef.json;
-};
-
-
-/*
-| Used by walker to raise requires in defaultValue.
-*/
-const transformRaiseRequire =
-	function(
-		node
-	)
-{
-	if( node.timtype !== ast_call ) return node;
-
-	const func= node.func;
-
-	if( func.timtype !== ast_var ) return node;
-
-	if( func.name !== 'require' ) return node;
-
-	console.log( 'XXX', node );
-
-	return node;
 };
 
 
@@ -1149,7 +1153,7 @@ def.func.genCreatorDefaults =
 				result
 				.$if(
 					$( attr.varRef, ' === undefined' ),
-					$( attr.varRef, ' = ', attr.defaultValue.walk( transformRaiseRequire ) )
+					$( attr.varRef, ' = ', attr.defaultValue )
 				);
 		}
 	}

@@ -96,10 +96,7 @@ def.lazy.varname =
 
 		if( a > 0 ) name += '_';
 
-		name +=
-			s === '..'
-			? '$'
-			: s;
+		name += s === '..' ? '$' : s;
 	}
 
 	return name;
