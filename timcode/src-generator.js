@@ -14,6 +14,8 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
+		v_check,
+		v_init,
 		v_module,
 		v_timDef
 	)
@@ -22,6 +24,10 @@ const Constructor =
 	{
 		this.__lazy = { };
 	}
+
+	this.check = v_check;
+
+	this.init = v_init;
 
 	this.module = v_module;
 
@@ -54,6 +60,10 @@ prototype.create =
 {
 	let inherit;
 
+	let v_check;
+
+	let v_init;
+
 	let v_module;
 
 	let v_timDef;
@@ -61,6 +71,10 @@ prototype.create =
 	if( this !== self )
 	{
 		inherit = this;
+
+		v_check = this.check;
+
+		v_init = this.init;
 
 		v_module = this.module;
 	}
@@ -75,6 +89,24 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'check' :
+
+				if( arg !== pass )
+				{
+					v_check = arg;
+				}
+
+				break;
+
+			case 'init' :
+
+				if( arg !== pass )
+				{
+					v_init = arg;
+				}
+
+				break;
+
 			case 'module' :
 
 				if( arg !== pass )
@@ -101,6 +133,26 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( v_check === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_check === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_check ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_init === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_module === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -122,12 +174,22 @@ prototype.create =
 /**/	}
 /**/}
 
-	if( inherit && v_module === inherit.module && v_timDef === undefined )
+	if(
+		inherit
+		&&
+		v_check === inherit.check
+		&&
+		v_init === inherit.init
+		&&
+		v_module === inherit.module
+		&&
+		v_timDef === undefined
+	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_module, v_timDef );
+	return new Constructor( v_check, v_init, v_module, v_timDef );
 };
 
 
@@ -172,5 +234,5 @@ prototype.equals =
 		return false;
 	}
 
-	return this.module === obj.module;
+	return this.check === obj.check && this.init === obj.init && this.module === obj.module;
 };

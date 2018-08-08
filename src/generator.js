@@ -17,10 +17,16 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// true if an init checker is to be called
+		check : { type : 'boolean' },
+
+		// FIXME remove
+		init : { type : [ 'protean', 'undefined' ] },
+
 		// the tim definition
 		timDef : { type : 'protean', assign : '' },
 
-		module : { type: 'protean' }
+		module : { type : 'protean' }
 	};
 
 	def.init = [ 'timDef' ];
@@ -167,10 +173,6 @@ def.func._init =
 
 		return rid.$varname;
 	};
-
-	this.init = timDef.init;
-
-	this.check = timDef.check;
 
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
@@ -3018,7 +3020,10 @@ def.static.generate =
 	const g =
 		self.create(
 			'timDef', timDef,
-			'module', module
+			'module', module,
+
+			'check', !!timDef.check,
+			'init', timDef.init
 		);
 
 	return(
