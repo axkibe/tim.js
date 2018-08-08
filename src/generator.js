@@ -17,6 +17,9 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// list of alike function and what to ignore
+		alike : { type : [ 'protean', 'undefined' ] },
+
 		// true if an init checker is to be called
 		check : { type : 'boolean' },
 
@@ -418,8 +421,6 @@ def.func._init =
 	}
 
 	this.imports = imports;
-
-	this.alike = timDef.alike;
 
 	this.creatorHasFreeStringsParser =
 		this.group
@@ -3023,6 +3024,7 @@ def.static.generate =
 			'timDef', timDef,
 			'module', module,
 
+			'alike', timDef.alike,
 			'check', !!timDef.check,
 			'init', timDef.init,
 			'json', timDef.json

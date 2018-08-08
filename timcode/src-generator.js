@@ -14,6 +14,7 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
+		v_alike,
 		v_check,
 		v_init,
 		v_json,
@@ -25,6 +26,8 @@ const Constructor =
 	{
 		this.__lazy = { };
 	}
+
+	this.alike = v_alike;
 
 	this.check = v_check;
 
@@ -63,6 +66,8 @@ prototype.create =
 {
 	let inherit;
 
+	let v_alike;
+
 	let v_check;
 
 	let v_init;
@@ -76,6 +81,8 @@ prototype.create =
 	if( this !== self )
 	{
 		inherit = this;
+
+		v_alike = this.alike;
 
 		v_check = this.check;
 
@@ -96,6 +103,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'alike' :
+
+				if( arg !== pass )
+				{
+					v_alike = arg;
+				}
+
+				break;
+
 			case 'check' :
 
 				if( arg !== pass )
@@ -149,6 +165,11 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( v_alike === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_check === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -206,6 +227,8 @@ prototype.create =
 	if(
 		inherit
 		&&
+		v_alike === inherit.alike
+		&&
 		v_check === inherit.check
 		&&
 		v_init === inherit.init
@@ -220,7 +243,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( v_check, v_init, v_json, v_module, v_timDef );
+	return new Constructor( v_alike, v_check, v_init, v_json, v_module, v_timDef );
 };
 
 
@@ -266,6 +289,8 @@ prototype.equals =
 	}
 
 	return (
+		this.alike === obj.alike
+		&&
 		this.check === obj.check
 		&&
 		this.init === obj.init
