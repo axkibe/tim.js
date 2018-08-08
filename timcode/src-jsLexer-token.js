@@ -27,12 +27,15 @@ const Constructor =
 
 	this.value = v_value;
 
-	this._init( );
-
 	if( FREEZE )
 	{
 		Object.freeze( this );
 	}
+
+/**/if( CHECK )
+/**/{
+/**/	this._check( );
+/**/}
 };
 
 

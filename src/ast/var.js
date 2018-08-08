@@ -32,9 +32,9 @@ const ast_dot = require( './dot' );
 const ast_member = require( './member' );
 
 
-/*
-| Exta checking
-*/
+/**
+*** Exta checking
+***/
 /**/if( CHECK )
 /**/{
 /**/	def.func._check =

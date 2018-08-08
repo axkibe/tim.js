@@ -29,7 +29,7 @@ if( TIM )
 ,		}
 	};
 
-	def.init = [ ];
+	def.check = true;
 }
 
 
@@ -84,19 +84,17 @@ let tokenList;
 /**/}
 
 
-/*
-| Initializer.
-*/
-def.func._init =
-	function( )
-{
-
+/**
+*** Exta checking
+***/
 /**/if( CHECK )
 /**/{
-/**/	if( !tokenList[ this.type ] ) throw new Error( );
+/**/	def.func._check =
+/**/		function( )
+/**/	{
+/**/		if( !tokenList[ this.type ] ) throw new Error( );
+/**/	};
 /**/}
-
-};
 
 
 /*
