@@ -17,57 +17,50 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// one of these:
+		// "r2l" -- right to left
+		// "l2r" -- left to right
+		// "n/a" -- not applicable
 		associativity :
 		{
-			// one of these:
-			// "r2l" -- right to left
-			// "l2r" -- left to right
-			// "n/a" -- not applicable
 			type : 'string',
 			defaultValue : '"n/a"'
 		},
-		prec :
-		{
-			// operator precedence
-			type : [ 'undefined', 'integer' ]
-		},
-		handler :
-		{
-			// handler function to be called
-			type : 'string'
-		},
-		astCreator :
-		{
-			// for some handlers, the ast creator function
-			// for it to call
-			type : [ 'undefined', 'protean' ] // FUTURE
-		}
+
+		// operator precedence
+		prec : { type : [ 'undefined', 'integer' ] },
+
+		// handler function to be called
+		handler : { type : 'string' },
+
+		// for some handlers, the ast creator function
+		// for it to call
+		// FUTURE replace protean by 'function'
+		astCreator : { type : [ 'undefined', 'protean' ] }
 	};
 
-	def.init = [ ];
+	def.check = true;
 }
 
 
-/*
-| Initializer.
-*/
-def.func._init =
-	function( )
-{
-
+/**
+*** Exta checking
+***/
 /**/if( CHECK )
 /**/{
-/**/	if(
-/**/		this.associativity !== 'l2r'
-/**/		&&  this.associativity !== 'r2l'
-/**/		&&  this.associativity !== 'n/a'
-/**/	)
+/**/	def.func._check =
+/**/		function( )
 /**/	{
-/**/		throw new Error( );
-/**/	}
+/**/		if(
+/**/			this.associativity !== 'l2r'
+/**/			&&  this.associativity !== 'r2l'
+/**/			&&  this.associativity !== 'n/a'
+/**/		)
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	};
 /**/}
-
-};
 
 
 } );

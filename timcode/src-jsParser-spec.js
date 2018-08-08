@@ -33,12 +33,15 @@ const Constructor =
 
 	this.prec = v_prec;
 
-	this._init( );
-
 	if( FREEZE )
 	{
 		Object.freeze( this );
 	}
+
+/**/if( CHECK )
+/**/{
+/**/	this._check( );
+/**/}
 };
 
 
