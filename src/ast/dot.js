@@ -24,34 +24,34 @@ if( TIM )
 		member : { type : 'string' },
 	};
 
-	def.init = [ ];
+	def.check = true;
 }
 
 
 const ast_member = require( './member' );
 
 
-/*
-| Initializer.
-*/
-def.func._init =
-	function( )
-{
+/**
+*** Exta checking
+***/
 /**/if( CHECK )
 /**/{
-/**/	const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
-/**/
-/**/	if( !regex.test( this.member ) ) throw new Error( 'invalid member name' );
-/**/
-/**/	switch( this.name )
+/**/	def.func._check =
+/**/		function( )
 /**/	{
-/**/		case 'true' :
-/**/		case 'false' :
+/**/		const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
 /**/
-/**/			throw new Error( 'member must not be a literal' );
-/**/	}
+/**/		if( !regex.test( this.member ) ) throw new Error( 'invalid member name' );
+/**/
+/**/		switch( this.name )
+/**/		{
+/**/			case 'true' :
+/**/			case 'false' :
+/**/
+/**/				throw new Error( 'member must not be a literal' );
+/**/		}
+/**/	};
 /**/}
-};
 
 
 /*

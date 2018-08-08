@@ -144,12 +144,15 @@ const Constructor =
 
 	this.member = v_member;
 
-	this._init( );
-
 	if( FREEZE )
 	{
 		Object.freeze( this );
 	}
+
+/**/if( CHECK )
+/**/{
+/**/	this._check( );
+/**/}
 };
 
 
