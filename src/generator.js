@@ -23,7 +23,11 @@ if( TIM )
 		// true if an init checker is to be called
 		check : { type : 'boolean' },
 
-		// FIXME remove
+		// true if this has an abstract
+		// FIXME remove abstracts
+		hasAbstract : { type : 'boolean' },
+
+		// FIXME remove inits
 		init : { type : [ 'protean', 'undefined' ] },
 
 		// fromJson and toJson specifier
@@ -183,8 +187,6 @@ def.func._init =
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
 	let singleton = true;
-
-	this.hasAbstract = !!timDef.hasAbstract;
 
 	for( let name in timDef.attributes || { } )
 	{
@@ -3026,6 +3028,7 @@ def.static.generate =
 
 			'alike', timDef.alike,
 			'check', !!timDef.check,
+			'hasAbstract', !!timDef.hasAbstract,
 			'init', timDef.init,
 			'json', timDef.json
 		);

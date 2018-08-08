@@ -16,6 +16,7 @@ const Constructor =
 	function(
 		v_alike,
 		v_check,
+		v_hasAbstract,
 		v_init,
 		v_json,
 		v_module,
@@ -30,6 +31,8 @@ const Constructor =
 	this.alike = v_alike;
 
 	this.check = v_check;
+
+	this.hasAbstract = v_hasAbstract;
 
 	this.init = v_init;
 
@@ -70,6 +73,8 @@ prototype.create =
 
 	let v_check;
 
+	let v_hasAbstract;
+
 	let v_init;
 
 	let v_json;
@@ -85,6 +90,8 @@ prototype.create =
 		v_alike = this.alike;
 
 		v_check = this.check;
+
+		v_hasAbstract = this.hasAbstract;
 
 		v_init = this.init;
 
@@ -117,6 +124,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_check = arg;
+				}
+
+				break;
+
+			case 'hasAbstract' :
+
+				if( arg !== pass )
+				{
+					v_hasAbstract = arg;
 				}
 
 				break;
@@ -185,6 +201,21 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_hasAbstract === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_hasAbstract === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_hasAbstract ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_init === null )
 /**/	{
 /**/		throw new Error( );
@@ -231,6 +262,8 @@ prototype.create =
 		&&
 		v_check === inherit.check
 		&&
+		v_hasAbstract === inherit.hasAbstract
+		&&
 		v_init === inherit.init
 		&&
 		v_json === inherit.json
@@ -243,7 +276,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( v_alike, v_check, v_init, v_json, v_module, v_timDef );
+	return new Constructor( v_alike, v_check, v_hasAbstract, v_init, v_json, v_module, v_timDef );
 };
 
 
@@ -292,6 +325,8 @@ prototype.equals =
 		this.alike === obj.alike
 		&&
 		this.check === obj.check
+		&&
+		this.hasAbstract === obj.hasAbstract
 		&&
 		this.init === obj.init
 		&&
