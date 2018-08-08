@@ -24,12 +24,15 @@ const Constructor =
 
 	this.name = v_name;
 
-	this._init( );
-
 	if( FREEZE )
 	{
 		Object.freeze( this );
 	}
+
+/**/if( CHECK )
+/**/{
+/**/	this._check( );
+/**/}
 };
 
 

@@ -21,7 +21,7 @@ if( TIM )
 		name : { type : 'string' }
 	};
 
-	def.init = [ ];
+	def.check = true;
 }
 
 
@@ -33,29 +33,29 @@ const ast_member = require( './member' );
 
 
 /*
-| Initializer.
+| Exta checking
 */
-def.func._init =
-	function( )
-{
 /**/if( CHECK )
 /**/{
-/**/	const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
-/**/
-/**/	if( !regex.test( this.name ) )
+/**/	def.func._check =
+/**/		function( )
 /**/	{
-/**/		throw new Error( 'invalid variable name' );
-/**/	}
+/**/		const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
 /**/
-/**/	switch( this.name )
-/**/	{
-/**/		case 'true' :
-/**/		case 'false' :
+/**/		if( !regex.test( this.name ) )
+/**/		{
+/**/			throw new Error( 'invalid variable name' );
+/**/		}
 /**/
-/**/			throw new Error( 'var must not be a literal' );
-/**/	}
+/**/		switch( this.name )
+/**/		{
+/**/			case 'true' :
+/**/			case 'false' :
+/**/
+/**/				throw new Error( 'var must not be a literal' );
+/**/		}
+/**/	};
 /**/}
-};
 
 
 /*

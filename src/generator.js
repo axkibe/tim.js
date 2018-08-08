@@ -1,7 +1,5 @@
 /*
 | Generates timcode from a tim definition.
-|
-| FIXME parse defaultValues and lift requires...
 */
 'use strict';
 
@@ -102,6 +100,7 @@ const tsUndefined = type_undefined.create( );
 
 const tsNull = type_null.create( );
 
+
 /*
 | Initializes a generator.
 */
@@ -170,6 +169,8 @@ def.func._init =
 	};
 
 	this.init = timDef.init;
+
+	this.check = timDef.check;
 
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
@@ -552,6 +553,13 @@ def.func.genConstructor =
 	// FUTURE force freezing date attributes
 
 	block = block.$if( 'FREEZE', freezeCall );
+
+	// calls potential init checker
+	if( !abstract && this.check )
+	{
+		//block = block.$check( 'this._check( )' );XX
+		block = block.$check( $( 'this._check( )' ) );
+	}
 
 	let cf = $func( block );
 
