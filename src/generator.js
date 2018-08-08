@@ -23,6 +23,9 @@ if( TIM )
 		// FIXME remove
 		init : { type : [ 'protean', 'undefined' ] },
 
+		// fromJson and toJson specifier
+		json : { type : [ 'string', 'undefined' ] },
+
 		// the tim definition
 		timDef : { type : 'protean', assign : '' },
 
@@ -424,8 +427,6 @@ def.func._init =
 		|| this.set
 		|| this.twig
 		|| this.attributes.size > 0;
-
-	this.json = timDef.json;
 };
 
 
@@ -3023,7 +3024,8 @@ def.static.generate =
 			'module', module,
 
 			'check', !!timDef.check,
-			'init', timDef.init
+			'init', timDef.init,
+			'json', timDef.json
 		);
 
 	return(

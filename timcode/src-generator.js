@@ -16,6 +16,7 @@ const Constructor =
 	function(
 		v_check,
 		v_init,
+		v_json,
 		v_module,
 		v_timDef
 	)
@@ -28,6 +29,8 @@ const Constructor =
 	this.check = v_check;
 
 	this.init = v_init;
+
+	this.json = v_json;
 
 	this.module = v_module;
 
@@ -64,6 +67,8 @@ prototype.create =
 
 	let v_init;
 
+	let v_json;
+
 	let v_module;
 
 	let v_timDef;
@@ -75,6 +80,8 @@ prototype.create =
 		v_check = this.check;
 
 		v_init = this.init;
+
+		v_json = this.json;
 
 		v_module = this.module;
 	}
@@ -103,6 +110,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_init = arg;
+				}
+
+				break;
+
+			case 'json' :
+
+				if( arg !== pass )
+				{
+					v_json = arg;
 				}
 
 				break;
@@ -153,6 +169,19 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_json === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_json !== undefined )
+/**/	{
+/**/		if( typeof( v_json ) !== 'string' )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_module === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -181,6 +210,8 @@ prototype.create =
 		&&
 		v_init === inherit.init
 		&&
+		v_json === inherit.json
+		&&
 		v_module === inherit.module
 		&&
 		v_timDef === undefined
@@ -189,7 +220,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( v_check, v_init, v_module, v_timDef );
+	return new Constructor( v_check, v_init, v_json, v_module, v_timDef );
 };
 
 
@@ -234,5 +265,13 @@ prototype.equals =
 		return false;
 	}
 
-	return this.check === obj.check && this.init === obj.init && this.module === obj.module;
+	return (
+		this.check === obj.check
+		&&
+		this.init === obj.init
+		&&
+		this.json === obj.json
+		&&
+		this.module === obj.module
+	);
 };
