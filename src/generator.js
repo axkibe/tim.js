@@ -17,11 +17,26 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// FIXME remove
+		abstractConstructorList : { type : 'protean' },
+
+		// arguments for the constructor
+		constructorList : { type : 'protean' },
+
+		// true if a free strings parser is to be added in the creator
+		creatorHasFreeStringsParser : { type : 'boolean' },
+
 		// list of alike function and what to ignore
 		alike : { type : [ 'protean', 'undefined' ] },
 
+		// attributes this tim allows
+		attributes : { type : [ './attributeGroup' ] },
+
 		// true if an init checker is to be called
 		check : { type : 'boolean' },
+
+		// if set this tim is a group
+		ggroup : { type : [ './type/set', 'undefined' ] },
 
 		// true if this has an abstract
 		// FIXME remove abstracts
@@ -30,11 +45,26 @@ if( TIM )
 		// FIXME remove inits
 		init : { type : [ 'protean', 'undefined' ] },
 
+		// other tims this tim utilizes
+		imports : { type : './type/set' },
+
+		// if set this tim is a list
+		glist : { type : [ './type/set', 'undefined' ] },
+
 		// fromJson and toJson specifier
 		json : { type : [ 'string', 'undefined' ] },
 
+		// if set this tim is a set
+		gset : { type : [ './type/set', 'undefined' ] },
+
+		// true if this a singleton (no attributes or twig/group/list/set)
+		singleton : { type : [ 'boolean', 'undefined' ] },
+
 		// the tim definition
 		timDef : { type : 'protean', assign : '' },
+
+		// if set this tim is a twig
+		gtwig : { type : [ './type/set', 'undefined' ] },
 
 		module : { type : 'protean' }
 	};
@@ -125,311 +155,6 @@ def.func._init =
 		timDef
 	)
 {
-	let attributes = tim_attributeGroup.create( );
-
-	const abstractConstructorList = [ ];
-
-	const constructorList = [ ];
-
-	// foreign ids to be imported
-	let imports = type_set.create( );
-
-	// walker to transform local variables in prepares
-	const transformPrepare =
-		function(
-			node
-		)
-	{
-		if(
-			node.timtype !== ast_var
-			|| node.name === 'undefined'
-			|| node.name === 'self'
-		) return node;
-
-		return node.create( 'name', 'v_' + node.name );
-	};
-
-	// walkter to transform default value
-	// replaces require( 'path' ) with the import variable
-	const transformDefaultValue =
-		function(
-			node
-		)
-	{
-		if( node.timtype !== ast_call ) return node;
-
-		const func = node.func;
-
-		if( func.timtype !== ast_var ) return node;
-
-		if( func.name !== 'require' ) return node;
-
-		if( node.length !== 1 )
-		{
-			throw new Error( 'require in defaultValue must have one argument' );
-		}
-
-		// require path argument
-		const rpa = node.get( 0 );
-
-		if( rpa.timtype !== ast_string )
-		{
-			throw new Error( 'require argument in defaultValue must be string' );
-		}
-
-		const rid = type_tim.createFromPath( rpa.string.split( '/' ) );
-
-		imports = imports.add( rid );
-
-		return rid.$varname;
-	};
-
-	// in case of attributes, group, list, set or twig
-	// it will be turned off again
-	let singleton = true;
-
-	for( let name in timDef.attributes || { } )
-	{
-		singleton = false;
-
-		const jAttr = timDef.attributes[ name ];
-
-		const type = jAttr.type;
-
-		// attribute id
-		let aid;
-
-		if( !Array.isArray( type ) )
-		{
-			aid = type_any.createFromString( type );
-
-			imports = imports.add( aid );
-		}
-		else
-		{
-			aid = type_set.createFromArray( this.module, type );
-
-			imports = imports.addSet( aid );
-
-			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
-		}
-
-		const assign =
-			jAttr.assign !== undefined
-			? jAttr.assign
-			: name;
-
-		if( assign !== '' )
-		{
-			abstractConstructorList.push( name );
-
-			constructorList.push( name );
-		}
-		else if( this.init && this.init.indexOf( name ) >= 0 )
-		{
-			constructorList.push( name );
-		}
-
-		let prepare = jAttr.prepare;
-
-		if( prepare ) prepare = $( prepare ).walk( transformPrepare );
-
-		const jdv = jAttr.defaultValue;
-
-		let defaultValue;
-
-		if( jdv )
-		{
-			defaultValue = $( jdv ).walk( transformDefaultValue );
-		}
-
-		let allowsNull = false;
-
-		let allowsUndefined = false;
-
-		if( aid.timtype === type_set )
-		{
-			if( aid.has( tsUndefined ) )
-			{
-				aid = aid.create( 'set:remove', tsUndefined );
-
-				allowsUndefined = true;
-			}
-
-			if( aid.has( tsNull ) )
-			{
-				aid = aid.create( 'set:remove', tsNull );
-
-				allowsUndefined = true;
-			}
-
-			if( aid.size === 1 )
-			{
-				aid = aid.iterator( ).next( ).value;
-			}
-		}
-
-		const attr =
-			tim_attribute.create(
-				'allowsNull', allowsNull,
-				'allowsUndefined', allowsUndefined,
-				'assign', assign,
-				'prepare', prepare,
-				'defaultValue', defaultValue,
-				'json', !!jAttr.json,
-				'name', name,
-				'id', aid,
-				'varRef', $var( 'v_' + name )
-			);
-
-		attributes = attributes.set( name, attr );
-	}
-
-	this.attributes = attributes;
-
-	abstractConstructorList.sort( );
-
-	constructorList.sort( );
-
-	if( timDef.group )
-	{
-		singleton = false;
-
-		abstractConstructorList.unshift( 'group' );
-
-		constructorList.unshift( 'group' );
-	}
-
-	if( timDef.list )
-	{
-		singleton = false;
-
-		abstractConstructorList.unshift( 'list' );
-
-		constructorList.unshift( 'list' );
-	}
-
-	if( timDef.set )
-	{
-		singleton = false;
-
-		abstractConstructorList.unshift( 'set' );
-
-		constructorList.unshift( 'set' );
-	}
-
-	if( timDef.twig )
-	{
-		singleton = false;
-
-		abstractConstructorList.unshift( 'ranks' );
-
-		abstractConstructorList.unshift( 'twig' );
-
-		constructorList.unshift( 'ranks' );
-
-		constructorList.unshift( 'twig' );
-	}
-
-	if( timDef.init )
-	{
-		singleton = false;
-
-		const inits = timDef.init.slice( ).sort( );
-
-		for( let a = inits.length - 1; a >= 0; a-- )
-		{
-			let name = timDef.init[ a ];
-
-			if( attributes.get( name ) ) continue;
-
-			switch( name )
-			{
-				case 'inherit' :
-				case 'twigDup' :
-				case 'group' :
-				case 'groupDup' :
-				case 'list' :
-				case 'listDup' :
-				case 'set' :
-				case 'setDup' :
-
-					constructorList.unshift( name );
-
-					break;
-
-				default :
-
-					throw new Error( 'invalid init value: ' + name );
-			}
-		}
-	}
-
-	this.singleton = singleton;
-
-	if( FREEZE )
-	{
-		Object.freeze( abstractConstructorList );
-
-		Object.freeze( constructorList );
-	}
-
-	this.abstractConstructorList = abstractConstructorList;
-
-	this.constructorList = constructorList;
-
-	if( timDef.group )
-	{
-		this.group = type_set.createFromArray( this.module, timDef.group );
-
-		imports = imports.addSet( this.group );
-	}
-	else
-	{
-		this.group = undefined;
-	}
-
-	if( timDef.list )
-	{
-		this.list = type_set.createFromArray( this.module, timDef.list );
-
-		imports = imports.addSet( this.list );
-	}
-	else
-	{
-		this.list = undefined;
-	}
-
-	if( timDef.set )
-	{
-		this.set = type_set.createFromArray( this.module, timDef.set );
-
-		imports = imports.addSet( this.set );
-	}
-	else
-	{
-		this.set = undefined;
-	}
-
-	if( timDef.twig )
-	{
-		this.twig = type_set.createFromArray( this.module, timDef.twig );
-
-		imports = imports.addSet( this.twig );
-	}
-	else
-	{
-		this.twig = undefined;
-	}
-
-	this.imports = imports;
-
-	this.creatorHasFreeStringsParser =
-		this.group
-		|| this.list
-		|| this.set
-		|| this.twig
-		|| this.attributes.size > 0;
 };
 
 
@@ -495,13 +220,13 @@ def.func.genConstructor =
 		block = block.append( assign );
 	}
 
-	if( this.group ) block = block.$( 'this._group = group' );
+	if( this.ggroup ) block = block.$( 'this._group = group' );
 
-	if( this.list ) block = block.$( 'this._list = list' );
+	if( this.glist ) block = block.$( 'this._list = list' );
 
-	if( this.set ) block = block.$( 'this._set = set' );
+	if( this.gset ) block = block.$( 'this._set = set' );
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		block =
 			block
@@ -548,13 +273,13 @@ def.func.genConstructor =
 
 	let freezeCall = $( 'Object.freeze( this )' );
 
-	if( this.group ) freezeCall = freezeCall.$argument ( 'group' );
+	if( this.ggroup ) freezeCall = freezeCall.$argument ( 'group' );
 
-	if( this.list ) freezeCall = freezeCall.$argument( 'list' );
+	if( this.glist ) freezeCall = freezeCall.$argument( 'list' );
 
-	if( this.set ) freezeCall = freezeCall.$argument( 'set' );
+	if( this.gset ) freezeCall = freezeCall.$argument( 'set' );
 
-	if( this.twig ) freezeCall = freezeCall.$argument( 'twig' ).$argument( 'ranks' );
+	if( this.gtwig ) freezeCall = freezeCall.$argument( 'twig' ).$argument( 'ranks' );
 
 	// FUTURE force freezing date attributes
 
@@ -730,13 +455,13 @@ def.func.genCreatorVariables =
 
 	varList.push( 'inherit' );
 
-	if( this.group ) varList.push( 'group', 'groupDup' );
+	if( this.ggroup ) varList.push( 'group', 'groupDup' );
 
-	if( this.list ) varList.push( 'list', 'listDup' );
+	if( this.glist ) varList.push( 'list', 'listDup' );
 
-	if( this.set ) varList.push( 'set', 'setDup' );
+	if( this.gset ) varList.push( 'set', 'setDup' );
 
-	if( this.twig ) varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
+	if( this.gtwig ) varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
 
 	varList.sort( );
 
@@ -767,7 +492,7 @@ def.func.genCreatorInheritanceReceiver =
 
 	let receiver = $block.$( 'inherit = this' );
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		receiver =
 			receiver
@@ -775,7 +500,7 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'groupDup = false' );
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		receiver =
 			receiver
@@ -783,7 +508,7 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'listDup = false' );
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		receiver =
 			receiver
@@ -791,7 +516,7 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'setDup = false' );
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		receiver =
 			receiver
@@ -817,7 +542,7 @@ def.func.genCreatorInheritanceReceiver =
 			receiver
 		);
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		result =
 			result
@@ -828,7 +553,7 @@ def.func.genCreatorInheritanceReceiver =
 			);
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		result =
 			result
@@ -839,7 +564,7 @@ def.func.genCreatorInheritanceReceiver =
 			);
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		result =
 			result
@@ -850,7 +575,7 @@ def.func.genCreatorInheritanceReceiver =
 			);
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		result =
 			result
@@ -895,7 +620,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		const groupDupCheck =
 			$if(
@@ -927,7 +652,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		const listDupCheck =
 			$if(
@@ -974,7 +699,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		const setDupCheck =
 			$if(
@@ -1009,7 +734,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		const twigDupCheck =
 			$if(
@@ -1383,7 +1108,7 @@ def.func.genCreatorChecks =
 		}
 	}
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		check =
 			check
@@ -1392,13 +1117,13 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'o', 'group[ k ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.group, abstract ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.ggroup, abstract ),
 					$fail( )
 				)
 			);
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		check =
 			check
@@ -1409,13 +1134,13 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'o', 'list[ r ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.list, abstract ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.glist, abstract ),
 					$fail( )
 				)
 			);
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		check =
 			check
@@ -1427,13 +1152,13 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'v', 'i.value' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'v' ), this.set, abstract ),
+					this.genTypeCheckFailCondition( $( 'v' ), this.gset, abstract ),
 					$fail( )
 				)
 			);
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		// FUTURE check if ranks and twig keys match
 		check =
@@ -1447,7 +1172,7 @@ def.func.genCreatorChecks =
 				.$if( 'prototype.abstract', $block.$continue( ) )
 				.$const( 'o', 'twig[ ranks[ a ] ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.twig, abstract ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.gtwig, abstract ),
 					$fail( )
 				)
 			);
@@ -1514,13 +1239,13 @@ def.func.genCreatorUnchanged =
 
 	let cond = $( 'inherit' );
 
-	if( this.group ) cond = $( cond, '&& groupDup === false' );
+	if( this.ggroup ) cond = $( cond, '&& groupDup === false' );
 
-	if( this.list ) cond = $( cond, '&& listDup === false' );
+	if( this.glist ) cond = $( cond, '&& listDup === false' );
 
-	if( this.set ) cond = $( cond, '&& setDup === false' );
+	if( this.gset ) cond = $( cond, '&& setDup === false' );
 
-	if( this.twig ) cond = $( cond, '&& twigDup === false' );
+	if( this.gtwig ) cond = $( cond, '&& twigDup === false' );
 
 	const attributes = this.attributes;
 
@@ -1689,11 +1414,11 @@ def.func.genFromJsonCreatorVariables =
 
 	if( this.json )
 	{
-		if( this.group ) varList.push( 'jgroup', 'group', 'k' );
+		if( this.ggroup ) varList.push( 'jgroup', 'group', 'k' );
 
-		if( this.list ) varList.push( 'jlist', 'list' );
+		if( this.glist ) varList.push( 'jlist', 'list' );
 
-		if( this.twig ) varList.push( 'key', 'jval', 'jwig', 'ranks', 'twig' );
+		if( this.gtwig ) varList.push( 'key', 'jval', 'jwig', 'ranks', 'twig' );
 	}
 
 	varList.sort( );
@@ -1878,22 +1603,22 @@ def.func.genFromJsonCreatorParser =
 			)
 		);
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		nameSwitch = nameSwitch.$case( '"group"', 'jgroup = arg' );
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		nameSwitch = nameSwitch.$case( '"list"', 'jlist = arg' );
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		nameSwitch = nameSwitch.$case( '"set"', 'jset = arg' );
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		nameSwitch =
 			nameSwitch
@@ -1944,7 +1669,7 @@ def.func.genFromJsonCreatorParser =
 def.func.genFromJsonCreatorGroupProcessing =
 	function( )
 {
-	const group = this.group;
+	const group = this.ggroup;
 
 	let haveNull = false;
 
@@ -2069,7 +1794,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 def.func.genFromJsonCreatorListProcessing =
 	function( )
 {
-	const list = this.list;
+	const list = this.glist;
 
 	// FUTURE dirty workaround
 	if( list.size === 1 && list.iterator( ).next( ).value.timtype === type_string )
@@ -2177,7 +1902,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 {
 	let switchExpr = $switch( 'jval.type' );
 
-	const twig = this.twig;
+	const twig = this.gtwig;
 
 	const it = twig.iterator( );
 
@@ -2305,10 +2030,7 @@ def.func.genFromJsonCreator =
 		if( attr.json ) jsonList.push( name );
 	}
 
-	if( this.twig )
-	{
-		jsonList.push( 'twig', 'ranks' );
-	}
+	if( this.gtwig ) jsonList.push( 'twig', 'ranks' );
 
 	jsonList.sort( );
 
@@ -2318,26 +2040,26 @@ def.func.genFromJsonCreator =
 		.$( this.genFromJsonCreatorParser( jsonList ) )
 		.$( this.genCreatorDefaults( true ) );
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		funcBlock =
 			funcBlock
 			.$( this.genFromJsonCreatorGroupProcessing( ) );
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		funcBlock =
 			funcBlock
 			.$( this.genFromJsonCreatorListProcessing( ) );
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		throw new Error( 'FUTURE, fromJson for sets not implemented' );
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		funcBlock =
 			funcBlock
@@ -2454,7 +2176,7 @@ def.func.genTimProto =
 		.$comment( 'Gets values by path' )
 		.$( this.$protoSet( 'getPath', 'tim_proto.getPath' ) );
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		result =
 			result
@@ -2484,7 +2206,7 @@ def.func.genTimProto =
 			.$( this.$protoLazyValueSet( '"size"', 'tim_proto.groupSize' ) );
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		result =
 			result
@@ -2513,7 +2235,7 @@ def.func.genTimProto =
 			.$( this.$protoSet( 'set', 'tim_proto.listSet' ) );
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		result =
 			result
@@ -2536,7 +2258,7 @@ def.func.genTimProto =
 			.$( this.$protoLazyValueSet( '"size"', 'tim_proto.setSize' ) );
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		result =
 			result
@@ -2589,16 +2311,13 @@ def.func.genToJson =
 		olit = olit.add( name, 'this.', attr.assign );
 	}
 
-	if( this.group )
-	{
-		olit = olit.add( 'group', 'this._group' );
-	}
+	if( this.ggroup ) olit = olit.add( 'group', 'this._group' );
 
-	if( this.list ) olit = olit.add( 'list', 'this._list' );
+	if( this.glist ) olit = olit.add( 'list', 'this._list' );
 
-	if( this.set ) throw new Error( 'FUTURE not implemented' );
+	if( this.gset ) throw new Error( 'FUTURE not implemented' );
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		olit =
 			olit
@@ -2702,7 +2421,7 @@ def.func.genEqualsFuncBody =
 			$(' return false' )
 		);
 
-	if( this.group )
+	if( this.ggroup )
 	{
 		const groupTestLoopBody =
 			$block
@@ -2729,7 +2448,7 @@ def.func.genEqualsFuncBody =
 		body = body.$if( 'this._group !== obj._group', groupTest );
 	}
 
-	if( this.list )
+	if( this.glist )
 	{
 		const listTestLoopBody =
 			$block
@@ -2762,7 +2481,7 @@ def.func.genEqualsFuncBody =
 		body = body.$if( 'this._list !== obj._list', listTest );
 	}
 
-	if( this.set )
+	if( this.gset )
 	{
 		const setTest =
 			$block
@@ -2782,7 +2501,7 @@ def.func.genEqualsFuncBody =
 		body = body.$if( 'this._set !== obj._set', setTest );
 	}
 
-	if( this.twig )
+	if( this.gtwig )
 	{
 		const twigTestLoopBody =
 			$block
@@ -2951,7 +2670,7 @@ def.func.genAlike =
 			.$if( 'this === obj', $( 'return true') )
 			.$if( '!obj', $(' return false' ) );
 
-		if( this.twig )
+		if( this.gtwig )
 		{
 			// FUTURE same test as in equals
 			cond =
@@ -3021,16 +2740,303 @@ def.static.generate =
 {
 	validator.check( timDef );
 
+	let attributes = tim_attributeGroup.create( );
+
+	const abstractConstructorList = [ ];
+
+	const constructorList = [ ];
+
+	// foreign ids to be imported
+	let imports = type_set.create( );
+
+	// walker to transform local variables in prepares
+	const transformPrepare =
+		function(
+			node
+		)
+	{
+		if(
+			node.timtype !== ast_var
+			|| node.name === 'undefined'
+			|| node.name === 'self'
+		) return node;
+
+		return node.create( 'name', 'v_' + node.name );
+	};
+
+	// walkter to transform default value
+	// replaces require( 'path' ) with the import variable
+	const transformDefaultValue =
+		function(
+			node
+		)
+	{
+		if( node.timtype !== ast_call ) return node;
+
+		const func = node.func;
+
+		if( func.timtype !== ast_var ) return node;
+
+		if( func.name !== 'require' ) return node;
+
+		if( node.length !== 1 )
+		{
+			throw new Error( 'require in defaultValue must have one argument' );
+		}
+
+		// require path argument
+		const rpa = node.get( 0 );
+
+		if( rpa.timtype !== ast_string )
+		{
+			throw new Error( 'require argument in defaultValue must be string' );
+		}
+
+		const rid = type_tim.createFromPath( rpa.string.split( '/' ) );
+
+		imports = imports.add( rid );
+
+		return rid.$varname;
+	};
+
+	// in case of attributes, group, list, set or twig
+	// it will be turned off again
+	let singleton = true;
+
+	for( let name in timDef.attributes || { } )
+	{
+		singleton = false;
+
+		const jAttr = timDef.attributes[ name ];
+
+		const type = jAttr.type;
+
+		// attribute id
+		let aid;
+
+		if( !Array.isArray( type ) )
+		{
+			aid = type_any.createFromString( type );
+
+			imports = imports.add( aid );
+		}
+		else
+		{
+			aid = type_set.createFromArray( module, type );
+
+			imports = imports.addSet( aid );
+
+			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
+		}
+
+		const assign =
+			jAttr.assign !== undefined
+			? jAttr.assign
+			: name;
+
+		if( assign !== '' )
+		{
+			abstractConstructorList.push( name );
+
+			constructorList.push( name );
+		}
+		else if( timDef.init && timDef.init.indexOf( name ) >= 0 )
+		{
+			constructorList.push( name );
+		}
+
+		let prepare = jAttr.prepare;
+
+		if( prepare ) prepare = $( prepare ).walk( transformPrepare );
+
+		const jdv = jAttr.defaultValue;
+
+		let defaultValue;
+
+		if( jdv )
+		{
+			defaultValue = $( jdv ).walk( transformDefaultValue );
+		}
+
+		let allowsNull = false;
+
+		let allowsUndefined = false;
+
+		if( aid.timtype === type_set )
+		{
+			if( aid.has( tsUndefined ) )
+			{
+				aid = aid.create( 'set:remove', tsUndefined );
+
+				allowsUndefined = true;
+			}
+
+			if( aid.has( tsNull ) )
+			{
+				aid = aid.create( 'set:remove', tsNull );
+
+				allowsUndefined = true;
+			}
+
+			if( aid.size === 1 )
+			{
+				aid = aid.iterator( ).next( ).value;
+			}
+		}
+
+		const attr =
+			tim_attribute.create(
+				'allowsNull', allowsNull,
+				'allowsUndefined', allowsUndefined,
+				'assign', assign,
+				'prepare', prepare,
+				'defaultValue', defaultValue,
+				'json', !!jAttr.json,
+				'name', name,
+				'id', aid,
+				'varRef', $var( 'v_' + name )
+			);
+
+		attributes = attributes.set( name, attr );
+	}
+
+	abstractConstructorList.sort( );
+
+	constructorList.sort( );
+
+	if( timDef.group )
+	{
+		singleton = false;
+
+		abstractConstructorList.unshift( 'group' );
+
+		constructorList.unshift( 'group' );
+	}
+
+	if( timDef.list )
+	{
+		singleton = false;
+
+		abstractConstructorList.unshift( 'list' );
+
+		constructorList.unshift( 'list' );
+	}
+
+	if( timDef.set )
+	{
+		singleton = false;
+
+		abstractConstructorList.unshift( 'set' );
+
+		constructorList.unshift( 'set' );
+	}
+
+	if( timDef.twig )
+	{
+		singleton = false;
+
+		abstractConstructorList.unshift( 'ranks' );
+
+		abstractConstructorList.unshift( 'twig' );
+
+		constructorList.unshift( 'ranks' );
+
+		constructorList.unshift( 'twig' );
+	}
+
+	if( timDef.init )
+	{
+		singleton = false;
+
+		const inits = timDef.init.slice( ).sort( );
+
+		for( let a = inits.length - 1; a >= 0; a-- )
+		{
+			let name = timDef.init[ a ];
+
+			if( attributes.get( name ) ) continue;
+
+			switch( name )
+			{
+				case 'inherit' :
+				case 'twigDup' :
+				case 'group' :
+				case 'groupDup' :
+				case 'list' :
+				case 'listDup' :
+				case 'set' :
+				case 'setDup' :
+
+					constructorList.unshift( name );
+
+					break;
+
+				default :
+
+					throw new Error( 'invalid init value: ' + name );
+			}
+		}
+	}
+
+	if( FREEZE )
+	{
+		Object.freeze( abstractConstructorList );
+
+		Object.freeze( constructorList );
+	}
+
+	// FIXME currently may not be named group/list/set/twig...
+	let ggroup, glist, gset, gtwig;
+
+	if( timDef.group )
+	{
+		ggroup = type_set.createFromArray( module, timDef.group );
+
+		imports = imports.addSet( ggroup );
+	}
+
+	if( timDef.list )
+	{
+		glist = type_set.createFromArray( module, timDef.list );
+
+		imports = imports.addSet(glist );
+	}
+
+	if( timDef.set )
+	{
+		gset = type_set.createFromArray( module, timDef.set );
+
+		imports = imports.addSet( gset );
+	}
+
+	if( timDef.twig )
+	{
+		gtwig = type_set.createFromArray( module, timDef.twig );
+
+		imports = imports.addSet( gtwig );
+	}
+
 	const g =
 		self.create(
 			'timDef', timDef,
 			'module', module,
 
+			'abstractConstructorList', abstractConstructorList,
+			'attributes', attributes,
 			'alike', timDef.alike,
 			'check', !!timDef.check,
+			'constructorList', constructorList,
+			'creatorHasFreeStringsParser',
+				!!( ggroup || glist || gset || gtwig || attributes.size > 0 ),
+			'ggroup', ggroup,
 			'hasAbstract', !!timDef.hasAbstract,
+			'imports', imports,
 			'init', timDef.init,
-			'json', timDef.json
+			'glist', glist,
+			'json', timDef.json,
+			'gset', gset,
+			'singleton', singleton,
+			'gtwig', gtwig
 		);
 
 	return(
