@@ -60,16 +60,12 @@ if( TIM )
 		// true if this a singleton (no attributes or twig/group/list/set)
 		singleton : { type : [ 'boolean', 'undefined' ] },
 
-		// the tim definition
-		timDef : { type : 'protean', assign : '' },
-
 		// if set this tim is a twig
 		gtwig : { type : [ './type/set', 'undefined' ] },
 
+		// the node.js module this tim is generated from
 		module : { type : 'protean' }
 	};
-
-	def.init = [ 'timDef' ];
 }
 
 const ast_call = require( './ast/call' );
@@ -3018,9 +3014,6 @@ def.static.generate =
 
 	const g =
 		self.create(
-			'timDef', timDef,
-			'module', module,
-
 			'abstractConstructorList', abstractConstructorList,
 			'attributes', attributes,
 			'alike', timDef.alike,
@@ -3032,11 +3025,12 @@ def.static.generate =
 			'hasAbstract', !!timDef.hasAbstract,
 			'imports', imports,
 			'init', timDef.init,
-			'glist', glist,
 			'json', timDef.json,
+			'glist', glist,
 			'gset', gset,
-			'singleton', singleton,
-			'gtwig', gtwig
+			'gtwig', gtwig,
+			'module', module,
+			'singleton', singleton
 		);
 
 	return(

@@ -35,8 +35,7 @@ const Constructor =
 		v_init,
 		v_json,
 		v_module,
-		v_singleton,
-		v_timDef
+		v_singleton
 	)
 {
 	if( prototype.__have_lazy )
@@ -75,8 +74,6 @@ const Constructor =
 	this.module = v_module;
 
 	this.singleton = v_singleton;
-
-	this._init( v_timDef );
 
 	if( FREEZE )
 	{
@@ -136,8 +133,6 @@ prototype.create =
 	let v_module;
 
 	let v_singleton;
-
-	let v_timDef;
 
 	if( this !== self )
 	{
@@ -326,15 +321,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_singleton = arg;
-				}
-
-				break;
-
-			case 'timDef' :
-
-				if( arg !== pass )
-				{
-					v_timDef = arg;
 				}
 
 				break;
@@ -539,16 +525,6 @@ prototype.create =
 /**/			throw new Error( );
 /**/		}
 /**/	}
-/**/
-/**/	if( v_timDef === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_timDef === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
 /**/}
 
 	if(
@@ -609,8 +585,6 @@ prototype.create =
 		v_module === inherit.module
 		&&
 		v_singleton === inherit.singleton
-		&&
-		v_timDef === undefined
 	)
 	{
 		return inherit;
@@ -633,8 +607,7 @@ prototype.create =
 			v_init,
 			v_json,
 			v_module,
-			v_singleton,
-			v_timDef
+			v_singleton
 		)
 	);
 };
