@@ -144,17 +144,6 @@ const tsNull = type_null.create( );
 
 
 /*
-| Initializes a generator.
-*/
-def.func._init =
-	function(
-		timDef
-	)
-{
-};
-
-
-/*
 | Generates the requires.
 */
 def.func.genRequires =
