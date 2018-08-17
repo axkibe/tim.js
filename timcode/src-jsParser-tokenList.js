@@ -9,6 +9,9 @@
 const tt_$_ast_block = require( './../ast/block' );
 
 
+const tt_$_ast_break = require( './../ast/break' );
+
+
 const tt_$_ast_check = require( './../ast/check' );
 
 
@@ -328,6 +331,8 @@ prototype.create =
 /**/
 /**/		if(
 /**/			o.timtype !== tt_$_ast_block
+/**/			&&
+/**/			o.timtype !== tt_$_ast_break
 /**/			&&
 /**/			o.timtype !== tt_$_ast_check
 /**/			&&

@@ -14,6 +14,7 @@ module.exports =
 	'src/ast/assign.js',
 	'src/ast/block.js',
 	'src/ast/boolean.js',
+	'src/ast/break.js',
 	'src/ast/call.js',
 	'src/ast/case.js',
 	'src/ast/check.js',

@@ -16,6 +16,8 @@ const ast_block = require( './block' );
 
 const ast_boolean = require( './boolean' );
 
+const ast_break = require( './break' );
+
 const ast_call = require( './call' );
 
 const ast_check = require( './check' );
@@ -176,6 +178,12 @@ def.staticLazy.$block = ( ) => ast_block.create( );
 
 
 /*
+| Shorthand for ast break.
+*/
+def.staticLazy.$break = ( ) => ast_break.create( );
+
+
+/*
 | Shorthand for creating calls.
 */
 def.static.$call =
@@ -300,7 +308,8 @@ def.static.$const =
 /*
 | Shorthand for ast continue.
 */
-def.static.$continue = ast_continue.create( );
+def.staticLazy.$continue = ( ) => ast_continue.create( );
+
 
 /*
 | Shorthand for creating differs.
@@ -657,7 +666,7 @@ def.static.$not =
 /*
 | Shorthand for ast nulls.
 */
-def.static.$null = ast_null.create( );
+def.staticLazy.$null = ( ) => ast_null.create( );
 
 
 /*
@@ -844,7 +853,7 @@ def.static.$typeof =
 /*
 | Shorthand for 'undefined'
 */
-def.static.$undefined = ast_undefined.create( );
+def.staticLazy.$undefined = ( ) => ast_undefined.create( );
 
 
 /*
@@ -899,4 +908,3 @@ def.static.$while =
 
 
 } );
-

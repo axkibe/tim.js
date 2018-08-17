@@ -158,11 +158,7 @@ def.func.$if =
 		elsewise
 	)
 {
-	return(
-		this.append(
-			shorthand.$if( condition, then, elsewise )
-		)
-	);
+	return this.append( shorthand.$if( condition, then, elsewise ) );
 };
 
 

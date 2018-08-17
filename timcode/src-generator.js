@@ -35,7 +35,8 @@ const Constructor =
 		v_init,
 		v_json,
 		v_module,
-		v_singleton
+		v_singleton,
+		v_transform
 	)
 {
 	if( prototype.__have_lazy )
@@ -74,6 +75,8 @@ const Constructor =
 	this.module = v_module;
 
 	this.singleton = v_singleton;
+
+	this.transform = v_transform;
 
 	if( FREEZE )
 	{
@@ -134,6 +137,8 @@ prototype.create =
 
 	let v_singleton;
 
+	let v_transform;
+
 	if( this !== self )
 	{
 		inherit = this;
@@ -169,6 +174,8 @@ prototype.create =
 		v_module = this.module;
 
 		v_singleton = this.singleton;
+
+		v_transform = this.transform;
 	}
 
 	for(
@@ -321,6 +328,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_singleton = arg;
+				}
+
+				break;
+
+			case 'transform' :
+
+				if( arg !== pass )
+				{
+					v_transform = arg;
 				}
 
 				break;
@@ -525,6 +541,21 @@ prototype.create =
 /**/			throw new Error( );
 /**/		}
 /**/	}
+/**/
+/**/	if( v_transform === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_transform === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_transform ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
 /**/}
 
 	if(
@@ -585,6 +616,8 @@ prototype.create =
 		v_module === inherit.module
 		&&
 		v_singleton === inherit.singleton
+		&&
+		v_transform === inherit.transform
 	)
 	{
 		return inherit;
@@ -607,7 +640,8 @@ prototype.create =
 			v_init,
 			v_json,
 			v_module,
-			v_singleton
+			v_singleton,
+			v_transform
 		)
 	);
 };
@@ -710,5 +744,7 @@ prototype.equals =
 		this.module === obj.module
 		&&
 		this.singleton === obj.singleton
+		&&
+		this.transform === obj.transform
 	);
 };

@@ -18,6 +18,8 @@ const ast_block = require( '../ast/block' );
 
 const ast_boolean = require( '../ast/boolean' );
 
+const ast_break = require( '../ast/break' );
+
 const ast_call = require( '../ast/call' );
 
 const ast_check = require( '../ast/check' );
@@ -373,6 +375,27 @@ const formatBoolean =
 		)
 	);
 };
+
+
+/*
+| Formats a break statement.
+*/
+const formatBreak =
+	function(
+		context,
+		statement
+	)
+{
+
+/**/if( CHECK )
+/**/{
+/**/	if( statement.timtype !== ast_break ) throw new Error( );
+/**/}
+
+	return context.tab + 'break';
+};
+
+
 
 
 /*
@@ -1528,6 +1551,8 @@ const formatStatement =
 
 	switch( statement.timtype )
 	{
+		case ast_break : text += formatBreak( context, statement ); break;
+
 		case ast_check : text += formatCheck( context, statement ); break;
 
 		case ast_const :
@@ -1662,6 +1687,7 @@ const formatStatement =
 
 		case ast_assign :
 		case ast_boolean :
+		case ast_break :
 		case ast_call :
 		case ast_const :
 		case ast_continue :

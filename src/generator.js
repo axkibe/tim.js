@@ -20,12 +20,6 @@ if( TIM )
 		// FIXME remove
 		abstractConstructorList : { type : 'protean' },
 
-		// arguments for the constructor
-		constructorList : { type : 'protean' },
-
-		// true if a free strings parser is to be added in the creator
-		creatorHasFreeStringsParser : { type : 'boolean' },
-
 		// list of alike function and what to ignore
 		alike : { type : [ 'protean', 'undefined' ] },
 
@@ -35,8 +29,24 @@ if( TIM )
 		// true if an init checker is to be called
 		check : { type : 'boolean' },
 
+		// arguments for the constructor
+		constructorList : { type : 'protean' },
+
+		// true if a free strings parser is to be added in the creator
+		creatorHasFreeStringsParser : { type : 'boolean' },
+
 		// if set this tim is a group
+		// FIXME find out why 'group' etc. disturbs generator
 		ggroup : { type : [ './type/set', 'undefined' ] },
+
+		// if set this tim is a list
+		glist : { type : [ './type/set', 'undefined' ] },
+
+		// if set this tim is a set
+		gset : { type : [ './type/set', 'undefined' ] },
+
+		// if set this tim is a twig
+		gtwig : { type : [ './type/set', 'undefined' ] },
 
 		// true if this has an abstract
 		// FIXME remove abstracts
@@ -48,23 +58,17 @@ if( TIM )
 		// other tims this tim utilizes
 		imports : { type : './type/set' },
 
-		// if set this tim is a list
-		glist : { type : [ './type/set', 'undefined' ] },
-
 		// fromJson and toJson specifier
 		json : { type : [ 'string', 'undefined' ] },
 
-		// if set this tim is a set
-		gset : { type : [ './type/set', 'undefined' ] },
+		// the node.js module this tim is generated from
+		module : { type : 'protean' },
 
-		// true if this a singleton (no attributes or twig/group/list/set)
+		// true if this a singleton (no attributes or group/list/set/twig)
 		singleton : { type : [ 'boolean', 'undefined' ] },
 
-		// if set this tim is a twig
-		gtwig : { type : [ './type/set', 'undefined' ] },
-
-		// the node.js module this tim is generated from
-		module : { type : 'protean' }
+		// true if this is a transforming group/list/set/twig
+		transform : { type : 'boolean' }
 	};
 }
 
@@ -217,6 +221,8 @@ def.func.genConstructor =
 			block
 			.$( 'this._twig = twig' )
 			.$( 'this._ranks = ranks' );
+
+		if( this.transform ) block = block.$( 'this._ttwig = ttwig' );
 	}
 
 	// calls the initializer
@@ -290,17 +296,9 @@ def.func.genConstructor =
 
 		switch( name )
 		{
-			case 'inherit' :
+			case 'inherit' : cf = cf.$arg( 'inherit', 'inheritance' ); break;
 
-				cf = cf.$arg( 'inherit', 'inheritance' );
-
-				break;
-
-			case 'group' :
-
-				cf = cf.$arg( 'group', 'group' );
-
-				break;
+			case 'group' : cf = cf.$arg( 'group', 'group' ); break;
 
 			case 'groupDup' :
 
@@ -312,17 +310,9 @@ def.func.genConstructor =
 
 				break;
 
-			case 'ranks' :
+			case 'ranks' : cf = cf.$arg( 'ranks', 'twig ranks' ); break;
 
-				cf = cf.$arg( 'ranks', 'twig ranks' );
-
-				break;
-
-			case 'list' :
-
-				cf = cf.$arg( 'list', 'list' );
-
-				break;
+			case 'list' : cf = cf.$arg( 'list', 'list' ); break;
 
 			case 'listDup' :
 
@@ -334,11 +324,7 @@ def.func.genConstructor =
 
 				break;
 
-			case 'set' :
-
-				cf = cf.$arg( 'set', 'set' );
-
-				break;
+			case 'set' : cf = cf.$arg( 'set', 'set' ); break;
 
 			case 'mapDup' :
 
@@ -350,11 +336,9 @@ def.func.genConstructor =
 
 				break;
 
-			case 'twig' :
+			case 'twig' : cf = cf.$arg( 'twig', 'twig' ); break;
 
-				cf = cf.$arg( 'twig', 'twig' );
-
-				break;
+			case 'ttwig' : cf = cf.$arg( 'ttwig', 'ttwig' ); break;
 
 			case 'twigDup' :
 
@@ -446,7 +430,12 @@ def.func.genCreatorVariables =
 
 	if( this.gset ) varList.push( 'set', 'setDup' );
 
-	if( this.gtwig ) varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
+	if( this.gtwig )
+	{
+		varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
+
+		if( this.transform ) varList.push( 'ttwig' );
+	}
 
 	varList.sort( );
 
@@ -508,6 +497,19 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'twig = inherit._twig' )
 			.$( 'ranks = inherit._ranks' )
 			.$( 'twigDup = false' );
+
+		if( this.transform )
+		{
+			receiver =
+				receiver
+				.$if(
+					'!tim_proto.isEmpty( inherit._ttwig )',
+					$block
+					.$( 'twigDup = true' )
+					.$( 'twig = tim_proto.copy2( twig, inherit._ttwig )' )
+					.$break
+				);
+		}
 	}
 
 	for( let a = 0, as = this.attributes.size; a < as; a++ )
@@ -1309,6 +1311,7 @@ def.func.genCreatorReturn =
 			case 'set' :
 			case 'setDup' :
 			case 'twig' :
+			case 'ttwig' :
 			case 'twigDup' :
 
 				call = call.$argument( argName );
@@ -2926,6 +2929,8 @@ def.static.generate =
 
 		constructorList.unshift( 'ranks' );
 
+		if( timDef.func._transform ) constructorList.unshift( 'ttwig' );
+
 		constructorList.unshift( 'twig' );
 	}
 
@@ -3019,7 +3024,8 @@ def.static.generate =
 			'gset', gset,
 			'gtwig', gtwig,
 			'module', module,
-			'singleton', singleton
+			'singleton', singleton,
+			'transform', !!timDef.func._transform
 		);
 
 	return(

@@ -283,6 +283,45 @@ tim_proto.copy =
 	return c;
 };
 
+
+/*
+| Copies one object (not deep!).
+| Also lets another object override the former.
+| Used in creators of transformative tims.
+|
+| Also doesn't do hasOwnProperty checking since that one
+| is only to be used on vanilla objects.
+*/
+tim_proto.copy2 =
+	function(
+		o,  // the object to copy from
+		o2  // overriding object
+	)
+{
+	const c = { };
+
+	for( let k in o ) c[ k ] = o[ k ];
+
+	for( let k in o2 ) c[ k ] = o2[ k ];
+
+	return c;
+};
+
+
+/*
+| Returns true if 'o' is an empty object.
+*/
+tim_proto.isEmpty =
+	function( o )
+{
+	let dummy;
+
+	for( dummy in o ) return false;
+
+	return true;
+};
+
+
 /*
 | Sets a key of a sub node described by a path.
 */
@@ -696,6 +735,23 @@ tim_proto.twigGet =
 	)
 {
 	return this._twig[ key ];
+};
+
+
+/*
+| If this tim twig is in transform mode, returns the element by key
+| going through the _transform functin.
+*/
+tim_proto.twigTransGet =
+	function(
+		key
+	)
+{
+	const tval = this._ttwig[ key ];
+
+	if( tval ) return tval;
+
+	return( this._ttwig[ key ] = this._transform( key ) );
 };
 
 

@@ -9,6 +9,9 @@
 const tt_block = require( './block' );
 
 
+const tt_break = require( './break' );
+
+
 const tt_check = require( './check' );
 
 
@@ -325,6 +328,8 @@ prototype.create =
 /**/
 /**/		if(
 /**/			o.timtype !== tt_block
+/**/			&&
+/**/			o.timtype !== tt_break
 /**/			&&
 /**/			o.timtype !== tt_check
 /**/			&&
