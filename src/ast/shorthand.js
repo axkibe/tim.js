@@ -104,17 +104,16 @@ const parser = require( '../jsParser/parser' );
 
 
 /*
-| Ensures ast is a block.
-| Ff not appends it to a new block.
+| Ensures argument becomes a block.
 */
 const ensureBlock =
 	function(
-		ast
+		arg
 	)
 {
-	if( ast.timtype === ast_block ) return ast;
+	if( arg.timtype === ast_block ) return arg;
 
-	return ast_block.create( ).append( ast );
+	return ast_block.create( ).append( parser.parse( arg ) );
 };
 
 
@@ -208,10 +207,10 @@ def.static.$call =
 */
 def.static.$check =
 	function(
-		block // or statement/expression
+		arg
 	)
 {
-	return ast_check.create( 'block', ensureBlock( block ) );
+	return ast_check.create( 'block', ensureBlock( arg ) );
 };
 
 
@@ -471,8 +470,8 @@ def.static.$if =
 	return(
 		ast_if.create(
 			'condition', parser.parse( condition ),
-			'then', ensureBlock( parser.parse( then ) ),
-			'elsewise', elsewise && ensureBlock( parser.parse( elsewise ) )
+			'then', ensureBlock( then ),
+			'elsewise', elsewise && ensureBlock( elsewise )
 		)
 	);
 };
@@ -494,7 +493,7 @@ def.static.$for =
 			'init', parser.parse( init ),
 			'condition', parser.parse( condition ),
 			'iterate', parser.parse( iterate ),
-			'block', ensureBlock( parser.parse( block ) )
+			'block', ensureBlock( block )
 		)
 	);
 };
@@ -515,7 +514,7 @@ def.static.$forIn =
 			'variable', parser.parse( variable ),
 			'letVar', false,
 			'object', parser.parse( object ),
-			'block', ensureBlock( parser.parse( block ) )
+			'block', ensureBlock( block )
 		)
 	);
 };
@@ -536,7 +535,7 @@ def.static.$forInLet =
 			'variable', parser.parse( variable ),
 			'letVar', true,
 			'object', parser.parse( object ),
-			'block', ensureBlock( parser.parse( block ) )
+			'block', ensureBlock( block )
 		)
 	);
 };
@@ -547,10 +546,10 @@ def.static.$forInLet =
 */
 def.static.$func =
 	function(
-		block
+		arg
 	)
 {
-	return ast_func.create( 'block', ensureBlock( parser.parse( block ) ) );
+	return ast_func.create( 'block', ensureBlock( arg ) );
 };
 
 
@@ -901,7 +900,7 @@ def.static.$while =
 	return(
 		ast_while.create(
 			'condition', parser.parse( condition ),
-			'block', ensureBlock( parser.parse( block ) )
+			'block', ensureBlock( block )
 		)
 	);
 };

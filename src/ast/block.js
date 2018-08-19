@@ -67,6 +67,16 @@ def.func.$assign =
 
 
 /*
+| Returns the block with a break statement appended.
+*/
+def.func.$break =
+	function( )
+{
+	return this.append( shorthand.$break );
+};
+
+
+/*
 | Recreates the block with a call appended.
 */
 def.func.$call =

@@ -222,7 +222,7 @@ def.func.genConstructor =
 			.$( 'this._twig = twig' )
 			.$( 'this._ranks = ranks' );
 
-		if( this.transform ) block = block.$( 'this._ttwig = ttwig' );
+		if( this.transform ) block = block.$( 'this._ttwig = { }' );
 	}
 
 	// calls the initializer
@@ -279,8 +279,7 @@ def.func.genConstructor =
 	// calls potential init checker
 	if( !abstract && this.check )
 	{
-		//block = block.$check( 'this._check( )' );XX
-		block = block.$check( $( 'this._check( )' ) );
+		block = block.$check( 'this._check( )' );
 	}
 
 	let cf = $func( block );
@@ -337,8 +336,6 @@ def.func.genConstructor =
 				break;
 
 			case 'twig' : cf = cf.$arg( 'twig', 'twig' ); break;
-
-			case 'ttwig' : cf = cf.$arg( 'ttwig', 'ttwig' ); break;
 
 			case 'twigDup' :
 
@@ -430,12 +427,7 @@ def.func.genCreatorVariables =
 
 	if( this.gset ) varList.push( 'set', 'setDup' );
 
-	if( this.gtwig )
-	{
-		varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
-
-		if( this.transform ) varList.push( 'ttwig' );
-	}
+	if( this.gtwig ) varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
 
 	varList.sort( );
 
@@ -507,7 +499,6 @@ def.func.genCreatorInheritanceReceiver =
 					$block
 					.$( 'twigDup = true' )
 					.$( 'twig = tim_proto.copy2( twig, inherit._ttwig )' )
-					.$break
 				);
 		}
 	}
@@ -2109,12 +2100,12 @@ def.func.$protoSet =
 		return $(
 			'prototype.', key, ' = ',
 			'abstractPrototype.', key, ' = ',
-			value
+			'tim_proto.', value
 		);
 	}
 	else
 	{
-		return $( 'prototype.', key, ' = ', value );
+		return $( 'prototype.', key, ' = ', 'tim_proto.', value );
 	}
 };
 
@@ -2131,7 +2122,7 @@ def.func.$protoLazyValueSet =
 {
 	let ast =
 		$block
-		.$( 'tim_proto.lazyValue( prototype,', name, ',', func, ')' );
+		.$( 'tim_proto.lazyValue( prototype,', name, ', tim_proto.', func, ')' );
 
 	if( this.hasAbstract )
 	{
@@ -2141,7 +2132,7 @@ def.func.$protoLazyValueSet =
 				'tim_proto.lazyValue(',
 					'abstractPrototype,',
 					name, ',',
-					func,
+					'tim_proto.', func,
 				')'
 			);
 	}
@@ -2159,10 +2150,10 @@ def.func.genTimProto =
 	let result =
 		$block
 		.$comment( 'Sets values by path.' )
-		.$( this.$protoSet( 'setPath', 'tim_proto.setPath' ) )
+		.$( this.$protoSet( 'setPath', 'setPath' ) )
 
 		.$comment( 'Gets values by path' )
-		.$( this.$protoSet( 'getPath', 'tim_proto.getPath' ) );
+		.$( this.$protoSet( 'getPath', 'getPath' ) );
 
 	if( this.ggroup )
 	{
@@ -2173,25 +2164,25 @@ def.func.genTimProto =
 				'Returns the group with another group added,',
 				'overwriting collisions.'
 			)
-			.$( this.$protoSet( 'addGroup', 'tim_proto.groupAddGroup' ) )
+			.$( this.$protoSet( 'addGroup', 'groupAddGroup' ) )
 
 			.$comment( 'Gets one element from the group.' )
-			.$( this.$protoSet( 'get', 'tim_proto.groupGet' ) )
+			.$( this.$protoSet( 'get', 'groupGet' ) )
 
 			.$comment( 'Returns the group keys.')
-			.$( this.$protoLazyValueSet( '"keys"', 'tim_proto.groupKeys' ) )
+			.$( this.$protoLazyValueSet( '"keys"', 'groupKeys' ) )
 
 			.$comment( 'Returns the sorted group keys.')
-			.$( this.$protoLazyValueSet( '"sortedKeys"', 'tim_proto.groupSortedKeys' ) )
+			.$( this.$protoLazyValueSet( '"sortedKeys"', 'groupSortedKeys' ) )
 
 			.$comment( 'Returns the group with one element removed.' )
-			.$( this.$protoSet( 'remove', 'tim_proto.groupRemove' ) )
+			.$( this.$protoSet( 'remove', 'groupRemove' ) )
 
 			.$comment( 'Returns the group with one element set.' )
-			.$( this.$protoSet( 'set', 'tim_proto.groupSet' ) )
+			.$( this.$protoSet( 'set', 'groupSet' ) )
 
 			.$comment( 'Returns the size of the group.')
-			.$( this.$protoLazyValueSet( '"size"', 'tim_proto.groupSize' ) );
+			.$( this.$protoLazyValueSet( '"size"', 'groupSize' ) );
 	}
 
 	if( this.glist )
@@ -2199,28 +2190,28 @@ def.func.genTimProto =
 		result =
 			result
 			.$comment( 'Returns the list with an element appended.' )
-			.$( this.$protoSet( 'append', 'tim_proto.listAppend' ) )
+			.$( this.$protoSet( 'append', 'listAppend' ) )
 
 			.$comment( 'Returns the list with another list appended.' )
-			.$( this.$protoSet( 'appendList', 'tim_proto.listAppendList' ) )
+			.$( this.$protoSet( 'appendList', 'listAppendList' ) )
 
 			.$comment( 'Returns the length of the list.')
-			.$( this.$protoLazyValueSet( '"length"', 'tim_proto.listLength' ) )
+			.$( this.$protoLazyValueSet( '"length"', 'listLength' ) )
 
 			.$comment( 'Returns one element from the list.' )
-			.$( this.$protoSet( 'get', 'tim_proto.listGet' ) )
+			.$( this.$protoSet( 'get', 'listGet' ) )
 
 			.$comment( 'Returns a slice from the list.' )
-			.$( this.$protoSet( 'slice', 'tim_proto.listSlice' ) )
+			.$( this.$protoSet( 'slice', 'listSlice' ) )
 
 			.$comment( 'Returns the list with one element inserted.' )
-			.$( this.$protoSet( 'insert', 'tim_proto.listInsert' ) )
+			.$( this.$protoSet( 'insert', 'listInsert' ) )
 
 			.$comment( 'Returns the list with one element removed.' )
-			.$( this.$protoSet( 'remove', 'tim_proto.listRemove' ) )
+			.$( this.$protoSet( 'remove', 'listRemove' ) )
 
 			.$comment( 'Returns the list with one element set.' )
-			.$( this.$protoSet( 'set', 'tim_proto.listSet' ) );
+			.$( this.$protoSet( 'set', 'listSet' ) );
 	}
 
 	if( this.gset )
@@ -2228,22 +2219,22 @@ def.func.genTimProto =
 		result =
 			result
 			.$comment( 'Returns the set with one element added.' )
-			.$( this.$protoSet( 'add', 'tim_proto.setAdd' ) )
+			.$( this.$protoSet( 'add', 'setAdd' ) )
 
 			.$comment( 'Returns the set with another set added.' )
-			.$( this.$protoSet( 'addSet', 'tim_proto.setAddSet' ) )
+			.$( this.$protoSet( 'addSet', 'setAddSet' ) )
 
 			.$comment( 'Returns true if the set has an element.' )
-			.$( this.$protoSet( 'has', 'tim_proto.setHas' ) )
+			.$( this.$protoSet( 'has', 'setHas' ) )
 
 			.$comment( 'Returns an iterator for the set.' )
-			.$( this.$protoSet( 'iterator', 'tim_proto.setIterator' ) )
+			.$( this.$protoSet( 'iterator', 'setIterator' ) )
 
 			.$comment( 'Returns the set with one element removed.' )
-			.$( this.$protoSet( 'remove', 'tim_proto.setRemove' ) )
+			.$( this.$protoSet( 'remove', 'setRemove' ) )
 
 			.$comment( 'Returns the size of the set.' )
-			.$( this.$protoLazyValueSet( '"size"', 'tim_proto.setSize' ) );
+			.$( this.$protoLazyValueSet( '"size"', 'setSize' ) );
 	}
 
 	if( this.gtwig )
@@ -2251,16 +2242,16 @@ def.func.genTimProto =
 		result =
 			result
 			.$comment( 'Returns the element at rank.' )
-			.$( this.$protoSet( 'atRank', 'tim_proto.twigAtRank' ) )
+			.$( this.$protoSet( 'atRank', 'twigAtRank' ) )
 
 			.$comment( 'Returns the element by key.' )
-			.$( this.$protoSet( 'get', 'tim_proto.twigGet' ) )
+			.$( this.$protoSet( 'get', this.transform ? 'twigTransGet' : 'twigGet' ) )
 
 			.$comment( 'Returns the key at a rank.' )
-			.$( this.$protoSet( 'getKey', 'tim_proto.twigGetKey' ) )
+			.$( this.$protoSet( 'getKey', 'twigGetKey' ) )
 
 			.$comment( 'Returns the length of the twig.')
-			.$( this.$protoLazyValueSet( '"length"', 'tim_proto.twigLength' ) )
+			.$( this.$protoLazyValueSet( '"length"', 'twigLength' ) )
 
 			// FUTURE for abstracts as well
 			.$comment( 'Returns the rank of the key.' )
@@ -2271,7 +2262,7 @@ def.func.genTimProto =
 			)
 
 			.$comment( 'Returns the twig with the element at key set.' )
-			.$( this.$protoSet( 'set', 'tim_proto.twigSet' ) );
+			.$( this.$protoSet( 'set', 'twigSet' ) );
 	}
 
 	return result;
@@ -2928,8 +2919,6 @@ def.static.generate =
 		abstractConstructorList.unshift( 'twig' );
 
 		constructorList.unshift( 'ranks' );
-
-		if( timDef.func._transform ) constructorList.unshift( 'ttwig' );
 
 		constructorList.unshift( 'twig' );
 	}

@@ -721,7 +721,7 @@ tim_proto.twigAtRank =
 		rank
 	)
 {
-	return this._twig[ this._ranks[ rank ] ];
+	return this.get( this._ranks[ rank ] );
 };
 
 
@@ -747,11 +747,14 @@ tim_proto.twigTransGet =
 		key
 	)
 {
+	// FIXME dirty workaround for abstracts, do away with them
+	if( !this._transform ) return this._twig[ key ];
+
 	const tval = this._ttwig[ key ];
 
-	if( tval ) return tval;
+	if( tval !== undefined ) return tval;
 
-	return( this._ttwig[ key ] = this._transform( key ) );
+	return this._ttwig[ key ] = this._transform( key, this._twig[ key ] );
 };
 
 
