@@ -28,8 +28,6 @@ if( TIM )
 			type : [ 'undefined', 'number', 'boolean', 'string' ]
 ,		}
 	};
-
-	def.check = true;
 }
 
 

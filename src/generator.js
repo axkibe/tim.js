@@ -58,6 +58,9 @@ if( TIM )
 		// other tims this tim utilizes
 		imports : { type : './type/set' },
 
+		// inherit optimizations
+		inherits : { type : [ './export/stringSet', 'undefined' ] },
+
 		// fromJson and toJson specifier
 		json : { type : [ 'string', 'undefined' ] },
 
@@ -77,6 +80,8 @@ const ast_call = require( './ast/call' );
 const ast_string = require( './ast/string' );
 
 const ast_var = require( './ast/var' );
+
+const stringSet = require( './export/stringSet' );
 
 const tim_attribute = require( './attribute' );
 
@@ -1201,9 +1206,9 @@ def.func.genCreatorPrepares =
 
 
 /*
-| Generates the creators unchanged detection,
+| Generates the creators unchanged detection.
 |
-| returning this object if so.
+| Returns this object if so.
 */
 def.func.genCreatorUnchanged =
 	function(
@@ -1253,6 +1258,44 @@ def.func.genCreatorUnchanged =
 	}
 
 	return $block.$if( cond, $( 'return inherit' ) );
+};
+
+
+/*
+| Generates inheritance optimizations.
+*/
+def.func.genCreatorInheritOptimization =
+	function(
+		abstract  // if true generates the abstract creator
+	)
+{
+	if( !this.inherits ) return;
+
+	let result;
+
+	let it = this.inherits.iterator( );
+
+	for( let i = it.next( ); !i.done; i = it.next( ) )
+	{
+		if( !result ) result = $block;
+
+		const v = i.value;
+
+		const $v = $string( v );
+
+		result =
+			result.
+			$if(
+				$(
+					'inherit',
+					'&& this.__inherit_' + v + '( inherit )',
+					'&& tim.hasLazyValueSet( inherit, ', $v, ')'
+				),
+				$block.$( 'tim.aheadValue( this, ', $v, ', inherit.', v, ')' )
+			);
+	}
+
+	return result;
 };
 
 
@@ -1343,6 +1386,7 @@ def.func.genCreator =
 		.$( this.genCreatorChecks( false, abstract ) )
 		.$( abstract ? $block : this.genCreatorPrepares( ) )
 		.$( this.genCreatorUnchanged( abstract ) )
+		.$( this.genCreatorInheritOptimization( abstract ) )
 		.$( this.genCreatorReturn( abstract ) );
 
 	const creator =
@@ -2697,6 +2741,46 @@ def.func.genAlike =
 
 
 /*
+| Generates the attribute lazy transform calls.
+*/
+def.func.genAttrTransform =
+	function( )
+{
+	const attributes = this.attributes;
+
+	let result;
+
+	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
+	{
+		const name = attributes.sortedKeys[ a ];
+
+		const attr = attributes.get( name );
+
+		if( !attr.transform ) continue;
+
+		const b =
+			$block
+			.$(
+				'tim_proto.lazyValue( ',
+					'prototype,',
+					$string( name ), ',',
+					$func(
+						$block
+						.$( 'return this.', attr.transform, '( this.__' + name, ')' )
+					),
+				')'
+			);
+
+		if( !result ) result = $block;
+
+		result = result.$( b );
+	}
+
+	return result;
+};
+
+
+/*
 | Generates the preamble.
 */
 def.func.genPreamble =
@@ -2808,10 +2892,20 @@ def.static.generate =
 			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
 		}
 
-		const assign =
-			jAttr.assign !== undefined
-			? jAttr.assign
-			: name;
+		let assign;
+
+		if( jAttr.assign !== undefined )
+		{
+			assign = jAttr.assign;
+		}
+		else if( jAttr.transform !== undefined )
+		{
+			assign = '__' + name;
+		}
+		else
+		{
+			assign = name;
+		}
 
 		if( assign !== '' )
 		{
@@ -2868,11 +2962,12 @@ def.static.generate =
 				'allowsNull', allowsNull,
 				'allowsUndefined', allowsUndefined,
 				'assign', assign,
-				'prepare', prepare,
 				'defaultValue', defaultValue,
+				'id', aid,
 				'json', !!jAttr.json,
 				'name', name,
-				'id', aid,
+				'prepare', prepare,
+				'transform', jAttr.transform,
 				'varRef', $var( 'v_' + name )
 			);
 
@@ -2995,23 +3090,33 @@ def.static.generate =
 		imports = imports.addSet( gtwig );
 	}
 
+	const inheritKeys = Object.keys( timDef.inherit );
+
+	let inherits;
+
+	if( inheritKeys.length > 0 )
+	{
+		inherits = stringSet.create( 'set:init', new Set( inheritKeys ) );
+	}
+
 	const g =
 		self.create(
 			'abstractConstructorList', abstractConstructorList,
 			'attributes', attributes,
 			'alike', timDef.alike,
-			'check', !!timDef.check,
+			'check', !!timDef.func._check,
 			'constructorList', constructorList,
 			'creatorHasFreeStringsParser',
 				!!( ggroup || glist || gset || gtwig || attributes.size > 0 ),
 			'ggroup', ggroup,
-			'hasAbstract', !!timDef.hasAbstract,
-			'imports', imports,
-			'init', timDef.init,
-			'json', timDef.json,
 			'glist', glist,
 			'gset', gset,
 			'gtwig', gtwig,
+			'hasAbstract', !!timDef.hasAbstract,
+			'imports', imports,
+			'inherits', inherits,
+			'init', timDef.init,
+			'json', timDef.json,
 			'module', module,
 			'singleton', singleton,
 			'transform', !!timDef.func._transform
@@ -3037,6 +3142,7 @@ def.static.generate =
 		.$( g.json ? g.genToJson( ) : undefined )
 		.$( g.genEquals( ) )
 		.$( g.alike ? g.genAlike( ) : undefined )
+		.$( g.genAttrTransform( ) )
 	);
 };
 

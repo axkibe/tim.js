@@ -73,6 +73,7 @@ module.exports =
 	'src/export/path.js',
 	'src/export/pathList.js',
 	'src/export/stringList.js',
+	'src/export/stringSet.js',
 	'src/format/context.js',
 	'src/generator.js',
 	'src/jsLexer/token.js',

@@ -38,6 +38,9 @@ if( TIM )
 		// attribute preparation code
 		prepare : { type : [ '< ./ast/types-expr', 'undefined' ] },
 
+		// this attribute has a transformative getter
+		transform : { type: [ 'string', 'undefined' ] },
+
 		// attribute type id
 		id : { type : [ '< ./type/types', './type/set' ] },
 

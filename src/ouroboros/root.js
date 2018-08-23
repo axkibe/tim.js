@@ -164,14 +164,16 @@ for( let a = 0, al = listing.length; a < al; a++ )
 
 		stim.typemap = tim.typemap;
 
+		// FIXME this is done 3 times in code, make a common func
 		const def =
 		{
-			static : { },
-			staticLazy : { },
 			func : { },
+			inherit : { },
 			lazy : { },
 			lazyFuncInt : { },
 			lazyFuncStr : { },
+			static : { },
+			staticLazy : { },
 		};
 
 		stim.define = sdefine.bind( undefined, def );

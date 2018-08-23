@@ -48,7 +48,7 @@ else
 }
 
 
-
-module.exports = {
+module.exports =
+{
 	define: define
 };

@@ -23,8 +23,6 @@ if( TIM )
 		// the members name
 		member : { type : 'string' },
 	};
-
-	def.check = true;
 }
 
 

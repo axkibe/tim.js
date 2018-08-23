@@ -20,8 +20,6 @@ if( TIM )
 		// the variable name
 		name : { type : 'string' }
 	};
-
-	def.check = true;
 }
 
 

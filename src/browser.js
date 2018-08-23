@@ -43,12 +43,13 @@ tim.ouroboros.define =
 
 	const timDef =
 	{
-		static : { },
-		staticLazy : { },
+		func : { },
+		inherit : { },
 		lazy : { },
 		lazyFuncInt : { },
 		lazyFuncStr : { },
-		func : { },
+		static : { },
+		staticLazy : { },
 	};
 
 	definer( timDef, tim );
@@ -87,6 +88,12 @@ tim.ouroboros.define =
 	for( let name in timDef.func )
 	{
 		tim.prototype[ name ] = timDef.func[ name ];
+	}
+
+	// assigns inherit optimizations to the prototype
+	for( let name in timDef.inherit )
+	{
+		tim.prototype[ '__inherit_' + name ] = timDef.inherit[ name ];
 	}
 };
 

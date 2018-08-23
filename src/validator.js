@@ -56,11 +56,11 @@ const timWhitelist =
 	Object.freeze( {
 		'alike' : true,
 		'attributes' : true,
-		'check' : true,
 		'func' : true,
 		'group' : true,
 		'hasAbstract' : true,
 		'init' : true,
+		'inherit' : true,
 		'json' : true,
 		'lazy' : true,
 		'lazyFuncInt' : true,
@@ -163,10 +163,7 @@ const checkGroup =
 
 		if( map[ entry ] )
 		{
-			throw new Error(
-				'group definition contains duplicate: '
-				+ entry
-			);
+			throw new Error( 'group definition contains duplicate: ' + entry );
 		}
 
 		map[ entry ] = true;
@@ -190,9 +187,7 @@ const checkList =
 
 	if( !( Array.isArray( list ) ) )
 	{
-		throw new Error(
-			'list definition must be an Array'
-		);
+		throw new Error( 'list definition must be an Array' );
 	}
 
 	for( let a = 0, al = list.length; a < al; a++ )
@@ -201,17 +196,12 @@ const checkList =
 
 		if( typeof( entry ) !== 'string' )
 		{
-			throw new Error(
-				'twig definition entry not a string'
-			);
+			throw new Error( 'twig definition entry not a string');
 		}
 
 		if( map[ entry ] )
 		{
-			throw new Error(
-				'twig definition contains duplicate: '
-				+ entry
-			);
+			throw new Error( 'twig definition contains duplicate: ' + entry );
 		}
 
 		map[ entry ] = true;
@@ -248,10 +238,7 @@ const checkTwig =
 
 		if( map[ entry ] )
 		{
-			throw new Error(
-				'twig definition contains duplicate: '
-				+ entry
-			);
+			throw new Error( 'twig definition contains duplicate: ' + entry );
 		}
 
 		map[ entry ] = true;
@@ -362,9 +349,18 @@ const checkAttribute =
 
 		switch( key )
 		{
+			case 'assign' :
+
+				if( typeof( value ) !== 'string' )
+				{
+					throw new Error( 'assign not a string' );
+				}
+
+				break;
+
 			case 'defaultValue' :
 
-				if( typeof( attr.defaultValue ) !== 'string' )
+				if( typeof( value ) !== 'string' )
 				{
 					throw new Error( 'defaultValue not a string expression' );
 				}
@@ -387,17 +383,17 @@ const checkAttribute =
 
 				break;
 
-			case 'assign' :
-
-				if( typeof( attr.assign ) !== 'string' )
-				{
-					throw new Error( 'assign not a string' );
-				}
+			case 'comment' :
+			case 'type' :
 
 				break;
 
-			case 'comment' :
-			case 'type' :
+			case 'transform' :
+
+				if( typeof( value ) !== 'string' )
+				{
+					throw new Error( 'attribute transform not a string' );
+				}
 
 				break;
 

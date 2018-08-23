@@ -176,12 +176,13 @@ module.exports =
 
 	const timDef =
 	{
-		static : { },
-		staticLazy : { },
 		func : { },
+		inherit : { },
 		lazy : { },
 		lazyFuncInt : { },
 		lazyFuncStr : { },
+		static : { },
+		staticLazy : { },
 	};
 
 	const previousTIM = global.TIM;

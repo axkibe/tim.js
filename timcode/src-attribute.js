@@ -172,6 +172,7 @@ const Constructor =
 		v_json,
 		v_name,
 		v_prepare,
+		v_transform,
 		v_varRef
 	)
 {
@@ -195,6 +196,8 @@ const Constructor =
 	this.name = v_name;
 
 	this.prepare = v_prepare;
+
+	this.transform = v_transform;
 
 	this.varRef = v_varRef;
 
@@ -241,6 +244,8 @@ prototype.create =
 
 	let v_prepare;
 
+	let v_transform;
+
 	let v_varRef;
 
 	if( this !== self )
@@ -262,6 +267,8 @@ prototype.create =
 		v_name = this.name;
 
 		v_prepare = this.prepare;
+
+		v_transform = this.transform;
 
 		v_varRef = this.varRef;
 	}
@@ -344,6 +351,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_prepare = arg;
+				}
+
+				break;
+
+			case 'transform' :
+
+				if( arg !== pass )
+				{
+					v_transform = arg;
 				}
 
 				break;
@@ -674,6 +690,19 @@ prototype.create =
 /**/		}
 /**/	}
 /**/
+/**/	if( v_transform === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_transform !== undefined )
+/**/	{
+/**/		if( typeof( v_transform ) !== 'string' )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_varRef === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -721,6 +750,8 @@ prototype.create =
 			v_prepare !== undefined && v_prepare.equals( inherit.prepare )
 		)
 		&&
+		v_transform === inherit.transform
+		&&
 		(
 			v_varRef === inherit.varRef
 			||
@@ -741,6 +772,7 @@ prototype.create =
 			v_json,
 			v_name,
 			v_prepare,
+			v_transform,
 			v_varRef
 		)
 	);
@@ -816,6 +848,8 @@ prototype.equals =
 			||
 			this.prepare !== undefined && this.prepare.equals( obj.prepare )
 		)
+		&&
+		this.transform === obj.transform
 		&&
 		(
 			this.varRef === obj.varRef

@@ -754,7 +754,7 @@ tim_proto.twigTransGet =
 
 	if( tval !== undefined ) return tval;
 
-	return this._ttwig[ key ] = this._transform( key, this._twig[ key ] );
+	return( this._ttwig[ key ] = this._transform( key, this._twig[ key ] ) );
 };
 
 

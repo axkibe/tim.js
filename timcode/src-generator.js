@@ -12,6 +12,9 @@ const tt_attributeGroup = require( './attributeGroup' );
 const tt_type_set = require( './type/set' );
 
 
+const tt_export_stringSet = require( './export/stringSet' );
+
+
 const tim_proto = tim.proto;
 
 
@@ -32,6 +35,7 @@ const Constructor =
 		v_gtwig,
 		v_hasAbstract,
 		v_imports,
+		v_inherits,
 		v_init,
 		v_json,
 		v_module,
@@ -67,6 +71,8 @@ const Constructor =
 	this.hasAbstract = v_hasAbstract;
 
 	this.imports = v_imports;
+
+	this.inherits = v_inherits;
 
 	this.init = v_init;
 
@@ -129,6 +135,8 @@ prototype.create =
 
 	let v_imports;
 
+	let v_inherits;
+
 	let v_init;
 
 	let v_json;
@@ -166,6 +174,8 @@ prototype.create =
 		v_hasAbstract = this.hasAbstract;
 
 		v_imports = this.imports;
+
+		v_inherits = this.inherits;
 
 		v_init = this.init;
 
@@ -292,6 +302,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_imports = arg;
+				}
+
+				break;
+
+			case 'inherits' :
+
+				if( arg !== pass )
+				{
+					v_inherits = arg;
 				}
 
 				break;
@@ -501,6 +520,19 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_inherits === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_inherits !== undefined )
+/**/	{
+/**/		if( v_inherits.timtype !== tt_export_stringSet )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_init === null )
 /**/	{
 /**/		throw new Error( );
@@ -609,6 +641,12 @@ prototype.create =
 			v_imports.equals( inherit.imports )
 		)
 		&&
+		(
+			v_inherits === inherit.inherits
+			||
+			v_inherits !== undefined && v_inherits.equals( inherit.inherits )
+		)
+		&&
 		v_init === inherit.init
 		&&
 		v_json === inherit.json
@@ -637,6 +675,7 @@ prototype.create =
 			v_gtwig,
 			v_hasAbstract,
 			v_imports,
+			v_inherits,
 			v_init,
 			v_json,
 			v_module,
@@ -735,6 +774,12 @@ prototype.equals =
 			this.imports === obj.imports
 			||
 			this.imports.equals( obj.imports )
+		)
+		&&
+		(
+			this.inherits === obj.inherits
+			||
+			this.inherits !== undefined && this.inherits.equals( obj.inherits )
 		)
 		&&
 		this.init === obj.init

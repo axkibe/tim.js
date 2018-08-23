@@ -38,8 +38,6 @@ if( TIM )
 		// FUTURE replace protean by 'function'
 		astCreator : { type : [ 'undefined', 'protean' ] }
 	};
-
-	def.check = true;
 }
 
 
