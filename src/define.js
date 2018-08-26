@@ -275,5 +275,11 @@ module.exports =
 		exports.prototype[ name ] = timDef.func[ name ];
 	}
 
+	// assigns inherit optimizations to the prototype
+	for( let name in timDef.inherit )
+	{
+		exports.prototype[ '__inherit_' + name ] = timDef.inherit[ name ];
+	}
+
 	return exports;
 };

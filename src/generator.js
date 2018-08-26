@@ -48,6 +48,9 @@ if( TIM )
 		// if set this tim is a twig
 		gtwig : { type : [ './type/set', 'undefined' ] },
 
+		// if set, actualizes a global variable to the last created
+		global : { type : [ './ast/var', 'undefined' ] },
+
 		// true if this has an abstract
 		// FIXME remove abstracts
 		hasAbstract : { type : 'boolean' },
@@ -264,6 +267,11 @@ def.func.genConstructor =
 		block = block.append( initCall );
 	}
 
+
+	if( this.global )
+	{
+		block = block.$( this.global, '= this' );
+	}
 
 	// immutes the new objects
 
@@ -846,13 +854,12 @@ def.func.genCreatorFreeStringsParser =
 */
 def.func.genCreatorDefaults =
 	function(
-		json,     // only do jsons
 		abstract  // if true generates the abstract creator
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( json && abstract !== undefined ) throw new Error( );
+/**/	if( abstract === undefined ) throw new Error( );
 /**/}
 
 	let result = $block;
@@ -863,7 +870,7 @@ def.func.genCreatorDefaults =
 
 		const attr = this.attributes.get( name );
 
-		if( json && !attr.json ) continue;
+// XXX		if( json && !attr.json ) continue;
 
 		if(
 			attr.defaultValue !== undefined
@@ -1382,7 +1389,7 @@ def.func.genCreator =
 
 	block =
 		block
-		.$( this.genCreatorDefaults( false, abstract ) )
+		.$( this.genCreatorDefaults( abstract ) )
 		.$( this.genCreatorChecks( false, abstract ) )
 		.$( abstract ? $block : this.genCreatorPrepares( ) )
 		.$( this.genCreatorUnchanged( abstract ) )
@@ -2061,7 +2068,7 @@ def.func.genFromJsonCreator =
 	let funcBlock =
 		this.genFromJsonCreatorVariables( )
 		.$( this.genFromJsonCreatorParser( jsonList ) )
-		.$( this.genCreatorDefaults( true ) );
+		.$( this.genCreatorDefaults( false ) );
 
 	if( this.ggroup )
 	{
@@ -3099,6 +3106,10 @@ def.static.generate =
 		inherits = stringSet.create( 'set:init', new Set( inheritKeys ) );
 	}
 
+	let global;
+
+	if( timDef.global ) global = $var( timDef.global );
+
 	const g =
 		self.create(
 			'abstractConstructorList', abstractConstructorList,
@@ -3110,6 +3121,7 @@ def.static.generate =
 				!!( ggroup || glist || gset || gtwig || attributes.size > 0 ),
 			'ggroup', ggroup,
 			'glist', glist,
+			'global', global,
 			'gset', gset,
 			'gtwig', gtwig,
 			'hasAbstract', !!timDef.hasAbstract,

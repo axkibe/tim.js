@@ -58,6 +58,7 @@ const timWhitelist =
 		'attributes' : true,
 		'func' : true,
 		'group' : true,
+		'global' : true,
 		'hasAbstract' : true,
 		'init' : true,
 		'inherit' : true,
@@ -417,6 +418,24 @@ const checkAttribute =
 
 
 /*
+| Checks inheritance optimizations
+*/
+const checkInherit =
+	function(
+		def
+	)
+{
+	for( var name in def.inherit )
+	{
+		if( !def.lazy[ name ] )
+		{
+			throw new Error( 'inherit optimization "' + name + '" has no lazy value' );
+		}
+	}
+};
+
+
+/*
 | Checks if a tim definition looks ok.
 */
 def.static.check =
@@ -460,6 +479,8 @@ def.static.check =
 	if( def.list ) checkList( def );
 
 	if( def.twig ) checkTwig( def );
+
+	checkInherit( def );
 };
 
 

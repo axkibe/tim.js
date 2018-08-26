@@ -12,6 +12,9 @@ const tt_attributeGroup = require( './attributeGroup' );
 const tt_type_set = require( './type/set' );
 
 
+const tt_ast_var = require( './ast/var' );
+
+
 const tt_export_stringSet = require( './export/stringSet' );
 
 
@@ -31,6 +34,7 @@ const Constructor =
 		v_creatorHasFreeStringsParser,
 		v_ggroup,
 		v_glist,
+		v_global,
 		v_gset,
 		v_gtwig,
 		v_hasAbstract,
@@ -63,6 +67,8 @@ const Constructor =
 	this.ggroup = v_ggroup;
 
 	this.glist = v_glist;
+
+	this.global = v_global;
 
 	this.gset = v_gset;
 
@@ -127,6 +133,8 @@ prototype.create =
 
 	let v_glist;
 
+	let v_global;
+
 	let v_gset;
 
 	let v_gtwig;
@@ -166,6 +174,8 @@ prototype.create =
 		v_ggroup = this.ggroup;
 
 		v_glist = this.glist;
+
+		v_global = this.global;
 
 		v_gset = this.gset;
 
@@ -266,6 +276,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_glist = arg;
+				}
+
+				break;
+
+			case 'global' :
+
+				if( arg !== pass )
+				{
+					v_global = arg;
 				}
 
 				break;
@@ -464,6 +483,19 @@ prototype.create =
 /**/		}
 /**/	}
 /**/
+/**/	if( v_global === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_global !== undefined )
+/**/	{
+/**/		if( v_global.timtype !== tt_ast_var )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_gset === null )
 /**/	{
 /**/		throw new Error( );
@@ -622,6 +654,12 @@ prototype.create =
 		)
 		&&
 		(
+			v_global === inherit.global
+			||
+			v_global !== undefined && v_global.equals( inherit.global )
+		)
+		&&
+		(
 			v_gset === inherit.gset
 			||
 			v_gset !== undefined && v_gset.equals( inherit.gset )
@@ -671,6 +709,7 @@ prototype.create =
 			v_creatorHasFreeStringsParser,
 			v_ggroup,
 			v_glist,
+			v_global,
 			v_gset,
 			v_gtwig,
 			v_hasAbstract,
@@ -754,6 +793,12 @@ prototype.equals =
 			this.glist === obj.glist
 			||
 			this.glist !== undefined && this.glist.equals( obj.glist )
+		)
+		&&
+		(
+			this.global === obj.global
+			||
+			this.global !== undefined && this.global.equals( obj.global )
 		)
 		&&
 		(
