@@ -70,6 +70,9 @@ if( TIM )
 		// the node.js module this tim is generated from
 		module : { type : 'protean' },
 
+		// true if _ranks is a proxy
+		proxyRanks : { type : 'boolean' },
+
 		// true if this a singleton (no attributes or group/list/set/twig)
 		singleton : { type : [ 'boolean', 'undefined' ] },
 
@@ -225,10 +228,9 @@ def.func.genConstructor =
 
 	if( this.gtwig )
 	{
-		block =
-			block
-			.$( 'this._twig = twig' )
-			.$( 'this._ranks = ranks' );
+		block = block.$( 'this._twig = twig' );
+
+		if( !this.proxyRanks ) block = block.$( 'this._ranks = ranks' );
 
 		if( this.transform ) block = block.$( 'this._ttwig = { }' );
 	}
@@ -283,7 +285,12 @@ def.func.genConstructor =
 
 	if( this.gset ) freezeCall = freezeCall.$argument( 'set' );
 
-	if( this.gtwig ) freezeCall = freezeCall.$argument( 'twig' ).$argument( 'ranks' );
+	if( this.gtwig )
+	{
+		freezeCall = freezeCall.$argument( 'twig' );
+
+		if( !this.proxyRanks ) freezeCall = freezeCall.$argument( 'ranks' );
+	}
 
 	// FUTURE force freezing date attributes
 
@@ -440,7 +447,12 @@ def.func.genCreatorVariables =
 
 	if( this.gset ) varList.push( 'set', 'setDup' );
 
-	if( this.gtwig ) varList.push( 'key', 'rank', 'ranks', 'twig', 'twigDup' );
+	if( this.gtwig )
+	{
+		varList.push( 'key', 'rank', 'twig', 'twigDup' );
+
+		if( !this.proxyRanks ) varList.push( 'ranks' );
+	}
 
 	varList.sort( );
 
@@ -497,11 +509,11 @@ def.func.genCreatorInheritanceReceiver =
 
 	if( this.gtwig )
 	{
-		receiver =
-			receiver
-			.$( 'twig = inherit._twig' )
-			.$( 'ranks = inherit._ranks' )
-			.$( 'twigDup = false' );
+		receiver = receiver.$( 'twig = inherit._twig' );
+
+		if( !this.proxyRanks ) receiver = receiver.$( 'ranks = inherit._ranks' );
+
+		receiver = receiver.$( 'twigDup = false' );
 
 		if( this.transform )
 		{
@@ -511,6 +523,7 @@ def.func.genCreatorInheritanceReceiver =
 					'!tim_proto.isEmpty( inherit._ttwig )',
 					$block
 					.$( 'twigDup = true' )
+					.$( !this.proxyRanks ? 'ranks = ranks.slice( )' : undefined )
 					.$( 'twig = tim_proto.copy2( twig, inherit._ttwig )' )
 				);
 		}
@@ -573,7 +586,7 @@ def.func.genCreatorInheritanceReceiver =
 			.$elsewise(
 				$block
 				.$( 'twig = { }' )
-				.$( 'ranks = [ ]' )
+				.$( !this.proxyRanks ? 'ranks = [ ]' : undefined )
 				.$( 'twigDup = true' )
 			);
 	}
@@ -725,7 +738,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.gtwig )
+	if( this.gtwig && !this.proxyRanks )
 	{
 		const twigDupCheck =
 			$if(
@@ -3130,6 +3143,7 @@ def.static.generate =
 			'init', timDef.init,
 			'json', timDef.json,
 			'module', module,
+			'proxyRanks', !!def.lazy._ranks,
 			'singleton', singleton,
 			'transform', !!timDef.func._transform
 		);

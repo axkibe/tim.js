@@ -377,9 +377,7 @@ const checkAttribute =
 
 				if( attr.assign === '' )
 				{
-					throw new Error(
-						'json attributes most not have empty assignment'
-					);
+					throw new Error( 'json attributes most not have empty assignment' );
 				}
 
 				break;
@@ -479,6 +477,11 @@ def.static.check =
 	if( def.list ) checkList( def );
 
 	if( def.twig ) checkTwig( def );
+
+	if( def.lazy._ranks && def.json )
+	{
+		throw new Error( 'a proxy tim must not have a from/to json interface' );
+	}
 
 	checkInherit( def );
 };

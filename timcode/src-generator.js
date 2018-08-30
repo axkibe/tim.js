@@ -43,6 +43,7 @@ const Constructor =
 		v_init,
 		v_json,
 		v_module,
+		v_proxyRanks,
 		v_singleton,
 		v_transform
 	)
@@ -85,6 +86,8 @@ const Constructor =
 	this.json = v_json;
 
 	this.module = v_module;
+
+	this.proxyRanks = v_proxyRanks;
 
 	this.singleton = v_singleton;
 
@@ -151,6 +154,8 @@ prototype.create =
 
 	let v_module;
 
+	let v_proxyRanks;
+
 	let v_singleton;
 
 	let v_transform;
@@ -192,6 +197,8 @@ prototype.create =
 		v_json = this.json;
 
 		v_module = this.module;
+
+		v_proxyRanks = this.proxyRanks;
 
 		v_singleton = this.singleton;
 
@@ -357,6 +364,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_module = arg;
+				}
+
+				break;
+
+			case 'proxyRanks' :
+
+				if( arg !== pass )
+				{
+					v_proxyRanks = arg;
 				}
 
 				break;
@@ -593,6 +609,21 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_proxyRanks === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_proxyRanks === null )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_proxyRanks ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_singleton === null )
 /**/	{
 /**/		throw new Error( );
@@ -691,6 +722,8 @@ prototype.create =
 		&&
 		v_module === inherit.module
 		&&
+		v_proxyRanks === inherit.proxyRanks
+		&&
 		v_singleton === inherit.singleton
 		&&
 		v_transform === inherit.transform
@@ -718,6 +751,7 @@ prototype.create =
 			v_init,
 			v_json,
 			v_module,
+			v_proxyRanks,
 			v_singleton,
 			v_transform
 		)
@@ -832,6 +866,8 @@ prototype.equals =
 		this.json === obj.json
 		&&
 		this.module === obj.module
+		&&
+		this.proxyRanks === obj.proxyRanks
 		&&
 		this.singleton === obj.singleton
 		&&
