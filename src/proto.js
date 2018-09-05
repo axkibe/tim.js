@@ -796,11 +796,7 @@ tim_proto.twigRankOf =
 /**/	if( typeof( key ) !== 'string' ) throw new Error( );
 /**/}
 
-	return(
-		this._twig[ key ] !== undefined
-		? this._ranks.indexOf( key )
-		: -1
-	);
+	return this._ranks.indexOf( key );
 };
 
 
