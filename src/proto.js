@@ -357,7 +357,7 @@ tim_proto.setPath =
 			this.create(
 				'twig:set',
 				key,
-				this._twig[ key ].setPath( path, value, pos + 2 )
+				this.get( key ).setPath( path, value, pos + 2 )
 			)
 		);
 	}
@@ -373,7 +373,7 @@ tim_proto.setPath =
 */
 tim_proto.getPath =
 	function(
-		path,  // path to set
+		path,  // path to get
 		pos    // position in the path
 	)
 {
@@ -391,16 +391,18 @@ tim_proto.getPath =
 
 		key = path.get( pos + 1 );
 
-		const tk = this._twig[ key ];
+		const tk = this.get( key );
 
 		if( pos + 2 === pl || tk === undefined ) return tk;
 
 		return tk.getPath( path, pos + 2 );
 	}
 
-	if( pos + 1 === pl ) return this[ key ];
+	const attr = this[ key ];
 
-	return this[ key ].getPath( path, pos + 1 );
+	if( pos + 1 === pl ) return attr;
+
+	return attr.getPath( path, pos + 1 );
 };
 
 
