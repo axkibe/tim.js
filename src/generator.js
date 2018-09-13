@@ -2778,18 +2778,39 @@ def.func.genAttrTransform =
 
 		if( !attr.transform ) continue;
 
-		const b =
-			$block
-			.$(
-				'tim_proto.lazyValue( ',
-					'prototype,',
-					$string( name ), ',',
-					$func(
-						$block
-						.$( 'return this.', attr.transform, '( this.__' + name, ')' )
-					),
-				')'
-			);
+		let b;
+
+		if( attr.transform !== true )
+		{
+			// XXX
+			b =
+				$block
+				.$(
+					'tim_proto.lazyValue( ',
+						'prototype,',
+						$string( name ), ',',
+						$func(
+							$block
+							.$( 'return this.', attr.transform, '( this.__' + name, ')' )
+						),
+					')'
+				);
+		}
+		else
+		{
+			b =
+				$block
+				.$(
+					'tim_proto.lazyValue( ',
+						'prototype,',
+						$string( name ), ',',
+						$func(
+							$block
+							.$( 'return this.__transform_' + name, '( this.__' + name, ')' )
+						),
+					')'
+				);
+		}
 
 		if( !result ) result = $block;
 
@@ -2914,11 +2935,12 @@ def.static.generate =
 
 		let assign;
 
+		// FIXME remove
 		if( jAttr.assign !== undefined )
 		{
 			assign = jAttr.assign;
 		}
-		else if( jAttr.transform !== undefined )
+		else if( timDef.transform[ name ] || jAttr.transform ) // XXX
 		{
 			assign = '__' + name;
 		}
@@ -2987,7 +3009,7 @@ def.static.generate =
 				'json', !!jAttr.json,
 				'name', name,
 				'prepare', prepare,
-				'transform', jAttr.transform,
+				'transform', jAttr.transform || !!timDef.transform[ name ], // XXX
 				'varRef', $var( 'v_' + name )
 			);
 
