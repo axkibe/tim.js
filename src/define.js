@@ -183,6 +183,7 @@ module.exports =
 		lazyFuncStr : { },
 		static : { },
 		staticLazy : { },
+		transform : { },
 	};
 
 	const previousTIM = global.TIM;
@@ -273,6 +274,14 @@ module.exports =
 	for( let name in timDef.func )
 	{
 		exports.prototype[ name ] = timDef.func[ name ];
+	}
+
+	// assigns transforms to the prototype
+	for( let name in timDef.transform )
+	{
+		const tname = '__transform_' + name;
+
+		exports.prototype[ tname ] = timDef.transform[ name ];
 	}
 
 	// assigns inherit optimizations to the prototype

@@ -70,6 +70,7 @@ const timWhitelist =
 		'set' : true,
 		'static' : true,
 		'staticLazy' : true,
+		'transform' : true,
 		'twig' : true,
 	} );
 
@@ -388,7 +389,7 @@ const checkAttribute =
 				break;
 
 			case 'transform' :
-
+				// XXX FIXME remove
 				if( typeof( value ) !== 'string' )
 				{
 					throw new Error( 'attribute transform not a string' );
@@ -428,6 +429,28 @@ const checkInherit =
 		if( !def.lazy[ name ] )
 		{
 			throw new Error( 'inherit optimization "' + name + '" has no lazy value' );
+		}
+	}
+};
+
+
+const checkTransform =
+	function(
+		def
+	)
+{
+	for( let name in def.transform )
+	{
+		if( name === 'get' )
+		{
+			if( !def.twig ) throw new Error( 'get-transform without twig' );
+
+			continue;
+		}
+
+		if( !def.attributes[ name ] )
+		{
+			throw new Error( 'transform without attribute!"' );
 		}
 	}
 };
@@ -482,6 +505,8 @@ def.static.check =
 	{
 		throw new Error( 'a proxy tim must not have a from/to json interface' );
 	}
+
+	checkTransform( def );
 
 	checkInherit( def );
 };

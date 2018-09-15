@@ -742,7 +742,7 @@ tim_proto.twigGet =
 
 /*
 | If this tim twig is in transform mode, returns the element by key
-| going through the _transform functin.
+| going through the transform.get functin.
 */
 tim_proto.twigTransGet =
 	function(
@@ -750,13 +750,13 @@ tim_proto.twigTransGet =
 	)
 {
 	// FIXME dirty workaround for abstracts, do away with them
-	if( !this._transform ) return this._twig[ key ];
+	if( !this.__transform_get ) return this._twig[ key ];
 
 	const tval = this._ttwig[ key ];
 
 	if( tval !== undefined ) return tval;
 
-	return( this._ttwig[ key ] = this._transform( key, this._twig[ key ] ) );
+	return( this._ttwig[ key ] = this.__transform_get( key, this._twig[ key ] ) );
 };
 
 

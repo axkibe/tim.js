@@ -697,7 +697,7 @@ prototype.create =
 /**/
 /**/	if( v_transform !== undefined )
 /**/	{
-/**/		if( typeof( v_transform ) !== 'string' )
+/**/		if( typeof( v_transform ) !== 'string' && typeof( v_transform ) !== 'boolean' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
