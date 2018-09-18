@@ -25,6 +25,8 @@ global.tim =
 	ouroborosBuild : true
 };
 
+global.tim.ouroboros = tim;
+
 const argV = process.argv;
 
 const fs = require( 'fs' );
