@@ -2990,7 +2990,7 @@ def.static.generate =
 			{
 				aid = aid.create( 'set:remove', tsNull );
 
-				allowsUndefined = true;
+				allowsNull = true;
 			}
 
 			if( aid.size === 1 )
