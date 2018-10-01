@@ -203,6 +203,13 @@ const getBrowserNoMangleBranch =
 	{
 		if( key === '_parent' ) continue;
 
+		if( key === 'json' )
+		{
+			table[ branch.json ] = true;
+
+			continue;
+		}
+
 		table[ key ] = true;
 
 		getBrowserNoMangleBranch( table, branch[ key ] );

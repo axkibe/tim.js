@@ -1308,7 +1308,7 @@ def.func.genCreatorInheritOptimization =
 			$if(
 				$(
 					'inherit',
-					'&& this.__inherit_' + v + '( inherit )',
+					'&& this[ "__inherit_" + ', $v, ']( inherit )',
 					'&& tim.hasLazyValueSet( inherit, ', $v, ')'
 				),
 				$block.$( 'tim.aheadValue( this, ', $v, ', inherit.', v, ')' )
@@ -2780,37 +2780,20 @@ def.func.genAttrTransform =
 
 		let b;
 
-		if( attr.transform !== true )
-		{
-			// XXX
-			b =
-				$block
-				.$(
-					'tim_proto.lazyValue( ',
-						'prototype,',
-						$string( name ), ',',
-						$func(
-							$block
-							.$( 'return this.', attr.transform, '( this.__' + name, ')' )
-						),
-					')'
-				);
-		}
-		else
-		{
-			b =
-				$block
-				.$(
-					'tim_proto.lazyValue( ',
-						'prototype,',
-						$string( name ), ',',
-						$func(
-							$block
-							.$( 'return this.__transform_' + name, '( this.__' + name, ')' )
-						),
-					')'
-				);
-		}
+		const $name = $string( name );
+
+		b =
+			$block
+			.$(
+				'tim_proto.lazyValue( ',
+					'prototype,',
+					$name, ',',
+					$func(
+						$block
+						.$( 'return this[ "__transform_" + ', $name, ' ]( this.__' + name, ')' )
+					),
+				')'
+			);
 
 		if( !result ) result = $block;
 

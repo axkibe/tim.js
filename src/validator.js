@@ -388,15 +388,6 @@ const checkAttribute =
 
 				break;
 
-			case 'transform' :
-				// XXX FIXME remove
-				if( typeof( value ) !== 'string' )
-				{
-					throw new Error( 'attribute transform not a string' );
-				}
-
-				break;
-
 			case 'prepare' :
 
 				checkPrepare( attr );

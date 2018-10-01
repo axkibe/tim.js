@@ -104,6 +104,11 @@ tim.ouroboros.define =
 	{
 		tim.prototype[ '__inherit_' + name ] = timDef.inherit[ name ];
 	}
+
+/**/if( CHECK )
+/**/{
+/**/	tim.prototype.__DEBUG_DEFINER__ = definer;
+/**/}
 };
 
 
