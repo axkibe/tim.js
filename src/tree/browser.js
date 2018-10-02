@@ -39,8 +39,7 @@ var _timtrees;
 
 
 /*
-| Require's function for a module to bound to
-| it's leaf.
+| Require's function for a module to bind to it's leaf.
 */
 var _require;
 

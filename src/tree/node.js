@@ -30,7 +30,13 @@ const timtrees = [ ];
 tree.addTree =
 	function( path, id )
 {
-	timtrees.push( { path: path, id: id, tree: { } } );
+	timtrees.push(
+		{
+			path: path,
+			id: id,
+			tree: { }
+		}
+	);
 };
 
 
@@ -93,10 +99,7 @@ tree.addLeaf =
 	{
 		let key = path[ p ];
 
-		if( !branch[ key ] )
-		{
-			branch[ key ] = { _parent : branch  };
-		}
+		if( !branch[ key ] ) branch[ key ] = { _parent : branch  };
 
 		branch = branch[ key ];
 	}
@@ -109,13 +112,14 @@ tree.addLeaf =
 	// already added?
 	if( branch[ key ] )
 	{
-		if( branch[ key ].json !== json ) throw new Error( );
+		// if the json name changed, there must be an error
+		if( branch[ key ]._json !== json ) throw new Error( );
 	}
 	else
 	{
 		branch[ key ] =
 			json
-			? { _parent: branch, json: json  }
+			? { _parent: branch, _json: json  }
 			: { _parent: branch };
 	}
 };
@@ -140,10 +144,24 @@ const getBrowserTreeBranch =
 
 		if( key === '_parent' ) continue;
 
+		if( key === '_json' ) continue;
+
 		const b = branch[ key ];
 
 		// if it has only the _parent backlink
-		if( Object.keys( b ).length === 1 )
+		// or the _json specifier
+		let hasChildren = false;
+
+		for( let ck in b )
+		{
+			if( ck === '_parent' || ck === '_json' ) continue;
+
+			hasChildren = true;
+
+			break;
+		}
+
+		if( !hasChildren )
 		{
 			text += indent + key + ': { },\n';
 		}
@@ -203,9 +221,10 @@ const getBrowserNoMangleBranch =
 	{
 		if( key === '_parent' ) continue;
 
-		if( key === 'json' )
+		// don't mangle json names
+		if( key === '_json' )
 		{
-			table[ branch.json ] = true;
+			table[ branch._json ] = true;
 
 			continue;
 		}
