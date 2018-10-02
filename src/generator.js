@@ -1582,7 +1582,7 @@ def.func.genFromJsonCreatorAttributeParser =
 							cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 						}
 
-						const jsontype = tim.tree.getLeaf( this.module, id ).json;
+						const jsontype = tim.tree.getLeaf( this.module, id )._json;
 
 						cSwitch =
 							cSwitch
@@ -1794,7 +1794,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
-		const jsontype = tim.tree.getLeaf( this.module, gid ).json;
+		const jsontype = tim.tree.getLeaf( this.module, gid )._json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1882,7 +1882,7 @@ def.func.genFromJsonCreatorListProcessing =
 			continue;
 		}
 
-		const jsontype = tim.tree.getLeaf( this.module, rid ).json;
+		const jsontype = tim.tree.getLeaf( this.module, rid )._json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1953,7 +1953,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 	{
 		const twigId = i.value;
 
-		const jsontype = tim.tree.getLeaf( this.module, twigId ).json;
+		const jsontype = tim.tree.getLeaf( this.module, twigId )._json;
 
 		switchExpr =
 			switchExpr
