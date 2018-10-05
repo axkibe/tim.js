@@ -187,20 +187,17 @@ def.func.genRequires =
 | Generates the constructor.
 */
 def.func.genConstructor =
-	function(
-		abstract // if true generate abstract constructor
-	)
+	function( )
 {
-	let block = $block;
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 0 ) throw new Error( );
+/**/}
 
-	block =
-		block
+	let block =
+		$block
 		.$if(
-			(
-				abstract
-				? 'abstractPrototype.__have_lazy'
-				: 'prototype.__have_lazy'
-			),
+			( 'prototype.__have_lazy' ),
 			$( 'this.__lazy = { }' )
 		);
 
@@ -235,45 +232,7 @@ def.func.genConstructor =
 		if( this.transform ) block = block.$( 'this._ttwig = { }' );
 	}
 
-	// calls the initializer
-	if( !abstract && this.init )
-	{
-		let initCall = $( 'this._init( )' );
-
-		for( let a = 0, al = this.init.length; a < al; a++ )
-		{
-			const name = this.init[ a ];
-
-			switch( name )
-			{
-				case 'inherit' :
-				case 'twigDup' :
-
-					initCall = initCall.$argument( this.init[ a ] );
-
-					continue;
-			}
-
-			const attr = attributes.get( name );
-
-			if( !attr )
-			{
-				throw new Error(
-					'invalid parameter to init: ' + name
-				);
-			}
-
-			initCall = initCall.$argument( attr.varRef );
-		}
-
-		block = block.append( initCall );
-	}
-
-
-	if( this.global )
-	{
-		block = block.$( this.global, '= this' );
-	}
+	if( this.global ) block = block.$( this.global, '= this' );
 
 	// immutes the new objects
 
@@ -297,17 +256,11 @@ def.func.genConstructor =
 	block = block.$if( 'FREEZE', freezeCall );
 
 	// calls potential init checker
-	if( !abstract && this.check )
-	{
-		block = block.$check( 'this._check( )' );
-	}
+	if( this.check ) block = block.$check( 'this._check( )' );
 
 	let cf = $func( block );
 
-	const cList =
-		abstract
-		? this.abstractConstructorList
-		: this.constructorList;
+	const cList = this.constructorList;
 
 	for( let a = 0, al = cList.length; a < al; a++ )
 	{
@@ -377,26 +330,14 @@ def.func.genConstructor =
 		}
 	}
 
-	if( !abstract )
-	{
-		return(
-			$block
-			.$comment( 'Constructor.' )
-			.$const( 'Constructor', cf )
-			.$comment( 'Prototype shortcut' )
-			.$const( 'prototype', 'Constructor.prototype' )
-			.$( 'self.prototype = prototype' )
-		);
-	}
-	else
-	{
-		return(
-			$block
-			.$comment( 'Abstract constructor.' )
-			.$const( 'AbstractConstructor', cf )
-			.$const( 'abstractPrototype', 'AbstractConstructor.prototype' )
-		);
-	}
+	return(
+		$block
+		.$comment( 'Constructor.' )
+		.$const( 'Constructor', cf )
+		.$comment( 'Prototype shortcut' )
+		.$const( 'prototype', 'Constructor.prototype' )
+		.$( 'self.prototype = prototype' )
+	);
 };
 
 
@@ -419,13 +360,11 @@ def.func.genSingleton =
 | Generates the creators variable list.
 */
 def.func.genCreatorVariables =
-	function(
-		abstract  // if true generates the abstract creator
-	)
+	function( )
 {
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
+/**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
 	const varList = [ ];
@@ -472,13 +411,11 @@ def.func.genCreatorVariables =
 | Generates the creators inheritance receiver.
 */
 def.func.genCreatorInheritanceReceiver =
-	function(
-		abstract  // if true generates the abstract creator
-	)
+	function( )
 {
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
+/**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
 	let receiver = $block.$( 'inherit = this' );
@@ -599,10 +536,13 @@ def.func.genCreatorInheritanceReceiver =
 | Generates the creators free strings parser.
 */
 def.func.genCreatorFreeStringsParser =
-	function(
-		// abstract  // if true generates the abstract creator
-	)
+	function( )
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 0 ) throw new Error( );
+/**/}
+
 	let loop = $block.$let( 'arg', 'arguments[ a + 1 ]' );
 
 	let switchExpr = $switch( 'arguments[ a ]' );
@@ -866,13 +806,11 @@ def.func.genCreatorFreeStringsParser =
 | Generates the creators default values
 */
 def.func.genCreatorDefaults =
-	function(
-		abstract  // if true generates the abstract creator
-	)
+	function( )
 {
 /**/if( CHECK )
 /**/{
-/**/	if( abstract === undefined ) throw new Error( );
+/**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
 	let result = $block;
@@ -882,8 +820,6 @@ def.func.genCreatorDefaults =
 		const name = this.attributes.sortedKeys[ a ];
 
 		const attr = this.attributes.get( name );
-
-// XXX		if( json && !attr.json ) continue;
 
 		if(
 			attr.defaultValue !== undefined
@@ -911,11 +847,15 @@ def.func.genCreatorDefaults =
 */
 def.func.genSingleTypeCheckFailCondition =
 	function(
-		aVar,
-		id,
-		abstract
+		aVar,  // FIXME
+		id     // FIXME
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 2 ) throw new Error( );
+/**/}
+
 	switch( id.timtype )
 	{
 		case type_date : return $( '!(', aVar, 'instanceof Date )' );
@@ -947,31 +887,10 @@ def.func.genSingleTypeCheckFailCondition =
 
 		case type_string : return $( 'typeof( ', aVar, ' ) !== "string"' );
 
-		case type_tim :
-
-			return(
-				abstract ?
-					$(
-						aVar, '.timtype !== ', id.$varname, '&&',
-						aVar, '.timtype !== ', id.$varname, '.abstract'
-					)
-					: $( aVar, '.timtype !== ', id.$varname )
-			);
+		case type_tim : return $( aVar, '.timtype !== ', id.$varname );
 	}
 
-	// FUTURE remove
-	if( !abstract )
-	{
-		return $( aVar, '.timtype !== ', id.global );
-	}
-	else
-	{
-		return $(
-			aVar, '.timtype !== ', id.global,
-			'&&',
-			aVar, '.timtype !== ', id.global, '.abstract'
-		);
-	}
+	return $( aVar, '.timtype !== ', id.global );
 };
 
 
@@ -980,14 +899,18 @@ def.func.genSingleTypeCheckFailCondition =
 */
 def.func.genTypeCheckFailCondition =
 	function(
-		aVar,    // the variable to check
-		idx,     // the id or type_set it has to match
-		abstract // if true generate for an abstract constructor
+		aVar,   // the variable to check
+		idx     // the id or type_set it has to match
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 2 ) throw new Error( );
+/**/}
+
 	if( idx.timtype !== type_set )
 	{
-		return this.genSingleTypeCheckFailCondition( aVar, idx, abstract );
+		return this.genSingleTypeCheckFailCondition( aVar, idx );
 	}
 
 	if( idx.size === 1 )
@@ -995,8 +918,7 @@ def.func.genTypeCheckFailCondition =
 		return(
 			this.genSingleTypeCheckFailCondition(
 				aVar,
-				idx.iterator( ).next( ).value,
-				abstract
+				idx.iterator( ).next( ).value
 			)
 		);
 	}
@@ -1025,9 +947,7 @@ def.func.genTypeCheckFailCondition =
 
 			default :
 
-				condArray.push(
-					this.genSingleTypeCheckFailCondition( aVar, id, abstract )
-				);
+				condArray.push( this.genSingleTypeCheckFailCondition( aVar, id ) );
 
 				continue;
 		}
@@ -1043,13 +963,12 @@ def.func.genTypeCheckFailCondition =
 */
 def.func.genCreatorChecks =
 	function(
-		json,    // do checks for fromJsonCreator
-		abstract  // if true generates the abstract creator
+		json    // do checks for fromJsonCreator
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( json && abstract !== undefined ) throw new Error( );
+/**/	if( arguments.length !== 1 ) throw new Error( );
 /**/}
 
 	let check = $block;
@@ -1066,7 +985,7 @@ def.func.genCreatorChecks =
 
 		const allowsNull = attr.allowsNull;
 
-		const allowsUndefined = abstract || attr.allowsUndefined;
+		const allowsUndefined = attr.allowsUndefined;
 
 		if( !allowsUndefined )
 		{
@@ -1099,7 +1018,7 @@ def.func.genCreatorChecks =
 			cond = undefined;
 		}
 
-		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id, abstract );
+		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id );
 
 		if( cond )
 		{
@@ -1120,7 +1039,7 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'o', 'group[ k ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.ggroup, abstract ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.ggroup ),
 					$fail( )
 				)
 			);
@@ -1137,7 +1056,7 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'o', 'list[ r ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.glist, abstract ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.glist ),
 					$fail( )
 				)
 			);
@@ -1155,7 +1074,7 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'v', 'i.value' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'v' ), this.gset, abstract ),
+					this.genTypeCheckFailCondition( $( 'v' ), this.gset ),
 					$fail( )
 				)
 			);
@@ -1171,11 +1090,9 @@ def.func.genCreatorChecks =
 				'a < al',
 				'++a',
 				$block
-				// FIXME very dirty hack
-				.$if( 'prototype.abstract', $block.$continue( ) )
 				.$const( 'o', 'twig[ ranks[ a ] ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.gtwig, abstract ),
+					this.genTypeCheckFailCondition( $( 'o' ), this.gtwig ),
 					$fail( )
 				)
 			);
@@ -1231,13 +1148,11 @@ def.func.genCreatorPrepares =
 | Returns this object if so.
 */
 def.func.genCreatorUnchanged =
-	function(
-		abstract  // if true generates the abstract creator
-	)
+	function( )
 {
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
+/**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
 	let cond = $( 'inherit' );
@@ -1270,8 +1185,7 @@ def.func.genCreatorUnchanged =
 				name,
 				attr.varRef,
 				$( 'inherit.', attr.assign ),
-				'equals',
-				abstract
+				'equals'
 			);
 
 		cond = $( cond, '&&', ceq );
@@ -1285,10 +1199,13 @@ def.func.genCreatorUnchanged =
 | Generates inheritance optimizations.
 */
 def.func.genCreatorInheritOptimization =
-	function(
-		abstract  // if true generates the abstract creator
-	)
+	function( )
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 0 ) throw new Error( );
+/**/}
+
 	if( !this.inherits ) return;
 
 	let result;
@@ -1323,18 +1240,16 @@ def.func.genCreatorInheritOptimization =
 | Generates the creators return statement
 */
 def.func.genCreatorReturn =
-	function(
-		abstract  // if true generates the abstract creator
-	)
+	function( )
 {
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( abstract ) !== 'boolean' ) throw new Error( );
+/**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
-	const argList = abstract ? this.abstractConstructorList : this.constructorList;
+	const argList = this.constructorList;
 
-	const conName = abstract ? 'AbstractConstructor' : 'Constructor';
+	const conName = 'Constructor';
 
 	if( this.singleton )
 	{
@@ -1386,48 +1301,44 @@ def.func.genCreatorReturn =
 | Generates the creator.
 */
 def.func.genCreator =
-	function(
-		abstract  // if true generates the abstract creator
-	)
+	function( )
 {
+/**/if( CHECK  )
+/**/{
+/**/	if( arguments.length !== 0 ) throw new Error( );
+/**/}
+
 	let block =
 		$block
-		.$( this.genCreatorVariables( abstract ) )
-		.$( this.genCreatorInheritanceReceiver( abstract ) );
+		.$( this.genCreatorVariables( ) )
+		.$( this.genCreatorInheritanceReceiver( ) );
+
+	// FIXME join block generations
 
 	if( this.creatorHasFreeStringsParser )
 	{
-		block = block.$( this.genCreatorFreeStringsParser( abstract ) );
+		block = block.$( this.genCreatorFreeStringsParser( ) );
 	}
 
 	block =
 		block
-		.$( this.genCreatorDefaults( abstract ) )
-		.$( this.genCreatorChecks( false, abstract ) )
-		.$( abstract ? $block : this.genCreatorPrepares( ) )
-		.$( this.genCreatorUnchanged( abstract ) )
-		.$( this.genCreatorInheritOptimization( abstract ) )
-		.$( this.genCreatorReturn( abstract ) );
+		.$( this.genCreatorDefaults( ) )
+		.$( this.genCreatorChecks( false ) )
+		.$( this.genCreatorPrepares( ) )
+		.$( this.genCreatorUnchanged( ) )
+		.$( this.genCreatorInheritOptimization( ) )
+		.$( this.genCreatorReturn( ) );
 
 	const creator =
 		$func( block )
 		.$arg( undefined, 'free strings' );
 
-	const funcName = abstract ? 'abstract' : 'create';
-
 	return(
 		$block
-		.$comment(
-			abstract
-			? 'Creates an abstract object.'
-			: 'Creates a new object.'
-		)
+		.$comment( 'Creates a new object.' )
 		.$(
-			'self.', funcName,
-			this.hasAbstract
-				? [ ' = ', 'abstractPrototype.', funcName ]
-				: undefined,
-			' = prototype.', funcName,
+			'self.create',
+			' = prototype.create',
 			' = ', creator
 		)
 	);
@@ -2081,7 +1992,7 @@ def.func.genFromJsonCreator =
 	let funcBlock =
 		this.genFromJsonCreatorVariables( )
 		.$( this.genFromJsonCreatorParser( jsonList ) )
-		.$( this.genCreatorDefaults( false ) );
+		.$( this.genCreatorDefaults( ) );
 
 	if( this.ggroup )
 	{
@@ -2133,16 +2044,6 @@ def.func.genReflection =
 {
 	return(
 		$block
-		.$(
-			this.hasAbstract
-			? $(
-				$block
-				.$comment( 'Abstract Reflection.' )
-				.$( 'abstractPrototype.timtype = self.abstract' )
-				.$( 'abstractPrototype.isAbstract = true' )
-			)
-			: undefined
-		)
 		.$comment( 'Type reflection.' )
 		.$( 'prototype.timtype = self' )
 	);
@@ -2395,16 +2296,19 @@ def.func.genAttributeEquals =
 		name,       // attribute name
 		le,         // this value expression
 		re,         // other value expression
-		eqFuncName, // the equals function name to call
-		abstract    // if true considers all attributed to be potentially
-		//          // undefined
+		eqFuncName  // the equals function name to call
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 4 ) throw new Error( );
+/**/}
+
 	const attr = this.attributes.get( name );
 
 	const allowsNull = attr.allowsNull;
 
-	const allowsUndefined = abstract || attr.allowsUndefined;
+	const allowsUndefined = attr.allowsUndefined;
 
 	const ceq = $( le, ' === ', re );
 
@@ -2605,8 +2509,7 @@ def.func.genEqualsFuncBody =
 				name,
 				$( 'this.', attr.assign ),
 				$( 'obj.', attr.assign ),
-				eqFuncName,
-				false
+				eqFuncName
 			);
 
 		cond =
@@ -2738,8 +2641,7 @@ def.func.genAlike =
 					name,
 					$( 'this.', attr.assign ),
 					$( 'obj.', attr.assign ),
-					'equals',
-					false
+					'equals'
 				);
 
 			cond = cond ? $( cond, '&&', ceq ) : ceq;
@@ -3162,11 +3064,9 @@ def.static.generate =
 		)
 		.$( '"use strict"' )
 		.$( g.genRequires( ) )
-		.$( g.hasAbstract ? g.genConstructor( true ) : undefined )
-		.$( g.genConstructor( false ) )
+		.$( g.genConstructor( ) )
 		.$( g.singleton ? g.genSingleton( ) : undefined )
-		.$( g.hasAbstract ? g.genCreator( true ) : undefined )
-		.$( g.genCreator( false ) )
+		.$( g.genCreator( ) )
 		.$( g.json ? g.genFromJsonCreator( ) : undefined )
 		.$( g.genReflection( ) )
 		.$( g.genTimProto( ) )

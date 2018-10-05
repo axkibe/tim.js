@@ -59,7 +59,6 @@ const timWhitelist =
 		'func' : true,
 		'group' : true,
 		'global' : true,
-		'hasAbstract' : true,
 		'init' : true,
 		'inherit' : true,
 		'json' : true,

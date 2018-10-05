@@ -385,11 +385,6 @@ prototype.create =
 /**/		++a
 /**/	)
 /**/	{
-/**/		if( prototype.abstract )
-/**/		{
-/**/			continue;
-/**/		}
-/**/
 /**/		const o = twig[ ranks[ a ] ];
 /**/
 /**/		if(
