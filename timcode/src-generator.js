@@ -26,7 +26,6 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v_abstractConstructorList,
 		v_alike,
 		v_attributes,
 		v_check,
@@ -37,7 +36,6 @@ const Constructor =
 		v_global,
 		v_gset,
 		v_gtwig,
-		v_hasAbstract,
 		v_imports,
 		v_inherits,
 		v_init,
@@ -52,8 +50,6 @@ const Constructor =
 	{
 		this.__lazy = { };
 	}
-
-	this.abstractConstructorList = v_abstractConstructorList;
 
 	this.alike = v_alike;
 
@@ -74,8 +70,6 @@ const Constructor =
 	this.gset = v_gset;
 
 	this.gtwig = v_gtwig;
-
-	this.hasAbstract = v_hasAbstract;
 
 	this.imports = v_imports;
 
@@ -120,8 +114,6 @@ prototype.create =
 {
 	let inherit;
 
-	let v_abstractConstructorList;
-
 	let v_alike;
 
 	let v_attributes;
@@ -141,8 +133,6 @@ prototype.create =
 	let v_gset;
 
 	let v_gtwig;
-
-	let v_hasAbstract;
 
 	let v_imports;
 
@@ -164,8 +154,6 @@ prototype.create =
 	{
 		inherit = this;
 
-		v_abstractConstructorList = this.abstractConstructorList;
-
 		v_alike = this.alike;
 
 		v_attributes = this.attributes;
@@ -185,8 +173,6 @@ prototype.create =
 		v_gset = this.gset;
 
 		v_gtwig = this.gtwig;
-
-		v_hasAbstract = this.hasAbstract;
 
 		v_imports = this.imports;
 
@@ -215,15 +201,6 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'abstractConstructorList' :
-
-				if( arg !== pass )
-				{
-					v_abstractConstructorList = arg;
-				}
-
-				break;
-
 			case 'alike' :
 
 				if( arg !== pass )
@@ -314,15 +291,6 @@ prototype.create =
 
 				break;
 
-			case 'hasAbstract' :
-
-				if( arg !== pass )
-				{
-					v_hasAbstract = arg;
-				}
-
-				break;
-
 			case 'imports' :
 
 				if( arg !== pass )
@@ -403,16 +371,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_abstractConstructorList === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_abstractConstructorList === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_alike === null )
 /**/	{
 /**/		throw new Error( );
@@ -538,21 +496,6 @@ prototype.create =
 /**/		}
 /**/	}
 /**/
-/**/	if( v_hasAbstract === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_hasAbstract === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_hasAbstract ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_imports === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -656,8 +599,6 @@ prototype.create =
 	if(
 		inherit
 		&&
-		v_abstractConstructorList === inherit.abstractConstructorList
-		&&
 		v_alike === inherit.alike
 		&&
 		(
@@ -702,8 +643,6 @@ prototype.create =
 			v_gtwig !== undefined && v_gtwig.equals( inherit.gtwig )
 		)
 		&&
-		v_hasAbstract === inherit.hasAbstract
-		&&
 		(
 			v_imports === inherit.imports
 			||
@@ -734,7 +673,6 @@ prototype.create =
 
 	return (
 		new Constructor(
-			v_abstractConstructorList,
 			v_alike,
 			v_attributes,
 			v_check,
@@ -745,7 +683,6 @@ prototype.create =
 			v_global,
 			v_gset,
 			v_gtwig,
-			v_hasAbstract,
 			v_imports,
 			v_inherits,
 			v_init,
@@ -801,8 +738,6 @@ prototype.equals =
 	}
 
 	return (
-		this.abstractConstructorList === obj.abstractConstructorList
-		&&
 		this.alike === obj.alike
 		&&
 		(
@@ -846,8 +781,6 @@ prototype.equals =
 			||
 			this.gtwig !== undefined && this.gtwig.equals( obj.gtwig )
 		)
-		&&
-		this.hasAbstract === obj.hasAbstract
 		&&
 		(
 			this.imports === obj.imports

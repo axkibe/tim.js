@@ -17,9 +17,6 @@ if( TIM )
 {
 	def.attributes =
 	{
-		// FIXME remove
-		abstractConstructorList : { type : 'protean' },
-
 		// list of alike function and what to ignore
 		alike : { type : [ 'protean', 'undefined' ] },
 
@@ -50,10 +47,6 @@ if( TIM )
 
 		// if set, actualizes a global variable to the last created
 		global : { type : [ './ast/var', 'undefined' ] },
-
-		// true if this has an abstract
-		// FIXME remove abstracts
-		hasAbstract : { type : 'boolean' },
 
 		// FIXME remove inits
 		init : { type : [ 'protean', 'undefined' ] },
@@ -2060,18 +2053,7 @@ def.func.$protoSet =
 		value
 	)
 {
-	if( this.hasAbstract )
-	{
-		return $(
-			'prototype.', key, ' = ',
-			'abstractPrototype.', key, ' = ',
-			'tim_proto.', value
-		);
-	}
-	else
-	{
-		return $( 'prototype.', key, ' = ', 'tim_proto.', value );
-	}
+	return $( 'prototype.', key, ' = ', 'tim_proto.', value );
 };
 
 
@@ -2085,24 +2067,10 @@ def.func.$protoLazyValueSet =
 		func
 	)
 {
-	let ast =
+	return(
 		$block
-		.$( 'tim_proto.lazyValue( prototype,', name, ', tim_proto.', func, ')' );
-
-	if( this.hasAbstract )
-	{
-		ast =
-			ast
-			.$(
-				'tim_proto.lazyValue(',
-					'abstractPrototype,',
-					name, ',',
-					'tim_proto.', func,
-				')'
-			);
-	}
-
-	return ast;
+		.$( 'tim_proto.lazyValue( prototype,', name, ', tim_proto.', func, ')' )
+	);
 };
 
 
@@ -2731,8 +2699,6 @@ def.static.generate =
 
 	let attributes = tim_attributeGroup.create( );
 
-	const abstractConstructorList = [ ];
-
 	const constructorList = [ ];
 
 	// foreign ids to be imported
@@ -2836,8 +2802,6 @@ def.static.generate =
 
 		if( assign !== '' )
 		{
-			abstractConstructorList.push( name );
-
 			constructorList.push( name );
 		}
 		else if( timDef.init && timDef.init.indexOf( name ) >= 0 )
@@ -2901,15 +2865,11 @@ def.static.generate =
 		attributes = attributes.set( name, attr );
 	}
 
-	abstractConstructorList.sort( );
-
 	constructorList.sort( );
 
 	if( timDef.group )
 	{
 		singleton = false;
-
-		abstractConstructorList.unshift( 'group' );
 
 		constructorList.unshift( 'group' );
 	}
@@ -2918,8 +2878,6 @@ def.static.generate =
 	{
 		singleton = false;
 
-		abstractConstructorList.unshift( 'list' );
-
 		constructorList.unshift( 'list' );
 	}
 
@@ -2927,18 +2885,12 @@ def.static.generate =
 	{
 		singleton = false;
 
-		abstractConstructorList.unshift( 'set' );
-
 		constructorList.unshift( 'set' );
 	}
 
 	if( timDef.twig )
 	{
 		singleton = false;
-
-		abstractConstructorList.unshift( 'ranks' );
-
-		abstractConstructorList.unshift( 'twig' );
 
 		constructorList.unshift( 'ranks' );
 
@@ -2979,12 +2931,7 @@ def.static.generate =
 		}
 	}
 
-	if( FREEZE )
-	{
-		Object.freeze( abstractConstructorList );
-
-		Object.freeze( constructorList );
-	}
+	if( FREEZE ) Object.freeze( constructorList );
 
 	// FIXME currently may not be named group/list/set/twig...
 	let ggroup, glist, gset, gtwig;
@@ -3032,7 +2979,6 @@ def.static.generate =
 
 	const g =
 		self.create(
-			'abstractConstructorList', abstractConstructorList,
 			'attributes', attributes,
 			'alike', timDef.alike,
 			'check', !!timDef.func._check,
@@ -3044,7 +2990,6 @@ def.static.generate =
 			'global', global,
 			'gset', gset,
 			'gtwig', gtwig,
-			'hasAbstract', !!timDef.hasAbstract,
 			'imports', imports,
 			'inherits', inherits,
 			'init', timDef.init,
