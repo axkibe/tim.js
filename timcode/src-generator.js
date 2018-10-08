@@ -38,7 +38,6 @@ const Constructor =
 		v_gtwig,
 		v_imports,
 		v_inherits,
-		v_init,
 		v_json,
 		v_module,
 		v_proxyRanks,
@@ -74,8 +73,6 @@ const Constructor =
 	this.imports = v_imports;
 
 	this.inherits = v_inherits;
-
-	this.init = v_init;
 
 	this.json = v_json;
 
@@ -138,8 +135,6 @@ prototype.create =
 
 	let v_inherits;
 
-	let v_init;
-
 	let v_json;
 
 	let v_module;
@@ -177,8 +172,6 @@ prototype.create =
 		v_imports = this.imports;
 
 		v_inherits = this.inherits;
-
-		v_init = this.init;
 
 		v_json = this.json;
 
@@ -305,15 +298,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_inherits = arg;
-				}
-
-				break;
-
-			case 'init' :
-
-				if( arg !== pass )
-				{
-					v_init = arg;
 				}
 
 				break;
@@ -524,11 +508,6 @@ prototype.create =
 /**/		}
 /**/	}
 /**/
-/**/	if( v_init === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_json === null )
 /**/	{
 /**/		throw new Error( );
@@ -655,8 +634,6 @@ prototype.create =
 			v_inherits !== undefined && v_inherits.equals( inherit.inherits )
 		)
 		&&
-		v_init === inherit.init
-		&&
 		v_json === inherit.json
 		&&
 		v_module === inherit.module
@@ -685,7 +662,6 @@ prototype.create =
 			v_gtwig,
 			v_imports,
 			v_inherits,
-			v_init,
 			v_json,
 			v_module,
 			v_proxyRanks,
@@ -793,8 +769,6 @@ prototype.equals =
 			||
 			this.inherits !== undefined && this.inherits.equals( obj.inherits )
 		)
-		&&
-		this.init === obj.init
 		&&
 		this.json === obj.json
 		&&

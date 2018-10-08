@@ -48,9 +48,6 @@ if( TIM )
 		// if set, actualizes a global variable to the last created
 		global : { type : [ './ast/var', 'undefined' ] },
 
-		// FIXME remove inits
-		init : { type : [ 'protean', 'undefined' ] },
-
 		// other tims this tim utilizes
 		imports : { type : './type/set' },
 
@@ -2800,14 +2797,7 @@ def.static.generate =
 			assign = name;
 		}
 
-		if( assign !== '' )
-		{
-			constructorList.push( name );
-		}
-		else if( timDef.init && timDef.init.indexOf( name ) >= 0 )
-		{
-			constructorList.push( name );
-		}
+		if( assign !== '' ) constructorList.push( name );
 
 		let prepare = jAttr.prepare;
 
@@ -2897,40 +2887,6 @@ def.static.generate =
 		constructorList.unshift( 'twig' );
 	}
 
-	if( timDef.init )
-	{
-		singleton = false;
-
-		const inits = timDef.init.slice( ).sort( );
-
-		for( let a = inits.length - 1; a >= 0; a-- )
-		{
-			let name = timDef.init[ a ];
-
-			if( attributes.get( name ) ) continue;
-
-			switch( name )
-			{
-				case 'inherit' :
-				case 'twigDup' :
-				case 'group' :
-				case 'groupDup' :
-				case 'list' :
-				case 'listDup' :
-				case 'set' :
-				case 'setDup' :
-
-					constructorList.unshift( name );
-
-					break;
-
-				default :
-
-					throw new Error( 'invalid init value: ' + name );
-			}
-		}
-	}
-
 	if( FREEZE ) Object.freeze( constructorList );
 
 	// FIXME currently may not be named group/list/set/twig...
@@ -2992,7 +2948,6 @@ def.static.generate =
 			'gtwig', gtwig,
 			'imports', imports,
 			'inherits', inherits,
-			'init', timDef.init,
 			'json', timDef.json,
 			'module', module,
 			'proxyRanks', !!def.lazy._ranks,
