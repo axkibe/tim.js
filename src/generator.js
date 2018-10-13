@@ -1107,32 +1107,6 @@ def.func.genCreatorChecks =
 
 
 /*
-| Generates the creators prepares.
-*/
-def.func.genCreatorPrepares =
-	function( )
-{
-	let result = $block;
-
-	for( let a = 0, as = this.attributes.size; a < as; a++ )
-	{
-		const name = this.attributes.sortedKeys[ a ];
-
-		const attr = this.attributes.get( name );
-
-		const prepare = attr.prepare;
-
-		if( !prepare ) continue;
-
-		result = result.$( attr.varRef, ' = ', prepare );
-	}
-
-	return result;
-};
-
-
-
-/*
 | Generates the creators unchanged detection.
 |
 | Returns this object if so.
@@ -1314,7 +1288,6 @@ def.func.genCreator =
 		block
 		.$( this.genCreatorDefaults( ) )
 		.$( this.genCreatorChecks( false ) )
-		.$( this.genCreatorPrepares( ) )
 		.$( this.genCreatorUnchanged( ) )
 		.$( this.genCreatorInheritOptimization( ) )
 		.$( this.genCreatorReturn( ) );
@@ -2701,21 +2674,6 @@ def.static.generate =
 	// foreign ids to be imported
 	let imports = type_set.create( );
 
-	// walker to transform local variables in prepares
-	const transformPrepare =
-		function(
-			node
-		)
-	{
-		if(
-			node.timtype !== ast_var
-			|| node.name === 'undefined'
-			|| node.name === 'self'
-		) return node;
-
-		return node.create( 'name', 'v_' + node.name );
-	};
-
 	// walkter to transform default value
 	// replaces require( 'path' ) with the import variable
 	const transformDefaultValue =
@@ -2799,10 +2757,6 @@ def.static.generate =
 
 		if( assign !== '' ) constructorList.push( name );
 
-		let prepare = jAttr.prepare;
-
-		if( prepare ) prepare = $( prepare ).walk( transformPrepare );
-
 		const jdv = jAttr.defaultValue;
 
 		let defaultValue;
@@ -2847,7 +2801,6 @@ def.static.generate =
 				'id', aid,
 				'json', !!jAttr.json,
 				'name', name,
-				'prepare', prepare,
 				'transform', jAttr.transform || !!timDef.transform[ name ], // XXX
 				'varRef', $var( 'v_' + name )
 			);

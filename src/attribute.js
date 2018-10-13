@@ -35,9 +35,6 @@ if( TIM )
 		// attribute name
 		name : { type : 'string' },
 
-		// attribute preparation code
-		prepare : { type : [ '< ./ast/types-expr', 'undefined' ] },
-
 		// this attribute has a transformative getter
 		transform : { type: [ 'string', 'boolean', 'undefined' ] }, // XXX
 

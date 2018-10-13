@@ -75,19 +75,6 @@ const timWhitelist =
 
 
 /*
-| Checks if a tim prepare looks ok.
-*/
-const checkPrepare =
-	function(
-		// attr
-	)
-{
-	// FUTURE
-	return true;
-};
-
-
-/*
 | Checks the alike definitions.
 */
 const checkAlikes =
@@ -384,12 +371,6 @@ const checkAttribute =
 
 			case 'comment' :
 			case 'type' :
-
-				break;
-
-			case 'prepare' :
-
-				checkPrepare( attr );
 
 				break;
 
