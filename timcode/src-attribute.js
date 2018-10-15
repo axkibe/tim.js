@@ -583,17 +583,19 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_transform === undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_transform === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_transform !== undefined )
+/**/	if( typeof( v_transform ) !== 'boolean' )
 /**/	{
-/**/		if( typeof( v_transform ) !== 'string' && typeof( v_transform ) !== 'boolean' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
+/**/		throw new Error( );
 /**/	}
 /**/
 /**/	if( v_varRef === undefined )

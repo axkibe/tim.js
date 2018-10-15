@@ -36,7 +36,7 @@ if( TIM )
 		name : { type : 'string' },
 
 		// this attribute has a transformative getter
-		transform : { type: [ 'string', 'boolean', 'undefined' ] }, // XXX
+		transform : { type: [ 'boolean' ] },
 
 		// attribute type id
 		id : { type : [ '< ./type/types', './type/set' ] },
