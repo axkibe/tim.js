@@ -837,22 +837,34 @@ def.func.genCreatorDefaults =
 */
 def.func.genSingleTypeCheckFailCondition =
 	function(
-		aVar,  // FIXME
-		id     // FIXME
+		aVar,  // name of the variable
+		id     // type to check for
 	)
 {
 /**/if( CHECK )
 /**/{
 /**/	if( arguments.length !== 2 ) throw new Error( );
+/**/
+/**/	if( aVar.timtype !== ast_var ) throw new Error( );
 /**/}
 
 	switch( id.timtype )
 	{
+		case type_boolean : return $( 'typeof( ', aVar, ' ) !== "boolean"' );
+
 		case type_date : return $( '!(', aVar, 'instanceof Date )' );
 
-		case type_null : throw new Error( );
+		case type_function : return $( 'typeof( ', aVar, ' ) !== "function"' );
 
-		case type_boolean : return $( 'typeof( ', aVar, ' ) !== "boolean"' );
+		case type_integer :
+
+			return $(
+				$( 'typeof( ', aVar, ' ) !== "number"' ),
+				'|| Number.isNaN( ', aVar, ' )',
+				'|| Math.floor( ', aVar, ' ) !== ', aVar
+			);
+
+		case type_null : return $( aVar, '!== null' );
 
 		case type_number :
 
@@ -863,21 +875,13 @@ def.func.genSingleTypeCheckFailCondition =
 
 		case type_protean : throw new Error( );
 
-		case type_undefined : throw new Error( );
-
-		case type_integer :
-
-			return $(
-				$( 'typeof( ', aVar, ' ) !== "number"' ),
-				'|| Number.isNaN( ', aVar, ' )',
-				'|| Math.floor( ', aVar, ' ) !== ', aVar
-			);
-
-		case type_function : return $( 'typeof( ', aVar, ' ) !== "function"' );
-
 		case type_string : return $( 'typeof( ', aVar, ' ) !== "string"' );
 
 		case type_tim : return $( aVar, '.timtype !== ', id.$varname );
+
+		case type_undefined : return $( aVar, '!== undefined' );
+
+		default : throw new Error( );
 	}
 
 	return $( aVar, '.timtype !== ', id.global );
@@ -1275,17 +1279,11 @@ def.func.genCreator =
 	let block =
 		$block
 		.$( this.genCreatorVariables( ) )
-		.$( this.genCreatorInheritanceReceiver( ) );
-
-	// FIXME join block generations
-
-	if( this.creatorHasFreeStringsParser )
-	{
-		block = block.$( this.genCreatorFreeStringsParser( ) );
-	}
-
-	block =
-		block
+		.$( this.genCreatorInheritanceReceiver( ) )
+		.$( this.creatorHasFreeStringsParser
+			? this.genCreatorFreeStringsParser( )
+			: undefined
+		)
 		.$( this.genCreatorDefaults( ) )
 		.$( this.genCreatorChecks( false ) )
 		.$( this.genCreatorUnchanged( ) )
@@ -2746,7 +2744,7 @@ def.static.generate =
 		{
 			assign = jAttr.assign;
 		}
-		else if( timDef.transform[ name ] || jAttr.transform ) // XXX
+		else if( timDef.transform[ name ] )
 		{
 			assign = '__' + name;
 		}
@@ -2770,26 +2768,34 @@ def.static.generate =
 
 		let allowsUndefined = false;
 
-		if( aid.timtype === type_set )
+		switch( aid.timtype )
 		{
-			if( aid.has( tsUndefined ) )
-			{
-				aid = aid.create( 'set:remove', tsUndefined );
+			case type_set :
 
-				allowsUndefined = true;
-			}
+				if( aid.has( tsUndefined ) )
+				{
+					aid = aid.create( 'set:remove', tsUndefined );
 
-			if( aid.has( tsNull ) )
-			{
-				aid = aid.create( 'set:remove', tsNull );
+					allowsUndefined = true;
+				}
 
-				allowsNull = true;
-			}
+				if( aid.has( tsNull ) )
+				{
+					aid = aid.create( 'set:remove', tsNull );
 
-			if( aid.size === 1 )
-			{
-				aid = aid.iterator( ).next( ).value;
-			}
+					allowsNull = true;
+				}
+
+				if( aid.size === 1 )
+				{
+					aid = aid.iterator( ).next( ).value;
+				}
+
+				break;
+
+			case type_undefined : allowsUndefined = true; break;
+
+			case type_null : allowsNull = true; break;
 		}
 
 		const attr =
@@ -2801,7 +2807,7 @@ def.static.generate =
 				'id', aid,
 				'json', !!jAttr.json,
 				'name', name,
-				'transform', jAttr.transform || !!timDef.transform[ name ], // XXX
+				'transform', !!timDef.transform[ name ],
 				'varRef', $var( 'v_' + name )
 			);
 

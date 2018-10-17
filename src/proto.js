@@ -749,9 +749,6 @@ tim_proto.twigTransGet =
 		key
 	)
 {
-	// FIXME dirty workaround for abstracts, do away with them
-	if( !this[ '__transform' + '_get' ] ) return this._twig[ key ];
-
 	const tval = this._ttwig[ key ];
 
 	if( tval !== undefined ) return tval;
