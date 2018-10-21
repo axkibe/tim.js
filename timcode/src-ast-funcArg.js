@@ -103,30 +103,14 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_comment === null )
+/**/	if( v_comment !== undefined && typeof( v_comment ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_comment !== undefined )
-/**/	{
-/**/		if( v_comment !== undefined && typeof( v_comment ) !== 'string' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_name === null )
+/**/	if( v_name !== undefined && typeof( v_name ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_name !== undefined )
-/**/	{
-/**/		if( v_name !== undefined && typeof( v_name ) !== 'string' )
-/**/		{
-/**/			throw new Error( );
-/**/		}
 /**/	}
 /**/}
 

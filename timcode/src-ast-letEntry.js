@@ -220,105 +220,87 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_assign === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_assign !== undefined )
-/**/	{
-/**/		if(
-/**/			v_assign.timtype !== tt_and
-/**/			&&
-/**/			v_assign.timtype !== tt_arrayLiteral
-/**/			&&
-/**/			v_assign.timtype !== tt_assign
-/**/			&&
-/**/			v_assign.timtype !== tt_boolean
-/**/			&&
-/**/			v_assign.timtype !== tt_call
-/**/			&&
-/**/			v_assign.timtype !== tt_comma
-/**/			&&
-/**/			v_assign.timtype !== tt_condition
-/**/			&&
-/**/			v_assign.timtype !== tt_delete
-/**/			&&
-/**/			v_assign.timtype !== tt_differs
-/**/			&&
-/**/			v_assign.timtype !== tt_divide
-/**/			&&
-/**/			v_assign.timtype !== tt_divideAssign
-/**/			&&
-/**/			v_assign.timtype !== tt_dot
-/**/			&&
-/**/			v_assign.timtype !== tt_equals
-/**/			&&
-/**/			v_assign.timtype !== tt_func
-/**/			&&
-/**/			v_assign.timtype !== tt_greaterThan
-/**/			&&
-/**/			v_assign.timtype !== tt_instanceof
-/**/			&&
-/**/			v_assign.timtype !== tt_lessThan
-/**/			&&
-/**/			v_assign.timtype !== tt_member
-/**/			&&
-/**/			v_assign.timtype !== tt_minus
-/**/			&&
-/**/			v_assign.timtype !== tt_minusAssign
-/**/			&&
-/**/			v_assign.timtype !== tt_multiply
-/**/			&&
-/**/			v_assign.timtype !== tt_multiplyAssign
-/**/			&&
-/**/			v_assign.timtype !== tt_negate
-/**/			&&
-/**/			v_assign.timtype !== tt_new
-/**/			&&
-/**/			v_assign.timtype !== tt_not
-/**/			&&
-/**/			v_assign.timtype !== tt_null
-/**/			&&
-/**/			v_assign.timtype !== tt_number
-/**/			&&
-/**/			v_assign.timtype !== tt_objLiteral
-/**/			&&
-/**/			v_assign.timtype !== tt_or
-/**/			&&
-/**/			v_assign.timtype !== tt_plus
-/**/			&&
-/**/			v_assign.timtype !== tt_plusAssign
-/**/			&&
-/**/			v_assign.timtype !== tt_postDecrement
-/**/			&&
-/**/			v_assign.timtype !== tt_postIncrement
-/**/			&&
-/**/			v_assign.timtype !== tt_preDecrement
-/**/			&&
-/**/			v_assign.timtype !== tt_preIncrement
-/**/			&&
-/**/			v_assign.timtype !== tt_string
-/**/			&&
-/**/			v_assign.timtype !== tt_typeof
-/**/			&&
-/**/			v_assign.timtype !== tt_undefined
-/**/			&&
-/**/			v_assign.timtype !== tt_var
-/**/			&&
-/**/			v_assign !== undefined
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_name === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_name === null )
+/**/	if(
+/**/		v_assign !== undefined
+/**/		&&
+/**/		v_assign.timtype !== tt_and
+/**/		&&
+/**/		v_assign.timtype !== tt_arrayLiteral
+/**/		&&
+/**/		v_assign.timtype !== tt_assign
+/**/		&&
+/**/		v_assign.timtype !== tt_boolean
+/**/		&&
+/**/		v_assign.timtype !== tt_call
+/**/		&&
+/**/		v_assign.timtype !== tt_comma
+/**/		&&
+/**/		v_assign.timtype !== tt_condition
+/**/		&&
+/**/		v_assign.timtype !== tt_delete
+/**/		&&
+/**/		v_assign.timtype !== tt_differs
+/**/		&&
+/**/		v_assign.timtype !== tt_divide
+/**/		&&
+/**/		v_assign.timtype !== tt_divideAssign
+/**/		&&
+/**/		v_assign.timtype !== tt_dot
+/**/		&&
+/**/		v_assign.timtype !== tt_equals
+/**/		&&
+/**/		v_assign.timtype !== tt_func
+/**/		&&
+/**/		v_assign.timtype !== tt_greaterThan
+/**/		&&
+/**/		v_assign.timtype !== tt_instanceof
+/**/		&&
+/**/		v_assign.timtype !== tt_lessThan
+/**/		&&
+/**/		v_assign.timtype !== tt_member
+/**/		&&
+/**/		v_assign.timtype !== tt_minus
+/**/		&&
+/**/		v_assign.timtype !== tt_minusAssign
+/**/		&&
+/**/		v_assign.timtype !== tt_multiply
+/**/		&&
+/**/		v_assign.timtype !== tt_multiplyAssign
+/**/		&&
+/**/		v_assign.timtype !== tt_negate
+/**/		&&
+/**/		v_assign.timtype !== tt_new
+/**/		&&
+/**/		v_assign.timtype !== tt_not
+/**/		&&
+/**/		v_assign.timtype !== tt_null
+/**/		&&
+/**/		v_assign.timtype !== tt_number
+/**/		&&
+/**/		v_assign.timtype !== tt_objLiteral
+/**/		&&
+/**/		v_assign.timtype !== tt_or
+/**/		&&
+/**/		v_assign.timtype !== tt_plus
+/**/		&&
+/**/		v_assign.timtype !== tt_plusAssign
+/**/		&&
+/**/		v_assign.timtype !== tt_postDecrement
+/**/		&&
+/**/		v_assign.timtype !== tt_postIncrement
+/**/		&&
+/**/		v_assign.timtype !== tt_preDecrement
+/**/		&&
+/**/		v_assign.timtype !== tt_preIncrement
+/**/		&&
+/**/		v_assign.timtype !== tt_string
+/**/		&&
+/**/		v_assign.timtype !== tt_typeof
+/**/		&&
+/**/		v_assign.timtype !== tt_undefined
+/**/		&&
+/**/		v_assign.timtype !== tt_var
+/**/	)
 /**/	{
 /**/		throw new Error( );
 /**/	}

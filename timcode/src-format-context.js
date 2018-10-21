@@ -150,27 +150,7 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_check === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_check === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_check ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_indent === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_indent === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -186,27 +166,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_inline === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_inline === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_inline ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_root === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_root === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}

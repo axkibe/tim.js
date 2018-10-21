@@ -204,97 +204,89 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_message === null )
+/**/	if(
+/**/		v_message !== undefined
+/**/		&&
+/**/		v_message.timtype !== tt_and
+/**/		&&
+/**/		v_message.timtype !== tt_arrayLiteral
+/**/		&&
+/**/		v_message.timtype !== tt_assign
+/**/		&&
+/**/		v_message.timtype !== tt_boolean
+/**/		&&
+/**/		v_message.timtype !== tt_call
+/**/		&&
+/**/		v_message.timtype !== tt_comma
+/**/		&&
+/**/		v_message.timtype !== tt_condition
+/**/		&&
+/**/		v_message.timtype !== tt_delete
+/**/		&&
+/**/		v_message.timtype !== tt_differs
+/**/		&&
+/**/		v_message.timtype !== tt_divide
+/**/		&&
+/**/		v_message.timtype !== tt_divideAssign
+/**/		&&
+/**/		v_message.timtype !== tt_dot
+/**/		&&
+/**/		v_message.timtype !== tt_equals
+/**/		&&
+/**/		v_message.timtype !== tt_func
+/**/		&&
+/**/		v_message.timtype !== tt_greaterThan
+/**/		&&
+/**/		v_message.timtype !== tt_instanceof
+/**/		&&
+/**/		v_message.timtype !== tt_lessThan
+/**/		&&
+/**/		v_message.timtype !== tt_member
+/**/		&&
+/**/		v_message.timtype !== tt_minus
+/**/		&&
+/**/		v_message.timtype !== tt_minusAssign
+/**/		&&
+/**/		v_message.timtype !== tt_multiply
+/**/		&&
+/**/		v_message.timtype !== tt_multiplyAssign
+/**/		&&
+/**/		v_message.timtype !== tt_negate
+/**/		&&
+/**/		v_message.timtype !== tt_new
+/**/		&&
+/**/		v_message.timtype !== tt_not
+/**/		&&
+/**/		v_message.timtype !== tt_null
+/**/		&&
+/**/		v_message.timtype !== tt_number
+/**/		&&
+/**/		v_message.timtype !== tt_objLiteral
+/**/		&&
+/**/		v_message.timtype !== tt_or
+/**/		&&
+/**/		v_message.timtype !== tt_plus
+/**/		&&
+/**/		v_message.timtype !== tt_plusAssign
+/**/		&&
+/**/		v_message.timtype !== tt_postDecrement
+/**/		&&
+/**/		v_message.timtype !== tt_postIncrement
+/**/		&&
+/**/		v_message.timtype !== tt_preDecrement
+/**/		&&
+/**/		v_message.timtype !== tt_preIncrement
+/**/		&&
+/**/		v_message.timtype !== tt_string
+/**/		&&
+/**/		v_message.timtype !== tt_typeof
+/**/		&&
+/**/		v_message.timtype !== tt_undefined
+/**/		&&
+/**/		v_message.timtype !== tt_var
+/**/	)
 /**/	{
 /**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_message !== undefined )
-/**/	{
-/**/		if(
-/**/			v_message.timtype !== tt_and
-/**/			&&
-/**/			v_message.timtype !== tt_arrayLiteral
-/**/			&&
-/**/			v_message.timtype !== tt_assign
-/**/			&&
-/**/			v_message.timtype !== tt_boolean
-/**/			&&
-/**/			v_message.timtype !== tt_call
-/**/			&&
-/**/			v_message.timtype !== tt_comma
-/**/			&&
-/**/			v_message.timtype !== tt_condition
-/**/			&&
-/**/			v_message.timtype !== tt_delete
-/**/			&&
-/**/			v_message.timtype !== tt_differs
-/**/			&&
-/**/			v_message.timtype !== tt_divide
-/**/			&&
-/**/			v_message.timtype !== tt_divideAssign
-/**/			&&
-/**/			v_message.timtype !== tt_dot
-/**/			&&
-/**/			v_message.timtype !== tt_equals
-/**/			&&
-/**/			v_message.timtype !== tt_func
-/**/			&&
-/**/			v_message.timtype !== tt_greaterThan
-/**/			&&
-/**/			v_message.timtype !== tt_instanceof
-/**/			&&
-/**/			v_message.timtype !== tt_lessThan
-/**/			&&
-/**/			v_message.timtype !== tt_member
-/**/			&&
-/**/			v_message.timtype !== tt_minus
-/**/			&&
-/**/			v_message.timtype !== tt_minusAssign
-/**/			&&
-/**/			v_message.timtype !== tt_multiply
-/**/			&&
-/**/			v_message.timtype !== tt_multiplyAssign
-/**/			&&
-/**/			v_message.timtype !== tt_negate
-/**/			&&
-/**/			v_message.timtype !== tt_new
-/**/			&&
-/**/			v_message.timtype !== tt_not
-/**/			&&
-/**/			v_message.timtype !== tt_null
-/**/			&&
-/**/			v_message.timtype !== tt_number
-/**/			&&
-/**/			v_message.timtype !== tt_objLiteral
-/**/			&&
-/**/			v_message.timtype !== tt_or
-/**/			&&
-/**/			v_message.timtype !== tt_plus
-/**/			&&
-/**/			v_message.timtype !== tt_plusAssign
-/**/			&&
-/**/			v_message.timtype !== tt_postDecrement
-/**/			&&
-/**/			v_message.timtype !== tt_postIncrement
-/**/			&&
-/**/			v_message.timtype !== tt_preDecrement
-/**/			&&
-/**/			v_message.timtype !== tt_preIncrement
-/**/			&&
-/**/			v_message.timtype !== tt_string
-/**/			&&
-/**/			v_message.timtype !== tt_typeof
-/**/			&&
-/**/			v_message.timtype !== tt_undefined
-/**/			&&
-/**/			v_message.timtype !== tt_var
-/**/			&&
-/**/			v_message !== undefined
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
 /**/	}
 /**/}
 

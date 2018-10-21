@@ -909,21 +909,33 @@ def.func.genTypeCheckFailCondition =
 
 	if( idx.size === 1 )
 	{
-		return(
-			this.genSingleTypeCheckFailCondition(
-				aVar,
-				idx.iterator( ).next( ).value
-			)
-		);
+		return this.genSingleTypeCheckFailCondition( aVar, idx.iterator( ).next( ).value );
 	}
 
 	const condArray = [ ];
 
-	const it = idx.iterator( );
+	let it = idx.iterator( );
 
+	// first do the primitives
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
 		const id = i.value;
+
+		if( id.timtype === type_tim ) continue;
+
+		const cond = this.genSingleTypeCheckFailCondition( aVar, id );
+
+		if( cond ) condArray.push( cond );
+	}
+
+	it = idx.iterator( );
+
+	// then do the tims
+	for( let i = it.next( ); !i.done; i = it.next( ) )
+	{
+		const id = i.value;
+
+		if( id.timtype !== type_tim ) continue;
 
 		const cond = this.genSingleTypeCheckFailCondition( aVar, id );
 
@@ -962,56 +974,11 @@ def.func.genCreatorChecks =
 
 		if( json && !attr.json ) continue;
 
-		const av = attr.varRef;
-
-		const allowsNull = attr.allowsNull;
-
-		const allowsUndefined = attr.allowsUndefined;
-
-		if( !allowsUndefined )
-		{
-			check = check.$if( $( av, ' === undefined' ), $fail( ) );
-		}
-
-		if( !allowsNull )
-		{
-			check = check.$if( $( av, ' === null' ), $fail( ));
-		}
-
 		if( attr.id.timtype === type_protean ) continue;
-
-		let cond;
-
-		if( allowsNull && !allowsUndefined )
-		{
-			cond = $( av, ' !== null' );
-		}
-		else if( !allowsNull && allowsUndefined )
-		{
-			cond = $( av, ' !== undefined' );
-		}
-		else if( allowsNull && allowsUndefined )
-		{
-			cond = $( av, ' !== null && ', av, ' !== undefined' );
-		}
-		else
-		{
-			cond = undefined;
-		}
 
 		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id );
 
-		if( tcheck )
-		{
-			if( cond )
-			{
-				check = check.$if( cond, $if( tcheck, $fail( ) ) );
-			}
-			else
-			{
-				check = check.$if( tcheck, $fail( ) );
-			}
-		}
+		if( tcheck ) check = check.$if( tcheck, $fail( ) );
 	}
 
 	if( this.ggroup )
@@ -1496,15 +1463,6 @@ def.func.genFromJsonCreatorAttributeParser =
 			}
 	}
 
-	if( attr.allowsNull )
-	{
-		code =
-			$if(
-				'arg === null',
-				/* then */ $( attr.varRef, ' = null' ),
-				/* else */ code
-			);
-	}
 
 	return code;
 };

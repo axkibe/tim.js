@@ -311,25 +311,7 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_defaultCase === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_defaultCase !== undefined )
-/**/	{
-/**/		if( v_defaultCase !== undefined && v_defaultCase.timtype !== tt_block )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_statement === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_statement === null )
+/**/	if( v_defaultCase !== undefined && v_defaultCase.timtype !== tt_block )
 /**/	{
 /**/		throw new Error( );
 /**/	}

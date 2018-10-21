@@ -204,16 +204,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_expr === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_expr === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if(
 /**/		v_expr.timtype !== tt_and
 /**/		&&

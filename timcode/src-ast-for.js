@@ -258,27 +258,7 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_block === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_block === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_block.timtype !== tt_block )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_condition === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_condition === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -366,16 +346,6 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_init === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_init === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if(
 /**/		v_init.timtype !== tt_and
 /**/		&&
@@ -457,16 +427,6 @@ prototype.create =
 /**/		&&
 /**/		v_init.timtype !== tt_let
 /**/	)
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_iterate === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_iterate === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}

@@ -284,135 +284,117 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_ast === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_ast !== undefined )
-/**/	{
-/**/		if(
-/**/			v_ast.timtype !== tt_$_ast_block
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_break
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_check
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_comment
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_const
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_continue
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_fail
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_for
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_forIn
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_if
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_let
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_return
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_switch
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_varDec
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_while
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_and
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_arrayLiteral
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_assign
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_boolean
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_call
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_comma
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_condition
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_delete
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_differs
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_divide
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_divideAssign
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_dot
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_equals
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_func
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_greaterThan
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_instanceof
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_lessThan
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_member
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_minus
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_minusAssign
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_multiply
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_multiplyAssign
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_negate
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_new
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_not
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_null
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_number
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_objLiteral
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_or
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_plus
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_plusAssign
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_postDecrement
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_postIncrement
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_preDecrement
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_preIncrement
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_string
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_typeof
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_undefined
-/**/			&&
-/**/			v_ast.timtype !== tt_$_ast_var
-/**/			&&
-/**/			v_ast !== undefined
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_pos === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_pos === null )
+/**/	if(
+/**/		v_ast !== undefined
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_block
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_break
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_check
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_comment
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_const
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_continue
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_fail
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_for
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_forIn
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_if
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_let
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_return
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_switch
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_varDec
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_while
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_and
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_arrayLiteral
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_assign
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_boolean
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_call
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_comma
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_condition
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_delete
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_differs
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_divide
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_divideAssign
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_dot
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_equals
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_func
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_greaterThan
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_instanceof
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_lessThan
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_member
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_minus
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_minusAssign
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_multiply
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_multiplyAssign
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_negate
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_new
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_not
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_null
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_number
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_objLiteral
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_or
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_plus
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_plusAssign
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_postDecrement
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_postIncrement
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_preDecrement
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_preIncrement
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_string
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_typeof
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_undefined
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_var
+/**/	)
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -424,16 +406,6 @@ prototype.create =
 /**/		||
 /**/		Math.floor( v_pos ) !== v_pos
 /**/	)
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_tokens === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_tokens === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}

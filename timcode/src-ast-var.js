@@ -92,16 +92,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_name === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_name === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_name ) !== 'string' )
 /**/	{
 /**/		throw new Error( );

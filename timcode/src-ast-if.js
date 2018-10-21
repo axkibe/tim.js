@@ -239,16 +239,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_condition === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_condition === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if(
 /**/		v_condition.timtype !== tt_and
 /**/		&&
@@ -332,25 +322,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_elsewise === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_elsewise !== undefined )
-/**/	{
-/**/		if( v_elsewise !== undefined && v_elsewise.timtype !== tt_block )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_then === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_then === null )
+/**/	if( v_elsewise !== undefined && v_elsewise.timtype !== tt_block )
 /**/	{
 /**/		throw new Error( );
 /**/	}

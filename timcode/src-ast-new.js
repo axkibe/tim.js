@@ -90,16 +90,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_call === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_call === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_call.timtype !== tt_call )
 /**/	{
 /**/		throw new Error( );

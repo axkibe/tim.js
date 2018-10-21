@@ -178,17 +178,9 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_block === null )
+/**/	if( v_block !== undefined && v_block.timtype !== tt_block )
 /**/	{
 /**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_block !== undefined )
-/**/	{
-/**/		if( v_block !== undefined && v_block.timtype !== tt_block )
-/**/		{
-/**/			throw new Error( );
-/**/		}
 /**/	}
 /**/
 /**/	for(

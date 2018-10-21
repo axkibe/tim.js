@@ -87,16 +87,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_number === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_number === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_number ) !== 'number' || Number.isNaN( v_number ) )
 /**/	{
 /**/		throw new Error( );

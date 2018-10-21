@@ -220,16 +220,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_left === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_left === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if(
 /**/		v_left.timtype !== tt_and
 /**/		&&
@@ -309,16 +299,6 @@ prototype.create =
 /**/		&&
 /**/		v_left.timtype !== tt_var
 /**/	)
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_right === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_right === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}

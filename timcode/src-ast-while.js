@@ -223,27 +223,7 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_block === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_block === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_block.timtype !== tt_block )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_condition === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_condition === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}

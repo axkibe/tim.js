@@ -108,44 +108,26 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_type === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_type === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_type ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_value === null )
+/**/	if(
+/**/		v_value !== undefined
+/**/		&&
+/**/		(
+/**/			typeof( v_value ) !== 'number'
+/**/			||
+/**/			Number.isNaN( v_value )
+/**/		)
+/**/		&&
+/**/		typeof( v_value ) !== 'boolean'
+/**/		&&
+/**/		typeof( v_value ) !== 'string'
+/**/	)
 /**/	{
 /**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_value !== undefined )
-/**/	{
-/**/		if(
-/**/			v_value !== undefined
-/**/			&&
-/**/			(
-/**/				typeof( v_value ) !== 'number'
-/**/				||
-/**/				Number.isNaN( v_value )
-/**/			)
-/**/			&&
-/**/			typeof( v_value ) !== 'boolean'
-/**/			&&
-/**/			typeof( v_value ) !== 'string'
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
 /**/	}
 /**/}
 

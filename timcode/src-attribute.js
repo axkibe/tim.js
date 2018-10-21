@@ -380,27 +380,7 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_allowsNull === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_allowsNull === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_allowsNull ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_allowsUndefined === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_allowsUndefined === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -410,120 +390,92 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_assign === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_assign === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_assign ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_defaultValue === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_defaultValue !== undefined )
-/**/	{
-/**/		if(
-/**/			v_defaultValue.timtype !== tt_ast_and
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_arrayLiteral
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_assign
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_boolean
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_call
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_comma
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_condition
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_delete
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_differs
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_divide
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_divideAssign
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_dot
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_equals
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_func
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_greaterThan
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_instanceof
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_lessThan
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_member
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_minus
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_minusAssign
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_multiply
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_multiplyAssign
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_negate
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_new
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_not
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_null
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_number
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_objLiteral
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_or
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_plus
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_plusAssign
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_postDecrement
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_postIncrement
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_preDecrement
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_preIncrement
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_string
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_typeof
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_undefined
-/**/			&&
-/**/			v_defaultValue.timtype !== tt_ast_var
-/**/			&&
-/**/			v_defaultValue !== undefined
-/**/		)
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_id === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_id === null )
+/**/	if(
+/**/		v_defaultValue !== undefined
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_and
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_arrayLiteral
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_assign
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_boolean
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_call
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_comma
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_condition
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_delete
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_differs
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_divide
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_divideAssign
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_dot
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_equals
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_func
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_greaterThan
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_instanceof
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_lessThan
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_member
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_minus
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_minusAssign
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_multiply
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_multiplyAssign
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_negate
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_new
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_not
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_null
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_number
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_objLiteral
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_or
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_plus
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_plusAssign
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_postDecrement
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_postIncrement
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_preDecrement
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_preIncrement
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_string
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_typeof
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_undefined
+/**/		&&
+/**/		v_defaultValue.timtype !== tt_ast_var
+/**/	)
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -555,27 +507,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_json === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_json === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_json ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_name === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_name === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -585,27 +517,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_transform === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_transform === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_transform ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_varRef === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_varRef === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}

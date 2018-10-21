@@ -355,25 +355,7 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_alike === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_alike !== undefined )
-/**/	{
-/**/		if( typeof( v_alike ) !== 'object' && v_alike !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_attributes === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_attributes === null )
+/**/	if( typeof( v_alike ) !== 'object' && v_alike !== undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -383,37 +365,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_check === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_check === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_check ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_constructorList === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_constructorList === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_creatorHasFreeStringsParser === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_creatorHasFreeStringsParser === null )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -423,77 +375,27 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_ggroup === null )
+/**/	if( v_ggroup !== undefined && v_ggroup.timtype !== tt_type_set )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_ggroup !== undefined )
-/**/	{
-/**/		if( v_ggroup.timtype !== tt_type_set && v_ggroup !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_glist === null )
+/**/	if( v_glist !== undefined && v_glist.timtype !== tt_type_set )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_glist !== undefined )
-/**/	{
-/**/		if( v_glist.timtype !== tt_type_set && v_glist !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_global === null )
+/**/	if( v_global !== undefined && v_global.timtype !== tt_ast_var )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_global !== undefined )
-/**/	{
-/**/		if( v_global.timtype !== tt_ast_var && v_global !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_gset === null )
+/**/	if( v_gset !== undefined && v_gset.timtype !== tt_type_set )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_gset !== undefined )
-/**/	{
-/**/		if( v_gset.timtype !== tt_type_set && v_gset !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_gtwig === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_gtwig !== undefined )
-/**/	{
-/**/		if( v_gtwig.timtype !== tt_type_set && v_gtwig !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_imports === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_imports === null )
+/**/	if( v_gtwig !== undefined && v_gtwig.timtype !== tt_type_set )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -503,48 +405,12 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_inherits === null )
+/**/	if( v_inherits !== undefined && v_inherits.timtype !== tt_export_stringSet )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_inherits !== undefined )
-/**/	{
-/**/		if( v_inherits.timtype !== tt_export_stringSet && v_inherits !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_json === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_json !== undefined )
-/**/	{
-/**/		if( typeof( v_json ) !== 'string' && v_json !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_module === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_module === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_proxyRanks === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_proxyRanks === null )
+/**/	if( typeof( v_json ) !== 'string' && v_json !== undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -554,25 +420,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_singleton === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_singleton !== undefined )
-/**/	{
-/**/		if( typeof( v_singleton ) !== 'boolean' && v_singleton !== undefined )
-/**/		{
-/**/			throw new Error( );
-/**/		}
-/**/	}
-/**/
-/**/	if( v_transform === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_transform === null )
+/**/	if( typeof( v_singleton ) !== 'boolean' && v_singleton !== undefined )
 /**/	{
 /**/		throw new Error( );
 /**/	}

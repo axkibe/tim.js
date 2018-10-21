@@ -87,16 +87,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_boolean === undefined )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_boolean === null )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_boolean ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
