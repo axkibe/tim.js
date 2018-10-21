@@ -399,6 +399,8 @@ prototype.create =
 /**/			v_ast.timtype !== tt_$_ast_undefined
 /**/			&&
 /**/			v_ast.timtype !== tt_$_ast_var
+/**/			&&
+/**/			v_ast !== undefined
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -448,7 +450,7 @@ prototype.create =
 		(
 			v_ast === inherit.ast
 			||
-			v_ast !== undefined && v_ast.equals( inherit.ast )
+			v_ast !== undefined && v_ast.timtype && v_ast.equals( inherit.ast )
 		)
 		&&
 		v_pos === inherit.pos
@@ -512,7 +514,7 @@ prototype.equals =
 		(
 			this.ast === obj.ast
 			||
-			this.ast !== undefined && this.ast.equals( obj.ast )
+			this.ast !== undefined && this.ast.timtype && this.ast.equals( obj.ast )
 		)
 		&&
 		this.pos === obj.pos

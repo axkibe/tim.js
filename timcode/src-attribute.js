@@ -510,6 +510,8 @@ prototype.create =
 /**/			v_defaultValue.timtype !== tt_ast_undefined
 /**/			&&
 /**/			v_defaultValue.timtype !== tt_ast_var
+/**/			&&
+/**/			v_defaultValue !== undefined
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -626,7 +628,11 @@ prototype.create =
 		(
 			v_defaultValue === inherit.defaultValue
 			||
-			v_defaultValue !== undefined && v_defaultValue.equals( inherit.defaultValue )
+			v_defaultValue !== undefined
+			&&
+			v_defaultValue.timtype
+			&&
+			v_defaultValue.equals( inherit.defaultValue )
 		)
 		&&
 		(
@@ -718,7 +724,11 @@ prototype.equals =
 		(
 			this.defaultValue === obj.defaultValue
 			||
-			this.defaultValue !== undefined && this.defaultValue.equals( obj.defaultValue )
+			this.defaultValue !== undefined
+			&&
+			this.defaultValue.timtype
+			&&
+			this.defaultValue.equals( obj.defaultValue )
 		)
 		&&
 		(

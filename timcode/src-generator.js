@@ -360,6 +360,14 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_alike !== undefined )
+/**/	{
+/**/		if( typeof( v_alike ) !== 'object' && v_alike !== undefined )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_attributes === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -422,7 +430,7 @@ prototype.create =
 /**/
 /**/	if( v_ggroup !== undefined )
 /**/	{
-/**/		if( v_ggroup.timtype !== tt_type_set )
+/**/		if( v_ggroup.timtype !== tt_type_set && v_ggroup !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -435,7 +443,7 @@ prototype.create =
 /**/
 /**/	if( v_glist !== undefined )
 /**/	{
-/**/		if( v_glist.timtype !== tt_type_set )
+/**/		if( v_glist.timtype !== tt_type_set && v_glist !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -448,7 +456,7 @@ prototype.create =
 /**/
 /**/	if( v_global !== undefined )
 /**/	{
-/**/		if( v_global.timtype !== tt_ast_var )
+/**/		if( v_global.timtype !== tt_ast_var && v_global !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -461,7 +469,7 @@ prototype.create =
 /**/
 /**/	if( v_gset !== undefined )
 /**/	{
-/**/		if( v_gset.timtype !== tt_type_set )
+/**/		if( v_gset.timtype !== tt_type_set && v_gset !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -474,7 +482,7 @@ prototype.create =
 /**/
 /**/	if( v_gtwig !== undefined )
 /**/	{
-/**/		if( v_gtwig.timtype !== tt_type_set )
+/**/		if( v_gtwig.timtype !== tt_type_set && v_gtwig !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -502,7 +510,7 @@ prototype.create =
 /**/
 /**/	if( v_inherits !== undefined )
 /**/	{
-/**/		if( v_inherits.timtype !== tt_export_stringSet )
+/**/		if( v_inherits.timtype !== tt_export_stringSet && v_inherits !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -515,7 +523,7 @@ prototype.create =
 /**/
 /**/	if( v_json !== undefined )
 /**/	{
-/**/		if( typeof( v_json ) !== 'string' )
+/**/		if( typeof( v_json ) !== 'string' && v_json !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -553,7 +561,7 @@ prototype.create =
 /**/
 /**/	if( v_singleton !== undefined )
 /**/	{
-/**/		if( typeof( v_singleton ) !== 'boolean' )
+/**/		if( typeof( v_singleton ) !== 'boolean' && v_singleton !== undefined )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -595,31 +603,31 @@ prototype.create =
 		(
 			v_ggroup === inherit.ggroup
 			||
-			v_ggroup !== undefined && v_ggroup.equals( inherit.ggroup )
+			v_ggroup !== undefined && v_ggroup.timtype && v_ggroup.equals( inherit.ggroup )
 		)
 		&&
 		(
 			v_glist === inherit.glist
 			||
-			v_glist !== undefined && v_glist.equals( inherit.glist )
+			v_glist !== undefined && v_glist.timtype && v_glist.equals( inherit.glist )
 		)
 		&&
 		(
 			v_global === inherit.global
 			||
-			v_global !== undefined && v_global.equals( inherit.global )
+			v_global !== undefined && v_global.timtype && v_global.equals( inherit.global )
 		)
 		&&
 		(
 			v_gset === inherit.gset
 			||
-			v_gset !== undefined && v_gset.equals( inherit.gset )
+			v_gset !== undefined && v_gset.timtype && v_gset.equals( inherit.gset )
 		)
 		&&
 		(
 			v_gtwig === inherit.gtwig
 			||
-			v_gtwig !== undefined && v_gtwig.equals( inherit.gtwig )
+			v_gtwig !== undefined && v_gtwig.timtype && v_gtwig.equals( inherit.gtwig )
 		)
 		&&
 		(
@@ -631,7 +639,7 @@ prototype.create =
 		(
 			v_inherits === inherit.inherits
 			||
-			v_inherits !== undefined && v_inherits.equals( inherit.inherits )
+			v_inherits !== undefined && v_inherits.timtype && v_inherits.equals( inherit.inherits )
 		)
 		&&
 		v_json === inherit.json
@@ -731,31 +739,31 @@ prototype.equals =
 		(
 			this.ggroup === obj.ggroup
 			||
-			this.ggroup !== undefined && this.ggroup.equals( obj.ggroup )
+			this.ggroup !== undefined && this.ggroup.timtype && this.ggroup.equals( obj.ggroup )
 		)
 		&&
 		(
 			this.glist === obj.glist
 			||
-			this.glist !== undefined && this.glist.equals( obj.glist )
+			this.glist !== undefined && this.glist.timtype && this.glist.equals( obj.glist )
 		)
 		&&
 		(
 			this.global === obj.global
 			||
-			this.global !== undefined && this.global.equals( obj.global )
+			this.global !== undefined && this.global.timtype && this.global.equals( obj.global )
 		)
 		&&
 		(
 			this.gset === obj.gset
 			||
-			this.gset !== undefined && this.gset.equals( obj.gset )
+			this.gset !== undefined && this.gset.timtype && this.gset.equals( obj.gset )
 		)
 		&&
 		(
 			this.gtwig === obj.gtwig
 			||
-			this.gtwig !== undefined && this.gtwig.equals( obj.gtwig )
+			this.gtwig !== undefined && this.gtwig.timtype && this.gtwig.equals( obj.gtwig )
 		)
 		&&
 		(
@@ -767,7 +775,7 @@ prototype.equals =
 		(
 			this.inherits === obj.inherits
 			||
-			this.inherits !== undefined && this.inherits.equals( obj.inherits )
+			this.inherits !== undefined && this.inherits.timtype && this.inherits.equals( obj.inherits )
 		)
 		&&
 		this.json === obj.json

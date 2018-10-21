@@ -165,6 +165,14 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_astCreator !== undefined )
+/**/	{
+/**/		if( v_astCreator !== undefined && typeof( v_astCreator ) !== 'object' )
+/**/		{
+/**/			throw new Error( );
+/**/		}
+/**/	}
+/**/
 /**/	if( v_handler === undefined )
 /**/	{
 /**/		throw new Error( );
@@ -188,11 +196,15 @@ prototype.create =
 /**/	if( v_prec !== undefined )
 /**/	{
 /**/		if(
-/**/			typeof( v_prec ) !== 'number'
-/**/			||
-/**/			Number.isNaN( v_prec )
-/**/			||
-/**/			Math.floor( v_prec ) !== v_prec
+/**/			v_prec !== undefined
+/**/			&&
+/**/			(
+/**/				typeof( v_prec ) !== 'number'
+/**/				||
+/**/				Number.isNaN( v_prec )
+/**/				||
+/**/				Math.floor( v_prec ) !== v_prec
+/**/			)
 /**/		)
 /**/		{
 /**/			throw new Error( );

@@ -110,7 +110,7 @@ prototype.create =
 /**/
 /**/	if( v_comment !== undefined )
 /**/	{
-/**/		if( typeof( v_comment ) !== 'string' )
+/**/		if( v_comment !== undefined && typeof( v_comment ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -123,7 +123,7 @@ prototype.create =
 /**/
 /**/	if( v_name !== undefined )
 /**/	{
-/**/		if( typeof( v_name ) !== 'string' )
+/**/		if( v_name !== undefined && typeof( v_name ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}

@@ -289,6 +289,8 @@ prototype.create =
 /**/			v_message.timtype !== tt_undefined
 /**/			&&
 /**/			v_message.timtype !== tt_var
+/**/			&&
+/**/			v_message !== undefined
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -302,7 +304,7 @@ prototype.create =
 		(
 			v_message === inherit.message
 			||
-			v_message !== undefined && v_message.equals( inherit.message )
+			v_message !== undefined && v_message.timtype && v_message.equals( inherit.message )
 		)
 	)
 	{
@@ -357,6 +359,6 @@ prototype.equals =
 	return (
 		this.message === obj.message
 		||
-		this.message !== undefined && this.message.equals( obj.message )
+		this.message !== undefined && this.message.timtype && this.message.equals( obj.message )
 	);
 };

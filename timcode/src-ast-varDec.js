@@ -305,6 +305,8 @@ prototype.create =
 /**/			v_assign.timtype !== tt_undefined
 /**/			&&
 /**/			v_assign.timtype !== tt_var
+/**/			&&
+/**/			v_assign !== undefined
 /**/		)
 /**/		{
 /**/			throw new Error( );
@@ -333,7 +335,7 @@ prototype.create =
 		(
 			v_assign === inherit.assign
 			||
-			v_assign !== undefined && v_assign.equals( inherit.assign )
+			v_assign !== undefined && v_assign.timtype && v_assign.equals( inherit.assign )
 		)
 		&&
 		v_name === inherit.name
@@ -391,7 +393,7 @@ prototype.equals =
 		(
 			this.assign === obj.assign
 			||
-			this.assign !== undefined && this.assign.equals( obj.assign )
+			this.assign !== undefined && this.assign.timtype && this.assign.equals( obj.assign )
 		)
 		&&
 		this.name === obj.name

@@ -131,6 +131,8 @@ prototype.create =
 /**/	if( v_value !== undefined )
 /**/	{
 /**/		if(
+/**/			v_value !== undefined
+/**/			&&
 /**/			(
 /**/				typeof( v_value ) !== 'number'
 /**/				||

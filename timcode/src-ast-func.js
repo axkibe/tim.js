@@ -185,7 +185,7 @@ prototype.create =
 /**/
 /**/	if( v_block !== undefined )
 /**/	{
-/**/		if( v_block.timtype !== tt_block )
+/**/		if( v_block !== undefined && v_block.timtype !== tt_block )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -214,7 +214,7 @@ prototype.create =
 		(
 			v_block === inherit.block
 			||
-			v_block !== undefined && v_block.equals( inherit.block )
+			v_block !== undefined && v_block.timtype && v_block.equals( inherit.block )
 		)
 	)
 	{
@@ -342,5 +342,9 @@ prototype.equals =
 		}
 	}
 
-	return this.block === obj.block || this.block !== undefined && this.block.equals( obj.block );
+	return (
+		this.block === obj.block
+		||
+		this.block !== undefined && this.block.timtype && this.block.equals( obj.block )
+	);
 };

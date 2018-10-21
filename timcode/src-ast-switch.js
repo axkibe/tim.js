@@ -318,7 +318,7 @@ prototype.create =
 /**/
 /**/	if( v_defaultCase !== undefined )
 /**/	{
-/**/		if( v_defaultCase.timtype !== tt_block )
+/**/		if( v_defaultCase !== undefined && v_defaultCase.timtype !== tt_block )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -440,7 +440,11 @@ prototype.create =
 		(
 			v_defaultCase === inherit.defaultCase
 			||
-			v_defaultCase !== undefined && v_defaultCase.equals( inherit.defaultCase )
+			v_defaultCase !== undefined
+			&&
+			v_defaultCase.timtype
+			&&
+			v_defaultCase.equals( inherit.defaultCase )
 		)
 		&&
 		(
@@ -578,7 +582,11 @@ prototype.equals =
 		(
 			this.defaultCase === obj.defaultCase
 			||
-			this.defaultCase !== undefined && this.defaultCase.equals( obj.defaultCase )
+			this.defaultCase !== undefined
+			&&
+			this.defaultCase.timtype
+			&&
+			this.defaultCase.equals( obj.defaultCase )
 		)
 		&&
 		(

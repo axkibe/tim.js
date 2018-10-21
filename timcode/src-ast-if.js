@@ -339,7 +339,7 @@ prototype.create =
 /**/
 /**/	if( v_elsewise !== undefined )
 /**/	{
-/**/		if( v_elsewise.timtype !== tt_block )
+/**/		if( v_elsewise !== undefined && v_elsewise.timtype !== tt_block )
 /**/		{
 /**/			throw new Error( );
 /**/		}
@@ -373,7 +373,7 @@ prototype.create =
 		(
 			v_elsewise === inherit.elsewise
 			||
-			v_elsewise !== undefined && v_elsewise.equals( inherit.elsewise )
+			v_elsewise !== undefined && v_elsewise.timtype && v_elsewise.equals( inherit.elsewise )
 		)
 		&&
 		(
@@ -441,7 +441,7 @@ prototype.equals =
 		(
 			this.elsewise === obj.elsewise
 			||
-			this.elsewise !== undefined && this.elsewise.equals( obj.elsewise )
+			this.elsewise !== undefined && this.elsewise.timtype && this.elsewise.equals( obj.elsewise )
 		)
 		&&
 		(

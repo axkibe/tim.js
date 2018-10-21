@@ -17,29 +17,17 @@ if( TIM )
 {
 	def.attributes =
 	{
-		indent :
-		{
-			// the indentation
-			type : 'integer',
-			defaultValue : '0'
-		},
-		check :
-		{
-			// true if within optinal CHECK code
-			type : 'boolean',
-			defaultValue : 'false'
-		},
-		inline :
-		{
-			// true if to be formated inline
-			type : 'boolean',
-			defaultValue : 'false'
-		},
-		root :
-		{
-			// true if in root context
-			type : 'boolean'
-		}
+		// the indentation
+		indent : { type : 'integer', defaultValue : '0' },
+
+		// true if within optinal CHECK code
+		check : { type : 'boolean', defaultValue : 'false' },
+
+		// true if to be formated inline
+		inline : { type : 'boolean', defaultValue : 'false' },
+
+		// true if in root context
+		root : { type : 'boolean' }
 	};
 }
 

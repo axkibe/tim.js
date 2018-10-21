@@ -179,7 +179,7 @@ prototype.create =
 /**/
 /**/	if( v_imported !== undefined )
 /**/	{
-/**/		if( typeof( v_imported ) !== 'string' )
+/**/		if( v_imported !== undefined && typeof( v_imported ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
 /**/		}

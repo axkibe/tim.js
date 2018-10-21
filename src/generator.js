@@ -873,7 +873,7 @@ def.func.genSingleTypeCheckFailCondition =
 				'|| Number.isNaN( ', aVar, ' )'
 			);
 
-		case type_protean : throw new Error( );
+		case type_protean : return $( 'typeof( ', aVar, ' ) !== "object"' );
 
 		case type_string : return $( 'typeof( ', aVar, ' ) !== "string"' );
 
@@ -925,27 +925,14 @@ def.func.genTypeCheckFailCondition =
 	{
 		const id = i.value;
 
-		switch( id.timtype )
-		{
-			case type_null :
+		const cond = this.genSingleTypeCheckFailCondition( aVar, id );
 
-				condArray.unshift( $( aVar, '!== null' ) );
-
-				continue;
-
-			case type_undefined :
-
-				condArray.unshift( $( aVar, '!== undefined' ) );
-
-				continue;
-
-			default :
-
-				condArray.push( this.genSingleTypeCheckFailCondition( aVar, id ) );
-
-				continue;
-		}
+		if( cond ) condArray.push( cond );
 	}
+
+	if( condArray.length === 0 ) return;
+
+	if( condArray.length === 1 ) return condArray[ 0 ];
 
 	return $and.apply( undefined, condArray );
 };
@@ -1014,13 +1001,16 @@ def.func.genCreatorChecks =
 
 		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id );
 
-		if( cond )
+		if( tcheck )
 		{
-			check = check.$if( cond, $if( tcheck, $fail( ) ) );
-		}
-		else
-		{
-			check = check.$if( tcheck, $fail( ) );
+			if( cond )
+			{
+				check = check.$if( cond, $if( tcheck, $fail( ) ) );
+			}
+			else
+			{
+				check = check.$if( tcheck, $fail( ) );
+			}
 		}
 	}
 
@@ -1416,7 +1406,18 @@ def.func.genFromJsonCreatorAttributeParser =
 
 							break;
 
+						case type_null :
+
+							sif =
+								$if(
+									'arg === null',
+									$( attr.varRef, ' = arg' )
+								);
+
+							break;
+
 						case type_number :
+						case type_integer :
 
 							sif =
 								$if(
@@ -1431,6 +1432,16 @@ def.func.genFromJsonCreatorAttributeParser =
 							sif =
 								$if(
 									$( 'typeof( arg ) === "string"' ),
+									$( attr.varRef, ' = arg' )
+								);
+
+							break;
+
+						case type_undefined :
+
+							sif =
+								$if(
+									'arg === undefined',
 									$( attr.varRef, ' = arg' )
 								);
 
@@ -2772,19 +2783,9 @@ def.static.generate =
 		{
 			case type_set :
 
-				if( aid.has( tsUndefined ) )
-				{
-					aid = aid.create( 'set:remove', tsUndefined );
+				if( aid.has( tsUndefined ) ) allowsUndefined = true;
 
-					allowsUndefined = true;
-				}
-
-				if( aid.has( tsNull ) )
-				{
-					aid = aid.create( 'set:remove', tsNull );
-
-					allowsNull = true;
-				}
+				if( aid.has( tsNull ) ) allowsNull = true;
 
 				if( aid.size === 1 )
 				{
