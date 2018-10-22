@@ -164,8 +164,6 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v_allowsNull,
-		v_allowsUndefined,
 		v_assign,
 		v_defaultValue,
 		v_id,
@@ -179,10 +177,6 @@ const Constructor =
 	{
 		this.__lazy = { };
 	}
-
-	this.allowsNull = v_allowsNull;
-
-	this.allowsUndefined = v_allowsUndefined;
 
 	this.assign = v_assign;
 
@@ -225,10 +219,6 @@ prototype.create =
 {
 	let inherit;
 
-	let v_allowsNull;
-
-	let v_allowsUndefined;
-
 	let v_assign;
 
 	let v_defaultValue;
@@ -246,10 +236,6 @@ prototype.create =
 	if( this !== self )
 	{
 		inherit = this;
-
-		v_allowsNull = this.allowsNull;
-
-		v_allowsUndefined = this.allowsUndefined;
 
 		v_assign = this.assign;
 
@@ -276,24 +262,6 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'allowsNull' :
-
-				if( arg !== pass )
-				{
-					v_allowsNull = arg;
-				}
-
-				break;
-
-			case 'allowsUndefined' :
-
-				if( arg !== pass )
-				{
-					v_allowsUndefined = arg;
-				}
-
-				break;
-
 			case 'assign' :
 
 				if( arg !== pass )
@@ -363,16 +331,6 @@ prototype.create =
 		}
 	}
 
-	if( v_allowsNull === undefined )
-	{
-		v_allowsNull = false;
-	}
-
-	if( v_allowsUndefined === undefined )
-	{
-		v_allowsUndefined = false;
-	}
-
 	if( v_json === undefined )
 	{
 		v_json = false;
@@ -380,16 +338,6 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( v_allowsNull ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_allowsUndefined ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_assign ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
@@ -531,10 +479,6 @@ prototype.create =
 	if(
 		inherit
 		&&
-		v_allowsNull === inherit.allowsNull
-		&&
-		v_allowsUndefined === inherit.allowsUndefined
-		&&
 		v_assign === inherit.assign
 		&&
 		(
@@ -571,8 +515,6 @@ prototype.create =
 
 	return (
 		new Constructor(
-			v_allowsNull,
-			v_allowsUndefined,
 			v_assign,
 			v_defaultValue,
 			v_id,
@@ -627,10 +569,6 @@ prototype.equals =
 	}
 
 	return (
-		this.allowsNull === obj.allowsNull
-		&&
-		this.allowsUndefined === obj.allowsUndefined
-		&&
 		this.assign === obj.assign
 		&&
 		(

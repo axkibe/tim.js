@@ -2211,9 +2211,9 @@ def.func.genAttributeEquals =
 
 	const attr = this.attributes.get( name );
 
-	const allowsNull = attr.allowsNull;
+	const allowsNull = attr.id.timtype === type_set && attr.id.has( tsNull );
 
-	const allowsUndefined = attr.allowsUndefined;
+	const allowsUndefined = attr.id.timtype === type_set && attr.id.has( tsUndefined );
 
 	const ceq = $( le, ' === ', re );
 
@@ -2733,34 +2733,13 @@ def.static.generate =
 			defaultValue = $( jdv ).walk( transformDefaultValue );
 		}
 
-		let allowsNull = false;
-
-		let allowsUndefined = false;
-
-		switch( aid.timtype )
+		if( aid.timtype === type_set && aid.size === 1 )
 		{
-			case type_set :
-
-				if( aid.has( tsUndefined ) ) allowsUndefined = true;
-
-				if( aid.has( tsNull ) ) allowsNull = true;
-
-				if( aid.size === 1 )
-				{
-					aid = aid.iterator( ).next( ).value;
-				}
-
-				break;
-
-			case type_undefined : allowsUndefined = true; break;
-
-			case type_null : allowsNull = true; break;
+			aid = aid.iterator( ).next( ).value;
 		}
 
 		const attr =
 			tim_attribute.create(
-				'allowsNull', allowsNull,
-				'allowsUndefined', allowsUndefined,
 				'assign', assign,
 				'defaultValue', defaultValue,
 				'id', aid,

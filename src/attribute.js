@@ -17,12 +17,6 @@ if( TIM )
 {
 	def.attributes =
 	{
-		// attribute may be null
-		allowsNull : { type : 'boolean', defaultValue : 'false' },
-
-		// attribute may be undefined
-		allowsUndefined : { type : 'boolean', defaultValue : 'false' },
-
 		// variable name to assign to
 		assign : { type : 'string' },
 
