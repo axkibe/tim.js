@@ -139,11 +139,6 @@ const Constructor =
 		v_then
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.condition = v_condition;
 
 	this.elsewise = v_elsewise;

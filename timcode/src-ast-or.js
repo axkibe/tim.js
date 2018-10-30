@@ -135,11 +135,6 @@ const Constructor =
 		v_right
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.left = v_left;
 
 	this.right = v_right;

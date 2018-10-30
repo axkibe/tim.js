@@ -15,11 +15,6 @@ const tim_proto = tim.proto;
 const Constructor =
 	function( )
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	if( FREEZE )
 	{
 		Object.freeze( this );

@@ -142,10 +142,7 @@ const Constructor =
 		v_statement
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this.defaultCase = v_defaultCase;
 

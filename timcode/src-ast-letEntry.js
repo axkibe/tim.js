@@ -135,11 +135,6 @@ const Constructor =
 		v_name
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.assign = v_assign;
 
 	this.name = v_name;

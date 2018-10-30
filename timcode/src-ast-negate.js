@@ -134,11 +134,6 @@ const Constructor =
 		v_expr
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.expr = v_expr;
 
 	if( FREEZE )

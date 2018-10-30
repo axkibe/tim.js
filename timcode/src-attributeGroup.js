@@ -20,10 +20,7 @@ const Constructor =
 		group // group
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this._group = group;
 

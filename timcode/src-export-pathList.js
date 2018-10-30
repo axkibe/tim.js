@@ -20,10 +20,7 @@ const Constructor =
 		list // list
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this._list = list;
 

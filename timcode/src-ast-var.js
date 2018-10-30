@@ -17,11 +17,6 @@ const Constructor =
 		v_name
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.name = v_name;
 
 	if( FREEZE )

@@ -173,11 +173,6 @@ const Constructor =
 		v_varRef
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.assign = v_assign;
 
 	this.defaultValue = v_defaultValue;

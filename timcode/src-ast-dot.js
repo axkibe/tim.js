@@ -135,11 +135,6 @@ const Constructor =
 		v_member
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.expr = v_expr;
 
 	this.member = v_member;

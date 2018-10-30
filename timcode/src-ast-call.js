@@ -135,10 +135,7 @@ const Constructor =
 		v_func
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this.func = v_func;
 

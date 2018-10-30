@@ -18,11 +18,6 @@ const Constructor =
 		v_value
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.type = v_type;
 
 	this.value = v_value;

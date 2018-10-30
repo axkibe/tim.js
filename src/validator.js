@@ -337,15 +337,6 @@ const checkAttribute =
 
 		switch( key )
 		{
-			case 'assign' :
-
-				if( typeof( value ) !== 'string' )
-				{
-					throw new Error( 'assign not a string' );
-				}
-
-				break;
-
 			case 'defaultValue' :
 
 				if( typeof( value ) !== 'string' )
@@ -360,11 +351,6 @@ const checkAttribute =
 				if( typeof( value ) !== 'boolean' )
 				{
 					throw new Error( 'json flag must be boolean' );
-				}
-
-				if( attr.assign === '' )
-				{
-					throw new Error( 'json attributes most not have empty assignment' );
 				}
 
 				break;

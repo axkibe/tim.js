@@ -18,10 +18,7 @@ const Constructor =
 		v_imported
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this.imported = v_imported;
 

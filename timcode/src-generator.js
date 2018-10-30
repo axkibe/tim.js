@@ -36,6 +36,7 @@ const Constructor =
 		v_global,
 		v_gset,
 		v_gtwig,
+		v_haveLazy,
 		v_imports,
 		v_inherits,
 		v_json,
@@ -45,11 +46,6 @@ const Constructor =
 		v_transform
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.alike = v_alike;
 
 	this.attributes = v_attributes;
@@ -69,6 +65,8 @@ const Constructor =
 	this.gset = v_gset;
 
 	this.gtwig = v_gtwig;
+
+	this.haveLazy = v_haveLazy;
 
 	this.imports = v_imports;
 
@@ -131,6 +129,8 @@ prototype.create =
 
 	let v_gtwig;
 
+	let v_haveLazy;
+
 	let v_imports;
 
 	let v_inherits;
@@ -168,6 +168,8 @@ prototype.create =
 		v_gset = this.gset;
 
 		v_gtwig = this.gtwig;
+
+		v_haveLazy = this.haveLazy;
 
 		v_imports = this.imports;
 
@@ -280,6 +282,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_gtwig = arg;
+				}
+
+				break;
+
+			case 'haveLazy' :
+
+				if( arg !== pass )
+				{
+					v_haveLazy = arg;
 				}
 
 				break;
@@ -400,6 +411,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( typeof( v_haveLazy ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_imports.timtype !== tt_type_set )
 /**/	{
 /**/		throw new Error( );
@@ -478,6 +494,8 @@ prototype.create =
 			v_gtwig !== undefined && v_gtwig.timtype && v_gtwig.equals( inherit.gtwig )
 		)
 		&&
+		v_haveLazy === inherit.haveLazy
+		&&
 		(
 			v_imports === inherit.imports
 			||
@@ -516,6 +534,7 @@ prototype.create =
 			v_global,
 			v_gset,
 			v_gtwig,
+			v_haveLazy,
 			v_imports,
 			v_inherits,
 			v_json,
@@ -613,6 +632,8 @@ prototype.equals =
 			||
 			this.gtwig !== undefined && this.gtwig.timtype && this.gtwig.equals( obj.gtwig )
 		)
+		&&
+		this.haveLazy === obj.haveLazy
 		&&
 		(
 			this.imports === obj.imports

@@ -20,11 +20,6 @@ const Constructor =
 		v_block
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.block = v_block;
 
 	if( FREEZE )

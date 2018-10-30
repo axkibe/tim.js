@@ -20,11 +20,6 @@ const Constructor =
 		v_prec
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.associativity = v_associativity;
 
 	this.astCreator = v_astCreator;

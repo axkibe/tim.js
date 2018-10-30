@@ -134,11 +134,6 @@ const Constructor =
 		v_message
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.message = v_message;
 
 	if( FREEZE )

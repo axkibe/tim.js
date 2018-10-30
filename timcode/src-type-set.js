@@ -47,10 +47,7 @@ const Constructor =
 		set // set
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this._set = set;
 

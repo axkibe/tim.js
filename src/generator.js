@@ -48,6 +48,9 @@ if( TIM )
 		// if set, actualizes a global variable to the last created
 		global : { type : [ './ast/var', 'undefined' ] },
 
+		// true if this tim has lazy values
+		haveLazy: { type : 'boolean' },
+
 		// other tims this tim utilizes
 		imports : { type : './type/set' },
 
@@ -184,12 +187,12 @@ def.func.genConstructor =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
-	let block =
-		$block
-		.$if(
-			( 'prototype.__have_lazy' ),
-			$( 'this.__lazy = { }' )
-		);
+	let block = $block;
+
+	if( this.haveLazy )
+	{
+		block = block.$( 'this.__lazy = { }' );
+	}
 
 	const attributes = this.attributes;
 
@@ -199,8 +202,6 @@ def.func.genConstructor =
 		const name = attributes.sortedKeys[ a ];
 
 		const attr = attributes.get( name );
-
-		if( attr.assign === '' ) continue;
 
 		const assign = $( 'this.', attr.assign, ' = ', attr.varRef );
 
@@ -461,8 +462,6 @@ def.func.genCreatorInheritanceReceiver =
 		const name = this.attributes.sortedKeys[ a ];
 
 		const attr = this.attributes.get( name );
-
-		if( attr.assign === '' ) continue;
 
 		receiver = receiver.$( attr.varRef, ' = ', 'this.', attr.assign );
 	}
@@ -1098,13 +1097,6 @@ def.func.genCreatorUnchanged =
 
 		const attr = attributes.get( name );
 
-		if( attr.assign === '' )
-		{
-			cond = $( cond, '&& (', attr.varRef, ' === undefined )' );
-
-			continue;
-		}
-
 		const ceq =
 			this.genAttributeEquals(
 				name,
@@ -1278,8 +1270,6 @@ def.func.genFromJsonCreatorVariables =
 		const name = aKeys[ a ];
 
 		const attr = this.attributes.get( name );
-
-		if( attr.assign === '' ) continue;
 
 		varList.push( attr.varRef.name );
 	}
@@ -1881,14 +1871,7 @@ def.func.genFromJsonCreatorReturn =
 
 				const attr = this.attributes.get( name );
 
-				if( attr.assign === '' )
-				{
-					call = call.$argument( 'null' );
-				}
-				else
-				{
-					call = call.$argument( attr.varRef );
-				}
+				call = call.$argument( attr.varRef );
 		}
 	}
 
@@ -2405,8 +2388,6 @@ def.func.genEqualsFuncBody =
 
 		const attr = attributes.get( name );
 
-		if( attr.assign === '' ) continue;
-
 		if( mode === 'json' && !attr.json ) continue;
 
 		const ceq =
@@ -2539,7 +2520,7 @@ def.func.genAlike =
 
 			const attr = attributes.get( name );
 
-			if( attr.assign === '' || ignores[ name ] ) continue;
+			if( ignores[ name ] ) continue;
 
 			const ceq =
 				this.genAttributeEquals(
@@ -2620,6 +2601,20 @@ def.func.genPreamble =
 	)
 {
 	return block;
+};
+
+
+/*
+| Returns true if obj isn't empty.
+*/
+const isntEmpty =
+	function(
+		obj
+	)
+{
+	for( let _ in obj ) return true; /* jshint ignore:line */
+
+	return false;
 };
 
 
@@ -2706,23 +2701,12 @@ def.static.generate =
 			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
 		}
 
-		let assign;
+		const assign =
+			timDef.transform[ name ]
+			? '__' + name
+			: name;
 
-		// FIXME remove
-		if( jAttr.assign !== undefined )
-		{
-			assign = jAttr.assign;
-		}
-		else if( timDef.transform[ name ] )
-		{
-			assign = '__' + name;
-		}
-		else
-		{
-			assign = name;
-		}
-
-		if( assign !== '' ) constructorList.push( name );
+		constructorList.push( name );
 
 		const jdv = jAttr.defaultValue;
 
@@ -2830,6 +2814,15 @@ def.static.generate =
 
 	if( timDef.global ) global = $var( timDef.global );
 
+	const haveLazy =
+		( !!ggroup )
+		|| ( !!glist )
+		|| ( !!gset )
+		|| ( !!gtwig )
+		|| isntEmpty( timDef.lazy )
+		|| isntEmpty( tim.lazyFuncInt )
+		|| isntEmpty( tim.lazyFuncStr );
+
 	const g =
 		self.create(
 			'attributes', attributes,
@@ -2843,6 +2836,7 @@ def.static.generate =
 			'global', global,
 			'gset', gset,
 			'gtwig', gtwig,
+			'haveLazy', haveLazy,
 			'imports', imports,
 			'inherits', inherits,
 			'json', timDef.json,

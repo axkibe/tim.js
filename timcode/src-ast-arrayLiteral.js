@@ -135,10 +135,7 @@ const Constructor =
 		ranks // twig ranks
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this._twig = twig;
 

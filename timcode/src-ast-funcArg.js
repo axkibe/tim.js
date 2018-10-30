@@ -18,11 +18,6 @@ const Constructor =
 		v_name
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.comment = v_comment;
 
 	this.name = v_name;

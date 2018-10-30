@@ -20,10 +20,7 @@ const Constructor =
 		v_root
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
+	this.__lazy = { };
 
 	this.check = v_check;
 

@@ -143,11 +143,6 @@ const Constructor =
 		v_iterate
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.block = v_block;
 
 	this.condition = v_condition;

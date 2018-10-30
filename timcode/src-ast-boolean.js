@@ -17,11 +17,6 @@ const Constructor =
 		v_boolean
 	)
 {
-	if( prototype.__have_lazy )
-	{
-		this.__lazy = { };
-	}
-
 	this.boolean = v_boolean;
 
 	if( FREEZE )
