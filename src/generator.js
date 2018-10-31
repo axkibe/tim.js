@@ -2819,9 +2819,11 @@ def.static.generate =
 		|| ( !!glist )
 		|| ( !!gset )
 		|| ( !!gtwig )
+		|| ( !!timDef.json )
 		|| isntEmpty( timDef.lazy )
-		|| isntEmpty( tim.lazyFuncInt )
-		|| isntEmpty( tim.lazyFuncStr );
+		|| isntEmpty( timDef.lazyFuncInt )
+		|| isntEmpty( timDef.lazyFuncStr )
+		|| isntEmpty( timDef.transform );
 
 	const g =
 		self.create(

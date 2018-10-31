@@ -42,8 +42,6 @@ tim_proto.lazyValue =
 		getter
 	)
 {
-	proto.__have_lazy = true;
-
 /**/if( CHECK )
 /**/{
 /**/	// lazy valued stuff must be tims
@@ -132,8 +130,6 @@ tim_proto.lazyFunctionString =
 /**/	if( proto.__lazy ) throw new Error( );
 /**/}
 
-	proto.__have_lazy = true;
-
 	proto[ key ] =
 		function( str )
 	{
@@ -170,8 +166,6 @@ tim_proto.lazyFunctionInteger =
 /**/	// lazyness is used together
 /**/	if( proto.__lazy ) throw new Error( );
 /**/}
-
-	proto.__have_lazy = true;
 
 	proto[ key ] =
 		function( integer )
@@ -235,13 +229,6 @@ tim_proto.lazyStaticValue =
 		getter
 	)
 {
-/**/if( CHECK )
-/**/{
-/**/	// there is something amiss if static and tim obj
-/**/	// lazyness is used together
-/**/	if( obj.__have_lazy ) throw new Error( );
-/**/}
-
 	if( !obj.__lazy ) obj.__lazy = { };
 
 	Object.defineProperty(
@@ -250,14 +237,15 @@ tim_proto.lazyStaticValue =
 		{
 			get : function( )
 			{
-				if( this.__lazy[ key ] !== undefined )
-				{
-					return this.__lazy[ key ];
-				}
+				let val = this.__lazy[ key ];
 
-				return(
-					this.__lazy[ key ] = getter.call( this )
-				);
+				if( val !== undefined ) return val;
+
+				val = getter.call( this );
+
+				if( FREEZE ) Object.freeze( val );
+
+				return( this.__lazy[ key ] = val );
 			}
 		}
 	);
@@ -273,12 +261,12 @@ tim_proto.lazyStaticValue =
 */
 tim_proto.copy =
 	function(
-		o  // the object to copy from
+		obj  // the object to copy from
 	)
 {
 	const c = { };
 
-	for( let k in o ) c[ k ] = o[ k ];
+	for( let k in obj ) c[ k ] = obj[ k ];
 
 	return c;
 };
@@ -294,13 +282,13 @@ tim_proto.copy =
 */
 tim_proto.copy2 =
 	function(
-		o,  // the object to copy from
+		obj,  // the object to copy from
 		o2  // overriding object
 	)
 {
 	const c = { };
 
-	for( let k in o ) c[ k ] = o[ k ];
+	for( let k in obj ) c[ k ] = obj[ k ];
 
 	for( let k in o2 ) c[ k ] = o2[ k ];
 
@@ -309,14 +297,14 @@ tim_proto.copy2 =
 
 
 /*
-| Returns true if 'o' is an empty object.
+| Returns true if 'obj' is an empty object.
 */
 tim_proto.isEmpty =
-	function( o )
+	function( obj )
 {
 	let dummy;
 
-	for( dummy in o ) return false;
+	for( dummy in obj ) return false;
 
 	return true;
 };
