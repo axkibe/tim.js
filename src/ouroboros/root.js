@@ -18,11 +18,12 @@ const proto = require( '../proto' );
 
 global.tim =
 {
-	define         : require( '../define' ),
-	proto          : proto,
-	tree           : require( '../tree/node' ),
-	aheadValue     : proto.aheadValue,
-	ouroborosBuild : true
+	define             : require( '../define' ),
+	proto              : proto,
+	tree               : require( '../tree/node' ),
+	aheadValue         : proto.aheadValue,
+	ouroborosBuild     : true,
+	findTimcodeRootDir : require( '../findTimcodeRootDir' ),
 };
 
 global.tim.ouroboros = tim;

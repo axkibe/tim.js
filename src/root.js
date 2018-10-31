@@ -60,5 +60,8 @@ exports.browserTreeSource =
 		+ 'tree/browser.js'
 	);
 
+exports.findTimcodeRootDir = require( './findTimcodeRootDir' );
+
+
 if( FREEZE ) Object.freeze( exports );
 

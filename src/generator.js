@@ -1327,12 +1327,7 @@ def.func.genFromJsonCreatorAttributeParser =
 
 		case type_tim :
 
-			code =
-				$(
-					attr.varRef, ' = ',
-					attr.id.$varname,
-					'.createFromJSON( arg )'
-				);
+			code = $( attr.varRef, ' = ', attr.id.$varname, '.createFromJSON( arg )' );
 
 			break;
 
@@ -1699,19 +1694,9 @@ def.func.genFromJsonCreatorListProcessing =
 	{
 		const rid = i.value;
 
-		if( rid === tsNull )
-		{
-			haveNull = true;
+		if( rid === tsNull ) { haveNull = true; continue; }
 
-			continue;
-		}
-
-		if( rid === tsUndefined )
-		{
-			haveUndefined = true;
-
-			continue;
-		}
+		if( rid === tsUndefined ) { haveUndefined = true; continue; }
 
 		const jsontype = tim.tree.getLeaf( this.module, rid )._json;
 

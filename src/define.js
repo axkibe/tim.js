@@ -26,46 +26,6 @@ if( FREEZE ) Object.freeze( readOptions );
 
 
 /*
-| Returns the first parent directory
-| of a filepath that contains a 'timcode'
-| subdirectory.
-|
-| Or returns undefined if no such exists.
-*/
-const findTimCodeRootDir =
-	function(
-		path       // path to start looking at
-	)
-{
-	let stat;
-
-	while( true )
-	{
-		const slash = path.lastIndexOf( '/' );
-
-		if( slash < 0 )
-		{
-			throw new Error(
-				'cannot find a parent directory '
-				+ 'containing a timcode/ directory for: '
-				+ path
-			);
-		}
-
-		path = path.substr( 0, slash );
-
-		try
-		{
-			stat = fs.statSync( path + '/timcode/' );
-		}
-		catch( e ) { /* ignore */ }
-
-		if( stat ) return path + '/';
-	}
-};
-
-
-/*
 | Creates the timcode if missing or out of date.
 */
 const createTimcode =
@@ -199,7 +159,7 @@ module.exports =
 	// FUTURE this here adds too much.
 	tim.tree.addLeaf( filename, timDef.json );
 
-	const timcodeRootDir = findTimCodeRootDir( filename );
+	const timcodeRootDir = tim.findTimcodeRootDir( filename );
 
 	const timcodeFilename =
 		'timcode/'
@@ -217,8 +177,6 @@ module.exports =
 	const exports = module.exports;
 
 	exports.source = fs.readFileSync( filename, readOptions );
-
-	exports.timcode = fs.readFileSync( timcodeRootDir + timcodeFilename, readOptions );
 
 	exports.timcodeFilename = timcodeFilename;
 

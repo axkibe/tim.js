@@ -6,6 +6,7 @@
 */
 'use strict';
 
+
 /*
 | This part has to be in node.
 */
@@ -25,10 +26,13 @@ const timtrees = [ ];
 
 
 /*
-| Adds a path to the timPaths
+| Adds a whole tree.
 */
 tree.addTree =
-	function( path, id )
+	function(
+		path,
+		id
+	)
 {
 	timtrees.push(
 		{
@@ -52,7 +56,7 @@ tree.addTree =
 
 	path = path.join( '/' ) + '/';
 
-	// auto detects if this is the backed of
+	// auto detects if this is the backend of
 	// an ouroboros build
 
 	tree.addTree(
@@ -69,8 +73,8 @@ tree.addTree =
 */
 tree.addLeaf =
 	function(
-		filename,
-		json
+		filename,    // filename of the tim
+		json         // if defined, json name of the tim
 	)
 {
 	let timtree;
