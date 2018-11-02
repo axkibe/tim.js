@@ -2604,15 +2604,44 @@ const isntEmpty =
 
 
 /*
-| Generates code from a tim definition.
+| Executes the generator return an ast tree.
 */
-def.static.generate =
+def.lazy.ast =
+	function( )
+{
+	return(
+		$block
+		.$comment(
+			'This is an auto generated file.',
+			'',
+			'Editing this might be rather futile.'
+		)
+		.$( '"use strict"' )
+		.$( this.genRequires( ) )
+		.$( this.genConstructor( ) )
+		.$( this.singleton ? this.genSingleton( ) : undefined )
+		.$( this.genCreator( ) )
+		.$( this.json ? this.genFromJsonCreator( ) : undefined )
+		.$( this.genReflection( ) )
+		.$( this.genTimProto( ) )
+		.$( this.json ? this.genToJson( ) : undefined )
+		.$( this.genEquals( ) )
+		.$( this.alike ? this.genAlike( ) : undefined )
+		.$( this.genAttrTransform( ) )
+	);
+};
+
+
+/*
+| Generates a generator from a tim definition.
+*/
+def.static.createGenerator =
 	function(
-		timDef,       // the tim definition
+		def,          // the tim definition
 		module        // the module relative to which types are
 	)
 {
-	validator.check( timDef );
+	validator.check( def );
 
 	let attributes = tim_attributeGroup.create( );
 
@@ -2660,11 +2689,11 @@ def.static.generate =
 	// it will be turned off again
 	let singleton = true;
 
-	for( let name in timDef.attributes || { } )
+	for( let name in def.attributes || { } )
 	{
 		singleton = false;
 
-		const jAttr = timDef.attributes[ name ];
+		const jAttr = def.attributes[ name ];
 
 		const type = jAttr.type;
 
@@ -2686,10 +2715,7 @@ def.static.generate =
 			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
 		}
 
-		const assign =
-			timDef.transform[ name ]
-			? '__' + name
-			: name;
+		const assign = def.transform[ name ] ? '__' + name : name;
 
 		constructorList.push( name );
 
@@ -2714,7 +2740,7 @@ def.static.generate =
 				'id', aid,
 				'json', !!jAttr.json,
 				'name', name,
-				'transform', !!timDef.transform[ name ],
+				'transform', !!def.transform[ name ],
 				'varRef', $var( 'v_' + name )
 			);
 
@@ -2723,28 +2749,28 @@ def.static.generate =
 
 	constructorList.sort( );
 
-	if( timDef.group )
+	if( def.group )
 	{
 		singleton = false;
 
 		constructorList.unshift( 'group' );
 	}
 
-	if( timDef.list )
+	if( def.list )
 	{
 		singleton = false;
 
 		constructorList.unshift( 'list' );
 	}
 
-	if( timDef.set )
+	if( def.set )
 	{
 		singleton = false;
 
 		constructorList.unshift( 'set' );
 	}
 
-	if( timDef.twig )
+	if( def.twig )
 	{
 		singleton = false;
 
@@ -2758,35 +2784,35 @@ def.static.generate =
 	// FIXME currently may not be named group/list/set/twig...
 	let ggroup, glist, gset, gtwig;
 
-	if( timDef.group )
+	if( def.group )
 	{
-		ggroup = type_set.createFromArray( module, timDef.group );
+		ggroup = type_set.createFromArray( module, def.group );
 
 		imports = imports.addSet( ggroup );
 	}
 
-	if( timDef.list )
+	if( def.list )
 	{
-		glist = type_set.createFromArray( module, timDef.list );
+		glist = type_set.createFromArray( module, def.list );
 
 		imports = imports.addSet(glist );
 	}
 
-	if( timDef.set )
+	if( def.set )
 	{
-		gset = type_set.createFromArray( module, timDef.set );
+		gset = type_set.createFromArray( module, def.set );
 
 		imports = imports.addSet( gset );
 	}
 
-	if( timDef.twig )
+	if( def.twig )
 	{
-		gtwig = type_set.createFromArray( module, timDef.twig );
+		gtwig = type_set.createFromArray( module, def.twig );
 
 		imports = imports.addSet( gtwig );
 	}
 
-	const inheritKeys = Object.keys( timDef.inherit );
+	const inheritKeys = Object.keys( def.inherit );
 
 	let inherits;
 
@@ -2797,24 +2823,24 @@ def.static.generate =
 
 	let global;
 
-	if( timDef.global ) global = $var( timDef.global );
+	if( def.global ) global = $var( def.global );
 
 	const haveLazy =
 		( !!ggroup )
 		|| ( !!glist )
 		|| ( !!gset )
 		|| ( !!gtwig )
-		|| ( !!timDef.json )
-		|| isntEmpty( timDef.lazy )
-		|| isntEmpty( timDef.lazyFuncInt )
-		|| isntEmpty( timDef.lazyFuncStr )
-		|| isntEmpty( timDef.transform );
+		|| ( !!def.json )
+		|| isntEmpty( def.lazy )
+		|| isntEmpty( def.lazyFuncInt )
+		|| isntEmpty( def.lazyFuncStr )
+		|| isntEmpty( def.transform );
 
-	const g =
+	return(
 		self.create(
 			'attributes', attributes,
-			'alike', timDef.alike,
-			'check', !!timDef.func._check,
+			'alike', def.alike,
+			'check', !!def.func._check,
 			'constructorList', constructorList,
 			'creatorHasFreeStringsParser',
 				!!( ggroup || glist || gset || gtwig || attributes.size > 0 ),
@@ -2826,35 +2852,14 @@ def.static.generate =
 			'haveLazy', haveLazy,
 			'imports', imports,
 			'inherits', inherits,
-			'json', timDef.json,
+			'json', def.json,
 			'module', module,
 			'proxyRanks', !!def.lazy._ranks,
 			'singleton', singleton,
-			'transform', !!timDef.transform.get
-		);
-
-	return(
-		$block
-		.$comment(
-			'This is an auto generated file.',
-			'',
-			'Editing this might be rather futile.'
+			'transform', !!def.transform.get
 		)
-		.$( '"use strict"' )
-		.$( g.genRequires( ) )
-		.$( g.genConstructor( ) )
-		.$( g.singleton ? g.genSingleton( ) : undefined )
-		.$( g.genCreator( ) )
-		.$( g.json ? g.genFromJsonCreator( ) : undefined )
-		.$( g.genReflection( ) )
-		.$( g.genTimProto( ) )
-		.$( g.json ? g.genToJson( ) : undefined )
-		.$( g.genEquals( ) )
-		.$( g.alike ? g.genAlike( ) : undefined )
-		.$( g.genAttrTransform( ) )
 	);
 };
 
 
 } );
-

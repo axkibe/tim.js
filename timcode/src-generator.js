@@ -46,6 +46,8 @@ const Constructor =
 		v_transform
 	)
 {
+	this.__lazy = { };
+
 	this.alike = v_alike;
 
 	this.attributes = v_attributes;

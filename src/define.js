@@ -30,7 +30,7 @@ if( FREEZE ) Object.freeze( readOptions );
 */
 const createTimcode =
 	function(
-		timDef,                // tim definition
+		def,                   // tim definition
 		module,                // defining module
 		timcodeRootDir,		   // root dir of timecode
 		timcodeFilename        // filename of timcode file
@@ -60,7 +60,7 @@ const createTimcode =
 
 		const format_formatter = require( './format/formatter' );
 
-		const ast = generator.generate( timDef, module );
+		const ast = generator.createGenerator( def, module ).ast;
 
 		const output = format_formatter.format( ast );
 
@@ -74,7 +74,7 @@ const createTimcode =
 */
 const loadTimcode =
 	function(
-		timDef,                // tim definition
+		def,                // tim definition
 		module,                // defining module
 		timcodeRootDir,		   // root dir of timecode
 		timcodeFilename        // filename of timcode file
@@ -101,16 +101,16 @@ const loadTimcode =
 
 
 /*
-| Returns true if a timDef has a json component
+| Returns true if a def has a json component
 */
 const timDefHasJson =
 	function(
-		timDef
+		def
 	)
 {
-	if( timDef.json ) return true;
+	if( def.json ) return true;
 
-	const attributes = timDef.attributes;
+	const attributes = def.attributes;
 
 	if( !attributes ) return false;
 
@@ -129,12 +129,12 @@ const timDefHasJson =
 module.exports =
 	function(
 		module,   // module that makes the define
-		definer   // callback to get the timDef
+		definer   // callback to get the tim definition
 	)
 {
 	if( arguments.length !== 2 ) throw new Error( );
 
-	const timDef =
+	const def =
 	{
 		func : { },
 		inherit : { },
@@ -150,14 +150,14 @@ module.exports =
 
 	global.TIM = true;
 
-	definer( timDef, module.exports );
+	definer( def, module.exports );
 
 	global.TIM = previousTIM;
 
 	const filename = module.filename;
 
 	// FUTURE this here adds too much.
-	tim.tree.addLeaf( filename, timDef.json );
+	tim.tree.addLeaf( filename, def.json );
 
 	const timcodeRootDir = tim.findTimcodeRootDir( filename );
 
@@ -169,83 +169,83 @@ module.exports =
 
 	if( !tim.ouroborosBuild )
 	{
-		createTimcode( timDef, module, timcodeRootDir, timcodeFilename );
+		createTimcode( def, module, timcodeRootDir, timcodeFilename );
 	}
 
-	loadTimcode( timDef, module, timcodeRootDir, timcodeFilename );
+	loadTimcode( def, module, timcodeRootDir, timcodeFilename );
 
 	const exports = module.exports;
 
-	exports.source = fs.readFileSync( filename, readOptions );
+	exports.def = def;
 
 	exports.timcodeFilename = timcodeFilename;
 
-	exports.hasJson = timDefHasJson( timDef );
+	exports.hasJson = timDefHasJson( def );
 
 	// assigns statics
-	for( let name in timDef.static )
+	for( let name in def.static )
 	{
-		exports[ name ] = timDef.static[ name ];
+		exports[ name ] = def.static[ name ];
 	}
 
 	// assigns lazy statics
-	for( let name in timDef.staticLazy )
+	for( let name in def.staticLazy )
 	{
 		tim_proto.lazyStaticValue(
 			exports,
 			name,
-			timDef.staticLazy[ name ]
+			def.staticLazy[ name ]
 		);
 	}
 
 	// assigns lazy values to the prototype
-	for( let name in timDef.lazy )
+	for( let name in def.lazy )
 	{
 		tim_proto.lazyValue(
 			exports.prototype,
 			name,
-			timDef.lazy[ name ]
+			def.lazy[ name ]
 		);
 	}
 
 	// assigns lazy integer functions to the prototype
-	for( let name in timDef.lazyFuncInt )
+	for( let name in def.lazyFuncInt )
 	{
 		tim_proto.lazyFunctionInteger(
 			exports.prototype,
 			name,
-			timDef.lazyFuncInt[ name ]
+			def.lazyFuncInt[ name ]
 		);
 	}
 
 	// assigns lazy string functions to the prototype
-	for( let name in timDef.lazyFuncStr )
+	for( let name in def.lazyFuncStr )
 	{
 		tim_proto.lazyFunctionString(
 			exports.prototype,
 			name,
-			timDef.lazyFuncStr[ name ]
+			def.lazyFuncStr[ name ]
 		);
 	}
 
 	// assigns functions to the prototype
-	for( let name in timDef.func )
+	for( let name in def.func )
 	{
-		exports.prototype[ name ] = timDef.func[ name ];
+		exports.prototype[ name ] = def.func[ name ];
 	}
 
 	// assigns transforms to the prototype
-	for( let name in timDef.transform )
+	for( let name in def.transform )
 	{
 		const tname = '__transform_' + name;
 
-		exports.prototype[ tname ] = timDef.transform[ name ];
+		exports.prototype[ tname ] = def.transform[ name ];
 	}
 
 	// assigns inherit optimizations to the prototype
-	for( let name in timDef.inherit )
+	for( let name in def.inherit )
 	{
-		exports.prototype[ '__inherit_' + name ] = timDef.inherit[ name ];
+		exports.prototype[ '__inherit_' + name ] = def.inherit[ name ];
 	}
 
 	return exports;
