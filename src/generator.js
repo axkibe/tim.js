@@ -379,9 +379,9 @@ def.func.genCreatorVariables =
 
 	if( this.gtwig )
 	{
-		varList.push( 'key', 'rank', 'twig', 'twigDup' );
+		varList.push( 'key', 'ranks', 'twig', 'twigDup' );
 
-		if( !this.proxyRanks ) varList.push( 'ranks' );
+		if( !this.proxyRanks ) varList.push( 'rank' );
 	}
 
 	varList.sort( );
@@ -512,7 +512,8 @@ def.func.genCreatorInheritanceReceiver =
 			.$elsewise(
 				$block
 				.$( 'twig = { }' )
-				.$( !this.proxyRanks ? 'ranks = [ ]' : undefined )
+//				.$( !this.proxyRanks ? 'ranks = [ ]' : undefined )
+				.$( 'ranks = [ ]' )
 				.$( 'twigDup = true' )
 			);
 	}
@@ -667,7 +668,8 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.gtwig && !this.proxyRanks )
+//	if( this.gtwig && !this.proxyRanks )
+	if( this.gtwig )
 	{
 		const twigDupCheck =
 			$if(
@@ -678,45 +680,66 @@ def.func.genCreatorFreeStringsParser =
 				.$( 'twigDup = true' )
 			);
 
-		switchExpr =
-			switchExpr
-			.$case(
-				'"twig:add"',
-				$block
-				.$( twigDupCheck )
-				.$( 'key = arg' )
-				.$( 'arg = arguments[ ++a + 1 ]' )
-				.$if(
-					'twig[ key ] !== undefined',
-					$fail( )
-				)
-				.$( 'twig[ key ] = arg' )
-				.$( 'ranks.push( key )' )
-			)
-			.$case(
-				'"twig:init"',
-				$block
-				.$( 'twigDup = true' )
-				.$( 'twig = arg' )
-				.$( 'ranks = arguments[ ++a + 1 ]' )
-				.$check(
+		if( !this.proxyRanks )
+		{
+			switchExpr =
+				switchExpr
+				.$case(
+					'"twig:add"',
 					$block
-					.$if(
-						'Object.keys( twig ).length !== ranks.length',
-						$fail( )
-					)
-					.$for(
-						'let t = 0, tl = ranks.length',
-						't < tl',
-						't++',
+					.$( twigDupCheck )
+					.$( 'key = arg' )
+					.$( 'arg = arguments[ ++a + 1 ]' )
+					.$if( 'twig[ key ] !== undefined', $fail( ) )
+					.$( 'twig[ key ] = arg' )
+					.$( 'ranks.push( key )' )
+				)
+				.$case(
+					'"twig:init"',
+					$block
+					.$( 'twigDup = true' )
+					.$( 'twig = arg' )
+					.$( 'ranks = arguments[ ++a + 1 ]' )
+					.$check(
 						$block
-						.$if(
-							'twig[ ranks[ t ] ] === undefined',
-							$fail( )
+						.$if( 'Object.keys( twig ).length !== ranks.length', $fail( ) )
+						.$for(
+							'let t = 0, tl = ranks.length',
+							't < tl',
+							't++',
+							$block
+							.$if(
+								'twig[ ranks[ t ] ] === undefined',
+								$fail( )
+							)
 						)
 					)
 				)
-			)
+				.$case(
+					'"twig:insert"',
+					$block
+					.append( twigDupCheck )
+					.$( 'key = arg' )
+					.$( 'rank = arguments[ a + 2 ]' )
+					.$( 'arg = arguments[ a +  3 ]' )
+					.$( 'a += 2' )
+					.$if( 'twig[ key ] !== undefined', $fail( ) )
+					.$if( 'rank < 0 || rank > ranks.length', $fail( ) )
+					.$( 'twig[ key ] = arg' )
+					.$( 'ranks.splice( rank, 0, key )' )
+				)
+				.$case(
+					'"twig:remove"',
+					$block
+					.append( twigDupCheck )
+					.$if( 'twig[ arg ] === undefined', $fail( ) )
+					.$( 'delete twig[ arg ]' )
+					.$( 'ranks.splice( ranks.indexOf( arg ), 1 )' )
+				);
+		}
+
+		switchExpr =
+			switchExpr
 			.$case(
 				'"twig:set+"',
 				$block
@@ -740,36 +763,6 @@ def.func.genCreatorFreeStringsParser =
 					$fail( )
 				)
 				.$( 'twig[ key ] = arg' )
-			)
-			.$case(
-				'"twig:insert"',
-				$block
-				.append( twigDupCheck )
-				.$( 'key = arg' )
-				.$( 'rank = arguments[ a + 2 ]' )
-				.$( 'arg = arguments[ a +  3 ]' )
-				.$( 'a += 2' )
-				.$if(
-					'twig[ key ] !== undefined',
-					$fail( )
-				)
-				.$if(
-					'rank < 0 || rank > ranks.length',
-					$fail( )
-				)
-				.$( 'twig[ key ] = arg' )
-				.$( 'ranks.splice( rank, 0, key )' )
-			)
-			.$case(
-				'"twig:remove"',
-				$block
-				.append( twigDupCheck )
-				.$if(
-					'twig[ arg ] === undefined',
-					$fail( )
-				)
-				.$( 'delete twig[ arg ]' )
-				.$( 'ranks.splice( ranks.indexOf( arg ), 1 )' )
 			);
 	}
 
@@ -1295,25 +1288,33 @@ def.func.genFromJsonCreatorVariables =
 	return result;
 };
 
+
+/*
+| Helper, adds an attr assingment case to an if-chain.
+*/
+const addAttrToChain =
+	function(
+		ifchain,    // the if chain so far (or undefined)
+		condition,  // the if condition to add
+		attr        // the attribute to assign
+	)
+{
+	const ifcase = $if( condition, $( attr.varRef, ' = arg' ) );
+
+	if( !ifchain ) return ifcase;
+
+	return ifchain.$elsewise( ifcase );
+};
+
+
 /*
 | Generates a fromJsonCreator's json parser for one attribute
-|
-| FUTURE date can currently not be json
 */
 def.func.genFromJsonCreatorAttributeParser =
 	function(
 		attr
 	)
 {
-	// a single if
-	let sif;
-
-	// code to return
-	let code;
-
-	// the code switch
-	let cSwitch;
-
 	switch( attr.id.timtype )
 	{
 		case type_boolean :
@@ -1321,135 +1322,85 @@ def.func.genFromJsonCreatorAttributeParser =
 		case type_number :
 		case type_string :
 
-			code = $( attr.varRef, ' = arg' );
-
-			break;
+			return $( attr.varRef, ' = arg' );
 
 		case type_tim :
 
-			code = $( attr.varRef, ' = ', attr.id.$varname, '.createFromJSON( arg )' );
-
-			break;
-
-		default :
-			{
-				// the multi if
-				let mif;
-
-				code = $block;
-
-				cSwitch = undefined;
-
-				const it = attr.id.iterator( );
-
-				for( let i = it.next( ); !i.done; i = it.next( ) )
-				{
-					const id = i.value;
-
-					switch( id.timtype )
-					{
-						case type_boolean :
-
-							sif =
-								$if(
-									'typeof( arg ) === "boolean"',
-									$( attr.varRef, ' = arg' )
-								);
-
-							break;
-
-						case type_null :
-
-							sif =
-								$if(
-									'arg === null',
-									$( attr.varRef, ' = arg' )
-								);
-
-							break;
-
-						case type_number :
-						case type_integer :
-
-							sif =
-								$if(
-									'typeof( arg ) === "number"',
-									$( attr.varRef, ' = arg' )
-								);
-
-							break;
-
-						case type_string :
-
-							sif =
-								$if(
-									$( 'typeof( arg ) === "string"' ),
-									$( attr.varRef, ' = arg' )
-								);
-
-							break;
-
-						case type_undefined :
-
-							sif =
-								$if(
-									'arg === undefined',
-									$( attr.varRef, ' = arg' )
-								);
-
-							break;
-
-						default :
-
-							sif = undefined;
-
-							break;
-					}
-
-					if( sif )
-					{
-						mif = !mif ? sif : mif.$elsewise( sif );
-					}
-					else
-					{
-						if( !cSwitch )
-						{
-							cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
-						}
-
-						const jsontype = tim.tree.getLeaf( this.module, id )._json;
-
-						cSwitch =
-							cSwitch
-							.$case(
-								$string( jsontype ),
-								$(
-									attr.varRef, ' = ',
-									id.$varname,
-									'.createFromJSON', '( arg )'
-								)
-							);
-					}
-				}
-
-				if( mif )
-				{
-					code =
-						cSwitch
-						? mif.$elsewise( cSwitch )
-						: mif;
-				}
-				else
-				{
-					if( !cSwitch ) throw new Error( );
-
-					code = cSwitch;
-				}
-			}
+			return $( attr.varRef, ' = ', attr.id.$varname, '.createFromJSON( arg )' );
 	}
 
+	// the if chain
+	let ifchain;
 
-	return code;
+	// the code switch
+	let cSwitch;
+
+	const it = attr.id.iterator( );
+
+	for( let i = it.next( ); !i.done; i = it.next( ) )
+	{
+		const id = i.value;
+
+		switch( id.timtype )
+		{
+			case type_boolean :
+
+				ifchain = addAttrToChain( ifchain, 'typeof( arg ) === "boolean"', attr );
+
+				break;
+
+			case type_null :
+
+				ifchain = addAttrToChain( ifchain, 'arg === null', attr );
+
+				break;
+
+			case type_number :
+			case type_integer :
+
+				ifchain = addAttrToChain( ifchain, 'typeof( arg ) === "number"', attr );
+
+				break;
+
+			case type_string :
+
+				ifchain = addAttrToChain( ifchain, 'typeof( arg ) === "string"', attr );
+
+				break;
+
+			case type_undefined :
+
+				ifchain = addAttrToChain( ifchain, 'arg === undefined', attr );
+
+				break;
+
+			default :
+
+				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
+
+				const jsontype = tim.tree.getLeaf( this.module, id )._json;
+
+				cSwitch =
+					cSwitch
+					.$case(
+						$string( jsontype ),
+						$(
+							attr.varRef, ' = ',
+							id.$varname,
+							'.createFromJSON', '( arg )'
+						)
+					);
+		}
+	}
+
+	if( ifchain && cSwitch ) return ifchain.$elsewise( cSwitch );
+
+	if( ifchain && !cSwitch ) return ifchain;
+
+	if( !ifchain && cSwitch ) return cSwitch;
+
+	// either ifchain or cSwitch must be set
+	throw new Error( );
 };
 
 
@@ -2826,15 +2777,18 @@ def.static.createGenerator =
 	if( def.global ) global = $var( def.global );
 
 	const haveLazy =
-		( !!ggroup )
-		|| ( !!glist )
-		|| ( !!gset )
-		|| ( !!gtwig )
+		( !!def.group )
+		|| ( !!def.list )
+		|| ( !!def.set )
+		|| ( !!def.twig )
 		|| ( !!def.json )
 		|| isntEmpty( def.lazy )
 		|| isntEmpty( def.lazyFuncInt )
 		|| isntEmpty( def.lazyFuncStr )
 		|| isntEmpty( def.transform );
+
+	const haveFreeStringsParser =
+		!!( def.group || def.list || def.set || def.twig || attributes.size > 0 );
 
 	return(
 		self.create(
@@ -2842,8 +2796,7 @@ def.static.createGenerator =
 			'alike', def.alike,
 			'check', !!def.func._check,
 			'constructorList', constructorList,
-			'creatorHasFreeStringsParser',
-				!!( ggroup || glist || gset || gtwig || attributes.size > 0 ),
+			'creatorHasFreeStringsParser', haveFreeStringsParser,
 			'ggroup', ggroup,
 			'glist', glist,
 			'global', global,

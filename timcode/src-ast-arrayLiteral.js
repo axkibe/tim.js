@@ -263,54 +263,6 @@ prototype.create =
 
 				break;
 
-			case 'twig:set+' :
-
-				if( twigDup !== true )
-				{
-					twig = tim_proto.copy( twig );
-
-					ranks = ranks.slice( );
-
-					twigDup = true;
-				}
-
-				key = arg;
-
-				arg = arguments[ ++a + 1 ];
-
-				if( twig[ key ] === undefined )
-				{
-					ranks.push( key );
-				}
-
-				twig[ key ] = arg;
-
-				break;
-
-			case 'twig:set' :
-
-				if( twigDup !== true )
-				{
-					twig = tim_proto.copy( twig );
-
-					ranks = ranks.slice( );
-
-					twigDup = true;
-				}
-
-				key = arg;
-
-				arg = arguments[ ++a + 1 ];
-
-				if( twig[ key ] === undefined )
-				{
-					throw new Error( );
-				}
-
-				twig[ key ] = arg;
-
-				break;
-
 			case 'twig:insert' :
 
 				if( twigDup !== true )
@@ -365,6 +317,54 @@ prototype.create =
 				delete twig[ arg ];
 
 				ranks.splice( ranks.indexOf( arg ), 1 );
+
+				break;
+
+			case 'twig:set+' :
+
+				if( twigDup !== true )
+				{
+					twig = tim_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg;
+
+				arg = arguments[ ++a + 1 ];
+
+				if( twig[ key ] === undefined )
+				{
+					ranks.push( key );
+				}
+
+				twig[ key ] = arg;
+
+				break;
+
+			case 'twig:set' :
+
+				if( twigDup !== true )
+				{
+					twig = tim_proto.copy( twig );
+
+					ranks = ranks.slice( );
+
+					twigDup = true;
+				}
+
+				key = arg;
+
+				arg = arguments[ ++a + 1 ];
+
+				if( twig[ key ] === undefined )
+				{
+					throw new Error( );
+				}
+
+				twig[ key ] = arg;
 
 				break;
 
