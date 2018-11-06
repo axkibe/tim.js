@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, type_any ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 const type_boolean = require( './boolean' );
 
 const type_date = require( './date' );
@@ -70,4 +65,3 @@ def.static.createFromString =
 
 
 } );
-

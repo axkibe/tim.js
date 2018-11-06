@@ -1,16 +1,11 @@
 /*
-| A comma operator list
+| A comma operator list.
 */
 'use strict';
 
 
 require( '../ouroboros' )
 .define( module, ( def, ast_comma ) => {
-
-
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
 
 
 if( TIM )

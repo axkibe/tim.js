@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, ast_let ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.list = [ './letEntry' ];

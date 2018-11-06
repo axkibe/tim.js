@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, token ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.attributes =
@@ -109,4 +104,3 @@ def.static.tv =
 
 
 } );
-

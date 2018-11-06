@@ -1,17 +1,11 @@
 /*
-| A boolean literal.
-| ( true or false )
+| A boolean literal (true or false).
 */
 'use strict';
 
 
 require( '../ouroboros' )
 .define( module, ( def, ast_boolean ) => {
-
-
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
 
 
 if( TIM )

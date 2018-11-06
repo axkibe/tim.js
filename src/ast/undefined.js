@@ -8,18 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, ast_undefined ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
-if( TIM )
-{
-	// there are not attributes
-	def.attributes = { };
-}
-
-
 /*
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.

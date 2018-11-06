@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, type_tim ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.attributes =
@@ -156,4 +151,3 @@ def.lazy.pathString =
 
 
 } );
-

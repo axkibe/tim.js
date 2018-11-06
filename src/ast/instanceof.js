@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, ast_instanceof ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.attributes =

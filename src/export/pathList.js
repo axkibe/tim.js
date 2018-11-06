@@ -7,11 +7,6 @@
 tim.ouroboros.define( module, ( def, self ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.list = [ './path' ];
@@ -79,4 +74,3 @@ def.func.combine =
 
 
 } );
-

@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, ast_call ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.attributes =
@@ -115,5 +110,6 @@ def.func.inspect =
 
 	return result + postfix;
 };
+
 
 } );

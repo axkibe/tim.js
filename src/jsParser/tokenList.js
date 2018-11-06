@@ -9,11 +9,6 @@ require( '../ouroboros' )
 .define( module, ( def ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.list = [ '< ../ast/types-statement', '< ../ast/types-expr', '../jsLexer/token' ];
@@ -21,4 +16,3 @@ if( TIM )
 
 
 } );
-

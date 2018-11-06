@@ -29,6 +29,8 @@ if( ouroboros && ouroboros.define )
 	// so thats used for tim.js to build it's tims
 
 	// adds this timjs as timtree to the ouroboros
+	console.log( 'using ouroboros module' );
+
 	let path = module.filename.split( '/' );
 
 	path.pop( );
@@ -44,6 +46,8 @@ if( ouroboros && ouroboros.define )
 else
 {
 	// it's not, tim.js uses its own current version
+	console.log( 'doing a short circuit rebuild' );
+
 	define = require( './define' );
 }
 

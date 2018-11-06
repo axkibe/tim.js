@@ -546,6 +546,29 @@ parser.handleMonoOps =
 
 
 /*
+| Handler for if.
+*/
+parser.handleIf =
+	function(
+		state // current parser state
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( state.ast ) throw new Error( );
+/**/
+/**/	if( state.current.type !== 'if' ) throw new Error( );
+/**/}
+
+	//let _let = ast_if.create( );
+
+	//state = state.create( 'pos', state.pos + 1 );
+
+	throw new Error( 'XXX' );
+};
+
+
+/*
 | Handler for let.
 */
 parser.handleLet =
@@ -617,7 +640,6 @@ parser.handleLet =
 		}
 	}
 };
-
 
 /*
 | Handler for new operations.
@@ -1137,9 +1159,12 @@ rightSpecs[ ':' ] =
 */
 const statementSpecs = { };
 
+statementSpecs[ 'if' ] = jsParser_spec.create( 'handler', 'handleIf' );
+
 statementSpecs[ 'let' ] = jsParser_spec.create( 'handler', 'handleLet' );
 
 statementSpecs[ 'return' ] = jsParser_spec.create( 'handler', 'handleReturn' );
+
 
 
 /*
@@ -1147,8 +1172,8 @@ statementSpecs[ 'return' ] = jsParser_spec.create( 'handler', 'handleReturn' );
 */
 const getSpec =
 	function(
-		state,
-		statement
+		state,       // current state
+		statement    // true if a statement is allowed here
 	)
 {
 	let spec;
@@ -1287,5 +1312,3 @@ parser.parse =
 {
 	return parser.parseArray( arguments );
 };
-
-

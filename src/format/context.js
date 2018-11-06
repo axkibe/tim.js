@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, format_context ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.attributes =
@@ -135,4 +130,3 @@ def.lazy.setInline =
 
 
 } );
-

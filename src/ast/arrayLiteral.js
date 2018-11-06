@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, ast_arrayLiteral ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.twig = [ '< ./types-expr' ];

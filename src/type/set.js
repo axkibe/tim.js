@@ -8,11 +8,6 @@ require( '../ouroboros' )
 .define( module, ( def, type_set ) => {
 
 
-/*::::::::::::::::::::::::::::.
-:: Typed immutable attributes
-':::::::::::::::::::::::::::::*/
-
-
 if( TIM )
 {
 	def.set = [ '< ./types' ];
@@ -178,4 +173,3 @@ def.lazy.equalsConvention =
 
 
 } );
-
