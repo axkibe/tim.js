@@ -28,7 +28,7 @@ const ast_block = require( './block' );
 
 const ast_case = require( './case' );
 
-const parser = require( '../jsParser/parser' );
+const parser = require( '../parser/parser' );
 
 
 /*

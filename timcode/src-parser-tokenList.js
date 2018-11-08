@@ -168,7 +168,7 @@ const tt_$_ast_undefined = require( './../ast/undefined' );
 const tt_$_ast_var = require( './../ast/var' );
 
 
-const tt_$_jsLexer_token = require( './../jsLexer/token' );
+const tt_$_lexer_token = require( './../lexer/token' );
 
 
 const tim_proto = tim.proto;
@@ -435,7 +435,7 @@ prototype.create =
 /**/			&&
 /**/			o.timtype !== tt_$_ast_var
 /**/			&&
-/**/			o.timtype !== tt_$_jsLexer_token
+/**/			o.timtype !== tt_$_lexer_token
 /**/		)
 /**/		{
 /**/			throw new Error( );

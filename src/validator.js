@@ -356,10 +356,7 @@ const checkAttribute =
 
 				break;
 
-			case 'comment' :
-			case 'type' :
-
-				break;
+			case 'type' : break;
 
 			default :
 

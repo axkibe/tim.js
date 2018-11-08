@@ -18,7 +18,7 @@ if( TIM )
 }
 
 
-const parser = require( '../jsParser/parser' );
+const parser = require( '../parser/parser' );
 
 const ast_dot = require( './dot' );
 

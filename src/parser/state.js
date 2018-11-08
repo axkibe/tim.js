@@ -62,4 +62,32 @@ def.lazy.preview =
 };
 
 
+/*
+| Advances the pos.
+*/
+def.func.advance =
+	function(
+		ast // optional, sets this ast value
+	)
+{
+	if( arguments.length === 0 ) return this.create( 'pos', this.pos + 1 );
+
+	if( arguments.length === 1 ) return this.create( 'ast', ast, 'pos', this.pos + 1 );
+
+	throw new Error( );
+};
+
+
+/*
+| Stays on the pos, but changes ast state.
+*/
+def.func.stay =
+	function(
+		ast // required, sets this ast value
+	)
+{
+	return this.create( 'ast', ast );
+};
+
+
 } );

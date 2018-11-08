@@ -1,5 +1,5 @@
 /*
-| A parser state.
+| A parses entity specification.
 */
 'use strict';
 
@@ -16,11 +16,7 @@ if( TIM )
 		// "r2l" -- right to left
 		// "l2r" -- left to right
 		// "n/a" -- not applicable
-		associativity :
-		{
-			type : 'string',
-			defaultValue : '"n/a"'
-		},
+		associativity : { type : 'string', defaultValue : '"n/a"' },
 
 		// operator precedence
 		prec : { type : [ 'undefined', 'integer' ] },

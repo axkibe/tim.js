@@ -23,7 +23,7 @@ require( '../root' );
 // hackish needed due to circular requirements
 require( '../ast/shorthand' );
 
-global.parser = require( '../jsParser/parser' );
+global.parser = require( '../parser/parser' );
 
 global.parse = global.parser.parse;
 

@@ -54,7 +54,7 @@ def.func.inspect =
 
 	if( this.assign )
 	{
-		result += ' = ' + util.inspect( this.assign, opts );
+		result += ' = ( ' + util.inspect( this.assign, opts ) + ' )';
 	}
 
 	return result + postfix;

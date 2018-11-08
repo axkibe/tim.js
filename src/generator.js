@@ -107,7 +107,7 @@ const type_undefined = require( './type/undefined' );
 
 const validator = require( './validator' );
 
-const parser = require( './jsParser/parser' );
+const parser_parser = require( './parser/parser' );
 
 const shorthand = require( './ast/shorthand' );
 
@@ -115,7 +115,7 @@ const shorthand = require( './ast/shorthand' );
 /*
 | Shorthanding Shorthands.
 */
-const $ = parser.parse;
+const $ = parser_parser.parse;
 
 const $and = shorthand.$and;
 

@@ -100,7 +100,7 @@ const ast_varDec = require( './varDec' );
 
 const ast_while = require( './while' );
 
-const parser = require( '../jsParser/parser' );
+const parser = require( '../parser/parser' );
 
 
 /*

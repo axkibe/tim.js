@@ -11,7 +11,7 @@ require( '../ouroboros' )
 
 if( TIM )
 {
-	def.list = [ '< ../ast/types-statement', '< ../ast/types-expr', '../jsLexer/token' ];
+	def.list = [ '< ../ast/types-statement', '< ../ast/types-expr', '../lexer/token' ];
 }
 
 

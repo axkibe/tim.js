@@ -4,7 +4,7 @@
 'use strict';
 
 
-let jsLexer = module.exports;
+let lexer = module.exports;
 
 
 const token = require( './token' ).tv;
@@ -17,7 +17,7 @@ const tokenList = require( './tokenList' );
 |
 | Returns an array of tokens.
 */
-jsLexer.tokenize =
+lexer.tokenize =
 	function( code )
 {
 	if( typeof( code ) !== 'string' ) throw new Error( 'cannot tokenize non-strings' );
@@ -46,6 +46,7 @@ jsLexer.tokenize =
 				case 'const' :
 				case 'delete' :
 				case 'false' :
+				case 'if' :
 				case 'instanceof' :
 				case 'let' :
 				case 'new' :
@@ -287,4 +288,3 @@ jsLexer.tokenize =
 
 	return tokenList.create( 'list:init', tokens );
 };
-

@@ -18,7 +18,7 @@ const ast_comment = require( './comment' );
 
 const ast_return = require( './return' );
 
-const parser = require( '../jsParser/parser' );
+const parser = require( '../parser/parser' );
 
 const shorthand = require( './shorthand' );
 
