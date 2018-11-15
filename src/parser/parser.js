@@ -16,6 +16,8 @@ const ast_arrayLiteral = require( '../ast/arrayLiteral' );
 
 const ast_assign = require( '../ast/assign' );
 
+const ast_block = require( '../ast/block' );
+
 const ast_boolean = require( '../ast/boolean' );
 
 const ast_call = require( '../ast/call' );
@@ -102,6 +104,35 @@ const parser_tokenList = require( './tokenList' );
 
 const parser_spec = require( './spec' );
 
+const $block = ast_block.create( );
+
+/*
+| Forces expr into a block.
+*/
+const forceBlock =
+	function(
+		expr
+	)
+{
+	if( expr.timtype === ast_block ) return expr;
+
+	return $block.append( expr );
+};
+
+/*
+| Ast nodes which ate their semicolon.
+*/
+const noSemicolon =
+	( function( )
+{
+	const set = new Set( );
+
+	set.add( ast_block );
+	set.add( ast_if );
+
+	return set;
+} )( );
+
 
 /*
 | Handler for array literals.
@@ -162,6 +193,42 @@ parser.handleArrayLiteral =
 
 	// advances over closing square bracket
 	return state.advance( alit );
+};
+
+
+/*
+| Handler for boolean
+*/
+parser.handleBlock =
+	function(
+		state // current parser state
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( state.ast ) throw new Error( );
+/**/
+/**/	if( state.current.type !== '{' ) throw new Error( );
+/**/}
+
+	state = state.advance( ); // skip the '{';
+
+	let block = $block;
+
+	while( state.current.type !== '}' )
+	{
+		state = parseToken( state, statementSpecs.start );
+
+		block = block.append( state.ast );
+
+		if( state.current.type === ';' ) state = state.advance( );
+
+		state = state.stay( undefined );
+
+		if( state.reachedEnd ) throw new Error( 'missing "}"' );
+	}
+
+	return state.advance( block );
 };
 
 
@@ -465,32 +532,39 @@ parser.handleIf =
 
 	if( state.current.type !== ')' ) throw new Error( 'missing ")"' );
 
-	state = state.advance( undefined );
-
-	// here assumes no '{' for now
-	state = parseToken( state, statementSpecs.start );
+	state = parseToken( state.advance( undefined ), statementSpecs.start );
 
 	const then = state.ast;
 
-	if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
+	if( !noSemicolon.has( then.timtype ) )
+	{
+		if( !state.current || state.current.type !== ';' ) throw new Error( 'missing ";"' );
 
-	state = state.advance( undefined );
+		state = state.advance( );
+	}
 
-	if( state.current.type !== 'else' ) throw new Error( 'missing "else"' );
+	let elsewise;
 
-	// here assumes no '{' for now
-	state = parseToken( state, statementSpecs.start );
+	if( state.current && state.current.type === 'else' )
+	{
+		state = parseToken( state.advance( undefined ), statementSpecs.start );
 
-	if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
+		elsewise = state.ast;
 
-	const elsewise = state.ast;
+		if( !noSemicolon.has( elsewise.timtype ) )
+		{
+			if( !state.current || state.current.type !== ';' ) throw new Error( 'missing ";"' );
+
+			state = state.advance( );
+		}
+	}
 
 	return(
-		state.advance(
+		state.stay(
 			ast_if.create(
 				'condition', condition,
-				'then', then,
-				'elsewise', elsewise
+				'then', forceBlock( then ),
+				'elsewise', elsewise && forceBlock( elsewise )
 			)
 		)
 	);
@@ -707,7 +781,7 @@ parser.handleString =
 
 /*
 | Left token specifications for unary operants.
-| They are consulted when the current parse buffer is empty.
+| They are consulted when the current parse buffer is *not* empty.
 */
 const leftSpecs = { };
 
@@ -827,6 +901,12 @@ leftSpecs[ ',' ] =
 		'astCreator', ast_comma,
 		'associativity', 'l2r'
 	);
+
+//leftSpecs[ '}' ] =
+//	parser_spec.create(
+//		'prec', 101,
+//		'handler', 'handlePass'
+//	);
 
 // phony spec that cannot be created
 // by lexer denoting start of parsing
@@ -1039,8 +1119,19 @@ rightSpecs[ ':' ] =
 		'handler', 'handlePass'
 	);
 
-
 rightSpecs[ ';' ] =
+	parser_spec.create(
+		'prec', 101,
+		'handler', 'handlePass'
+	);
+
+rightSpecs[ '}' ] =
+	parser_spec.create(
+		'prec', 101,
+		'handler', 'handlePass'
+	);
+
+rightSpecs[ 'else' ] =
 	parser_spec.create(
 		'prec', 101,
 		'handler', 'handlePass'
@@ -1054,8 +1145,7 @@ const statementSpecs = { };
 // phony spec that cannot be created
 // by lexer denoting start of parsing
 // allowing statements here
-// FIXME remove prec?
-statementSpecs.start = parser_spec.create( 'prec', 100, 'handler', 'handleParserError' );
+statementSpecs.start = parser_spec.create( 'handler', 'handleParserError', 'prec', 100 );
 
 statementSpecs[ 'if' ] = parser_spec.create( 'handler', 'handleIf' );
 
@@ -1065,6 +1155,9 @@ statementSpecs[ 'let' ] = parser_spec.create( 'handler', 'handleLet', 'prec', 18
 
 statementSpecs[ 'return' ] = parser_spec.create( 'handler', 'handleReturn' );
 
+statementSpecs[ '{' ] = parser_spec.create( 'handler', 'handleBlock' );
+
+//statementSpecs[ '}' ] = parser_spec.create( 'handler', 'handlePass', 'prec', 101 );
 
 
 /*
@@ -1089,7 +1182,19 @@ const getSpec =
 		spec = rightSpecs[ state.current.type ];
 	}
 
-	if( !spec ) throw new Error( 'unexpected ' + state.current.type );
+	if( !spec )
+	{
+		switch( state.current.type )
+		{
+			case 'identifier' :
+
+				throw new Error( 'unexpected identifier "' + state.current.value + '"' );
+
+			default :
+
+				throw new Error( 'unexpected ' + state.current.type );
+		}
+	}
 
 	return spec;
 };
@@ -1116,9 +1221,17 @@ const parseToken =
 	}
 	else
 	{
-		const tokenSpec = getSpec( state, spec.prec === 100 );
+		const tokenSpec = getSpec( state, spec.prec >= 100 );
 
 		state = parser[ tokenSpec.handler ]( state, tokenSpec );
+	}
+
+	// FIXME make a set
+	switch( state.ast.timtype )
+	{
+		case ast_block :
+		case ast_if :
+			return state;
 	}
 
 	while( !state.reachedEnd )

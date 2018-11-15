@@ -4,8 +4,7 @@
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, ast_postIncrement ) => {
+tim.ouroboros.define( module, ( def, ast_postIncrement ) => {
 
 
 if( TIM )

@@ -1,11 +1,10 @@
 /*
-| A group of types.
+| A set of types.
 */
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, type_set ) => {
+tim.ouroboros.define( module, ( def, type_set ) => {
 
 
 if( TIM )

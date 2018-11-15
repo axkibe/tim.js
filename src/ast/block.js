@@ -4,8 +4,7 @@
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, ast_block ) => {
+tim.ouroboros.define( module, ( def, ast_block ) => {
 
 
 if( TIM )
@@ -302,6 +301,47 @@ def.func.$while =
 	return this.append( shorthand.$while( condition, block ) );
 };
 
+
+const util = require( 'util' );
+
+
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	opts.ast = true;
+
+	result += '{ ';
+
+	for( let a = 0, al = this.length; a < al; a++ )
+	{
+		result += util.inspect( this.get( a ), opts ) + '; ';
+	}
+
+	result += '} ';
+
+	return result + postfix;
+};
 
 
 } );

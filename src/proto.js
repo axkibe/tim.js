@@ -2,9 +2,8 @@
 | Common functions for typed immutables.
 */
 
-var
-	tim_proto,
-	pass;
+var tim_proto;
+var pass;
 
 
 /*

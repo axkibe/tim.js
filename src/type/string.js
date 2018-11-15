@@ -4,8 +4,7 @@
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, type_string ) => {
+tim.ouroboros.define( module, ( def, type_string ) => {
 
 
 def.func.equalsConvention = 'mustnot';
@@ -15,4 +14,3 @@ def.func.isPrimitive = true;
 
 
 } );
-

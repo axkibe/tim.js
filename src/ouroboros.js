@@ -10,7 +10,6 @@
 // (it ought to be an older version of tim.js to build itself)
 
 
-
 let define, ouroboros;
 
 try
@@ -49,5 +48,9 @@ else
 
 module.exports =
 {
-	define: define
+	define:
+		function( )
+		{
+			return define.apply( this, arguments );
+		}
 };

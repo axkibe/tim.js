@@ -4,8 +4,7 @@
 'use strict';
 
 
-require( './ouroboros' )
-.define( module, ( def, self ) => {
+tim.ouroboros.define( module, ( def, self ) => {
 
 
 if( TIM )
@@ -491,13 +490,7 @@ def.func.genCreatorInheritanceReceiver =
 
 	if( this.gset )
 	{
-		result =
-			result
-			.$elsewise(
-				$block
-				.$( 'set = new Set( )' )
-				.$( 'setDup = true' )
-			);
+		result = result.$elsewise( '{ set = new Set( ); setDup = true; }' );
 	}
 
 	if( this.gtwig )

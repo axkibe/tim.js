@@ -45,6 +45,7 @@ lexer.tokenize =
 			{
 				case 'const' :
 				case 'delete' :
+				case 'else' :
 				case 'false' :
 				case 'if' :
 				case 'instanceof' :

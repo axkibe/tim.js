@@ -1,11 +1,10 @@
 /*
-| Checks if a tim definition is ok.
+| Checks if a tim definition looks ok.
 */
 'use strict';
 
 
-require( './ouroboros' )
-.define( module, ( def, self ) => {
+tim.ouroboros.define( module, ( def, self ) => {
 
 
 /*

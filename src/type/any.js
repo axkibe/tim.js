@@ -4,8 +4,7 @@
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, type_any ) => {
+tim.ouroboros.define( module, ( def, type_any ) => {
 
 
 const type_boolean = require( './boolean' );

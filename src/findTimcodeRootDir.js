@@ -7,6 +7,7 @@
 */
 'use strict';
 
+
 if( !NODE ) throw new Error( );
 
 const fs = require( 'fs' );

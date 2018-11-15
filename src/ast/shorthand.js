@@ -4,8 +4,7 @@
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, ast_shorthand ) => {
+tim.ouroboros.define( module, ( def, ast_shorthand ) => {
 
 
 const ast_and = require( './and' );

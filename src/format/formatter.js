@@ -1,5 +1,5 @@
 /*
-| Formats an AST into a .js file.
+| Formats an abstract syntax tree into a .js file.
 */
 'use strict';
 
@@ -730,7 +730,7 @@ const formatExpression =
 
 	const pprec = precTable.get( ptimtype );
 
-	if( !prec ) throw new Error( );
+	if( !prec ) throw new Error( 'X', ptimtype );
 
 	const formatter = exprFormatter.get( expr.timtype );
 
@@ -2102,5 +2102,3 @@ const exprFormatter =
 		[ ast_typeof,         formatTypeof        ],
 		[ ast_var,            formatVar           ]
 	] );
-
-

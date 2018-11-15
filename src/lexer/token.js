@@ -4,24 +4,18 @@
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, token ) => {
+tim.ouroboros.define( module, ( def, token ) => {
 
 
 if( TIM )
 {
 	def.attributes =
 	{
-		type :
-		{
-			// the token type
-			type : 'string'
-		},
-		value :
-		{
-			// the token value
-			type : [ 'undefined', 'number', 'boolean', 'string' ]
-,		}
+		// the token type
+		type : { type : 'string' },
+
+		// the token value
+		value : { type : [ 'undefined', 'number', 'boolean', 'string' ] }
 	};
 }
 
@@ -64,6 +58,7 @@ let allowedTokens;
 /**/	allowedTokens[ 'if' ] = true;
 /**/	allowedTokens[ 'let' ] = true;
 /**/	allowedTokens[ 'new' ] = true;
+/**/	allowedTokens[ 'else' ] = true;
 /**/	allowedTokens[ 'null' ] = true;
 /**/	allowedTokens[ 'true' ] = true;
 /**/	allowedTokens[ 'const' ] = true;

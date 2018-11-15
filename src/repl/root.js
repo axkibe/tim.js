@@ -31,12 +31,17 @@ global.ast_block = require( '../ast/block' );
 
 global.$ = global.parser.parse;
 
+global.$block = global.ast_block.create( );
+
 global.format_formatter = require( '../format/formatter' );
 
 global.format = global.format_formatter.format;
 
 global.util = require( 'util' );
 
+// XXX
+global.timpath = require( '../export/path' );
+global.timtree_branch = require( '../timtree/branch' );
 
 /*
 | Comfort function, inspects with infinite depth as default.

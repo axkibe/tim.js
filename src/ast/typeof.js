@@ -4,8 +4,7 @@
 'use strict';
 
 
-require( '../ouroboros' )
-.define( module, ( def, ast_typeof ) => {
+tim.ouroboros.define( module, ( def, ast_typeof ) => {
 
 
 if( TIM )
