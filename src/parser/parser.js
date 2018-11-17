@@ -38,6 +38,8 @@ const ast_dot = require( '../ast/dot' );
 
 const ast_equals = require( '../ast/equals' );
 
+const ast_for = require( '../ast/for' );
+
 const ast_greaterThan = require( '../ast/greaterThan' );
 
 const ast_if = require( '../ast/if' );
@@ -182,12 +184,12 @@ parser.handleArrayLiteral =
 			{
 				state = state.advance( undefined );
 
-				if( state.current.type === ']' ) throw new Error( 'parser error' );
+				if( state.current.type === ']' ) throw new Error( 'parse error' );
 
 				continue;
 			}
 
-			throw new Error( 'parser error' );
+			throw new Error( 'parse error' );
 		}
 	}
 
@@ -217,7 +219,7 @@ parser.handleBlock =
 
 	while( state.current.type !== '}' )
 	{
-		state = parseToken( state, statementSpecs.start );
+		state = parseToken( state, parseStatementStart );
 
 		block = block.append( state.ast );
 
@@ -285,6 +287,8 @@ parser.handleCall =
 			do
 			{
 				state = parseToken( state, spec );
+
+				if( state.current.type === ';' ) throw new Error( 'parse error' );
 			}
 			while(
 				!state.reachedEnd
@@ -303,12 +307,12 @@ parser.handleCall =
 			{
 				state = state.advance( undefined );
 
-				if( state.current.type === ')' ) throw new Error( 'parser error' );
+				if( state.current.type === ')' ) throw new Error( 'parse error' );
 
 				continue;
 			}
 
-			throw new Error( 'parser error' );
+			throw new Error( 'parse error' );
 		}
 	}
 
@@ -337,7 +341,7 @@ parser.handleCondition =
 
 	state = state.advance( undefined );
 
-	if( state.reachedEnd ) throw new Error( 'parser error' );
+	if( state.reachedEnd ) throw new Error( 'parse error' );
 
 	state = parseToken( state, spec );
 
@@ -402,7 +406,7 @@ parser.handleDualisticOps =
 {
 	const ast = state.ast;
 
-	if( !ast ) throw new Error( 'parser error' );
+	if( !ast ) throw new Error( 'parse error' );
 
 	state = parseToken( state.advance( undefined ), spec );
 
@@ -504,6 +508,71 @@ parser.handleMonoOps =
 
 
 /*
+| Handler for for.
+*/
+parser.handleFor =
+	function(
+		state // current parser state
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( state.ast ) throw new Error( );
+/**/
+/**/	if( state.current.type !== 'for' ) throw new Error( );
+/**/}
+
+	state = state.advance( );
+
+	if( state.current.type !== '(' ) throw new Error( '"(" expected' );
+
+	state = state.advance( undefined );
+
+	if( state.reachedEnd ) throw new Error( 'unexpected end of file' );
+
+	state = parseToken( state, parseExprStart );
+
+	const init = state.ast;
+
+	if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
+
+	state = parseToken( state.advance( undefined ), parseExprStart );
+
+	const condition = state.ast;
+
+	if( state.current.type !== ';' ) throw new Error( '";" expected' );
+
+	state = parseToken( state.advance( undefined ), parseExprStart );
+
+	const iterate = state.ast;
+
+	if( state.current.type !== ')' ) throw new Error( '")" expected' );
+
+	state = parseToken( state.advance( undefined ), parseStatementStart );
+
+	const block = state.ast;
+
+	if( !noSemicolon.has( block.timtype ) )
+	{
+		if( !state.current || state.current.type !== ';' ) throw new Error( 'missing ";"' );
+
+		state = state.advance( );
+	}
+
+	return(
+		state.stay(
+			ast_for.create(
+				'init', init,
+				'condition', condition,
+				'iterate', iterate,
+				'block', forceBlock( block )
+			)
+		)
+	);
+};
+
+
+/*
 | Handler for if.
 */
 parser.handleIf =
@@ -524,15 +593,15 @@ parser.handleIf =
 
 	state = state.advance( undefined );
 
-	if( state.reachedEnd ) throw new Error( 'parser error' );
+	if( state.reachedEnd ) throw new Error( 'parse error' );
 
-	state = parseToken( state, leftSpecs.start );
+	state = parseToken( state, parseExprStart );
 
 	const condition = state.ast;
 
 	if( state.current.type !== ')' ) throw new Error( 'missing ")"' );
 
-	state = parseToken( state.advance( undefined ), statementSpecs.start );
+	state = parseToken( state.advance( undefined ), parseStatementStart );
 
 	const then = state.ast;
 
@@ -547,7 +616,7 @@ parser.handleIf =
 
 	if( state.current && state.current.type === 'else' )
 	{
-		state = parseToken( state.advance( undefined ), statementSpecs.start );
+		state = parseToken( state.advance( undefined ), parseStatementStart );
 
 		elsewise = state.ast;
 
@@ -699,7 +768,7 @@ parser.handleObjectLiteral =
 {
 	const ast = state.ast;
 
-	if( ast ) throw new Error( 'parser error' );
+	if( ast ) throw new Error( 'parse error' );
 
 	// this is an array literal
 	const olit = ast_objLiteral.create( );
@@ -725,7 +794,7 @@ parser.handleParserError =
 		// spec   // operator spec
 	)
 {
-	throw new Error( 'parser error' );
+	throw new Error( 'parse error' );
 };
 
 
@@ -759,7 +828,7 @@ parser.handleReturn =
 /**/	if( state.current.type !== 'return' ) throw new Error( );
 /**/}
 
-	state = parseToken( state.advance( ), leftSpecs.start );
+	state = parseToken( state.advance( ), parseExprStart );
 
 	return state.stay( ast_return.create( 'expr', state.ast ) );
 };
@@ -778,6 +847,7 @@ parser.handleString =
 };
 
 
+const createHandler = parser_spec.createHandler;
 
 /*
 | Left token specifications for unary operants.
@@ -785,137 +855,39 @@ parser.handleString =
 */
 const leftSpecs = { };
 
-leftSpecs.identifier =
-	parser_spec.create(
-		'prec', -1,
-		'handler', 'handleIdentifier'
-	);
+leftSpecs.identifier = createHandler( 'handleIdentifier', -1 );
 
-leftSpecs.null =
-	parser_spec.create(
-		'prec', -1,
-		'handler', 'handleNull'
-	);
+leftSpecs.null = createHandler( 'handleNull', -1 );
 
-leftSpecs.number =
-	parser_spec.create(
-		'prec', -1,
-		'handler', 'handleNumber'
-	);
+leftSpecs.number = createHandler( 'handleNumber', -1 );
 
-leftSpecs.string =
-	parser_spec.create(
-		'prec', -1,
-		'handler', 'handleString'
-	);
+leftSpecs.string = createHandler( 'handleString', -1 );
 
-leftSpecs[ 'true' ] =
-	parser_spec.create(
-		'prec', -1,
-		'handler', 'handleBooleanLiteral'
-	);
+leftSpecs[ 'true' ] = createHandler( 'handleBooleanLiteral', -1 );
 
-leftSpecs[ 'false' ] =
-	parser_spec.create(
-		'prec', -1,
-		'handler', 'handleBooleanLiteral'
-	);
+leftSpecs[ 'false' ] = createHandler( 'handleBooleanLiteral', -1 );
 
-leftSpecs[ '[' ] =
-	parser_spec.create(
-		'prec', 1,
-		'handler', 'handleArrayLiteral',
-		'associativity', 'l2r'
-	);
+leftSpecs[ '[' ] = createHandler( 'handleArrayLiteral', 1, 'l2r' );
 
-leftSpecs[ '{' ] =
-	parser_spec.create(
-		'prec', -1,
-		'handler', 'handleObjectLiteral'
-	);
+leftSpecs[ '{' ] = createHandler( 'handleObjectLiteral', -1 );
 
-leftSpecs[ '(' ] =
-	parser_spec.create(
-		'prec', 0,
-		'handler', 'handleGrouping',
-		'associativity', 'l2r'
-	);
+leftSpecs[ '(' ] = createHandler( 'handleGrouping', 0, 'l2r' );
 
-leftSpecs[ 'new' ] =
-	parser_spec.create(
-		'prec', 2,
-		'handler', 'handleNew',
-		'associativity', 'r2l'
-	);
+leftSpecs[ 'new' ] = createHandler( 'handleNew', 2, 'r2l' );
 
-leftSpecs[ '++' ] =
-	parser_spec.create(
-		'prec', 4,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_preIncrement
-	);
+leftSpecs[ '++' ] = createHandler( 'handleMonoOps', 4, 'n/a', ast_preIncrement );
 
-leftSpecs[ '--' ] =
-	parser_spec.create(
-		'prec', 4,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_preDecrement
-	);
+leftSpecs[ '--' ] = createHandler( 'handleMonoOps', 4, 'n/a', ast_preDecrement );
 
-leftSpecs[ '-' ] =
-	parser_spec.create(
-		'prec', 4,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_negate,
-		'associativity', 'r2l'
-	);
+leftSpecs[ '-' ] = createHandler( 'handleMonoOps', 4, 'r2l', ast_negate );
 
-leftSpecs[ '!' ] =
-	parser_spec.create(
-		'prec', 4,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_not,
-		'associativity', 'r2l'
-	);
+leftSpecs[ '!' ] = createHandler( 'handleMonoOps', 4, 'r2l', ast_not );
 
-leftSpecs[ 'delete' ] =
-	parser_spec.create(
-		'prec', 4,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_delete,
-		'associativity', 'r2l'
-	);
+leftSpecs[ 'delete' ] = createHandler( 'handleMonoOps', 4, 'r2l', ast_delete );
 
-leftSpecs[ 'typeof' ] =
-	parser_spec.create(
-		'prec', 4,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_typeof,
-		'associativity', 'r2l'
-	);
+leftSpecs[ 'typeof' ] = createHandler( 'handleMonoOps', 4, 'r2l', ast_typeof );
 
-leftSpecs[ ',' ] =
-	parser_spec.create(
-		'prec', 19,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_comma,
-		'associativity', 'l2r'
-	);
-
-//leftSpecs[ '}' ] =
-//	parser_spec.create(
-//		'prec', 101,
-//		'handler', 'handlePass'
-//	);
-
-// phony spec that cannot be created
-// by lexer denoting start of parsing
-leftSpecs.start =
-	parser_spec.create(
-		'prec', 99,
-		'handler', 'handleParserError'
-	);
-
+leftSpecs[ ',' ] = createHandler( 'handleDualisticOps', 19, 'l2r', ast_comma );
 
 /*
 | Right token specifications for unary operants.
@@ -923,231 +895,79 @@ leftSpecs.start =
 */
 const rightSpecs = { };
 
-rightSpecs[ '(' ] =
-	parser_spec.create(
-		'prec', 1,
-		'handler', 'handleCall',
-		'associativity', 'l2r'
-	);
+rightSpecs[ '(' ] = createHandler( 'handleCall', 1, 'l2r' );
 
-rightSpecs[ '[' ] =
-	parser_spec.create(
-		'prec', 1,
-		'handler', 'handleMember',
-		'associativity', 'l2r'
-	);
+rightSpecs[ '[' ] = createHandler( 'handleMember', 1, 'l2r' );
 
-rightSpecs[ ']' ] =
-	parser_spec.create(
-		'prec', 1, // 98?
-		'handler', 'handlePass'
-	);
+rightSpecs[ ']' ] = createHandler( 'handlePass', 1 ); // 98?
 
-rightSpecs[ '.' ] =
-	parser_spec.create(
-		'prec', 1,
-		'handler', 'handleDot',
-		'associativity', 'l2r'
-	);
+rightSpecs[ '.' ] = createHandler( 'handleDot', 1, 'l2r' );
 
-rightSpecs[ '++' ] =
-	parser_spec.create(
-		'prec', 3,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_postIncrement
-	);
+rightSpecs[ '++' ] = createHandler( 'handleMonoOps', 3, 'n/a', ast_postIncrement );
 
-rightSpecs[ '--' ] =
-	parser_spec.create(
-		'prec', 3,
-		'handler', 'handleMonoOps',
-		'astCreator', ast_postDecrement
-	);
+rightSpecs[ '--' ] = createHandler( 'handleMonoOps', 3, 'n/a', ast_postDecrement );
 
-rightSpecs[ '*' ] =
-	parser_spec.create(
-		'prec', 5,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_multiply,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '*' ] = createHandler( 'handleDualisticOps', 5, 'l2r', ast_multiply );
 
-rightSpecs[ '/' ] =
-	parser_spec.create(
-		'prec', 5,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_divide,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '/' ] = createHandler( 'handleDualisticOps', 5, 'l2r', ast_divide );
 
-rightSpecs[ '+' ] =
-	parser_spec.create(
-		'prec', 6,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_plus,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '+' ] = createHandler( 'handleDualisticOps', 6, 'l2r', ast_plus );
 
-rightSpecs[ '-' ] =
-	parser_spec.create(
-		'prec', 6,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_minus,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '-' ] = createHandler( 'handleDualisticOps', 6, 'l2r', ast_minus );
 
-rightSpecs[ '<' ] =
-	parser_spec.create(
-		'prec', 8,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_lessThan,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '<' ] = createHandler( 'handleDualisticOps', 8, 'l2r', ast_lessThan );
 
-rightSpecs[ '>' ] =
-	parser_spec.create(
-		'prec', 8,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_greaterThan,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '>' ] = createHandler( 'handleDualisticOps', 8, 'l2r', ast_greaterThan );
 
-rightSpecs[ '===' ] =
-	parser_spec.create(
-		'prec', 9,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_equals,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '===' ] = createHandler( 'handleDualisticOps', 9, 'l2r', ast_equals );
 
-rightSpecs[ '!==' ] =
-	parser_spec.create(
-		'prec', 9,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_differs,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '!==' ] = createHandler( 'handleDualisticOps', 9, 'l2r', ast_differs );
 
-rightSpecs[ 'instanceof' ] =
-	parser_spec.create(
-		'prec', 11,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_instanceof,
-		'associativity', 'l2r'
-	);
+rightSpecs[ 'instanceof' ] = createHandler( 'handleDualisticOps', 11, 'l2r', ast_instanceof );
 
-rightSpecs[ '&&' ] =
-	parser_spec.create(
-		'prec', 13,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_and,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '&&' ] = createHandler( 'handleDualisticOps', 13, 'l2r', ast_and );
 
-rightSpecs[ '||' ] =
-	parser_spec.create(
-		'prec', 14,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_or,
-		'associativity', 'l2r'
-	);
+rightSpecs[ '||' ] = createHandler( 'handleDualisticOps', 14, 'l2r', ast_or );
 
-rightSpecs[ '?' ] =
-	parser_spec.create(
-		'prec', 15,
-		'handler', 'handleCondition',
-		'associativity', 'l2r'
-	);
+rightSpecs[ '?' ] = createHandler( 'handleCondition', 15, 'l2r' );
 
-rightSpecs[ '=' ] =
-	parser_spec.create(
-		'prec', 16,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_assign,
-		'associativity', 'r2l'
-	);
+rightSpecs[ '=' ] = createHandler( 'handleDualisticOps', 16, 'r2l', ast_assign );
 
-rightSpecs[ '+=' ] =
-	parser_spec.create(
-		'prec', 16,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_plusAssign,
-		'associativity', 'r2l'
-	);
+rightSpecs[ '+=' ] = createHandler( 'handleDualisticOps', 16, 'r2l', ast_plusAssign );
 
-rightSpecs[ '-=' ] =
-	parser_spec.create(
-		'prec', 16,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_minusAssign,
-		'associativity', 'r2l'
-	);
+rightSpecs[ '-=' ] = createHandler( 'handleDualisticOps', 16, 'r2l', ast_minusAssign );
 
-rightSpecs[ '*=' ] =
-	parser_spec.create(
-		'prec', 16,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_multiplyAssign,
-		'associativity', 'r2l'
-	);
+rightSpecs[ '*=' ] = createHandler( 'handleDualisticOps', 16, 'r2l', ast_multiplyAssign );
 
-rightSpecs[ '/=' ] =
-	parser_spec.create(
-		'prec', 16,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_divideAssign,
-		'associativity', 'r2l'
-	);
+rightSpecs[ '/=' ] = createHandler( 'handleDualisticOps', 16, 'r2l', ast_divideAssign );
 
-rightSpecs[ ',' ] =
-	parser_spec.create(
-		'prec', 19,
-		'handler', 'handleDualisticOps',
-		'astCreator', ast_comma,
-		'associativity', 'l2r'
-	);
+rightSpecs[ ',' ] = createHandler( 'handeDualisticOps', 19, 'l2r', ast_comma );
 
-rightSpecs[ ')' ] =
-	parser_spec.create(
-		'prec', 98,
-		'handler', 'handlePass'
-	);
+rightSpecs[ ')' ] = createHandler( 'handlePass', 98 );
 
-rightSpecs[ ':' ] =
-	parser_spec.create(
-		'prec', 98,
-		'handler', 'handlePass'
-	);
+rightSpecs[ ':' ] = createHandler( 'handlePass', 98 );
 
-rightSpecs[ ';' ] =
-	parser_spec.create(
-		'prec', 101,
-		'handler', 'handlePass'
-	);
+rightSpecs[ ';' ] = createHandler( 'handlePass', 101 );
 
-rightSpecs[ '}' ] =
-	parser_spec.create(
-		'prec', 101,
-		'handler', 'handlePass'
-	);
+rightSpecs[ '}' ] = createHandler( 'handlePass', 101 );
 
-rightSpecs[ 'else' ] =
-	parser_spec.create(
-		'prec', 101,
-		'handler', 'handlePass'
-	);
+rightSpecs[ 'else' ] = createHandler( 'handlePass', 101 );
+
+
+// phony spec denoting start of parsing on expression possiblity
+const parseExprStart = createHandler( 'handleParserError', 99 );
+
+// phony spec denoting start of parsing on statement/expression possiblity
+const parseStatementStart = createHandler( 'handleParserError', 100 );
 
 /*
 | Statement token specifications.
 */
 const statementSpecs = { };
 
-// phony spec that cannot be created
-// by lexer denoting start of parsing
-// allowing statements here
-statementSpecs.start = parser_spec.create( 'handler', 'handleParserError', 'prec', 100 );
-
 statementSpecs[ 'if' ] = parser_spec.create( 'handler', 'handleIf' );
+
+statementSpecs[ 'for' ] = parser_spec.create( 'handler', 'handleFor' );
 
 // 18... one stronger than comma, so multiple let definitions are
 //       not treated as comma operator
@@ -1222,6 +1042,9 @@ const parseToken =
 	else
 	{
 		const tokenSpec = getSpec( state, spec.prec >= 100 );
+
+		// FIXME needed?
+		if( tokenSpec.handler === 'handlePass' ) return state;
 
 		state = parser[ tokenSpec.handler ]( state, tokenSpec );
 	}
@@ -1303,7 +1126,7 @@ parser.parseArray =
 
 	let state = parser_state.create( 'tokens', tokens, 'pos', 0, 'ast', undefined );
 
-	state = parseToken( state, statementSpecs.start );
+	state = parseToken( state, parseStatementStart );
 
 	// ignores one ending semicolon
 	if( !state.reachedEnd && state.current.type === ';' ) state = state.advance( );

@@ -460,32 +460,16 @@ def.func.genCreatorInheritanceReceiver =
 		receiver = receiver.$( attr.varRef, ' = ', 'this.', attr.assign );
 	}
 
-	let result =
-		$if(
-			$( 'this !== self' ),
-			receiver
-		);
+	let result = $( 'if ( this !== self )', receiver, ';' );
 
 	if( this.ggroup )
 	{
-		result =
-			result
-			.$elsewise(
-				$block
-				.$( 'group = { }' )
-				.$( 'groupDup = true' )
-			);
+		result = result.$elsewise( '{ group = { }; groupDup = true; }' );
 	}
 
 	if( this.glist )
 	{
-		result =
-			result
-			.$elsewise(
-				$block
-				.$( 'list = [ ]' )
-				.$( 'listDup = true' )
-			);
+		result = result.$elsewise( '{ list = [ ]; listDup = true; }' );
 	}
 
 	if( this.gset )
@@ -495,15 +479,8 @@ def.func.genCreatorInheritanceReceiver =
 
 	if( this.gtwig )
 	{
-		result =
-			result
-			.$elsewise(
-				$block
-				.$( 'twig = { }' )
-//				.$( !this.proxyRanks ? 'ranks = [ ]' : undefined )
-				.$( 'ranks = [ ]' )
-				.$( 'twigDup = true' )
-			);
+//		$( !this.proxyRanks ? 'ranks = [ ]' : undefined )
+		result = result.$elsewise( '{ twig = { }; ranks = [ ]; twigDup = true; }' );
 	}
 
 	return result;
@@ -535,10 +512,7 @@ def.func.genCreatorFreeStringsParser =
 			switchExpr
 			.$case(
 				$string( name ),
-				$if(
-					'arg !== pass',
-					$( attr.varRef, ' = arg' )
-				)
+				$( 'if( arg !== pass ) {', attr.varRef, ' = arg; }' )
 			);
 	}
 
@@ -576,13 +550,7 @@ def.func.genCreatorFreeStringsParser =
 
 	if( this.glist )
 	{
-		const listDupCheck =
-			$if(
-				'!listDup',
-				$block
-				.$( 'list = list.slice( )' )
-				.$( 'listDup = true' )
-			);
+		const listDupCheck = $( 'if( !listDup ) { list = list.slice( ); listDup = true; }' );
 
 		switchExpr =
 			switchExpr
@@ -799,9 +767,9 @@ def.func.genCreatorDefaults =
 			// raise requires
 			result =
 				result
-				.$if(
-					$( attr.varRef, ' === undefined' ),
-					$( attr.varRef, ' = ', attr.defaultValue )
+				.$(
+					'if( ', attr.varRef, ' === undefined )',
+					attr.varRef, ' = ', attr.defaultValue, ';'
 				);
 		}
 	}
@@ -2293,12 +2261,9 @@ def.func.genEqualsFuncBody =
 
 		body =
 			body
-			.$if(
-				$(
-					'this._twig !== obj._twig',
-					'||', 'this._ranks !== obj._ranks'
-				),
-				twigTest
+			.$(
+				'if( this._twig !== obj._twig || this._ranks !== obj._ranks )',
+				twigTest, ';'
 			);
 	}
 

@@ -26,4 +26,48 @@ if( TIM )
 }
 
 
+const util = require( 'util' );
+
+
+/*
+| Custom inspect
+*/
+def.func.inspect =
+	function(
+		depth,
+		opts
+	)
+{
+	let postfix;
+
+	let result;
+
+	if( !opts.ast )
+	{
+		result = 'ast{ ';
+
+		postfix = ' }';
+
+		opts = tim.proto.copy( opts );
+
+		opts.ast = true;
+	}
+	else
+	{
+		result = postfix = '';
+	}
+
+	result +=
+		'for( '
+		+ util.inspect( this.init, opts )
+		+ ' ; '
+		+ util.inspect( this.condition, opts )
+		+ ' ; '
+		+ util.inspect( this.iterate, opts )
+		+ ' ) '
+		+ util.inspect( this.block, opts ) + ' ';
+
+	return result + postfix;
+};
+
 } );

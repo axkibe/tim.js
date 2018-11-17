@@ -40,8 +40,6 @@ def.func.inspect =
 		result = postfix = '';
 	}
 
-	opts.ast = true;
-
 	result += this.boolean ? 'true' : 'false';
 
 	return result + postfix;

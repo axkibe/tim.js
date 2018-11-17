@@ -51,4 +51,26 @@ if( TIM )
 /**/}
 
 
+/*
+| Creation shortcut.
+*/
+def.static.createHandler =
+	function(
+		handler,         // name of handler function
+		prec,            // precedence
+		associativity,   // optional, associativity
+		astCreator       // optional, astCreator
+	)
+{
+	return(
+		self.create(
+			'handler', handler,
+			'prec', prec,
+			'associativity', associativity,
+			'astCreator', astCreator
+		)
+	);
+};
+
+
 } );

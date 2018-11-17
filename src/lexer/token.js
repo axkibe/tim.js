@@ -56,6 +56,7 @@ let allowedTokens;
 /**/	allowedTokens[ '===' ] = true;
 /**/	allowedTokens[ '!==' ] = true;
 /**/	allowedTokens[ 'if' ] = true;
+/**/	allowedTokens[ 'for' ] = true;
 /**/	allowedTokens[ 'let' ] = true;
 /**/	allowedTokens[ 'new' ] = true;
 /**/	allowedTokens[ 'else' ] = true;

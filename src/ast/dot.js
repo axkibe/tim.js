@@ -108,13 +108,15 @@ def.func.inspect =
 		result = 'ast{ ';
 
 		postfix = ' }';
+
+		opts = tim.proto.copy( opts );
+
+		opts.ast = true;
 	}
 	else
 	{
 		result = postfix = '';
 	}
-
-	opts.ast = true;
 
 	result += '( ' + util.inspect( this.expr, opts ) + ' )';
 
