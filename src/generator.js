@@ -146,6 +146,21 @@ const tsNull = type_null.create( );
 
 
 /*
+| Gets a timtree leaf for a timtype.
+*/
+def.func.getLeaf =
+	function(
+		id
+	)
+{
+	// first makes sure the leaf is loaded
+	this.module.require( './' + id.pathString );
+
+	return tim.tree.getLeaf( this.module, id );
+};
+
+
+/*
 | Generates the requires.
 */
 def.func.genRequires =
@@ -1334,7 +1349,7 @@ def.func.genFromJsonCreatorAttributeParser =
 
 				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 
-				const jsontype = tim.tree.getLeaf( this.module, id )._json;
+				const jsontype = this.getLeaf( id )._json;
 
 				cSwitch =
 					cSwitch
@@ -1527,7 +1542,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
-		const jsontype = tim.tree.getLeaf( this.module, gid )._json;
+		const jsontype = this.getLeaf( gid )._json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1605,7 +1620,7 @@ def.func.genFromJsonCreatorListProcessing =
 
 		if( rid === tsUndefined ) { haveUndefined = true; continue; }
 
-		const jsontype = tim.tree.getLeaf( this.module, rid )._json;
+		const jsontype = this.getLeaf( rid )._json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1676,7 +1691,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 	{
 		const twigId = i.value;
 
-		const jsontype = tim.tree.getLeaf( this.module, twigId )._json;
+		const jsontype = this.getLeaf( twigId )._json;
 
 		switchExpr =
 			switchExpr

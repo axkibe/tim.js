@@ -530,13 +530,32 @@ parser.handleFor =
 
 	if( state.reachedEnd ) throw new Error( 'unexpected end of file' );
 
-	state = parseToken( state, parseExprStart );
+	switch( state.current.type )
+	{
+		case 'let' :
+
+			state = parser.handleLet( state );
+
+			if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
+
+			state = state.advance( );
+
+			break;
+
+		default :
+
+			state = parseToken( state, parseExprStart );
+
+			if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
+
+			state = state.advance( );
+
+			break;
+	}
 
 	const init = state.ast;
 
-	if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
-
-	state = parseToken( state.advance( undefined ), parseExprStart );
+	state = parseToken( state.stay( undefined ), parseExprStart );
 
 	const condition = state.ast;
 
@@ -663,6 +682,8 @@ parser.handleLet =
 	{
 		if( state.reachedEnd ) return state.stay( _let );
 
+		if( state.current.type === ';' ) return state.stay( _let );
+
 		if( state.current.type !== 'identifier' ) throw new Error( 'identifier expected' );
 
 		let name = state.current.value;
@@ -688,7 +709,7 @@ parser.handleLet =
 
 				_let = _let.append( entry );
 
-				state = state.advance( );
+				if( !state.reachedEnd && state.current.type === ',' ) state = state.advance( );
 
 				break;
 			}
@@ -704,9 +725,18 @@ parser.handleLet =
 				break;
 			}
 
-			case ';' : return state.advance( _let );
+			case ';' :
+			{
+				let entry = ast_letEntry.create( 'name', name );
 
-			default : throw new Error( 'unexpected token', state.current.type );
+				_let = _let.append( entry );
+
+				return state.stay( _let );
+			}
+
+			default :
+
+				throw new Error( 'unexpected token', state.current.type );
 		}
 	}
 };

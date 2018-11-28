@@ -342,8 +342,8 @@ tree.getBrowserPreamble =
 */
 tree.getLeaf =
 	function(
-		module,   // the module relative to which the path is given
-		path      // the relative path
+		base, // the filename relative to which the path is given
+		path  // the relative path
 	)
 {
 /**/if( CHECK )
@@ -351,19 +351,14 @@ tree.getLeaf =
 /**/	if( !path.pathString ) throw new Error( );
 /**/}
 
-	// first makes sure the leaf is loaded
-	module.require( './' + path.pathString );
-
 	let timtree;
-
-	const filename = module.filename;
 
 	// gets the leaf for the current module
 	for( let t = 0; t < timtrees.length; t++ )
 	{
 		const tpath = timtrees[ t ].path;
 
-		if( filename.substr( 0, tpath.length ) === tpath )
+		if( base.substr( 0, tpath.length ) === tpath )
 		{
 			timtree = timtrees[ t ];
 
@@ -373,7 +368,7 @@ tree.getLeaf =
 
 	if( !timtree ) throw new Error( );
 
-	let split = filename.substr( timtree.path.length, filename.length ).split( '/' );
+	let split = base.substr( timtree.path.length, base.length ).split( '/' );
 
 	let branch = timtree.tree;
 
