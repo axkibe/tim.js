@@ -1,8 +1,5 @@
 /*
-| A timtree is a set of 'modules' using tim
-|
-| This is stored so the browser can 'require' these
-| things as well.
+| Hold specifications of a tim.
 */
 'use strict';
 
@@ -14,8 +11,10 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// json name of this tim
 		json : { type : [ 'undefined', 'string' ] },
 
+		// absolute path of tim source
 		path : { type : [ '../export/path' ] },
 	};
 }
