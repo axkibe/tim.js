@@ -16,6 +16,9 @@ if( TIM )
 
 		// absolute path of tim source
 		path : { type : [ '../export/path' ] },
+
+		// def, the tim definition
+		def : { type : 'protean' },
 	};
 }
 

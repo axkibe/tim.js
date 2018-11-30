@@ -16,6 +16,10 @@ if( TIM )
 
 		// an id for this tree
 		id : { type : 'string' },
+
+		// if true skips auto timcode generation for this timspec tree
+		// used by ouroborus builds of tim.js
+		noTimcodeGen : { type : 'boolean', defaultValue : 'false' },
 	};
 
 	def.group = [ './dir', './timspec' ];
