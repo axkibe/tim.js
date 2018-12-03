@@ -11,15 +11,9 @@ if( !NODE ) throw new Error( );
 
 const fs = require( 'fs' );
 
-const tim_proto = require( './proto' );
-
 const vm = require( 'vm' );
 
-
-/*
-| needs the 'pass' global being set.
-*/
-require( './proto' );
+const prepare = require( './prepare' );
 
 const readOptions = { encoding : 'utf8' };
 
@@ -102,29 +96,6 @@ const loadTimcode =
 
 
 /*
-| Returns true if a def has a json component
-*/
-const timDefHasJson =
-	function(
-		def
-	)
-{
-	if( def.json ) return true;
-
-	const attributes = def.attributes;
-
-	if( !attributes ) return false;
-
-	for( let a in attributes )
-	{
-		if( attributes[ a ].json ) return true;
-	}
-
-	return false;
-};
-
-
-/*
 | The tim.define function.
 */
 module.exports =
@@ -157,8 +128,19 @@ module.exports =
 
 	const filename = module.filename;
 
-	// FUTURE this here adds too much.
+	// FIXME remove
 	tim.tree.addLeaf( filename, def.json );
+
+	const bootstrap = tim._BOOTSTRAP;
+
+	if( !bootstrap )
+	{
+		tim.catalog.addTimspec( filename, def );
+	}
+	else
+	{
+		bootstrap.strapped.push( { filename: filename, def: def } );
+	}
 
 	const timcodeRootDir = tim.findTimcodeRootDir( filename );
 
@@ -181,73 +163,5 @@ module.exports =
 
 	exports.timcodeFilename = timcodeFilename;
 
-	exports.hasJson = timDefHasJson( def );
-
-	// assigns statics
-	for( let name in def.static )
-	{
-		exports[ name ] = def.static[ name ];
-	}
-
-	// assigns lazy statics
-	for( let name in def.staticLazy )
-	{
-		tim_proto.lazyStaticValue(
-			exports,
-			name,
-			def.staticLazy[ name ]
-		);
-	}
-
-	// assigns lazy values to the prototype
-	for( let name in def.lazy )
-	{
-		tim_proto.lazyValue(
-			exports.prototype,
-			name,
-			def.lazy[ name ]
-		);
-	}
-
-	// assigns lazy integer functions to the prototype
-	for( let name in def.lazyFuncInt )
-	{
-		tim_proto.lazyFunctionInteger(
-			exports.prototype,
-			name,
-			def.lazyFuncInt[ name ]
-		);
-	}
-
-	// assigns lazy string functions to the prototype
-	for( let name in def.lazyFuncStr )
-	{
-		tim_proto.lazyFunctionString(
-			exports.prototype,
-			name,
-			def.lazyFuncStr[ name ]
-		);
-	}
-
-	// assigns functions to the prototype
-	for( let name in def.func )
-	{
-		exports.prototype[ name ] = def.func[ name ];
-	}
-
-	// assigns transforms to the prototype
-	for( let name in def.transform )
-	{
-		const tname = '__transform_' + name;
-
-		exports.prototype[ tname ] = def.transform[ name ];
-	}
-
-	// assigns inherit optimizations to the prototype
-	for( let name in def.inherit )
-	{
-		exports.prototype[ '__inherit_' + name ] = def.inherit[ name ];
-	}
-
-	return exports;
+	return prepare( def, exports );
 };

@@ -156,7 +156,7 @@ def.func.getLeaf =
 	// first makes sure the leaf is loaded
 	this.module.require( './' + id.pathString );
 
-	return tim.tree.getLeaf( this.module, id );
+	return tim.tree.getLeaf( this.module.filename, id );
 };
 
 

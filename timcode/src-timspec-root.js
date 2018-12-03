@@ -25,12 +25,15 @@ const Constructor =
 	function(
 		group, // group
 		v_id,
+		v_noTimcodeGen,
 		v_path
 	)
 {
 	this.__lazy = { };
 
 	this.id = v_id;
+
+	this.noTimcodeGen = v_noTimcodeGen;
 
 	this.path = v_path;
 
@@ -69,6 +72,8 @@ prototype.create =
 
 	let v_id;
 
+	let v_noTimcodeGen;
+
 	let v_path;
 
 	if( this !== self )
@@ -80,6 +85,8 @@ prototype.create =
 		groupDup = false;
 
 		v_id = this.id;
+
+		v_noTimcodeGen = this.noTimcodeGen;
 
 		v_path = this.path;
 	}
@@ -105,6 +112,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_id = arg;
+				}
+
+				break;
+
+			case 'noTimcodeGen' :
+
+				if( arg !== pass )
+				{
+					v_noTimcodeGen = arg;
 				}
 
 				break;
@@ -158,9 +174,19 @@ prototype.create =
 		}
 	}
 
+	if( v_noTimcodeGen === undefined )
+	{
+		v_noTimcodeGen = false;
+	}
+
 /**/if( CHECK )
 /**/{
 /**/	if( typeof( v_id ) !== 'string' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_noTimcodeGen ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -188,6 +214,8 @@ prototype.create =
 		&&
 		v_id === inherit.id
 		&&
+		v_noTimcodeGen === inherit.noTimcodeGen
+		&&
 		(
 			v_path === inherit.path
 			||
@@ -198,7 +226,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( group, v_id, v_path );
+	return new Constructor( group, v_id, v_noTimcodeGen, v_path );
 };
 
 
@@ -310,5 +338,15 @@ prototype.equals =
 		}
 	}
 
-	return this.id === obj.id && ( this.path === obj.path || this.path.equals( obj.path ) );
+	return (
+		this.id === obj.id
+		&&
+		this.noTimcodeGen === obj.noTimcodeGen
+		&&
+		(
+			this.path === obj.path
+			||
+			this.path.equals( obj.path )
+		)
+	);
 };

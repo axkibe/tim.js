@@ -34,6 +34,8 @@ const fs = require( 'fs' );
 
 const vm = require( 'vm' );
 
+require( '../bootstrap' );
+
 const format_formatter = require( '../format/formatter' );
 
 const generator = require( '../generator' );
