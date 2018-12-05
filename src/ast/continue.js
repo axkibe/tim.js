@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, ast_continue ) => {
+tim.define( module, ( def, ast_continue ) => {
 
 
 // it's just an empty tim.

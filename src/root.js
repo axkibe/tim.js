@@ -1,5 +1,5 @@
 /*
-| FIXME
+| Bootstraps tim.js
 */
 'use strict';
 
@@ -23,8 +23,6 @@ if( global.FREEZE === undefined ) global.FREEZE = true;
 */
 exports = global.tim = module.exports;
 
-tim.ouroboros = require( './ouroboros' );
-
 
 /*
 | In case a peer ouroboros changed the global, change it back.
@@ -33,52 +31,74 @@ global.tim = module.exports;
 
 const proto = exports.proto = require( './proto' );
 
+const bootstrap = tim._BOOTSTRAP = { };
 
-require( './bootstrap' );
+const ending = '/src/root.js';
 
+const filename = module.filename;
 
+// if this filename is not bootstrap.js something is seriously amiss.
+if( !filename.endsWith( ending ) ) throw new Error( );
 
-/*
-| FIXME remove
-*/
-exports.tree = require( './tree/node' );
+const rootDir = filename.substr( 0, filename.length - ending.length + 1 );
 
-exports.import = require( './import' );
+const strapped = bootstrap.strapped = [ ];
 
-exports.copy = proto.copy;
+// FIXME remove
+tim.findTimcodeRootDir = require( './findTimcodeRootDir' );
 
-exports.lazyFunctionInteger = proto.lazyFunctionInteger;
+tim.define = require( './define' );
 
-exports.lazyFunctionString = proto.lazyFunctionString;
+// FIXME remove
+tim.tree = require( './tree/node' );
 
-exports.lazyStaticValue = proto.lazyStaticValue;
+// Catalog of all timspecs in current instace.
+tim.catalog = require( './timspec/catalog' );
 
-exports.lazyValue = proto.lazyValue;
+tim._BOOTSTRAP = undefined;
 
-exports.aheadFunctionInteger = proto.aheadFunctionInteger;
+// adds tim.js itself to the catalog
+tim.catalog.addRootDir( rootDir, 'tim.js', true );
 
-exports.aheadValue = proto.aheadValue;
+// adds the previously skipped entries to the catalog
+for( let a = 0, aLen = strapped.length; a < aLen; a++ )
+{
+	const strap = strapped[ a ];
 
-exports.define = require( './define' );
+	tim.catalog.addTimspec( strap.filename, strap.def );
+}
+
+tim.import = require( './import' );
+
+tim.copy = proto.copy;
+
+tim.lazyFunctionInteger = proto.lazyFunctionInteger;
+
+tim.lazyFunctionString = proto.lazyFunctionString;
+
+tim.lazyStaticValue = proto.lazyStaticValue;
+
+tim.lazyValue = proto.lazyValue;
+
+tim.aheadFunctionInteger = proto.aheadFunctionInteger;
+
+tim.aheadValue = proto.aheadValue;
+
+//exports.define = require( './define' );
 
 const fs = require( 'fs' );
 
-exports.browserSource =
+tim.browserSource =
 	fs.readFileSync(
 		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
 		+ 'browser.js'
 	);
 
-exports.browserTreeSource =
+tim.browserTreeSource =
 	fs.readFileSync(
 		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
 		+ 'tree/browser.js'
 	);
 
-exports.findTimcodeRootDir = require( './findTimcodeRootDir' );
-
-
-
 
 if( FREEZE ) Object.freeze( exports );
-

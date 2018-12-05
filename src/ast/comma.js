@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, ast_comma ) => {
+tim.define( module, ( def, ast_comma ) => {
 
 
 if( TIM )

@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, type_null ) => {
+tim.define( module, ( def, type_null ) => {
 
 
 def.func.equalsConvention = 'mustnot';

@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, token ) => {
+tim.define( module, ( def, token ) => {
 
 
 if( TIM )

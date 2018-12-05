@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, ast_shorthand ) => {
+tim.define( module, ( def, ast_shorthand ) => {
 
 
 const ast_and = require( './and' );

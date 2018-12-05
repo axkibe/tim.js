@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, ast_objLiteral ) => {
+tim.define( module, ( def, ast_objLiteral ) => {
 
 
 if( TIM )

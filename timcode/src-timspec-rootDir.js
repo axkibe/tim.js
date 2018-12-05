@@ -6,9 +6,6 @@
 'use strict';
 
 
-const tt_$_export_path = require( './../export/path' );
-
-
 const tt_dir = require( './dir' );
 
 
@@ -24,18 +21,18 @@ const tim_proto = tim.proto;
 const Constructor =
 	function(
 		group, // group
+		v_absolutePath,
 		v_id,
-		v_noTimcodeGen,
-		v_path
+		v_noTimcodeGen
 	)
 {
 	this.__lazy = { };
 
+	this.absolutePath = v_absolutePath;
+
 	this.id = v_id;
 
 	this.noTimcodeGen = v_noTimcodeGen;
-
-	this.path = v_path;
 
 	this._group = group;
 
@@ -70,11 +67,11 @@ prototype.create =
 
 	let inherit;
 
+	let v_absolutePath;
+
 	let v_id;
 
 	let v_noTimcodeGen;
-
-	let v_path;
 
 	if( this !== self )
 	{
@@ -84,11 +81,11 @@ prototype.create =
 
 		groupDup = false;
 
+		v_absolutePath = this.absolutePath;
+
 		v_id = this.id;
 
 		v_noTimcodeGen = this.noTimcodeGen;
-
-		v_path = this.path;
 	}
 	else
 	{
@@ -107,6 +104,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'absolutePath' :
+
+				if( arg !== pass )
+				{
+					v_absolutePath = arg;
+				}
+
+				break;
+
 			case 'id' :
 
 				if( arg !== pass )
@@ -121,15 +127,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_noTimcodeGen = arg;
-				}
-
-				break;
-
-			case 'path' :
-
-				if( arg !== pass )
-				{
-					v_path = arg;
 				}
 
 				break;
@@ -181,17 +178,17 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( typeof( v_absolutePath ) !== 'string' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_id ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
 /**/	if( typeof( v_noTimcodeGen ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_path.timtype !== tt_$_export_path )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -212,21 +209,17 @@ prototype.create =
 		&&
 		groupDup === false
 		&&
+		v_absolutePath === inherit.absolutePath
+		&&
 		v_id === inherit.id
 		&&
 		v_noTimcodeGen === inherit.noTimcodeGen
-		&&
-		(
-			v_path === inherit.path
-			||
-			v_path.equals( inherit.path )
-		)
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( group, v_id, v_noTimcodeGen, v_path );
+	return new Constructor( group, v_absolutePath, v_id, v_noTimcodeGen );
 };
 
 
@@ -339,14 +332,10 @@ prototype.equals =
 	}
 
 	return (
+		this.absolutePath === obj.absolutePath
+		&&
 		this.id === obj.id
 		&&
 		this.noTimcodeGen === obj.noTimcodeGen
-		&&
-		(
-			this.path === obj.path
-			||
-			this.path.equals( obj.path )
-		)
 	);
 };

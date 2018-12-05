@@ -84,7 +84,7 @@ module.exports =
 	'src/parser/tokenList.js',
 	'src/timspec/timspec.js',
 	'src/timspec/dir.js',
-	'src/timspec/root.js',
+	'src/timspec/rootDir.js',
 	'src/type/any.js',
 	'src/type/boolean.js',
 	'src/type/date.js',

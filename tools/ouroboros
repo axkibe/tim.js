@@ -1,9 +1,39 @@
 #!/bin/bash
 set -e
-echo first cycle
-node src/ouroboros/root.js --all
-echo second cycle
-node src/ouroboros/root.js --all
-echo testing jshint
+
+OUROBOROSPATH="$( cd "$(dirname "$0")/.." ; pwd -P )/"
+TARGETPATH="$(pwd -P )/"
+
+if [ "${OUROBOROSPATH}" == "${TARGETPATH}" ] ; then
+	echo ""
+	echo "this is a self build"
+	echo "===================="
+else
+	PEER=true
+	echo ""
+	echo "this is a peer build"
+	echo "===================="
+fi
+
+echo ""
+echo "first cycle"
+echo "-----------"
+node ${OUROBOROSPATH}/src/ouroboros/root.js ${TARGETPATH}
+
+echo ""
+echo "second cycle"
+echo "------------"
+node ${TARGETPATH}/src/ouroboros/root.js ${TARGETPATH}
+
+if [ "$PEER" = true ] ; then
+	echo ""
+	echo "third cycle"
+	echo "-----------"
+	node ${TARGETPATH}/src/ouroboros/root.js ${TARGETPATH}
+fi
+
+echo ""
+echo "testing jshint"
+echo "--------------"
 ./jshint
-echo jshint: okay
+echo "jshint: okay"

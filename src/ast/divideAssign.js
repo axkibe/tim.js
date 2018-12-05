@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.ouroboros.define( module, ( def, ast_divideAssign ) => {
+tim.define( module, ( def, ast_divideAssign ) => {
 
 
 if( TIM )

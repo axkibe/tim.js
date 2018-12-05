@@ -26,14 +26,10 @@ pass = tim.pass = { };
 
 TIM = false;
 
-tim.ouroboros = { };
-
-
 if( FREEZE ) Object.freeze( pass );
 
 
 tim.define =
-tim.ouroboros.define =
 	function(
 		module,   // used by node only, ignored in browser
 		definer   // defined functions

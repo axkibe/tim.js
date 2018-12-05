@@ -133,9 +133,13 @@ module.exports =
 
 	const bootstrap = tim._BOOTSTRAP;
 
+	let timspec, rootDir;
+
 	if( !bootstrap )
 	{
-		tim.catalog.addTimspec( filename, def );
+		timspec = tim.catalog.addTimspec( filename, def );
+
+		rootDir = tim.catalog.getRootDir( timspec );
 	}
 	else
 	{
@@ -150,7 +154,7 @@ module.exports =
 		.substr( timcodeRootDir.length )
 		.replace( /\//g, '-' );
 
-	if( !tim.ouroborosBuild )
+	if( rootDir && !rootDir.noTimcodeGen )
 	{
 		createTimcode( def, module, timcodeRootDir, timcodeFilename );
 	}

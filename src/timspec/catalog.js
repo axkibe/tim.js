@@ -2,6 +2,8 @@
 | A catalog of timspec roots.
 |
 | This is all the timspecs in the current running instance.
+|
+| FIXME make this a tim.
 */
 'use strict';
 
@@ -17,7 +19,11 @@ if( !global.NODE ) throw new Error( );
 */
 const catalog = module.exports = { };
 
-const timspec_root = require( './root' );
+const timspec_rootDir = require( './rootDir' );
+
+const timspec_timspec = require( './timspec' );
+
+const tim_path = require( '../export/path' );
 
 
 /*
@@ -27,20 +33,20 @@ const timspecRoots = [ ];
 
 
 /*
-| Adds a timspecRoot
+| Adds a timspecRootDir
 */
-catalog.addRoot =
+catalog.addRootDir =
 	function(
-		path,         // path of the timspec_root
-		id,           // id for timspec_root
+		absolutePath, // path of the timspec_rootDir
+		id,           // id for timspec tree
 		noTimcodeGen  // if true, do skip auto timcode generation for that timspec tree
 	)
 {
 	const tsRoot =
-		timspec_root.create(
-			'path', path,
+		timspec_rootDir.create(
+			'absolutePath', absolutePath,
 			'id', id,
-			'noTimecodeGen', noTimcodeGen
+			'noTimcodeGen', noTimcodeGen
 		);
 
 	// checks if this root or this id is already a timspecRoot
@@ -48,7 +54,7 @@ catalog.addRoot =
 	{
 		const tsr = timspecRoots[ a ];
 
-		if( tsr.path.equals( path ) ) throw new Error( );
+		if( tsr.absolutePath === absolutePath ) throw new Error( );
 
 		if( tsr.id === id ) throw new Error( );
 	}
@@ -81,58 +87,84 @@ catalog.addTimspec =
 		def       // definition of the tim
 	)
 {
-	console.log( 'XX ADDTIMSPEC', filename );
-	/*
-	let timtree;
+	// timspecRoot
+	let tsr, tsrPos = 0;
 
-	for( let t = 0; t < timtrees.length; t++ )
+	const tsrLen = timspecRoots.length;
+
+	while( tsrPos < tsrLen )
 	{
-		const tpath = timtrees[ t ].path;
+		tsr = timspecRoots[ tsrPos ];
 
-		if( filename.substr( 0, tpath.length ) === tpath )
-		{
-			timtree = timtrees[ t ];
+		const ap = tsr.absolutePath;
 
-			break;
-		}
+		if( filename.substr( 0, ap.length ) === ap ) break;
+
+		tsrPos++;
 	}
 
-	if( !timtree ) throw new Error( );
+	if( tsrPos >= tsrLen ) throw new Error( );
 
-	let path = filename.substr( timtree.path.length, filename.length );
+	let path = filename.substr( tsr.absolutePath.length, filename.length );
+
+	// removes the .js ending from the key
+	if( path.substr( path.length - 3, path.length ) !== '.js' ) throw new Error( );
+
+	path = path.substr( 0, path.length - 3 );
 
 	path = path.split( '/' );
 
-	let branch = timtree.tree;
+	path.unshift( tsr.id );
 
-	for( let p = 0; p < path.length - 1; p++ )
+	path = tim_path.create( 'list:init', path );
+
+	const timspec = timspec_timspec.createFromDef( def, path );
+
+	timspecRoots[ tsrPos ] = tsr.addTimspec( timspec );
+
+	return timspec;
+};
+
+
+
+/*
+| Prints the catalog on console.
+*/
+catalog.print =
+	function( )
+{
+	const util = require( 'util' );
+
+	for( let t = 0, tLen = timspecRoots.length; t < tLen; t++ )
 	{
-		let key = path[ p ];
+		console.log( util.inspect( timspecRoots, { depth: null } ) );
+	}
+};
 
-		if( !branch[ key ] ) branch[ key ] = { _parent : branch  };
 
-		branch = branch[ key ];
+/*
+| Returns the rootDir by it's id (string)
+| or atlernativly by a timspec
+*/
+catalog.getRootDir =
+	function(
+		consult // id or timspec
+	)
+{
+	if( consult.timtype === timspec_timspec )
+	{
+		consult = consult.path.get( 0 );
 	}
 
-	let key = path[ path.length - 1 ];
-
-	// removes the .js from the key
-	key = key.substr( 0, key.length - 3 );
-
-	// already added?
-	if( branch[ key ] )
+	for( let t = 0, tLen = timspecRoots.length; t < tLen; t++ )
 	{
-		// if the json name changed, there must be an error
-		if( branch[ key ]._json !== json ) throw new Error( );
+		const tsr = timspecRoots[ t ];
+
+		if( tsr.id === consult ) return tsr;
 	}
-	else
-	{
-		branch[ key ] =
-			json
-			? { _parent: branch, _json: json  }
-			: { _parent: branch };
-	}
-	*/
+
+	// this shouldn't happen
+	throw new Error( );
 };
 
 
