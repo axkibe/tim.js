@@ -6,7 +6,7 @@
 'use strict';
 
 
-const tt_letEntry = require( './letEntry' );
+const tt_letEntry = require( './letEntry.js' );
 
 
 const tim_proto = tim.proto;

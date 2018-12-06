@@ -6,154 +6,154 @@
 'use strict';
 
 
-const tt_ast_and = require( './ast/and' );
+const tt_ast_and = require( './ast/and.js' );
 
 
-const tt_ast_arrayLiteral = require( './ast/arrayLiteral' );
+const tt_ast_arrayLiteral = require( './ast/arrayLiteral.js' );
 
 
-const tt_ast_assign = require( './ast/assign' );
+const tt_ast_assign = require( './ast/assign.js' );
 
 
-const tt_ast_boolean = require( './ast/boolean' );
+const tt_ast_boolean = require( './ast/boolean.js' );
 
 
-const tt_ast_call = require( './ast/call' );
+const tt_ast_call = require( './ast/call.js' );
 
 
-const tt_ast_comma = require( './ast/comma' );
+const tt_ast_comma = require( './ast/comma.js' );
 
 
-const tt_ast_condition = require( './ast/condition' );
+const tt_ast_condition = require( './ast/condition.js' );
 
 
-const tt_ast_delete = require( './ast/delete' );
+const tt_ast_delete = require( './ast/delete.js' );
 
 
-const tt_ast_differs = require( './ast/differs' );
+const tt_ast_differs = require( './ast/differs.js' );
 
 
-const tt_ast_divide = require( './ast/divide' );
+const tt_ast_divide = require( './ast/divide.js' );
 
 
-const tt_ast_divideAssign = require( './ast/divideAssign' );
+const tt_ast_divideAssign = require( './ast/divideAssign.js' );
 
 
-const tt_ast_dot = require( './ast/dot' );
+const tt_ast_dot = require( './ast/dot.js' );
 
 
-const tt_ast_equals = require( './ast/equals' );
+const tt_ast_equals = require( './ast/equals.js' );
 
 
-const tt_ast_func = require( './ast/func' );
+const tt_ast_func = require( './ast/func.js' );
 
 
-const tt_ast_greaterThan = require( './ast/greaterThan' );
+const tt_ast_greaterThan = require( './ast/greaterThan.js' );
 
 
-const tt_ast_instanceof = require( './ast/instanceof' );
+const tt_ast_instanceof = require( './ast/instanceof.js' );
 
 
-const tt_ast_lessThan = require( './ast/lessThan' );
+const tt_ast_lessThan = require( './ast/lessThan.js' );
 
 
-const tt_ast_member = require( './ast/member' );
+const tt_ast_member = require( './ast/member.js' );
 
 
-const tt_ast_minus = require( './ast/minus' );
+const tt_ast_minus = require( './ast/minus.js' );
 
 
-const tt_ast_minusAssign = require( './ast/minusAssign' );
+const tt_ast_minusAssign = require( './ast/minusAssign.js' );
 
 
-const tt_ast_multiply = require( './ast/multiply' );
+const tt_ast_multiply = require( './ast/multiply.js' );
 
 
-const tt_ast_multiplyAssign = require( './ast/multiplyAssign' );
+const tt_ast_multiplyAssign = require( './ast/multiplyAssign.js' );
 
 
-const tt_ast_negate = require( './ast/negate' );
+const tt_ast_negate = require( './ast/negate.js' );
 
 
-const tt_ast_new = require( './ast/new' );
+const tt_ast_new = require( './ast/new.js' );
 
 
-const tt_ast_not = require( './ast/not' );
+const tt_ast_not = require( './ast/not.js' );
 
 
-const tt_ast_null = require( './ast/null' );
+const tt_ast_null = require( './ast/null.js' );
 
 
-const tt_ast_number = require( './ast/number' );
+const tt_ast_number = require( './ast/number.js' );
 
 
-const tt_ast_objLiteral = require( './ast/objLiteral' );
+const tt_ast_objLiteral = require( './ast/objLiteral.js' );
 
 
-const tt_ast_or = require( './ast/or' );
+const tt_ast_or = require( './ast/or.js' );
 
 
-const tt_ast_plus = require( './ast/plus' );
+const tt_ast_plus = require( './ast/plus.js' );
 
 
-const tt_ast_plusAssign = require( './ast/plusAssign' );
+const tt_ast_plusAssign = require( './ast/plusAssign.js' );
 
 
-const tt_ast_postDecrement = require( './ast/postDecrement' );
+const tt_ast_postDecrement = require( './ast/postDecrement.js' );
 
 
-const tt_ast_postIncrement = require( './ast/postIncrement' );
+const tt_ast_postIncrement = require( './ast/postIncrement.js' );
 
 
-const tt_ast_preDecrement = require( './ast/preDecrement' );
+const tt_ast_preDecrement = require( './ast/preDecrement.js' );
 
 
-const tt_ast_preIncrement = require( './ast/preIncrement' );
+const tt_ast_preIncrement = require( './ast/preIncrement.js' );
 
 
-const tt_ast_string = require( './ast/string' );
+const tt_ast_string = require( './ast/string.js' );
 
 
-const tt_ast_typeof = require( './ast/typeof' );
+const tt_ast_typeof = require( './ast/typeof.js' );
 
 
-const tt_ast_undefined = require( './ast/undefined' );
+const tt_ast_undefined = require( './ast/undefined.js' );
 
 
-const tt_ast_var = require( './ast/var' );
+const tt_ast_var = require( './ast/var.js' );
 
 
-const tt_type_boolean = require( './type/boolean' );
+const tt_type_boolean = require( './type/boolean.js' );
 
 
-const tt_type_date = require( './type/date' );
+const tt_type_date = require( './type/date.js' );
 
 
-const tt_type_function = require( './type/function' );
+const tt_type_function = require( './type/function.js' );
 
 
-const tt_type_integer = require( './type/integer' );
+const tt_type_integer = require( './type/integer.js' );
 
 
-const tt_type_null = require( './type/null' );
+const tt_type_null = require( './type/null.js' );
 
 
-const tt_type_number = require( './type/number' );
+const tt_type_number = require( './type/number.js' );
 
 
-const tt_type_protean = require( './type/protean' );
+const tt_type_protean = require( './type/protean.js' );
 
 
-const tt_type_undefined = require( './type/undefined' );
+const tt_type_undefined = require( './type/undefined.js' );
 
 
-const tt_type_string = require( './type/string' );
+const tt_type_string = require( './type/string.js' );
 
 
-const tt_type_tim = require( './type/tim' );
+const tt_type_tim = require( './type/tim.js' );
 
 
-const tt_type_set = require( './type/set' );
+const tt_type_set = require( './type/set.js' );
 
 
 const tim_proto = tim.proto;

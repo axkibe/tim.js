@@ -6,7 +6,7 @@
 'use strict';
 
 
-const tt_token = require( './token' );
+const tt_token = require( './token.js' );
 
 
 const tim_proto = tim.proto;

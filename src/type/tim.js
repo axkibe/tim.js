@@ -145,7 +145,7 @@ def.lazy.pathString =
 		p += this.get( a );
 	}
 
-	return p;
+	return p + '.js';
 };
 
 

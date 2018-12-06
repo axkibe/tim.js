@@ -6,10 +6,10 @@
 'use strict';
 
 
-const tt_dir = require( './dir' );
+const tt_dir = require( './dir.js' );
 
 
-const tt_timspec = require( './timspec' );
+const tt_timspec = require( './timspec.js' );
 
 
 const tim_proto = tim.proto;

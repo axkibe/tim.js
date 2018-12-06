@@ -4,7 +4,7 @@
 'use strict';
 
 
-var module, pass, tim, tim_proto, TIM, _timtrees;
+var module, pass, tim, tim_proto, TIM, _catalog;
 
 module = undefined;
 
@@ -109,12 +109,6 @@ tim.define =
 
 
 /*
-| The tim trees global.
-*/
-var _timtrees;
-
-
-/*
 | Imports tims from other packages.
 */
 tim.import =
@@ -123,23 +117,27 @@ tim.import =
 		path  // exported path
 	)
 {
-	let branch = _timtrees[ rmod ];
+	let dir = _catalog[ rmod ];
 
-	if( !branch ) throw new Error( );
+	if( !dir ) throw new Error( );
 
-	branch = branch.export;
+	dir = dir.export;
 
-	if( !branch ) throw new Error( );
+	if( !dir ) throw new Error( );
 
 	const split = path.split( );
 
 	for( let a = 0, al = split.length; a < al; a++ )
 	{
-		branch = branch[ split[ a ] ];
+		let key = split[ a ];
 
-		if( !branch ) throw new Error( );
+		if( a + 1 === al && !key.endsWith( '.js' ) ) key = key + '.js';
+
+		dir = dir[ key ];
+
+		if( !dir ) throw new Error( );
 	}
 
-	return branch;
+	return dir;
 };
 

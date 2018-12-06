@@ -47,4 +47,46 @@ def.static.createFromDef =
 };
 
 
+/*
+| Returns the preamble to be prepended
+| to sources for browser mode.
+*/
+def.func.getBrowserPreamble =
+	function(
+		timcode    // true if this is for timcode
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 1 ) throw new Error( );
+/**/}
+
+	let text = '';
+
+	text +=
+		'( ( ) => { let '
+		+ ( timcode ? 'self' : 'module' )
+		+ ' = _catalog';
+
+	const path = this.path;
+
+	for( let p = 0, pLen = path.length; p < pLen; p++ )
+	{
+		const key = path.get( p );
+
+		text +=
+			key.indexOf( '.' ) >= 0
+			? '[ \'' + key + '\' ]'
+			: '.' + key;
+	}
+
+	text +=
+		'; let require = _require.bind( '
+		+ ( timcode ? 'self' : 'module' )
+		+ ' );';
+
+	return text;
+};
+
+
 } );

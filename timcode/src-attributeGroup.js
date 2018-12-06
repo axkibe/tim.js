@@ -6,7 +6,7 @@
 'use strict';
 
 
-const tt_attribute = require( './attribute' );
+const tt_attribute = require( './attribute.js' );
 
 
 const tim_proto = tim.proto;

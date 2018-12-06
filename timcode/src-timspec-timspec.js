@@ -6,7 +6,7 @@
 'use strict';
 
 
-const tt_$_export_path = require( './../export/path' );
+const tt_$_export_path = require( './../export/path.js' );
 
 
 const tim_proto = tim.proto;

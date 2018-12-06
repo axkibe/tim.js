@@ -56,8 +56,6 @@ myDir += '/';
 
 if( targetDir !== myDir )
 {
-	tim.tree.addTree( targetDir, 'ouroborosTarget' );
-
 	tim.catalog.addRootDir( targetDir, 'ouroborosTarget', true );
 }
 

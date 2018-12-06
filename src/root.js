@@ -33,7 +33,7 @@ const proto = exports.proto = require( './proto' );
 
 const bootstrap = tim._BOOTSTRAP = { };
 
-const ending = '/src/root.js';
+const ending = '/root.js';
 
 const filename = module.filename;
 
@@ -49,9 +49,6 @@ tim.findTimcodeRootDir = require( './findTimcodeRootDir' );
 
 tim.define = require( './define' );
 
-// FIXME remove
-tim.tree = require( './tree/node' );
-
 // Catalog of all timspecs in current instace.
 tim.catalog = require( './timspec/catalog' );
 
@@ -61,7 +58,7 @@ tim._BOOTSTRAP = undefined;
 tim.catalog.addRootDir( rootDir, 'tim.js', true );
 
 // adds the previously skipped entries to the catalog
-for( let a = 0, aLen = strapped.length; a < aLen; a++ )
+for( let a = 0, al = strapped.length; a < al; a++ )
 {
 	const strap = strapped[ a ];
 
@@ -93,12 +90,5 @@ tim.browserSource =
 		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
 		+ 'browser.js'
 	);
-
-tim.browserTreeSource =
-	fs.readFileSync(
-		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
-		+ 'tree/browser.js'
-	);
-
 
 if( FREEZE ) Object.freeze( exports );

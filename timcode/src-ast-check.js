@@ -6,7 +6,7 @@
 'use strict';
 
 
-const tt_block = require( './block' );
+const tt_block = require( './block.js' );
 
 
 const tim_proto = tim.proto;

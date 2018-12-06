@@ -12,6 +12,7 @@ if( TIM )
 	def.attributes =
 	{
 		// the absolute path of the root directory
+		// FIXME XXX rename realpath
 		absolutePath : { type : 'string' },
 
 		// an id for this tree

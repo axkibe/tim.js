@@ -6,16 +6,16 @@
 'use strict';
 
 
-const tt_attributeGroup = require( './attributeGroup' );
+const tt_attributeGroup = require( './attributeGroup.js' );
 
 
-const tt_type_set = require( './type/set' );
+const tt_type_set = require( './type/set.js' );
 
 
-const tt_ast_var = require( './ast/var' );
+const tt_ast_var = require( './ast/var.js' );
 
 
-const tt_export_stringSet = require( './export/stringSet' );
+const tt_export_stringSet = require( './export/stringSet.js' );
 
 
 const tim_proto = tim.proto;

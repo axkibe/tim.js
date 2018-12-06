@@ -39,9 +39,6 @@ global.format = global.format_formatter.format;
 
 global.util = require( 'util' );
 
-// XXX
-global.timpath = require( '../export/path' );
-global.timtree_branch = require( '../timtree/branch' );
 
 /*
 | Comfort function, inspects with infinite depth as default.

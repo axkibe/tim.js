@@ -128,16 +128,13 @@ module.exports =
 
 	const filename = module.filename;
 
-	// FIXME remove
-	tim.tree.addLeaf( filename, def.json );
-
 	const bootstrap = tim._BOOTSTRAP;
 
-	let timspec, rootDir;
+	let rootDir;
 
 	if( !bootstrap )
 	{
-		timspec = tim.catalog.addTimspec( filename, def );
+		const timspec = tim.catalog.addTimspec( filename, def );
 
 		rootDir = tim.catalog.getRootDir( timspec );
 	}

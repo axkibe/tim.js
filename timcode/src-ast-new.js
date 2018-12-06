@@ -6,7 +6,7 @@
 'use strict';
 
 
-const tt_call = require( './call' );
+const tt_call = require( './call.js' );
 
 
 const tim_proto = tim.proto;

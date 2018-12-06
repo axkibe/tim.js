@@ -6,7 +6,7 @@
 'use strict';
 
 
-const tt_path = require( './path' );
+const tt_path = require( './path.js' );
 
 
 const tim_proto = tim.proto;
