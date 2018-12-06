@@ -43,12 +43,18 @@ def.func.addTimspec =
 	// this is the last dir in subpath
 	if( pathPos === path.length - 1 )
 	{
-		const leaf = this.get( key );
+		const entry = this.get( key );
 
-		// already there
-		// XXX FIXME check if equal
+		// already there?
+		if( entry )
+		{
+/**/		if( CHECK )
+/**/		{
+/**/			if( !this.equals( entry ) ) throw new Error( );
+/**/		}
 
-		if( leaf ) return this;
+			return this;
+		}
 
 		return this.set( key, timspec );
 	}
@@ -57,6 +63,7 @@ def.func.addTimspec =
 	let dir = this.get( key ) || timtree_dir.empty;
 
 	return this.set( key, dir.addTimspec( timspec, pathPos + 1 ) );
+
 };
 
 

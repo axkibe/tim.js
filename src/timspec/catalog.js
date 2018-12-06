@@ -206,8 +206,6 @@ catalog.getTimspecRelative =
 /**/	if( base[ base.length - 1 ] === '/' ) throw new Error( );
 /**/}
 
-	const pbase = base;
-
 	// first the directory of the base
 	base = base.substr( 0, base.lastIndexOf( '/' ) );
 
@@ -238,8 +236,6 @@ catalog.getTimspecRelative =
 				continue;
 		}
 	}
-
-	console.log( 'XXX', pbase, '+', path.pathString, '=', base );
 
 	return catalog.getTimspec( base );
 };
