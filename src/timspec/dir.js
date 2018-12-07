@@ -50,7 +50,7 @@ def.func.addTimspec =
 		{
 /**/		if( CHECK )
 /**/		{
-/**/			if( !this.equals( entry ) ) throw new Error( );
+/**/			if( !entry.equals( timspec ) ) throw new Error( );
 /**/		}
 
 			return this;

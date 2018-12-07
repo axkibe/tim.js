@@ -43,11 +43,6 @@ const Constructor =
 	{
 		Object.freeze( this, group );
 	}
-
-/**/if( CHECK )
-/**/{
-/**/	this._check( );
-/**/}
 };
 
 

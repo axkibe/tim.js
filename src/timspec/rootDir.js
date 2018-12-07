@@ -11,22 +11,39 @@ if( TIM )
 {
 	def.attributes =
 	{
-		// the absolute path of the root directory
-		// FIXME XXX rename realpath
-		absolutePath : { type : 'string' },
-
 		// an id for this tree
 		id : { type : 'string' },
 
 		// if true skips auto timcode generation for this timspec tree
 		// used by ouroborus builds of tim.js
 		noTimcodeGen : { type : 'boolean', defaultValue : 'false' },
+
+		// the absolute path of the root directory
+		realpath : { type : 'string' },
+
+		// the path where the generated timcode is placed
+		timcodePath : { type : 'string' },
 	};
 
 	def.group = [ './dir', './timspec' ];
 }
 
 const timspec_dir = require( './dir' );
+
+
+/**
+*** Exta checking
+***/
+/**/if( CHECK )
+/**/{
+/**/	def.func._check =
+/**/		function( )
+/**/	{
+/**/		if( this.realpath[ this.realpath.length - 1 ] === '/' ) throw new Error( );
+/**/
+/**/		if( this.timcodePath[ this.timcodePath.length - 1 ] === '/' ) throw new Error( );
+/**/	};
+/**/}
 
 
 /*
@@ -55,15 +72,20 @@ def.func.addTimspec =
 	{
 		const ts = this.get( key );
 
-		// this is already added
-		// XXX FIXME check if already there
-		if( ts ) return this;
+		if( ts )
+		{
+/**/		if( CHECK )
+/**/		{
+/**/			if( !timspec.equals( ts ) ) throw new Error( );
+/**/		}
+
+			return this;
+		}
 
 		return this.create( 'group:set', key, timspec );
 	}
 
 	// this is in a subdir
-
 	const dir = this.get( key ) || timspec_dir.empty;
 
 	return this.create( 'group:set', key, dir.addTimspec( timspec, 2 ) );

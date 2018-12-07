@@ -56,7 +56,10 @@ myDir += '/';
 
 if( targetDir !== myDir )
 {
-	tim.catalog.addRootDir( targetDir, 'ouroborosTarget', true );
+	// timcode dir is one level up
+	const targetTimcodeDir = targetDir.substr( 0, targetDir.lastIndexOf( '/' ) + 1 ) + 'timcode';
+
+	tim.catalog.addRootDir( targetDir, 'ouroborosTarget', targetTimcodeDir, true );
 }
 
 

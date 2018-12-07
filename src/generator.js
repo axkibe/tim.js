@@ -448,7 +448,8 @@ def.func.genCreatorInheritanceReceiver =
 	{
 		receiver = receiver.$( 'twig = inherit._twig' );
 
-		if( !this.proxyRanks ) receiver = receiver.$( 'ranks = inherit._ranks' );
+		receiver = receiver.$( 'ranks = inherit._ranks' );
+		//if( !this.proxyRanks ) receiver = receiver.$( 'ranks = inherit._ranks' );
 
 		receiver = receiver.$( 'twigDup = false' );
 

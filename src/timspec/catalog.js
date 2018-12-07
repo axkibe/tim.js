@@ -39,16 +39,23 @@ const timspecRoots = [ ];
 */
 catalog.addRootDir =
 	function(
-		absolutePath, // path of the timspec_rootDir
+		realpath,     // absolute path of the timspec_rootDir
 		id,           // id for timspec tree
+		timcodePath,  // path where the timcode is placed
 		noTimcodeGen  // if true, do skip auto timcode generation for that timspec tree
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length < 3 ) throw new Error( );
+/**/}
+
 	const tsRoot =
 		timspec_rootDir.create(
-			'absolutePath', absolutePath,
 			'id', id,
-			'noTimcodeGen', noTimcodeGen
+			'noTimcodeGen', noTimcodeGen,
+			'realpath', realpath,
+			'timcodePath', timcodePath
 		);
 
 	// checks if this root or this id is already a timspecRoot
@@ -56,7 +63,7 @@ catalog.addRootDir =
 	{
 		const tsr = timspecRoots[ a ];
 
-		if( tsr.absolutePath === absolutePath ) throw new Error( );
+		if( tsr.realpath === realpath ) throw new Error( );
 
 		if( tsr.id === id ) throw new Error( );
 	}
@@ -98,16 +105,14 @@ catalog.addTimspec =
 	{
 		tsr = timspecRoots[ tsrPos ];
 
-		const ap = tsr.absolutePath;
-
-		if( filename.substr( 0, ap.length ) === ap ) break;
+		if( filename.startsWith( tsr.realpath ) ) break;
 
 		tsrPos++;
 	}
 
 	if( tsrPos >= tsrLen ) throw new Error( );
 
-	let path = filename.substr( tsr.absolutePath.length, filename.length );
+	let path = filename.substr( tsr.realpath.length + 1, filename.length );
 
 	path = path.split( '/' );
 
@@ -164,15 +169,15 @@ catalog.getTimspec =
 	{
 		tsr = timspecRoots[ t ];
 
-		if( realpath.length < tsr.absolutePath.length ) continue;
+		if( realpath.length < tsr.realpath.length ) continue;
 
-		if( realpath.substr( 0, tsr.absolutePath.length ) === tsr.absolutePath ) break;
+		if( realpath.startsWith( tsr.realpath ) ) break;
 
 		// no match rootDir found!
 		if( t + 1 >= tLen ) throw new Error( );
 	}
 
-	let path = realpath.substr( tsr.absolutePath.length, realpath.length );
+	let path = realpath.substr( tsr.realpath.length + 1 );
 
 	path = path.split( '/' );
 

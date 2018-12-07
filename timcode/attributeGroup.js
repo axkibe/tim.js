@@ -6,10 +6,7 @@
 'use strict';
 
 
-const tt_dir = require( './dir.js' );
-
-
-const tt_timspec = require( './timspec.js' );
+const tt_attribute = require( './attribute.js' );
 
 
 const tim_proto = tim.proto;
@@ -20,22 +17,10 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		group, // group
-		v_id,
-		v_noTimcodeGen,
-		v_realpath,
-		v_timcodePath
+		group // group
 	)
 {
 	this.__lazy = { };
-
-	this.id = v_id;
-
-	this.noTimcodeGen = v_noTimcodeGen;
-
-	this.realpath = v_realpath;
-
-	this.timcodePath = v_timcodePath;
 
 	this._group = group;
 
@@ -43,11 +28,6 @@ const Constructor =
 	{
 		Object.freeze( this, group );
 	}
-
-/**/if( CHECK )
-/**/{
-/**/	this._check( );
-/**/}
 };
 
 
@@ -75,14 +55,6 @@ prototype.create =
 
 	let inherit;
 
-	let v_id;
-
-	let v_noTimcodeGen;
-
-	let v_realpath;
-
-	let v_timcodePath;
-
 	if( this !== self )
 	{
 		inherit = this;
@@ -90,14 +62,6 @@ prototype.create =
 		group = inherit._group;
 
 		groupDup = false;
-
-		v_id = this.id;
-
-		v_noTimcodeGen = this.noTimcodeGen;
-
-		v_realpath = this.realpath;
-
-		v_timcodePath = this.timcodePath;
 	}
 	else
 	{
@@ -116,42 +80,6 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'id' :
-
-				if( arg !== pass )
-				{
-					v_id = arg;
-				}
-
-				break;
-
-			case 'noTimcodeGen' :
-
-				if( arg !== pass )
-				{
-					v_noTimcodeGen = arg;
-				}
-
-				break;
-
-			case 'realpath' :
-
-				if( arg !== pass )
-				{
-					v_realpath = arg;
-				}
-
-				break;
-
-			case 'timcodePath' :
-
-				if( arg !== pass )
-				{
-					v_timcodePath = arg;
-				}
-
-				break;
-
 			case 'group:init' :
 
 				group = arg;
@@ -192,62 +120,25 @@ prototype.create =
 		}
 	}
 
-	if( v_noTimcodeGen === undefined )
-	{
-		v_noTimcodeGen = false;
-	}
-
 /**/if( CHECK )
 /**/{
-/**/	if( typeof( v_id ) !== 'string' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_noTimcodeGen ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_realpath ) !== 'string' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( typeof( v_timcodePath ) !== 'string' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	for( let k in group )
 /**/	{
 /**/		const o = group[ k ];
 /**/
-/**/		if( o.timtype !== tt_dir && o.timtype !== tt_timspec )
+/**/		if( o.timtype !== tt_attribute )
 /**/		{
 /**/			throw new Error( );
 /**/		}
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		groupDup === false
-		&&
-		v_id === inherit.id
-		&&
-		v_noTimcodeGen === inherit.noTimcodeGen
-		&&
-		v_realpath === inherit.realpath
-		&&
-		v_timcodePath === inherit.timcodePath
-	)
+	if( inherit && groupDup === false )
 	{
 		return inherit;
 	}
 
-	return new Constructor( group, v_id, v_noTimcodeGen, v_realpath, v_timcodePath );
+	return new Constructor( group );
 };
 
 
@@ -359,13 +250,5 @@ prototype.equals =
 		}
 	}
 
-	return (
-		this.id === obj.id
-		&&
-		this.noTimcodeGen === obj.noTimcodeGen
-		&&
-		this.realpath === obj.realpath
-		&&
-		this.timcodePath === obj.timcodePath
-	);
+	return true;
 };

@@ -29,9 +29,9 @@ exports = global.tim = module.exports;
 */
 global.tim = module.exports;
 
-const proto = exports.proto = require( './proto' );
-
-const bootstrap = tim._BOOTSTRAP = { };
+const proto =
+exports.proto =
+	require( './proto' );
 
 const ending = '/root.js';
 
@@ -40,22 +40,32 @@ const filename = module.filename;
 // if this filename is not bootstrap.js something is seriously amiss.
 if( !filename.endsWith( ending ) ) throw new Error( );
 
-const rootDir = filename.substr( 0, filename.length - ending.length + 1 );
+const bootstrap =
+tim._BOOTSTRAP =
+	{ };
+
+// the (src) root directory
+const rootPath =
+bootstrap.rootPath =
+	filename.substr( 0, filename.length - ending.length );
+
+// the timcode path is one up.
+const timcodePath =
+bootstrap.timcodePath =
+	rootPath.substr( 0, rootPath.lastIndexOf( '/' ) ) + '/timcode';
 
 const strapped = bootstrap.strapped = [ ];
-
-// FIXME remove
-tim.findTimcodeRootDir = require( './findTimcodeRootDir' );
 
 tim.define = require( './define' );
 
 // Catalog of all timspecs in current instace.
 tim.catalog = require( './timspec/catalog' );
 
+// finished bootstrapping
 tim._BOOTSTRAP = undefined;
 
 // adds tim.js itself to the catalog
-tim.catalog.addRootDir( rootDir, 'tim.js', true );
+tim.catalog.addRootDir( rootPath, 'tim.js', timcodePath, true );
 
 // adds the previously skipped entries to the catalog
 for( let a = 0, al = strapped.length; a < al; a++ )

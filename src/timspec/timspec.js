@@ -11,9 +11,6 @@ if( TIM )
 {
 	def.attributes =
 	{
-		// def, the tim definition
-		def : { type : 'protean' },
-
 		// json name of this tim
 		json : { type : [ 'undefined', 'string' ] },
 
@@ -39,7 +36,7 @@ def.static.createFromDef =
 
 	return(
 		timspec_timspec.create(
-			'def', def,
+//			'def', def,
 			'json', def.json,
 			'path', path
 		)

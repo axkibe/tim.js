@@ -6,9 +6,6 @@
 'use strict';
 
 
-const tt_$_export_path = require( './../export/path.js' );
-
-
 const tim_proto = tim.proto;
 
 
@@ -17,13 +14,13 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v_json,
-		v_path
+		v_comment,
+		v_name
 	)
 {
-	this.json = v_json;
+	this.comment = v_comment;
 
-	this.path = v_path;
+	this.name = v_name;
 
 	if( FREEZE )
 	{
@@ -52,17 +49,17 @@ prototype.create =
 {
 	let inherit;
 
-	let v_json;
+	let v_comment;
 
-	let v_path;
+	let v_name;
 
 	if( this !== self )
 	{
 		inherit = this;
 
-		v_json = this.json;
+		v_comment = this.comment;
 
-		v_path = this.path;
+		v_name = this.name;
 	}
 
 	for(
@@ -75,20 +72,20 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'json' :
+			case 'comment' :
 
 				if( arg !== pass )
 				{
-					v_json = arg;
+					v_comment = arg;
 				}
 
 				break;
 
-			case 'path' :
+			case 'name' :
 
 				if( arg !== pass )
 				{
-					v_path = arg;
+					v_name = arg;
 				}
 
 				break;
@@ -101,33 +98,23 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_json !== undefined && typeof( v_json ) !== 'string' )
+/**/	if( v_comment !== undefined && typeof( v_comment ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_path.timtype !== tt_$_export_path )
+/**/	if( v_name !== undefined && typeof( v_name ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		v_json === inherit.json
-		&&
-		(
-			v_path === inherit.path
-			||
-			v_path.equals( inherit.path )
-		)
-	)
+	if( inherit && v_comment === inherit.comment && v_name === inherit.name )
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_json, v_path );
+	return new Constructor( v_comment, v_name );
 };
 
 
@@ -172,5 +159,5 @@ prototype.equals =
 		return false;
 	}
 
-	return this.json === obj.json && ( this.path === obj.path || this.path.equals( obj.path ) );
+	return this.comment === obj.comment && this.name === obj.name;
 };

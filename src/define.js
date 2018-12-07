@@ -25,18 +25,15 @@ if( FREEZE ) Object.freeze( readOptions );
 */
 const createTimcode =
 	function(
-		def,                   // tim definition
-		module,                // defining module
-		timcodeRootDir,		   // root dir of timecode
-		timcodeFilename        // filename of timcode file
+		def,                 // tim definition
+		module,              // defining module
+		timcodeRealFilename  // absolute path filename of timcode file
 	)
 {
 	// tests if the timcode is out of date or not existing
 	// and creates it if so.
 
 	const inStat = fs.statSync( module.filename );
-
-	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let outStat;
 
@@ -69,16 +66,14 @@ const createTimcode =
 */
 const loadTimcode =
 	function(
-		def,                // tim definition
-		module,                // defining module
-		timcodeRootDir,		   // root dir of timecode
-		timcodeFilename        // filename of timcode file
+		def,                  // tim definition
+		module,               // defining module
+		timcodeRealFilename   // absolute path filename of timcode file
 	)
 {
 	// runs the timcode within the handed module context
 	// so module.exports match exactly even with
 	// circula references
-	const timcodeRealFilename = timcodeRootDir + timcodeFilename;
 
 	let input =
 		'( function( self, require ) {'
@@ -130,33 +125,40 @@ module.exports =
 
 	const bootstrap = tim._BOOTSTRAP;
 
-	let rootDir;
+	let rootDir, rootPath, timcodePath;
 
 	if( !bootstrap )
 	{
 		const timspec = tim.catalog.addTimspec( filename, def );
 
 		rootDir = tim.catalog.getRootDir( timspec );
+
+		rootPath = rootDir.realpath;
+
+		timcodePath = rootDir.timcodePath;
 	}
 	else
 	{
 		bootstrap.strapped.push( { filename: filename, def: def } );
+
+		rootPath = bootstrap.rootPath;
+
+		timcodePath = bootstrap.timcodePath;
 	}
 
-	const timcodeRootDir = tim.findTimcodeRootDir( filename );
-
 	const timcodeFilename =
-		'timcode/'
-		+ filename
-		.substr( timcodeRootDir.length )
+		filename
+		.substr( rootPath.length + 1 )
 		.replace( /\//g, '-' );
+
+	const timcodeRealFilename = timcodePath + '/' + timcodeFilename;
 
 	if( rootDir && !rootDir.noTimcodeGen )
 	{
-		createTimcode( def, module, timcodeRootDir, timcodeFilename );
+		createTimcode( def, module, timcodeRealFilename );
 	}
 
-	loadTimcode( def, module, timcodeRootDir, timcodeFilename );
+	loadTimcode( def, module, timcodeRealFilename );
 
 	const exports = module.exports;
 

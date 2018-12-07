@@ -6,9 +6,6 @@
 'use strict';
 
 
-const tt_$_export_path = require( './../export/path.js' );
-
-
 const tim_proto = tim.proto;
 
 
@@ -17,13 +14,10 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v_json,
-		v_path
+		v_boolean
 	)
 {
-	this.json = v_json;
-
-	this.path = v_path;
+	this.boolean = v_boolean;
 
 	if( FREEZE )
 	{
@@ -52,17 +46,13 @@ prototype.create =
 {
 	let inherit;
 
-	let v_json;
-
-	let v_path;
+	let v_boolean;
 
 	if( this !== self )
 	{
 		inherit = this;
 
-		v_json = this.json;
-
-		v_path = this.path;
+		v_boolean = this.boolean;
 	}
 
 	for(
@@ -75,20 +65,11 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'json' :
+			case 'boolean' :
 
 				if( arg !== pass )
 				{
-					v_json = arg;
-				}
-
-				break;
-
-			case 'path' :
-
-				if( arg !== pass )
-				{
-					v_path = arg;
+					v_boolean = arg;
 				}
 
 				break;
@@ -101,33 +82,18 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_json !== undefined && typeof( v_json ) !== 'string' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
-/**/	if( v_path.timtype !== tt_$_export_path )
+/**/	if( typeof( v_boolean ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		v_json === inherit.json
-		&&
-		(
-			v_path === inherit.path
-			||
-			v_path.equals( inherit.path )
-		)
-	)
+	if( inherit && v_boolean === inherit.boolean )
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_json, v_path );
+	return new Constructor( v_boolean );
 };
 
 
@@ -172,5 +138,5 @@ prototype.equals =
 		return false;
 	}
 
-	return this.json === obj.json && ( this.path === obj.path || this.path.equals( obj.path ) );
+	return this.boolean === obj.boolean;
 };
