@@ -1147,16 +1147,32 @@ const tokenizeArray =
 */
 parser.parseArray =
 	function(
-		array
+		array,       // the array of elements to parse
+		start        // start at "statement" or "expression" level
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 2 ) throw new Error( );
+/**/
+/**/	// okay are Arrays and "arguments" pseudo-arrays
+/**/	if( typeof( array.length ) !== 'number' ) throw new Error( );
+	}
+
 	const tokens = tokenizeArray( array );
 
 	if( tokens.length === 0 ) return undefined;
 
 	let state = parser_state.create( 'tokens', tokens, 'pos', 0, 'ast', undefined );
 
-	state = parseToken( state, parseStatementStart );
+	switch( start )
+	{
+		case 'expr' : state = parseToken( state, parseExprStart ); break;
+
+		case 'statement' : state = parseToken( state, parseStatementStart ); break;
+
+		default : throw new Error( );
+	}
 
 	// ignores one ending semicolon
 	if( !state.reachedEnd && state.current.type === ';' ) state = state.advance( );
@@ -1176,5 +1192,18 @@ parser.parse =
 		// or ast subtrees.
 	)
 {
-	return parser.parseArray( arguments );
+	return parser.parseArray( arguments, 'statement' );
+};
+
+
+/*
+| Parses code as expression.
+*/
+parser.parseExpr =
+	function(
+		// list of strings to parse
+		// or ast subtrees.
+	)
+{
+	return parser.parseArray( arguments, 'expr' );
 };

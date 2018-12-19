@@ -31,7 +31,7 @@ def.func.$argument =
 		// parseables
 	)
 {
-	return this.append( parser.parseArray( arguments ) );
+	return this.append( parser.parseArray( arguments, 'expr' ) );
 };
 
 

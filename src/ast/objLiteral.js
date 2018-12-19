@@ -29,11 +29,25 @@ def.func.add =
 
 	args.shift( );
 
-	return this.create( 'twig:add', key, parser.parseArray( args ) );
+	return this.create( 'twig:add', key, parser.parseArray( args, 'expr' ) );
 };
 
 
 const util = require( 'util' );
+
+
+/*
+| Walks the ast tree depth-first, pre-order
+| creating a transformed copy.
+*/
+def.func.walk =
+	function(
+		transform	// a function to be called for all walked nodes.
+	)
+{
+	// FIXME actually walk through the objects
+	return transform( this );
+};
 
 
 /*

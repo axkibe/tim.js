@@ -28,7 +28,7 @@ const shorthand = require( './shorthand' );
 def.func.$ =
 	function( )
 {
-	const ast = parser.parseArray( arguments );
+	const ast = parser.parseArray( arguments, 'statement' );
 
 	if( ast === undefined ) return this;
 

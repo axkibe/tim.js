@@ -33,7 +33,7 @@ def.func.$elsewise =
 		// parseables
 	)
 {
-	let elsewise = parser.parseArray( arguments );
+	let elsewise = parser.parseArray( arguments, 'statement' );
 
 	if( elsewise.timtype !== ast_block )
 	{

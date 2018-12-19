@@ -75,7 +75,7 @@ def.func.$member =
 	return(
 		ast_member.create(
 			'expr', this,
-			'member', parser.parseArray( arguments )
+			'member', parser.parseArray( arguments, 'expr' )
 		)
 	);
 };

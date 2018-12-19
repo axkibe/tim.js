@@ -116,6 +116,8 @@ const shorthand = require( './ast/shorthand' );
 */
 const $ = parser_parser.parse;
 
+const $expr = parser_parser.parseExpr;
+
 const $and = shorthand.$and;
 
 const $block = shorthand.$block;
@@ -2645,7 +2647,7 @@ def.static.createGenerator =
 
 		if( jdv )
 		{
-			defaultValue = $( jdv ).walk( transformDefaultValue );
+			defaultValue = $expr( jdv ).walk( transformDefaultValue );
 		}
 
 		if( aid.timtype === type_set && aid.size === 1 )

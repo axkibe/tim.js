@@ -47,7 +47,7 @@ def.func.$case =
 
 		args.shift( );
 
-		let block = parser.parseArray( args );
+		let block = parser.parseArray( args, 'statement' );
 
 		if( block.timtype !== ast_block )
 		{
@@ -77,7 +77,7 @@ def.func.$default =
 		// ... parseable
 	)
 {
-	let block = parser.parseArray( arguments );
+	let block = parser.parseArray( arguments, 'statement' );
 
 	if( block.timtype !== ast_block )
 	{
