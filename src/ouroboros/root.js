@@ -107,7 +107,7 @@ const sdefine =
 */
 for( let a = 0, al = listing.length; a < al; a++ )
 {
-	const inFilename = targetDir + listing[ a ];
+	const inFilename = targetDir + 'src/' + listing[ a ];
 
 	const outFilename = targetDir + 'timcode/' + listing[ a ].replace( /\//g, '-' );
 
