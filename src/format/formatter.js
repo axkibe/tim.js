@@ -996,10 +996,7 @@ const formatIf =
 	catch ( e )
 	{
 		// rethrows any real error
-		if( e !== 'noinline' )
-		{
-			throw e;
-		}
+		if( e !== 'noinline' ) throw e;
 	}
 
 	if( text === undefined || textLen( text ) > MAX_TEXT_WIDTH )

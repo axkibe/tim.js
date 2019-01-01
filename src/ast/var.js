@@ -36,7 +36,7 @@ const ast_member = require( './member' );
 /**/
 /**/		if( !regex.test( this.name ) )
 /**/		{
-/**/			throw new Error( 'invalid variable name' );
+/**/			throw new Error( 'invalid variable name "' + this.name + '"' );
 /**/		}
 /**/
 /**/		switch( this.name )

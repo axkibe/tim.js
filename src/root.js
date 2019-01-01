@@ -11,6 +11,8 @@ if( !global.NODE ) throw new Error( );
 
 if( typeof( global.CHECK ) !== 'boolean' ) throw new Error( );
 
+require( './inspect' );
+
 
 /*
 | If freezing is unconfigured, default to yes

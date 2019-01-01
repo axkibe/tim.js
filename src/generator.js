@@ -130,6 +130,8 @@ const $if = shorthand.$if;
 
 const $objLiteral = shorthand.$objLiteral;
 
+const $or = shorthand.$or;
+
 const $string = shorthand.$string;
 
 const $switch = shorthand.$switch;
@@ -1264,24 +1266,6 @@ def.func.genFromJsonCreatorVariables =
 
 
 /*
-| Helper, adds an attr assingment case to an if-chain.
-*/
-const addAttrToChain =
-	function(
-		ifchain,    // the if chain so far (or undefined)
-		condition,  // the if condition to add
-		attr        // the attribute to assign
-	)
-{
-	const ifcase = $if( condition, $( attr.varRef, ' = arg' ) );
-
-	if( !ifchain ) return ifcase;
-
-	return ifchain.$elsewise( ifcase );
-};
-
-
-/*
 | Generates a fromJsonCreator's json parser for one attribute
 */
 def.func.genFromJsonCreatorAttributeParser =
@@ -1303,13 +1287,13 @@ def.func.genFromJsonCreatorAttributeParser =
 			return $( attr.varRef, ' = ', attr.id.$varname, '.createFromJSON( arg )' );
 	}
 
-	// the if chain
-	let ifchain;
-
 	// the code switch
 	let cSwitch;
 
 	const it = attr.id.iterator( );
+
+	// primitive checks
+	const pcs = [ ];
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
@@ -1317,36 +1301,18 @@ def.func.genFromJsonCreatorAttributeParser =
 
 		switch( id.timtype )
 		{
-			case type_boolean :
+			case type_boolean : pcs.push ( 'typeof( arg ) === "boolean"' ); break;
 
-				ifchain = addAttrToChain( ifchain, 'typeof( arg ) === "boolean"', attr );
-
-				break;
-
-			case type_null :
-
-				ifchain = addAttrToChain( ifchain, 'arg === null', attr );
-
-				break;
+			case type_null : pcs.push( 'arg === null' ); break;
 
 			case type_number :
 			case type_integer :
 
-				ifchain = addAttrToChain( ifchain, 'typeof( arg ) === "number"', attr );
+				pcs.push( 'typeof( arg ) === "number"' ); break;
 
-				break;
+			case type_string : pcs.push( 'typeof( arg ) === "string"' ); break;
 
-			case type_string :
-
-				ifchain = addAttrToChain( ifchain, 'typeof( arg ) === "string"', attr );
-
-				break;
-
-			case type_undefined :
-
-				ifchain = addAttrToChain( ifchain, 'arg === undefined', attr );
-
-				break;
+			case type_undefined : pcs.push( 'arg === undefined' ); break;
 
 			default :
 
@@ -1367,14 +1333,22 @@ def.func.genFromJsonCreatorAttributeParser =
 		}
 	}
 
-	if( ifchain && cSwitch ) return ifchain.$elsewise( cSwitch );
+	const pcsl = pcs.length;
 
-	if( ifchain && !cSwitch ) return ifchain;
+	if( pcsl === 0 ) return cSwitch;
 
-	if( !ifchain && cSwitch ) return cSwitch;
+	let cond = $expr( pcs[ 0 ] );
 
-	// either ifchain or cSwitch must be set
-	throw new Error( );
+	for( let a = 1; a < pcsl; a++ )
+	{
+		cond = $or( cond, $expr( pcs[ a ] ) );
+	}
+
+	const pcif = $if( cond, $( attr.varRef, ' = arg' ) );
+
+	if( !cSwitch ) return pcif;
+
+	return pcif.$elsewise( cSwitch );
 };
 
 
