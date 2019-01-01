@@ -3,7 +3,6 @@
 */
 'use strict';
 
-
 tim.define( module, ( def, self ) => {
 
 
@@ -150,17 +149,17 @@ const tsNull = type_null.create( );
 
 
 /*
-| Gets a timtree leaf for a timtype.
+| Gets a timspec for a timtype.
 */
 def.func.getTimspec =
 	function(
-		id
+		timtype
 	)
 {
 	// first makes sure the leaf is loaded
-	this.module.require( './' + id.pathString );
+	this.module.require( './' + timtype.pathString );
 
-	return tim.catalog.getTimspecRelative( this.module.filename, id );
+	return tim.catalog.getTimspecRelative( this.module.filename, timtype );
 };
 
 
@@ -178,11 +177,11 @@ def.func.genRequires =
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const id = i.value;
+		const type = i.value;
 
-		if( id.isPrimitive ) continue;
+		if( type.isPrimitive ) continue;
 
-		block = block.$const( id.varname, id.require );
+		block = block.$const( type.varname, type.require );
 	}
 
 	return block.$const( 'tim_proto', 'tim.proto' );
@@ -806,7 +805,7 @@ def.func.genCreatorDefaults =
 def.func.genSingleTypeCheckFailCondition =
 	function(
 		aVar,  // name of the variable
-		id     // type to check for
+		type   // type to check for
 	)
 {
 /**/if( CHECK )
@@ -816,7 +815,7 @@ def.func.genSingleTypeCheckFailCondition =
 /**/	if( aVar.timtype !== ast_var ) throw new Error( );
 /**/}
 
-	switch( id.timtype )
+	switch( type.timtype )
 	{
 		case type_boolean : return $( 'typeof( ', aVar, ' ) !== "boolean"' );
 
@@ -845,14 +844,14 @@ def.func.genSingleTypeCheckFailCondition =
 
 		case type_string : return $( 'typeof( ', aVar, ' ) !== "string"' );
 
-		case type_tim : return $( aVar, '.timtype !== ', id.$varname );
+		case type_tim : return $( aVar, '.timtype !== ', type.$varname );
 
 		case type_undefined : return $( aVar, '!== undefined' );
 
 		default : throw new Error( );
 	}
 
-	return $( aVar, '.timtype !== ', id.global );
+	return $( aVar, '.timtype !== ', type.global );
 };
 
 
@@ -862,7 +861,7 @@ def.func.genSingleTypeCheckFailCondition =
 def.func.genTypeCheckFailCondition =
 	function(
 		aVar,   // the variable to check
-		idx     // the id or type_set it has to match
+		types   // the type or type_set it has to match
 	)
 {
 /**/if( CHECK )
@@ -870,42 +869,40 @@ def.func.genTypeCheckFailCondition =
 /**/	if( arguments.length !== 2 ) throw new Error( );
 /**/}
 
-	if( idx.timtype !== type_set )
-	{
-		return this.genSingleTypeCheckFailCondition( aVar, idx );
-	}
+	if( types.timtype !== type_set ) return this.genSingleTypeCheckFailCondition( aVar, types );
 
-	if( idx.size === 1 )
+	if( types.size === 1 )
 	{
-		return this.genSingleTypeCheckFailCondition( aVar, idx.iterator( ).next( ).value );
+		// FIXME make a .first shortcut
+		return this.genSingleTypeCheckFailCondition( aVar, types.iterator( ).next( ).value );
 	}
 
 	const condArray = [ ];
 
-	let it = idx.iterator( );
+	let it = types.iterator( );
 
 	// first do the primitives
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const id = i.value;
+		const types = i.value;
 
-		if( id.timtype === type_tim ) continue;
+		if( types.timtype === type_tim ) continue;
 
-		const cond = this.genSingleTypeCheckFailCondition( aVar, id );
+		const cond = this.genSingleTypeCheckFailCondition( aVar, types );
 
 		if( cond ) condArray.push( cond );
 	}
 
-	it = idx.iterator( );
+	it = types.iterator( );
 
 	// then do the tims
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const id = i.value;
+		const type = i.value;
 
-		if( id.timtype !== type_tim ) continue;
+		if( type.timtype !== type_tim ) continue;
 
-		const cond = this.genSingleTypeCheckFailCondition( aVar, id );
+		const cond = this.genSingleTypeCheckFailCondition( aVar, type );
 
 		if( cond ) condArray.push( cond );
 	}
@@ -942,9 +939,9 @@ def.func.genCreatorChecks =
 
 		if( json && !attr.json ) continue;
 
-		if( attr.id.timtype === type_protean ) continue;
+		if( attr.types.timtype === type_protean ) continue;
 
-		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.id );
+		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.types );
 
 		if( tcheck ) check = check.$if( tcheck, $fail( ) );
 	}
@@ -1273,7 +1270,7 @@ def.func.genFromJsonCreatorAttributeParser =
 		attr
 	)
 {
-	switch( attr.id.timtype )
+	switch( attr.types.timtype )
 	{
 		case type_boolean :
 		case type_integer :
@@ -1284,22 +1281,22 @@ def.func.genFromJsonCreatorAttributeParser =
 
 		case type_tim :
 
-			return $( attr.varRef, ' = ', attr.id.$varname, '.createFromJSON( arg )' );
+			return $( attr.varRef, ' = ', attr.types.$varname, '.createFromJSON( arg )' );
 	}
 
 	// the code switch
 	let cSwitch;
 
-	const it = attr.id.iterator( );
+	const it = attr.types.iterator( );
 
 	// primitive checks
 	const pcs = [ ];
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const id = i.value;
+		const type = i.value;
 
-		switch( id.timtype )
+		switch( type.timtype )
 		{
 			case type_boolean : pcs.push ( 'typeof( arg ) === "boolean"' ); break;
 
@@ -1318,7 +1315,7 @@ def.func.genFromJsonCreatorAttributeParser =
 
 				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 
-				const jsontype = this.getTimspec( id ).json;
+				const jsontype = this.getTimspec( type ).json;
 
 				cSwitch =
 					cSwitch
@@ -1326,7 +1323,7 @@ def.func.genFromJsonCreatorAttributeParser =
 						$string( jsontype ),
 						$(
 							attr.varRef, ' = ',
-							id.$varname,
+							type.$varname,
 							'.createFromJSON', '( arg )'
 						)
 					);
@@ -2078,9 +2075,9 @@ def.func.genAttributeEquals =
 
 	const attr = this.attributes.get( name );
 
-	const allowsNull = attr.id.timtype === type_set && attr.id.has( tsNull );
+	const allowsNull = attr.types.timtype === type_set && attr.types.has( tsNull );
 
-	const allowsUndefined = attr.id.timtype === type_set && attr.id.has( tsUndefined );
+	const allowsUndefined = attr.types.timtype === type_set && attr.types.has( tsUndefined );
 
 	const ceq = $( le, ' === ', re );
 
@@ -2090,7 +2087,7 @@ def.func.genAttributeEquals =
 	// next test (to be appended on current)
 	let pn;
 
-	switch( attr.id.equalsConvention )
+	switch( attr.types.equalsConvention )
 	{
 		case 'mustnot' : return ceq;
 
@@ -2108,7 +2105,7 @@ def.func.genAttributeEquals =
 
 			pn = $( le, '.', eqFuncName, '(', re, ')' );
 
-			if( attr.id.equalsConvention === 'can' )
+			if( attr.types.equalsConvention === 'can' )
 			{
 				pn = $( le, '.timtype', '&&', pn );
 			}
@@ -2543,7 +2540,7 @@ def.static.createGenerator =
 
 	const constructorList = [ ];
 
-	// foreign ids to be imported
+	// foreign timtypes to be imported
 	let imports = type_set.create( );
 
 	// walkter to transform default value
@@ -2633,7 +2630,7 @@ def.static.createGenerator =
 			tim_attribute.create(
 				'assign', assign,
 				'defaultValue', defaultValue,
-				'id', aid,
+				'types', aid,
 				'json', !!jAttr.json,
 				'name', name,
 				'transform', !!def.transform[ name ],

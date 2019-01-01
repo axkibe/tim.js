@@ -27,6 +27,8 @@ const timspec_timspec = require( './timspec' );
 
 const tim_path = require( '../export/path' );
 
+const type_tim = require( '../type/tim' );
+
 
 /*
 | The list of all timspecRoots.
@@ -200,13 +202,13 @@ catalog.getTimspec =
 */
 catalog.getTimspecRelative =
 	function(
-		base, // the filename relative to which the path is given
-		path  // the relative path
+		base,    // the filename relative to which the path is given
+		timtype  // the relative timtype
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( !path.pathString ) throw new Error( );
+/**/	if( timtype.timtype !== type_tim ) throw new Error( );
 /**/
 /**/	if( base[ base.length - 1 ] === '/' ) throw new Error( );
 /**/}
@@ -214,31 +216,18 @@ catalog.getTimspecRelative =
 	// first the directory of the base
 	base = base.substr( 0, base.lastIndexOf( '/' ) );
 
-	// combines the relative path with the base
-	for( let p = 0, pl = path.length; p < pl; p++ )
+	// combines the relative timtype with the base
+	for( let p = 0, pl = timtype.length; p < pl; p++ )
 	{
-		let key = path.get( p );
+		let key = timtype.get( p );
 
 		switch( key )
 		{
-			case '.' :
+			case '.' : /* ignored */ continue;
 
-				// ignored
-				continue;
+			case '..' : base = base.substr( 0, base.lastIndexOf( '/' ) ); continue;
 
-			case '..' :
-
-				base = base.substr( 0, base.lastIndexOf( '/' ) );
-
-				continue;
-
-			default :
-
-				base = base + '/' + key;
-
-				if( p + 1 >= pl ) base += '.js';
-
-				continue;
+			default : base = base + '/' + key + ( p + 1 >= pl ? '.js' : '' ); continue;
 		}
 	}
 

@@ -25,7 +25,7 @@ const pool = { };
 
 
 /*
-| Create the id from an array of path parts.
+| Create the type from an array of path parts.
 */
 def.static.createFromPath =
 	function(
@@ -108,7 +108,7 @@ def.lazy.$varname =
 
 
 /*
-| This id references a primitive.
+| This type does not reference a primitive.
 */
 def.func.isPrimitive = false;
 
@@ -131,7 +131,7 @@ def.lazy.require =
 
 
 /*
-| This id as string path relative to the owner.
+| This type as string path relative to the owner.
 */
 def.lazy.pathString =
 	function( )

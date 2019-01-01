@@ -26,8 +26,8 @@ if( TIM )
 		// this attribute has a transformative getter
 		transform : { type: [ 'boolean' ] },
 
-		// attribute type id
-		id : { type : [ '< ./type/types', './type/set' ] },
+		// attribute types
+		types : { type : [ '< ./type/types', './type/set' ] },
 
 		// attribute variable used in generate
 		varRef : { type : './ast/var' },

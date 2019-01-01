@@ -166,10 +166,10 @@ const Constructor =
 	function(
 		v_assign,
 		v_defaultValue,
-		v_id,
 		v_json,
 		v_name,
 		v_transform,
+		v_types,
 		v_varRef
 	)
 {
@@ -177,13 +177,13 @@ const Constructor =
 
 	this.defaultValue = v_defaultValue;
 
-	this.id = v_id;
-
 	this.json = v_json;
 
 	this.name = v_name;
 
 	this.transform = v_transform;
+
+	this.types = v_types;
 
 	this.varRef = v_varRef;
 
@@ -218,13 +218,13 @@ prototype.create =
 
 	let v_defaultValue;
 
-	let v_id;
-
 	let v_json;
 
 	let v_name;
 
 	let v_transform;
+
+	let v_types;
 
 	let v_varRef;
 
@@ -236,13 +236,13 @@ prototype.create =
 
 		v_defaultValue = this.defaultValue;
 
-		v_id = this.id;
-
 		v_json = this.json;
 
 		v_name = this.name;
 
 		v_transform = this.transform;
+
+		v_types = this.types;
 
 		v_varRef = this.varRef;
 	}
@@ -275,15 +275,6 @@ prototype.create =
 
 				break;
 
-			case 'id' :
-
-				if( arg !== pass )
-				{
-					v_id = arg;
-				}
-
-				break;
-
 			case 'json' :
 
 				if( arg !== pass )
@@ -307,6 +298,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_transform = arg;
+				}
+
+				break;
+
+			case 'types' :
+
+				if( arg !== pass )
+				{
+					v_types = arg;
 				}
 
 				break;
@@ -423,33 +423,6 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		v_id.timtype !== tt_type_boolean
-/**/		&&
-/**/		v_id.timtype !== tt_type_date
-/**/		&&
-/**/		v_id.timtype !== tt_type_function
-/**/		&&
-/**/		v_id.timtype !== tt_type_integer
-/**/		&&
-/**/		v_id.timtype !== tt_type_null
-/**/		&&
-/**/		v_id.timtype !== tt_type_number
-/**/		&&
-/**/		v_id.timtype !== tt_type_protean
-/**/		&&
-/**/		v_id.timtype !== tt_type_undefined
-/**/		&&
-/**/		v_id.timtype !== tt_type_string
-/**/		&&
-/**/		v_id.timtype !== tt_type_tim
-/**/		&&
-/**/		v_id.timtype !== tt_type_set
-/**/	)
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_json ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
@@ -461,6 +434,33 @@ prototype.create =
 /**/	}
 /**/
 /**/	if( typeof( v_transform ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if(
+/**/		v_types.timtype !== tt_type_boolean
+/**/		&&
+/**/		v_types.timtype !== tt_type_date
+/**/		&&
+/**/		v_types.timtype !== tt_type_function
+/**/		&&
+/**/		v_types.timtype !== tt_type_integer
+/**/		&&
+/**/		v_types.timtype !== tt_type_null
+/**/		&&
+/**/		v_types.timtype !== tt_type_number
+/**/		&&
+/**/		v_types.timtype !== tt_type_protean
+/**/		&&
+/**/		v_types.timtype !== tt_type_undefined
+/**/		&&
+/**/		v_types.timtype !== tt_type_string
+/**/		&&
+/**/		v_types.timtype !== tt_type_tim
+/**/		&&
+/**/		v_types.timtype !== tt_type_set
+/**/	)
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -486,17 +486,17 @@ prototype.create =
 			v_defaultValue.equals( inherit.defaultValue )
 		)
 		&&
-		(
-			v_id === inherit.id
-			||
-			v_id.equals( inherit.id )
-		)
-		&&
 		v_json === inherit.json
 		&&
 		v_name === inherit.name
 		&&
 		v_transform === inherit.transform
+		&&
+		(
+			v_types === inherit.types
+			||
+			v_types.equals( inherit.types )
+		)
 		&&
 		(
 			v_varRef === inherit.varRef
@@ -512,10 +512,10 @@ prototype.create =
 		new Constructor(
 			v_assign,
 			v_defaultValue,
-			v_id,
 			v_json,
 			v_name,
 			v_transform,
+			v_types,
 			v_varRef
 		)
 	);
@@ -576,17 +576,17 @@ prototype.equals =
 			this.defaultValue.equals( obj.defaultValue )
 		)
 		&&
-		(
-			this.id === obj.id
-			||
-			this.id.equals( obj.id )
-		)
-		&&
 		this.json === obj.json
 		&&
 		this.name === obj.name
 		&&
 		this.transform === obj.transform
+		&&
+		(
+			this.types === obj.types
+			||
+			this.types.equals( obj.types )
+		)
 		&&
 		(
 			this.varRef === obj.varRef

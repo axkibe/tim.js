@@ -35,7 +35,7 @@ def.static.createFromArray =
 /**/	if( !Array.isArray( array ) ) throw new Error( );
 /**/}
 
-	const ids = new Set( );
+	const types = new Set( );
 
 	for( let a = 0, al = array.length; a < al; a++ )
 	{
@@ -66,7 +66,7 @@ def.static.createFromArray =
 					// it is not a tim or an imported tim
 					const id = any.createFromString( line );
 
-					ids.add( id );
+					types.add( id );
 
 					continue;
 				}
@@ -97,7 +97,7 @@ def.static.createFromArray =
 
 				const id = type_tim.createFromPath(  [ '.' ].concat( rpa ).concat( la ) );
 
-				ids.add( id );
+				types.add( id );
 			}
 
 			continue;
@@ -105,10 +105,10 @@ def.static.createFromArray =
 
 		const id = any.createFromString( array[ a ] );
 
-		ids.add( id );
+		types.add( id );
 	}
 
-	return type_set.create( 'set:init', ids );
+	return type_set.create( 'set:init', types );
 };
 
 
