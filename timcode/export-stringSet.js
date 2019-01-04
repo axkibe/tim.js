@@ -208,6 +208,12 @@ tim_proto.lazyValue( prototype, 'size', tim_proto.setSize );
 
 
 /*
+| Returns the one and only element or the set if size != 1.
+*/
+tim_proto.lazyValue( prototype, 'trivial', tim_proto.setTrivial );
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =

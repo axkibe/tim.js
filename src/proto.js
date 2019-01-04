@@ -703,6 +703,18 @@ tim_proto.setSize =
 
 
 /*
+| Returns the one and only element or the set if size != 1.
+*/
+tim_proto.setTrivial =
+	function( )
+{
+	if( this.size !== 1 ) return this;
+
+	return this._set.keys( ).next( ).value;
+};
+
+
+/*
 | Returns the element at rank.
 */
 tim_proto.twigAtRank =

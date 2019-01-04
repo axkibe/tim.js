@@ -1368,20 +1368,11 @@ def.func.genFromJsonCreatorParser =
 			)
 		);
 
-	if( this.ggroup )
-	{
-		nameSwitch = nameSwitch.$case( '"group"', 'jgroup = arg' );
-	}
+	if( this.ggroup ) nameSwitch = nameSwitch.$case( '"group"', 'jgroup = arg' );
 
-	if( this.glist )
-	{
-		nameSwitch = nameSwitch.$case( '"list"', 'jlist = arg' );
-	}
+	if( this.glist ) nameSwitch = nameSwitch.$case( '"list"', 'jlist = arg' );
 
-	if( this.gset )
-	{
-		nameSwitch = nameSwitch.$case( '"set"', 'jset = arg' );
-	}
+	if( this.gset ) nameSwitch = nameSwitch.$case( '"set"', 'jset = arg' );
 
 	if( this.gtwig )
 	{
@@ -1474,11 +1465,11 @@ def.func.genFromJsonCreatorGroupProcessing =
 
 	for( let i = it.next(); !i.done; i = it.next( ) )
 	{
-		const gid = i.value;
+		const type = i.value;
 
-		if( gid.timtype === type_null ) { haveNull = true; continue; }
+		if( type.timtype === type_null ) { haveNull = true; continue; }
 
-		if( gid.timtype === type_string )
+		if( type.timtype === type_string )
 		{
 			if( customDefault ) throw new Error( );
 
@@ -1497,7 +1488,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
-		if( gid.timtype === type_boolean )
+		if( type.timtype === type_boolean )
 		{
 			if( customDefault ) throw new Error( );
 
@@ -1516,7 +1507,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
-		const jsontype = this.getTimspec( gid ).json;
+		const jsontype = this.getTimspec( type ).json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1525,7 +1516,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			.$case(
 				$string( jsontype ),
 				'group[ k ] =',
-				gid.$varname,
+				type.$varname,
 				'.createFromJSON( jgroup[ k ] )'
 			);
 	}
@@ -1588,13 +1579,13 @@ def.func.genFromJsonCreatorListProcessing =
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const rid = i.value;
+		const type = i.value;
 
-		if( rid === tsNull ) { haveNull = true; continue; }
+		if( type === tsNull ) { haveNull = true; continue; }
 
-		if( rid === tsUndefined ) { haveUndefined = true; continue; }
+		if( type === tsUndefined ) { haveUndefined = true; continue; }
 
-		const jsontype = this.getTimspec( rid ).json;
+		const jsontype = this.getTimspec( type ).json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1602,7 +1593,7 @@ def.func.genFromJsonCreatorListProcessing =
 			loopSwitch
 			.$case(
 				$string( jsontype ),
-				'list[ r ] =', rid.$varname, '.createFromJSON( jlist[ r ] )'
+				'list[ r ] =', type.$varname, '.createFromJSON( jlist[ r ] )'
 			);
 	}
 
@@ -1802,10 +1793,7 @@ def.func.genFromJsonCreator =
 			.$( this.genFromJsonCreatorListProcessing( ) );
 	}
 
-	if( this.gset )
-	{
-		throw new Error( 'FUTURE, fromJson for sets not implemented' );
-	}
+	if( this.gset ) throw new Error( 'FUTURE, fromJson for sets not implemented' );
 
 	if( this.gtwig )
 	{
@@ -1968,7 +1956,10 @@ def.func.genTimProto =
 			.$( this.$protoSet( 'remove', 'setRemove' ) )
 
 			.$comment( 'Returns the size of the set.' )
-			.$( this.$protoLazyValueSet( '"size"', 'setSize' ) );
+			.$( this.$protoLazyValueSet( '"size"', 'setSize' ) )
+			
+			.$comment( 'Returns the one and only element or the set if size != 1.' )
+			.$( this.$protoLazyValueSet( '"trivial"', 'setTrivial' ) );
 	}
 
 	if( this.gtwig )
@@ -2571,11 +2562,11 @@ def.static.createGenerator =
 			throw new Error( 'require argument in defaultValue must be string' );
 		}
 
-		const rid = type_tim.createFromPath( rpa.string.split( '/' ) );
+		const type = type_tim.createFromPath( rpa.string.split( '/' ) );
 
-		imports = imports.add( rid );
+		imports = imports.add( type );
 
-		return rid.$varname;
+		return type.$varname;
 	};
 
 	// in case of attributes, group, list, set or twig
@@ -2588,24 +2579,24 @@ def.static.createGenerator =
 
 		const jAttr = def.attributes[ name ];
 
-		const type = jAttr.type;
+		const jType = jAttr.type;
 
-		// attribute id
-		let aid;
+		// attribute types
+		let types;
 
-		if( !Array.isArray( type ) )
+		if( !Array.isArray( jType ) )
 		{
-			aid = type_any.createFromString( type );
+			types = type_any.createFromString( jType );
 
-			imports = imports.add( aid );
+			imports = imports.add( types );
 		}
 		else
 		{
-			aid = type_set.createFromArray( module, type );
+			types = type_set.createFromArray( module, jType );
 
-			imports = imports.addSet( aid );
+			imports = imports.addSet( types );
 
-			if( aid.size === 1 ) aid = aid.iterator( ).next( ).value;
+			if( types.size === 1 ) types = types.iterator( ).next( ).value;
 		}
 
 		const assign = def.transform[ name ] ? '__' + name : name;
@@ -2621,16 +2612,16 @@ def.static.createGenerator =
 			defaultValue = $expr( jdv ).walk( transformDefaultValue );
 		}
 
-		if( aid.timtype === type_set && aid.size === 1 )
+		if( types.timtype === type_set && types.size === 1 )
 		{
-			aid = aid.iterator( ).next( ).value;
+			types = types.iterator( ).next( ).value;
 		}
 
 		const attr =
 			tim_attribute.create(
 				'assign', assign,
 				'defaultValue', defaultValue,
-				'types', aid,
+				'types', types,
 				'json', !!jAttr.json,
 				'name', name,
 				'transform', !!def.transform[ name ],
