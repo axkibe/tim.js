@@ -47,6 +47,8 @@ catalog.addRootDir =
 		noTimcodeGen  // if true, do skip auto timcode generation for that timspec tree
 	)
 {
+	console.log( 'ADDROOT', realpath, timcodePath, noTimcodeGen );
+
 /**/if( CHECK )
 /**/{
 /**/	if( arguments.length < 3 ) throw new Error( );
