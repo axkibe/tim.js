@@ -17,10 +17,13 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
+		v_filename,
 		v_json,
 		v_path
 	)
 {
+	this.filename = v_filename;
+
 	this.json = v_json;
 
 	this.path = v_path;
@@ -52,6 +55,8 @@ prototype.create =
 {
 	let inherit;
 
+	let v_filename;
+
 	let v_json;
 
 	let v_path;
@@ -59,6 +64,8 @@ prototype.create =
 	if( this !== self )
 	{
 		inherit = this;
+
+		v_filename = this.filename;
 
 		v_json = this.json;
 
@@ -75,6 +82,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'filename' :
+
+				if( arg !== pass )
+				{
+					v_filename = arg;
+				}
+
+				break;
+
 			case 'json' :
 
 				if( arg !== pass )
@@ -101,12 +117,17 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( typeof( v_filename ) !== 'string' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_json !== undefined && typeof( v_json ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_path.timtype !== tt_$_export_path )
+/**/	if( v_path !== undefined && v_path.timtype !== tt_$_export_path )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -115,19 +136,21 @@ prototype.create =
 	if(
 		inherit
 		&&
+		v_filename === inherit.filename
+		&&
 		v_json === inherit.json
 		&&
 		(
 			v_path === inherit.path
 			||
-			v_path.equals( inherit.path )
+			v_path !== undefined && v_path.timtype && v_path.equals( inherit.path )
 		)
 	)
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_json, v_path );
+	return new Constructor( v_filename, v_json, v_path );
 };
 
 
@@ -172,5 +195,15 @@ prototype.equals =
 		return false;
 	}
 
-	return this.json === obj.json && ( this.path === obj.path || this.path.equals( obj.path ) );
+	return (
+		this.filename === obj.filename
+		&&
+		this.json === obj.json
+		&&
+		(
+			this.path === obj.path
+			||
+			this.path !== undefined && this.path.timtype && this.path.equals( obj.path )
+		)
+	);
 };

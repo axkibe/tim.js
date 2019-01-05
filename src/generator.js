@@ -871,11 +871,7 @@ def.func.genTypeCheckFailCondition =
 
 	if( types.timtype !== type_set ) return this.genSingleTypeCheckFailCondition( aVar, types );
 
-	if( types.size === 1 )
-	{
-		// FIXME make a .first shortcut
-		return this.genSingleTypeCheckFailCondition( aVar, types.iterator( ).next( ).value );
-	}
+	if( types.size === 1 ) return this.genSingleTypeCheckFailCondition( aVar, types.trivial );
 
 	const condArray = [ ];
 
@@ -1654,24 +1650,20 @@ def.func.genFromJsonCreatorTwigProcessing =
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
-		const twigId = i.value;
+		const twigType = i.value;
 
-		const jsontype = this.getTimspec( twigId ).json;
+		const jsontype = this.getTimspec( twigType ).json;
 
 		switchExpr =
 			switchExpr
 			.$case(
 				$string( jsontype ),
-				$( 'twig[ key ] =', twigId.$varname, '.createFromJSON( jval )' )
+				$( 'twig[ key ] =', twigType.$varname, '.createFromJSON( jval )' )
 			);
 	}
 
-	switchExpr =
-		switchExpr
-		.$default(
-			// invalid twig type
-			$fail( )
-		);
+	// invalid twig type
+	switchExpr = switchExpr.$default( $fail( ) );
 
 	const loop =
 		$block
@@ -2194,8 +2186,8 @@ def.func.genEqualsFuncBody =
 			$block
 			.$const( 'ait', 'this._list.iterator( )' )
 			.$const( 'bit', 'obj._list.iterator( )' )
-			.$let( 'an', 'ait.next( )' )
-			.$let( 'bn', 'bit.next( )' )
+			.$( 'let an = ait.next( )' )
+			.$( 'let bn = bit.next( )' )
 			.$while(
 				'!an.done && !bn.done',
 				$block
@@ -2527,6 +2519,18 @@ def.static.createGenerator =
 {
 	validator.check( def );
 
+	let exTimspec;
+	
+	if( def.extends )
+	{
+		const exType = type_tim.createFromPath( def.extends.split( '/' ) );
+
+		// makes sure the extended tim is loaded
+		module.require( './' + exType.pathString );
+
+		exTimspec = tim.catalog.getTimspecRelative( module.filename, exType );
+	}
+
 	let attributes = tim_attributeGroup.create( );
 
 	const constructorList = [ ];
@@ -2596,7 +2600,8 @@ def.static.createGenerator =
 
 			imports = imports.addSet( types );
 
-			if( types.size === 1 ) types = types.iterator( ).next( ).value;
+			// if there is just one type, replaces the set with that type
+			types = types.trivial;
 		}
 
 		const assign = def.transform[ name ] ? '__' + name : name;
@@ -2607,15 +2612,7 @@ def.static.createGenerator =
 
 		let defaultValue;
 
-		if( jdv )
-		{
-			defaultValue = $expr( jdv ).walk( transformDefaultValue );
-		}
-
-		if( types.timtype === type_set && types.size === 1 )
-		{
-			types = types.iterator( ).next( ).value;
-		}
+		if( jdv ) defaultValue = $expr( jdv ).walk( transformDefaultValue );
 
 		const attr =
 			tim_attribute.create(
@@ -2679,7 +2676,7 @@ def.static.createGenerator =
 	{
 		glist = type_set.createFromArray( module, def.list );
 
-		imports = imports.addSet(glist );
+		imports = imports.addSet( glist );
 	}
 
 	if( def.set )

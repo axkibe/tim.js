@@ -14,8 +14,11 @@ if( TIM )
 		// json name of this tim
 		json : { type : [ 'undefined', 'string' ] },
 
+		// filename of the tim
+		filename : { type : 'string' },
+
 		// catalog path
-		path : { type : [ '../export/path' ] },
+		path : { type : [ 'undefined', '../export/path' ] },
 	};
 }
 
@@ -26,17 +29,18 @@ if( TIM )
 def.static.createFromDef =
 	function(
 		def,
+		filename,
 		path
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 2 ) throw new Error( );
+/**/	if( arguments.length !== 3 ) throw new Error( );
 /**/}
 
 	return(
 		timspec_timspec.create(
-//			'def', def,
+			'filename', filename,
 			'json', def.json,
 			'path', path
 		)

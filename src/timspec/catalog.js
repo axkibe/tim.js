@@ -47,7 +47,6 @@ catalog.addRootDir =
 		noTimcodeGen  // if true, do skip auto timcode generation for that timspec tree
 	)
 {
-	console.log( 'ADDROOT', realpath, timcodePath, noTimcodeGen );
 
 /**/if( CHECK )
 /**/{
@@ -124,7 +123,7 @@ catalog.addTimspec =
 
 	path = tim_path.create( 'list:init', path );
 
-	const timspec = timspec_timspec.createFromDef( def, path );
+	const timspec = timspec_timspec.createFromDef( def, filename, path );
 
 	timspecRoots[ tsrPos ] = tsr.addTimspec( timspec );
 
