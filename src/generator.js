@@ -62,24 +62,17 @@ if( TIM )
 		// true if this a singleton (no attributes or group/list/set/twig)
 		singleton : { type : [ 'boolean', 'undefined' ] },
 
+		// the timspec
+		timspec : { type : './timspec/timspec' },
+
 		// true if this is a transforming group/list/set/twig
 		transform : { type : 'boolean' }
 	};
 }
 
-const ast_call = require( './ast/call' );
-
-const ast_string = require( './ast/string' );
-
 const ast_var = require( './ast/var' );
 
 const stringSet = require( './export/stringSet' );
-
-const tim_attribute = require( './attribute' );
-
-const tim_attributeGroup = require( './attributeGroup' );
-
-const type_any = require( './type/any' );
 
 const type_boolean = require( './type/boolean' );
 
@@ -2182,18 +2175,13 @@ def.func.genEqualsFuncBody =
 	{
 		const setTest =
 			$block
-			.$const( 'ait', 'this._list.iterator( )' )
-			.$const( 'bit', 'obj._list.iterator( )' )
-			.$( 'let an = ait.next( )' )
-			.$( 'let bn = bit.next( )' )
-			.$while(
-				'!an.done && !bn.done',
+			.$( 'if( this.size !== obj.size ) return false;' )
+			.$const( 'it', 'this.iterator( )' )
+			.$for( 'let i = it.next( )', '!i.done', 'i = it.next( )',
 				$block
-				.$if( 'an.value !== bn.value', $( 'return false' ) )
-				.$( 'an = ait.next( )' )
-				.$( 'bn = bit.next( )' )
-			)
-			.$if(' !an.done || !bn.done', $( 'return false' ) );
+				.$const( 'v', 'i.value' )
+				.$( 'if( !obj.has( v ) ) return false;' )
+			);
 
 		body = body.$if( 'this._set !== obj._set', setTest );
 	}
@@ -2533,104 +2521,22 @@ def.static.createGenerator =
 		exTimspec = tim.catalog.getTimspecRelative( module.filename, exType );
 	}
 
-	let attributes = tim_attributeGroup.create( );
-
 	const constructorList = [ ];
 
-	// foreign timtypes to be imported
-	let imports = type_set.create( );
+	let imports = timspec.imports;
 
-	// walkter to transform default value
-	// replaces require( 'path' ) with the import variable
-	const transformDefaultValue =
-		function(
-			node
-		)
+	const attributes = timspec.attributes;
+
+	const aKeys = attributes.sortedKeys; 
+
+	for( let a = 0, al = aKeys.length; a < al; a++ )
 	{
-		if( node.timtype !== ast_call ) return node;
+		const key = aKeys[ a ];
 
-		const func = node.func;
-
-		if( func.timtype !== ast_var ) return node;
-
-		if( func.name !== 'require' ) return node;
-
-		if( node.length !== 1 )
-		{
-			throw new Error( 'require in defaultValue must have one argument' );
-		}
-
-		// require path argument
-		const rpa = node.get( 0 );
-
-		if( rpa.timtype !== ast_string )
-		{
-			throw new Error( 'require argument in defaultValue must be string' );
-		}
-
-		const type = type_tim.createFromPath( rpa.string.split( '/' ) );
-
-		imports = imports.add( type );
-
-		return type.$varname;
-	};
-
-	// in case of attributes, group, list, set or twig
-	// it will be turned off again
-	let singleton = true;
-
-	for( let name in def.attributes || { } )
-	{
-		singleton = false;
-
-		const jAttr = def.attributes[ name ];
-
-		const jType = jAttr.type;
-
-		// attribute types
-		let types;
-
-		if( !Array.isArray( jType ) )
-		{
-			types = type_any.createFromString( jType );
-
-			imports = imports.add( types );
-		}
-		else
-		{
-			types = type_set.createFromArray( module, jType );
-
-			imports = imports.addSet( types );
-
-			// if there is just one type, replaces the set with that type
-			types = types.trivial;
-		}
-
-		const assign = def.transform[ name ] ? '__' + name : name;
-
-		constructorList.push( name );
-
-		const jdv = jAttr.defaultValue;
-
-		let defaultValue;
-
-		if( jdv ) defaultValue = $expr( jdv ).walk( transformDefaultValue );
-
-		const attr =
-			tim_attribute.create(
-				'assign', assign,
-				'defaultValue', defaultValue,
-				'types', types,
-				'json', !!jAttr.json,
-				'name', name,
-				'transform', !!def.transform[ name ],
-				'varRef', $var( 'v_' + name )
-			);
-
-		attributes = attributes.set( name, attr );
+		constructorList.push( key );
 	}
 
-	constructorList.sort( );
+	let singleton = timspec.singleton;
 
 	if( def.group )
 	{
@@ -2741,6 +2647,7 @@ def.static.createGenerator =
 			'module', module,
 			'proxyRanks', !!def.lazy._ranks,
 			'singleton', singleton,
+			'timspec', timspec,
 			'transform', !!def.transform.get
 		)
 	);

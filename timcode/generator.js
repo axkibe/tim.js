@@ -18,6 +18,9 @@ const tt_ast_var = require( './ast/var.js' );
 const tt_export_stringSet = require( './export/stringSet.js' );
 
 
+const tt_timspec_timspec = require( './timspec/timspec.js' );
+
+
 const tim_proto = tim.proto;
 
 
@@ -43,6 +46,7 @@ const Constructor =
 		v_module,
 		v_proxyRanks,
 		v_singleton,
+		v_timspec,
 		v_transform
 	)
 {
@@ -81,6 +85,8 @@ const Constructor =
 	this.proxyRanks = v_proxyRanks;
 
 	this.singleton = v_singleton;
+
+	this.timspec = v_timspec;
 
 	this.transform = v_transform;
 
@@ -145,6 +151,8 @@ prototype.create =
 
 	let v_singleton;
 
+	let v_timspec;
+
 	let v_transform;
 
 	if( this !== self )
@@ -184,6 +192,8 @@ prototype.create =
 		v_proxyRanks = this.proxyRanks;
 
 		v_singleton = this.singleton;
+
+		v_timspec = this.timspec;
 
 		v_transform = this.transform;
 	}
@@ -351,6 +361,15 @@ prototype.create =
 
 				break;
 
+			case 'timspec' :
+
+				if( arg !== pass )
+				{
+					v_timspec = arg;
+				}
+
+				break;
+
 			case 'transform' :
 
 				if( arg !== pass )
@@ -443,6 +462,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_timspec.timtype !== tt_timspec_timspec )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_transform ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
@@ -518,6 +542,12 @@ prototype.create =
 		&&
 		v_singleton === inherit.singleton
 		&&
+		(
+			v_timspec === inherit.timspec
+			||
+			v_timspec.equals( inherit.timspec )
+		)
+		&&
 		v_transform === inherit.transform
 	)
 	{
@@ -543,6 +573,7 @@ prototype.create =
 			v_module,
 			v_proxyRanks,
 			v_singleton,
+			v_timspec,
 			v_transform
 		)
 	);
@@ -656,6 +687,12 @@ prototype.equals =
 		this.proxyRanks === obj.proxyRanks
 		&&
 		this.singleton === obj.singleton
+		&&
+		(
+			this.timspec === obj.timspec
+			||
+			this.timspec.equals( obj.timspec )
+		)
 		&&
 		this.transform === obj.transform
 	);

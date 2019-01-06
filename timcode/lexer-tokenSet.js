@@ -241,31 +241,25 @@ prototype.equals =
 
 	if( this._set !== obj._set )
 	{
-		const ait = this._list.iterator( );
-
-		const bit = obj._list.iterator( );
-
-		let an = ait.next( );
-
-		let bn = bit.next( );
-
-		while(
-			!an.done && !bn.done
-			)
+		if( this.size !== obj.size )
 		{
-			if( an.value !== bn.value )
+			return false;
+		}
+
+		const it = this.iterator( );
+
+		for(
+			let i = it.next( );
+			!i.done;
+			i = it.next( )
+		)
+		{
+			const v = i.value;
+
+			if( !obj.has( v ) )
 			{
 				return false;
 			}
-
-			an = ait.next( );
-
-			bn = bit.next( );
-		}
-
-		if( !an.done || !bn.done )
-		{
-			return false;
 		}
 	}
 

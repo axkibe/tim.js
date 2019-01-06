@@ -139,7 +139,7 @@ module.exports =
 	{
 		if( !timspec_timspec ) timspec_timspec = require( './timspec/timspec' );
 
-		timspec = timspec_timspec.createFromDef( def, filename );
+		timspec = timspec_timspec.createFromDef( def, module, filename );
 
 		timspec = tim.catalog.addTimspec( timspec );
 
@@ -151,7 +151,7 @@ module.exports =
 	}
 	else
 	{
-		bootstrap.strapped.push( { filename: filename, def: def } );
+		bootstrap.strapped.push( { def: def, filename: filename, module: module } );
 
 		rootPath = bootstrap.rootPath;
 
