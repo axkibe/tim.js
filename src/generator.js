@@ -13,9 +13,6 @@ if( TIM )
 		// list of alike function and what to ignore
 		alike : { type : [ 'protean', 'undefined' ] },
 
-		// attributes this tim allows
-		attributes : { type : [ './attributeGroup' ] },
-
 		// true if an init checker is to be called
 		check : { type : 'boolean' },
 
@@ -197,7 +194,7 @@ def.func.genConstructor =
 		block = block.$( 'this.__lazy = { }' );
 	}
 
-	const attributes = this.attributes;
+	const attributes = this.timspec.attributes;
 
 	// assigns the variables
 	for( let a = 0, as = attributes.size; a < as; a++ )
@@ -361,15 +358,17 @@ def.func.genCreatorVariables =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
+	const attributes = this.timspec.attributes;
+
 	const varList = [ ];
 
-	const aKeys = this.attributes.keys;
+	const aKeys = attributes.keys;
 
 	for( let a = 0, al = aKeys.length; a < al; a++ )
 	{
 		const name = aKeys[ a ];
 
-		varList.push( this.attributes.get( name ).varRef.name );
+		varList.push( attributes.get( name ).varRef.name );
 	}
 
 	varList.push( 'inherit' );
@@ -411,6 +410,8 @@ def.func.genCreatorInheritanceReceiver =
 /**/{
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
+
+	const attributes = this.timspec.attributes;
 
 	let receiver = $block.$( 'inherit = this' );
 
@@ -461,11 +462,11 @@ def.func.genCreatorInheritanceReceiver =
 		}
 	}
 
-	for( let a = 0, as = this.attributes.size; a < as; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
-		const name = this.attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		receiver = receiver.$( attr.varRef, ' = ', 'this.', attr.assign );
 	}
@@ -508,15 +509,17 @@ def.func.genCreatorFreeStringsParser =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
+	const attributes = this.timspec.attributes;
+
 	let loop = $block.$let( 'arg', 'arguments[ a + 1 ]' );
 
 	let switchExpr = $switch( 'arguments[ a ]' );
 
-	for( let a = 0, as = this.attributes.size; a < as; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
-		const name = this.attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		switchExpr =
 			switchExpr
@@ -761,13 +764,15 @@ def.func.genCreatorDefaults =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
+	const attributes = this.timspec.attributes;
+
 	let result = $block;
 
-	for( let a = 0, as = this.attributes.size; a < as; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
-		const name = this.attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		if(
 			attr.defaultValue !== undefined
@@ -916,13 +921,15 @@ def.func.genCreatorChecks =
 /**/	if( arguments.length !== 1 ) throw new Error( );
 /**/}
 
+	const attributes = this.timspec.attributes;
+
 	let check = $block;
 
-	for( let a = 0, as = this.attributes.size; a < as; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
-		const name = this.attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		if( json && !attr.json ) continue;
 
@@ -1042,7 +1049,7 @@ def.func.genCreatorUnchanged =
 
 	if( this.gtwig ) cond = $( cond, '&& twigDup === false' );
 
-	const attributes = this.attributes;
+	const attributes = this.timspec.attributes;
 
 	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
@@ -1119,6 +1126,8 @@ def.func.genCreatorReturn =
 
 	const argList = this.constructorList;
 
+	const attributes = this.timspec.attributes;
+
 	const conName = 'Constructor';
 
 	if( this.singleton )
@@ -1159,7 +1168,7 @@ def.func.genCreatorReturn =
 
 			default :
 
-				call = call.$argument( this.attributes.get( argName ).varRef );
+				call = call.$argument( attributes.get( argName ).varRef );
 		}
 	}
 
@@ -1214,15 +1223,17 @@ def.func.genCreator =
 def.func.genFromJsonCreatorVariables =
 	function( )
 {
+	const attributes = this.timspec.attributes;
+
 	const varList = [ ];
 
-	const aKeys = this.attributes.keys;
+	const aKeys = attributes.keys;
 
 	for( let a = 0, al = aKeys.length; a < al; a++ )
 	{
 		const name = aKeys[ a ];
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		varList.push( attr.varRef.name );
 	}
@@ -1344,6 +1355,8 @@ def.func.genFromJsonCreatorParser =
 		jsonList
 	)
 {
+	const attributes = this.timspec.attributes;
+
 	// the switch
 	let nameSwitch =
 		$switch( 'name' )
@@ -1384,7 +1397,7 @@ def.func.genFromJsonCreatorParser =
 			continue;
 		}
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		nameSwitch =
 			nameSwitch
@@ -1691,6 +1704,8 @@ def.func.genFromJsonCreatorTwigProcessing =
 def.func.genFromJsonCreatorReturn =
 	function( )
 {
+	const attributes = this.timspec.attributes;
+
 	let call = $( 'Constructor( )' );
 
 	for( let a = 0, al = this.constructorList.length; a < al; a++ )
@@ -1724,7 +1739,7 @@ def.func.genFromJsonCreatorReturn =
 
 			default :
 
-				const attr = this.attributes.get( name );
+				const attr = attributes.get( name );
 
 				call = call.$argument( attr.varRef );
 		}
@@ -1740,14 +1755,16 @@ def.func.genFromJsonCreatorReturn =
 def.func.genFromJsonCreator =
 	function( )
 {
+	const attributes = this.timspec.attributes;
+
 	// all attributes expected from json
 	const jsonList = [ ];
 
-	for( let a = 0, as = this.attributes.size; a < as; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
-		const name = this.attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		if( attr.json ) jsonList.push( name );
 	}
@@ -1983,15 +2000,15 @@ def.func.genTimProto =
 def.func.genToJson =
 	function( )
 {
-	let olit;
+	const attributes = this.timspec.attributes;
 
-	olit = $objLiteral( ).add( 'type', $string( this.json ) );
+	let olit = $objLiteral( ).add( 'type', $string( this.json ) );
 
-	for( let a = 0, as = this.attributes.size; a < as; a++ )
+	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
-		const name = this.attributes.sortedKeys[ a ];
+		const name = attributes.sortedKeys[ a ];
 
-		const attr = this.attributes.get( name );
+		const attr = attributes.get( name );
 
 		if( !attr.json ) continue;
 
@@ -2047,7 +2064,9 @@ def.func.genAttributeEquals =
 /**/	if( arguments.length !== 4 ) throw new Error( );
 /**/}
 
-	const attr = this.attributes.get( name );
+	const attributes = this.timspec.attributes;
+
+	const attr = attributes.get( name );
 
 	const allowsNull = attr.types.timtype === type_set && attr.types.has( tsNull );
 
@@ -2225,7 +2244,7 @@ def.func.genEqualsFuncBody =
 			);
 	}
 
-	const attributes = this.attributes;
+	const attributes = this.timspec.attributes;
 
 	let cond;
 
@@ -2359,7 +2378,7 @@ def.func.genAlike =
 				);
 		}
 
-		const attributes = this.attributes;
+		const attributes = this.timspec.attributes;
 
 		for( let b = 0, bZ = attributes.size; b < bZ; b++ )
 		{
@@ -2401,7 +2420,7 @@ def.func.genAlike =
 def.func.genAttrTransform =
 	function( )
 {
-	const attributes = this.attributes;
+	const attributes = this.timspec.attributes;
 
 	let result;
 
@@ -2630,7 +2649,6 @@ def.static.createGenerator =
 
 	return(
 		self.create(
-			'attributes', attributes,
 			'alike', def.alike,
 			'check', !!def.func._check,
 			'constructorList', constructorList,

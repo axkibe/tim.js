@@ -6,9 +6,6 @@
 'use strict';
 
 
-const tt_attributeGroup = require( './attributeGroup.js' );
-
-
 const tt_type_set = require( './type/set.js' );
 
 
@@ -30,7 +27,6 @@ const tim_proto = tim.proto;
 const Constructor =
 	function(
 		v_alike,
-		v_attributes,
 		v_check,
 		v_constructorList,
 		v_creatorHasFreeStringsParser,
@@ -53,8 +49,6 @@ const Constructor =
 	this.__lazy = { };
 
 	this.alike = v_alike;
-
-	this.attributes = v_attributes;
 
 	this.check = v_check;
 
@@ -119,8 +113,6 @@ prototype.create =
 
 	let v_alike;
 
-	let v_attributes;
-
 	let v_check;
 
 	let v_constructorList;
@@ -160,8 +152,6 @@ prototype.create =
 		inherit = this;
 
 		v_alike = this.alike;
-
-		v_attributes = this.attributes;
 
 		v_check = this.check;
 
@@ -213,15 +203,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_alike = arg;
-				}
-
-				break;
-
-			case 'attributes' :
-
-				if( arg !== pass )
-				{
-					v_attributes = arg;
 				}
 
 				break;
@@ -392,11 +373,6 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_attributes.timtype !== tt_attributeGroup )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( typeof( v_check ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
@@ -478,12 +454,6 @@ prototype.create =
 		&&
 		v_alike === inherit.alike
 		&&
-		(
-			v_attributes === inherit.attributes
-			||
-			v_attributes.equals( inherit.attributes )
-		)
-		&&
 		v_check === inherit.check
 		&&
 		v_constructorList === inherit.constructorList
@@ -557,7 +527,6 @@ prototype.create =
 	return (
 		new Constructor(
 			v_alike,
-			v_attributes,
 			v_check,
 			v_constructorList,
 			v_creatorHasFreeStringsParser,
@@ -623,12 +592,6 @@ prototype.equals =
 
 	return (
 		this.alike === obj.alike
-		&&
-		(
-			this.attributes === obj.attributes
-			||
-			this.attributes.equals( obj.attributes )
-		)
 		&&
 		this.check === obj.check
 		&&
