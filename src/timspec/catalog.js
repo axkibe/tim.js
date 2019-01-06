@@ -95,10 +95,16 @@ catalog.addRootDir =
 */
 catalog.addTimspec =
 	function(
-		filename, // filename of the tim
-		def       // definition of the tim
+		timspec   // timspec to add
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 1 ) throw new Error( );
+/**/}
+
+	const filename = timspec.filename;
+
 	// timspecRoot
 	let tsr, tsrPos = 0;
 
@@ -123,7 +129,7 @@ catalog.addTimspec =
 
 	path = tim_path.create( 'list:init', path );
 
-	const timspec = timspec_timspec.createFromDef( def, filename, path );
+	timspec = timspec.create( 'path', path );
 
 	timspecRoots[ tsrPos ] = tsr.addTimspec( timspec );
 

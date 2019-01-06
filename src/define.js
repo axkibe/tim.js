@@ -15,6 +15,8 @@ const vm = require( 'vm' );
 
 const prepare = require( './prepare' );
 
+let timspec_timspec;
+
 const readOptions = { encoding : 'utf8' };
 
 if( FREEZE ) Object.freeze( readOptions );
@@ -129,7 +131,11 @@ module.exports =
 
 	if( !bootstrap )
 	{
-		const timspec = tim.catalog.addTimspec( filename, def );
+		if( !timspec_timspec ) timspec_timspec = require( './timspec/timspec' );
+
+		let timspec = timspec_timspec.createFromDef( def, filename );
+
+		timspec = tim.catalog.addTimspec( timspec );
 
 		rootDir = tim.catalog.getRootDir( timspec );
 

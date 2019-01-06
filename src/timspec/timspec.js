@@ -22,6 +22,8 @@ if( TIM )
 	};
 }
 
+const validator = require( '../validator' );
+
 
 /*
 | Creates a timspec from the def protean.
@@ -29,20 +31,20 @@ if( TIM )
 def.static.createFromDef =
 	function(
 		def,
-		filename,
-		path
+		filename
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 3 ) throw new Error( );
+/**/	if( arguments.length !== 2 ) throw new Error( );
 /**/}
+
+	validator.check( def );
 
 	return(
 		timspec_timspec.create(
 			'filename', filename,
-			'json', def.json,
-			'path', path
+			'json', def.json
 		)
 	);
 };

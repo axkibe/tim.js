@@ -63,6 +63,8 @@ tim.define = require( './define' );
 // Catalog of all timspecs in current instace.
 tim.catalog = require( './timspec/catalog' );
 
+const timspec_timspec = require( './timspec/timspec' );
+
 // finished bootstrapping
 tim._BOOTSTRAP = undefined;
 
@@ -74,7 +76,9 @@ for( let a = 0, al = strapped.length; a < al; a++ )
 {
 	const strap = strapped[ a ];
 
-	tim.catalog.addTimspec( strap.filename, strap.def );
+	const timspec = timspec_timspec.createFromDef( strap.def, strap.filename );
+ 
+	tim.catalog.addTimspec( timspec );
 }
 
 tim.import = require( './import' );

@@ -103,8 +103,6 @@ const type_tim = require( './type/tim' );
 
 const type_undefined = require( './type/undefined' );
 
-const validator = require( './validator' );
-
 const parser_parser = require( './parser/parser' );
 
 const shorthand = require( './ast/shorthand' );
@@ -2513,11 +2511,15 @@ def.lazy.ast =
 */
 def.static.createGenerator =
 	function(
-		def,          // the tim definition
+		def,          // FIXME remove, the tim definition
+		timspec,      // the timspec to create timcode for
 		module        // the module relative to which types are
 	)
 {
-	validator.check( def );
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 3 ) throw new Error( );
+/**/}
 
 	let exTimspec;
 	
