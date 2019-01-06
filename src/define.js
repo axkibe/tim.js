@@ -27,11 +27,17 @@ if( FREEZE ) Object.freeze( readOptions );
 */
 const createTimcode =
 	function(
-		def,                 // tim definition
+		def,                 // tim definition  // FIXME remove
+		timspec,             // timspec
 		module,              // defining module
 		timcodeRealFilename  // absolute path filename of timcode file
 	)
 {
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 4 ) throw new Error( );
+/**/}
+
 	// tests if the timcode is out of date or not existing
 	// and creates it if so.
 
@@ -54,7 +60,7 @@ const createTimcode =
 
 		const format_formatter = require( './format/formatter' );
 
-		const ast = generator.createGenerator( def, module ).ast;
+		const ast = generator.createGenerator( def, timspec, module ).ast;
 
 		const output = format_formatter.format( ast );
 
@@ -127,13 +133,13 @@ module.exports =
 
 	const bootstrap = tim._BOOTSTRAP;
 
-	let rootDir, rootPath, timcodePath;
+	let rootDir, rootPath, timspec, timcodePath;
 
 	if( !bootstrap )
 	{
 		if( !timspec_timspec ) timspec_timspec = require( './timspec/timspec' );
 
-		let timspec = timspec_timspec.createFromDef( def, filename );
+		timspec = timspec_timspec.createFromDef( def, filename );
 
 		timspec = tim.catalog.addTimspec( timspec );
 
@@ -159,9 +165,9 @@ module.exports =
 
 	const timcodeRealFilename = timcodePath + '/' + timcodeFilename;
 
-	if( rootDir && !rootDir.noTimcodeGen )
+	if( rootDir && !rootDir.noTimcodeGen && timspec )
 	{
-		createTimcode( def, module, timcodeRealFilename );
+		createTimcode( def, timspec, module, timcodeRealFilename );
 	}
 
 	loadTimcode( def, module, timcodeRealFilename );

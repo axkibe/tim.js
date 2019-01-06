@@ -26,6 +26,8 @@ const format_formatter = require( '../format/formatter' );
 
 const generator = require( '../generator' );
 
+const timspec_timspec = require( '../timspec/timspec' );
+
 const readOptions = { encoding : 'utf8' };
 
 
@@ -158,7 +160,9 @@ for( let a = 0, al = listing.length; a < al; a++ )
 
 	input( smodule, smodule.require, stim );
 
-	const ast = generator.createGenerator( def, smodule ).ast;
+	const timspec = timspec_timspec.createFromDef( def, inFilename );
+
+	const ast = generator.createGenerator( def, timspec, smodule ).ast;
 
 	const output = format_formatter.format( ast );
 
