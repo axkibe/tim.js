@@ -6,10 +6,19 @@
 'use strict';
 
 
-const tt_$_attributeGroup = require( './../attributeGroup.js' );
+const tt_attributeGroup = require( './attributeGroup.js' );
+
+
+const tt_timspec = require( './timspec.js' );
+
+
+const tt_$_ast_var = require( './../ast/var.js' );
 
 
 const tt_$_type_set = require( './../type/set.js' );
+
+
+const tt_$_export_stringSet = require( './../export/stringSet.js' );
 
 
 const tt_$_export_path = require( './../export/path.js' );
@@ -23,19 +32,55 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
+		v_alike,
 		v_attributes,
+		v_check,
+		v_extend,
 		v_filename,
+		v_ggroup,
+		v_glist,
+		v_global,
+		v_gset,
+		v_gtwig,
+		v_hasLazy,
+		v_hasProxyRanks,
 		v_imports,
+		v_inherits,
+		v_isTransforming,
 		v_json,
 		v_path,
 		v_singleton
 	)
 {
+	this.alike = v_alike;
+
 	this.attributes = v_attributes;
+
+	this.check = v_check;
+
+	this.extend = v_extend;
 
 	this.filename = v_filename;
 
+	this.ggroup = v_ggroup;
+
+	this.glist = v_glist;
+
+	this.global = v_global;
+
+	this.gset = v_gset;
+
+	this.gtwig = v_gtwig;
+
+	this.hasLazy = v_hasLazy;
+
+	this.hasProxyRanks = v_hasProxyRanks;
+
 	this.imports = v_imports;
+
+	this.inherits = v_inherits;
+
+	this.isTransforming = v_isTransforming;
 
 	this.json = v_json;
 
@@ -70,11 +115,35 @@ prototype.create =
 {
 	let inherit;
 
+	let v_alike;
+
 	let v_attributes;
+
+	let v_check;
+
+	let v_extend;
 
 	let v_filename;
 
+	let v_ggroup;
+
+	let v_glist;
+
+	let v_global;
+
+	let v_gset;
+
+	let v_gtwig;
+
+	let v_hasLazy;
+
+	let v_hasProxyRanks;
+
 	let v_imports;
+
+	let v_inherits;
+
+	let v_isTransforming;
 
 	let v_json;
 
@@ -86,11 +155,35 @@ prototype.create =
 	{
 		inherit = this;
 
+		v_alike = this.alike;
+
 		v_attributes = this.attributes;
+
+		v_check = this.check;
+
+		v_extend = this.extend;
 
 		v_filename = this.filename;
 
+		v_ggroup = this.ggroup;
+
+		v_glist = this.glist;
+
+		v_global = this.global;
+
+		v_gset = this.gset;
+
+		v_gtwig = this.gtwig;
+
+		v_hasLazy = this.hasLazy;
+
+		v_hasProxyRanks = this.hasProxyRanks;
+
 		v_imports = this.imports;
+
+		v_inherits = this.inherits;
+
+		v_isTransforming = this.isTransforming;
 
 		v_json = this.json;
 
@@ -109,11 +202,38 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'alike' :
+
+				if( arg !== pass )
+				{
+					v_alike = arg;
+				}
+
+				break;
+
 			case 'attributes' :
 
 				if( arg !== pass )
 				{
 					v_attributes = arg;
+				}
+
+				break;
+
+			case 'check' :
+
+				if( arg !== pass )
+				{
+					v_check = arg;
+				}
+
+				break;
+
+			case 'extend' :
+
+				if( arg !== pass )
+				{
+					v_extend = arg;
 				}
 
 				break;
@@ -127,11 +247,92 @@ prototype.create =
 
 				break;
 
+			case 'ggroup' :
+
+				if( arg !== pass )
+				{
+					v_ggroup = arg;
+				}
+
+				break;
+
+			case 'glist' :
+
+				if( arg !== pass )
+				{
+					v_glist = arg;
+				}
+
+				break;
+
+			case 'global' :
+
+				if( arg !== pass )
+				{
+					v_global = arg;
+				}
+
+				break;
+
+			case 'gset' :
+
+				if( arg !== pass )
+				{
+					v_gset = arg;
+				}
+
+				break;
+
+			case 'gtwig' :
+
+				if( arg !== pass )
+				{
+					v_gtwig = arg;
+				}
+
+				break;
+
+			case 'hasLazy' :
+
+				if( arg !== pass )
+				{
+					v_hasLazy = arg;
+				}
+
+				break;
+
+			case 'hasProxyRanks' :
+
+				if( arg !== pass )
+				{
+					v_hasProxyRanks = arg;
+				}
+
+				break;
+
 			case 'imports' :
 
 				if( arg !== pass )
 				{
 					v_imports = arg;
+				}
+
+				break;
+
+			case 'inherits' :
+
+				if( arg !== pass )
+				{
+					v_inherits = arg;
+				}
+
+				break;
+
+			case 'isTransforming' :
+
+				if( arg !== pass )
+				{
+					v_isTransforming = arg;
 				}
 
 				break;
@@ -171,7 +372,22 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	if( v_attributes.timtype !== tt_$_attributeGroup )
+/**/	if( typeof( v_alike ) !== 'object' && v_alike !== undefined )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_attributes.timtype !== tt_attributeGroup )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_check ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_extend !== undefined && v_extend.timtype !== tt_timspec )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -181,7 +397,52 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_ggroup !== undefined && v_ggroup.timtype !== tt_$_type_set )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_glist !== undefined && v_glist.timtype !== tt_$_type_set )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_global !== undefined && v_global.timtype !== tt_$_ast_var )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_gset !== undefined && v_gset.timtype !== tt_$_type_set )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_gtwig !== undefined && v_gtwig.timtype !== tt_$_type_set )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_hasLazy ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_hasProxyRanks ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_imports.timtype !== tt_$_type_set )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( v_inherits !== undefined && v_inherits.timtype !== tt_$_export_stringSet )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
+/**/	if( typeof( v_isTransforming ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -205,19 +466,71 @@ prototype.create =
 	if(
 		inherit
 		&&
+		v_alike === inherit.alike
+		&&
 		(
 			v_attributes === inherit.attributes
 			||
 			v_attributes.equals( inherit.attributes )
 		)
 		&&
+		v_check === inherit.check
+		&&
+		(
+			v_extend === inherit.extend
+			||
+			v_extend !== undefined && v_extend.timtype && v_extend.equals( inherit.extend )
+		)
+		&&
 		v_filename === inherit.filename
+		&&
+		(
+			v_ggroup === inherit.ggroup
+			||
+			v_ggroup !== undefined && v_ggroup.timtype && v_ggroup.equals( inherit.ggroup )
+		)
+		&&
+		(
+			v_glist === inherit.glist
+			||
+			v_glist !== undefined && v_glist.timtype && v_glist.equals( inherit.glist )
+		)
+		&&
+		(
+			v_global === inherit.global
+			||
+			v_global !== undefined && v_global.timtype && v_global.equals( inherit.global )
+		)
+		&&
+		(
+			v_gset === inherit.gset
+			||
+			v_gset !== undefined && v_gset.timtype && v_gset.equals( inherit.gset )
+		)
+		&&
+		(
+			v_gtwig === inherit.gtwig
+			||
+			v_gtwig !== undefined && v_gtwig.timtype && v_gtwig.equals( inherit.gtwig )
+		)
+		&&
+		v_hasLazy === inherit.hasLazy
+		&&
+		v_hasProxyRanks === inherit.hasProxyRanks
 		&&
 		(
 			v_imports === inherit.imports
 			||
 			v_imports.equals( inherit.imports )
 		)
+		&&
+		(
+			v_inherits === inherit.inherits
+			||
+			v_inherits !== undefined && v_inherits.timtype && v_inherits.equals( inherit.inherits )
+		)
+		&&
+		v_isTransforming === inherit.isTransforming
 		&&
 		v_json === inherit.json
 		&&
@@ -233,7 +546,28 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( v_attributes, v_filename, v_imports, v_json, v_path, v_singleton );
+	return (
+		new Constructor(
+			v_alike,
+			v_attributes,
+			v_check,
+			v_extend,
+			v_filename,
+			v_ggroup,
+			v_glist,
+			v_global,
+			v_gset,
+			v_gtwig,
+			v_hasLazy,
+			v_hasProxyRanks,
+			v_imports,
+			v_inherits,
+			v_isTransforming,
+			v_json,
+			v_path,
+			v_singleton
+		)
+	);
 };
 
 
@@ -279,19 +613,71 @@ prototype.equals =
 	}
 
 	return (
+		this.alike === obj.alike
+		&&
 		(
 			this.attributes === obj.attributes
 			||
 			this.attributes.equals( obj.attributes )
 		)
 		&&
+		this.check === obj.check
+		&&
+		(
+			this.extend === obj.extend
+			||
+			this.extend !== undefined && this.extend.timtype && this.extend.equals( obj.extend )
+		)
+		&&
 		this.filename === obj.filename
+		&&
+		(
+			this.ggroup === obj.ggroup
+			||
+			this.ggroup !== undefined && this.ggroup.timtype && this.ggroup.equals( obj.ggroup )
+		)
+		&&
+		(
+			this.glist === obj.glist
+			||
+			this.glist !== undefined && this.glist.timtype && this.glist.equals( obj.glist )
+		)
+		&&
+		(
+			this.global === obj.global
+			||
+			this.global !== undefined && this.global.timtype && this.global.equals( obj.global )
+		)
+		&&
+		(
+			this.gset === obj.gset
+			||
+			this.gset !== undefined && this.gset.timtype && this.gset.equals( obj.gset )
+		)
+		&&
+		(
+			this.gtwig === obj.gtwig
+			||
+			this.gtwig !== undefined && this.gtwig.timtype && this.gtwig.equals( obj.gtwig )
+		)
+		&&
+		this.hasLazy === obj.hasLazy
+		&&
+		this.hasProxyRanks === obj.hasProxyRanks
 		&&
 		(
 			this.imports === obj.imports
 			||
 			this.imports.equals( obj.imports )
 		)
+		&&
+		(
+			this.inherits === obj.inherits
+			||
+			this.inherits !== undefined && this.inherits.timtype && this.inherits.equals( obj.inherits )
+		)
+		&&
+		this.isTransforming === obj.isTransforming
 		&&
 		this.json === obj.json
 		&&

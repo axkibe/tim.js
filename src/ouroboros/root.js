@@ -162,7 +162,7 @@ for( let a = 0, al = listing.length; a < al; a++ )
 
 	const timspec = timspec_timspec.createFromDef( def, smodule, inFilename );
 
-	const ast = generator.createGenerator( def, timspec, smodule ).ast;
+	const ast = generator.createGenerator( timspec, smodule ).ast;
 
 	const output = format_formatter.format( ast );
 

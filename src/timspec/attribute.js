@@ -15,7 +15,7 @@ if( TIM )
 		assign : { type : 'string' },
 
 		// default value
-		defaultValue : { type : [ '< ./ast/types-expr', 'undefined' ] },
+		defaultValue : { type : [ '< ../ast/types-expr', 'undefined' ] },
 
 		// include in JSON export/import
 		json : { type : 'boolean', defaultValue : 'false' },
@@ -27,10 +27,10 @@ if( TIM )
 		transform : { type: [ 'boolean' ] },
 
 		// attribute types
-		types : { type : [ '< ./type/types', './type/set' ] },
+		types : { type : [ '< ../type/types', '../type/set' ] },
 
 		// attribute variable used in generate
-		varRef : { type : './ast/var' },
+		varRef : { type : '../ast/var' },
 	};
 }
 

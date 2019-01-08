@@ -60,7 +60,7 @@ const createTimcode =
 
 		const format_formatter = require( './format/formatter' );
 
-		const ast = generator.createGenerator( def, timspec, module ).ast;
+		const ast = generator.createGenerator( timspec, module ).ast;
 
 		const output = format_formatter.format( ast );
 

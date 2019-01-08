@@ -10,66 +10,21 @@ if( TIM )
 {
 	def.attributes =
 	{
-		// list of alike function and what to ignore
-		alike : { type : [ 'protean', 'undefined' ] },
-
-		// true if an init checker is to be called
-		check : { type : 'boolean' },
-
 		// arguments for the constructor
 		constructorList : { type : 'protean' },
 
 		// true if a free strings parser is to be added in the creator
 		creatorHasFreeStringsParser : { type : 'boolean' },
 
-		// if set this tim is a group
-		// FIXME find out why 'group' etc. disturbs generator
-		ggroup : { type : [ './type/set', 'undefined' ] },
-
-		// if set this tim is a list
-		glist : { type : [ './type/set', 'undefined' ] },
-
-		// if set this tim is a set
-		gset : { type : [ './type/set', 'undefined' ] },
-
-		// if set this tim is a twig
-		gtwig : { type : [ './type/set', 'undefined' ] },
-
-		// if set, actualizes a global variable to the last created
-		global : { type : [ './ast/var', 'undefined' ] },
-
-		// true if this tim has lazy values
-		haveLazy: { type : 'boolean' },
-
-		// other tims this tim utilizes
-		imports : { type : './type/set' },
-
-		// inherit optimizations
-		inherits : { type : [ './export/stringSet', 'undefined' ] },
-
-		// fromJson and toJson specifier
-		json : { type : [ 'string', 'undefined' ] },
-
 		// the node.js module this tim is generated from
 		module : { type : 'protean' },
 
-		// true if _ranks is a proxy
-		proxyRanks : { type : 'boolean' },
-
-		// true if this a singleton (no attributes or group/list/set/twig)
-		singleton : { type : [ 'boolean', 'undefined' ] },
-
 		// the timspec
 		timspec : { type : './timspec/timspec' },
-
-		// true if this is a transforming group/list/set/twig
-		transform : { type : 'boolean' }
 	};
 }
 
 const ast_var = require( './ast/var' );
-
-const stringSet = require( './export/stringSet' );
 
 const type_boolean = require( './type/boolean' );
 
@@ -125,8 +80,6 @@ const $switch = shorthand.$switch;
 
 const $undefined = shorthand.$undefined;
 
-const $var = shorthand.$var;
-
 
 /*
 | Type singletons
@@ -159,9 +112,7 @@ def.func.genRequires =
 {
 	let block = $block;
 
-	const imports = this.imports;
-
-	const it = imports.iterator( );
+	const it = this.timspec.imports.iterator( );
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
@@ -189,12 +140,11 @@ def.func.genConstructor =
 
 	let block = $block;
 
-	if( this.haveLazy )
-	{
-		block = block.$( 'this.__lazy = { }' );
-	}
+	const timspec = this.timspec;
 
-	const attributes = this.timspec.attributes;
+	if( timspec.hasLazy ) block = block.$( 'this.__lazy = { }' );
+
+	const attributes = timspec.attributes;
 
 	// assigns the variables
 	for( let a = 0, as = attributes.size; a < as; a++ )
@@ -208,38 +158,38 @@ def.func.genConstructor =
 		block = block.append( assign );
 	}
 
-	if( this.ggroup ) block = block.$( 'this._group = group' );
+	if( timspec.ggroup ) block = block.$( 'this._group = group' );
 
-	if( this.glist ) block = block.$( 'this._list = list' );
+	if( timspec.glist ) block = block.$( 'this._list = list' );
 
-	if( this.gset ) block = block.$( 'this._set = set' );
+	if( timspec.gset ) block = block.$( 'this._set = set' );
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		block = block.$( 'this._twig = twig' );
 
-		if( !this.proxyRanks ) block = block.$( 'this._ranks = ranks' );
+		if( !timspec.hasProxyRanks ) block = block.$( 'this._ranks = ranks' );
 
-		if( this.transform ) block = block.$( 'this._ttwig = { }' );
+		if( timspec.isTransforming ) block = block.$( 'this._ttwig = { }' );
 	}
 
-	if( this.global ) block = block.$( this.global, '= this' );
+	if( timspec.global ) block = block.$( this.timspec.global, '= this' );
 
 	// immutes the new objects
 
 	let freezeCall = $( 'Object.freeze( this )' );
 
-	if( this.ggroup ) freezeCall = freezeCall.$argument ( 'group' );
+	if( timspec.ggroup ) freezeCall = freezeCall.$argument ( 'group' );
 
-	if( this.glist ) freezeCall = freezeCall.$argument( 'list' );
+	if( timspec.glist ) freezeCall = freezeCall.$argument( 'list' );
 
-	if( this.gset ) freezeCall = freezeCall.$argument( 'set' );
+	if( timspec.gset ) freezeCall = freezeCall.$argument( 'set' );
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		freezeCall = freezeCall.$argument( 'twig' );
 
-		if( !this.proxyRanks ) freezeCall = freezeCall.$argument( 'ranks' );
+		if( !timspec.hasProxyRanks ) freezeCall = freezeCall.$argument( 'ranks' );
 	}
 
 	// FUTURE force freezing date attributes
@@ -247,7 +197,7 @@ def.func.genConstructor =
 	block = block.$if( 'FREEZE', freezeCall );
 
 	// calls potential init checker
-	if( this.check ) block = block.$check( 'this._check( )' );
+	if( timspec.check ) block = block.$check( 'this._check( )' );
 
 	let cf = $func( block );
 
@@ -358,7 +308,9 @@ def.func.genCreatorVariables =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	const varList = [ ];
 
@@ -373,17 +325,17 @@ def.func.genCreatorVariables =
 
 	varList.push( 'inherit' );
 
-	if( this.ggroup ) varList.push( 'group', 'groupDup' );
+	if( timspec.ggroup ) varList.push( 'group', 'groupDup' );
 
-	if( this.glist ) varList.push( 'list', 'listDup' );
+	if( timspec.glist ) varList.push( 'list', 'listDup' );
 
-	if( this.gset ) varList.push( 'set', 'setDup' );
+	if( timspec.gset ) varList.push( 'set', 'setDup' );
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		varList.push( 'key', 'ranks', 'twig', 'twigDup' );
 
-		if( !this.proxyRanks ) varList.push( 'rank' );
+		if( !timspec.hasProxyRanks ) varList.push( 'rank' );
 	}
 
 	varList.sort( );
@@ -411,11 +363,13 @@ def.func.genCreatorInheritanceReceiver =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	let receiver = $block.$( 'inherit = this' );
 
-	if( this.ggroup )
+	if( timspec.ggroup )
 	{
 		receiver =
 			receiver
@@ -423,7 +377,7 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'groupDup = false' );
 	}
 
-	if( this.glist )
+	if( timspec.glist )
 	{
 		receiver =
 			receiver
@@ -431,7 +385,7 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'listDup = false' );
 	}
 
-	if( this.gset )
+	if( timspec.gset )
 	{
 		receiver =
 			receiver
@@ -439,16 +393,15 @@ def.func.genCreatorInheritanceReceiver =
 			.$( 'setDup = false' );
 	}
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		receiver = receiver.$( 'twig = inherit._twig' );
 
 		receiver = receiver.$( 'ranks = inherit._ranks' );
-		//if( !this.proxyRanks ) receiver = receiver.$( 'ranks = inherit._ranks' );
 
 		receiver = receiver.$( 'twigDup = false' );
 
-		if( this.transform )
+		if( timspec.isTransforming )
 		{
 			receiver =
 				receiver
@@ -456,7 +409,7 @@ def.func.genCreatorInheritanceReceiver =
 					'!tim_proto.isEmpty( inherit._ttwig )',
 					$block
 					.$( 'twigDup = true' )
-					.$( !this.proxyRanks ? 'ranks = ranks.slice( )' : undefined )
+					.$( !timspec.hasProxyRanks ? 'ranks = ranks.slice( )' : undefined )
 					.$( 'twig = tim_proto.copy2( twig, inherit._ttwig )' )
 				);
 		}
@@ -473,24 +426,14 @@ def.func.genCreatorInheritanceReceiver =
 
 	let result = $( 'if ( this !== self )', receiver, ';' );
 
-	if( this.ggroup )
-	{
-		result = result.$elsewise( '{ group = { }; groupDup = true; }' );
-	}
+	if( timspec.ggroup ) result = result.$elsewise( '{ group = { }; groupDup = true; }' );
 
-	if( this.glist )
-	{
-		result = result.$elsewise( '{ list = [ ]; listDup = true; }' );
-	}
+	if( timspec.glist ) result = result.$elsewise( '{ list = [ ]; listDup = true; }' );
 
-	if( this.gset )
-	{
-		result = result.$elsewise( '{ set = new Set( ); setDup = true; }' );
-	}
+	if( timspec.gset ) result = result.$elsewise( '{ set = new Set( ); setDup = true; }' );
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
-//		$( !this.proxyRanks ? 'ranks = [ ]' : undefined )
 		result = result.$elsewise( '{ twig = { }; ranks = [ ]; twigDup = true; }' );
 	}
 
@@ -509,7 +452,9 @@ def.func.genCreatorFreeStringsParser =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	let loop = $block.$let( 'arg', 'arguments[ a + 1 ]' );
 
@@ -529,7 +474,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.ggroup )
+	if( timspec.ggroup )
 	{
 		const groupDupCheck =
 			$if(
@@ -561,7 +506,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.glist )
+	if( timspec.glist )
 	{
 		const listDupCheck = $( 'if( !listDup ) { list = list.slice( ); listDup = true; }' );
 
@@ -602,7 +547,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-	if( this.gset )
+	if( timspec.gset )
 	{
 		const setDupCheck =
 			$if(
@@ -637,8 +582,7 @@ def.func.genCreatorFreeStringsParser =
 			);
 	}
 
-//	if( this.gtwig && !this.proxyRanks )
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		const twigDupCheck =
 			$if(
@@ -649,7 +593,7 @@ def.func.genCreatorFreeStringsParser =
 				.$( 'twigDup = true' )
 			);
 
-		if( !this.proxyRanks )
+		if( !timspec.hasProxyRanks )
 		{
 			switchExpr =
 				switchExpr
@@ -921,7 +865,9 @@ def.func.genCreatorChecks =
 /**/	if( arguments.length !== 1 ) throw new Error( );
 /**/}
 
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	let check = $block;
 
@@ -940,7 +886,7 @@ def.func.genCreatorChecks =
 		if( tcheck ) check = check.$if( tcheck, $fail( ) );
 	}
 
-	if( this.ggroup )
+	if( timspec.ggroup )
 	{
 		check =
 			check
@@ -949,13 +895,13 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'o', 'group[ k ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.ggroup ),
+					this.genTypeCheckFailCondition( $( 'o' ), timspec.ggroup ),
 					$fail( )
 				)
 			);
 	}
 
-	if( this.glist )
+	if( timspec.glist )
 	{
 		check =
 			check
@@ -966,13 +912,13 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'o', 'list[ r ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.glist ),
+					this.genTypeCheckFailCondition( $( 'o' ), timspec.glist ),
 					$fail( )
 				)
 			);
 	}
 
-	if( this.gset )
+	if( timspec.gset )
 	{
 		check =
 			check
@@ -984,13 +930,13 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'v', 'i.value' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'v' ), this.gset ),
+					this.genTypeCheckFailCondition( $( 'v' ), timspec.gset ),
 					$fail( )
 				)
 			);
 	}
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		// FUTURE check if ranks and twig keys match
 		check =
@@ -1002,7 +948,7 @@ def.func.genCreatorChecks =
 				$block
 				.$const( 'o', 'twig[ ranks[ a ] ]' )
 				.$if(
-					this.genTypeCheckFailCondition( $( 'o' ), this.gtwig ),
+					this.genTypeCheckFailCondition( $( 'o' ), timspec.gtwig ),
 					$fail( )
 				)
 			);
@@ -1010,14 +956,7 @@ def.func.genCreatorChecks =
 
 	if( !json )
 	{
-		if( check.length > 0 )
-		{
-			return $block.$check( check );
-		}
-		else
-		{
-			return $block;
-		}
+		return check.length > 0 ? $block.$check( check ) : $block;
 	}
 	else
 	{
@@ -1041,15 +980,17 @@ def.func.genCreatorUnchanged =
 
 	let cond = $( 'inherit' );
 
-	if( this.ggroup ) cond = $( cond, '&& groupDup === false' );
+	const timspec = this.timspec;
 
-	if( this.glist ) cond = $( cond, '&& listDup === false' );
+	if( timspec.ggroup ) cond = $( cond, '&& groupDup === false' );
 
-	if( this.gset ) cond = $( cond, '&& setDup === false' );
+	if( timspec.glist ) cond = $( cond, '&& listDup === false' );
 
-	if( this.gtwig ) cond = $( cond, '&& twigDup === false' );
+	if( timspec.gset ) cond = $( cond, '&& setDup === false' );
 
-	const attributes = this.timspec.attributes;
+	if( timspec.gtwig ) cond = $( cond, '&& twigDup === false' );
+
+	const attributes = timspec.attributes;
 
 	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
@@ -1083,11 +1024,15 @@ def.func.genCreatorInheritOptimization =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
-	if( !this.inherits ) return;
+	const timspec = this.timspec;
+
+	const inherits = timspec.inherits;
+
+	if( !inherits ) return;
 
 	let result;
 
-	let it = this.inherits.iterator( );
+	let it = inherits.iterator( );
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
@@ -1126,11 +1071,13 @@ def.func.genCreatorReturn =
 
 	const argList = this.constructorList;
 
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	const conName = 'Constructor';
 
-	if( this.singleton )
+	if( timspec.singleton )
 	{
 		return(
 			$block
@@ -1223,7 +1170,9 @@ def.func.genCreator =
 def.func.genFromJsonCreatorVariables =
 	function( )
 {
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	const varList = [ ];
 
@@ -1238,13 +1187,13 @@ def.func.genFromJsonCreatorVariables =
 		varList.push( attr.varRef.name );
 	}
 
-	if( this.json )
+	if( timspec.json )
 	{
-		if( this.ggroup ) varList.push( 'jgroup', 'group', 'k' );
+		if( timspec.ggroup ) varList.push( 'jgroup', 'group', 'k' );
 
-		if( this.glist ) varList.push( 'jlist', 'list' );
+		if( timspec.glist ) varList.push( 'jlist', 'list' );
 
-		if( this.gtwig ) varList.push( 'key', 'jval', 'jwig', 'ranks', 'twig' );
+		if( timspec.gtwig ) varList.push( 'key', 'jval', 'jwig', 'ranks', 'twig' );
 	}
 
 	varList.sort( );
@@ -1355,7 +1304,9 @@ def.func.genFromJsonCreatorParser =
 		jsonList
 	)
 {
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	// the switch
 	let nameSwitch =
@@ -1363,18 +1314,18 @@ def.func.genFromJsonCreatorParser =
 		.$case(
 			'"type"',
 			$if(
-				$( 'arg !== ', $string( this.json ) ),
+				$( 'arg !== ', $string( timspec.json ) ),
 				$fail( )
 			)
 		);
 
-	if( this.ggroup ) nameSwitch = nameSwitch.$case( '"group"', 'jgroup = arg' );
+	if( timspec.ggroup ) nameSwitch = nameSwitch.$case( '"group"', 'jgroup = arg' );
 
-	if( this.glist ) nameSwitch = nameSwitch.$case( '"list"', 'jlist = arg' );
+	if( timspec.glist ) nameSwitch = nameSwitch.$case( '"list"', 'jlist = arg' );
 
-	if( this.gset ) nameSwitch = nameSwitch.$case( '"set"', 'jset = arg' );
+	if( timspec.gset ) nameSwitch = nameSwitch.$case( '"set"', 'jset = arg' );
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		nameSwitch =
 			nameSwitch
@@ -1425,7 +1376,7 @@ def.func.genFromJsonCreatorParser =
 def.func.genFromJsonCreatorGroupProcessing =
 	function( )
 {
-	const group = this.ggroup;
+	const group = this.timspec.ggroup;
 
 	let haveNull = false;
 
@@ -1550,7 +1501,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 def.func.genFromJsonCreatorListProcessing =
 	function( )
 {
-	const list = this.glist;
+	const list = this.timspec.glist;
 
 	// FUTURE dirty workaround
 	if( list.size === 1 && list.iterator( ).next( ).value.timtype === type_string )
@@ -1648,7 +1599,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 {
 	let switchExpr = $switch( 'jval.type' );
 
-	const twig = this.gtwig;
+	const twig = this.timspec.gtwig;
 
 	const it = twig.iterator( );
 
@@ -1755,7 +1706,9 @@ def.func.genFromJsonCreatorReturn =
 def.func.genFromJsonCreator =
 	function( )
 {
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
+
+	const attributes = timspec.attributes;
 
 	// all attributes expected from json
 	const jsonList = [ ];
@@ -1769,7 +1722,7 @@ def.func.genFromJsonCreator =
 		if( attr.json ) jsonList.push( name );
 	}
 
-	if( this.gtwig ) jsonList.push( 'twig', 'ranks' );
+	if( timspec.gtwig ) jsonList.push( 'twig', 'ranks' );
 
 	jsonList.sort( );
 
@@ -1779,23 +1732,23 @@ def.func.genFromJsonCreator =
 		.$( this.genFromJsonCreatorParser( jsonList ) )
 		.$( this.genCreatorDefaults( ) );
 
-	if( this.ggroup )
+	if( timspec.ggroup )
 	{
 		funcBlock =
 			funcBlock
 			.$( this.genFromJsonCreatorGroupProcessing( ) );
 	}
 
-	if( this.glist )
+	if( timspec.glist )
 	{
 		funcBlock =
 			funcBlock
 			.$( this.genFromJsonCreatorListProcessing( ) );
 	}
 
-	if( this.gset ) throw new Error( 'FUTURE, fromJson for sets not implemented' );
+	if( timspec.gset ) throw new Error( 'FUTURE, fromJson for sets not implemented' );
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		funcBlock =
 			funcBlock
@@ -1852,7 +1805,7 @@ def.func.$protoSet =
 */
 def.func.$protoLazyValueSet =
 	function(
-		name,
+		name,  // FIXME, make a $string here around it
 		func
 	)
 {
@@ -1869,15 +1822,16 @@ def.func.$protoLazyValueSet =
 def.func.genTimProto =
 	function( )
 {
+	const timspec = this.timspec;
+
 	let result =
 		$block
 		.$comment( 'Sets values by path.' )
 		.$( this.$protoSet( 'setPath', 'setPath' ) )
-
 		.$comment( 'Gets values by path' )
 		.$( this.$protoSet( 'getPath', 'getPath' ) );
 
-	if( this.ggroup )
+	if( timspec.ggroup )
 	{
 		result =
 			result
@@ -1907,7 +1861,7 @@ def.func.genTimProto =
 			.$( this.$protoLazyValueSet( '"size"', 'groupSize' ) );
 	}
 
-	if( this.glist )
+	if( timspec.glist )
 	{
 		result =
 			result
@@ -1936,7 +1890,7 @@ def.func.genTimProto =
 			.$( this.$protoSet( 'set', 'listSet' ) );
 	}
 
-	if( this.gset )
+	if( timspec.gset )
 	{
 		result =
 			result
@@ -1957,12 +1911,12 @@ def.func.genTimProto =
 
 			.$comment( 'Returns the size of the set.' )
 			.$( this.$protoLazyValueSet( '"size"', 'setSize' ) )
-			
+
 			.$comment( 'Returns the one and only element or the set if size != 1.' )
 			.$( this.$protoLazyValueSet( '"trivial"', 'setTrivial' ) );
 	}
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		result =
 			result
@@ -1970,7 +1924,7 @@ def.func.genTimProto =
 			.$( this.$protoSet( 'atRank', 'twigAtRank' ) )
 
 			.$comment( 'Returns the element by key.' )
-			.$( this.$protoSet( 'get', this.transform ? 'twigTransGet' : 'twigGet' ) )
+			.$( this.$protoSet( 'get', timspec.isTransforming ? 'twigTransGet' : 'twigGet' ) )
 
 			.$comment( 'Returns the key at a rank.' )
 			.$( this.$protoSet( 'getKey', 'twigGetKey' ) )
@@ -2000,9 +1954,11 @@ def.func.genTimProto =
 def.func.genToJson =
 	function( )
 {
-	const attributes = this.timspec.attributes;
+	const timspec = this.timspec;
 
-	let olit = $objLiteral( ).add( 'type', $string( this.json ) );
+	const attributes = timspec.attributes;
+
+	let olit = $objLiteral( ).add( 'type', $string( timspec.json ) );
 
 	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
@@ -2015,13 +1971,13 @@ def.func.genToJson =
 		olit = olit.add( name, 'this.', attr.assign );
 	}
 
-	if( this.ggroup ) olit = olit.add( 'group', 'this._group' );
+	if( timspec.ggroup ) olit = olit.add( 'group', 'this._group' );
 
-	if( this.glist ) olit = olit.add( 'list', 'this._list' );
+	if( timspec.glist ) olit = olit.add( 'list', 'this._list' );
 
-	if( this.gset ) throw new Error( 'FUTURE not implemented' );
+	if( timspec.gset ) throw new Error( 'FUTURE not implemented' );
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		olit =
 			olit
@@ -2121,6 +2077,8 @@ def.func.genEqualsFuncBody =
 		eqFuncName  // name of equals func to call
 	)
 {
+	const timspec = this.timspec;
+
 	let body =
 		$block
 		.$if( 'this === obj', $( 'return true' ) )
@@ -2130,7 +2088,7 @@ def.func.genEqualsFuncBody =
 			$(' return false' )
 		);
 
-	if( this.ggroup )
+	if( timspec.ggroup )
 	{
 		const groupTestLoopBody =
 			$block
@@ -2157,7 +2115,7 @@ def.func.genEqualsFuncBody =
 		body = body.$if( 'this._group !== obj._group', groupTest );
 	}
 
-	if( this.glist )
+	if( timspec.glist )
 	{
 		const listTestLoopBody =
 			$block
@@ -2190,7 +2148,7 @@ def.func.genEqualsFuncBody =
 		body = body.$if( 'this._list !== obj._list', listTest );
 	}
 
-	if( this.gset )
+	if( timspec.gset )
 	{
 		const setTest =
 			$block
@@ -2205,7 +2163,7 @@ def.func.genEqualsFuncBody =
 		body = body.$if( 'this._set !== obj._set', setTest );
 	}
 
-	if( this.gtwig )
+	if( timspec.gtwig )
 	{
 		const twigTestLoopBody =
 			$block
@@ -2287,11 +2245,13 @@ def.func.genEqualsFuncBody =
 def.func.genEquals =
 	function( )
 {
+	const timspec = this.timspec;
+
 	let block = $block;
 
 	const normalEqFuncBody = this.genEqualsFuncBody( 'normal', 'equals' );
 
-	const jsonEqFuncBody = this.json && this.genEqualsFuncBody( 'json', 'equalsJSON' );
+	const jsonEqFuncBody = timspec.json && this.genEqualsFuncBody( 'json', 'equalsJSON' );
 
 	if( !normalEqFuncBody.equals( jsonEqFuncBody ) )
 	{
@@ -2305,7 +2265,7 @@ def.func.genEquals =
 					.$arg( 'obj', 'object to compare to' )
 			);
 
-		if( this.json )
+		if( timspec.json )
 		{
 			block = block.$comment( 'Tests equality of json representation.' );
 
@@ -2349,7 +2309,9 @@ def.func.genEquals =
 def.func.genAlike =
 	function( )
 {
-	const alikeList = Object.keys( this.alike ).sort( );
+	const timspec = this.timspec;
+
+	const alikeList = Object.keys( timspec.alike ).sort( );
 
 	let cond;
 
@@ -2359,7 +2321,7 @@ def.func.genAlike =
 	{
 		const alikeName = alikeList[ a ];
 
-		const ignores = this.alike[ alikeName ].ignores;
+		const ignores = timspec.alike[ alikeName ].ignores;
 
 		result = result.$comment( 'Tests partial equality.' );
 
@@ -2368,7 +2330,7 @@ def.func.genAlike =
 			.$if( 'this === obj', $( 'return true') )
 			.$if( '!obj', $(' return false' ) );
 
-		if( this.gtwig )
+		if( timspec.gtwig )
 		{
 			// FUTURE same test as in equals
 			cond =
@@ -2471,25 +2433,13 @@ def.func.genPreamble =
 
 
 /*
-| Returns true if obj isn't empty.
-*/
-const isntEmpty =
-	function(
-		obj
-	)
-{
-	for( let _ in obj ) return true; /* jshint ignore:line */
-
-	return false;
-};
-
-
-/*
 | Executes the generator return an ast tree.
 */
 def.lazy.ast =
 	function( )
 {
+	const timspec = this.timspec;
+
 	return(
 		$block
 		.$comment(
@@ -2500,14 +2450,14 @@ def.lazy.ast =
 		.$( '"use strict"' )
 		.$( this.genRequires( ) )
 		.$( this.genConstructor( ) )
-		.$( this.singleton ? this.genSingleton( ) : undefined )
+		.$( timspec.singleton ? this.genSingleton( ) : undefined )
 		.$( this.genCreator( ) )
-		.$( this.json ? this.genFromJsonCreator( ) : undefined )
+		.$(	timspec.json ? this.genFromJsonCreator( ) : undefined )
 		.$( this.genReflection( ) )
 		.$( this.genTimProto( ) )
-		.$( this.json ? this.genToJson( ) : undefined )
+		.$( timspec.json ? this.genToJson( ) : undefined )
 		.$( this.genEquals( ) )
-		.$( this.alike ? this.genAlike( ) : undefined )
+		.$( timspec.alike ? this.genAlike( ) : undefined )
 		.$( this.genAttrTransform( ) )
 	);
 };
@@ -2518,70 +2468,34 @@ def.lazy.ast =
 */
 def.static.createGenerator =
 	function(
-		def,          // FIXME remove, the tim definition
 		timspec,      // the timspec to create timcode for
 		module        // the module relative to which types are
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 3 ) throw new Error( );
+/**/	if( arguments.length !== 2 ) throw new Error( );
 /**/}
-
-	let exTimspec;
-	
-	if( def.extends )
-	{
-		const exType = type_tim.createFromPath( def.extends.split( '/' ) );
-
-		// makes sure the extended tim is loaded
-		module.require( './' + exType.pathString );
-
-		exTimspec = tim.catalog.getTimspecRelative( module.filename, exType );
-	}
 
 	const constructorList = [ ];
 
-	let imports = timspec.imports;
-
 	const attributes = timspec.attributes;
 
-	const aKeys = attributes.sortedKeys; 
+	const aKeys = attributes.sortedKeys;
 
 	for( let a = 0, al = aKeys.length; a < al; a++ )
 	{
-		const key = aKeys[ a ];
-
-		constructorList.push( key );
+		constructorList.push( aKeys[ a ] );
 	}
 
-	let singleton = timspec.singleton;
+	if( timspec.ggroup ) constructorList.unshift( 'group' );
 
-	if( def.group )
+	if( timspec.glist ) constructorList.unshift( 'list' );
+
+	if( timspec.gset ) constructorList.unshift( 'set' );
+
+	if( timspec.gtwig )
 	{
-		singleton = false;
-
-		constructorList.unshift( 'group' );
-	}
-
-	if( def.list )
-	{
-		singleton = false;
-
-		constructorList.unshift( 'list' );
-	}
-
-	if( def.set )
-	{
-		singleton = false;
-
-		constructorList.unshift( 'set' );
-	}
-
-	if( def.twig )
-	{
-		singleton = false;
-
 		constructorList.unshift( 'ranks' );
 
 		constructorList.unshift( 'twig' );
@@ -2589,84 +2503,21 @@ def.static.createGenerator =
 
 	if( FREEZE ) Object.freeze( constructorList );
 
-	// FIXME currently may not be named group/list/set/twig...
-	let ggroup, glist, gset, gtwig;
-
-	if( def.group )
-	{
-		ggroup = type_set.createFromArray( module, def.group );
-
-		imports = imports.addSet( ggroup );
-	}
-
-	if( def.list )
-	{
-		glist = type_set.createFromArray( module, def.list );
-
-		imports = imports.addSet( glist );
-	}
-
-	if( def.set )
-	{
-		gset = type_set.createFromArray( module, def.set );
-
-		imports = imports.addSet( gset );
-	}
-
-	if( def.twig )
-	{
-		gtwig = type_set.createFromArray( module, def.twig );
-
-		imports = imports.addSet( gtwig );
-	}
-
-	const inheritKeys = Object.keys( def.inherit );
-
-	let inherits;
-
-	if( inheritKeys.length > 0 )
-	{
-		inherits = stringSet.create( 'set:init', new Set( inheritKeys ) );
-	}
-
-	let global;
-
-	if( def.global ) global = $var( def.global );
-
-	const haveLazy =
-		( !!def.group )
-		|| ( !!def.list )
-		|| ( !!def.set )
-		|| ( !!def.twig )
-		|| ( !!def.json )
-		|| isntEmpty( def.lazy )
-		|| isntEmpty( def.lazyFuncInt )
-		|| isntEmpty( def.lazyFuncStr )
-		|| isntEmpty( def.transform );
-
 	const haveFreeStringsParser =
-		!!( def.group || def.list || def.set || def.twig || attributes.size > 0 );
+		!!(
+			timspec.ggroup
+			|| timspec.glist
+			|| timspec.gset
+			|| timspec.gtwig
+			|| attributes.size > 0
+		);
 
 	return(
 		self.create(
-			'alike', def.alike,
-			'check', !!def.func._check,
 			'constructorList', constructorList,
 			'creatorHasFreeStringsParser', haveFreeStringsParser,
-			'ggroup', ggroup,
-			'glist', glist,
-			'global', global,
-			'gset', gset,
-			'gtwig', gtwig,
-			'haveLazy', haveLazy,
-			'imports', imports,
-			'inherits', inherits,
-			'json', def.json,
 			'module', module,
-			'proxyRanks', !!def.lazy._ranks,
-			'singleton', singleton,
-			'timspec', timspec,
-			'transform', !!def.transform.get
+			'timspec', timspec
 		)
 	);
 };

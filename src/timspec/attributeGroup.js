@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.define( module, ( def, self ) => {
+tim.define( module, ( def ) => {
 
 
 if( TIM )
@@ -14,4 +14,3 @@ if( TIM )
 
 
 } );
-

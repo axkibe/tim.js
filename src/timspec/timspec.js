@@ -11,14 +11,48 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// list of alike function and what to ignore
+		alike : { type : [ 'protean', 'undefined' ] },
+
 		// attributes this tim allows
-		attributes : { type : [ '../attributeGroup' ] },
+		attributes : { type : [ './attributeGroup' ] },
+
+		// true if an init checker is to be called
+		check : { type : 'boolean' },
+
+		// if set extends this tim
+		extend : { type : [ './timspec', 'undefined' ] },
 
 		// filename of the tim
 		filename : { type : 'string' },
 
+		// if set, actualizes a global variable to the last created tim
+		global : { type : [ '../ast/var', 'undefined' ] },
+
+		// if set this tim is a group
+		// FIXME find out why 'group' etc. disturbs generator
+		ggroup : { type : [ '../type/set', 'undefined' ] },
+
+		// if set this tim is a list
+		glist : { type : [ '../type/set', 'undefined' ] },
+
+		// if set this tim is a set
+		gset : { type : [ '../type/set', 'undefined' ] },
+
+		// if set this tim is a twig
+		gtwig : { type : [ '../type/set', 'undefined' ] },
+
+		// true if this tim has lazy values
+		hasLazy: { type : 'boolean' },
+
+		// true if _ranks is a proxy
+		hasProxyRanks : { type : 'boolean' },
+
 		// other tims this tim utilizes
 		imports : { type : '../type/set' },
+
+		// inherit optimizations
+		inherits : { type : [ '../export/stringSet', 'undefined' ] },
 
 		// json name of this tim
 		json : { type : [ 'undefined', 'string' ] },
@@ -28,6 +62,9 @@ if( TIM )
 
 		// true if this a singleton (no attributes or group/list/set/twig)
 		singleton : { type : 'boolean' },
+
+		// true if this is a transforming group/list/set/twig
+		isTransforming : { type : 'boolean' },
 	};
 }
 
@@ -41,9 +78,11 @@ const parser_parser = require( '../parser/parser' );
 
 const shorthand = require( '../ast/shorthand' );
 
-const tim_attribute = require( '../attribute' );
+const stringSet = require( '../export/stringSet' );
 
-const tim_attributeGroup = require( '../attributeGroup' );
+const timspec_attribute = require( './attribute' );
+
+const timspec_attributeGroup = require( './attributeGroup' );
 
 const type_any = require( '../type/any' );
 
@@ -56,6 +95,20 @@ const validator = require( '../validator' );
 const $expr = parser_parser.parseExpr;
 
 const $var = shorthand.$var;
+
+
+/*
+| Returns true if obj isn't empty.
+*/
+const isntEmpty =
+	function(
+		obj
+	)
+{
+	for( let _ in obj ) return true; /* jshint ignore:line */
+
+	return false;
+};
 
 
 /*
@@ -75,11 +128,26 @@ def.static.createFromDef =
 
 	validator.check( def );
 
+	let extend;
+
+	if( def.extend )
+	{
+		const exType = type_tim.createFromPath( def.extends.split( '/' ) );
+
+		// makes sure the extended tim is loaded
+		module.require( './' + exType.pathString );
+
+		extend = tim.catalog.getTimspecRelative( module.filename, exType );
+	}
+
+
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
 	let singleton = true;
-	
-	let attributes = tim_attributeGroup.create( );
+
+	let attributes = timspec_attributeGroup.create( );
+
+	let global;
 
 	// foreign timtypes to be imported
 	let imports = type_set.create( );
@@ -155,7 +223,7 @@ def.static.createFromDef =
 		if( jdv ) defaultValue = $expr( jdv ).walk( transformDefaultValue );
 
 		const attr =
-			tim_attribute.create(
+			timspec_attribute.create(
 				'assign', assign,
 				'defaultValue', defaultValue,
 				'types', types,
@@ -168,11 +236,77 @@ def.static.createFromDef =
 		attributes = attributes.set( name, attr );
 	}
 
+	if( def.group || def.list || def.set || def.twig ) singleton = false;
+
+	if( def.global ) global = $var( def.global );
+
+	let ggroup, glist, gset, gtwig;
+
+	if( def.group )
+	{
+		ggroup = type_set.createFromArray( module, def.group );
+
+		imports = imports.addSet( ggroup );
+	}
+
+	if( def.list )
+	{
+		glist = type_set.createFromArray( module, def.list );
+
+		imports = imports.addSet( glist );
+	}
+
+	if( def.set )
+	{
+		gset = type_set.createFromArray( module, def.set );
+
+		imports = imports.addSet( gset );
+	}
+
+	if( def.twig )
+	{
+		gtwig = type_set.createFromArray( module, def.twig );
+
+		imports = imports.addSet( gtwig );
+	}
+
+	const inheritKeys = Object.keys( def.inherit );
+
+	let inherits;
+
+	if( inheritKeys.length > 0 )
+	{
+		inherits = stringSet.create( 'set:init', new Set( inheritKeys ) );
+	}
+
+	const hasLazy =
+		( !!def.group )
+		|| ( !!def.list )
+		|| ( !!def.set )
+		|| ( !!def.twig )
+		|| ( !!def.json )
+		|| isntEmpty( def.lazy )
+		|| isntEmpty( def.lazyFuncInt )
+		|| isntEmpty( def.lazyFuncStr )
+		|| isntEmpty( def.transform );
+
 	return(
 		timspec_timspec.create(
+			'alike', def.alike,
 			'attributes', attributes,
+			'check', !!def.func._check,
+			'extend', extend,
 			'filename', filename,
+			'ggroup', ggroup,
+			'glist', glist,
+			'global', global,
+			'gset', gset,
+			'gtwig', gtwig,
+			'hasLazy', hasLazy,
+			'hasProxyRanks', !!def.lazy._ranks,
 			'imports', imports,
+			'inherits', inherits,
+			'isTransforming', !!def.transform.get,
 			'json', def.json,
 			'singleton', singleton
 		)
