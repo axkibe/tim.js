@@ -50,7 +50,7 @@ def.func.addTimspec =
 		{
 /**/		if( CHECK )
 /**/		{
-/**/			if( !entry.equals( timspec ) ) throw new Error( );
+/**/			if( !entry.alikeIgnoringProteans( timspec ) ) throw new Error( );
 /**/		}
 
 			return this;

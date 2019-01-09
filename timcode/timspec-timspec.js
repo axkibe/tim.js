@@ -9,7 +9,7 @@
 const tt_attributeGroup = require( './attributeGroup.js' );
 
 
-const tt_timspec = require( './timspec.js' );
+const tt_$_type_tim = require( './../type/tim.js' );
 
 
 const tt_$_ast_var = require( './../ast/var.js' );
@@ -32,6 +32,7 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
+		v__module,
 		v_alike,
 		v_attributes,
 		v_check,
@@ -52,6 +53,8 @@ const Constructor =
 		v_singleton
 	)
 {
+	this._module = v__module;
+
 	this.alike = v_alike;
 
 	this.attributes = v_attributes;
@@ -115,6 +118,8 @@ prototype.create =
 {
 	let inherit;
 
+	let v__module;
+
 	let v_alike;
 
 	let v_attributes;
@@ -154,6 +159,8 @@ prototype.create =
 	if( this !== self )
 	{
 		inherit = this;
+
+		v__module = this._module;
 
 		v_alike = this.alike;
 
@@ -202,6 +209,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case '_module' :
+
+				if( arg !== pass )
+				{
+					v__module = arg;
+				}
+
+				break;
+
 			case 'alike' :
 
 				if( arg !== pass )
@@ -387,7 +403,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_extend !== undefined && v_extend.timtype !== tt_timspec )
+/**/	if( v_extend !== undefined && v_extend.timtype !== tt_$_type_tim )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -465,6 +481,8 @@ prototype.create =
 
 	if(
 		inherit
+		&&
+		v__module === inherit._module
 		&&
 		v_alike === inherit.alike
 		&&
@@ -548,6 +566,7 @@ prototype.create =
 
 	return (
 		new Constructor(
+			v__module,
 			v_alike,
 			v_attributes,
 			v_check,
@@ -613,8 +632,106 @@ prototype.equals =
 	}
 
 	return (
+		this._module === obj._module
+		&&
 		this.alike === obj.alike
 		&&
+		(
+			this.attributes === obj.attributes
+			||
+			this.attributes.equals( obj.attributes )
+		)
+		&&
+		this.check === obj.check
+		&&
+		(
+			this.extend === obj.extend
+			||
+			this.extend !== undefined && this.extend.timtype && this.extend.equals( obj.extend )
+		)
+		&&
+		this.filename === obj.filename
+		&&
+		(
+			this.ggroup === obj.ggroup
+			||
+			this.ggroup !== undefined && this.ggroup.timtype && this.ggroup.equals( obj.ggroup )
+		)
+		&&
+		(
+			this.glist === obj.glist
+			||
+			this.glist !== undefined && this.glist.timtype && this.glist.equals( obj.glist )
+		)
+		&&
+		(
+			this.global === obj.global
+			||
+			this.global !== undefined && this.global.timtype && this.global.equals( obj.global )
+		)
+		&&
+		(
+			this.gset === obj.gset
+			||
+			this.gset !== undefined && this.gset.timtype && this.gset.equals( obj.gset )
+		)
+		&&
+		(
+			this.gtwig === obj.gtwig
+			||
+			this.gtwig !== undefined && this.gtwig.timtype && this.gtwig.equals( obj.gtwig )
+		)
+		&&
+		this.hasLazy === obj.hasLazy
+		&&
+		this.hasProxyRanks === obj.hasProxyRanks
+		&&
+		(
+			this.imports === obj.imports
+			||
+			this.imports.equals( obj.imports )
+		)
+		&&
+		(
+			this.inherits === obj.inherits
+			||
+			this.inherits !== undefined && this.inherits.timtype && this.inherits.equals( obj.inherits )
+		)
+		&&
+		this.isTransforming === obj.isTransforming
+		&&
+		this.json === obj.json
+		&&
+		(
+			this.path === obj.path
+			||
+			this.path !== undefined && this.path.timtype && this.path.equals( obj.path )
+		)
+		&&
+		this.singleton === obj.singleton
+	);
+};
+
+
+/*
+| Tests partial equality.
+*/
+prototype.alikeIgnoringProteans =
+	function(
+		obj // object to compare to
+	)
+{
+	if( this === obj )
+	{
+		return true;
+	}
+
+	if( !obj )
+	{
+		return false;
+	}
+
+	return (
 		(
 			this.attributes === obj.attributes
 			||

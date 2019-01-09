@@ -55,7 +55,7 @@ const timWhitelist =
 	Object.freeze( {
 		'alike' : true,
 		'attributes' : true,
-		'extends' : true,
+		'extend' : true,
 		'func' : true,
 		'group' : true,
 		'global' : true,

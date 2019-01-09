@@ -19,7 +19,6 @@ const Constructor =
 	function(
 		v_constructorList,
 		v_creatorHasFreeStringsParser,
-		v_module,
 		v_timspec
 	)
 {
@@ -28,8 +27,6 @@ const Constructor =
 	this.constructorList = v_constructorList;
 
 	this.creatorHasFreeStringsParser = v_creatorHasFreeStringsParser;
-
-	this.module = v_module;
 
 	this.timspec = v_timspec;
 
@@ -64,8 +61,6 @@ prototype.create =
 
 	let v_creatorHasFreeStringsParser;
 
-	let v_module;
-
 	let v_timspec;
 
 	if( this !== self )
@@ -75,8 +70,6 @@ prototype.create =
 		v_constructorList = this.constructorList;
 
 		v_creatorHasFreeStringsParser = this.creatorHasFreeStringsParser;
-
-		v_module = this.module;
 
 		v_timspec = this.timspec;
 	}
@@ -105,15 +98,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_creatorHasFreeStringsParser = arg;
-				}
-
-				break;
-
-			case 'module' :
-
-				if( arg !== pass )
-				{
-					v_module = arg;
 				}
 
 				break;
@@ -153,8 +137,6 @@ prototype.create =
 		&&
 		v_creatorHasFreeStringsParser === inherit.creatorHasFreeStringsParser
 		&&
-		v_module === inherit.module
-		&&
 		(
 			v_timspec === inherit.timspec
 			||
@@ -165,14 +147,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return (
-		new Constructor(
-			v_constructorList,
-			v_creatorHasFreeStringsParser,
-			v_module,
-			v_timspec
-		)
-	);
+	return new Constructor( v_constructorList, v_creatorHasFreeStringsParser, v_timspec );
 };
 
 
@@ -221,8 +196,6 @@ prototype.equals =
 		this.constructorList === obj.constructorList
 		&&
 		this.creatorHasFreeStringsParser === obj.creatorHasFreeStringsParser
-		&&
-		this.module === obj.module
 		&&
 		(
 			this.timspec === obj.timspec

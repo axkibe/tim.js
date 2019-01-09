@@ -16,9 +16,6 @@ if( TIM )
 		// true if a free strings parser is to be added in the creator
 		creatorHasFreeStringsParser : { type : 'boolean' },
 
-		// the node.js module this tim is generated from
-		module : { type : 'protean' },
-
 		// the timspec
 		timspec : { type : './timspec/timspec' },
 	};
@@ -87,21 +84,6 @@ const $undefined = shorthand.$undefined;
 const tsUndefined = type_undefined.create( );
 
 const tsNull = type_null.create( );
-
-
-/*
-| Gets a timspec for a timtype.
-*/
-def.func.getTimspec =
-	function(
-		timtype
-	)
-{
-	// first makes sure the leaf is loaded
-	this.module.require( './' + timtype.pathString );
-
-	return tim.catalog.getTimspecRelative( this.module.filename, timtype );
-};
 
 
 /*
@@ -1217,6 +1199,8 @@ def.func.genFromJsonCreatorAttributeParser =
 		attr
 	)
 {
+	const timspec = this.timspec;
+
 	switch( attr.types.timtype )
 	{
 		case type_boolean :
@@ -1262,7 +1246,7 @@ def.func.genFromJsonCreatorAttributeParser =
 
 				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 
-				const jsontype = this.getTimspec( type ).json;
+				const jsontype = timspec.getTimspec( type ).json;
 
 				cSwitch =
 					cSwitch
@@ -1376,7 +1360,9 @@ def.func.genFromJsonCreatorParser =
 def.func.genFromJsonCreatorGroupProcessing =
 	function( )
 {
-	const group = this.timspec.ggroup;
+	const timspec = this.timspec;
+
+	const group = timspec.ggroup;
 
 	let haveNull = false;
 
@@ -1458,7 +1444,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
-		const jsontype = this.getTimspec( type ).json;
+		const jsontype = timspec.getTimspec( type ).json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1501,7 +1487,9 @@ def.func.genFromJsonCreatorGroupProcessing =
 def.func.genFromJsonCreatorListProcessing =
 	function( )
 {
-	const list = this.timspec.glist;
+	const timspec = this.timspec;
+
+	const list = timspec.glist;
 
 	// FUTURE dirty workaround
 	if( list.size === 1 && list.iterator( ).next( ).value.timtype === type_string )
@@ -1536,7 +1524,7 @@ def.func.genFromJsonCreatorListProcessing =
 
 		if( type === tsUndefined ) { haveUndefined = true; continue; }
 
-		const jsontype = this.getTimspec( type ).json;
+		const jsontype = timspec.getTimspec( type ).json;
 
 		if( !jsontype ) throw new Error( );
 
@@ -1597,17 +1585,19 @@ def.func.genFromJsonCreatorListProcessing =
 def.func.genFromJsonCreatorTwigProcessing =
 	function( )
 {
+	const timspec = this.timspec;
+
+	const twig = timspec.gtwig;
+
 	let switchExpr = $switch( 'jval.type' );
-
-	const twig = this.timspec.gtwig;
-
+	
 	const it = twig.iterator( );
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
 		const twigType = i.value;
 
-		const jsontype = this.getTimspec( twigType ).json;
+		const jsontype = timspec.getTimspec( twigType ).json;
 
 		switchExpr =
 			switchExpr
@@ -2516,7 +2506,6 @@ def.static.createGenerator =
 		self.create(
 			'constructorList', constructorList,
 			'creatorHasFreeStringsParser', haveFreeStringsParser,
-			'module', module,
 			'timspec', timspec
 		)
 	);

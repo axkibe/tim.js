@@ -21,7 +21,7 @@ if( TIM )
 		check : { type : 'boolean' },
 
 		// if set extends this tim
-		extend : { type : [ './timspec', 'undefined' ] },
+		extend : { type : [ '../type/tim', 'undefined' ] },
 
 		// filename of the tim
 		filename : { type : 'string' },
@@ -54,6 +54,9 @@ if( TIM )
 		// inherit optimizations
 		inherits : { type : [ '../export/stringSet', 'undefined' ] },
 
+		// true if this is a transforming group/list/set/twig
+		isTransforming : { type : 'boolean' },
+
 		// json name of this tim
 		json : { type : [ 'undefined', 'string' ] },
 
@@ -63,8 +66,13 @@ if( TIM )
 		// true if this a singleton (no attributes or group/list/set/twig)
 		singleton : { type : 'boolean' },
 
-		// true if this is a transforming group/list/set/twig
-		isTransforming : { type : 'boolean' },
+		// the node.js module that defined this tim.
+		_module : { type : 'protean' },
+	};
+
+	def.alike =
+	{
+		alikeIgnoringProteans : { ignores : { 'alike' : true, '_module' : true } }
 	};
 }
 
@@ -128,19 +136,6 @@ def.static.createFromDef =
 
 	validator.check( def );
 
-	let extend;
-
-	if( def.extend )
-	{
-		const exType = type_tim.createFromPath( def.extends.split( '/' ) );
-
-		// makes sure the extended tim is loaded
-		module.require( './' + exType.pathString );
-
-		extend = tim.catalog.getTimspecRelative( module.filename, exType );
-	}
-
-
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
 	let singleton = true;
@@ -151,6 +146,18 @@ def.static.createFromDef =
 
 	// foreign timtypes to be imported
 	let imports = type_set.create( );
+
+	let extend;
+
+	if( def.extend )
+	{
+		extend = type_tim.createFromPath( def.extend.split( '/' ) );
+		// FIXME cleanup
+		//imports = imports.add( extend );
+		// makes sure the extended tim is loaded
+		//module.require( './' + exType.pathString );
+		//extend = tim.catalog.getTimspecRelative( module.filename, exType );
+	}
 
 	// walker to transform default value
 	// replaces require( 'path' ) with the import variable
@@ -308,9 +315,25 @@ def.static.createFromDef =
 			'inherits', inherits,
 			'isTransforming', !!def.transform.get,
 			'json', def.json,
-			'singleton', singleton
+			'singleton', singleton,
+			'_module', module
 		)
 	);
+};
+
+
+/*
+| Gets a timspec for a timtype with this timspec as base.
+*/
+def.func.getTimspec =
+	function(
+		timtype
+	)
+{
+	// first makes sure the leaf is loaded
+	this._module.require( './' + timtype.pathString );
+
+	return tim.catalog.getTimspecRelative( this._module.filename, timtype );
 };
 
 

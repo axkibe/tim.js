@@ -18,11 +18,71 @@ const tim_proto = require( './proto' );
 */
 module.exports =
 	function(
+		module,   // the defining module
 		def,      // the tim definition
 		exports   // the tims module exports
 	)
 {
-	if( arguments.length !== 2 ) throw new Error( );
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 3 ) throw new Error( );
+/**/}
+
+	let extend;
+
+	if( def.extend )
+	{
+		extend = module.require( def.extend )._def;
+
+		const mask = { };
+
+		for( let name in def.static ) mask[ name ] = true;
+		for( let name in def.staticLazy ) mask[ name ] = true;
+		for( let name in def.lazy ) mask[ name ] = true;
+		for( let name in def.lazyFuncInt ) mask[ name ] = true;
+		for( let name in def.lazyFuncStr ) mask[ name ] = true;
+		for( let name in def.func ) mask[ name ] = true;
+
+		for( let name in extend.static )
+		{
+			if( !mask[ name ] ) def.static[ name ] = extend.static[ name ];
+		}
+
+		for( let name in extend.staticLazy )
+		{
+			if( !mask[ name ] ) def.staticLazy[ name ] = extend.staticLazy[ name ];
+		}
+
+		for( let name in extend.lazy )
+		{
+			if( !mask[ name ] ) def.lazy[ name ] = extend.lazy[ name ];
+		}
+
+		for( let name in extend.lazyFuncInt )
+		{
+			if( !mask[ name ] ) def.lazyFuncInt[ name ] = extend.lazyFuncInt[ name ];
+		}
+
+		for( let name in extend.lazyFuncStr )
+		{
+			if( !mask[ name ] ) def.lazyFuncStr[ name ] = extend.lazyFuncStr[ name ];
+		}
+
+		for( let name in extend.func )
+		{
+			if( !mask[ name ] ) def.func[ name ] = extend.func[ name ];
+		}
+
+		for( let name in extend.transfrom )
+		{
+			if( !mask[ name ] ) def.transform[ name ] = extend.transform[ name ];
+		}
+
+		for( let name in extend.inherit )
+		{
+			if( !mask[ name ] ) def.inherit[ name ] = extend.inherit[ name ];
+		}
+	}
 
 	// assigns statics
 	for( let name in def.static )
@@ -89,6 +149,8 @@ module.exports =
 	{
 		exports.prototype[ '__inherit_' + name ] = def.inherit[ name ];
 	}
+
+	exports._def = def;
 
 	return exports;
 };

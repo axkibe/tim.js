@@ -178,5 +178,5 @@ module.exports =
 
 	exports.timcodeFilename = timcodeFilename;
 
-	return prepare( def, exports );
+	return prepare( module, def, exports );
 };
