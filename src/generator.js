@@ -1171,7 +1171,7 @@ def.func.genFromJsonCreatorVariables =
 
 	if( timspec.json )
 	{
-		if( timspec.ggroup ) varList.push( 'jgroup', 'group', 'k' );
+		if( timspec.ggroup ) varList.push( 'jgroup', 'group' );
 
 		if( timspec.glist ) varList.push( 'jlist', 'list' );
 
