@@ -67,8 +67,6 @@ lexer.tokenize =
 
 					continue;
 			}
-
-			continue;
 		}
 
 		if( ch.match(/[0-9]/ ) )

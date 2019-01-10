@@ -244,12 +244,13 @@ def.func.genConstructor =
 				break;
 
 			default :
-
+			{
 				const attr = attributes.get( name );
 
 				cf = cf.$arg( attr.varRef.name, attr.comment );
 
 				break;
+			}
 		}
 	}
 
@@ -773,7 +774,7 @@ def.func.genSingleTypeCheckFailCondition =
 		default : throw new Error( );
 	}
 
-	return $( aVar, '.timtype !== ', type.global );
+	// unreachable
 };
 
 
@@ -1243,7 +1244,7 @@ def.func.genFromJsonCreatorAttributeParser =
 			case type_undefined : pcs.push( 'arg === undefined' ); break;
 
 			default :
-
+			{
 				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 
 				const jsontype = timspec.getTimspec( type ).json;
@@ -1258,6 +1259,7 @@ def.func.genFromJsonCreatorAttributeParser =
 							'.createFromJSON', '( arg )'
 						)
 					);
+			}
 		}
 	}
 
@@ -1590,7 +1592,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 	const twig = timspec.gtwig;
 
 	let switchExpr = $switch( 'jval.type' );
-	
+
 	const it = twig.iterator( );
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
@@ -1680,9 +1682,9 @@ def.func.genFromJsonCreatorReturn =
 
 			default :
 
-				const attr = attributes.get( name );
+				call = call.$argument( attributes.get( name ).varRef );
 
-				call = call.$argument( attr.varRef );
+				break;
 		}
 	}
 

@@ -33,7 +33,7 @@ if [ "$PEER" = true ] ; then
 fi
 
 echo ""
-echo "testing jshint"
+echo "testing eslint"
 echo "--------------"
-./jshint
-echo "jshint: okay"
+./eslint
+echo "eslint: okay"

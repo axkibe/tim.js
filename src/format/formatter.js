@@ -1680,7 +1680,7 @@ const formatStatement =
 				return text += ';\n';
 			}
 
-			break;
+			// unreachable
 
 		case ast_assign :
 		case ast_boolean :

@@ -74,7 +74,7 @@ const srequire =
 	function(
 		stim,
 		inFilename,   // basename of the requiring module
-		requireName   // name of the required module 
+		requireName   // name of the required module
 	)
 {
 	if( requireName[ 0 ] !== '.' ) return require( requireName );
@@ -122,7 +122,7 @@ for( let a = 0, al = listing.length; a < al; a++ )
 	console.log( '  reading ' + inFilename );
 
 	let input =
-	  	'( function( module, require, tim ) { '
+		'( function( module, require, tim ) { '
 		+ fs.readFileSync( inFilename, readOptions )
 		+ '\n} )';
 

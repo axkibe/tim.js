@@ -4,9 +4,7 @@
 'use strict';
 
 
-var module, pass, tim, tim_proto, TIM, _catalog, _require;
-
-module = undefined;
+var pass, tim, tim_proto, _catalog, _require;
 
 tim = { };
 

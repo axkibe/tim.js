@@ -148,8 +148,6 @@ def.lazy.equalsConvention =
 					default : throw new Error( );
 				}
 
-				break;
-
 			case 'mustnot' :
 
 				switch( iec )
@@ -160,8 +158,6 @@ def.lazy.equalsConvention =
 
 					default : throw new Error( );
 				}
-
-				break;
 
 			default : throw new Error( );
 		}
