@@ -25,7 +25,7 @@ const timspec_rootDir = require( './rootDir' );
 
 const timspec_timspec = require( './timspec' );
 
-const tim_path = require( '../export/path' );
+const tim_path = require( '../path' );
 
 const type_tim = require( '../type/tim' );
 

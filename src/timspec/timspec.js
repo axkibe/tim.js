@@ -52,7 +52,7 @@ if( TIM )
 		imports : { type : '../type/set' },
 
 		// inherit optimizations
-		inherits : { type : [ '../export/stringSet', 'undefined' ] },
+		inherits : { type : [ '../string/set', 'undefined' ] },
 
 		// true if this is a transforming group/list/set/twig
 		isTransforming : { type : 'boolean' },
@@ -61,7 +61,7 @@ if( TIM )
 		json : { type : [ 'undefined', 'string' ] },
 
 		// catalog path
-		path : { type : [ 'undefined', '../export/path' ] },
+		path : { type : [ 'undefined', '../path' ] },
 
 		// true if this a singleton (no attributes or group/list/set/twig)
 		singleton : { type : 'boolean' },
@@ -86,7 +86,7 @@ const parser_parser = require( '../parser/parser' );
 
 const shorthand = require( '../ast/shorthand' );
 
-const stringSet = require( '../export/stringSet' );
+const string_set = require( '../string/set' );
 
 const timspec_attribute = require( './attribute' );
 
@@ -283,7 +283,7 @@ def.static.createFromDef =
 
 	if( inheritKeys.length > 0 )
 	{
-		inherits = stringSet.create( 'set:init', new Set( inheritKeys ) );
+		inherits = string_set.create( 'set:init', new Set( inheritKeys ) );
 	}
 
 	const hasLazy =

@@ -18,10 +18,10 @@ const tt_$_ast_var = require( './../ast/var.js' );
 const tt_$_type_set = require( './../type/set.js' );
 
 
-const tt_$_export_stringSet = require( './../export/stringSet.js' );
+const tt_$_string_set = require( './../string/set.js' );
 
 
-const tt_$_export_path = require( './../export/path.js' );
+const tt_$_path = require( './../path.js' );
 
 
 const tim_proto = tim.proto;
@@ -453,7 +453,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_inherits !== undefined && v_inherits.timtype !== tt_$_export_stringSet )
+/**/	if( v_inherits !== undefined && v_inherits.timtype !== tt_$_string_set )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -468,7 +468,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_path !== undefined && v_path.timtype !== tt_$_export_path )
+/**/	if( v_path !== undefined && v_path.timtype !== tt_$_path )
 /**/	{
 /**/		throw new Error( );
 /**/	}

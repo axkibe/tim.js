@@ -16,5 +16,5 @@ module.exports =
 	// FUTURE currently only imports from tim are allowed
 	if( rmod !== 'tim.js' ) throw new Error( );
 
-	return require( './export/' + path );
+	return require( './' + path );
 };

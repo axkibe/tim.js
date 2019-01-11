@@ -191,10 +191,6 @@ tim.import =
 
 	if( !dir ) throw new Error( );
 
-	dir = dir.export;
-
-	if( !dir ) throw new Error( );
-
 	const split = path.split( );
 
 	for( let a = 0, al = split.length; a < al; a++ )

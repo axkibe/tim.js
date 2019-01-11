@@ -76,7 +76,7 @@ def.func.addTimspec =
 		{
 /**/		if( CHECK )
 /**/		{
-/**/			if( !timspec.equals( ts ) ) throw new Error( );
+/**/			if( !timspec.alikeIgnoringProteans( ts ) ) throw new Error( );
 /**/		}
 
 			return this;
