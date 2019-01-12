@@ -121,7 +121,7 @@ catalog.addTimspec =
 
 	if( tsrPos >= tsrLen ) throw new Error( );
 
-	let path = filename.substr( tsr.realpath.length + 1, filename.length );
+	let path = filename.substr( tsr.realpath.length, filename.length );
 
 	path = path.split( '/' );
 
@@ -186,7 +186,7 @@ catalog.getTimspec =
 		if( t + 1 >= tLen ) throw new Error( );
 	}
 
-	let path = realpath.substr( tsr.realpath.length + 1 );
+	let path = realpath.substr( tsr.realpath.length );
 
 	path = path.split( '/' );
 

@@ -39,9 +39,9 @@ const timspec_dir = require( './dir' );
 /**/	def.func._check =
 /**/		function( )
 /**/	{
-/**/		if( this.realpath[ this.realpath.length - 1 ] === '/' ) throw new Error( );
+/**/		if( this.realpath[ this.realpath.length - 1 ] !== '/' ) throw new Error( );
 /**/
-/**/		if( this.timcodePath[ this.timcodePath.length - 1 ] === '/' ) throw new Error( );
+/**/		if( this.timcodePath[ this.timcodePath.length - 1 ] !== '/' ) throw new Error( );
 /**/	};
 /**/}
 

@@ -58,15 +58,13 @@ myDir += '/';
 
 if( targetDir !== myDir )
 {
-	// timcode dir is one level up
-	const targetTimcodeDir = targetDir.substr( 0, targetDir.lastIndexOf( '/' ) ) + '/timcode';
+	const targetTimcodeDir = targetDir + 'timcode';
 
-	const tDir = targetDir + 'src';
-
-	tim.catalog.addRootDir( tDir, 'ouroborosTarget', targetTimcodeDir, true );
+	tim.catalog.addRootDir( targetDir, 'ouroborosTarget', targetTimcodeDir, true );
 }
 
 const listing = require( targetDir + 'src/ouroboros/listing' );
+
 
 // "sub"-require
 // FIXME remove stim
@@ -115,7 +113,7 @@ const sdefine =
 */
 for( let a = 0, al = listing.length; a < al; a++ )
 {
-	const inFilename = targetDir + 'src/' + listing[ a ];
+	const inFilename = targetDir + listing[ a ];
 
 	const outFilename = targetDir + 'timcode/' + listing[ a ].replace( /\//g, '-' );
 

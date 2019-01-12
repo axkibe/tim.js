@@ -35,7 +35,7 @@ const proto =
 exports.proto =
 	require( './proto' );
 
-const ending = '/root.js';
+const ending = 'src/root.js';
 
 const filename = module.filename;
 
@@ -51,10 +51,10 @@ const rootPath =
 bootstrap.rootPath =
 	filename.substr( 0, filename.length - ending.length );
 
-// the timcode path is one up.
+// the timcode path
 const timcodePath =
 bootstrap.timcodePath =
-	rootPath.substr( 0, rootPath.lastIndexOf( '/' ) ) + '/timcode';
+	rootPath + 'timcode/';
 
 const strapped = bootstrap.strapped = [ ];
 

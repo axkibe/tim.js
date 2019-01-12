@@ -330,6 +330,8 @@ def.func.getTimspec =
 	// first makes sure the leaf is loaded
 	this._module.require( './' + timtype.pathString );
 
+	console.log( 'GTR', this.module.filename, timtype );
+
 	return tim.catalog.getTimspecRelative( this._module.filename, timtype );
 };
 

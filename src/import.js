@@ -1,5 +1,6 @@
 /*
 | Imports tims from other packages.
+| FIXME remove
 */
 'use strict';
 
@@ -16,5 +17,5 @@ module.exports =
 	// FUTURE currently only imports from tim are allowed
 	if( rmod !== 'tim.js' ) throw new Error( );
 
-	return require( './' + path );
+	return require( '../' + path );
 };

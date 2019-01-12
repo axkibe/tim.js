@@ -181,10 +181,10 @@ module.exports =
 
 	const timcodeFilename =
 		filename
-		.substr( rootPath.length + 1 )
+		.substr( rootPath.length )
 		.replace( /\//g, '-' );
 
-	const timcodeRealFilename = timcodePath + '/' + timcodeFilename;
+	const timcodeRealFilename = timcodePath + timcodeFilename;
 
 	if( rootDir && !rootDir.noTimcodeGen && timspec )
 	{

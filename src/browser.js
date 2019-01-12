@@ -191,7 +191,7 @@ tim.import =
 
 	if( !dir ) throw new Error( );
 
-	const split = path.split( );
+	const split = path.split( '/' );
 
 	for( let a = 0, al = split.length; a < al; a++ )
 	{
