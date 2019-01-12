@@ -76,7 +76,13 @@ for( let a = 0, al = strapped.length; a < al; a++ )
 {
 	const strap = strapped[ a ];
 
-	const timspec = timspec_timspec.createFromDef( strap.def, strap.module, strap.filename );
+	const timspec =
+		timspec_timspec.createFromDef(
+			strap.def,
+			strap.module,
+			strap.filename,
+			strap.requires
+		);
 
 	tim.catalog.addTimspec( timspec );
 }

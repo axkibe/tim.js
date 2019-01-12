@@ -164,7 +164,7 @@ catalog.getRootDir =
 
 
 /*
-| Returns the timspec for a given realpath
+| Returns the timspec for a given realpath.
 */
 catalog.getTimspec =
 	function(
@@ -219,6 +219,22 @@ catalog.getTimspecRelative =
 /**/
 /**/	if( base[ base.length - 1 ] === '/' ) throw new Error( );
 /**/}
+
+	if( timtype.imported )
+	{
+		let entry = catalog.getRootDir( timtype.imported );
+
+		for( let p = 0, pl = timtype.length; p < pl; p++ )
+		{
+			let key = timtype.get( p );
+
+			if( p + 1 >= pl ) key = key + '.js';
+
+			entry = entry.get( key );
+		}
+
+		return entry;
+	}
 
 	// first the directory of the base
 	base = base.substr( 0, base.lastIndexOf( '/' ) );

@@ -50,6 +50,7 @@ const Constructor =
 		v_isTransforming,
 		v_json,
 		v_path,
+		v_requires,
 		v_singleton
 	)
 {
@@ -88,6 +89,8 @@ const Constructor =
 	this.json = v_json;
 
 	this.path = v_path;
+
+	this.requires = v_requires;
 
 	this.singleton = v_singleton;
 
@@ -154,6 +157,8 @@ prototype.create =
 
 	let v_path;
 
+	let v_requires;
+
 	let v_singleton;
 
 	if( this !== self )
@@ -195,6 +200,8 @@ prototype.create =
 		v_json = this.json;
 
 		v_path = this.path;
+
+		v_requires = this.requires;
 
 		v_singleton = this.singleton;
 	}
@@ -371,6 +378,15 @@ prototype.create =
 
 				break;
 
+			case 'requires' :
+
+				if( arg !== pass )
+				{
+					v_requires = arg;
+				}
+
+				break;
+
 			case 'singleton' :
 
 				if( arg !== pass )
@@ -473,6 +489,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_requires.timtype !== tt_$_string_set )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_singleton ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
@@ -558,6 +579,12 @@ prototype.create =
 			v_path !== undefined && v_path.timtype && v_path.equals( inherit.path )
 		)
 		&&
+		(
+			v_requires === inherit.requires
+			||
+			v_requires.equals( inherit.requires )
+		)
+		&&
 		v_singleton === inherit.singleton
 	)
 	{
@@ -584,6 +611,7 @@ prototype.create =
 			v_isTransforming,
 			v_json,
 			v_path,
+			v_requires,
 			v_singleton
 		)
 	);
@@ -708,6 +736,12 @@ prototype.equals =
 			this.path !== undefined && this.path.timtype && this.path.equals( obj.path )
 		)
 		&&
+		(
+			this.requires === obj.requires
+			||
+			this.requires.equals( obj.requires )
+		)
+		&&
 		this.singleton === obj.singleton
 	);
 };
@@ -802,6 +836,12 @@ prototype.alikeIgnoringProteans =
 			this.path === obj.path
 			||
 			this.path !== undefined && this.path.timtype && this.path.equals( obj.path )
+		)
+		&&
+		(
+			this.requires === obj.requires
+			||
+			this.requires.equals( obj.requires )
 		)
 		&&
 		this.singleton === obj.singleton

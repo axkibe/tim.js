@@ -18,9 +18,9 @@ const tim_proto = require( './proto' );
 */
 module.exports =
 	function(
-		module,   // the defining module
-		def,      // the tim definition
-		exports   // the tims module exports
+		module,  // the defining module
+		def,     // the tim definition
+		exports  // the tims module exports
 	)
 {
 /**/if( CHECK )

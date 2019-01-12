@@ -60,6 +60,9 @@ if( TIM )
 		// json name of this tim
 		json : { type : [ 'undefined', 'string' ] },
 
+		// stuff required in this tim implementation
+		requires : { type : [ '../string/set' ] },
+
 		// catalog path
 		path : { type : [ 'undefined', '../path' ] },
 
@@ -126,12 +129,13 @@ def.static.createFromDef =
 	function(
 		def,       // the created def
 		module,    // the module object of the definer
-		filename   // the filename of the definer // FIXME is this in module
+		filename,  // the filename of the definer // FIXME is this in module
+		requires   // the collected requires
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 3 ) throw new Error( );
+/**/	if( arguments.length !== 4 ) throw new Error( );
 /**/}
 
 	validator.check( def );
@@ -149,15 +153,7 @@ def.static.createFromDef =
 
 	let extend;
 
-	if( def.extend )
-	{
-		extend = type_tim.createFromPath( def.extend.split( '/' ) );
-		// FIXME cleanup
-		//imports = imports.add( extend );
-		// makes sure the extended tim is loaded
-		//module.require( './' + exType.pathString );
-		//extend = tim.catalog.getTimspecRelative( module.filename, exType );
-	}
+	if( def.extend ) extend = type_tim.createFromPath( def.extend.split( '/' ) );
 
 	// walker to transform default value
 	// replaces require( 'path' ) with the import variable
@@ -315,6 +311,7 @@ def.static.createFromDef =
 			'inherits', inherits,
 			'isTransforming', !!def.transform.get,
 			'json', def.json,
+			'requires', string_set.createFromProtean( requires ),
 			'singleton', singleton,
 			'_module', module
 		)
