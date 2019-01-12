@@ -58,7 +58,7 @@ myDir += '/';
 
 if( targetDir !== myDir )
 {
-	const targetTimcodeDir = targetDir + 'timcode';
+	const targetTimcodeDir = targetDir + 'timcode/';
 
 	tim.catalog.addRootDir( targetDir, 'ouroborosTarget', targetTimcodeDir, true );
 }
