@@ -25,12 +25,15 @@ const type_tim = require( '../type/tim' );
 const dependencyWalk =
 	function(
 		twig,     // the twig being built
-		timspec   // timspec currently inspecting
+		timspec,  // timspec currently inspecting
+		parents   // a twig of parents already walked (the open circles)
 	)
 {
 	const filename = timspec.filename;
 
-	twig = twig.create( 'twig:add', filename, timspec );
+	if( twig.get( timspec.filename ) || parents.get( timspec.filename ) ) return twig;
+
+	parents = parents.create( 'twig:add', filename, timspec );
 
 	const imports = timspec.imports;
 
@@ -46,9 +49,7 @@ const dependencyWalk =
 
 			const ts = tim.catalog.getTimspecRelative( timspec.filename, type );
 
-			if( twig.get( ts.filename ) ) continue;
-
-			twig = dependencyWalk( twig, ts );
+			twig = dependencyWalk( twig, ts, parents );
 		}
 	}
 
@@ -63,25 +64,22 @@ const dependencyWalk =
 
 			const ts = tim.catalog.getTimspecRelative( timspec.filename, type );
 
-			if( !ts || twig.get( ts.filename ) ) continue;
-
-			twig = dependencyWalk( twig, ts );
+			twig = dependencyWalk( twig, ts, parents );
 		}
 	}
 
-	if( tim.extend )
+	if( timspec.extend )
 	{
-		const type = tim.extend;
+		const type = timspec.extend;
 
 		const ts = tim.catalog.getTimspecRelative( timspec.filename, type );
 
-		if( !twig.get( ts.filename ) )
-		{
-			twig = dependencyWalk( twig, ts );
-		}
+console.log( 'EXTENDS', ts.filename );
+
+		twig = dependencyWalk( twig, ts, parents );
 	}
 
-	return twig;
+	return twig = twig.create( 'twig:add', filename, timspec );
 };
 
 
@@ -101,7 +99,7 @@ def.static.createByDependencyWalk =
 /**/	if( entry.timtype !== timspec_timspec ) throw new Error( );
 /**/}
 
-	return dependencyWalk( self.create( ), entry );
+	return dependencyWalk( self.create( ), entry, self.create( ) );
 };
 
 

@@ -63,6 +63,24 @@ def.lazy.chop =
 };
 
 
+/*
+| Turns the path to a filepath.
+*/
+def.lazy.filepath =
+	function( )
+{
+	let s = '';
+
+	for( let a = 0, al = this.length; a < al; a++ )
+	{
+		if( a > 0 ) s += '/';
+
+		s += this.get( a );
+	}
+
+	return s;
+};
+
 
 /*
 | Returns a path with the last entry removed.
