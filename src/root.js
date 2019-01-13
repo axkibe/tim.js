@@ -87,8 +87,6 @@ for( let a = 0, al = strapped.length; a < al; a++ )
 	tim.catalog.addTimspec( timspec );
 }
 
-tim.import = require( './import' );
-
 tim.copy = proto.copy;
 
 tim.lazyFunctionInteger = proto.lazyFunctionInteger;

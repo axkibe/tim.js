@@ -4,7 +4,7 @@
 'use strict';
 
 
-var pass, tim, tim_proto, _catalog, _require;
+var pass, tim, tim_proto, _require;
 
 tim = { };
 
@@ -173,37 +173,6 @@ tim.define =
 /**/	tim.prototype.__DEBUG_DEFINER__ = definer;
 /**/}
 
-	// FIXME
 	tim._def = def;
-};
-
-
-/*
-| Imports tims from other packages.
-*/
-tim.import =
-	function(
-		rmod, // required module (or tim itself)
-		path  // exported path
-	)
-{
-	let dir = _catalog[ rmod ];
-
-	if( !dir ) throw new Error( );
-
-	const split = path.split( '/' );
-
-	for( let a = 0, al = split.length; a < al; a++ )
-	{
-		let key = split[ a ];
-
-		if( a + 1 === al && !key.endsWith( '.js' ) ) key = key + '.js';
-
-		dir = dir[ key ];
-
-		if( !dir ) throw new Error( );
-	}
-
-	return dir;
 };
 

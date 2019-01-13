@@ -44,7 +44,7 @@ var _require;
 _require =
 	function( path )
 {
-	let entry = this._parent;
+	let entry = path[ 0 ] === '.' ? this._parent : _catalog;
 
 	path = path.split( '/' );
 

@@ -121,7 +121,7 @@ def.lazy.require =
 {
 	if( this.imported )
 	{
-		return 'tim.import( "' + this.imported + '", "' + this.pathString + '" )';
+		return 'require( "' + this.imported + '/' + this.pathString + '" )';
 	}
 	else
 	{
