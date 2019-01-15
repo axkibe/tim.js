@@ -74,8 +74,6 @@ const dependencyWalk =
 
 		const ts = tim.catalog.getTimspecRelative( timspec.filename, type );
 
-console.log( 'EXTENDS', ts.filename );
-
 		twig = dependencyWalk( twig, ts, parents );
 	}
 
