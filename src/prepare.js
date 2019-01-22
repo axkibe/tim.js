@@ -34,53 +34,54 @@ module.exports =
 	{
 		extend = module.require( def.extend )._def;
 
-		const mask = { };
+		const protoMask = { };
+		const staticMask = { };
 
-		for( let name in def.static ) mask[ name ] = true;
-		for( let name in def.staticLazy ) mask[ name ] = true;
-		for( let name in def.lazy ) mask[ name ] = true;
-		for( let name in def.lazyFuncInt ) mask[ name ] = true;
-		for( let name in def.lazyFuncStr ) mask[ name ] = true;
-		for( let name in def.func ) mask[ name ] = true;
+		for( let name in def.static ) staticMask[ name ] = true;
+		for( let name in def.staticLazy ) staticMask[ name ] = true;
+		for( let name in def.lazy ) protoMask[ name ] = true;
+		for( let name in def.lazyFuncInt ) protoMask[ name ] = true;
+		for( let name in def.lazyFuncStr ) protoMask[ name ] = true;
+		for( let name in def.func ) protoMask[ name ] = true;
 
 		for( let name in extend.static )
 		{
-			if( !mask[ name ] ) def.static[ name ] = extend.static[ name ];
+			if( !staticMask[ name ] ) def.static[ name ] = extend.static[ name ];
 		}
 
 		for( let name in extend.staticLazy )
 		{
-			if( !mask[ name ] ) def.staticLazy[ name ] = extend.staticLazy[ name ];
+			if( !staticMask[ name ] ) def.staticLazy[ name ] = extend.staticLazy[ name ];
 		}
 
 		for( let name in extend.lazy )
 		{
-			if( !mask[ name ] ) def.lazy[ name ] = extend.lazy[ name ];
+			if( !protoMask[ name ] ) def.lazy[ name ] = extend.lazy[ name ];
 		}
 
 		for( let name in extend.lazyFuncInt )
 		{
-			if( !mask[ name ] ) def.lazyFuncInt[ name ] = extend.lazyFuncInt[ name ];
+			if( !protoMask[ name ] ) def.lazyFuncInt[ name ] = extend.lazyFuncInt[ name ];
 		}
 
 		for( let name in extend.lazyFuncStr )
 		{
-			if( !mask[ name ] ) def.lazyFuncStr[ name ] = extend.lazyFuncStr[ name ];
+			if( !protoMask[ name ] ) def.lazyFuncStr[ name ] = extend.lazyFuncStr[ name ];
 		}
 
 		for( let name in extend.func )
 		{
-			if( !mask[ name ] ) def.func[ name ] = extend.func[ name ];
+			if( !protoMask[ name ] ) def.func[ name ] = extend.func[ name ];
 		}
 
 		for( let name in extend.transfrom )
 		{
-			if( !mask[ name ] ) def.transform[ name ] = extend.transform[ name ];
+			if( !protoMask[ name ] ) def.transform[ name ] = extend.transform[ name ];
 		}
 
 		for( let name in extend.inherit )
 		{
-			if( !mask[ name ] ) def.inherit[ name ] = extend.inherit[ name ];
+			if( !protoMask[ name ] ) def.inherit[ name ] = extend.inherit[ name ];
 		}
 	}
 
