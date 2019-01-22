@@ -15,7 +15,7 @@ if( TIM )
 
 const util = require( 'util' );
 
-def.func.inspect =
+def.proto.inspect =
 	function(
 		depth,
 		opts

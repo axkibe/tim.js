@@ -42,7 +42,7 @@ module.exports =
 		for( let name in def.lazy ) protoMask[ name ] = true;
 		for( let name in def.lazyFuncInt ) protoMask[ name ] = true;
 		for( let name in def.lazyFuncStr ) protoMask[ name ] = true;
-		for( let name in def.func ) protoMask[ name ] = true;
+		for( let name in def.proto ) protoMask[ name ] = true;
 
 		for( let name in extend.static )
 		{
@@ -69,9 +69,9 @@ module.exports =
 			if( !protoMask[ name ] ) def.lazyFuncStr[ name ] = extend.lazyFuncStr[ name ];
 		}
 
-		for( let name in extend.func )
+		for( let name in extend.proto )
 		{
-			if( !protoMask[ name ] ) def.func[ name ] = extend.func[ name ];
+			if( !protoMask[ name ] ) def.proto[ name ] = extend.proto[ name ];
 		}
 
 		for( let name in extend.transfrom )
@@ -132,9 +132,9 @@ module.exports =
 	}
 
 	// assigns functions to the prototype
-	for( let name in def.func )
+	for( let name in def.proto )
 	{
-		exports.prototype[ name ] = def.func[ name ];
+		exports.prototype[ name ] = def.proto[ name ];
 	}
 
 	// assigns transforms to the prototype

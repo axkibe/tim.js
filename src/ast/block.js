@@ -25,7 +25,7 @@ const shorthand = require( './shorthand' );
 /*
 | Returns the block with a parsed statement appended.
 */
-def.func.$ =
+def.proto.$ =
 	function( )
 {
 	const ast = parser.parseArray( arguments, 'statement' );
@@ -44,7 +44,7 @@ def.func.$ =
 /*
 | Returns the block with an assignment appended.
 */
-def.func.$assign =
+def.proto.$assign =
 	function(
 		left,
 		right
@@ -63,7 +63,7 @@ def.func.$assign =
 /*
 | Returns the block with a break statement appended.
 */
-def.func.$break =
+def.proto.$break =
 	function( )
 {
 	return this.append( shorthand.$break );
@@ -73,7 +73,7 @@ def.func.$break =
 /*
 | Recreates the block with a call appended.
 */
-def.func.$call =
+def.proto.$call =
 	function(
 		// func,
 		// args...
@@ -86,7 +86,7 @@ def.func.$call =
 /*
 | Returns the block with a check appended.
 */
-def.func.$check =
+def.proto.$check =
 	function(
 		// block
 	)
@@ -98,7 +98,7 @@ def.func.$check =
 /*
 | Returns the block with a comment appended.
 */
-def.func.$comment =
+def.proto.$comment =
 	function(
 		header
 	)
@@ -119,7 +119,7 @@ def.func.$comment =
 /*
 | Returns the block with a const decleration appended.
 */
-def.func.$const =
+def.proto.$const =
 	function(
 		// name,
 		// assign
@@ -132,7 +132,7 @@ def.func.$const =
 /*
 | Returns the block with a continue statement appended.
 */
-def.func.$continue =
+def.proto.$continue =
 	function( )
 {
 	return this.append( shorthand.$continue );
@@ -142,7 +142,7 @@ def.func.$continue =
 /*
 | Returns the block with a delete statement appended.
 */
-def.func.$delete =
+def.proto.$delete =
 	function(
 		expr
 	)
@@ -155,7 +155,7 @@ def.func.$delete =
 /*
 | Returns the block with an if appended.
 */
-def.func.$if =
+def.proto.$if =
 	function(
 		condition,
 		then,
@@ -169,7 +169,7 @@ def.func.$if =
 /*
 | Returns the block with a error throwing appended.
 */
-def.func.$fail =
+def.proto.$fail =
 	function(
 		message
 	)
@@ -181,7 +181,7 @@ def.func.$fail =
 /*
 | Returns the block with a classical for loop appended.
 */
-def.func.$for =
+def.proto.$for =
 	function(
 		init,
 		condition,
@@ -196,7 +196,7 @@ def.func.$for =
 /*
 | Returns the block with a for-in loop appended.
 */
-def.func.$forIn =
+def.proto.$forIn =
 	function(
 		variable,
 		object,
@@ -210,7 +210,7 @@ def.func.$forIn =
 /*
 | Returns the block with a for-in loop appended.
 */
-def.func.$forInLet =
+def.proto.$forInLet =
 	function(
 		variable,
 		object,
@@ -224,7 +224,7 @@ def.func.$forInLet =
 /*
 | Returns the block with a variable decleration appended.
 */
-def.func.$let =
+def.proto.$let =
 	function(
 		// name,   // variable name
 		// assign  // variable assignment
@@ -237,7 +237,7 @@ def.func.$let =
 /*
 | Shorthand for creating new calls.
 */
-def.func.$new =
+def.proto.$new =
 	function(
 		call
 	)
@@ -249,7 +249,7 @@ def.func.$new =
 /*
 | Returns the block with a plus-assignment appended.
 */
-def.func.$plusAssign =
+def.proto.$plusAssign =
 	function(
 		left,
 		right
@@ -262,7 +262,7 @@ def.func.$plusAssign =
 /*
 | Returns the block with a term appended.
 */
-def.func.$return =
+def.proto.$return =
 	function(
 		expr
 	)
@@ -279,7 +279,7 @@ def.func.$return =
 /*
 | Returns the block with a variable decleration appended.
 */
-def.func.$varDec =
+def.proto.$varDec =
 	function(
 		name,   // variable name
 		assign  // variable assignment
@@ -292,7 +292,7 @@ def.func.$varDec =
 /*
 | Returns the block with a classical for loop appended.
 */
-def.func.$while =
+def.proto.$while =
 	function(
 		condition,
 		block
@@ -308,7 +308,7 @@ const util = require( 'util' );
 /*
 | Custom inspect
 */
-def.func.inspect =
+def.proto.inspect =
 	function(
 		depth,
 		opts

@@ -28,7 +28,7 @@ def.static.pathList =
 /*
 | Returns true if this list contains path.
 */
-def.func.contains =
+def.proto.contains =
 	function(
 		path
 	)
@@ -49,7 +49,7 @@ def.func.contains =
 |
 | Duplicates are not appended another time.
 */
-def.func.combine =
+def.proto.combine =
 	function(
 		pathList
 	)

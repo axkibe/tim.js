@@ -111,7 +111,7 @@ module.exports =
 
 	const def =
 	{
-		func : { },
+		proto : { },
 		inherit : { },
 		lazy : { },
 		lazyFuncInt : { },

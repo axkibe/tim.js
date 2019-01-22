@@ -72,6 +72,8 @@ def.static.createFromPath =
 | .equals( ) call, may have an .equals( ) func or never
 | has a .equals( ) call and equalness is simply to be
 | determined by '===' operator.
+|
+| FIXME XXX this is a function???
 */
 def.lazy.equalsConvention = ( ) => 'must';
 
@@ -110,7 +112,7 @@ def.lazy.$varname =
 /*
 | This type does not reference a primitive.
 */
-def.func.isPrimitive = false;
+def.proto.isPrimitive = false;
 
 
 /*

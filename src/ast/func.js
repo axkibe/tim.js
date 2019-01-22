@@ -30,7 +30,7 @@ const ast_funcArg = require( './funcArg' );
 |
 | Returns the function with an argument appended.
 */
-def.func.$arg =
+def.proto.$arg =
 	function(
 		name,
 		comment

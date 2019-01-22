@@ -79,7 +79,7 @@ let allowedTokens;
 ***/
 /**/if( CHECK )
 /**/{
-/**/	def.func._check =
+/**/	def.proto._check =
 /**/		function( )
 /**/	{
 /**/		if( !allowedTokens[ this.type ] ) throw new Error( );

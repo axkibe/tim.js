@@ -23,7 +23,7 @@ def.staticLazy.empty = ( ) => timtree_dir.create( 'group:init', [ ] );
 | Returns the dir with a timspec added,
 | possibly on a subdir.
 */
-def.func.addTimspec =
+def.proto.addTimspec =
 	function(
 		timspec,  // the timspec to add
 		pathPos   // position in the timspec's path

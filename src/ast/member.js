@@ -26,7 +26,7 @@ const ast_dot = require( './dot' );
 /*
 | Creates a dot member access of a dot.
 */
-def.func.$dot =
+def.proto.$dot =
 	function(
 		member // member string
 	)
@@ -40,7 +40,7 @@ def.func.$dot =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-def.func.walk =
+def.proto.walk =
 	function(
 		transform	// a function to be called for all walked nodes.
 	)
@@ -57,7 +57,7 @@ const util = require( 'util' );
 /*
 | Custom inspect
 */
-def.func.inspect =
+def.proto.inspect =
 	function(
 		depth,
 		opts

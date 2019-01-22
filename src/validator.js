@@ -56,7 +56,7 @@ const timWhitelist =
 		'alike' : true,
 		'attributes' : true,
 		'extend' : true,
-		'func' : true,
+		'proto' : true,
 		'group' : true,
 		'global' : true,
 		'inherit' : true,

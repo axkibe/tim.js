@@ -30,7 +30,7 @@ def.lazyFuncStr.append =
 /*
 | Same as append but without caching.
 */
-def.func.appendNC =
+def.proto.appendNC =
 	function( key )
 {
 	const result = this.create( 'list:append', key );
@@ -106,7 +106,7 @@ def.lazy.shorten =
 |
 | FUTURE cache
 */
-def.func.limit =
+def.proto.limit =
 	function(
 		n
 	)
@@ -144,7 +144,7 @@ def.lazyFuncStr.prepend =
 /*
 | True if this path is a subPath of another.
 */
-def.func.subPathOf =
+def.proto.subPathOf =
 	function(
 		o,     // the other path
 		len    // the length of this path to consider.
@@ -209,7 +209,7 @@ def.static.createFromJSON =
 /*
 | Jsonfy.
 */
-def.func.toJSON =
+def.proto.toJSON =
 	function( )
 {
 	return this._list;

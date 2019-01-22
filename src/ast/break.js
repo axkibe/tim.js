@@ -10,7 +10,7 @@ tim.define( module, ( def, ast_break ) => {
 /*
 | Custom inspect
 */
-def.func.inspect =
+def.proto.inspect =
 	function(
 		depth,
 		opts

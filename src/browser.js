@@ -49,7 +49,7 @@ const prepare =
 		for( let name in def.lazy ) protoMask[ name ] = true;
 		for( let name in def.lazyFuncInt ) protoMask[ name ] = true;
 		for( let name in def.lazyFuncStr ) protoMask[ name ] = true;
-		for( let name in def.func ) protoMask[ name ] = true;
+		for( let name in def.proto ) protoMask[ name ] = true;
 
 		for( let name in extend.static )
 		{
@@ -76,9 +76,9 @@ const prepare =
 			if( !protoMask[ name ] ) def.lazyFuncStr[ name ] = extend.lazyFuncStr[ name ];
 		}
 
-		for( let name in extend.func )
+		for( let name in extend.proto )
 		{
-			if( !protoMask[ name ] ) def.func[ name ] = extend.func[ name ];
+			if( !protoMask[ name ] ) def.proto[ name ] = extend.proto[ name ];
 		}
 
 		for( let name in extend.transfrom )
@@ -123,9 +123,9 @@ const prepare =
 	}
 
 	// assigns functions to the prototype
-	for( let name in def.func )
+	for( let name in def.proto )
 	{
-		tim.prototype[ name ] = def.func[ name ];
+		tim.prototype[ name ] = def.proto[ name ];
 	}
 
 	// assigns transforms to the prototype
@@ -155,7 +155,7 @@ tim.define =
 
 	const def =
 	{
-		func : { },
+		proto : { },
 		inherit : { },
 		lazy : { },
 		lazyFuncInt : { },

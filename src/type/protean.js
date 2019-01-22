@@ -8,10 +8,10 @@
 tim.define( module, ( def, type_protean ) => {
 
 
-def.func.equalsConvention = 'mustnot';
+def.proto.equalsConvention = 'mustnot';
 
 
-def.func.isPrimitive = true;
+def.proto.isPrimitive = true;
 
 
 } );

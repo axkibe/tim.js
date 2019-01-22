@@ -28,7 +28,7 @@ const parser = require( '../parser/parser' );
 /*
 | Creates an if with the elsewise block set.
 */
-def.func.$elsewise =
+def.proto.$elsewise =
 	function(
 		// parseables
 	)
@@ -50,7 +50,7 @@ const util = require( 'util' );
 /*
 | Custom inspect
 */
-def.func.inspect =
+def.proto.inspect =
 	function(
 		depth,
 		opts

@@ -7,10 +7,10 @@
 tim.define( module, ( def, type_date ) => {
 
 
-def.func.equalsConvention = 'mustnot';
+def.proto.equalsConvention = 'mustnot';
 
 
-def.func.isPrimitive = true;
+def.proto.isPrimitive = true;
 
 
 } );

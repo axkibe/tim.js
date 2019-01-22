@@ -297,7 +297,7 @@ def.static.createFromDef =
 		timspec_timspec.create(
 			'alike', def.alike,
 			'attributes', attributes,
-			'check', !!def.func._check,
+			'check', !!def.proto._check,
 			'extend', extend,
 			'filename', filename,
 			'ggroup', ggroup,
@@ -322,7 +322,7 @@ def.static.createFromDef =
 /*
 | Gets a timspec for a timtype with this timspec as base.
 */
-def.func.getTimspec =
+def.proto.getTimspec =
 	function(
 		timtype
 	)
@@ -338,7 +338,7 @@ def.func.getTimspec =
 | Returns the preamble to be prepended
 | to sources for browser mode.
 */
-def.func.getBrowserPreamble =
+def.proto.getBrowserPreamble =
 	function(
 		timcode    // true if this is for timcode
 	)

@@ -89,7 +89,7 @@ const tsNull = type_null.create( );
 /*
 | Generates the requires.
 */
-def.func.genRequires =
+def.proto.genRequires =
 	function( )
 {
 	let block = $block;
@@ -112,7 +112,7 @@ def.func.genRequires =
 /*
 | Generates the constructor.
 */
-def.func.genConstructor =
+def.proto.genConstructor =
 	function( )
 {
 /**/if( CHECK )
@@ -269,7 +269,7 @@ def.func.genConstructor =
 /*
 | Generates the singleton decleration.
 */
-def.func.genSingleton =
+def.proto.genSingleton =
 	function( )
 {
 	return(
@@ -283,7 +283,7 @@ def.func.genSingleton =
 /*
 | Generates the creators variable list.
 */
-def.func.genCreatorVariables =
+def.proto.genCreatorVariables =
 	function( )
 {
 /**/if( CHECK )
@@ -338,7 +338,7 @@ def.func.genCreatorVariables =
 /*
 | Generates the creators inheritance receiver.
 */
-def.func.genCreatorInheritanceReceiver =
+def.proto.genCreatorInheritanceReceiver =
 	function( )
 {
 /**/if( CHECK )
@@ -427,7 +427,7 @@ def.func.genCreatorInheritanceReceiver =
 /*
 | Generates the creators free strings parser.
 */
-def.func.genCreatorFreeStringsParser =
+def.proto.genCreatorFreeStringsParser =
 	function( )
 {
 /**/if( CHECK )
@@ -683,7 +683,7 @@ def.func.genCreatorFreeStringsParser =
 /*
 | Generates the creators default values
 */
-def.func.genCreatorDefaults =
+def.proto.genCreatorDefaults =
 	function( )
 {
 /**/if( CHECK )
@@ -725,7 +725,7 @@ def.func.genCreatorDefaults =
 |
 | It is true if the variable fails the check.
 */
-def.func.genSingleTypeCheckFailCondition =
+def.proto.genSingleTypeCheckFailCondition =
 	function(
 		aVar,  // name of the variable
 		type   // type to check for
@@ -781,7 +781,7 @@ def.func.genSingleTypeCheckFailCondition =
 /*
 | Generates a type check of a variable.
 */
-def.func.genTypeCheckFailCondition =
+def.proto.genTypeCheckFailCondition =
 	function(
 		aVar,   // the variable to check
 		types   // the type or type_set it has to match
@@ -838,7 +838,7 @@ def.func.genTypeCheckFailCondition =
 /*
 | Generates the creators checks.
 */
-def.func.genCreatorChecks =
+def.proto.genCreatorChecks =
 	function(
 		json    // do checks for fromJsonCreator
 	)
@@ -953,7 +953,7 @@ def.func.genCreatorChecks =
 |
 | Returns this object if so.
 */
-def.func.genCreatorUnchanged =
+def.proto.genCreatorUnchanged =
 	function( )
 {
 /**/if( CHECK )
@@ -999,7 +999,7 @@ def.func.genCreatorUnchanged =
 /*
 | Generates inheritance optimizations.
 */
-def.func.genCreatorInheritOptimization =
+def.proto.genCreatorInheritOptimization =
 	function( )
 {
 /**/if( CHECK )
@@ -1044,7 +1044,7 @@ def.func.genCreatorInheritOptimization =
 /*
 | Generates the creators return statement
 */
-def.func.genCreatorReturn =
+def.proto.genCreatorReturn =
 	function( )
 {
 /**/if( CHECK )
@@ -1109,7 +1109,7 @@ def.func.genCreatorReturn =
 /*
 | Generates the creator.
 */
-def.func.genCreator =
+def.proto.genCreator =
 	function( )
 {
 /**/if( CHECK  )
@@ -1150,7 +1150,7 @@ def.func.genCreator =
 /*
 | Generates the fromJsonCreator's variable list.
 */
-def.func.genFromJsonCreatorVariables =
+def.proto.genFromJsonCreatorVariables =
 	function( )
 {
 	const timspec = this.timspec;
@@ -1195,7 +1195,7 @@ def.func.genFromJsonCreatorVariables =
 /*
 | Generates a fromJsonCreator's json parser for one attribute
 */
-def.func.genFromJsonCreatorAttributeParser =
+def.proto.genFromJsonCreatorAttributeParser =
 	function(
 		attr
 	)
@@ -1285,7 +1285,7 @@ def.func.genFromJsonCreatorAttributeParser =
 /*
 | Generates the fromJsonCreator's json parser.
 */
-def.func.genFromJsonCreatorParser =
+def.proto.genFromJsonCreatorParser =
 	function(
 		jsonList
 	)
@@ -1359,7 +1359,7 @@ def.func.genFromJsonCreatorParser =
 /*
 | Generates the fromJsonCreator's group processing.
 */
-def.func.genFromJsonCreatorGroupProcessing =
+def.proto.genFromJsonCreatorGroupProcessing =
 	function( )
 {
 	const timspec = this.timspec;
@@ -1486,7 +1486,7 @@ def.func.genFromJsonCreatorGroupProcessing =
 /*
 | Generates the fromJsonCreator's list processing.
 */
-def.func.genFromJsonCreatorListProcessing =
+def.proto.genFromJsonCreatorListProcessing =
 	function( )
 {
 	const timspec = this.timspec;
@@ -1584,7 +1584,7 @@ def.func.genFromJsonCreatorListProcessing =
 /*
 | Generates the fromJsonCreator's twig processing.
 */
-def.func.genFromJsonCreatorTwigProcessing =
+def.proto.genFromJsonCreatorTwigProcessing =
 	function( )
 {
 	const timspec = this.timspec;
@@ -1644,7 +1644,7 @@ def.func.genFromJsonCreatorTwigProcessing =
 /*
 | Generates the fromJsonCreator's return statement
 */
-def.func.genFromJsonCreatorReturn =
+def.proto.genFromJsonCreatorReturn =
 	function( )
 {
 	const attributes = this.timspec.attributes;
@@ -1695,7 +1695,7 @@ def.func.genFromJsonCreatorReturn =
 /*
 | Generates the fromJsonCreator.
 */
-def.func.genFromJsonCreator =
+def.proto.genFromJsonCreator =
 	function( )
 {
 	const timspec = this.timspec;
@@ -1766,7 +1766,7 @@ def.func.genFromJsonCreator =
 /*
 | Generates the node include section.
 */
-def.func.genReflection =
+def.proto.genReflection =
 	function( )
 {
 	return(
@@ -1781,7 +1781,7 @@ def.func.genReflection =
 | Generates code for setting the prototype
 | entry 'key' to 'value'
 */
-def.func.$protoSet =
+def.proto.$protoSet =
 	function(
 		key,
 		value
@@ -1795,7 +1795,7 @@ def.func.$protoSet =
 | Generates code for setting the prototype
 | lazy value named 'name' to 'func'.
 */
-def.func.$protoLazyValueSet =
+def.proto.$protoLazyValueSet =
 	function(
 		name,  // FIXME, make a $string here around it
 		func
@@ -1811,7 +1811,7 @@ def.func.$protoLazyValueSet =
 /*
 | Generates the timProto stuff.
 */
-def.func.genTimProto =
+def.proto.genTimProto =
 	function( )
 {
 	const timspec = this.timspec;
@@ -1943,7 +1943,7 @@ def.func.genTimProto =
 /*
 | Generates the toJSON converter.
 */
-def.func.genToJson =
+def.proto.genToJson =
 	function( )
 {
 	const timspec = this.timspec;
@@ -1999,7 +1999,7 @@ def.func.genToJson =
 /*
 | Generates the equals condition for an attribute.
 */
-def.func.genAttributeEquals =
+def.proto.genAttributeEquals =
 	function(
 		name,       // attribute name
 		le,         // this value expression
@@ -2063,7 +2063,7 @@ def.func.genAttributeEquals =
 /*
 | Generates the body of an equals test.
 */
-def.func.genEqualsFuncBody =
+def.proto.genEqualsFuncBody =
 	function(
 		mode,       // 'normal' or 'json'
 		eqFuncName  // name of equals func to call
@@ -2234,7 +2234,7 @@ def.func.genEqualsFuncBody =
 /*
 | Generates the equals tests.
 */
-def.func.genEquals =
+def.proto.genEquals =
 	function( )
 {
 	const timspec = this.timspec;
@@ -2298,7 +2298,7 @@ def.func.genEquals =
 /*
 | Generates the alike test(s).
 */
-def.func.genAlike =
+def.proto.genAlike =
 	function( )
 {
 	const timspec = this.timspec;
@@ -2371,7 +2371,7 @@ def.func.genAlike =
 /*
 | Generates the attribute lazy transform calls.
 */
-def.func.genAttrTransform =
+def.proto.genAttrTransform =
 	function( )
 {
 	const attributes = this.timspec.attributes;
@@ -2415,7 +2415,7 @@ def.func.genAttrTransform =
 /*
 | Generates the preamble.
 */
-def.func.genPreamble =
+def.proto.genPreamble =
 	function(
 		block // block to append to
 	)

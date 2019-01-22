@@ -29,7 +29,7 @@ const ast_member = require( './member' );
 ***/
 /**/if( CHECK )
 /**/{
-/**/	def.func._check =
+/**/	def.proto._check =
 /**/		function( )
 /**/	{
 /**/		const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
@@ -53,7 +53,7 @@ const ast_member = require( './member' );
 /*
 | Creates a dot member access of a variable.
 */
-def.func.$dot =
+def.proto.$dot =
 	function(
 		member // member string
 	)
@@ -67,7 +67,7 @@ def.func.$dot =
 /*
 | Creates a generic member access of a variable.
 */
-def.func.$member =
+def.proto.$member =
 	function(
 		// parseables
 	)
@@ -85,7 +85,7 @@ def.func.$member =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-def.func.walk =
+def.proto.walk =
 	function(
 		transform	// a function to be called for all walked nodes.
 	)
@@ -97,7 +97,7 @@ def.func.walk =
 /*
 | Custom inspect
 */
-def.func.inspect =
+def.proto.inspect =
 	function(
 		depth,
 		opts

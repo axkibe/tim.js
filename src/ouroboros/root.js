@@ -131,7 +131,7 @@ for( let a = 0, al = listing.length; a < al; a++ )
 
 	const def =
 	{
-		func : { },
+		proto : { },
 		inherit : { },
 		lazy : { },
 		lazyFuncInt : { },

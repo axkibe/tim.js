@@ -36,7 +36,7 @@ const timspec_dir = require( './dir' );
 ***/
 /**/if( CHECK )
 /**/{
-/**/	def.func._check =
+/**/	def.proto._check =
 /**/		function( )
 /**/	{
 /**/		if( this.realpath[ this.realpath.length - 1 ] !== '/' ) throw new Error( );
@@ -49,7 +49,7 @@ const timspec_dir = require( './dir' );
 /*
 | Adds a timspec to this rootDir.
 */
-def.func.addTimspec =
+def.proto.addTimspec =
 	function(
 		timspec   // the timspec to be added
 	)

@@ -33,7 +33,7 @@ const parser = require( '../parser/parser' );
 /*
 | Shortcut for appending a case to this switch.
 */
-def.func.$case =
+def.proto.$case =
 	function(
 		coc    // case_or_condition,
 		// ... // block or expression
@@ -72,7 +72,7 @@ def.func.$case =
 /*
 | Shortcut for setting the default case.
 */
-def.func.$default =
+def.proto.$default =
 	function(
 		// ... parseable
 	)

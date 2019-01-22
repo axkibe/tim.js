@@ -26,7 +26,7 @@ if( TIM )
 /*
 | Creates a condition with the elsewise expression set.
 */
-def.func.$elsewise =
+def.proto.$elsewise =
 	function(
 		expr
 	)
@@ -39,7 +39,7 @@ def.func.$elsewise =
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
 */
-def.func.walk =
+def.proto.walk =
 	function(
 		transform	// a function to be called for all walked nodes.
 	)
@@ -68,7 +68,7 @@ const util = require( 'util' );
 /*
 | Custom inspect
 */
-def.func.inspect =
+def.proto.inspect =
 	function(
 		depth,
 		opts

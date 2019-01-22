@@ -64,7 +64,7 @@ def.lazy.preview =
 /*
 | Advances the pos.
 */
-def.func.advance =
+def.proto.advance =
 	function(
 		ast // optional, sets this ast value
 	)
@@ -80,7 +80,7 @@ def.func.advance =
 /*
 | Stays on the pos, but changes ast state.
 */
-def.func.stay =
+def.proto.stay =
 	function(
 		ast // required, sets this ast value
 	)
