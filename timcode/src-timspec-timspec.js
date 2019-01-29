@@ -47,7 +47,7 @@ const Constructor =
 		v_hasProxyRanks,
 		v_imports,
 		v_inherits,
-		v_isTransforming,
+		v_isAdjusting,
 		v_json,
 		v_path,
 		v_requires,
@@ -84,7 +84,7 @@ const Constructor =
 
 	this.inherits = v_inherits;
 
-	this.isTransforming = v_isTransforming;
+	this.isAdjusting = v_isAdjusting;
 
 	this.json = v_json;
 
@@ -151,7 +151,7 @@ prototype.create =
 
 	let v_inherits;
 
-	let v_isTransforming;
+	let v_isAdjusting;
 
 	let v_json;
 
@@ -195,7 +195,7 @@ prototype.create =
 
 		v_inherits = this.inherits;
 
-		v_isTransforming = this.isTransforming;
+		v_isAdjusting = this.isAdjusting;
 
 		v_json = this.json;
 
@@ -351,11 +351,11 @@ prototype.create =
 
 				break;
 
-			case 'isTransforming' :
+			case 'isAdjusting' :
 
 				if( arg !== pass )
 				{
-					v_isTransforming = arg;
+					v_isAdjusting = arg;
 				}
 
 				break;
@@ -474,7 +474,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_isTransforming ) !== 'boolean' )
+/**/	if( typeof( v_isAdjusting ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -569,7 +569,7 @@ prototype.create =
 			v_inherits !== undefined && v_inherits.timtype && v_inherits.equals( inherit.inherits )
 		)
 		&&
-		v_isTransforming === inherit.isTransforming
+		v_isAdjusting === inherit.isAdjusting
 		&&
 		v_json === inherit.json
 		&&
@@ -608,7 +608,7 @@ prototype.create =
 			v_hasProxyRanks,
 			v_imports,
 			v_inherits,
-			v_isTransforming,
+			v_isAdjusting,
 			v_json,
 			v_path,
 			v_requires,
@@ -726,7 +726,7 @@ prototype.equals =
 			this.inherits !== undefined && this.inherits.timtype && this.inherits.equals( obj.inherits )
 		)
 		&&
-		this.isTransforming === obj.isTransforming
+		this.isAdjusting === obj.isAdjusting
 		&&
 		this.json === obj.json
 		&&
@@ -828,7 +828,7 @@ prototype.alikeIgnoringProteans =
 			this.inherits !== undefined && this.inherits.timtype && this.inherits.equals( obj.inherits )
 		)
 		&&
-		this.isTransforming === obj.isTransforming
+		this.isAdjusting === obj.isAdjusting
 		&&
 		this.json === obj.json
 		&&

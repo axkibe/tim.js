@@ -53,6 +53,8 @@ const attributeTwigBlacklist =
 */
 const timWhitelist =
 	Object.freeze( {
+		'abstract' : true,
+		'adjust' : true,
 		'alike' : true,
 		'attributes' : true,
 		'extend' : true,
@@ -68,7 +70,6 @@ const timWhitelist =
 		'set' : true,
 		'static' : true,
 		'staticLazy' : true,
-		'transform' : true,
 		'twig' : true,
 	} );
 
@@ -387,23 +388,23 @@ const checkInherit =
 };
 
 
-const checkTransform =
+const checkAdjust =
 	function(
 		def
 	)
 {
-	for( let name in def.transform )
+	for( let name in def.adjust )
 	{
 		if( name === 'get' )
 		{
-			if( !def.twig ) throw new Error( 'get-transform without twig' );
+			if( !def.twig && !def.abstract ) throw new Error( 'get-adjust without twig' );
 
 			continue;
 		}
 
 		if( !def.attributes[ name ] )
 		{
-			throw new Error( 'transform without attribute!"' );
+			throw new Error( 'adjust without attribute!"' );
 		}
 	}
 };
@@ -459,7 +460,7 @@ def.static.check =
 		throw new Error( 'a proxy tim must not have a from/to json interface' );
 	}
 
-	checkTransform( def );
+	checkAdjust( def );
 
 	checkInherit( def );
 };

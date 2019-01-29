@@ -131,14 +131,14 @@ for( let a = 0, al = listing.length; a < al; a++ )
 
 	const def =
 	{
-		proto : { },
+		adjust : { },
 		inherit : { },
 		lazy : { },
 		lazyFuncInt : { },
 		lazyFuncStr : { },
+		proto : { },
 		static : { },
 		staticLazy : { },
-		transform : { },
 	};
 
 	stim.define = sdefine.bind( undefined, def );

@@ -164,15 +164,17 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
+		v_adjust,
 		v_assign,
 		v_defaultValue,
 		v_json,
 		v_name,
-		v_transform,
 		v_types,
 		v_varRef
 	)
 {
+	this.adjust = v_adjust;
+
 	this.assign = v_assign;
 
 	this.defaultValue = v_defaultValue;
@@ -180,8 +182,6 @@ const Constructor =
 	this.json = v_json;
 
 	this.name = v_name;
-
-	this.transform = v_transform;
 
 	this.types = v_types;
 
@@ -214,6 +214,8 @@ prototype.create =
 {
 	let inherit;
 
+	let v_adjust;
+
 	let v_assign;
 
 	let v_defaultValue;
@@ -221,8 +223,6 @@ prototype.create =
 	let v_json;
 
 	let v_name;
-
-	let v_transform;
 
 	let v_types;
 
@@ -232,6 +232,8 @@ prototype.create =
 	{
 		inherit = this;
 
+		v_adjust = this.adjust;
+
 		v_assign = this.assign;
 
 		v_defaultValue = this.defaultValue;
@@ -239,8 +241,6 @@ prototype.create =
 		v_json = this.json;
 
 		v_name = this.name;
-
-		v_transform = this.transform;
 
 		v_types = this.types;
 
@@ -257,6 +257,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'adjust' :
+
+				if( arg !== pass )
+				{
+					v_adjust = arg;
+				}
+
+				break;
+
 			case 'assign' :
 
 				if( arg !== pass )
@@ -293,15 +302,6 @@ prototype.create =
 
 				break;
 
-			case 'transform' :
-
-				if( arg !== pass )
-				{
-					v_transform = arg;
-				}
-
-				break;
-
 			case 'types' :
 
 				if( arg !== pass )
@@ -333,6 +333,11 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( typeof( v_adjust ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_assign ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
@@ -433,11 +438,6 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_transform ) !== 'boolean' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if(
 /**/		v_types.timtype !== tt_$_type_boolean
 /**/		&&
@@ -474,6 +474,8 @@ prototype.create =
 	if(
 		inherit
 		&&
+		v_adjust === inherit.adjust
+		&&
 		v_assign === inherit.assign
 		&&
 		(
@@ -489,8 +491,6 @@ prototype.create =
 		v_json === inherit.json
 		&&
 		v_name === inherit.name
-		&&
-		v_transform === inherit.transform
 		&&
 		(
 			v_types === inherit.types
@@ -510,11 +510,11 @@ prototype.create =
 
 	return (
 		new Constructor(
+			v_adjust,
 			v_assign,
 			v_defaultValue,
 			v_json,
 			v_name,
-			v_transform,
 			v_types,
 			v_varRef
 		)
@@ -564,6 +564,8 @@ prototype.equals =
 	}
 
 	return (
+		this.adjust === obj.adjust
+		&&
 		this.assign === obj.assign
 		&&
 		(
@@ -579,8 +581,6 @@ prototype.equals =
 		this.json === obj.json
 		&&
 		this.name === obj.name
-		&&
-		this.transform === obj.transform
 		&&
 		(
 			this.types === obj.types

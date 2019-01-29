@@ -152,7 +152,7 @@ def.proto.genConstructor =
 
 		if( !timspec.hasProxyRanks ) block = block.$( 'this._ranks = ranks' );
 
-		if( timspec.isTransforming ) block = block.$( 'this._ttwig = { }' );
+		if( timspec.isAdjusting ) block = block.$( 'this._ttwig = { }' );
 	}
 
 	if( timspec.global ) block = block.$( this.timspec.global, '= this' );
@@ -384,7 +384,7 @@ def.proto.genCreatorInheritanceReceiver =
 
 		receiver = receiver.$( 'twigDup = false' );
 
-		if( timspec.isTransforming )
+		if( timspec.isAdjusting )
 		{
 			receiver =
 				receiver
@@ -1916,7 +1916,7 @@ def.proto.genTimProto =
 			.$( this.$protoSet( 'atRank', 'twigAtRank' ) )
 
 			.$comment( 'Returns the element by key.' )
-			.$( this.$protoSet( 'get', timspec.isTransforming ? 'twigTransGet' : 'twigGet' ) )
+			.$( this.$protoSet( 'get', timspec.isAdjusting ? 'twigAdjustGet' : 'twigGet' ) )
 
 			.$comment( 'Returns the key at a rank.' )
 			.$( this.$protoSet( 'getKey', 'twigGetKey' ) )
@@ -2369,9 +2369,9 @@ def.proto.genAlike =
 
 
 /*
-| Generates the attribute lazy transform calls.
+| Generates the attribute lazy adjustment calls.
 */
-def.proto.genAttrTransform =
+def.proto.genAttrAdjust =
 	function( )
 {
 	const attributes = this.timspec.attributes;
@@ -2384,7 +2384,7 @@ def.proto.genAttrTransform =
 
 		const attr = attributes.get( name );
 
-		if( !attr.transform ) continue;
+		if( !attr.adjust ) continue;
 
 		let b;
 
@@ -2398,7 +2398,7 @@ def.proto.genAttrTransform =
 					$name, ',',
 					$func(
 						$block
-						.$( 'return this[ "__transform_" + ', $name, ' ]( this.__' + name, ')' )
+						.$( 'return this[ "__adjust_" + ', $name, ' ]( this.__' + name, ')' )
 					),
 				')'
 			);
@@ -2450,7 +2450,7 @@ def.lazy.ast =
 		.$( timspec.json ? this.genToJson( ) : undefined )
 		.$( this.genEquals( ) )
 		.$( timspec.alike ? this.genAlike( ) : undefined )
-		.$( this.genAttrTransform( ) )
+		.$( this.genAttrAdjust( ) )
 	);
 };
 

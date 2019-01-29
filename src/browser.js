@@ -81,14 +81,14 @@ const prepare =
 			if( !protoMask[ name ] ) def.proto[ name ] = extend.proto[ name ];
 		}
 
-		for( let name in extend.transfrom )
-		{
-			if( !protoMask[ name ] ) def.transform[ name ] = extend.transform[ name ];
-		}
-
 		for( let name in extend.inherit )
 		{
 			if( !protoMask[ name ] ) def.inherit[ name ] = extend.inherit[ name ];
+		}
+
+		for( let name in extend.adjust )
+		{
+			if( !def.adjust[ name ] ) def.adjust[ name ] = extend.adjust[ name ];
 		}
 	}
 
@@ -128,12 +128,12 @@ const prepare =
 		tim.prototype[ name ] = def.proto[ name ];
 	}
 
-	// assigns transforms to the prototype
-	for( let name in def.transform )
+	// assigns adjustments to the prototype
+	for( let name in def.adjust )
 	{
-		const tname = '__transform_' + name;
+		const tname = '__adjust_' + name;
 
-		tim.prototype[ tname ] = def.transform[ name ];
+		tim.prototype[ tname ] = def.adjust[ name ];
 	}
 
 	// assigns inherit optimizations to the prototype
@@ -155,14 +155,14 @@ tim.define =
 
 	const def =
 	{
-		proto : { },
+		adjust : { },
 		inherit : { },
 		lazy : { },
 		lazyFuncInt : { },
 		lazyFuncStr : { },
+		proto : { },
 		static : { },
 		staticLazy : { },
-		transform : { },
 	};
 
 	definer( def, tim );

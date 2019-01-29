@@ -274,7 +274,7 @@ tim_proto.copy =
 /*
 | Copies one object (not deep!).
 | Also lets another object override the former.
-| Used in creators of transformative tims.
+| Used in creators of adjusting tims.
 |
 | Also doesn't do hasOwnProperty checking since that one
 | is only to be used on vanilla objects.
@@ -740,10 +740,10 @@ tim_proto.twigGet =
 
 
 /*
-| If this tim twig is in transform mode, returns the element by key
-| going through the transform.get functin.
+| If this tim twig is in adjustment mode, returns the element by key
+| going through the adjust.get functin.
 */
-tim_proto.twigTransGet =
+tim_proto.twigAdjustGet =
 	function(
 		key
 	)
@@ -752,7 +752,7 @@ tim_proto.twigTransGet =
 
 	if( tval !== undefined ) return tval;
 
-	return( this._ttwig[ key ] = this[ '__transform' + '_get' ]( key, this._twig[ key ] ) );
+	return( this._ttwig[ key ] = this[ '__adjust' + '_get' ]( key, this._twig[ key ] ) );
 };
 
 

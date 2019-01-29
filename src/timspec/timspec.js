@@ -54,8 +54,8 @@ if( TIM )
 		// inherit optimizations
 		inherits : { type : [ '../string/set', 'undefined' ] },
 
-		// true if this is a transforming group/list/set/twig
-		isTransforming : { type : 'boolean' },
+		// true if this is a adjusting group/list/set/twig
+		isAdjusting : { type : 'boolean' },
 
 		// json name of this tim
 		json : { type : [ 'undefined', 'string' ] },
@@ -151,9 +151,17 @@ def.static.createFromDef =
 	// foreign timtypes to be imported
 	let imports = type_set.create( );
 
-	let extend;
+	let extend, extendSpec;
 
-	if( def.extend ) extend = type_tim.createFromPath( def.extend.split( '/' ) );
+	if( def.extend )
+	{
+		extend = type_tim.createFromPath( def.extend.split( '/' ) );
+
+		// first makes sure the leaf is loaded
+		module.require( './' + extend.pathString );
+
+		extendSpec = tim.catalog.getTimspecRelative( module.filename, extend );
+	}
 
 	// walker to transform default value
 	// replaces require( 'path' ) with the import variable
@@ -217,7 +225,7 @@ def.static.createFromDef =
 			types = types.trivial;
 		}
 
-		const assign = def.transform[ name ] ? '__' + name : name;
+		const assign = def.adjust[ name ] ? '__' + name : name;
 
 		const jdv = jAttr.defaultValue;
 
@@ -227,12 +235,12 @@ def.static.createFromDef =
 
 		const attr =
 			timspec_attribute.create(
+				'adjust', !!def.adjust[ name ],
 				'assign', assign,
 				'defaultValue', defaultValue,
 				'types', types,
 				'json', !!jAttr.json,
 				'name', name,
-				'transform', !!def.transform[ name ],
 				'varRef', $var( 'v_' + name )
 			);
 
@@ -288,10 +296,13 @@ def.static.createFromDef =
 		|| ( !!def.set )
 		|| ( !!def.twig )
 		|| ( !!def.json )
+		|| isntEmpty( def.adjust )
 		|| isntEmpty( def.lazy )
 		|| isntEmpty( def.lazyFuncInt )
-		|| isntEmpty( def.lazyFuncStr )
-		|| isntEmpty( def.transform );
+		|| isntEmpty( def.lazyFuncStr );
+
+	// isAdjusting when defined here or by a parent
+	const isAdjusting = !!( def.adjust.get || ( extendSpec && extendSpec.isAdjusting ) );
 
 	return(
 		timspec_timspec.create(
@@ -309,7 +320,7 @@ def.static.createFromDef =
 			'hasProxyRanks', !!def.lazy._ranks,
 			'imports', imports,
 			'inherits', inherits,
-			'isTransforming', !!def.transform.get,
+			'isAdjusting', isAdjusting,
 			'json', def.json,
 			'requires', string_set.createFromProtean( requires ),
 			'singleton', singleton,

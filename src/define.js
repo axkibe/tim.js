@@ -111,14 +111,14 @@ module.exports =
 
 	const def =
 	{
-		proto : { },
+		adjust : { },
 		inherit : { },
+		proto : { },
 		lazy : { },
 		lazyFuncInt : { },
 		lazyFuncStr : { },
 		static : { },
 		staticLazy : { },
-		transform : { },
 	};
 
 	const requires = { };

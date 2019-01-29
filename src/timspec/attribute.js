@@ -11,6 +11,9 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// this attribute has an adjustment getter
+		adjust : { type: 'boolean' },
+
 		// variable name to assign to
 		assign : { type : 'string' },
 
@@ -22,9 +25,6 @@ if( TIM )
 
 		// attribute name
 		name : { type : 'string' },
-
-		// this attribute has a transformative getter
-		transform : { type: [ 'boolean' ] },
 
 		// attribute types
 		types : { type : [ '< ../type/types', '../type/set' ] },
