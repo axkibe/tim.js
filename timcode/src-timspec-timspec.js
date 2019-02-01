@@ -12,6 +12,9 @@ const tt_attributeGroup = require( './attributeGroup.js' );
 const tt_$_type_tim = require( './../type/tim.js' );
 
 
+const tt_timspec = require( './timspec.js' );
+
+
 const tt_$_ast_var = require( './../ast/var.js' );
 
 
@@ -37,6 +40,7 @@ const Constructor =
 		v_attributes,
 		v_check,
 		v_extend,
+		v_extendSpec,
 		v_filename,
 		v_ggroup,
 		v_glist,
@@ -63,6 +67,8 @@ const Constructor =
 	this.check = v_check;
 
 	this.extend = v_extend;
+
+	this.extendSpec = v_extendSpec;
 
 	this.filename = v_filename;
 
@@ -131,6 +137,8 @@ prototype.create =
 
 	let v_extend;
 
+	let v_extendSpec;
+
 	let v_filename;
 
 	let v_ggroup;
@@ -174,6 +182,8 @@ prototype.create =
 		v_check = this.check;
 
 		v_extend = this.extend;
+
+		v_extendSpec = this.extendSpec;
 
 		v_filename = this.filename;
 
@@ -257,6 +267,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_extend = arg;
+				}
+
+				break;
+
+			case 'extendSpec' :
+
+				if( arg !== pass )
+				{
+					v_extendSpec = arg;
 				}
 
 				break;
@@ -424,6 +443,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_extendSpec !== undefined && v_extendSpec.timtype !== tt_timspec )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_filename ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
@@ -521,6 +545,16 @@ prototype.create =
 			v_extend !== undefined && v_extend.timtype && v_extend.equals( inherit.extend )
 		)
 		&&
+		(
+			v_extendSpec === inherit.extendSpec
+			||
+			v_extendSpec !== undefined
+			&&
+			v_extendSpec.timtype
+			&&
+			v_extendSpec.equals( inherit.extendSpec )
+		)
+		&&
 		v_filename === inherit.filename
 		&&
 		(
@@ -598,6 +632,7 @@ prototype.create =
 			v_attributes,
 			v_check,
 			v_extend,
+			v_extendSpec,
 			v_filename,
 			v_ggroup,
 			v_glist,
@@ -676,6 +711,16 @@ prototype.equals =
 			this.extend === obj.extend
 			||
 			this.extend !== undefined && this.extend.timtype && this.extend.equals( obj.extend )
+		)
+		&&
+		(
+			this.extendSpec === obj.extendSpec
+			||
+			this.extendSpec !== undefined
+			&&
+			this.extendSpec.timtype
+			&&
+			this.extendSpec.equals( obj.extendSpec )
 		)
 		&&
 		this.filename === obj.filename
@@ -778,6 +823,16 @@ prototype.alikeIgnoringProteans =
 			this.extend === obj.extend
 			||
 			this.extend !== undefined && this.extend.timtype && this.extend.equals( obj.extend )
+		)
+		&&
+		(
+			this.extendSpec === obj.extendSpec
+			||
+			this.extendSpec !== undefined
+			&&
+			this.extendSpec.timtype
+			&&
+			this.extendSpec.equals( obj.extendSpec )
 		)
 		&&
 		this.filename === obj.filename

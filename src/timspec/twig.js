@@ -97,7 +97,48 @@ def.static.createByDependencyWalk =
 /**/	if( entry.timtype !== timspec_timspec ) throw new Error( );
 /**/}
 
-	return dependencyWalk( self.create( ), entry, self.create( ) );
+	let walk = dependencyWalk( self.create( ), entry, self.create( ) );
+
+	// sorts the walk by inheritance makind sure extended
+	// tims come first.
+	let restart = false;
+
+	do
+	{
+		restart = false;
+
+		for( let a = 0, al = walk.length; a < al; a++ )
+		{
+			const filename = walk.getKey( a );
+
+			//const type = type_tim.createFromPath( filename.split( '/' ) );
+
+			const ts = tim.catalog.getTimspec( filename );
+
+			const extendSpec = ts.extendSpec;
+
+			if( !extendSpec ) continue;
+
+			const b = walk.rankOf( extendSpec.filename );
+
+			// this shouldn't happen
+			if( b < 0 ) throw new Error( );
+
+			if( b > a )
+			{
+				walk =
+					walk.create(
+						'twig:remove', extendSpec.filename,
+						'twig:insert', extendSpec.filename, a - 1, extendSpec
+					);
+
+				restart = true;
+			}
+		}
+	}
+	while( restart );
+
+	return walk;
 };
 
 

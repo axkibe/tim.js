@@ -23,6 +23,9 @@ if( TIM )
 		// if set extends this tim
 		extend : { type : [ '../type/tim', 'undefined' ] },
 
+		// if set extends this tim
+		extendSpec : { type : [ './timspec', 'undefined' ] },
+
 		// filename of the tim
 		filename : { type : 'string' },
 
@@ -310,6 +313,7 @@ def.static.createFromDef =
 			'attributes', attributes,
 			'check', !!def.proto._check,
 			'extend', extend,
+			'extendSpec', extendSpec,
 			'filename', filename,
 			'ggroup', ggroup,
 			'glist', glist,

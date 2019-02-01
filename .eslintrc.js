@@ -33,7 +33,7 @@ module.exports = {
             "error",
             {
                 "args" : "none",
-                "varsIgnorePattern" : "^_require$"
+                "varsIgnorePattern" : "^_require$|^TIM$",
             },
         ],
         "quotes": [
