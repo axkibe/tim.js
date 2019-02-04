@@ -236,9 +236,24 @@ def.static.createFromDef =
 
 		if( jdv ) defaultValue = $expr( jdv ).walk( transformDefaultValue );
 
+		let adjust = !!def.adjust[ name ];
+
+		// checks if any parent wants to adjust this attribute
+		if( !adjust && extendSpec )
+		{
+			for( let e = extendSpec; e; e = e.extendSpec )
+			{
+				const ea = e.attributes.get( name );
+
+				if( !ea ) continue;
+
+				if( ea.adjust ) { adjust = true; break; }
+			}
+		}
+
 		const attr =
 			timspec_attribute.create(
-				'adjust', !!def.adjust[ name ],
+				'adjust', adjust,
 				'assign', assign,
 				'defaultValue', defaultValue,
 				'types', types,
@@ -294,7 +309,8 @@ def.static.createFromDef =
 	}
 
 	const hasLazy =
-		( !!def.group )
+		!!(extendSpec && extendSpec.hasLazy )
+		|| ( !!def.group )
 		|| ( !!def.list )
 		|| ( !!def.set )
 		|| ( !!def.twig )
