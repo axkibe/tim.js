@@ -10,6 +10,8 @@ tim.define( module, ( def, self ) => {
 if( TIM )
 {
 	def.list = [ 'string' ];
+
+	def.json = 'path';
 }
 
 
@@ -188,31 +190,6 @@ def.lazy.string =
 	b.push( ' ]' );
 
 	return b.join( '' );
-};
-
-
-/*
-| Create from json.
-*/
-def.static.createFromJSON =
-	function( json )
-{
-	if( !Array.isArray( json ) )
-	{
-		throw new Error( 'invalid json, path is no array' );
-	}
-
-	return self.create( 'list:init', json );
-};
-
-
-/*
-| Jsonfy.
-*/
-def.proto.toJSON =
-	function( )
-{
-	return this._list;
 };
 
 

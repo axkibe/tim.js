@@ -178,6 +178,66 @@ prototype.create =
 
 
 /*
+| Creates a new object from json.
+*/
+self.createFromJSON =
+	function(
+		json // the json object
+	)
+{
+	let jlist;
+
+	let list;
+
+	for( let name in json )
+	{
+		const arg = json[ name ];
+
+		switch( name )
+		{
+			case 'type' :
+
+				if( arg !== 'path' )
+				{
+					throw new Error( );
+				}
+
+				break;
+
+			case 'list' :
+
+				jlist = arg;
+
+				break;
+		}
+	}
+
+	if( !jlist )
+	{
+		throw new Error( );
+	}
+
+	list = jlist;
+
+	for(
+		let r = 0, rl = list.length;
+		r < rl;
+		++r
+	)
+	{
+		const o = list[ r ];
+
+		if( typeof( o ) !== 'string' )
+		{
+			throw new Error( );
+		}
+	}
+
+	return new Constructor( list );
+};
+
+
+/*
 | Type reflection.
 */
 prototype.timtype = self;
@@ -244,6 +304,32 @@ prototype.set = tim_proto.listSet;
 
 
 /*
+| Converts into json.
+*/
+tim_proto.lazyValue(
+	prototype,
+	'toJSON',
+	function( )
+{
+	const json =
+		{
+			type :
+				'path',
+			list :
+				this._list
+		};
+
+	if( FREEZE )
+	{
+		Object.freeze( json );
+	}
+
+	return function( ) { return json; };
+}
+);
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =
@@ -286,6 +372,61 @@ prototype.equals =
 					!this._list[ a ].equals
 					||
 					!this._list[ a ].equals( obj._list[ a ] )
+				)
+			)
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+};
+
+
+/*
+| Tests equality of json representation.
+*/
+prototype.equalsJSON =
+	function(
+		obj // object to compare to
+	)
+{
+	if( this === obj )
+	{
+		return true;
+	}
+
+	if( !obj )
+	{
+		return false;
+	}
+
+	if( obj.timtype !== self )
+	{
+		return false;
+	}
+
+	if( this._list !== obj._list )
+	{
+		if( this.length !== obj.length )
+		{
+			return false;
+		}
+
+		for(
+			let a = 0, al = this.length;
+			a < al;
+			++a
+		)
+		{
+			if(
+				this._list[ a ] !== obj._list[ a ]
+				&&
+				(
+					!this._list[ a ].equalsJSON
+					||
+					!this._list[ a ].equalsJSON( obj._list[ a ] )
 				)
 			)
 			{

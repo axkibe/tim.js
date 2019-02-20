@@ -2160,25 +2160,20 @@ def.proto.genEqualsFuncBody =
 		const twigTestLoopBody =
 			$block
 			.$const( 'key', 'this._ranks[ a ]' )
-			.$if(
-				$(
-					'key !== obj._ranks[ a ]',
-					'|| (',
-						'( this._twig[ key ].', eqFuncName, ' )',
-						'? !this._twig[ key ]',
-							'.', eqFuncName, '( obj._twig[ key ] )',
-						': this._twig[ key ] !== obj._twig[ key ]',
-					')'
-				),
-				$( 'return false' )
+			.$( 'if( key !== obj._ranks[ a ] ) return false;' )
+			.$const( 'ti', 'this._twig[ key ]' )
+			.$const( 'oi', 'obj._twig[ key ]' )
+			.$(
+				'if (',
+					'( ti && ti.', eqFuncName, ' )',
+					'? !ti', '.', eqFuncName, '( oi )',
+					': ti !== oi',
+				') return false;'
 			);
 
 		const twigTest =
 			$block
-			.$if(
-				'this.length !== obj.length',
-				$( 'return false' )
-			)
+			.$( 'if( this.length !== obj.length ) return false;' )
 			.$for(
 				'let a = 0, al = this.length',
 				'a < al',

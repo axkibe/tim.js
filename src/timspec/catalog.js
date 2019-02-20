@@ -392,6 +392,4 @@ catalog.getBrowserNoMangle =
 };
 
 
-
 if( FREEZE ) Object.freeze( catalog );
-

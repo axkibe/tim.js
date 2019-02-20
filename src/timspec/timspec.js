@@ -126,6 +126,25 @@ const isntEmpty =
 
 
 /*
+| Returns the timspec of a timtype.
+*/
+const getTimspec =
+	function(
+		timtype,
+		module
+	)
+{
+	const imported = timtype.imported;
+
+	// makes sure the leaf is loaded
+	if( imported ) module.require( imported + '/' + timtype.pathString );
+	else module.require( './' + timtype.pathString );
+
+	return tim.catalog.getTimspecRelative( module.filename, timtype );
+};
+
+
+/*
 | Creates a timspec from the def protean.
 */
 def.static.createFromDef =
@@ -160,10 +179,7 @@ def.static.createFromDef =
 	{
 		extend = type_tim.createFromPath( def.extend.split( '/' ) );
 
-		// first makes sure the leaf is loaded
-		module.require( './' + extend.pathString );
-
-		extendSpec = tim.catalog.getTimspecRelative( module.filename, extend );
+		extendSpec = getTimspec( extend, module );
 	}
 
 	// walker to transform default value
@@ -358,10 +374,7 @@ def.proto.getTimspec =
 		timtype
 	)
 {
-	// first makes sure the leaf is loaded
-	this._module.require( './' + timtype.pathString );
-
-	return tim.catalog.getTimspecRelative( this._module.filename, timtype );
+	return getTimspec( timtype, this._module );
 };
 
 

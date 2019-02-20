@@ -378,15 +378,16 @@ prototype.equals =
 		{
 			const key = this._ranks[ a ];
 
-			if(
-				key !== obj._ranks[ a ]
-				||
-				(
-					this._twig[ key ].equals
-					? !this._twig[ key ].equals( obj._twig[ key ] )
-					: this._twig[ key ] !== obj._twig[ key ]
-				)
-			)
+			if( key !== obj._ranks[ a ] )
+			{
+				return false;
+			}
+
+			const ti = this._twig[ key ];
+
+			const oi = obj._twig[ key ];
+
+			if( ti && ti.equals ? !ti.equals( oi ) : ti !== oi )
 			{
 				return false;
 			}
