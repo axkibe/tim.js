@@ -45,6 +45,10 @@ exports = global.tim = module.exports;
 global.tim = module.exports;
 
 
+// global pass flag for creators
+global.pass = Object.freeze( { } );
+
+
 require( './common' );
 
 
@@ -115,7 +119,7 @@ const fs = require( 'fs' );
 tim.browserSource =
 	fs.readFileSync(
 		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
-		+ 'browser.js'
+		+ 'browser/init.js'
 	);
 
 tim.commonSource =

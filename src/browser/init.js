@@ -1,24 +1,17 @@
 /*
-| Manages the tim environment in the browser.
+| Initalizes the tim environment in the browser.
 */
 'use strict';
 
 
-var pass, TIM, tim, tim_proto, _require;
+var pass, TIM, tim, _require;
 
 tim = { };
 
-tim.proto = tim_proto;
-
-tim.hasLazyValueSet = tim_proto.hasLazyValueSet;
-
-
 // global pass flag for creators
-pass = tim.pass = { };
+pass = tim.pass = Object.freeze( { } );
 
 TIM = false;
-
-if( FREEZE ) Object.freeze( pass );
 
 tim.define =
 	function(

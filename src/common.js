@@ -14,7 +14,6 @@ tim.aheadValue =
 		value  // value to ahead
 	)
 {
-
 /**/if( CHECK )
 /**/{
 /**/	if( value === undefined ) throw new Error( );
@@ -93,6 +92,19 @@ tim.copy2 =
 	for( let k in o2 ) c[ k ] = o2[ k ];
 
 	return c;
+};
+
+
+/*
+| Tests if the object has a lazy value set.
+*/
+tim.hasLazyValueSet =
+	function(
+		obj,
+		key
+	)
+{
+	return obj.__lazy[ key ] !== undefined;
 };
 
 

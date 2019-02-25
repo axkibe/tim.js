@@ -3,35 +3,27 @@
 */
 'use strict';
 
-var tim_proto;
-var pass;
 
-
-/*
-| Capsule.
-*/
 if( NODE )
 {
-	tim_proto = module.exports;
-
-	// global pass flag for creators
-	pass = global.pass = tim_proto.pass = { };
-
-	if( FREEZE ) Object.freeze( pass );
+	tim.proto = module.exports;
 
 	// exports the own source for use in browsers
-	tim_proto.source = require( 'fs' ).readFileSync( module.filename );
+	tim.proto.source = require( 'fs' ).readFileSync( module.filename );
 }
 else
 {
-	tim_proto = { };
+	tim.proto = { };
 }
+
+
+let proto = tim.proto;
 
 
 /*
 | A value is computed and fixated only when needed.
 */
-tim_proto.lazyValue =
+proto.lazyValue =
 	function(
 		proto,
 		key,
@@ -74,7 +66,7 @@ tim_proto.lazyValue =
 |
 | Computed values are cached.
 */
-tim_proto.lazyFunctionString =
+proto.lazyFunctionString =
 	function(
 		proto,
 		key,
@@ -106,24 +98,11 @@ tim_proto.lazyFunctionString =
 
 
 /*
-| Tests if the object has a lazy value set.
-*/
-tim_proto.hasLazyValueSet =
-	function(
-		obj,
-		key
-	)
-{
-	return obj.__lazy[ key ] !== undefined;
-};
-
-
-/*
 | A function taking an integer and no side effects.
 |
 | Computed values are cached.
 */
-tim_proto.lazyFunctionInteger =
+proto.lazyFunctionInteger =
 	function(
 		proto,
 		key,
@@ -169,7 +148,7 @@ tim_proto.lazyFunctionInteger =
 | A value is computed and fixated only when needed
 | but not from a tim but a static object.
 */
-tim_proto.lazyStaticValue =
+proto.lazyStaticValue =
 	function(
 		obj,
 		key,
@@ -203,7 +182,7 @@ tim_proto.lazyStaticValue =
 /*
 | Returns true if 'obj' is an empty object.
 */
-tim_proto.isEmpty =
+proto.isEmpty =
 	function( obj )
 {
 	let dummy;
@@ -217,7 +196,7 @@ tim_proto.isEmpty =
 /*
 | Sets a key of a sub node described by a path.
 */
-tim_proto.setPath =
+proto.setPath =
 	function(
 		path,  // path to set
 		value, // value to set to
@@ -263,7 +242,7 @@ tim_proto.setPath =
 /*
 | Gets a key of a sub node described by a path.
 */
-tim_proto.getPath =
+proto.getPath =
 	function(
 		path,  // path to get
 		pos    // position in the path
@@ -302,7 +281,7 @@ tim_proto.getPath =
 | Returns the group with another group added,
 | overwriting collisions.
 */
-tim_proto.groupAddGroup =
+proto.groupAddGroup =
 	function(
 		group
 	)
@@ -331,7 +310,7 @@ tim_proto.groupAddGroup =
 /*
 | Gets one entry from the group.
 */
-tim_proto.groupGet =
+proto.groupGet =
 	function(
 		key
 	)
@@ -343,7 +322,7 @@ tim_proto.groupGet =
 /*
 | Returns the group keys.
 */
-tim_proto.groupKeys =
+proto.groupKeys =
 	function( )
 {
 	const keys = Object.keys( this._group );
@@ -357,7 +336,7 @@ tim_proto.groupKeys =
 /*
 | Returns the sorted group key.
 */
-tim_proto.groupSortedKeys =
+proto.groupSortedKeys =
 	function( )
 {
 	const keys = this.keys.slice( ).sort( );
@@ -371,7 +350,7 @@ tim_proto.groupSortedKeys =
 /*
 | Returns the group with one element removed.
 */
-tim_proto.groupRemove =
+proto.groupRemove =
 	function(
 		key
 	)
@@ -383,7 +362,7 @@ tim_proto.groupRemove =
 /*
 | Returns the group with one element set.
 */
-tim_proto.groupSet =
+proto.groupSet =
 	function(
 		key,
 		e
@@ -396,7 +375,7 @@ tim_proto.groupSet =
 /*
 | Returns the size of the group.
 */
-tim_proto.groupSize =
+proto.groupSize =
 	function( )
 {
 	return this.keys.length;
@@ -406,7 +385,7 @@ tim_proto.groupSize =
 /*
 | Returns the list with an element appended.
 */
-tim_proto.listAppend =
+proto.listAppend =
 	function(
 		e
 	)
@@ -418,7 +397,7 @@ tim_proto.listAppend =
 /*
 | Returns the list with another list appended.
 */
-tim_proto.listAppendList =
+proto.listAppendList =
 	function(
 		list
 	)
@@ -430,7 +409,7 @@ tim_proto.listAppendList =
 /*
 | Returns the length of the list.
 */
-tim_proto.listLength =
+proto.listLength =
 	function( )
 {
 	return this._list.length;
@@ -440,7 +419,7 @@ tim_proto.listLength =
 /*
 | Returns one element of the list.
 */
-tim_proto.listGet =
+proto.listGet =
 	function(
 		idx
 	)
@@ -459,7 +438,7 @@ tim_proto.listGet =
 /*
 | Returns a slice of the list.
 */
-tim_proto.listSlice =
+proto.listSlice =
 	function(
 		from,
 		to
@@ -486,7 +465,7 @@ tim_proto.listSlice =
 /*
 | Returns the list with one element inserted.
 */
-tim_proto.listInsert =
+proto.listInsert =
 	function(
 		idx,
 		e
@@ -499,7 +478,7 @@ tim_proto.listInsert =
 /*
 | Returns the list with one element removed.
 */
-tim_proto.listRemove =
+proto.listRemove =
 	function(
 		idx
 	)
@@ -511,7 +490,7 @@ tim_proto.listRemove =
 /*
 | Returns the list with one element set.
 */
-tim_proto.listSet =
+proto.listSet =
 	function(
 		idx,
 		e
@@ -531,7 +510,7 @@ tim_proto.listSet =
 /*
 | Returns the set with one element added.
 */
-tim_proto.setAdd =
+proto.setAdd =
 	function( e )
 {
 	return this.create( 'set:add', e );
@@ -541,7 +520,7 @@ tim_proto.setAdd =
 /*
 | Returns the set with another set added.
 */
-tim_proto.setAddSet =
+proto.setAddSet =
 	function( set )
 {
 	let s = new Set( this._set );
@@ -560,7 +539,7 @@ tim_proto.setAddSet =
 /*
 | Returns true if the set has an element.
 */
-tim_proto.setHas =
+proto.setHas =
 	function( e )
 {
 	return this._set.has( e );
@@ -570,7 +549,7 @@ tim_proto.setHas =
 /*
 | Returns an iterator for the set.
 */
-tim_proto.setIterator =
+proto.setIterator =
 	function( )
 {
 	return this._set.keys( );
@@ -580,7 +559,7 @@ tim_proto.setIterator =
 /*
 | Returns the set with one element removed.
 */
-tim_proto.setRemove =
+proto.setRemove =
 	function( e )
 {
 	return this.create( 'set:remove', e );
@@ -590,7 +569,7 @@ tim_proto.setRemove =
 /*
 | Returns the set with one element added.
 */
-tim_proto.setAdd =
+proto.setAdd =
 	function( e )
 {
 	return this.create( 'set:add', e );
@@ -600,7 +579,7 @@ tim_proto.setAdd =
 /*
 | Returns the size of the group.
 */
-tim_proto.setSize =
+proto.setSize =
 	function( )
 {
 	return this._set.size;
@@ -610,7 +589,7 @@ tim_proto.setSize =
 /*
 | Returns the one and only element or the set if size != 1.
 */
-tim_proto.setTrivial =
+proto.setTrivial =
 	function( )
 {
 	if( this.size !== 1 ) return this;
@@ -622,7 +601,7 @@ tim_proto.setTrivial =
 /*
 | Returns the element at rank.
 */
-tim_proto.twigAtRank =
+proto.twigAtRank =
 	function(
 		rank
 	)
@@ -635,7 +614,7 @@ tim_proto.twigAtRank =
 /*
 | Returns the element by key.
 */
-tim_proto.twigGet =
+proto.twigGet =
 	function(
 		key
 	)
@@ -648,7 +627,7 @@ tim_proto.twigGet =
 | If this tim twig is in adjustment mode, returns the element by key
 | going through the adjust.get functin.
 */
-tim_proto.twigAdjustGet =
+proto.twigAdjustGet =
 	function(
 		key
 	)
@@ -664,7 +643,7 @@ tim_proto.twigAdjustGet =
 /*
 | Returns the key at a rank.
 */
-tim_proto.twigGetKey =
+proto.twigGetKey =
 	function(
 		idx
 	)
@@ -676,7 +655,7 @@ tim_proto.twigGetKey =
 /*
 | Returns the length of the twig.
 */
-tim_proto.twigLength =
+proto.twigLength =
 	function( )
 {
 	return this._ranks.length;
@@ -688,7 +667,7 @@ tim_proto.twigLength =
 |
 | This means it returns the index of key in the ranks array.
 */
-tim_proto.twigRankOf =
+proto.twigRankOf =
 	function(
 		key
 	)
@@ -706,7 +685,7 @@ tim_proto.twigRankOf =
 /*
 | Returns the twig with the element at key set.
 */
-tim_proto.twigSet =
+proto.twigSet =
 	function(
 		key,
 		entry
