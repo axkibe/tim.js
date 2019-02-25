@@ -1,22 +1,105 @@
 /*
-| Prepares a tim to be ran in current node instance.
+| General tim stuff used in node and browser.
 */
 'use strict';
 
 
 /*
-| This has to be in node.
+| A lazy value is computed and fixated before it is needed.
 */
-if( !NODE ) throw new Error( );
+tim.aheadValue =
+	function(
+		obj,   // object to ahead the lazy value for
+		key,   // key to ahead
+		value  // value to ahead
+	)
+{
+
+/**/if( CHECK )
+/**/{
+/**/	if( value === undefined ) throw new Error( );
+/**/}
+
+	// FUTURE CHECK if value is already set.
+
+	return( obj.__lazy[ key ] = value );
+};
 
 
-const tim_proto = require( './proto' );
+/*
+| A function taking an integer and no side effects
+| is computed for a value and fixated before it is needed.
+*/
+tim.aheadFunctionInteger =
+	function(
+		obj,      // object to ahead for
+		key,      // property to ahead
+		integer,  // function ( integer ) value to ahead
+		value     // value ( result ) to ahead
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( value === undefined ) throw new Error( );
+/**/
+/**/	if( integer === undefined ) throw new Error( );
+/**/}
+
+	let cArr = obj.__lazy[ key ];
+
+	if( !cArr ) cArr = obj.__lazy[ key ] = [ ];
+
+	return( cArr[ integer ] = value );
+};
+
+
+/*
+| Copies one object (not deep!)
+|
+| Also doesn't do hasOwnProperty checking since that one
+| is only to be used on vanilla objects.
+*/
+tim.copy =
+	function(
+		obj  // the object to copy from
+	)
+{
+	const c = { };
+
+	for( let k in obj ) c[ k ] = obj[ k ];
+
+	return c;
+};
+
+
+/*
+| Copies one object (not deep!).
+| Also lets another object override the former.
+| Used in creators of adjusting tims.
+|
+| Also doesn't do hasOwnProperty checking since that one
+| is only to be used on vanilla objects.
+*/
+tim.copy2 =
+	function(
+		obj,  // the object to copy from
+		o2  // overriding object
+	)
+{
+	const c = { };
+
+	for( let k in obj ) c[ k ] = obj[ k ];
+
+	for( let k in o2 ) c[ k ] = o2[ k ];
+
+	return c;
+};
 
 
 /*
 | Prepares a tim to be ran in current node instance.
 */
-module.exports =
+tim._prepare =
 	function(
 		module,  // the defining module
 		def,     // the tim definition
@@ -32,7 +115,8 @@ module.exports =
 
 	if( def.extend )
 	{
-		extend = module.require( def.extend )._def;
+		if( NODE ) extend = module.require( def.extend )._def;
+		else extend = _require.call( module, def.extend )._def;
 
 		const protoMask = { };
 		const staticMask = { };
@@ -94,7 +178,7 @@ module.exports =
 	// assigns lazy statics
 	for( let name in def.staticLazy )
 	{
-		tim_proto.lazyStaticValue(
+		tim.proto.lazyStaticValue(
 			exports,
 			name,
 			def.staticLazy[ name ]
@@ -104,7 +188,7 @@ module.exports =
 	// assigns lazy values to the prototype
 	for( let name in def.lazy )
 	{
-		tim_proto.lazyValue(
+		tim.proto.lazyValue(
 			exports.prototype,
 			name,
 			def.lazy[ name ]
@@ -114,7 +198,7 @@ module.exports =
 	// assigns lazy integer functions to the prototype
 	for( let name in def.lazyFuncInt )
 	{
-		tim_proto.lazyFunctionInteger(
+		tim.proto.lazyFunctionInteger(
 			exports.prototype,
 			name,
 			def.lazyFuncInt[ name ]
@@ -124,7 +208,7 @@ module.exports =
 	// assigns lazy string functions to the prototype
 	for( let name in def.lazyFuncStr )
 	{
-		tim_proto.lazyFunctionString(
+		tim.proto.lazyFunctionString(
 			exports.prototype,
 			name,
 			def.lazyFuncStr[ name ]

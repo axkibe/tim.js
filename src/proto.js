@@ -1,6 +1,7 @@
 /*
 | Common functions for typed immutables.
 */
+'use strict';
 
 var tim_proto;
 var pass;
@@ -9,10 +10,6 @@ var pass;
 /*
 | Capsule.
 */
-(function( ) {
-'use strict';
-
-
 if( NODE )
 {
 	tim_proto = module.exports;
@@ -73,41 +70,6 @@ tim_proto.lazyValue =
 
 
 /*
-| Tests if the object has a lazy value set.
-*/
-tim_proto.hasLazyValueSet =
-	function(
-		obj,
-		key
-	)
-{
-	return obj.__lazy[ key ] !== undefined;
-};
-
-
-/*
-| A lazy value is computed and fixated before it is needed.
-*/
-tim_proto.aheadValue =
-	function(
-		obj,   // object to ahead the lazy value for
-		key,   // key to ahead
-		value  // value to ahead
-	)
-{
-
-/**/if( CHECK )
-/**/{
-/**/	if( value === undefined ) throw new Error( );
-/**/}
-
-	// FUTURE CHECK if value is already set.
-
-	return( obj.__lazy[ key ] = value );
-};
-
-
-/*
 | A function taking a string and no side effects.
 |
 | Computed values are cached.
@@ -140,6 +102,19 @@ tim_proto.lazyFunctionString =
 
 		return( this.__lazy[ ckey ] = getter.call( this, str ) );
 	};
+};
+
+
+/*
+| Tests if the object has a lazy value set.
+*/
+tim_proto.hasLazyValueSet =
+	function(
+		obj,
+		key
+	)
+{
+	return obj.__lazy[ key ] !== undefined;
 };
 
 
@@ -191,33 +166,6 @@ tim_proto.lazyFunctionInteger =
 
 
 /*
-| A function taking an integer and no side effects
-| is computed for a value and fixated before it is needed.
-*/
-tim_proto.aheadFunctionInteger =
-	function(
-		obj,      // object to ahead for
-		key,      // property to ahead
-		integer,  // function ( integer ) value to ahead
-		value     // value ( result ) to ahead
-	)
-{
-/**/if( CHECK )
-/**/{
-/**/	if( value === undefined ) throw new Error( );
-/**/
-/**/	if( integer === undefined ) throw new Error( );
-/**/}
-
-	let cArr = obj.__lazy[ key ];
-
-	if( !cArr ) cArr = obj.__lazy[ key ] = [ ];
-
-	return( cArr[ integer ] = value );
-};
-
-
-/*
 | A value is computed and fixated only when needed
 | but not from a tim but a static object.
 */
@@ -250,49 +198,6 @@ tim_proto.lazyStaticValue =
 	);
 };
 
-
-
-/*
-| Copies one object (not deep!)
-|
-| Also doesn't do hasOwnProperty checking since that one
-| is only to be used on vanilla objects.
-*/
-tim_proto.copy =
-	function(
-		obj  // the object to copy from
-	)
-{
-	const c = { };
-
-	for( let k in obj ) c[ k ] = obj[ k ];
-
-	return c;
-};
-
-
-/*
-| Copies one object (not deep!).
-| Also lets another object override the former.
-| Used in creators of adjusting tims.
-|
-| Also doesn't do hasOwnProperty checking since that one
-| is only to be used on vanilla objects.
-*/
-tim_proto.copy2 =
-	function(
-		obj,  // the object to copy from
-		o2  // overriding object
-	)
-{
-	const c = { };
-
-	for( let k in obj ) c[ k ] = obj[ k ];
-
-	for( let k in o2 ) c[ k ] = o2[ k ];
-
-	return c;
-};
 
 
 /*
@@ -809,6 +714,3 @@ tim_proto.twigSet =
 {
 	return this.create( 'twig:set', key, entry );
 };
-
-
-} )( );

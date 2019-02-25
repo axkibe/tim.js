@@ -142,6 +142,7 @@ for( let a = 0, al = listing.length; a < al; a++ )
 	};
 
 	stim.define = sdefine.bind( undefined, def );
+	stim.copy = tim.copy; // FIXME needed?
 
 	input =
 		vm.runInThisContext(

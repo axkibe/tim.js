@@ -21,6 +21,7 @@ if( TIM )
 	};
 }
 
+
 const ast_var = require( './ast/var' );
 
 const type_boolean = require( './type/boolean' );
@@ -393,7 +394,7 @@ def.proto.genCreatorInheritanceReceiver =
 					$block
 					.$( 'twigDup = true' )
 					.$( !timspec.hasProxyRanks ? 'ranks = ranks.slice( )' : undefined )
-					.$( 'twig = tim_proto.copy2( twig, inherit._ttwig )' )
+					.$( 'twig = tim.copy2( twig, inherit._ttwig )' )
 				);
 		}
 	}
@@ -463,7 +464,7 @@ def.proto.genCreatorFreeStringsParser =
 			$if(
 				'!groupDup',
 				$block
-				.$( 'group = tim_proto.copy( group )' )
+				.$( 'group = tim.copy( group )' )
 				.$( 'groupDup = true' )
 			);
 
@@ -571,7 +572,7 @@ def.proto.genCreatorFreeStringsParser =
 			$if(
 				'twigDup !== true',
 				$block
-				.$( 'twig = tim_proto.copy( twig )' )
+				.$( 'twig = tim.copy( twig )' )
 				.$( 'ranks = ranks.slice( )' )
 				.$( 'twigDup = true' )
 			);

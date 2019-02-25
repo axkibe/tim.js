@@ -57,9 +57,7 @@ def.lazy.chop =
 	const result = this.create( 'list:remove', 0 );
 
 	// FUTURE
-	// jion_proto.aheadLazyStringFunc(
-	//	result, 'prepend', this.list[ 0 ], this
-	// );
+	// aheadLazyStringFunc(	result, 'prepend', this.list[ 0 ], this );
 
 	return result;
 };

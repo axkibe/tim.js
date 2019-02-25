@@ -13,8 +13,6 @@ const fs = require( 'fs' );
 
 const vm = require( 'vm' );
 
-const prepare = require( './prepare' );
-
 let timspec_timspec;
 
 const readOptions = { encoding : 'utf8' };
@@ -199,5 +197,5 @@ module.exports =
 
 	exports.timcodeFilename = timcodeFilename;
 
-	return prepare( module, def, exports );
+	return tim._prepare( module, def, exports );
 };

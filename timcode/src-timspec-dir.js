@@ -95,7 +95,7 @@ prototype.create =
 
 				if( !groupDup )
 				{
-					group = tim_proto.copy( group );
+					group = tim.copy( group );
 
 					groupDup = true;
 				}
@@ -108,7 +108,7 @@ prototype.create =
 
 				if( !groupDup )
 				{
-					group = tim_proto.copy( group );
+					group = tim.copy( group );
 
 					groupDup = true;
 				}

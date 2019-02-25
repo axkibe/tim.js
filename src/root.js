@@ -1,5 +1,5 @@
 /*
-| Bootstraps tim.js
+| Bootstraps tim.js in node environment.
 */
 'use strict';
 
@@ -18,6 +18,19 @@ require( './inspect' );
 | If freezing is unconfigured, default to yes
 */
 if( global.FREEZE === undefined ) global.FREEZE = true;
+// freezes only when configured to do so
+
+/*
+tim.setFreeze =
+	function(
+		freeze
+	)
+{
+	if( typeof( freeze ) !== 'boolean' ) throw new Error( );
+
+	tim.freeze = freeze ? Object.freeze : ( o ) -> o;
+};
+*/
 
 
 /*
@@ -30,6 +43,10 @@ exports = global.tim = module.exports;
 | In case a peer ouroboros changed the global, change it back.
 */
 global.tim = module.exports;
+
+
+require( './common' );
+
 
 const proto =
 exports.proto =
@@ -87,21 +104,11 @@ for( let a = 0, al = strapped.length; a < al; a++ )
 	tim.catalog.addTimspec( timspec );
 }
 
-tim.copy = proto.copy;
-
 tim.lazyFunctionInteger = proto.lazyFunctionInteger;
 
 tim.lazyFunctionString = proto.lazyFunctionString;
 
 tim.lazyStaticValue = proto.lazyStaticValue;
-
-tim.lazyValue = proto.lazyValue;
-
-tim.aheadFunctionInteger = proto.aheadFunctionInteger;
-
-tim.aheadValue = proto.aheadValue;
-
-//exports.define = require( './define' );
 
 const fs = require( 'fs' );
 
@@ -109,6 +116,12 @@ tim.browserSource =
 	fs.readFileSync(
 		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
 		+ 'browser.js'
+	);
+
+tim.commonSource =
+	fs.readFileSync(
+		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
+		+ 'common.js'
 	);
 
 if( FREEZE ) Object.freeze( exports );

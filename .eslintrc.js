@@ -13,7 +13,8 @@ module.exports = {
         "TIM": true,
         "pass": true,
         "root": true,
-        "tim": true
+        "tim": true,
+        "_require": true
     },
     "parserOptions": {
         "ecmaVersion": 2018

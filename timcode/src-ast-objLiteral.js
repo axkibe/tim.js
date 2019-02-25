@@ -211,7 +211,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = tim_proto.copy( twig );
+					twig = tim.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -267,7 +267,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = tim_proto.copy( twig );
+					twig = tim.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -302,7 +302,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = tim_proto.copy( twig );
+					twig = tim.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -324,7 +324,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = tim_proto.copy( twig );
+					twig = tim.copy( twig );
 
 					ranks = ranks.slice( );
 
@@ -348,7 +348,7 @@ prototype.create =
 
 				if( twigDup !== true )
 				{
-					twig = tim_proto.copy( twig );
+					twig = tim.copy( twig );
 
 					ranks = ranks.slice( );
 
