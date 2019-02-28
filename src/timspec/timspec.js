@@ -244,14 +244,7 @@ def.static.createFromDef =
 			types = types.trivial;
 		}
 
-		const assign = def.adjust[ name ] ? '__' + name : name;
-
-		const jdv = jAttr.defaultValue;
-
-		let defaultValue;
-
-		if( jdv ) defaultValue = $expr( jdv ).walk( transformDefaultValue );
-
+		// sees if this is an adjusted attribute
 		let adjust = !!def.adjust[ name ];
 
 		// checks if any parent wants to adjust this attribute
@@ -266,6 +259,14 @@ def.static.createFromDef =
 				if( ea.adjust ) { adjust = true; break; }
 			}
 		}
+
+		const assign = adjust ? '__' + name : name;
+
+		const jdv = jAttr.defaultValue;
+
+		let defaultValue;
+
+		if( jdv ) defaultValue = $expr( jdv ).walk( transformDefaultValue );
 
 		const attr =
 			timspec_attribute.create(
