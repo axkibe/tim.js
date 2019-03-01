@@ -19,10 +19,7 @@ const Constructor =
 {
 	this.name = v_name;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 
 /**/if( CHECK )
 /**/{

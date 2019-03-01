@@ -39,10 +39,7 @@ const Constructor =
 
 	this._group = group;
 
-	if( FREEZE )
-	{
-		Object.freeze( this, group );
-	}
+	Object.freeze( this, group );
 
 /**/if( CHECK )
 /**/{

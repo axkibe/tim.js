@@ -21,10 +21,7 @@ const Constructor =
 
 	this._set = set;
 
-	if( FREEZE )
-	{
-		Object.freeze( this, set );
-	}
+	Object.freeze( this, set );
 };
 
 

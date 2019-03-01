@@ -22,10 +22,7 @@ const Constructor =
 {
 	this.block = v_block;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

@@ -136,10 +136,7 @@ const Constructor =
 {
 	this.expr = v_expr;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

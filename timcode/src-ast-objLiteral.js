@@ -141,10 +141,7 @@ const Constructor =
 
 	this._ranks = ranks;
 
-	if( FREEZE )
-	{
-		Object.freeze( this, twig, ranks );
-	}
+	Object.freeze( this, twig, ranks );
 };
 
 

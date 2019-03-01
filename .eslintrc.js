@@ -8,7 +8,6 @@ module.exports = {
     "extends": "eslint:recommended",
     "globals": {
         "CHECK": true,
-        "FREEZE": true,
         "NODE": true,
         "TIM": true,
         "pass": true,

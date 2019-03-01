@@ -392,4 +392,4 @@ catalog.getBrowserNoMangle =
 };
 
 
-if( FREEZE ) Object.freeze( catalog );
+Object.freeze( catalog );

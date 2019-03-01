@@ -30,10 +30,7 @@ const Constructor =
 
 	this.timspec = v_timspec;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

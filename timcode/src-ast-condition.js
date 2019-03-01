@@ -142,10 +142,7 @@ const Constructor =
 
 	this.then = v_then;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

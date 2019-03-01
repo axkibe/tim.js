@@ -9,9 +9,6 @@ Error.stackTraceLimit = Infinity;
 
 
 // repl runs in full checking
-// mode even with freezes.
-global.FREEZE = true;
-
 global.CHECK = true;
 
 global.TIM = false;

@@ -187,10 +187,7 @@ const Constructor =
 
 	this.varRef = v_varRef;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

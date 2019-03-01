@@ -19,10 +19,7 @@ const Constructor =
 {
 	this.boolean = v_boolean;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

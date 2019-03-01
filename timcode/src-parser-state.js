@@ -192,10 +192,7 @@ const Constructor =
 
 	this.tokens = v_tokens;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

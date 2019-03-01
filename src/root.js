@@ -15,25 +15,6 @@ require( './inspect' );
 
 
 /*
-| If freezing is unconfigured, default to yes
-*/
-if( global.FREEZE === undefined ) global.FREEZE = true;
-// freezes only when configured to do so
-
-/*
-tim.setFreeze =
-	function(
-		freeze
-	)
-{
-	if( typeof( freeze ) !== 'boolean' ) throw new Error( );
-
-	tim.freeze = freeze ? Object.freeze : ( o ) -> o;
-};
-*/
-
-
-/*
 |  The tim module.
 */
 exports = global.tim = module.exports;
@@ -52,9 +33,7 @@ global.pass = Object.freeze( { } );
 require( './common' );
 
 
-const proto =
-exports.proto =
-	require( './proto' );
+exports.proto = require( './proto' );
 
 const ending = 'src/root.js';
 
@@ -108,12 +87,6 @@ for( let a = 0, al = strapped.length; a < al; a++ )
 	tim.catalog.addTimspec( timspec );
 }
 
-tim.lazyFunctionInteger = proto.lazyFunctionInteger;
-
-tim.lazyFunctionString = proto.lazyFunctionString;
-
-tim.lazyStaticValue = proto.lazyStaticValue;
-
 const fs = require( 'fs' );
 
 tim.browserSource =
@@ -128,4 +101,4 @@ tim.commonSource =
 		+ 'common.js'
 	);
 
-if( FREEZE ) Object.freeze( exports );
+Object.freeze( exports );

@@ -50,9 +50,7 @@ proto.lazyValue =
 
 				if( val !== undefined ) return val;
 
-				val = getter.call( this );
-
-				if( FREEZE ) Object.freeze( val );
+				val = Object.freeze( getter.call( this ) );
 
 				return( this.__lazy[ key ] = val );
 			}
@@ -167,9 +165,7 @@ proto.lazyStaticValue =
 
 				if( val !== undefined ) return val;
 
-				val = getter.call( this );
-
-				if( FREEZE ) Object.freeze( val );
+				val = Object.freeze( getter.call( this ) );
 
 				return( this.__lazy[ key ] = val );
 			}
@@ -325,11 +321,7 @@ proto.groupGet =
 proto.groupKeys =
 	function( )
 {
-	const keys = Object.keys( this._group );
-
-	if( FREEZE ) Object.freeze( keys );
-
-	return keys;
+	return Object.freeze( Object.keys( this._group ) );
 };
 
 
@@ -339,11 +331,7 @@ proto.groupKeys =
 proto.groupSortedKeys =
 	function( )
 {
-	const keys = this.keys.slice( ).sort( );
-
-	if( FREEZE ) Object.freeze( keys );
-
-	return keys;
+	return Object.freeze( this.keys.slice( ).sort( ) );
 };
 
 

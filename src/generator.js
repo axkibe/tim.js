@@ -176,8 +176,7 @@ def.proto.genConstructor =
 	}
 
 	// FUTURE force freezing date attributes
-
-	block = block.$if( 'FREEZE', freezeCall );
+	block = block.$( freezeCall );
 
 	// calls potential init checker
 	if( timspec.check ) block = block.$check( 'this._check( )' );
@@ -1980,11 +1979,7 @@ def.proto.genToJson =
 	let block =
 		$block
 		.$const( 'json', olit )
-		.$if(
-			'FREEZE',
-			$( 'Object.freeze( json )' )
-		)
-		.$( 'return', $func( 'return json' ) );
+		.$( 'return', $func( 'return Object.freeze( json )' ) );
 
 	return(
 		$block
@@ -2488,7 +2483,7 @@ def.static.createGenerator =
 		constructorList.unshift( 'twig' );
 	}
 
-	if( FREEZE ) Object.freeze( constructorList );
+	Object.freeze( constructorList );
 
 	const haveFreeStringsParser =
 		!!(

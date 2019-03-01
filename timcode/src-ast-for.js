@@ -151,10 +151,7 @@ const Constructor =
 
 	this.iterate = v_iterate;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

@@ -19,10 +19,7 @@ const Constructor =
 {
 	this.string = v_string;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

@@ -100,10 +100,7 @@ const Constructor =
 
 	this.singleton = v_singleton;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

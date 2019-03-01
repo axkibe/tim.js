@@ -136,10 +136,7 @@ const Constructor =
 {
 	this.message = v_message;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

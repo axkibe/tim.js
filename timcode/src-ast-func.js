@@ -30,10 +30,7 @@ const Constructor =
 
 	this._list = list;
 
-	if( FREEZE )
-	{
-		Object.freeze( this, list );
-	}
+	Object.freeze( this, list );
 };
 
 

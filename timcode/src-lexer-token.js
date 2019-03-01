@@ -22,10 +22,7 @@ const Constructor =
 
 	this.value = v_value;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 
 /**/if( CHECK )
 /**/{

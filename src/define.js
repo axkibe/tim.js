@@ -15,9 +15,7 @@ const vm = require( 'vm' );
 
 let timspec_timspec;
 
-const readOptions = { encoding : 'utf8' };
-
-if( FREEZE ) Object.freeze( readOptions );
+const readOptions = Object.freeze( { encoding : 'utf8' } );
 
 
 /*

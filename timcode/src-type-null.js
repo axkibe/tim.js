@@ -12,14 +12,7 @@ const tim_proto = tim.proto;
 /*
 | Constructor.
 */
-const Constructor =
-	function( )
-{
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
-};
+const Constructor = function( ) { Object.freeze( this ); };
 
 
 /*

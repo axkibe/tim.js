@@ -10,8 +10,6 @@ global.CHECK = true;
 
 global.TIM = false;
 
-global.FREEZE = true;
-
 global.NODE = true;
 
 const argv = process.argv;

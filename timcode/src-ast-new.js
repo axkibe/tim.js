@@ -22,10 +22,7 @@ const Constructor =
 {
 	this.call = v_call;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

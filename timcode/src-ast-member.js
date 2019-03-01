@@ -139,10 +139,7 @@ const Constructor =
 
 	this.member = v_member;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

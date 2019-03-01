@@ -21,10 +21,7 @@ const Constructor =
 
 	this._list = list;
 
-	if( FREEZE )
-	{
-		Object.freeze( this, list );
-	}
+	Object.freeze( this, list );
 };
 
 
@@ -319,12 +316,7 @@ tim_proto.lazyValue(
 				this._list
 		};
 
-	if( FREEZE )
-	{
-		Object.freeze( json );
-	}
-
-	return function( ) { return json; };
+	return function( ) { return Object.freeze( json ); };
 }
 );
 

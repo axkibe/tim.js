@@ -148,10 +148,7 @@ const Constructor =
 
 	this.variable = v_variable;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

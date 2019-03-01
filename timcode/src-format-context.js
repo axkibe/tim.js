@@ -30,10 +30,7 @@ const Constructor =
 
 	this.root = v_root;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

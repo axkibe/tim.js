@@ -142,10 +142,7 @@ const Constructor =
 
 	this.condition = v_condition;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

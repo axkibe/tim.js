@@ -139,10 +139,7 @@ const Constructor =
 
 	this.right = v_right;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 };
 
 

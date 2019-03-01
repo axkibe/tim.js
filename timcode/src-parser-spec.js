@@ -28,10 +28,7 @@ const Constructor =
 
 	this.prec = v_prec;
 
-	if( FREEZE )
-	{
-		Object.freeze( this );
-	}
+	Object.freeze( this );
 
 /**/if( CHECK )
 /**/{
