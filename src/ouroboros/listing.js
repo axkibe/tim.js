@@ -76,8 +76,8 @@ module.exports =
 	'src/parser/state.js',
 	'src/parser/spec.js',
 	'src/parser/tokenList.js',
-	'src/path.js',
-	'src/pathList.js',
+	'src/path/path.js',
+	'src/path/list.js',
 	'src/string/list.js',
 	'src/string/set.js',
 	'src/timspec/attribute.js',
@@ -86,6 +86,7 @@ module.exports =
 	'src/timspec/rootDir.js',
 	'src/timspec/timspec.js',
 	'src/timspec/twig.js',
+	'src/timspec/validator.js',
 	'src/type/any.js',
 	'src/type/boolean.js',
 	'src/type/date.js',
@@ -98,6 +99,5 @@ module.exports =
 	'src/type/string.js',
 	'src/type/tim.js',
 	'src/type/undefined.js',
-	'src/validator.js',
 ];
 

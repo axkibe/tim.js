@@ -24,7 +24,7 @@ const tt_$_type_set = require( './../type/set.js' );
 const tt_$_string_set = require( './../string/set.js' );
 
 
-const tt_$_path = require( './../path.js' );
+const tt_$_path_path = require( './../path/path.js' );
 
 
 const tim_proto = tim.proto;
@@ -508,7 +508,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_path !== undefined && v_path.timtype !== tt_$_path )
+/**/	if( v_path !== undefined && v_path.timtype !== tt_$_path_path )
 /**/	{
 /**/		throw new Error( );
 /**/	}

@@ -1925,7 +1925,6 @@ def.proto.genTimProto =
 			.$comment( 'Returns the length of the twig.')
 			.$( this.$protoLazyValueSet( '"length"', 'twigLength' ) )
 
-			// FUTURE for abstracts as well
 			.$comment( 'Returns the rank of the key.' )
 			.$(
 				'tim_proto.lazyFunctionString(',

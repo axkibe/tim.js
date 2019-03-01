@@ -67,7 +67,7 @@ if( TIM )
 		requires : { type : [ '../string/set' ] },
 
 		// catalog path
-		path : { type : [ 'undefined', '../path' ] },
+		path : { type : [ 'undefined', '../path/path' ] },
 
 		// true if this a singleton (no attributes or group/list/set/twig)
 		singleton : { type : 'boolean' },
@@ -104,7 +104,7 @@ const type_set = require( '../type/set' );
 
 const type_tim = require( '../type/tim' );
 
-const validator = require( '../validator' );
+const validator = require( './validator' );
 
 const $expr = parser_parser.parseExpr;
 
