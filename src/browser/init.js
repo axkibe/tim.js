@@ -4,9 +4,11 @@
 'use strict';
 
 
-var pass, tim, _require;
+var pass, TIM, tim, _require;
 
 tim = { };
+
+TIM = false;
 
 // global pass flag for creators
 pass = tim.pass = Object.freeze( { } );
