@@ -15,6 +15,12 @@ require( './inspect' );
 
 
 /*
+| Sets tim global false.
+*/
+global.TIM = false;
+
+
+/*
 |  The tim module.
 */
 exports = global.tim = module.exports;
