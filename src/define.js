@@ -23,7 +23,6 @@ const readOptions = Object.freeze( { encoding : 'utf8' } );
 */
 const createTimcode =
 	function(
-		def,                 // tim definition  // FIXME remove
 		timspec,             // timspec
 		module,              // defining module
 		timcodeRealFilename  // absolute path filename of timcode file
@@ -31,7 +30,7 @@ const createTimcode =
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 4 ) throw new Error( );
+/**/	if( arguments.length !== 3 ) throw new Error( );
 /**/}
 
 	// tests if the timcode is out of date or not existing
@@ -127,7 +126,7 @@ module.exports =
 		global.TIM = true;
 
 		module.require =
-			function( required )
+			function( required, forwarded )
 		{
 			requires[ required ] = true;
 
@@ -141,8 +140,6 @@ module.exports =
 		module.require = previousRequire;
 	}
 
-	const filename = module.filename;
-
 	const bootstrap = tim._BOOTSTRAP;
 
 	let rootDir, rootPath, timspec, timcodePath;
@@ -151,7 +148,7 @@ module.exports =
 	{
 		if( !timspec_timspec ) timspec_timspec = require( './timspec/timspec' );
 
-		timspec = timspec_timspec.createFromDef( def, module, filename, requires );
+		timspec = timspec_timspec.createFromDef( def, module, requires );
 
 		timspec = tim.catalog.addTimspec( timspec );
 
@@ -165,7 +162,6 @@ module.exports =
 	{
 		bootstrap.strapped.push( {
 			def: def,
-			filename: filename,
 			module: module,
 			requires: requires
 		} );
@@ -176,7 +172,8 @@ module.exports =
 	}
 
 	const timcodeFilename =
-		filename
+		module
+		.filename
 		.substr( rootPath.length )
 		.replace( /\//g, '-' );
 
@@ -184,7 +181,7 @@ module.exports =
 
 	if( rootDir && !rootDir.noTimcodeGen && timspec )
 	{
-		createTimcode( def, timspec, module, timcodeRealFilename );
+		createTimcode( timspec, module, timcodeRealFilename );
 	}
 
 	loadTimcode( def, module, timcodeRealFilename );

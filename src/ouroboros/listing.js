@@ -78,6 +78,7 @@ module.exports =
 	'src/parser/tokenList.js',
 	'src/path/path.js',
 	'src/path/list.js',
+	'src/source.js',
 	'src/string/list.js',
 	'src/string/set.js',
 	'src/timspec/attribute.js',

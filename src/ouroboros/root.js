@@ -157,7 +157,7 @@ for( let a = 0, al = listing.length; a < al; a++ )
 
 	input( smodule, smodule.require, stim );
 
-	const timspec = timspec_timspec.createFromDef( def, smodule, inFilename, { } );
+	const timspec = timspec_timspec.createFromDef( def, smodule, { } );
 
 	const ast = generator.createGenerator( timspec, smodule ).ast;
 

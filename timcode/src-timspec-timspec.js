@@ -41,7 +41,6 @@ const Constructor =
 		v_check,
 		v_extend,
 		v_extendSpec,
-		v_filename,
 		v_ggroup,
 		v_glist,
 		v_global,
@@ -58,6 +57,8 @@ const Constructor =
 		v_singleton
 	)
 {
+	this.__lazy = { };
+
 	this._module = v__module;
 
 	this.alike = v_alike;
@@ -69,8 +70,6 @@ const Constructor =
 	this.extend = v_extend;
 
 	this.extendSpec = v_extendSpec;
-
-	this.filename = v_filename;
 
 	this.ggroup = v_ggroup;
 
@@ -136,8 +135,6 @@ prototype.create =
 
 	let v_extendSpec;
 
-	let v_filename;
-
 	let v_ggroup;
 
 	let v_glist;
@@ -181,8 +178,6 @@ prototype.create =
 		v_extend = this.extend;
 
 		v_extendSpec = this.extendSpec;
-
-		v_filename = this.filename;
 
 		v_ggroup = this.ggroup;
 
@@ -273,15 +268,6 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_extendSpec = arg;
-				}
-
-				break;
-
-			case 'filename' :
-
-				if( arg !== pass )
-				{
-					v_filename = arg;
 				}
 
 				break;
@@ -445,11 +431,6 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_filename ) !== 'string' )
-/**/	{
-/**/		throw new Error( );
-/**/	}
-/**/
 /**/	if( v_ggroup !== undefined && v_ggroup.timtype !== tt_$_type_set )
 /**/	{
 /**/		throw new Error( );
@@ -552,8 +533,6 @@ prototype.create =
 			v_extendSpec.equals( inherit.extendSpec )
 		)
 		&&
-		v_filename === inherit.filename
-		&&
 		(
 			v_ggroup === inherit.ggroup
 			||
@@ -630,7 +609,6 @@ prototype.create =
 			v_check,
 			v_extend,
 			v_extendSpec,
-			v_filename,
 			v_ggroup,
 			v_glist,
 			v_global,
@@ -719,8 +697,6 @@ prototype.equals =
 			&&
 			this.extendSpec.equals( obj.extendSpec )
 		)
-		&&
-		this.filename === obj.filename
 		&&
 		(
 			this.ggroup === obj.ggroup
@@ -831,8 +807,6 @@ prototype.alikeIgnoringProteans =
 			&&
 			this.extendSpec.equals( obj.extendSpec )
 		)
-		&&
-		this.filename === obj.filename
 		&&
 		(
 			this.ggroup === obj.ggroup

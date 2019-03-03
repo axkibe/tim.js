@@ -7,9 +7,6 @@
 if( NODE )
 {
 	tim.proto = module.exports;
-
-	// exports the own source for use in browsers
-	tim.proto.source = require( 'fs' ).readFileSync( module.filename );
 }
 else
 {

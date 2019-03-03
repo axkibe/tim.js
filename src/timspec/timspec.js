@@ -26,9 +26,6 @@ if( TIM )
 		// if set extends this tim
 		extendSpec : { type : [ './timspec', 'undefined' ] },
 
-		// filename of the tim
-		filename : { type : 'string' },
-
 		// if set, actualizes a global variable to the last created tim
 		global : { type : [ '../ast/var', 'undefined' ] },
 
@@ -151,13 +148,12 @@ def.static.createFromDef =
 	function(
 		def,       // the created def
 		module,    // the module object of the definer
-		filename,  // the filename of the definer // FIXME is this in module
 		requires   // the collected requires
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 4 ) throw new Error( );
+/**/	if( arguments.length !== 3 ) throw new Error( );
 /**/}
 
 	validator.check( def );
@@ -347,7 +343,6 @@ def.static.createFromDef =
 			'check', !!def.proto._check,
 			'extend', extend,
 			'extendSpec', extendSpec,
-			'filename', filename,
 			'ggroup', ggroup,
 			'glist', glist,
 			'global', global,
@@ -365,6 +360,12 @@ def.static.createFromDef =
 		)
 	);
 };
+
+
+/*
+| The filename of the tim definer.
+*/
+def.lazy.filename = function( ) { return this._module.filename; };
 
 
 /*

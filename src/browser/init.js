@@ -4,7 +4,7 @@
 'use strict';
 
 
-var pass, TIM, tim, _require;
+var pass, TIM, tim;
 
 tim = { };
 

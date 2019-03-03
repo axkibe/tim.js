@@ -86,25 +86,25 @@ for( let a = 0, al = strapped.length; a < al; a++ )
 		timspec_timspec.createFromDef(
 			strap.def,
 			strap.module,
-			strap.filename,
 			strap.requires
 		);
 
 	tim.catalog.addTimspec( timspec );
 }
 
-const fs = require( 'fs' );
+// additional exports
+tim.source = require( './source' );
 
-tim.browserSource =
-	fs.readFileSync(
-		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
-		+ 'browser/init.js'
-	);
+/*
+const timspec_redirect = require( './timspec/redirect' );
 
-tim.commonSource =
-	fs.readFileSync(
-		module.filename.substr( 0, module.filename.lastIndexOf( '/' ) + 1 )
-		+ 'common.js'
-	);
+// redirection for exported tims
+tim.redirect =
+	function( module, forward )
+{
+	module.exports = module.require( forward );
 
-Object.freeze( exports );
+}
+*/
+
+Object.freeze( tim );
