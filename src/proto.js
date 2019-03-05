@@ -201,8 +201,20 @@ proto.setPath =
 /**/if( CHECK )
 /**/{
 /**/	if( typeof( pos ) !== 'number' ) throw new Error( );
-/**/
-/**/	if( path.length === pos ) throw new Error( );
+/**/}
+
+	// special case, path is empty:
+	// 'this' is going to be replaced by 'value'.
+	if( path.length === 0 )
+	{
+		if( pos !== 0 ) throw new Error( );
+
+		return value;
+	}
+
+/**/if( CHECK )
+/**/{
+/**/	if( path.length <= pos ) throw new Error( );
 /**/}
 
 	const pl = path.length;
