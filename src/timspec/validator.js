@@ -460,6 +460,11 @@ def.static.check =
 		throw new Error( 'a proxy tim must not have a from/to json interface' );
 	}
 
+	if( def.abstract !== undefined && typeof( def.abstract ) !== 'boolean' )
+	{
+		throw new Error( 'abstract must be a boolean value' );
+	}
+
 	checkAdjust( def );
 
 	checkInherit( def );

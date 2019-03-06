@@ -11,6 +11,9 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// true if this tim cannot be instanced itself
+		abstract : { type : 'boolean' },
+
 		// list of alike function and what to ignore
 		alike : { type : [ 'protean', 'undefined' ] },
 
@@ -66,7 +69,8 @@ if( TIM )
 		// catalog path
 		path : { type : [ 'undefined', '../path/path' ] },
 
-		// true if this a singleton (no attributes or group/list/set/twig)
+		// true if this a singleton
+		// (no attributes or group/list/set/twig, not abstract)
 		singleton : { type : 'boolean' },
 
 		// the node.js module that defined this tim.
@@ -278,7 +282,7 @@ def.static.createFromDef =
 		attributes = attributes.set( name, attr );
 	}
 
-	if( def.group || def.list || def.set || def.twig ) singleton = false;
+	if( def.abstract || def.group || def.list || def.set || def.twig ) singleton = false;
 
 	if( def.global ) global = $var( def.global );
 
@@ -338,6 +342,7 @@ def.static.createFromDef =
 
 	return(
 		timspec_timspec.create(
+			'abstract', !!def.abstract,
 			'alike', def.alike,
 			'attributes', attributes,
 			'check', !!def.proto._check,

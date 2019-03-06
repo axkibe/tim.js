@@ -1,11 +1,11 @@
+'use strict';
+
+
 /*
 | This is an auto generated file.
 |
 | Editing this might be rather futile.
 */
-'use strict';
-
-
 const tim_proto = tim.proto;
 
 
@@ -22,42 +22,6 @@ const prototype = Constructor.prototype;
 
 
 self.prototype = prototype;
-
-
-/*
-| Singleton
-*/
-let _singleton;
-
-
-/*
-| Creates a new object.
-*/
-self.create =
-prototype.create =
-	function(
-		// free strings
-	)
-{
-	let inherit;
-
-	if( this !== self )
-	{
-		inherit = this;
-	}
-
-	if( inherit )
-	{
-		return inherit;
-	}
-
-	if( !_singleton )
-	{
-		_singleton = new Constructor( );
-	}
-
-	return _singleton;
-};
 
 
 /*

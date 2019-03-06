@@ -1,11 +1,11 @@
+'use strict';
+
+
 /*
 | This is an auto generated file.
 |
 | Editing this might be rather futile.
 */
-'use strict';
-
-
 const tt_timspec_timspec = require( './timspec/timspec.js' );
 
 

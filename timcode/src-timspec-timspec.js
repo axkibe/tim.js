@@ -1,11 +1,11 @@
+'use strict';
+
+
 /*
 | This is an auto generated file.
 |
 | Editing this might be rather futile.
 */
-'use strict';
-
-
 const tt_attributeGroup = require( './attributeGroup.js' );
 
 
@@ -36,6 +36,7 @@ const tim_proto = tim.proto;
 const Constructor =
 	function(
 		v__module,
+		v_abstract,
 		v_alike,
 		v_attributes,
 		v_check,
@@ -60,6 +61,8 @@ const Constructor =
 	this.__lazy = { };
 
 	this._module = v__module;
+
+	this.abstract = v_abstract;
 
 	this.alike = v_alike;
 
@@ -125,6 +128,8 @@ prototype.create =
 
 	let v__module;
 
+	let v_abstract;
+
 	let v_alike;
 
 	let v_attributes;
@@ -168,6 +173,8 @@ prototype.create =
 		inherit = this;
 
 		v__module = this._module;
+
+		v_abstract = this.abstract;
 
 		v_alike = this.alike;
 
@@ -223,6 +230,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v__module = arg;
+				}
+
+				break;
+
+			case 'abstract' :
+
+				if( arg !== pass )
+				{
+					v_abstract = arg;
 				}
 
 				break;
@@ -406,6 +422,11 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( typeof( v_abstract ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_alike ) !== 'object' && v_alike !== undefined )
 /**/	{
 /**/		throw new Error( );
@@ -507,6 +528,8 @@ prototype.create =
 		&&
 		v__module === inherit._module
 		&&
+		v_abstract === inherit.abstract
+		&&
 		v_alike === inherit.alike
 		&&
 		(
@@ -604,6 +627,7 @@ prototype.create =
 	return (
 		new Constructor(
 			v__module,
+			v_abstract,
 			v_alike,
 			v_attributes,
 			v_check,
@@ -671,6 +695,8 @@ prototype.equals =
 
 	return (
 		this._module === obj._module
+		&&
+		this.abstract === obj.abstract
 		&&
 		this.alike === obj.alike
 		&&
@@ -784,6 +810,8 @@ prototype.alikeIgnoringProteans =
 	}
 
 	return (
+		this.abstract === obj.abstract
+		&&
 		(
 			this.attributes === obj.attributes
 			||

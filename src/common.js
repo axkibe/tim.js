@@ -123,6 +123,8 @@ tim._prepare =
 /**/	if( arguments.length !== 3 ) throw new Error( );
 /**/}
 
+	exports._def = def;
+
 	let extend;
 
 	if( def.extend )
@@ -197,6 +199,10 @@ tim._prepare =
 		);
 	}
 
+	// in case of abstracts doing static stuff was all
+	// that was needed
+	if( def.abstract ) return exports;
+
 	// assigns lazy values to the prototype
 	for( let name in def.lazy )
 	{
@@ -246,8 +252,6 @@ tim._prepare =
 	{
 		exports.prototype[ '__inherit_' + name ] = def.inherit[ name ];
 	}
-
-	exports._def = def;
 
 	return exports;
 };

@@ -2422,26 +2422,37 @@ def.lazy.ast =
 {
 	const timspec = this.timspec;
 
-	return(
+	let code =
 		$block
+		.$( '"use strict"' )
 		.$comment(
 			'This is an auto generated file.',
 			'',
 			'Editing this might be rather futile.'
 		)
-		.$( '"use strict"' )
-		.$( this.genRequires( ) )
-		.$( this.genConstructor( ) )
-		.$( timspec.singleton ? this.genSingleton( ) : undefined )
-		.$( this.genCreator( ) )
-		.$(	timspec.json ? this.genFromJsonCreator( ) : undefined )
-		.$( this.genReflection( ) )
-		.$( this.genTimProto( ) )
-		.$( timspec.json ? this.genToJson( ) : undefined )
-		.$( this.genEquals( ) )
-		.$( timspec.alike ? this.genAlike( ) : undefined )
-		.$( this.genAttrAdjust( ) )
-	);
+		.$( this.genRequires( ) );
+
+	code = code.$( this.genConstructor( ) );
+
+	if( timspec.singleton ) code = code.$( this.genSingleton( )  );
+
+	if( !timspec.abstract ) code = code.$( this.genCreator( ) );
+
+	if( !timspec.abstract && timspec.json ) code = code.$( this.genFromJsonCreator( ) );
+
+	code = code.$( this.genReflection( ) );
+
+	code = code.$( this.genTimProto( ) );
+
+	if( timspec.json ) code = code.$( this.genToJson( ) );
+
+	code = code.$( this.genEquals( ) );
+
+	if( timspec.alike ) code = code.$( this.genAlike( ) );
+
+	code = code.$( this.genAttrAdjust( ) );
+
+	return code;
 };
 
 
