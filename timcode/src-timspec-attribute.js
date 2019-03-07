@@ -173,6 +173,8 @@ const Constructor =
 		v_varRef
 	)
 {
+	this.__lazy = { };
+
 	this.adjust = v_adjust;
 
 	this.assign = v_assign;

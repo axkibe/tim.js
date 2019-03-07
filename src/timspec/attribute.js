@@ -35,4 +35,17 @@ if( TIM )
 }
 
 
+const shorthand = require( '../ast/shorthand' );
+
+
+/*
+| The name as ast string.
+*/
+def.lazy.$name =
+	function( )
+{
+	return shorthand.$string( this.name );
+};
+
+
 } );

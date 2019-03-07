@@ -93,9 +93,11 @@ const tsNull = type_null.create( );
 def.proto.genRequires =
 	function( )
 {
+	const timspec = this.timspec;
+
 	let block = $block;
 
-	const it = this.timspec.imports.iterator( );
+	const it = timspec.imports.iterator( );
 
 	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
@@ -106,7 +108,9 @@ def.proto.genRequires =
 		block = block.$const( type.varname, type.require );
 	}
 
-	return block.$const( 'tim_proto', 'tim.proto' );
+	if( !timspec.abstract ) block = block.$const( 'tim_proto', 'tim.proto' );
+
+	return block;
 };
 
 
@@ -404,7 +408,16 @@ def.proto.genCreatorInheritanceReceiver =
 
 		const attr = attributes.get( name );
 
-		receiver = receiver.$( attr.varRef, ' = ', 'this.', attr.assign );
+		const val =
+			!attr.adjust
+			? $( 'this.', attr.assign )
+			: $(
+				'tim.hasLazyValueSet( this, ', attr.$name, ' )',
+				'? this.', name,
+				': this.', '__' + name
+			);
+
+		receiver = receiver.$( attr.varRef, ' = ', val );
 	}
 
 	let result = $( 'if ( this !== self )', receiver, ';' );
@@ -1030,10 +1043,10 @@ def.proto.genCreatorInheritOptimization =
 			$if(
 				$(
 					'inherit',
-					'&& this[ "__inherit_" + ', $v, ']( inherit )',
-					'&& tim.hasLazyValueSet( inherit, ', $v, ')'
+					'&& tim.hasLazyValueSet( inherit, ', $v, ')',
+					'&& newtim[ "__inherit_" + ', $v, ']( inherit )',
 				),
-				$block.$( 'tim.aheadValue( this, ', $v, ', inherit.', v, ')' )
+				$block.$( 'tim.aheadValue( newtim, ', $v, ', inherit.', v, ')' )
 			);
 	}
 
@@ -1045,11 +1058,13 @@ def.proto.genCreatorInheritOptimization =
 | Generates the creators return statement
 */
 def.proto.genCreatorReturn =
-	function( )
+	function(
+		optimization // if defined code optimizing inherits
+	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 0 ) throw new Error( );
+/**/	if( arguments.length !== 1 ) throw new Error( );
 /**/}
 
 	const argList = this.constructorList;
@@ -1058,21 +1073,19 @@ def.proto.genCreatorReturn =
 
 	const attributes = timspec.attributes;
 
-	const conName = 'Constructor';
-
 	if( timspec.singleton )
 	{
 		return(
 			$block
 			.$if(
 				'!_singleton',
-				$( '_singleton = new ', conName, '( )' )
+				$( '_singleton = new Constructor( )' )
 			)
 			.$( 'return _singleton' )
 		);
 	}
 
-	let call = $( conName ,'( )' );
+	let call = $( 'Constructor( )' );
 
 	for( let a = 0, al = argList.length; a < al; a++ )
 	{
@@ -1102,7 +1115,19 @@ def.proto.genCreatorReturn =
 		}
 	}
 
-	return $( 'return new', call );
+	if( !optimization )
+	{
+		return $( 'return new', call );
+	}
+	else
+	{
+		return(
+			$block
+			.$const( 'newtim', $( 'new', call ) )
+			.$( optimization )
+			.$( 'return newtim' )
+		);
+	}
 };
 
 
@@ -1127,9 +1152,11 @@ def.proto.genCreator =
 		)
 		.$( this.genCreatorDefaults( ) )
 		.$( this.genCreatorChecks( false ) )
-		.$( this.genCreatorUnchanged( ) )
-		.$( this.genCreatorInheritOptimization( ) )
-		.$( this.genCreatorReturn( ) );
+		.$( this.genCreatorUnchanged( ) );
+
+	const optimization = this.genCreatorInheritOptimization( );
+
+	block = block.$( this.genCreatorReturn( optimization ) );
 
 	const creator =
 		$func( block )
@@ -2429,8 +2456,9 @@ def.lazy.ast =
 			'This is an auto generated file.',
 			'',
 			'Editing this might be rather futile.'
-		)
-		.$( this.genRequires( ) );
+		);
+
+	code = code.$( this.genRequires( ) );
 
 	code = code.$( this.genConstructor( ) );
 
@@ -2440,9 +2468,9 @@ def.lazy.ast =
 
 	if( !timspec.abstract && timspec.json ) code = code.$( this.genFromJsonCreator( ) );
 
-	code = code.$( this.genReflection( ) );
+	if( !timspec.abstract ) code = code.$( this.genReflection( ) );
 
-	code = code.$( this.genTimProto( ) );
+	if( !timspec.abstract ) code = code.$( this.genTimProto( ) );
 
 	if( timspec.json ) code = code.$( this.genToJson( ) );
 
