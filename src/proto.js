@@ -669,7 +669,6 @@ proto.twigRankOf =
 		key
 	)
 {
-
 /**/if( CHECK )
 /**/{
 /**/	if( typeof( key ) !== 'string' ) throw new Error( );

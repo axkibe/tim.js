@@ -126,9 +126,9 @@ module.exports =
 		global.TIM = true;
 
 		module.require =
-			function( required, forwarded )
+			function( required )
 		{
-			requires[ required ] = true;
+			if( required.indexOf( '/' ) >= 0 ) requires[ required ] = true;
 
 			return previousRequire.call( module, required );
 		};

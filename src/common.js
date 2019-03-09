@@ -206,31 +206,19 @@ tim._prepare =
 	// assigns lazy values to the prototype
 	for( let name in def.lazy )
 	{
-		tim.proto.lazyValue(
-			exports.prototype,
-			name,
-			def.lazy[ name ]
-		);
+		tim.proto.lazyValue( exports.prototype, name, def.lazy[ name ] );
 	}
 
 	// assigns lazy integer functions to the prototype
 	for( let name in def.lazyFuncInt )
 	{
-		tim.proto.lazyFunctionInteger(
-			exports.prototype,
-			name,
-			def.lazyFuncInt[ name ]
-		);
+		tim.proto.lazyFunctionInteger( exports.prototype, name, def.lazyFuncInt[ name ] );
 	}
 
 	// assigns lazy string functions to the prototype
 	for( let name in def.lazyFuncStr )
 	{
-		tim.proto.lazyFunctionString(
-			exports.prototype,
-			name,
-			def.lazyFuncStr[ name ]
-		);
+		tim.proto.lazyFunctionString( exports.prototype, name, def.lazyFuncStr[ name ] );
 	}
 
 	// assigns functions to the prototype

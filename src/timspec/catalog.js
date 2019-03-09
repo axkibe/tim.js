@@ -158,6 +158,8 @@ catalog.getRootDir =
 		if( tsr.id === consult ) return tsr;
 	}
 
+	console.inspect( consult );
+
 	// this shouldn't happen
 	throw new Error( );
 };
