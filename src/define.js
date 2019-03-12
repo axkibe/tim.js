@@ -188,8 +188,6 @@ module.exports =
 
 	const exports = module.exports;
 
-	//exports.def = def;
-
 	exports.timcodeFilename = timcodeFilename;
 
 	return tim._prepare( module, def, exports );
