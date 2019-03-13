@@ -47,7 +47,7 @@ const dependencyWalk =
 
 			if( type.timtype !== type_tim ) continue;
 
-			const ts = tim.catalog.getTimspecRelative( timspec.filename, type );
+			const ts = tim.catalog.getByTimtype( timspec.filename, type );
 
 			twig = dependencyWalk( twig, ts, parents );
 		}
@@ -62,7 +62,8 @@ const dependencyWalk =
 
 			const type = type_tim.createFromPath( filename.split( '/' ) );
 
-			const ts = tim.catalog.getTimspecRelative( timspec.filename, type );
+			// FIXME use getByRelativePath
+			const ts = tim.catalog.getByTimtype( timspec.filename, type );
 
 			twig = dependencyWalk( twig, ts, parents );
 		}
@@ -72,7 +73,7 @@ const dependencyWalk =
 	{
 		const type = timspec.extend;
 
-		const ts = tim.catalog.getTimspecRelative( timspec.filename, type );
+		const ts = tim.catalog.getByTimtype( timspec.filename, type );
 
 		twig = dependencyWalk( twig, ts, parents );
 	}
@@ -111,9 +112,7 @@ def.static.createByDependencyWalk =
 		{
 			const filename = walk.getKey( a );
 
-			//const type = type_tim.createFromPath( filename.split( '/' ) );
-
-			const ts = tim.catalog.getTimspec( filename );
+			const ts = tim.catalog.getByRealpath( filename );
 
 			const extendSpec = ts.extendSpec;
 

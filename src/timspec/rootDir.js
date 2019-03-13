@@ -1,5 +1,7 @@
 /*
 | A root directory of timspecs.
+|
+| FIXME extend './dir'
 */
 'use strict';
 
@@ -14,7 +16,7 @@ if( TIM )
 		// an id for this tree
 		id : { type : 'string' },
 
-		// if true skips auto timcode generation for this timspec tree
+		// if true skips auto timcode generation for this timspec tree.
 		// used by ouroborus builds of tim.js
 		noTimcodeGen : { type : 'boolean', defaultValue : 'false' },
 
@@ -25,10 +27,12 @@ if( TIM )
 		timcodePath : { type : 'string' },
 	};
 
-	def.group = [ './dir', './timspec' ];
+	def.group = [ './dir', './provisional', './timspec' ];
 }
 
 const timspec_dir = require( './dir' );
+
+const timspec_provisional = require( './provisional' );
 
 
 /**
@@ -47,14 +51,14 @@ const timspec_dir = require( './dir' );
 
 
 /*
-| Adds a timspec to this rootDir.
+| Adds a timspec or provisional.
 */
-def.proto.addTimspec =
+def.proto.addEntry =
 	function(
-		timspec   // the timspec to be added
+		entry   // timspec or provisional to be added
 	)
 {
-	const path = timspec.path;
+	const path = entry.path;
 
 /**/if( CHECK )
 /**/{
@@ -67,28 +71,28 @@ def.proto.addTimspec =
 
 	const key = path.get( 1 );
 
-	// this is a timspec directly in the rootDir?
+	// this is a entry directly in the rootDir?
 	if( path.length === 2 )
 	{
 		const ts = this.get( key );
 
-		if( ts )
+		if( ts && ts.timtype !== timspec_provisional )
 		{
 /**/		if( CHECK )
 /**/		{
-/**/			if( !timspec.alikeIgnoringProteans( ts ) ) throw new Error( );
+/**/			if( !entry.alikeIgnoringProteans( ts ) ) throw new Error( );
 /**/		}
 
 			return this;
 		}
 
-		return this.create( 'group:set', key, timspec );
+		return this.create( 'group:set', key, entry );
 	}
 
 	// this is in a subdir
 	const dir = this.get( key ) || timspec_dir.empty;
 
-	return this.create( 'group:set', key, dir.addTimspec( timspec, 2 ) );
+	return this.create( 'group:set', key, dir.addEntry( entry, 2 ) );
 };
 
 

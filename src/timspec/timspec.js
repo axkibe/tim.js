@@ -74,6 +74,7 @@ if( TIM )
 		singleton : { type : 'boolean' },
 
 		// the node.js module that defined this tim.
+		// FIXME make non private
 		_module : { type : 'protean' },
 	};
 
@@ -135,13 +136,39 @@ const getTimspec =
 		module
 	)
 {
-	const imported = timtype.imported;
-
 	// makes sure the leaf is loaded
-	if( imported ) module.require( imported + '/' + timtype.pathString );
-	else module.require( './' + timtype.pathString );
+	if( timtype.imported )
+	{
+		// FIXME placeholder for something more general
+		switch( timtype.pathString )
+		{
+			case 'path.js' :
 
-	return tim.catalog.getTimspecRelative( module.filename, timtype );
+				require( '../path/path' );
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'path.js' );
+
+			case 'pathList.js' :
+
+				require( '../path/list' );
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'list.js' );
+
+			case 'stringList.js' :
+
+				require( '../string/list' );
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
+
+			default : throw new Error( );
+		}
+		// module.require( imported + '/' + timtype.pathString );
+	}
+	else
+	{
+		module.require( './' + timtype.pathString );
+		return tim.catalog.getByTimtype( module.filename, timtype );
+	}
 };
 
 
@@ -368,7 +395,7 @@ def.static.createFromDef =
 
 
 /*
-| The filename of the tim definer.
+| Realpath of the tim definer.
 */
 def.lazy.filename = function( ) { return this._module.filename; };
 
@@ -419,7 +446,7 @@ def.proto.getBrowserPreamble =
 	}
 
 	text +=
-		'; let require = _require.bind( '
+		'; let require = tim.require = _require.bind( '
 		+ ( timcode ? 'self' : 'module' )
 		+ ' );';
 

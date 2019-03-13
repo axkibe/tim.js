@@ -64,6 +64,39 @@ def.lazy.chop =
 
 
 /*
+| Creates a path from string
+*/
+def.static.createFromString =
+	function(
+		string
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( typeof( string ) !== 'string' ) throw new Error( );
+/**/
+/**/	if( string[ 0 ] === '/' ) throw new Error( );
+/*/
+/**/	if( string[ string.length - 1 ] === '/' ) throw new Error( );
+/**/}
+
+	const array = string.split( '/' );
+
+	let result = self.empty;
+
+	for( let a  = 0, al = array.length; a < al; a++ )
+	{
+		result = result.append( array[ a ] );
+	}
+
+	return result;
+};
+
+
+def.staticLazy.empty = ( ) => self.create( 'list:init', [ ] );
+
+
+/*
 | Turns the path to a filepath.
 */
 def.lazy.filepath =
@@ -83,21 +116,12 @@ def.lazy.filepath =
 
 
 /*
-| Returns a path with the last entry removed.
+| Returns true is this path is empty.
 */
-def.lazy.shorten =
+def.lazy.isEmpty =
 	function( )
 {
-/**/	if( CHECK )
-/**/	{
-/**/		if( this.length === 0 ) throw new Error( );
-/**/	}
-
-	const result = this.create( 'list:remove', this.length - 1 );
-
-	// FUTURE aheadLazyStringFunc
-
-	return result;
+	return this.length === 0;
 };
 
 
@@ -136,6 +160,25 @@ def.lazyFuncStr.prepend =
 	const result = this.create( 'list:insert', 0, entry );
 
 	tim.aheadValue( result, 'chop', this );
+
+	return result;
+};
+
+
+/*
+| Returns a path with the last entry removed.
+*/
+def.lazy.shorten =
+	function( )
+{
+/**/	if( CHECK )
+/**/	{
+/**/		if( this.length === 0 ) throw new Error( );
+/**/	}
+
+	const result = this.create( 'list:remove', this.length - 1 );
+
+	// FUTURE aheadLazyStringFunc
 
 	return result;
 };
@@ -189,19 +232,6 @@ def.lazy.string =
 
 	return b.join( '' );
 };
-
-
-/*
-| Returns true is this path is empty.
-*/
-def.lazy.isEmpty =
-	function( )
-{
-	return this.length === 0;
-};
-
-
-def.staticLazy.empty = () => self.create( 'list:init', [ ] );
 
 
 } );

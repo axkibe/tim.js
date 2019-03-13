@@ -9,8 +9,11 @@ tim.define( module, ( def, timtree_dir ) => {
 
 if( TIM )
 {
-	def.group = [ './dir', './timspec' ];
+	def.group = [ './dir', './provisional', './timspec' ];
 }
+
+
+const timspec_provisional = require( './provisional' );
 
 
 /*
@@ -20,13 +23,13 @@ def.staticLazy.empty = ( ) => timtree_dir.create( 'group:init', [ ] );
 
 
 /*
-| Returns the dir with a timspec added,
+| Returns the dir with an entry added,
 | possibly on a subdir.
 */
-def.proto.addTimspec =
+def.proto.addEntry =
 	function(
-		timspec,  // the timspec to add
-		pathPos   // position in the timspec's path
+		entry,   // the timspec to add
+		pathPos  // position in the timspec's path
 	)
 {
 /**/if( CHECK )
@@ -36,33 +39,33 @@ def.proto.addTimspec =
 /**/	if( typeof( pathPos ) !== 'number' ) throw new Error( );
 /**/}
 
-	const path = timspec.path;
+	const path = entry.path;
 
 	const key = path.get( pathPos );
 
 	// this is the last dir in subpath
 	if( pathPos === path.length - 1 )
 	{
-		const entry = this.get( key );
+		const ts = this.get( key );
 
 		// already there?
-		if( entry )
+		if( ts && ts.timtype !== timspec_provisional )
 		{
 /**/		if( CHECK )
 /**/		{
-/**/			if( !entry.alikeIgnoringProteans( timspec ) ) throw new Error( );
+/**/			if( !entry.alikeIgnoringProteans( ts ) ) throw new Error( );
 /**/		}
 
 			return this;
 		}
 
-		return this.set( key, timspec );
+		return this.set( key, entry );
 	}
 
 	// this is just on a branch.
 	let dir = this.get( key ) || timtree_dir.empty;
 
-	return this.set( key, dir.addTimspec( timspec, pathPos + 1 ) );
+	return this.set( key, dir.addEntry( entry, pathPos + 1 ) );
 
 };
 

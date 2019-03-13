@@ -89,22 +89,8 @@ for( let a = 0, al = strapped.length; a < al; a++ )
 			strap.requires
 		);
 
-	tim.catalog.addTimspec( timspec );
+	tim.catalog.addEntry( timspec );
 }
 
 // additional exports
 tim.source = require( './source' );
-
-/*
-const timspec_redirect = require( './timspec/redirect' );
-
-// redirection for exported tims
-tim.redirect =
-	function( module, forward )
-{
-	module.exports = module.require( forward );
-
-}
-*/
-
-Object.freeze( tim );

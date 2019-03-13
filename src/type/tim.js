@@ -21,7 +21,8 @@ if( TIM )
 
 const shorthand = require( '../ast/shorthand' );
 
-const pool = { };
+// FIXME only allows tim.js imports for now
+const pool = { '_' : { }, 'tim.js' : { } };
 
 
 /*
@@ -45,7 +46,7 @@ def.static.createFromPath =
 		default : imported = path.shift( ); break;
 	}
 
-	let p = pool;
+	let p = pool[ imported ? imported : '_' ];
 
 	for( let a = 0, al = path.length; a < al; a++ )
 	{
@@ -62,7 +63,11 @@ def.static.createFromPath =
 
 	if( pn ) return pn;
 
-	return( p[ '.js' ] = type_tim.create( 'list:init', path, 'imported', imported ) );
+	const result = type_tim.create( 'list:init', path, 'imported', imported );
+
+	p[ '.js' ] = result;
+
+	return result;
 };
 
 
@@ -121,7 +126,23 @@ def.lazy.require =
 {
 	if( this.imported )
 	{
-		return 'require( "' + this.imported + '/' + this.pathString + '" )';
+		// FIXME placeholder for future
+		if( this.imported !== 'tim.js' ) throw new Error( );
+
+		if( this.length !== 1 ) throw new Error( );
+
+		switch( this.get( 0 ) )
+		{
+			case 'path' : return 'require( "tim.js/src/path/path.js" )';
+
+			case 'pathList' : return 'require( "tim.js/src/path/list.js" )';
+
+			case 'stringList' : return 'require( "tim.js/src/string/list.js" )';
+
+			default : throw new Error( );
+		}
+
+		//return 'require( "' + this.imported + '/' + this.pathString + '" )';
 	}
 	else
 	{

@@ -9,6 +9,9 @@
 const tt_dir = require( './dir.js' );
 
 
+const tt_provisional = require( './provisional.js' );
+
+
 const tt_timspec = require( './timspec.js' );
 
 
@@ -220,7 +223,7 @@ prototype.create =
 /**/	{
 /**/		const o = group[ k ];
 /**/
-/**/		if( o.timtype !== tt_dir && o.timtype !== tt_timspec )
+/**/		if( o.timtype !== tt_dir && o.timtype !== tt_provisional && o.timtype !== tt_timspec )
 /**/		{
 /**/			throw new Error( );
 /**/		}

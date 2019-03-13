@@ -13,9 +13,27 @@ const fs = require( 'fs' );
 
 const vm = require( 'vm' );
 
+let tim_path;
+let timspec_provisional;
 let timspec_timspec;
 
 const readOptions = Object.freeze( { encoding : 'utf8' } );
+
+
+/*
+| Returns the realpath of a basefilename with a relative path.
+*/
+const getRealpath =
+	function(
+		base,    // the filename of the base
+		relative // the relative path
+	)
+{
+	// first the directory of the base
+	base = base.substr( 0, base.lastIndexOf( '/' ) );
+
+	return fs.realpathSync( base + '/' + relative + '.js' ) + '';
+};
 
 
 /*
@@ -118,6 +136,11 @@ module.exports =
 
 	const requires = { };
 
+	const bootstrap = tim._BOOTSTRAP;
+
+	// FIXME
+	const provisionals = [ ];
+
 	{
 		const previousTIM = global.TIM;
 
@@ -133,24 +156,69 @@ module.exports =
 			return previousRequire.call( module, required );
 		};
 
+		tim.require =
+			function( required, now )
+		{
+			// is this actually a classical require?
+			if( required.indexOf( '/' ) < 0 ) return previousRequire.call( module, required );
+
+			if( bootstrap ) throw new Error( );
+
+			if( !tim_path ) tim_path = require( './path/path' );
+			if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
+
+			if( required === 'tim.js/path' ) return tim_path;
+			if( required === 'tim.js/pathList' ) return require( './path/list' );
+			if( required === 'tim.js/stringList' ) return require( './string/list' );
+
+			requires[ required ] = true;
+
+			if( now === 'NOW' ) return previousRequire.call( module, required );
+
+			let entry =
+				tim.catalog.getByRelativePath(
+					module.filename,
+					tim_path.createFromString( required )
+				);
+
+			// already in the catalog
+			// FIXME XXX privacy violation
+			if( entry ) return entry.placeholder || entry._module.exports;
+
+			const realpath = getRealpath( module.filename, required );
+
+			entry = timspec_provisional.create( 'filename', realpath, 'placeholder', { } );
+
+			provisionals.push( entry );
+
+			tim.catalog.addEntry( entry );
+
+			return entry.placeholder;
+		};
+
 		definer( def, module.exports );
+
+		tim.require = undefined;
 
 		global.TIM = previousTIM;
 
 		module.require = previousRequire;
 	}
 
-	const bootstrap = tim._BOOTSTRAP;
-
-	let rootDir, rootPath, timspec, timcodePath;
+	let provisional, rootDir, rootPath, timspec, timcodePath;
 
 	if( !bootstrap )
 	{
+		if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
 		if( !timspec_timspec ) timspec_timspec = require( './timspec/timspec' );
+
+		provisional = tim.catalog.getByRealpath( module.filename );
+
+		if( provisional && provisional.timtype !== timspec_provisional ) provisional = undefined;
 
 		timspec = timspec_timspec.createFromDef( def, module, requires );
 
-		timspec = tim.catalog.addTimspec( timspec );
+		timspec = tim.catalog.addEntry( timspec );
 
 		rootDir = tim.catalog.getRootDir( timspec );
 
@@ -184,11 +252,16 @@ module.exports =
 		createTimcode( timspec, module, timcodeRealFilename );
 	}
 
+	if( provisional ) module.exports = provisional.placeholder;
+
 	loadTimcode( def, module, timcodeRealFilename );
 
-	const exports = module.exports;
+	for( let a = 0, al = provisionals.length; a < al; a++ )
+	{
+		module.require( provisionals[ a ].filename );
+	}
 
-	exports.timcodeFilename = timcodeFilename;
+	module.exports.timcodeFilename = timcodeFilename;
 
-	return tim._prepare( module, def, exports );
+	return tim._prepare( module, def, module.exports );
 };

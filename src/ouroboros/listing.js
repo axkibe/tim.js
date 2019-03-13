@@ -84,6 +84,7 @@ module.exports =
 	'src/timspec/attribute.js',
 	'src/timspec/attributeGroup.js',
 	'src/timspec/dir.js',
+	'src/timspec/provisional.js',
 	'src/timspec/rootDir.js',
 	'src/timspec/timspec.js',
 	'src/timspec/twig.js',

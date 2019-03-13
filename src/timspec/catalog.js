@@ -93,9 +93,9 @@ catalog.addRootDir =
 | Creates and adds a timspec to the catalog.
 | It determines the correct timspecRoot to add it to.
 */
-catalog.addTimspec =
+catalog.addEntry =
 	function(
-		timspec   // timspec to add
+		entry   // timspec or provisional to add
 	)
 {
 /**/if( CHECK )
@@ -103,7 +103,7 @@ catalog.addTimspec =
 /**/	if( arguments.length !== 1 ) throw new Error( );
 /**/}
 
-	const filename = timspec.filename;
+	const filename = entry.filename;
 
 	// timspecRoot
 	let tsr, tsrPos = 0;
@@ -129,11 +129,11 @@ catalog.addTimspec =
 
 	path = tim_path.create( 'list:init', path );
 
-	timspec = timspec.create( 'path', path );
+	entry = entry.create( 'path', path );
 
-	timspecRoots[ tsrPos ] = tsr.addTimspec( timspec );
+	timspecRoots[ tsrPos ] = tsr.addEntry( entry );
 
-	return timspec;
+	return entry;
 };
 
 
@@ -168,7 +168,7 @@ catalog.getRootDir =
 /*
 | Returns the timspec for a given realpath.
 */
-catalog.getTimspec =
+catalog.getByRealpath =
 	function(
 		realpath
 	)
@@ -197,9 +197,9 @@ catalog.getTimspec =
 	for( let p = 0, pl = path.length; p < pl; p++ )
 	{
 		entry = entry.get( path[ p ] );
-	}
 
-	if( entry.timtype !== timspec_timspec ) throw new Error( );
+		if( !entry ) return;
+	}
 
 	return entry;
 };
@@ -209,7 +209,46 @@ catalog.getTimspec =
 | Returns the timspec for a relative path.
 | (used by generator)
 */
-catalog.getTimspecRelative =
+catalog.getByRelativePath =
+	function(
+		base,    // the filename relative to which the path is given
+		path     // the relative path (of type tim_path)
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( base[ base.length - 1 ] === '/' ) throw new Error( );
+/**/
+/**/	if( path.timtype !== tim_path ) throw new Error( );
+/**/}
+
+	// first the directory of the base
+	base = base.substr( 0, base.lastIndexOf( '/' ) );
+
+	// combines the relative timtype with the base
+	for( let p = 0, pl = path.length; p < pl; p++ )
+	{
+		let key = path.get( p );
+
+		switch( key )
+		{
+			case '.' : /* ignored */ continue;
+
+			case '..' : base = base.substr( 0, base.lastIndexOf( '/' ) ); continue;
+
+			default : base = base + '/' + key + ( p + 1 >= pl ? '.js' : '' ); continue;
+		}
+	}
+
+	return catalog.getByRealpath( base );
+};
+
+
+/*
+| Returns the timspec by a timtype
+| (used by generator)
+*/
+catalog.getByTimtype =
 	function(
 		base,    // the filename relative to which the path is given
 		timtype  // the relative timtype
@@ -224,8 +263,35 @@ catalog.getTimspecRelative =
 
 	if( timtype.imported )
 	{
-		let entry = catalog.getRootDir( timtype.imported );
+		//let entry = catalog.getRootDir( timtype.imported );
 
+		if( timtype.imported !== 'tim.js' ) throw new Error( );
+
+		// XXX
+		console.inspect( timtype );
+
+		// place holder system for something more elaborate
+		if( timtype.length !== 1 ) throw new Error( );
+
+		// FIXME duplicate code to timspec_timspec
+		switch( timtype.pathString )
+		{
+			case 'path.js' :
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'path.js' );
+
+			case 'pathList.js' :
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'list.js' );
+
+			case 'stringList.js' :
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
+
+			default : throw new Error( );
+		}
+
+		/*
 		for( let p = 0, pl = timtype.length; p < pl; p++ )
 		{
 			let key = timtype.get( p );
@@ -236,6 +302,7 @@ catalog.getTimspecRelative =
 		}
 
 		return entry;
+		*/
 	}
 
 	// first the directory of the base
@@ -256,7 +323,7 @@ catalog.getTimspecRelative =
 		}
 	}
 
-	return catalog.getTimspec( base );
+	return catalog.getByRealpath( base );
 };
 
 
