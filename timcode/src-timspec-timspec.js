@@ -6,25 +6,25 @@
 |
 | Editing this might be rather futile.
 */
-const tt_attributeGroup = require( './attributeGroup.js' );
+const tt_attributeGroup = require( './attributeGroup' );
 
 
-const tt_$_type_tim = require( './../type/tim.js' );
+const tt_$_type_tim = require( './../type/tim' );
 
 
-const tt_timspec = require( './timspec.js' );
+const tt_timspec = require( './timspec' );
 
 
-const tt_$_ast_var = require( './../ast/var.js' );
+const tt_$_ast_var = require( './../ast/var' );
 
 
-const tt_$_type_set = require( './../type/set.js' );
+const tt_$_type_set = require( './../type/set' );
 
 
-const tt_$_string_set = require( './../string/set.js' );
+const tt_$_string_set = require( './../string/set' );
 
 
-const tt_$_path_path = require( './../path/path.js' );
+const tt_$_path_path = require( './../path/path' );
 
 
 const tim_proto = tim.proto;

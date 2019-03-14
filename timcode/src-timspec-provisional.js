@@ -6,7 +6,7 @@
 |
 | Editing this might be rather futile.
 */
-const tt_$_path_path = require( './../path/path.js' );
+const tt_$_path_path = require( './../path/path' );
 
 
 const tim_proto = tim.proto;

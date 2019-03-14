@@ -267,9 +267,6 @@ catalog.getByTimtype =
 
 		if( timtype.imported !== 'tim.js' ) throw new Error( );
 
-		// XXX
-		console.inspect( timtype );
-
 		// place holder system for something more elaborate
 		if( timtype.length !== 1 ) throw new Error( );
 
@@ -287,6 +284,10 @@ catalog.getByTimtype =
 			case 'stringList.js' :
 
 				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
+
+			case 'timspecTwig.js' :
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'timspec' ).get( 'twig.js' );
 
 			default : throw new Error( );
 		}

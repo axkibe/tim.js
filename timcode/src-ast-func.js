@@ -6,10 +6,10 @@
 |
 | Editing this might be rather futile.
 */
-const tt_block = require( './block.js' );
+const tt_block = require( './block' );
 
 
-const tt_funcArg = require( './funcArg.js' );
+const tt_funcArg = require( './funcArg' );
 
 
 const tim_proto = tim.proto;

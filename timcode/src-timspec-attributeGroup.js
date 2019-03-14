@@ -6,7 +6,7 @@
 |
 | Editing this might be rather futile.
 */
-const tt_attribute = require( './attribute.js' );
+const tt_attribute = require( './attribute' );
 
 
 const tim_proto = tim.proto;

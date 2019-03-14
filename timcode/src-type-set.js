@@ -6,34 +6,34 @@
 |
 | Editing this might be rather futile.
 */
-const tt_boolean = require( './boolean.js' );
+const tt_boolean = require( './boolean' );
 
 
-const tt_date = require( './date.js' );
+const tt_date = require( './date' );
 
 
-const tt_function = require( './function.js' );
+const tt_function = require( './function' );
 
 
-const tt_integer = require( './integer.js' );
+const tt_integer = require( './integer' );
 
 
-const tt_null = require( './null.js' );
+const tt_null = require( './null' );
 
 
-const tt_number = require( './number.js' );
+const tt_number = require( './number' );
 
 
-const tt_protean = require( './protean.js' );
+const tt_protean = require( './protean' );
 
 
-const tt_undefined = require( './undefined.js' );
+const tt_undefined = require( './undefined' );
 
 
-const tt_string = require( './string.js' );
+const tt_string = require( './string' );
 
 
-const tt_tim = require( './tim.js' );
+const tt_tim = require( './tim' );
 
 
 const tim_proto = tim.proto;

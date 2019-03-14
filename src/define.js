@@ -89,7 +89,9 @@ const loadTimcode =
 	function(
 		def,                  // tim definition
 		module,               // defining module
-		timcodeRealFilename   // absolute path filename of timcode file
+		timcodeRealFilename,  // absolute path filename of timcode file
+		bootstrap,            // bootstrap mode
+		provisionals          // to be post-loaded dependencies
 	)
 {
 	// runs the timcode within the handed module context
@@ -107,7 +109,44 @@ const loadTimcode =
 			{ filename: timcodeRealFilename }
 		);
 
-	input( module.exports, module.require.bind( module ) );
+	const subrequire =
+		function(
+			required
+		)
+	{
+		// is this actually a classical require?
+		if( required.indexOf( '/' ) < 0 ) return module.require.call( module, required );
+
+		if( !tim_path ) tim_path = require( './path/path' );
+		if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
+
+		if( required === 'tim.js/path' ) return tim_path;
+		if( required === 'tim.js/pathList' ) return require( './path/list' );
+		if( required === 'tim.js/stringList' ) return require( './string/list' );
+		if( required === 'tim.js/timspecTwig' ) return require( './timspec/twig' );
+
+		let entry =
+			tim.catalog.getByRelativePath(
+				module.filename,
+				tim_path.createFromString( required )
+			);
+
+		// already in the catalog
+		// FIXME XXX privacy violation
+		if( entry ) return entry.placeholder || entry._module.exports;
+
+		const realpath = getRealpath( module.filename, required );
+
+		entry = timspec_provisional.create( 'filename', realpath, 'placeholder', { } );
+
+		provisionals.push( entry );
+
+		tim.catalog.addEntry( entry );
+
+		return entry.placeholder;
+	};
+
+	input( module.exports, bootstrap ? module.require.bind( module ) : subrequire );
 };
 
 
@@ -141,17 +180,33 @@ module.exports =
 	// FIXME
 	const provisionals = [ ];
 
+	let provisional;
+
+	if( !bootstrap )
+	{
+		provisional = tim.catalog.getByRealpath( module.filename );
+
+		if( provisional && provisional.timtype !== timspec_provisional ) provisional = undefined;
+	}
+
 	{
 		const previousTIM = global.TIM;
 
 		const previousRequire = module.require;
+
+		const previousTimRequire = tim.require;
 
 		global.TIM = true;
 
 		module.require =
 			function( required )
 		{
-			if( required.indexOf( '/' ) >= 0 ) requires[ required ] = true;
+			if( required.indexOf( '/' ) >= 0 )
+			{
+				requires[ required ] = true;
+
+				console.log( 'WARN, old style require in ' + module.filename );
+			}
 
 			return previousRequire.call( module, required );
 		};
@@ -170,6 +225,7 @@ module.exports =
 			if( required === 'tim.js/path' ) return tim_path;
 			if( required === 'tim.js/pathList' ) return require( './path/list' );
 			if( required === 'tim.js/stringList' ) return require( './string/list' );
+			if( required === 'tim.js/timspecTwig' ) return require( './timspec/twig' );
 
 			requires[ required ] = true;
 
@@ -196,25 +252,21 @@ module.exports =
 			return entry.placeholder;
 		};
 
-		definer( def, module.exports );
+		definer( def, provisional ? provisional.placeholder : module.exports );
 
-		tim.require = undefined;
+		tim.require = previousTimRequire;
 
 		global.TIM = previousTIM;
 
 		module.require = previousRequire;
 	}
 
-	let provisional, rootDir, rootPath, timspec, timcodePath;
+	let rootDir, rootPath, timspec, timcodePath;
 
 	if( !bootstrap )
 	{
 		if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
 		if( !timspec_timspec ) timspec_timspec = require( './timspec/timspec' );
-
-		provisional = tim.catalog.getByRealpath( module.filename );
-
-		if( provisional && provisional.timtype !== timspec_provisional ) provisional = undefined;
 
 		timspec = timspec_timspec.createFromDef( def, module, requires );
 
@@ -254,7 +306,9 @@ module.exports =
 
 	if( provisional ) module.exports = provisional.placeholder;
 
-	loadTimcode( def, module, timcodeRealFilename );
+	loadTimcode( def, module, timcodeRealFilename, bootstrap, provisionals );
+
+	const result = tim._prepare( module, def, module.exports );
 
 	for( let a = 0, al = provisionals.length; a < al; a++ )
 	{
@@ -263,5 +317,5 @@ module.exports =
 
 	module.exports.timcodeFilename = timcodeFilename;
 
-	return tim._prepare( module, def, module.exports );
+	return result;
 };

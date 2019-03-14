@@ -6,7 +6,7 @@
 |
 | Editing this might be rather futile.
 */
-const tt_block = require( './block.js' );
+const tt_block = require( './block' );
 
 
 const tim_proto = tim.proto;

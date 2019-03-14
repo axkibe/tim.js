@@ -6,7 +6,7 @@
 |
 | Editing this might be rather futile.
 */
-const tt_token = require( './token.js' );
+const tt_token = require( './token' );
 
 
 const tim_proto = tim.proto;

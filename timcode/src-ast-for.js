@@ -6,127 +6,127 @@
 |
 | Editing this might be rather futile.
 */
-const tt_and = require( './and.js' );
+const tt_and = require( './and' );
 
 
-const tt_arrayLiteral = require( './arrayLiteral.js' );
+const tt_arrayLiteral = require( './arrayLiteral' );
 
 
-const tt_assign = require( './assign.js' );
+const tt_assign = require( './assign' );
 
 
-const tt_boolean = require( './boolean.js' );
+const tt_boolean = require( './boolean' );
 
 
-const tt_call = require( './call.js' );
+const tt_call = require( './call' );
 
 
-const tt_comma = require( './comma.js' );
+const tt_comma = require( './comma' );
 
 
-const tt_condition = require( './condition.js' );
+const tt_condition = require( './condition' );
 
 
-const tt_delete = require( './delete.js' );
+const tt_delete = require( './delete' );
 
 
-const tt_differs = require( './differs.js' );
+const tt_differs = require( './differs' );
 
 
-const tt_divide = require( './divide.js' );
+const tt_divide = require( './divide' );
 
 
-const tt_divideAssign = require( './divideAssign.js' );
+const tt_divideAssign = require( './divideAssign' );
 
 
-const tt_dot = require( './dot.js' );
+const tt_dot = require( './dot' );
 
 
-const tt_equals = require( './equals.js' );
+const tt_equals = require( './equals' );
 
 
-const tt_func = require( './func.js' );
+const tt_func = require( './func' );
 
 
-const tt_greaterThan = require( './greaterThan.js' );
+const tt_greaterThan = require( './greaterThan' );
 
 
-const tt_instanceof = require( './instanceof.js' );
+const tt_instanceof = require( './instanceof' );
 
 
-const tt_lessThan = require( './lessThan.js' );
+const tt_lessThan = require( './lessThan' );
 
 
-const tt_member = require( './member.js' );
+const tt_member = require( './member' );
 
 
-const tt_minus = require( './minus.js' );
+const tt_minus = require( './minus' );
 
 
-const tt_minusAssign = require( './minusAssign.js' );
+const tt_minusAssign = require( './minusAssign' );
 
 
-const tt_multiply = require( './multiply.js' );
+const tt_multiply = require( './multiply' );
 
 
-const tt_multiplyAssign = require( './multiplyAssign.js' );
+const tt_multiplyAssign = require( './multiplyAssign' );
 
 
-const tt_negate = require( './negate.js' );
+const tt_negate = require( './negate' );
 
 
-const tt_new = require( './new.js' );
+const tt_new = require( './new' );
 
 
-const tt_not = require( './not.js' );
+const tt_not = require( './not' );
 
 
-const tt_null = require( './null.js' );
+const tt_null = require( './null' );
 
 
-const tt_number = require( './number.js' );
+const tt_number = require( './number' );
 
 
-const tt_objLiteral = require( './objLiteral.js' );
+const tt_objLiteral = require( './objLiteral' );
 
 
-const tt_or = require( './or.js' );
+const tt_or = require( './or' );
 
 
-const tt_plus = require( './plus.js' );
+const tt_plus = require( './plus' );
 
 
-const tt_plusAssign = require( './plusAssign.js' );
+const tt_plusAssign = require( './plusAssign' );
 
 
-const tt_postDecrement = require( './postDecrement.js' );
+const tt_postDecrement = require( './postDecrement' );
 
 
-const tt_postIncrement = require( './postIncrement.js' );
+const tt_postIncrement = require( './postIncrement' );
 
 
-const tt_preDecrement = require( './preDecrement.js' );
+const tt_preDecrement = require( './preDecrement' );
 
 
-const tt_preIncrement = require( './preIncrement.js' );
+const tt_preIncrement = require( './preIncrement' );
 
 
-const tt_string = require( './string.js' );
+const tt_string = require( './string' );
 
 
-const tt_typeof = require( './typeof.js' );
+const tt_typeof = require( './typeof' );
 
 
-const tt_undefined = require( './undefined.js' );
+const tt_undefined = require( './undefined' );
 
 
-const tt_var = require( './var.js' );
+const tt_var = require( './var' );
 
 
-const tt_let = require( './let.js' );
+const tt_let = require( './let' );
 
 
-const tt_block = require( './block.js' );
+const tt_block = require( './block' );
 
 
 const tim_proto = tim.proto;

@@ -6,7 +6,7 @@
 |
 | Editing this might be rather futile.
 */
-const tt_timspec_timspec = require( './timspec/timspec.js' );
+const tt_timspec_timspec = require( './timspec/timspec' );
 
 
 const tim_proto = tim.proto;

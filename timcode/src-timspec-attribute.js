@@ -6,154 +6,154 @@
 |
 | Editing this might be rather futile.
 */
-const tt_$_ast_and = require( './../ast/and.js' );
+const tt_$_ast_and = require( './../ast/and' );
 
 
-const tt_$_ast_arrayLiteral = require( './../ast/arrayLiteral.js' );
+const tt_$_ast_arrayLiteral = require( './../ast/arrayLiteral' );
 
 
-const tt_$_ast_assign = require( './../ast/assign.js' );
+const tt_$_ast_assign = require( './../ast/assign' );
 
 
-const tt_$_ast_boolean = require( './../ast/boolean.js' );
+const tt_$_ast_boolean = require( './../ast/boolean' );
 
 
-const tt_$_ast_call = require( './../ast/call.js' );
+const tt_$_ast_call = require( './../ast/call' );
 
 
-const tt_$_ast_comma = require( './../ast/comma.js' );
+const tt_$_ast_comma = require( './../ast/comma' );
 
 
-const tt_$_ast_condition = require( './../ast/condition.js' );
+const tt_$_ast_condition = require( './../ast/condition' );
 
 
-const tt_$_ast_delete = require( './../ast/delete.js' );
+const tt_$_ast_delete = require( './../ast/delete' );
 
 
-const tt_$_ast_differs = require( './../ast/differs.js' );
+const tt_$_ast_differs = require( './../ast/differs' );
 
 
-const tt_$_ast_divide = require( './../ast/divide.js' );
+const tt_$_ast_divide = require( './../ast/divide' );
 
 
-const tt_$_ast_divideAssign = require( './../ast/divideAssign.js' );
+const tt_$_ast_divideAssign = require( './../ast/divideAssign' );
 
 
-const tt_$_ast_dot = require( './../ast/dot.js' );
+const tt_$_ast_dot = require( './../ast/dot' );
 
 
-const tt_$_ast_equals = require( './../ast/equals.js' );
+const tt_$_ast_equals = require( './../ast/equals' );
 
 
-const tt_$_ast_func = require( './../ast/func.js' );
+const tt_$_ast_func = require( './../ast/func' );
 
 
-const tt_$_ast_greaterThan = require( './../ast/greaterThan.js' );
+const tt_$_ast_greaterThan = require( './../ast/greaterThan' );
 
 
-const tt_$_ast_instanceof = require( './../ast/instanceof.js' );
+const tt_$_ast_instanceof = require( './../ast/instanceof' );
 
 
-const tt_$_ast_lessThan = require( './../ast/lessThan.js' );
+const tt_$_ast_lessThan = require( './../ast/lessThan' );
 
 
-const tt_$_ast_member = require( './../ast/member.js' );
+const tt_$_ast_member = require( './../ast/member' );
 
 
-const tt_$_ast_minus = require( './../ast/minus.js' );
+const tt_$_ast_minus = require( './../ast/minus' );
 
 
-const tt_$_ast_minusAssign = require( './../ast/minusAssign.js' );
+const tt_$_ast_minusAssign = require( './../ast/minusAssign' );
 
 
-const tt_$_ast_multiply = require( './../ast/multiply.js' );
+const tt_$_ast_multiply = require( './../ast/multiply' );
 
 
-const tt_$_ast_multiplyAssign = require( './../ast/multiplyAssign.js' );
+const tt_$_ast_multiplyAssign = require( './../ast/multiplyAssign' );
 
 
-const tt_$_ast_negate = require( './../ast/negate.js' );
+const tt_$_ast_negate = require( './../ast/negate' );
 
 
-const tt_$_ast_new = require( './../ast/new.js' );
+const tt_$_ast_new = require( './../ast/new' );
 
 
-const tt_$_ast_not = require( './../ast/not.js' );
+const tt_$_ast_not = require( './../ast/not' );
 
 
-const tt_$_ast_null = require( './../ast/null.js' );
+const tt_$_ast_null = require( './../ast/null' );
 
 
-const tt_$_ast_number = require( './../ast/number.js' );
+const tt_$_ast_number = require( './../ast/number' );
 
 
-const tt_$_ast_objLiteral = require( './../ast/objLiteral.js' );
+const tt_$_ast_objLiteral = require( './../ast/objLiteral' );
 
 
-const tt_$_ast_or = require( './../ast/or.js' );
+const tt_$_ast_or = require( './../ast/or' );
 
 
-const tt_$_ast_plus = require( './../ast/plus.js' );
+const tt_$_ast_plus = require( './../ast/plus' );
 
 
-const tt_$_ast_plusAssign = require( './../ast/plusAssign.js' );
+const tt_$_ast_plusAssign = require( './../ast/plusAssign' );
 
 
-const tt_$_ast_postDecrement = require( './../ast/postDecrement.js' );
+const tt_$_ast_postDecrement = require( './../ast/postDecrement' );
 
 
-const tt_$_ast_postIncrement = require( './../ast/postIncrement.js' );
+const tt_$_ast_postIncrement = require( './../ast/postIncrement' );
 
 
-const tt_$_ast_preDecrement = require( './../ast/preDecrement.js' );
+const tt_$_ast_preDecrement = require( './../ast/preDecrement' );
 
 
-const tt_$_ast_preIncrement = require( './../ast/preIncrement.js' );
+const tt_$_ast_preIncrement = require( './../ast/preIncrement' );
 
 
-const tt_$_ast_string = require( './../ast/string.js' );
+const tt_$_ast_string = require( './../ast/string' );
 
 
-const tt_$_ast_typeof = require( './../ast/typeof.js' );
+const tt_$_ast_typeof = require( './../ast/typeof' );
 
 
-const tt_$_ast_undefined = require( './../ast/undefined.js' );
+const tt_$_ast_undefined = require( './../ast/undefined' );
 
 
-const tt_$_ast_var = require( './../ast/var.js' );
+const tt_$_ast_var = require( './../ast/var' );
 
 
-const tt_$_type_boolean = require( './../type/boolean.js' );
+const tt_$_type_boolean = require( './../type/boolean' );
 
 
-const tt_$_type_date = require( './../type/date.js' );
+const tt_$_type_date = require( './../type/date' );
 
 
-const tt_$_type_function = require( './../type/function.js' );
+const tt_$_type_function = require( './../type/function' );
 
 
-const tt_$_type_integer = require( './../type/integer.js' );
+const tt_$_type_integer = require( './../type/integer' );
 
 
-const tt_$_type_null = require( './../type/null.js' );
+const tt_$_type_null = require( './../type/null' );
 
 
-const tt_$_type_number = require( './../type/number.js' );
+const tt_$_type_number = require( './../type/number' );
 
 
-const tt_$_type_protean = require( './../type/protean.js' );
+const tt_$_type_protean = require( './../type/protean' );
 
 
-const tt_$_type_undefined = require( './../type/undefined.js' );
+const tt_$_type_undefined = require( './../type/undefined' );
 
 
-const tt_$_type_string = require( './../type/string.js' );
+const tt_$_type_string = require( './../type/string' );
 
 
-const tt_$_type_tim = require( './../type/tim.js' );
+const tt_$_type_tim = require( './../type/tim' );
 
 
-const tt_$_type_set = require( './../type/set.js' );
+const tt_$_type_set = require( './../type/set' );
 
 
 const tim_proto = tim.proto;

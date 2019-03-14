@@ -46,6 +46,14 @@ _require =
 {
 	let entry = path[ 0 ] === '.' ? this._parent : _catalog;
 
+	// FIXME placehold for future
+	switch( path )
+	{
+		case 'tim.js/path' : return _catalog[ 'tim.js' ].src.path[ 'path.js' ];
+		case 'tim.js/pathList' : return _catalog[ 'tim.js' ].src.path[ 'list.js' ];
+		case 'tim.js/stringList' : return _catalog[ 'tim.js' ].src.string[ 'list.js' ];
+	}
+
 	path = path.split( '/' );
 
 	for( let p = 0, pl = path.length; p < pl; p++ )

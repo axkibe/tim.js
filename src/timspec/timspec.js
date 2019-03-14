@@ -90,6 +90,8 @@ const ast_string = require( '../ast/string' );
 
 const ast_var = require( '../ast/var' );
 
+const fs = require( 'fs' );
+
 const parser_parser = require( '../parser/parser' );
 
 const shorthand = require( '../ast/shorthand' );
@@ -159,6 +161,12 @@ const getTimspec =
 				require( '../string/list' );
 
 				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
+
+			case 'timspecTwig.js' :
+
+				require( '../timspec/twig' );
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'timspec' ).get( 'twig.js' );
 
 			default : throw new Error( );
 		}
@@ -409,6 +417,66 @@ def.proto.getTimspec =
 	)
 {
 	return getTimspec( timtype, this._module );
+};
+
+
+/*
+| Gets the JSON type of a timtype with this timspec as base.
+| Unlike requesting the whole timspec this doesn't need to fully
+| load the tim definition, solving dependency circles.
+*/
+def.proto.getJsonTypeOf =
+	function(
+		timtype
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 1 ) throw new Error( );
+/**/
+/**/	if( timtype.timtype !== type_tim ) throw new Error( );
+/**/}
+
+	const entry = tim.catalog.getByTimtype( module.filename, timtype );
+
+	// has already been loaded
+	if( entry && entry.timtype === timspec_timspec ) return entry.json;
+
+	let filename = this.filename;
+
+	filename = filename.substr( 0, filename.lastIndexOf( '/' ) );
+
+	for( let a = 0, al = timtype.length; a < al; a++ )
+	{
+		const part = timtype.get( a );
+
+		switch( part )
+		{
+			case '.' : continue;
+
+			case '..' : filename = filename.substr( 0, filename.lastIndexOf( '/' ) ); continue;
+
+			default : filename = filename + '/' + part + ( a + 1 < al ? '' : '.js' );
+		}
+	}
+
+	const text = fs.readFileSync( filename ) + '';
+
+	// match lines containing the def.json specification
+	const reg = /(?:^|\n)\s*def.json\s*=\s*'(.*)'\s*;\s*(?:$|\n)/g;
+
+	let match;
+
+	for( let ca = reg.exec( text ); ca; ca = reg.exec( text ) )
+	{
+		if( match ) throw new Error( 'more than one def.json match' );
+
+		match = ca[ 1 ];
+	}
+
+	if( !match ) throw new Error( 'no def.json match' );
+
+	return match;
 };
 
 

@@ -1274,7 +1274,7 @@ def.proto.genFromJsonCreatorAttributeParser =
 			{
 				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
 
-				const jsontype = timspec.getTimspec( type ).json;
+				const jsontype = timspec.getJsonTypeOf( type );
 
 				cSwitch =
 					cSwitch
@@ -1473,7 +1473,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 			continue;
 		}
 
-		const jsontype = timspec.getTimspec( type ).json;
+		const jsontype = timspec.getJsonTypeOf( type );
 
 		if( !jsontype ) throw new Error( );
 
@@ -1553,7 +1553,7 @@ def.proto.genFromJsonCreatorListProcessing =
 
 		if( type === tsUndefined ) { haveUndefined = true; continue; }
 
-		const jsontype = timspec.getTimspec( type ).json;
+		const jsontype = timspec.getJsonTypeOf( type );
 
 		if( !jsontype ) throw new Error( );
 
@@ -1626,7 +1626,7 @@ def.proto.genFromJsonCreatorTwigProcessing =
 	{
 		const twigType = i.value;
 
-		const jsontype = timspec.getTimspec( twigType ).json;
+		const jsontype = timspec.getJsonTypeOf( twigType );
 
 		switchExpr =
 			switchExpr

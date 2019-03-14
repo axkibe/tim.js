@@ -6,13 +6,13 @@
 |
 | Editing this might be rather futile.
 */
-const tt_dir = require( './dir.js' );
+const tt_dir = require( './dir' );
 
 
-const tt_provisional = require( './provisional.js' );
+const tt_provisional = require( './provisional' );
 
 
-const tt_timspec = require( './timspec.js' );
+const tt_timspec = require( './timspec' );
 
 
 const tim_proto = tim.proto;

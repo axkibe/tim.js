@@ -82,6 +82,73 @@ def.proto.equalsConvention = 'must';
 
 
 /*
+| This type does not reference a primitive.
+*/
+def.proto.isPrimitive = false;
+
+
+/*
+| This type as string path relative to the owner
+| Without '.js' at the end
+*/
+def.lazy.pathStringBase =
+	function( )
+{
+	let p = '';
+
+	for( let a = 0, aZ = this.length; a < aZ; a++ )
+	{
+		if( a > 0 ) p += '/';
+
+		p += this.get( a );
+	}
+
+	return p;
+};
+
+
+/*
+| This type as string path relative to the owner.
+*/
+def.lazy.pathString =
+	function( )
+{
+	return this.pathStringBase + '.js';
+};
+
+
+/*
+| The require statement used for this type.
+*/
+def.lazy.require =
+	function( )
+{
+	if( this.imported )
+	{
+		// FIXME placeholder for future
+		if( this.imported !== 'tim.js' ) throw new Error( );
+
+		if( this.length !== 1 ) throw new Error( );
+
+		switch( this.get( 0 ) )
+		{
+			case 'path' : return 'require( "tim.js/path" )';
+
+			case 'pathList' : return 'require( "tim.js/pathList" )';
+
+			case 'stringList' : return 'require( "tim.js/stringList" )';
+
+			default : throw new Error( );
+		}
+	}
+	else
+	{
+		return 'require( "./' + this.pathStringBase + '" )';
+	}
+};
+
+
+/*
 | The timtype as imported varname
 */
 def.lazy.varname =
@@ -109,64 +176,6 @@ def.lazy.$varname =
 	function( )
 {
 	return shorthand.$var( this.varname );
-};
-
-
-/*
-| This type does not reference a primitive.
-*/
-def.proto.isPrimitive = false;
-
-
-/*
-| The require statement used for this type.
-*/
-def.lazy.require =
-	function( )
-{
-	if( this.imported )
-	{
-		// FIXME placeholder for future
-		if( this.imported !== 'tim.js' ) throw new Error( );
-
-		if( this.length !== 1 ) throw new Error( );
-
-		switch( this.get( 0 ) )
-		{
-			case 'path' : return 'require( "tim.js/src/path/path.js" )';
-
-			case 'pathList' : return 'require( "tim.js/src/path/list.js" )';
-
-			case 'stringList' : return 'require( "tim.js/src/string/list.js" )';
-
-			default : throw new Error( );
-		}
-
-		//return 'require( "' + this.imported + '/' + this.pathString + '" )';
-	}
-	else
-	{
-		return 'require( "./' + this.pathString + '" )';
-	}
-};
-
-
-/*
-| This type as string path relative to the owner.
-*/
-def.lazy.pathString =
-	function( )
-{
-	let p = '';
-
-	for( let a = 0, aZ = this.length; a < aZ; a++ )
-	{
-		if( a > 0 ) p += '/';
-
-		p += this.get( a );
-	}
-
-	return p + '.js';
 };
 
 
