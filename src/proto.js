@@ -29,9 +29,6 @@ proto.lazyValue =
 {
 /**/if( CHECK )
 /**/{
-/**/	// lazy valued stuff must be tims
-/**/	if( !proto.create ) throw new Error( );
-/**/
 /**/	// there is something amiss if static and tim obj
 /**/	// lazyness is used together
 /**/	if( proto.__lazy ) throw new Error( );

@@ -1142,6 +1142,8 @@ def.proto.genCreator =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
+	const timspec = this.timspec;
+
 	let block =
 		$block
 		.$( this.genCreatorVariables( ) )
@@ -1166,8 +1168,8 @@ def.proto.genCreator =
 		$block
 		.$comment( 'Creates a new object.' )
 		.$(
-			'self.create',
-			' = prototype.create',
+			'self.', timspec.creator,
+			' = prototype.', timspec.creator,
 			' = ', creator
 		)
 	);
@@ -1429,7 +1431,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 
 	const it = group.iterator( );
 
-	for( let i = it.next(); !i.done; i = it.next( ) )
+	for( let i = it.next( ); !i.done; i = it.next( ) )
 	{
 		const type = i.value;
 

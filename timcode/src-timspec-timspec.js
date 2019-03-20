@@ -40,6 +40,7 @@ const Constructor =
 		v_alike,
 		v_attributes,
 		v_check,
+		v_creator,
 		v_extend,
 		v_extendSpec,
 		v_ggroup,
@@ -69,6 +70,8 @@ const Constructor =
 	this.attributes = v_attributes;
 
 	this.check = v_check;
+
+	this.creator = v_creator;
 
 	this.extend = v_extend;
 
@@ -136,6 +139,8 @@ prototype.create =
 
 	let v_check;
 
+	let v_creator;
+
 	let v_extend;
 
 	let v_extendSpec;
@@ -181,6 +186,8 @@ prototype.create =
 		v_attributes = this.attributes;
 
 		v_check = this.check;
+
+		v_creator = this.creator;
 
 		v_extend = this.extend;
 
@@ -266,6 +273,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_check = arg;
+				}
+
+				break;
+
+			case 'creator' :
+
+				if( arg !== pass )
+				{
+					v_creator = arg;
 				}
 
 				break;
@@ -442,6 +458,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( typeof( v_creator ) !== 'string' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_extend !== undefined && v_extend.timtype !== tt_$_type_tim )
 /**/	{
 /**/		throw new Error( );
@@ -540,6 +561,8 @@ prototype.create =
 		&&
 		v_check === inherit.check
 		&&
+		v_creator === inherit.creator
+		&&
 		(
 			v_extend === inherit.extend
 			||
@@ -631,6 +654,7 @@ prototype.create =
 			v_alike,
 			v_attributes,
 			v_check,
+			v_creator,
 			v_extend,
 			v_extendSpec,
 			v_ggroup,
@@ -707,6 +731,8 @@ prototype.equals =
 		)
 		&&
 		this.check === obj.check
+		&&
+		this.creator === obj.creator
 		&&
 		(
 			this.extend === obj.extend
@@ -819,6 +845,8 @@ prototype.alikeIgnoringProteans =
 		)
 		&&
 		this.check === obj.check
+		&&
+		this.creator === obj.creator
 		&&
 		(
 			this.extend === obj.extend

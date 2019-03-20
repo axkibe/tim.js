@@ -57,6 +57,7 @@ const timWhitelist =
 		'adjust' : true,
 		'alike' : true,
 		'attributes' : true,
+		'create' : true,
 		'extend' : true,
 		'proto' : true,
 		'group' : true,

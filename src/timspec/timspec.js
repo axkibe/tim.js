@@ -23,6 +23,9 @@ if( TIM )
 		// true if an init checker is to be called
 		check : { type : 'boolean' },
 
+		// for now only a rename of the default creator possible
+		creator : { type : 'string' },
+
 		// if set extends this tim
 		extend : { type : [ '../type/tim', 'undefined' ] },
 
@@ -196,6 +199,8 @@ def.static.createFromDef =
 /**/}
 
 	validator.check( def );
+
+	const creator = def.create ? def.create[ 0 ] : 'create';
 
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
@@ -381,6 +386,7 @@ def.static.createFromDef =
 			'alike', def.alike,
 			'attributes', attributes,
 			'check', !!def.proto._check,
+			'creator', creator,
 			'extend', extend,
 			'extendSpec', extendSpec,
 			'ggroup', ggroup,
