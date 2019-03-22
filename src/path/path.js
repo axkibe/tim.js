@@ -30,20 +30,6 @@ def.lazyFuncStr.append =
 
 
 /*
-| Same as append but without caching.
-*/
-def.proto.appendNC =
-	function( key )
-{
-	const result = this.create( 'list:append', key );
-
-	tim.aheadValue( result, 'shorten', this );
-
-	return result;
-};
-
-
-/*
 | Returns a path with the first the entry chopped of.
 */
 def.lazy.chop =
