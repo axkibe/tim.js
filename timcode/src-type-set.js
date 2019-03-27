@@ -261,6 +261,12 @@ tim_proto.lazyValue( prototype, 'trivial', tim_proto.setTrivial );
 
 
 /*
+| Forwards the iterator.
+*/
+prototype[ Symbol.iterator ] = function( ) { return this._set[ Symbol.iterator ]( ); };
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =

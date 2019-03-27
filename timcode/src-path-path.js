@@ -301,6 +301,12 @@ prototype.set = tim_proto.listSet;
 
 
 /*
+| Forwards the iterator.
+*/
+prototype[ Symbol.iterator ] = function( ) { return this._list[ Symbol.iterator ]( ); };
+
+
+/*
 | Converts into json.
 */
 tim_proto.lazyValue(

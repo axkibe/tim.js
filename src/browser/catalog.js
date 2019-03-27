@@ -52,6 +52,7 @@ _require =
 		case 'tim.js/path' : return _catalog[ 'tim.js' ].src.path[ 'path.js' ];
 		case 'tim.js/pathList' : return _catalog[ 'tim.js' ].src.path[ 'list.js' ];
 		case 'tim.js/stringList' : return _catalog[ 'tim.js' ].src.string[ 'list.js' ];
+		case 'tim.js/stringSet' : return _catalog[ 'tim.js' ].src.string[ 'set.js' ];
 	}
 
 	path = path.split( '/' );

@@ -273,21 +273,15 @@ catalog.getByTimtype =
 		// FIXME duplicate code to timspec_timspec
 		switch( timtype.pathString )
 		{
-			case 'path.js' :
+			case 'path.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'path.js' );
 
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'path.js' );
+			case 'pathList.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'list.js' );
 
-			case 'pathList.js' :
+			case 'stringList.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
 
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'list.js' );
+			case 'stringSet.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'set.js' );
 
-			case 'stringList.js' :
-
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
-
-			case 'timspecTwig.js' :
-
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'timspec' ).get( 'twig.js' );
+			case 'timspecTwig.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'timspec' ).get( 'twig.js' );
 
 			default : throw new Error( );
 		}

@@ -1755,25 +1755,19 @@ def.proto.genFromJsonCreator =
 
 	if( timspec.ggroup )
 	{
-		funcBlock =
-			funcBlock
-			.$( this.genFromJsonCreatorGroupProcessing( ) );
+		funcBlock = funcBlock.$( this.genFromJsonCreatorGroupProcessing( ) );
 	}
 
 	if( timspec.glist )
 	{
-		funcBlock =
-			funcBlock
-			.$( this.genFromJsonCreatorListProcessing( ) );
+		funcBlock = funcBlock.$( this.genFromJsonCreatorListProcessing( ) );
 	}
 
 	if( timspec.gset ) throw new Error( 'FUTURE, fromJson for sets not implemented' );
 
 	if( timspec.gtwig )
 	{
-		funcBlock =
-			funcBlock
-			.$( this.genFromJsonCreatorTwigProcessing( ) );
+		funcBlock = funcBlock.$( this.genFromJsonCreatorTwigProcessing( ) );
 	}
 
 	funcBlock =
@@ -1880,6 +1874,8 @@ def.proto.genTimProto =
 
 			.$comment( 'Returns the size of the group.')
 			.$( this.$protoLazyValueSet( '"size"', 'groupSize' ) );
+
+			// FIXME iterator
 	}
 
 	if( timspec.glist )
@@ -1908,7 +1904,13 @@ def.proto.genTimProto =
 			.$( this.$protoSet( 'remove', 'listRemove' ) )
 
 			.$comment( 'Returns the list with one element set.' )
-			.$( this.$protoSet( 'set', 'listSet' ) );
+			.$( this.$protoSet( 'set', 'listSet' ) )
+
+			.$comment( 'Forwards the iterator.' )
+			.$(
+				'prototype[ Symbol.iterator ] =',
+				$func( $( 'return this._list[ Symbol.iterator ]( )' ) )
+			);
 	}
 
 	if( timspec.gset )
@@ -1924,6 +1926,7 @@ def.proto.genTimProto =
 			.$comment( 'Returns true if the set has an element.' )
 			.$( this.$protoSet( 'has', 'setHas' ) )
 
+			// FIXME use a real iterator
 			.$comment( 'Returns an iterator for the set.' )
 			.$( this.$protoSet( 'iterator', 'setIterator' ) )
 
@@ -1934,7 +1937,13 @@ def.proto.genTimProto =
 			.$( this.$protoLazyValueSet( '"size"', 'setSize' ) )
 
 			.$comment( 'Returns the one and only element or the set if size != 1.' )
-			.$( this.$protoLazyValueSet( '"trivial"', 'setTrivial' ) );
+			.$( this.$protoLazyValueSet( '"trivial"', 'setTrivial' ) )
+
+			.$comment( 'Forwards the iterator.' )
+			.$(
+				'prototype[ Symbol.iterator ] =',
+				$func( $( 'return this._set[ Symbol.iterator ]( )' ) )
+			);
 	}
 
 	if( timspec.gtwig )
@@ -1962,6 +1971,8 @@ def.proto.genTimProto =
 
 			.$comment( 'Returns the twig with the element at key set.' )
 			.$( this.$protoSet( 'set', 'twigSet' ) );
+
+			// FIXME iterator
 	}
 
 	return result;

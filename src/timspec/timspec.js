@@ -165,6 +165,12 @@ const getTimspec =
 
 				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
 
+			case 'stringSet.js' :
+
+				require( '../string/set' );
+
+				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'set.js' );
+
 			case 'timspecTwig.js' :
 
 				require( '../timspec/twig' );

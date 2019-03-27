@@ -542,6 +542,7 @@ proto.setHas =
 
 /*
 | Returns an iterator for the set.
+| FIXME remove
 */
 proto.setIterator =
 	function( )

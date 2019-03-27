@@ -138,6 +138,8 @@ def.lazy.require =
 
 			case 'stringList' : return 'require( "tim.js/stringList" )';
 
+			case 'stringSet' : return 'require( "tim.js/stringSet" )';
+
 			default : throw new Error( );
 		}
 	}
