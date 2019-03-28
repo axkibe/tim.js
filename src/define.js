@@ -223,13 +223,13 @@ module.exports =
 			if( !tim_path ) tim_path = require( './path/path' );
 			if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
 
+			requires[ required ] = true;
+
 			if( required === 'tim.js/path' ) return tim_path;
 			if( required === 'tim.js/pathList' ) return require( './path/list' );
 			if( required === 'tim.js/stringList' ) return require( './string/list' );
 			if( required === 'tim.js/stringSet' ) return require( './string/set' );
 			if( required === 'tim.js/timspecTwig' ) return require( './timspec/twig' );
-
-			requires[ required ] = true;
 
 			if( now === 'NOW' ) return previousRequire.call( module, required );
 

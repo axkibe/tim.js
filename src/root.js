@@ -4,33 +4,21 @@
 'use strict';
 
 
-/*
-| This has to be in node.
-*/
+// this has to be in node.
 if( !global.NODE ) throw new Error( );
 
 if( typeof( global.CHECK ) !== 'boolean' ) throw new Error( );
 
 require( './inspect' );
 
-
-/*
-| Sets tim global false.
-*/
+// sets tim global false.
 global.TIM = false;
 
-
-/*
-|  The tim module.
-*/
+// the tim module.
 exports = global.tim = module.exports;
 
-
-/*
-| In case a peer ouroboros changed the global, change it back.
-*/
+// in case a peer ouroboros changed the global, change it back.
 global.tim = module.exports;
-
 
 // global pass flag for creators
 global.pass = Object.freeze( { } );
@@ -48,19 +36,13 @@ const filename = module.filename;
 // if this filename is not bootstrap.js something is seriously amiss.
 if( !filename.endsWith( ending ) ) throw new Error( );
 
-const bootstrap =
-tim._BOOTSTRAP =
-	{ };
+const bootstrap = tim._BOOTSTRAP = { };
 
 // the (src) root directory
-const rootPath =
-bootstrap.rootPath =
-	filename.substr( 0, filename.length - ending.length );
+const rootPath = bootstrap.rootPath = filename.substr( 0, filename.length - ending.length );
 
 // the timcode path
-const timcodePath =
-bootstrap.timcodePath =
-	rootPath + 'timcode/';
+const timcodePath = bootstrap.timcodePath = rootPath + 'timcode/';
 
 const strapped = bootstrap.strapped = [ ];
 
