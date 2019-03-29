@@ -10,6 +10,8 @@ tim.define( module, ( def, self ) => {
 if( TIM )
 {
 	def.set = [ 'string' ];
+
+	def.json = 'string-set';
 }
 
 

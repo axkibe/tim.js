@@ -1205,6 +1205,8 @@ def.proto.genFromJsonCreatorVariables =
 
 		if( timspec.glist ) varList.push( 'jlist', 'list' );
 
+		if( timspec.gset ) varList.push( 'jset', 'set' );
+
 		if( timspec.gtwig ) varList.push( 'key', 'jval', 'jwig', 'ranks', 'twig' );
 	}
 
@@ -1610,6 +1612,30 @@ def.proto.genFromJsonCreatorListProcessing =
 };
 
 
+
+/*
+| Generates the fromJsonCreator's set processing.
+*/
+def.proto.genFromJsonCreatorSetProcessing =
+	function( )
+{
+	const timspec = this.timspec;
+
+	const set = timspec.gset;
+
+	// FUTURE dirty workaround
+	if( set.size !== 1 || set.trivial.timtype !== type_string )
+	{
+		throw new Error( 'sets json conversation not yet fully implemented' );
+	}
+
+	return(
+		$block
+		.$if( '!jset', $fail( ) )
+		.$( 'set = new Set( jset )' )
+	);
+};
+
 /*
 | Generates the fromJsonCreator's twig processing.
 */
@@ -1703,6 +1729,7 @@ def.proto.genFromJsonCreatorReturn =
 			case 'group' :
 			case 'ranks' :
 			case 'list' :
+			case 'set' :
 			case 'twig' :
 
 				call = call.$argument( name );
@@ -1763,7 +1790,10 @@ def.proto.genFromJsonCreator =
 		funcBlock = funcBlock.$( this.genFromJsonCreatorListProcessing( ) );
 	}
 
-	if( timspec.gset ) throw new Error( 'FUTURE, fromJson for sets not implemented' );
+	if( timspec.gset )
+	{
+		funcBlock = funcBlock.$( this.genFromJsonCreatorSetProcessing( ) );
+	}
 
 	if( timspec.gtwig )
 	{
@@ -2006,7 +2036,7 @@ def.proto.genToJson =
 
 	if( timspec.glist ) olit = olit.add( 'list', 'this._list' );
 
-	if( timspec.gset ) throw new Error( 'FUTURE not implemented' );
+	if( timspec.gset ) olit = olit.add( 'set', 'Array.from( this._set )' );
 
 	if( timspec.gtwig )
 	{

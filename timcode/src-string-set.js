@@ -151,6 +151,68 @@ prototype.create =
 
 
 /*
+| Creates a new object from json.
+*/
+self.createFromJSON =
+	function(
+		json // the json object
+	)
+{
+	let jset;
+
+	let set;
+
+	for( let name in json )
+	{
+		const arg = json[ name ];
+
+		switch( name )
+		{
+			case 'type' :
+
+				if( arg !== 'string-set' )
+				{
+					throw new Error( );
+				}
+
+				break;
+
+			case 'set' :
+
+				jset = arg;
+
+				break;
+		}
+	}
+
+	if( !jset )
+	{
+		throw new Error( );
+	}
+
+	set = new Set( jset );
+
+	const it = set.keys( );
+
+	for(
+		let i = it.next( );
+		!i.done;
+		i = it.next( )
+	)
+	{
+		const v = i.value;
+
+		if( typeof( v ) !== 'string' )
+		{
+			throw new Error( );
+		}
+	}
+
+	return new Constructor( set );
+};
+
+
+/*
 | Type reflection.
 */
 prototype.timtype = self;
@@ -217,9 +279,34 @@ prototype[ Symbol.iterator ] = function( ) { return this._set[ Symbol.iterator ]
 
 
 /*
+| Converts into json.
+*/
+tim_proto.lazyValue(
+	prototype,
+	'toJSON',
+	function( )
+{
+	const json =
+		{
+			type :
+				'string-set',
+			set :
+				Array.from(
+					this._set
+				)
+		};
+
+	return function( ) { return Object.freeze( json ); };
+}
+);
+
+
+/*
 | Tests equality of object.
+| Tests equality of json representation.
 */
 prototype.equals =
+prototype.equalsJSON =
 	function(
 		obj // object to compare to
 	)
