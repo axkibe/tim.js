@@ -121,17 +121,24 @@ def.static.createFromArray =
 def.lazy.equalsConvention =
 	function( )
 {
-	const it = this.iterator( );
+	let first = true;
 
-	let i = it.next( );
+	let ec;
 
-	const ec = i.value.equalsConvention;
-
-	if( ec === 'can' ) return 'can';
-
-	for( i = it.next( ); !i.done; i = it.next( ) )
+	for( let type of this )
 	{
-		const iec = i.value.equalsConvention;
+		if( first )
+		{
+			first = false;
+
+			ec = type.equalsConvention;
+
+			if( ec === 'can' ) return 'can';
+
+			continue;
+		}
+
+		const iec = type.equalsConvention;
 
 		if( iec === 'can' ) return 'can';
 

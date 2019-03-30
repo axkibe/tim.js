@@ -39,12 +39,8 @@ const dependencyWalk =
 
 	if( imports )
 	{
-		const it = imports.iterator( );
-
-		for( let i = it.next( ); !i.done; i = it.next( ) )
+		for( let type of imports )
 		{
-			const type = i.value;
-
 			if( type.timtype !== type_tim ) continue;
 
 			const ts = tim.catalog.getByTimtype( timspec.filename, type );
@@ -54,12 +50,8 @@ const dependencyWalk =
 	}
 
 	{
-		const it = timspec.requires.iterator( );
-
-		for( let i = it.next( ); !i.done; i = it.next( ) )
+		for( let filename of timspec.requires )
 		{
-			const filename = i.value;
-
 			const type = type_tim.createFromPath( filename.split( '/' ) );
 
 			// FIXME use getByRelativePath

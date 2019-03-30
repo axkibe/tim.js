@@ -97,12 +97,8 @@ def.proto.genRequires =
 
 	let block = $block;
 
-	const it = timspec.imports.iterator( );
-
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let type of timspec.imports )
 	{
-		const type = i.value;
-
 		if( type.isPrimitive ) continue;
 
 		block = block.$const( type.varname, type.require );
@@ -811,27 +807,19 @@ def.proto.genTypeCheckFailCondition =
 
 	const condArray = [ ];
 
-	let it = types.iterator( );
-
 	// first do the primitives
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let type of types )
 	{
-		const types = i.value;
+		if( type.timtype === type_tim ) continue;
 
-		if( types.timtype === type_tim ) continue;
-
-		const cond = this.genSingleTypeCheckFailCondition( aVar, types );
+		const cond = this.genSingleTypeCheckFailCondition( aVar, type );
 
 		if( cond ) condArray.push( cond );
 	}
 
-	it = types.iterator( );
-
 	// then do the tims
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let type of types )
 	{
-		const type = i.value;
-
 		if( type.timtype !== type_tim ) continue;
 
 		const cond = this.genSingleTypeCheckFailCondition( aVar, type );
@@ -1028,13 +1016,9 @@ def.proto.genCreatorInheritOptimization =
 
 	let result;
 
-	let it = inherits.iterator( );
-
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let v of inherits )
 	{
 		if( !result ) result = $block;
-
-		const v = i.value;
 
 		const $v = $string( v );
 
@@ -1250,15 +1234,11 @@ def.proto.genFromJsonCreatorAttributeParser =
 	// the code switch
 	let cSwitch;
 
-	const it = attr.types.iterator( );
-
 	// primitive checks
 	const pcs = [ ];
 
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let type of attr.types )
 	{
-		const type = i.value;
-
 		switch( type.timtype )
 		{
 			case type_boolean : pcs.push ( 'typeof( arg ) === "boolean"' ); break;
@@ -1400,7 +1380,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 	let haveNull = false;
 
 	// FUTURE dirty workaround
-	if( group.size === 1 && group.iterator( ).next( ).value.timtype === type_string )
+	if( group.size === 1 && group.trivial.timtype === type_string )
 	{
 		return(
 			$block
@@ -1410,7 +1390,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 	}
 
 	// FUTURE dirty workaround 2
-	if( group.size === 1 && group.iterator( ).next( ).value.timtype === type_boolean )
+	if( group.size === 1 && group.trivial.timtype === type_boolean )
 	{
 		return(
 			$block
@@ -1431,12 +1411,8 @@ def.proto.genFromJsonCreatorGroupProcessing =
 	// FUTURE allow more than one non-tim type
 	let customDefault = false;
 
-	const it = group.iterator( );
-
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let type of group )
 	{
-		const type = i.value;
-
 		if( type.timtype === type_null ) { haveNull = true; continue; }
 
 		if( type.timtype === type_string )
@@ -1525,7 +1501,7 @@ def.proto.genFromJsonCreatorListProcessing =
 	const list = timspec.glist;
 
 	// FUTURE dirty workaround
-	if( list.size === 1 && list.iterator( ).next( ).value.timtype === type_string )
+	if( list.size === 1 && list.trivial.timtype === type_string )
 	{
 		return(
 			$block
@@ -1547,12 +1523,8 @@ def.proto.genFromJsonCreatorListProcessing =
 
 	let haveUndefined = false;
 
-	const it = list.iterator( );
-
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let type of list )
 	{
-		const type = i.value;
-
 		if( type === tsNull ) { haveNull = true; continue; }
 
 		if( type === tsUndefined ) { haveUndefined = true; continue; }
@@ -1648,12 +1620,8 @@ def.proto.genFromJsonCreatorTwigProcessing =
 
 	let switchExpr = $switch( 'jval.type' );
 
-	const it = twig.iterator( );
-
-	for( let i = it.next( ); !i.done; i = it.next( ) )
+	for( let twigType of twig )
 	{
-		const twigType = i.value;
-
 		const jsontype = timspec.getJsonTypeOf( twigType );
 
 		switchExpr =
