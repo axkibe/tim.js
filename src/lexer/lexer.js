@@ -4,10 +4,13 @@
 'use strict';
 
 
-let lexer = module.exports;
+tim.define( module, ( def, lexer_lexer ) => {
 
 
-const token = require( './token' ).tv;
+def.abstract = true;
+
+
+const token = require( './token' );
 
 const tokenList = require( './tokenList' );
 
@@ -17,7 +20,7 @@ const tokenList = require( './tokenList' );
 |
 | Returns an array of tokens.
 */
-lexer.tokenize =
+def.static.tokenize =
 	function( code )
 {
 	if( typeof( code ) !== 'string' ) throw new Error( 'cannot tokenize non-strings' );
@@ -57,13 +60,13 @@ lexer.tokenize =
 				case 'true' :
 				case 'typeof' :
 
-					tokens.push( token( value ) );
+					tokens.push( token.tv( value ) );
 
 					continue;
 
 				default :
 
-					tokens.push( token( 'identifier', value ) );
+					tokens.push( token.tv( 'identifier', value ) );
 
 					continue;
 			}
@@ -81,7 +84,7 @@ lexer.tokenize =
 
 			value = parseInt( value, 10 );
 
-			tokens.push( token( 'number', value ) );
+			tokens.push( token.tv( 'number', value ) );
 
 			continue;
 		}
@@ -105,7 +108,7 @@ lexer.tokenize =
 				if( c >= cl ) throw new Error( '" missing' );
 			}
 
-			tokens.push( token( 'string', value ) );
+			tokens.push( token.tv( 'string', value ) );
 
 			continue;
 		}
@@ -126,7 +129,7 @@ lexer.tokenize =
 			case '{' :
 			case '}' :
 
-				tokens.push( token( ch ) );
+				tokens.push( token.tv( ch ) );
 
 				continue;
 
@@ -136,7 +139,7 @@ lexer.tokenize =
 				{
 					if( c + 2 < cl && code[ c + 2 ] === '=' )
 					{
-						tokens.push( token( '===' ) );
+						tokens.push( token.tv( '===' ) );
 
 						c += 2;
 
@@ -149,7 +152,7 @@ lexer.tokenize =
 				}
 				else
 				{
-					tokens.push( token( '=' ) );
+					tokens.push( token.tv( '=' ) );
 				}
 
 				continue;
@@ -160,7 +163,7 @@ lexer.tokenize =
 				{
 					if( c + 2 < cl && code[ c + 2 ] === '=' )
 					{
-						tokens.push( token( '!==' ) );
+						tokens.push( token.tv( '!==' ) );
 
 						c += 2;
 
@@ -173,7 +176,7 @@ lexer.tokenize =
 				}
 				else
 				{
-					tokens.push( token( '!' ) );
+					tokens.push( token.tv( '!' ) );
 				}
 
 				continue;
@@ -182,19 +185,19 @@ lexer.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '+' )
 				{
-					tokens.push( token( '++' ) );
+					tokens.push( token.tv( '++' ) );
 
 					c++;
 				}
 				else if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token( '+=' ) );
+					tokens.push( token.tv( '+=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token( '+' ) );
+					tokens.push( token.tv( '+' ) );
 				}
 
 				continue;
@@ -203,19 +206,19 @@ lexer.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '-' )
 				{
-					tokens.push( token( '--' ) );
+					tokens.push( token.tv( '--' ) );
 
 					c++;
 				}
 				else if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token( '-=' ) );
+					tokens.push( token.tv( '-=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token( '-' ) );
+					tokens.push( token.tv( '-' ) );
 				}
 
 				continue;
@@ -224,13 +227,13 @@ lexer.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token( '*=' ) );
+					tokens.push( token.tv( '*=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token( '*' ) );
+					tokens.push( token.tv( '*' ) );
 				}
 
 				continue;
@@ -239,13 +242,13 @@ lexer.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token( '/=' ) );
+					tokens.push( token.tv( '/=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token( '/' ) );
+					tokens.push( token.tv( '/' ) );
 				}
 
 				continue;
@@ -254,7 +257,7 @@ lexer.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '|' )
 				{
-					tokens.push( token( '||' ) );
+					tokens.push( token.tv( '||' ) );
 
 					c++;
 				}
@@ -269,7 +272,7 @@ lexer.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '&' )
 				{
-					tokens.push( token( '&&' ) );
+					tokens.push( token.tv( '&&' ) );
 
 					c++;
 				}
@@ -288,3 +291,6 @@ lexer.tokenize =
 
 	return tokenList.create( 'list:init', tokens );
 };
+
+
+} );

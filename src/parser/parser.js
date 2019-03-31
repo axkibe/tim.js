@@ -7,7 +7,10 @@
 'use strict';
 
 
-let parser = module.exports = { };
+tim.define( module, ( def, parser_parser ) => {
+
+
+def.abstract = true;
 
 
 const ast_and = require( '../ast/and' );
@@ -139,7 +142,7 @@ const noSemicolon =
 /*
 | Handler for array literals.
 */
-parser.handleArrayLiteral =
+def.static.handleArrayLiteral =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -201,7 +204,7 @@ parser.handleArrayLiteral =
 /*
 | Handler for boolean
 */
-parser.handleBlock =
+def.static.handleBlock =
 	function(
 		state // current parser state
 	)
@@ -237,7 +240,7 @@ parser.handleBlock =
 /*
 | Handler for boolean literals.
 */
-parser.handleBooleanLiteral =
+def.static.handleBooleanLiteral =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -259,7 +262,7 @@ parser.handleBooleanLiteral =
 /*
 | Handler for ( ) in case of calls.
 */
-parser.handleCall =
+def.static.handleCall =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -324,7 +327,7 @@ parser.handleCall =
 /*
 | Handler for ? : conditionals
 */
-parser.handleCondition =
+def.static.handleCondition =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -366,7 +369,7 @@ parser.handleCondition =
 /*
 | Handler for dots.
 */
-parser.handleDot =
+def.static.handleDot =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -398,7 +401,7 @@ parser.handleDot =
 /*
 | Generic handler for dualistic operations.
 */
-parser.handleDualisticOps =
+def.static.handleDualisticOps =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -417,7 +420,7 @@ parser.handleDualisticOps =
 /*
 | Handler for ( ) in case of groupings.
 */
-parser.handleGrouping =
+def.static.handleGrouping =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -445,7 +448,7 @@ parser.handleGrouping =
 /*
 | Handler for identifiers.
 */
-parser.handleIdentifier =
+def.static.handleIdentifier =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -458,7 +461,7 @@ parser.handleIdentifier =
 /*
 | Handler for member operations.
 */
-parser.handleMember =
+def.static.handleMember =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -487,7 +490,7 @@ parser.handleMember =
 /*
 | Generic handler for left side mono operations.
 */
-parser.handleMonoOps =
+def.static.handleMonoOps =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -510,7 +513,7 @@ parser.handleMonoOps =
 /*
 | Handler for for.
 */
-parser.handleFor =
+def.static.handleFor =
 	function(
 		state // current parser state
 	)
@@ -534,7 +537,7 @@ parser.handleFor =
 	{
 		case 'let' :
 
-			state = parser.handleLet( state );
+			state = parser_parser.handleLet( state );
 
 			if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
 
@@ -594,7 +597,7 @@ parser.handleFor =
 /*
 | Handler for if.
 */
-parser.handleIf =
+def.static.handleIf =
 	function(
 		state // current parser state
 	)
@@ -662,7 +665,7 @@ parser.handleIf =
 /*
 | Handler for let.
 */
-parser.handleLet =
+def.static.handleLet =
 	function(
 		state // current parser state
 	)
@@ -744,7 +747,7 @@ parser.handleLet =
 /*
 | Handler for new operations.
 */
-parser.handleNew =
+def.static.handleNew =
 	function(
 		state, // current parser state
 		spec   // operator spec
@@ -763,7 +766,7 @@ parser.handleNew =
 /*
 | Handler for null.
 */
-parser.handleNull =
+def.static.handleNull =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -777,7 +780,7 @@ parser.handleNull =
 /*
 | Handler for numeric literals.
 */
-parser.handleNumber =
+def.static.handleNumber =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -790,7 +793,7 @@ parser.handleNumber =
 /*
 | Handler for { } Object literals
 */
-parser.handleObjectLiteral =
+def.static.handleObjectLiteral =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -818,7 +821,7 @@ parser.handleObjectLiteral =
 /*
 | Generic parser error.
 */
-parser.handleParserError =
+def.static.handleParserError =
 	function(
 		// state // current parser state
 		// spec   // operator spec
@@ -833,7 +836,7 @@ parser.handleParserError =
 | Generic pass handler.
 | It just passes back up
 */
-parser.handlePass =
+def.static.handlePass =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -846,7 +849,7 @@ parser.handlePass =
 /*
 | Handler for return
 */
-parser.handleReturn =
+def.static.handleReturn =
 	function(
 		state // current parser state
 	)
@@ -867,7 +870,7 @@ parser.handleReturn =
 /*
 | Handler for string literals.
 */
-parser.handleString =
+def.static.handleString =
 	function(
 		state // current parser state
 		// spec   // operator spec
@@ -1076,7 +1079,7 @@ const parseToken =
 		// FIXME needed?
 		if( tokenSpec.handler === 'handlePass' ) return state;
 
-		state = parser[ tokenSpec.handler ]( state, tokenSpec );
+		state = parser_parser[ tokenSpec.handler ]( state, tokenSpec );
 	}
 
 	// FIXME make a set
@@ -1145,7 +1148,7 @@ const tokenizeArray =
 /*
 | Parses code to create an ast tree.
 */
-parser.parseArray =
+def.static.parseArray =
 	function(
 		array,       // the array of elements to parse
 		start        // start at "statement" or "expression" level
@@ -1186,24 +1189,27 @@ parser.parseArray =
 /*
 | Parses code to create an ast tree.
 */
-parser.parse =
+def.static.parse =
 	function(
 		// list of strings to parse
 		// or ast subtrees.
 	)
 {
-	return parser.parseArray( arguments, 'statement' );
+	return parser_parser.parseArray( arguments, 'statement' );
 };
 
 
 /*
 | Parses code as expression.
 */
-parser.parseExpr =
+def.static.parseExpr =
 	function(
 		// list of strings to parse
 		// or ast subtrees.
 	)
 {
-	return parser.parseArray( arguments, 'expr' );
+	return parser_parser.parseArray( arguments, 'expr' );
 };
+
+
+} );
