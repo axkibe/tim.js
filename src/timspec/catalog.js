@@ -8,16 +8,19 @@
 'use strict';
 
 
-/*
-| This part has to be in node.
-*/
-if( !global.NODE ) throw new Error( );
-
+tim.define( module, ( def, timspec_catalog ) => {
 
 /*
-| This module.
+| This has to be in node.
 */
-const catalog = module.exports = { };
+if( !NODE ) throw new Error( );
+
+
+if( TIM )
+{
+	def.list = [ './rootDir' ];
+}
+
 
 const timspec_dir = require( './dir' );
 
@@ -31,15 +34,9 @@ const type_tim = require( '../type/tim' );
 
 
 /*
-| The list of all timspecRoots.
-*/
-const timspecRoots = [ ];
-
-
-/*
 | Adds a timspecRootDir
 */
-catalog.addRootDir =
+def.proto.addRootDir =
 	function(
 		realpath,     // absolute path of the timspec_rootDir
 		id,           // id for timspec tree
@@ -62,30 +59,36 @@ catalog.addRootDir =
 		);
 
 	// checks if this root or this id is already a timspecRoot
-	for( let a = 0, al = timspecRoots.length; a < al; a++ )
+	for( let a = 0, al = tim.catalog.length; a < al; a++ )
 	{
-		const tsr = timspecRoots[ a ];
+		const tsr = tim.catalog.get( a );
 
 		if( tsr.realpath === realpath ) throw new Error( );
 
 		if( tsr.id === id ) throw new Error( );
 	}
 
-	timspecRoots.push( tsRoot );
+	tim.catalog = tim.catalog.append( tsRoot );
 
-	// sorts them, so timspecRoots in a subdir can override parents roots.
-	timspecRoots.sort(
-		function( a, b )
-		{
-			const as = a.string;
+	// sorts them, so a root dir as a subdir can override parents roots.
 
-			const bs = b.string;
+	// FIXME XXX privacy violation!
+	const sorted = tim.catalog._list.slice( );
 
-			if( as < bs ) return -1;
-			if( as > bs ) return 1;
-			return 0;
-		}
+	sorted.sort(
+		( a, b ) =>
+	{
+		const as = a.string;
+
+		const bs = b.string;
+
+		if( as < bs ) return -1;
+		if( as > bs ) return 1;
+		return 0;
+	}
 	);
+
+	tim.catalog = tim.catalog.create( 'list:init', sorted );
 };
 
 
@@ -93,7 +96,7 @@ catalog.addRootDir =
 | Creates and adds a timspec to the catalog.
 | It determines the correct timspecRoot to add it to.
 */
-catalog.addEntry =
+def.proto.addEntry =
 	function(
 		entry   // timspec or provisional to add
 	)
@@ -108,11 +111,11 @@ catalog.addEntry =
 	// timspecRoot
 	let tsr, tsrPos = 0;
 
-	const tsrLen = timspecRoots.length;
+	const tsrLen = tim.catalog.length;
 
 	while( tsrPos < tsrLen )
 	{
-		tsr = timspecRoots[ tsrPos ];
+		tsr = tim.catalog.get( tsrPos );
 
 		if( filename.startsWith( tsr.realpath ) ) break;
 
@@ -131,7 +134,7 @@ catalog.addEntry =
 
 	entry = entry.create( 'path', path );
 
-	timspecRoots[ tsrPos ] = tsr.addEntry( entry );
+	tim.catalog = tim.catalog.set( tsrPos, tsr.addEntry( entry ) );
 
 	return entry;
 };
@@ -141,7 +144,7 @@ catalog.addEntry =
 | Returns the rootDir by it's id (string)
 | or atlernativly by a timspec
 */
-catalog.getRootDir =
+def.proto.getRootDir =
 	function(
 		consult // id or timspec
 	)
@@ -151,9 +154,9 @@ catalog.getRootDir =
 		consult = consult.path.get( 0 );
 	}
 
-	for( let t = 0, tLen = timspecRoots.length; t < tLen; t++ )
+	for( let t = 0, tLen = tim.catalog.length; t < tLen; t++ )
 	{
-		const tsr = timspecRoots[ t ];
+		const tsr = tim.catalog.get( t );
 
 		if( tsr.id === consult ) return tsr;
 	}
@@ -168,7 +171,7 @@ catalog.getRootDir =
 /*
 | Returns the timspec for a given realpath.
 */
-catalog.getByRealpath =
+def.proto.getByRealpath =
 	function(
 		realpath
 	)
@@ -176,9 +179,9 @@ catalog.getByRealpath =
 	// first find the root dir
 	let tsr;
 
-	for( let t = 0, tLen = timspecRoots.length; ; t++ )
+	for( let t = 0, tLen = tim.catalog.length; ; t++ )
 	{
-		tsr = timspecRoots[ t ];
+		tsr = tim.catalog.get( t );
 
 		if( realpath.length < tsr.realpath.length ) continue;
 
@@ -209,7 +212,7 @@ catalog.getByRealpath =
 | Returns the timspec for a relative path.
 | (used by generator)
 */
-catalog.getByRelativePath =
+def.proto.getByRelativePath =
 	function(
 		base,    // the filename relative to which the path is given
 		path     // the relative path (of type tim_path)
@@ -240,7 +243,7 @@ catalog.getByRelativePath =
 		}
 	}
 
-	return catalog.getByRealpath( base );
+	return tim.catalog.getByRealpath( base );
 };
 
 
@@ -248,7 +251,7 @@ catalog.getByRelativePath =
 | Returns the timspec by a timtype
 | (used by generator)
 */
-catalog.getByTimtype =
+def.proto.getByTimtype =
 	function(
 		base,    // the filename relative to which the path is given
 		timtype  // the relative timtype
@@ -318,7 +321,7 @@ catalog.getByTimtype =
 		}
 	}
 
-	return catalog.getByRealpath( base );
+	return tim.catalog.getByRealpath( base );
 };
 
 
@@ -369,14 +372,14 @@ const getBrowserTimspecDir =
 | Returns the tree initialization code
 | to be used in the browser.
 */
-catalog.getBrowserInitCode =
+def.proto.getBrowserInitCode =
 	function( )
 {
 	let text = 'var _catalog = {\n';
 
-	for( let t = 0; t < timspecRoots.length; t++ )
+	for( let t = 0; t < tim.catalog.length; t++ )
 	{
-		const tsr = timspecRoots[ t ];
+		const tsr = tim.catalog.get( t );
 
 		// in case the name has a dot single quotes are put around it
 		const sq =
@@ -442,18 +445,18 @@ const getBrowserNoMangleDir =
 /*
 | Returns a table of all names better not to mangle.
 */
-catalog.getBrowserNoMangle =
+def.proto.getBrowserNoMangle =
 	function( )
 {
 	const table = { };
 
-	for( let t = 0, tl = timspecRoots.length; t < tl; t++ )
+	for( let t = 0, tl = tim.catalog.length; t < tl; t++ )
 	{
-		getBrowserNoMangleDir( table, timspecRoots[ t ] );
+		getBrowserNoMangleDir( table, tim.catalog.get( t ) );
 	}
 
 	return table;
 };
 
 
-Object.freeze( catalog );
+} );

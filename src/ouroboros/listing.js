@@ -85,6 +85,7 @@ module.exports =
 	'src/string/set.js',
 	'src/timspec/attribute.js',
 	'src/timspec/attributeGroup.js',
+	'src/timspec/catalog.js',
 	'src/timspec/dir.js',
 	'src/timspec/provisional.js',
 	'src/timspec/rootDir.js',

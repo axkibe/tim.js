@@ -49,7 +49,9 @@ const strapped = bootstrap.strapped = [ ];
 tim.define = require( './define' );
 
 // Catalog of all timspecs in current instace.
-tim.catalog = require( './timspec/catalog' );
+const timspec_catalog = require( './timspec/catalog' );
+
+tim.catalog = timspec_catalog.create( );
 
 const timspec_timspec = require( './timspec/timspec' );
 
