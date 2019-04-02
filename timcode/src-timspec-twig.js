@@ -17,17 +17,17 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		twig, // twig
-		ranks // twig ranks
+		keys, // twig key ranks
+		twig // twig
 	)
 {
 	this.__lazy = { };
 
 	this._twig = twig;
 
-	this._ranks = ranks;
+	this.keys = keys;
 
-	Object.freeze( this, twig, ranks );
+	Object.freeze( this, twig, keys );
 };
 
 
@@ -53,9 +53,9 @@ prototype.create =
 
 	let key;
 
-	let rank;
+	let keys;
 
-	let ranks;
+	let rank;
 
 	let twig;
 
@@ -67,7 +67,7 @@ prototype.create =
 
 		twig = inherit._twig;
 
-		ranks = inherit._ranks;
+		keys = inherit.keys;
 
 		twigDup = false;
 	}
@@ -75,7 +75,7 @@ prototype.create =
 	{
 		twig = { };
 
-		ranks = [ ];
+		keys = [ ];
 
 		twigDup = true;
 	}
@@ -96,7 +96,7 @@ prototype.create =
 				{
 					twig = tim.copy( twig );
 
-					ranks = ranks.slice( );
+					keys = keys.slice( );
 
 					twigDup = true;
 				}
@@ -112,7 +112,7 @@ prototype.create =
 
 				twig[ key ] = arg;
 
-				ranks.push( key );
+				keys.push( key );
 
 				break;
 
@@ -122,22 +122,22 @@ prototype.create =
 
 				twig = arg;
 
-				ranks = arguments[ ++a + 1 ];
+				keys = arguments[ ++a + 1 ];
 
 /**/			if( CHECK )
 /**/			{
-/**/				if( Object.keys( twig ).length !== ranks.length )
+/**/				if( Object.keys( twig ).length !== keys.length )
 /**/				{
 /**/					throw new Error( );
 /**/				}
 /**/
 /**/				for(
-/**/					let t = 0, tl = ranks.length;
+/**/					let t = 0, tl = keys.length;
 /**/					t < tl;
 /**/					t++
 /**/				)
 /**/				{
-/**/					if( twig[ ranks[ t ] ] === undefined )
+/**/					if( twig[ keys[ t ] ] === undefined )
 /**/					{
 /**/						throw new Error( );
 /**/					}
@@ -152,7 +152,7 @@ prototype.create =
 				{
 					twig = tim.copy( twig );
 
-					ranks = ranks.slice( );
+					keys = keys.slice( );
 
 					twigDup = true;
 				}
@@ -170,14 +170,14 @@ prototype.create =
 					throw new Error( );
 				}
 
-				if( rank < 0 || rank > ranks.length )
+				if( rank < 0 || rank > keys.length )
 				{
 					throw new Error( );
 				}
 
 				twig[ key ] = arg;
 
-				ranks.splice( rank, 0, key );
+				keys.splice( rank, 0, key );
 
 				break;
 
@@ -187,7 +187,7 @@ prototype.create =
 				{
 					twig = tim.copy( twig );
 
-					ranks = ranks.slice( );
+					keys = keys.slice( );
 
 					twigDup = true;
 				}
@@ -199,7 +199,7 @@ prototype.create =
 
 				delete twig[ arg ];
 
-				ranks.splice( ranks.indexOf( arg ), 1 );
+				keys.splice( keys.indexOf( arg ), 1 );
 
 				break;
 
@@ -209,7 +209,7 @@ prototype.create =
 				{
 					twig = tim.copy( twig );
 
-					ranks = ranks.slice( );
+					keys = keys.slice( );
 
 					twigDup = true;
 				}
@@ -220,7 +220,7 @@ prototype.create =
 
 				if( twig[ key ] === undefined )
 				{
-					ranks.push( key );
+					keys.push( key );
 				}
 
 				twig[ key ] = arg;
@@ -233,7 +233,7 @@ prototype.create =
 				{
 					twig = tim.copy( twig );
 
-					ranks = ranks.slice( );
+					keys = keys.slice( );
 
 					twigDup = true;
 				}
@@ -260,12 +260,12 @@ prototype.create =
 /**/if( CHECK )
 /**/{
 /**/	for(
-/**/		let a = 0, al = ranks.length;
+/**/		let a = 0, al = keys.length;
 /**/		a < al;
 /**/		++a
 /**/	)
 /**/	{
-/**/		const o = twig[ ranks[ a ] ];
+/**/		const o = twig[ keys[ a ] ];
 /**/
 /**/		if( o.timtype !== tt_timspec )
 /**/		{
@@ -279,7 +279,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( twig, ranks );
+	return new Constructor( keys, twig );
 };
 
 
@@ -338,6 +338,18 @@ prototype.set = tim_proto.twigSet;
 
 
 /*
+| Iterates over the twig
+*/
+prototype[ Symbol.iterator ] =
+	function*( ) { for(
+let a = 0, al = this.length;
+a < al;
+a++
+)
+{ yield this.atRank( a ); } };
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =
@@ -360,7 +372,7 @@ prototype.equals =
 		return false;
 	}
 
-	if( this._twig !== obj._twig || this._ranks !== obj._ranks )
+	if( this._twig !== obj._twig || this.keys !== obj.keys )
 	{
 		if( this.length !== obj.length )
 		{
@@ -373,9 +385,9 @@ prototype.equals =
 			++a
 		)
 		{
-			const key = this._ranks[ a ];
+			const key = this.keys[ a ];
 
-			if( key !== obj._ranks[ a ] )
+			if( key !== obj.keys[ a ] )
 			{
 				return false;
 			}

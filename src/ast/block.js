@@ -302,6 +302,18 @@ def.proto.$while =
 };
 
 
+/*
+| Returns the block with a yield keyword appended.
+*/
+def.proto.$yield =
+	function(
+		expr
+	)
+{
+	return this.append( shorthand.$yield( expr ) );
+};
+
+
 const util = require( 'util' );
 
 

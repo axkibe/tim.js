@@ -430,33 +430,6 @@ proto.listGet =
 
 
 /*
-| Returns a slice of the list.
-*/
-proto.listSlice =
-	function(
-		from,
-		to
-	)
-{
-	if( from < 0 ) from += this.length;
-
-	if( to === undefined ) to = this.length;
-	else if( to < 0 ) to += this.length;
-
-/**/if( CHECK )
-/**/{
-/**/	if( from < 0 || from > this.length )	throw new Error( );
-/**/
-/**/	if( to < 0 || to > this.length ) throw new Error( );
-/**/
-/**/	if( to < from ) throw new Error( );
-/**/}
-
-	return this.create( 'list:init', this._list.slice( from, to ) );
-};
-
-
-/*
 | Returns the list with one element inserted.
 */
 proto.listInsert =
@@ -498,6 +471,48 @@ proto.listSet =
 /**/}
 
 	return this.create( 'list:set', idx, e );
+};
+
+
+
+/*
+| Returns a slice of the list.
+*/
+proto.listSlice =
+	function(
+		from,
+		to
+	)
+{
+	if( from < 0 ) from += this.length;
+
+	if( to === undefined ) to = this.length;
+	else if( to < 0 ) to += this.length;
+
+/**/if( CHECK )
+/**/{
+/**/	if( from < 0 || from > this.length )	throw new Error( );
+/**/
+/**/	if( to < 0 || to > this.length ) throw new Error( );
+/**/
+/**/	if( to < from ) throw new Error( );
+/**/}
+
+	return this.create( 'list:init', this._list.slice( from, to ) );
+};
+
+
+/*
+| Returns a list sorted by compare functions
+*/
+proto.listSort =
+	function(
+		compare  // function to compare it with.
+	)
+{
+	const a = this._list.slice( ).sort( compare );
+
+	return this.create( 'list:init', a );
 };
 
 
@@ -601,7 +616,7 @@ proto.twigAtRank =
 		rank
 	)
 {
-	return this.get( this._ranks[ rank ] );
+	return this.get( this.keys[ rank ] );
 };
 
 
@@ -643,7 +658,7 @@ proto.twigGetKey =
 		idx
 	)
 {
-	return this._ranks[ idx ];
+	return this.keys[ idx ];
 };
 
 
@@ -653,7 +668,7 @@ proto.twigGetKey =
 proto.twigLength =
 	function( )
 {
-	return this._ranks.length;
+	return this.keys.length;
 };
 
 
@@ -672,7 +687,7 @@ proto.twigRankOf =
 /**/	if( typeof( key ) !== 'string' ) throw new Error( );
 /**/}
 
-	return this._ranks.indexOf( key );
+	return this.keys.indexOf( key );
 };
 
 

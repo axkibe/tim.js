@@ -47,6 +47,8 @@ const ast_forIn = require( './forIn' );
 
 const ast_func = require( './func' );
 
+const ast_generator = require( './generator' );
+
 const ast_greaterThan = require( './greaterThan' );
 
 const ast_if = require( './if' );
@@ -98,6 +100,8 @@ const ast_var = require( './var' );
 const ast_varDec = require( './varDec' );
 
 const ast_while = require( './while' );
+
+const ast_yield = require( './yield' );
 
 const parser = require( '../parser/parser' );
 
@@ -553,6 +557,18 @@ def.static.$func =
 
 
 /*
+| Shorthand for creating generator functions.
+*/
+def.static.$generator =
+	function(
+		arg
+	)
+{
+	return ast_generator.create( 'block', ensureBlock( arg ) );
+};
+
+
+/*
 | Shorthand for creating instanceof expressions.
 */
 def.static.$instanceof =
@@ -902,6 +918,18 @@ def.static.$while =
 			'block', ensureBlock( block )
 		)
 	);
+};
+
+
+/*
+| Shorthand for creating yield keywords.
+*/
+def.static.$yield =
+	function(
+		expr
+	)
+{
+	return ast_yield.create( 'expr', parser.parse( expr ) );
 };
 
 

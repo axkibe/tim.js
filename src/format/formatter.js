@@ -4,9 +4,12 @@
 'use strict';
 
 
-const MAX_TEXT_WIDTH = 99;
+tim.define( module, ( def, format_formatter ) => {
 
-const format_formatter = module.exports;
+
+def.abstract = true;
+
+const MAX_TEXT_WIDTH = 99;
 
 const ast_and = require( '../ast/and' );
 
@@ -53,6 +56,8 @@ const ast_for = require( '../ast/for' );
 const ast_forIn = require( '../ast/forIn' );
 
 const ast_func = require( '../ast/func' );
+
+const ast_generator = require( '../ast/generator' );
 
 const ast_greaterThan = require( '../ast/greaterThan' );
 
@@ -114,6 +119,8 @@ const ast_varDec = require( '../ast/varDec' );
 
 const ast_while = require( '../ast/while' );
 
+const ast_yield = require( '../ast/yield' );
+
 const format_context = require( './context' );
 
 /*
@@ -127,7 +134,7 @@ const precTable =
 		[ ast_assign,         17 ],
 		[ ast_boolean,        -1 ],
 		[ ast_call,            2 ],
-		[ ast_comma,          18 ],
+		[ ast_comma,          19 ],
 		[ ast_condition,      15 ],
 		[ ast_delete,          4 ],
 		[ ast_differs,         9 ],
@@ -135,6 +142,7 @@ const precTable =
 		[ ast_dot,             1 ],
 		[ ast_equals,          9 ],
 		[ ast_func,            3 ],
+		[ ast_generator,       3 ],
 		[ ast_greaterThan,     8 ],
 //		[ ast_in,              8 ],
 		[ ast_instanceof,      8 ],
@@ -160,7 +168,8 @@ const precTable =
 		[ ast_preIncrement,    4 ],
 		[ ast_string,         -1 ],
 		[ ast_typeof,          4 ],
-		[ ast_var,            -1 ]
+		[ ast_var,            -1 ],
+		[ ast_yield,          18 ]
 	] );
 
 
@@ -926,13 +935,15 @@ const formatFunc =
 {
 	let text = context.tab;
 
+	const generator = func.timtype === ast_generator ? '*' : '';
+
 	if( func.length === 0 )
 	{
-		text += 'function( )' + context.sep;
+		text += 'function' + generator + '( )' + context.sep;
 	}
 	else
 	{
-		text += 'function(' + context.sep;
+		text += 'function' + generator + '(' + context.sep;
 
 		for( let a = 0, al = func.length; a < al; a++ )
 		{
@@ -1713,6 +1724,7 @@ const formatStatement =
 		case ast_return :
 		case ast_string :
 		case ast_var :
+		case ast_yield :
 
 			return text + ';' + context.sep;
 
@@ -2039,9 +2051,27 @@ const formatVarDec =
 
 
 /*
+| Formats a yield operator.
+*/
+const formatYield =
+	function(
+		context,
+		expr
+	)
+{
+	return(
+		context.tab
+		+ 'yield'
+		+ context.sep
+		+ formatExpression( context, expr.expr, expr.timtype )
+	);
+};
+
+
+/*
 | Formats a block as file.
 */
-format_formatter.format =
+def.static.format =
 	function(
 		block
 	)
@@ -2073,6 +2103,7 @@ const exprFormatter =
 		[ ast_dot,            formatDot           ],
 		[ ast_equals,         formatEquals        ],
 		[ ast_func,           formatFunc          ],
+		[ ast_generator,      formatFunc          ],
 		[ ast_greaterThan,    formatDualOp        ],
 		[ ast_instanceof,     formatInstanceof    ],
 		[ ast_lessThan,       formatDualOp        ],
@@ -2097,5 +2128,8 @@ const exprFormatter =
 		[ ast_preIncrement,   formatPreIncrement  ],
 		[ ast_string,         formatString        ],
 		[ ast_typeof,         formatTypeof        ],
-		[ ast_var,            formatVar           ]
+		[ ast_var,            formatVar           ],
+		[ ast_yield,          formatYield         ]
 	] );
+
+} );

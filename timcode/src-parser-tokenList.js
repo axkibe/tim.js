@@ -93,6 +93,9 @@ const tt_$_ast_equals = require( './../ast/equals' );
 const tt_$_ast_func = require( './../ast/func' );
 
 
+const tt_$_ast_generator = require( './../ast/generator' );
+
+
 const tt_$_ast_greaterThan = require( './../ast/greaterThan' );
 
 
@@ -166,6 +169,9 @@ const tt_$_ast_undefined = require( './../ast/undefined' );
 
 
 const tt_$_ast_var = require( './../ast/var' );
+
+
+const tt_$_ast_yield = require( './../ast/yield' );
 
 
 const tt_$_lexer_token = require( './../lexer/token' );
@@ -382,6 +388,8 @@ prototype.create =
 /**/			&&
 /**/			o.timtype !== tt_$_ast_func
 /**/			&&
+/**/			o.timtype !== tt_$_ast_generator
+/**/			&&
 /**/			o.timtype !== tt_$_ast_greaterThan
 /**/			&&
 /**/			o.timtype !== tt_$_ast_instanceof
@@ -432,6 +440,8 @@ prototype.create =
 /**/			&&
 /**/			o.timtype !== tt_$_ast_var
 /**/			&&
+/**/			o.timtype !== tt_$_ast_yield
+/**/			&&
 /**/			o.timtype !== tt_$_lexer_token
 /**/		)
 /**/		{
@@ -480,27 +490,21 @@ prototype.appendList = tim_proto.listAppendList;
 
 
 /*
-| Returns the length of the list.
-*/
-tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
-
-
-/*
 | Returns one element from the list.
 */
 prototype.get = tim_proto.listGet;
 
 
 /*
-| Returns a slice from the list.
-*/
-prototype.slice = tim_proto.listSlice;
-
-
-/*
 | Returns the list with one element inserted.
 */
 prototype.insert = tim_proto.listInsert;
+
+
+/*
+| Returns the length of the list.
+*/
+tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
 
 
 /*
@@ -513,6 +517,18 @@ prototype.remove = tim_proto.listRemove;
 | Returns the list with one element set.
 */
 prototype.set = tim_proto.listSet;
+
+
+/*
+| Returns a slice from the list.
+*/
+prototype.slice = tim_proto.listSlice;
+
+
+/*
+| Returns a slice from the list.
+*/
+prototype.sort = tim_proto.listSort;
 
 
 /*

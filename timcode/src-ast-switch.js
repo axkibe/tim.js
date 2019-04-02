@@ -48,6 +48,9 @@ const tt_equals = require( './equals' );
 const tt_func = require( './func' );
 
 
+const tt_generator = require( './generator' );
+
+
 const tt_greaterThan = require( './greaterThan' );
 
 
@@ -121,6 +124,9 @@ const tt_undefined = require( './undefined' );
 
 
 const tt_var = require( './var' );
+
+
+const tt_yield = require( './yield' );
 
 
 const tt_block = require( './block' );
@@ -339,6 +345,8 @@ prototype.create =
 /**/		&&
 /**/		v_statement.timtype !== tt_func
 /**/		&&
+/**/		v_statement.timtype !== tt_generator
+/**/		&&
 /**/		v_statement.timtype !== tt_greaterThan
 /**/		&&
 /**/		v_statement.timtype !== tt_instanceof
@@ -388,6 +396,8 @@ prototype.create =
 /**/		v_statement.timtype !== tt_undefined
 /**/		&&
 /**/		v_statement.timtype !== tt_var
+/**/		&&
+/**/		v_statement.timtype !== tt_yield
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -468,27 +478,21 @@ prototype.appendList = tim_proto.listAppendList;
 
 
 /*
-| Returns the length of the list.
-*/
-tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
-
-
-/*
 | Returns one element from the list.
 */
 prototype.get = tim_proto.listGet;
 
 
 /*
-| Returns a slice from the list.
-*/
-prototype.slice = tim_proto.listSlice;
-
-
-/*
 | Returns the list with one element inserted.
 */
 prototype.insert = tim_proto.listInsert;
+
+
+/*
+| Returns the length of the list.
+*/
+tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
 
 
 /*
@@ -501,6 +505,18 @@ prototype.remove = tim_proto.listRemove;
 | Returns the list with one element set.
 */
 prototype.set = tim_proto.listSet;
+
+
+/*
+| Returns a slice from the list.
+*/
+prototype.slice = tim_proto.listSlice;
+
+
+/*
+| Returns a slice from the list.
+*/
+prototype.sort = tim_proto.listSort;
 
 
 /*

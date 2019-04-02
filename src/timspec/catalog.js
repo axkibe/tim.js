@@ -2,8 +2,6 @@
 | A catalog of timspec roots.
 |
 | This is all the timspecs in the current running instance.
-|
-| FIXME make this a tim.
 */
 'use strict';
 
@@ -59,10 +57,8 @@ def.proto.addRootDir =
 		);
 
 	// checks if this root or this id is already a timspecRoot
-	for( let a = 0, al = tim.catalog.length; a < al; a++ )
+	for( let tsr of tim.catalog )
 	{
-		const tsr = tim.catalog.get( a );
-
 		if( tsr.realpath === realpath ) throw new Error( );
 
 		if( tsr.id === id ) throw new Error( );
@@ -71,24 +67,17 @@ def.proto.addRootDir =
 	tim.catalog = tim.catalog.append( tsRoot );
 
 	// sorts them, so a root dir as a subdir can override parents roots.
-
-	// FIXME XXX privacy violation!
-	const sorted = tim.catalog._list.slice( );
-
-	sorted.sort(
-		( a, b ) =>
-	{
-		const as = a.string;
-
-		const bs = b.string;
-
-		if( as < bs ) return -1;
-		if( as > bs ) return 1;
-		return 0;
-	}
-	);
-
-	tim.catalog = tim.catalog.create( 'list:init', sorted );
+	tim.catalog =
+		tim.catalog.sort(
+			( a, b ) =>
+			{
+				const as = a.string;
+				const bs = b.string;
+				if( as < bs ) return -1;
+				if( as > bs ) return 1;
+				return 0;
+			}
+		);
 };
 
 
@@ -111,11 +100,13 @@ def.proto.addEntry =
 	// timspecRoot
 	let tsr, tsrPos = 0;
 
-	const tsrLen = tim.catalog.length;
+	const catalog = tim.catalog;
+
+	const tsrLen = catalog.length;
 
 	while( tsrPos < tsrLen )
 	{
-		tsr = tim.catalog.get( tsrPos );
+		tsr = catalog.get( tsrPos );
 
 		if( filename.startsWith( tsr.realpath ) ) break;
 
@@ -134,7 +125,7 @@ def.proto.addEntry =
 
 	entry = entry.create( 'path', path );
 
-	tim.catalog = tim.catalog.set( tsrPos, tsr.addEntry( entry ) );
+	tim.catalog = catalog.set( tsrPos, tsr.addEntry( entry ) );
 
 	return entry;
 };
@@ -149,21 +140,16 @@ def.proto.getRootDir =
 		consult // id or timspec
 	)
 {
-	if( consult.timtype === timspec_timspec )
-	{
-		consult = consult.path.get( 0 );
-	}
+	if( consult.timtype === timspec_timspec ) consult = consult.path.get( 0 );
 
-	for( let t = 0, tLen = tim.catalog.length; t < tLen; t++ )
+	for( let tsr of tim.catalog )
 	{
-		const tsr = tim.catalog.get( t );
-
 		if( tsr.id === consult ) return tsr;
 	}
 
+	// this shouldn't happen
 	console.inspect( consult );
 
-	// this shouldn't happen
 	throw new Error( );
 };
 
@@ -179,17 +165,15 @@ def.proto.getByRealpath =
 	// first find the root dir
 	let tsr;
 
-	for( let t = 0, tLen = tim.catalog.length; ; t++ )
+	for( let t of tim.catalog )
 	{
-		tsr = tim.catalog.get( t );
+		if( realpath.length < t.realpath.length ) continue;
 
-		if( realpath.length < tsr.realpath.length ) continue;
-
-		if( realpath.startsWith( tsr.realpath ) ) break;
-
-		// no match rootDir found!
-		if( t + 1 >= tLen ) throw new Error( );
+		if( realpath.startsWith( t.realpath ) ) { tsr = t; break; }
 	}
+
+	// no match rootDir found!
+	if( !tsr ) throw new Error( );
 
 	let path = realpath.substr( tsr.realpath.length );
 

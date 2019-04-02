@@ -6,7 +6,7 @@
 |
 | Editing this might be rather futile.
 */
-const tt_path = require( './path' );
+const tt_rootDir = require( './rootDir' );
 
 
 const tim_proto = tim.proto;
@@ -161,7 +161,7 @@ prototype.create =
 /**/	{
 /**/		const o = list[ r ];
 /**/
-/**/		if( o.timtype !== tt_path )
+/**/		if( o.timtype !== tt_rootDir )
 /**/		{
 /**/			throw new Error( );
 /**/		}

@@ -48,6 +48,9 @@ const tt_equals = require( './equals' );
 const tt_func = require( './func' );
 
 
+const tt_generator = require( './generator' );
+
+
 const tt_greaterThan = require( './greaterThan' );
 
 
@@ -121,6 +124,9 @@ const tt_undefined = require( './undefined' );
 
 
 const tt_var = require( './var' );
+
+
+const tt_yield = require( './yield' );
 
 
 const tim_proto = tim.proto;
@@ -257,6 +263,8 @@ prototype.create =
 /**/		&&
 /**/		v_condition.timtype !== tt_func
 /**/		&&
+/**/		v_condition.timtype !== tt_generator
+/**/		&&
 /**/		v_condition.timtype !== tt_greaterThan
 /**/		&&
 /**/		v_condition.timtype !== tt_instanceof
@@ -306,6 +314,8 @@ prototype.create =
 /**/		v_condition.timtype !== tt_undefined
 /**/		&&
 /**/		v_condition.timtype !== tt_var
+/**/		&&
+/**/		v_condition.timtype !== tt_yield
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -339,6 +349,8 @@ prototype.create =
 /**/		v_elsewise.timtype !== tt_equals
 /**/		&&
 /**/		v_elsewise.timtype !== tt_func
+/**/		&&
+/**/		v_elsewise.timtype !== tt_generator
 /**/		&&
 /**/		v_elsewise.timtype !== tt_greaterThan
 /**/		&&
@@ -389,6 +401,8 @@ prototype.create =
 /**/		v_elsewise.timtype !== tt_undefined
 /**/		&&
 /**/		v_elsewise.timtype !== tt_var
+/**/		&&
+/**/		v_elsewise.timtype !== tt_yield
 /**/	)
 /**/	{
 /**/		throw new Error( );
@@ -422,6 +436,8 @@ prototype.create =
 /**/		v_then.timtype !== tt_equals
 /**/		&&
 /**/		v_then.timtype !== tt_func
+/**/		&&
+/**/		v_then.timtype !== tt_generator
 /**/		&&
 /**/		v_then.timtype !== tt_greaterThan
 /**/		&&
@@ -472,6 +488,8 @@ prototype.create =
 /**/		v_then.timtype !== tt_undefined
 /**/		&&
 /**/		v_then.timtype !== tt_var
+/**/		&&
+/**/		v_then.timtype !== tt_yield
 /**/	)
 /**/	{
 /**/		throw new Error( );

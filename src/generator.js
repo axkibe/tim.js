@@ -64,7 +64,11 @@ const $block = shorthand.$block;
 
 const $fail = shorthand.$fail;
 
+const $for = shorthand.$for;
+
 const $func = shorthand.$func;
+
+const $generator = shorthand.$generator;
 
 const $if = shorthand.$if;
 
@@ -151,7 +155,7 @@ def.proto.genConstructor =
 	{
 		block = block.$( 'this._twig = twig' );
 
-		if( !timspec.hasProxyRanks ) block = block.$( 'this._ranks = ranks' );
+		if( !timspec.hasProxyRanks ) block = block.$( 'this.keys = keys' );
 
 		if( timspec.isAdjusting ) block = block.$( 'this._ttwig = { }' );
 	}
@@ -172,7 +176,7 @@ def.proto.genConstructor =
 	{
 		freezeCall = freezeCall.$argument( 'twig' );
 
-		if( !timspec.hasProxyRanks ) freezeCall = freezeCall.$argument( 'ranks' );
+		if( !timspec.hasProxyRanks ) freezeCall = freezeCall.$argument( 'keys' );
 	}
 
 	// FUTURE force freezing date attributes
@@ -205,7 +209,7 @@ def.proto.genConstructor =
 
 				break;
 
-			case 'ranks' : cf = cf.$arg( 'ranks', 'twig ranks' ); break;
+			case 'keys' : cf = cf.$arg( 'keys', 'twig key ranks' ); break;
 
 			case 'list' : cf = cf.$arg( 'list', 'list' ); break;
 
@@ -316,7 +320,7 @@ def.proto.genCreatorVariables =
 
 	if( timspec.gtwig )
 	{
-		varList.push( 'key', 'ranks', 'twig', 'twigDup' );
+		varList.push( 'key', 'keys', 'twig', 'twigDup' );
 
 		if( !timspec.hasProxyRanks ) varList.push( 'rank' );
 	}
@@ -380,7 +384,7 @@ def.proto.genCreatorInheritanceReceiver =
 	{
 		receiver = receiver.$( 'twig = inherit._twig' );
 
-		receiver = receiver.$( 'ranks = inherit._ranks' );
+		receiver = receiver.$( 'keys = inherit.keys' );
 
 		receiver = receiver.$( 'twigDup = false' );
 
@@ -392,7 +396,7 @@ def.proto.genCreatorInheritanceReceiver =
 					'!tim_proto.isEmpty( inherit._ttwig )',
 					$block
 					.$( 'twigDup = true' )
-					.$( !timspec.hasProxyRanks ? 'ranks = ranks.slice( )' : undefined )
+					.$( !timspec.hasProxyRanks ? 'keys = keys.slice( )' : undefined )
 					.$( 'twig = tim.copy2( twig, inherit._ttwig )' )
 				);
 		}
@@ -426,7 +430,7 @@ def.proto.genCreatorInheritanceReceiver =
 
 	if( timspec.gtwig )
 	{
-		result = result.$elsewise( '{ twig = { }; ranks = [ ]; twigDup = true; }' );
+		result = result.$elsewise( '{ twig = { }; keys = [ ]; twigDup = true; }' );
 	}
 
 	return result;
@@ -581,7 +585,7 @@ def.proto.genCreatorFreeStringsParser =
 				'twigDup !== true',
 				$block
 				.$( 'twig = tim.copy( twig )' )
-				.$( 'ranks = ranks.slice( )' )
+				.$( 'keys = keys.slice( )' )
 				.$( 'twigDup = true' )
 			);
 
@@ -597,24 +601,24 @@ def.proto.genCreatorFreeStringsParser =
 					.$( 'arg = arguments[ ++a + 1 ]' )
 					.$if( 'twig[ key ] !== undefined', $fail( ) )
 					.$( 'twig[ key ] = arg' )
-					.$( 'ranks.push( key )' )
+					.$( 'keys.push( key )' )
 				)
 				.$case(
 					'"twig:init"',
 					$block
 					.$( 'twigDup = true' )
 					.$( 'twig = arg' )
-					.$( 'ranks = arguments[ ++a + 1 ]' )
+					.$( 'keys = arguments[ ++a + 1 ]' )
 					.$check(
 						$block
-						.$if( 'Object.keys( twig ).length !== ranks.length', $fail( ) )
+						.$if( 'Object.keys( twig ).length !== keys.length', $fail( ) )
 						.$for(
-							'let t = 0, tl = ranks.length',
+							'let t = 0, tl = keys.length',
 							't < tl',
 							't++',
 							$block
 							.$if(
-								'twig[ ranks[ t ] ] === undefined',
+								'twig[ keys[ t ] ] === undefined',
 								$fail( )
 							)
 						)
@@ -629,9 +633,9 @@ def.proto.genCreatorFreeStringsParser =
 					.$( 'arg = arguments[ a +  3 ]' )
 					.$( 'a += 2' )
 					.$if( 'twig[ key ] !== undefined', $fail( ) )
-					.$if( 'rank < 0 || rank > ranks.length', $fail( ) )
+					.$if( 'rank < 0 || rank > keys.length', $fail( ) )
 					.$( 'twig[ key ] = arg' )
-					.$( 'ranks.splice( rank, 0, key )' )
+					.$( 'keys.splice( rank, 0, key )' )
 				)
 				.$case(
 					'"twig:remove"',
@@ -639,7 +643,7 @@ def.proto.genCreatorFreeStringsParser =
 					.append( twigDupCheck )
 					.$if( 'twig[ arg ] === undefined', $fail( ) )
 					.$( 'delete twig[ arg ]' )
-					.$( 'ranks.splice( ranks.indexOf( arg ), 1 )' )
+					.$( 'keys.splice( keys.indexOf( arg ), 1 )' )
 				);
 		}
 
@@ -653,7 +657,7 @@ def.proto.genCreatorFreeStringsParser =
 				.$( 'arg = arguments[ ++a + 1 ]' )
 				.$if(
 					'twig[ key ] === undefined',
-					$( 'ranks.push( key )' )
+					$( 'keys.push( key )' )
 				)
 				.$( 'twig[ key ] = arg' )
 			)
@@ -926,11 +930,11 @@ def.proto.genCreatorChecks =
 		check =
 			check
 			.$for(
-				'let a = 0, al = ranks.length',
+				'let a = 0, al = keys.length',
 				'a < al',
 				'++a',
 				$block
-				.$const( 'o', 'twig[ ranks[ a ] ]' )
+				.$const( 'o', 'twig[ keys[ a ] ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.gtwig ),
 					$fail( )
@@ -1080,7 +1084,7 @@ def.proto.genCreatorReturn =
 			case 'group' :
 			case 'groupDup' :
 			case 'inherit' :
-			case 'ranks' :
+			case 'keys' :
 			case 'list' :
 			case 'listDup' :
 			case 'set' :
@@ -1191,7 +1195,7 @@ def.proto.genFromJsonCreatorVariables =
 
 		if( timspec.gset ) varList.push( 'jset', 'set' );
 
-		if( timspec.gtwig ) varList.push( 'key', 'jval', 'jwig', 'ranks', 'twig' );
+		if( timspec.gtwig ) varList.push( 'key', 'jval', 'jwig', 'keys', 'twig' );
 	}
 
 	varList.sort( );
@@ -1327,16 +1331,17 @@ def.proto.genFromJsonCreatorParser =
 		nameSwitch =
 			nameSwitch
 			.$case( '"twig"', 'jwig = arg' )
-			.$case( '"ranks"', 'ranks = arg' );
+			.$case( '"keys"', 'keys = arg' );
 	}
 
 	for( let a = 0, al = jsonList.length; a < al; a++ )
 	{
 		const name = jsonList[ a ];
 
+		// FIXME make a table
 		if(
 			name === 'group'
-			|| name === 'ranks'
+			|| name === 'keys'
 			|| name === 'list'
 			|| name === 'set'
 			|| name === 'twig'
@@ -1637,10 +1642,10 @@ def.proto.genFromJsonCreatorTwigProcessing =
 
 	const loop =
 		$block
-		.$( 'key = ranks[ a ]' )
+		.$( 'key = keys[ a ]' )
 		.$if(
 			'!jwig[ key ]',
-			// json ranks/twig mismatch
+			// json keys/twig mismatch
 			$fail( )
 		)
 		.$( 'jval = jwig[ key ]' )
@@ -1650,12 +1655,12 @@ def.proto.genFromJsonCreatorTwigProcessing =
 		$block
 		.$( 'twig = { }' )
 		.$if(
-			'!jwig || !ranks',
+			'!jwig || !keys',
 			// ranks/twig information missing
 			$fail( )
 		)
 		.$for(
-			'let a = 0, al = ranks.length',
+			'let a = 0, al = keys.length',
 			'a < al',
 			'++a',
 			loop
@@ -1695,7 +1700,7 @@ def.proto.genFromJsonCreatorReturn =
 				break;
 
 			case 'group' :
-			case 'ranks' :
+			case 'keys' :
 			case 'list' :
 			case 'set' :
 			case 'twig' :
@@ -1738,7 +1743,7 @@ def.proto.genFromJsonCreator =
 		if( attr.json ) jsonList.push( name );
 	}
 
-	if( timspec.gtwig ) jsonList.push( 'twig', 'ranks' );
+	if( timspec.gtwig ) jsonList.push( 'twig', 'keys' );
 
 	jsonList.sort( );
 
@@ -1886,23 +1891,26 @@ def.proto.genTimProto =
 			.$comment( 'Returns the list with another list appended.' )
 			.$( this.$protoSet( 'appendList', 'listAppendList' ) )
 
-			.$comment( 'Returns the length of the list.')
-			.$( this.$protoLazyValueSet( '"length"', 'listLength' ) )
-
 			.$comment( 'Returns one element from the list.' )
 			.$( this.$protoSet( 'get', 'listGet' ) )
 
-			.$comment( 'Returns a slice from the list.' )
-			.$( this.$protoSet( 'slice', 'listSlice' ) )
-
 			.$comment( 'Returns the list with one element inserted.' )
 			.$( this.$protoSet( 'insert', 'listInsert' ) )
+
+			.$comment( 'Returns the length of the list.')
+			.$( this.$protoLazyValueSet( '"length"', 'listLength' ) )
 
 			.$comment( 'Returns the list with one element removed.' )
 			.$( this.$protoSet( 'remove', 'listRemove' ) )
 
 			.$comment( 'Returns the list with one element set.' )
 			.$( this.$protoSet( 'set', 'listSet' ) )
+
+			.$comment( 'Returns a slice from the list.' )
+			.$( this.$protoSet( 'slice', 'listSlice' ) )
+
+			.$comment( 'Returns a slice from the list.' )
+			.$( this.$protoSet( 'sort', 'listSort' ) )
 
 			.$comment( 'Forwards the iterator.' )
 			.$(
@@ -1968,9 +1976,20 @@ def.proto.genTimProto =
 			)
 
 			.$comment( 'Returns the twig with the element at key set.' )
-			.$( this.$protoSet( 'set', 'twigSet' ) );
+			.$( this.$protoSet( 'set', 'twigSet' ) )
 
-			// FIXME iterator
+			.$comment( 'Iterates over the twig' )
+			.$(
+				'prototype[ Symbol.iterator ] =',
+				$generator(
+					$for(
+						'let a = 0, al = this.length',
+						'a < al',
+						'a++',
+						$block.$yield( 'this.atRank( a )' )
+					)
+				)
+			);
 	}
 
 	return result;
@@ -2010,7 +2029,7 @@ def.proto.genToJson =
 	{
 		olit =
 			olit
-			.add( 'ranks', 'this._ranks' )
+			.add( 'keys', 'this.keys' )
 			.add( 'twig', 'this._twig' );
 	}
 
@@ -2192,8 +2211,8 @@ def.proto.genEqualsFuncBody =
 	{
 		const twigTestLoopBody =
 			$block
-			.$const( 'key', 'this._ranks[ a ]' )
-			.$( 'if( key !== obj._ranks[ a ] ) return false;' )
+			.$const( 'key', 'this.keys[ a ]' )
+			.$( 'if( key !== obj.keys[ a ] ) return false;' )
 			.$const( 'ti', 'this._twig[ key ]' )
 			.$const( 'oi', 'obj._twig[ key ]' )
 			.$(
@@ -2217,7 +2236,7 @@ def.proto.genEqualsFuncBody =
 		body =
 			body
 			.$(
-				'if( this._twig !== obj._twig || this._ranks !== obj._ranks )',
+				'if( this._twig !== obj._twig || this.keys !== obj.keys )',
 				twigTest, ';'
 			);
 	}
@@ -2356,7 +2375,7 @@ def.proto.genAlike =
 			cond =
 				$(
 					'this._twig === obj._twig',
-					'&& this._ranks === obj._ranks'
+					'&& this.keys === obj.keys'
 				);
 		}
 
@@ -2526,12 +2545,7 @@ def.static.createGenerator =
 
 	if( timspec.gset ) constructorList.unshift( 'set' );
 
-	if( timspec.gtwig )
-	{
-		constructorList.unshift( 'ranks' );
-
-		constructorList.unshift( 'twig' );
-	}
+	if( timspec.gtwig ) constructorList.unshift( 'keys', 'twig' );
 
 	Object.freeze( constructorList );
 

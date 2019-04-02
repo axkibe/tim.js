@@ -93,6 +93,9 @@ const tt_$_ast_equals = require( './../ast/equals' );
 const tt_$_ast_func = require( './../ast/func' );
 
 
+const tt_$_ast_generator = require( './../ast/generator' );
+
+
 const tt_$_ast_greaterThan = require( './../ast/greaterThan' );
 
 
@@ -166,6 +169,9 @@ const tt_$_ast_undefined = require( './../ast/undefined' );
 
 
 const tt_$_ast_var = require( './../ast/var' );
+
+
+const tt_$_ast_yield = require( './../ast/yield' );
 
 
 const tt_tokenList = require( './tokenList' );
@@ -339,6 +345,8 @@ prototype.create =
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_func
 /**/		&&
+/**/		v_ast.timtype !== tt_$_ast_generator
+/**/		&&
 /**/		v_ast.timtype !== tt_$_ast_greaterThan
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_instanceof
@@ -388,6 +396,8 @@ prototype.create =
 /**/		v_ast.timtype !== tt_$_ast_undefined
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_var
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_yield
 /**/	)
 /**/	{
 /**/		throw new Error( );

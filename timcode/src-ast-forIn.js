@@ -51,6 +51,9 @@ const tt_equals = require( './equals' );
 const tt_func = require( './func' );
 
 
+const tt_generator = require( './generator' );
+
+
 const tt_greaterThan = require( './greaterThan' );
 
 
@@ -121,6 +124,9 @@ const tt_typeof = require( './typeof' );
 
 
 const tt_undefined = require( './undefined' );
+
+
+const tt_yield = require( './yield' );
 
 
 const tt_block = require( './block' );
@@ -286,6 +292,8 @@ prototype.create =
 /**/		&&
 /**/		v_object.timtype !== tt_func
 /**/		&&
+/**/		v_object.timtype !== tt_generator
+/**/		&&
 /**/		v_object.timtype !== tt_greaterThan
 /**/		&&
 /**/		v_object.timtype !== tt_instanceof
@@ -335,6 +343,8 @@ prototype.create =
 /**/		v_object.timtype !== tt_undefined
 /**/		&&
 /**/		v_object.timtype !== tt_var
+/**/		&&
+/**/		v_object.timtype !== tt_yield
 /**/	)
 /**/	{
 /**/		throw new Error( );

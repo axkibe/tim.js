@@ -208,27 +208,21 @@ prototype.appendList = tim_proto.listAppendList;
 
 
 /*
-| Returns the length of the list.
-*/
-tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
-
-
-/*
 | Returns one element from the list.
 */
 prototype.get = tim_proto.listGet;
 
 
 /*
-| Returns a slice from the list.
-*/
-prototype.slice = tim_proto.listSlice;
-
-
-/*
 | Returns the list with one element inserted.
 */
 prototype.insert = tim_proto.listInsert;
+
+
+/*
+| Returns the length of the list.
+*/
+tim_proto.lazyValue( prototype, 'length', tim_proto.listLength );
 
 
 /*
@@ -241,6 +235,18 @@ prototype.remove = tim_proto.listRemove;
 | Returns the list with one element set.
 */
 prototype.set = tim_proto.listSet;
+
+
+/*
+| Returns a slice from the list.
+*/
+prototype.slice = tim_proto.listSlice;
+
+
+/*
+| Returns a slice from the list.
+*/
+prototype.sort = tim_proto.listSort;
 
 
 /*
