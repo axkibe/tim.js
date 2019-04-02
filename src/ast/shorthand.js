@@ -45,6 +45,8 @@ const ast_for = require( './for' );
 
 const ast_forIn = require( './forIn' );
 
+const ast_forOf = require( './forOf' );
+
 const ast_func = require( './func' );
 
 const ast_generator = require( './generator' );
@@ -503,7 +505,7 @@ def.static.$for =
 
 
 /*
-| Shorthand for creating for in loops.
+| Shorthand for creating for-in loops.
 */
 def.static.$forIn =
 	function(
@@ -524,7 +526,7 @@ def.static.$forIn =
 
 
 /*
-| Shorthand for creating for in loops with 'let' for variable.
+| Shorthand for creating for-in loops with 'let' for variable.
 */
 def.static.$forInLet =
 	function(
@@ -537,6 +539,48 @@ def.static.$forInLet =
 		ast_forIn.create(
 			'variable', parser.parse( variable ),
 			'letVar', true,
+			'object', parser.parse( object ),
+			'block', ensureBlock( block )
+		)
+	);
+};
+
+
+/*
+| Shorthand for creating for-of loops.
+*/
+def.static.$forOf =
+	function(
+		variable,
+		object,
+		block
+	)
+{
+	return(
+		ast_forOf.create(
+			'variable', parser.parse( variable ),
+			'letVar', false,
+			'object', parser.parse( object ),
+			'block', ensureBlock( block )
+		)
+	);
+};
+
+
+/*
+| Shorthand for creating for-of loops with 'let' for variable.
+*/
+def.static.$forOfLet =
+	function(
+		variable,
+		object,
+		block
+	)
+{
+	return(
+		ast_forIn.create(
+			'variable', parser.parse( variable ),
+			'letVar', false,
 			'object', parser.parse( object ),
 			'block', ensureBlock( block )
 		)

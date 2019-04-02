@@ -55,6 +55,8 @@ const ast_for = require( '../ast/for' );
 
 const ast_forIn = require( '../ast/forIn' );
 
+const ast_forOf = require( '../ast/forOf' );
+
 const ast_func = require( '../ast/func' );
 
 const ast_generator = require( '../ast/generator' );
@@ -925,6 +927,28 @@ const formatForIn =
 
 
 /*
+| Formats a for-of loop.
+*/
+const formatForOf =
+	function(
+		context,
+		expr
+	)
+{
+	return(
+		context.tab
+		+ 'for( '
+		+ ( expr.letVar ? 'let ' : '' )
+		+ expr.variable.name
+		+ ' of '
+		+ formatExpression( context.setInline, expr.object, ast_instanceof )
+		+ ' )\n'
+		+ formatBlock( context, expr.block )
+	);
+};
+
+
+/*
 | Formats a function.
 */
 const formatFunc =
@@ -1616,6 +1640,8 @@ const formatStatement =
 		case ast_for : text += formatFor( context, statement ); break;
 
 		case ast_forIn : text += formatForIn( context, statement ); break;
+
+		case ast_forOf : text += formatForOf( context, statement ); break;
 
 		case ast_let :
 

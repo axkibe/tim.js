@@ -208,6 +208,20 @@ def.proto.$forIn =
 
 
 /*
+| Returns the block with a for-of loop appended.
+*/
+def.proto.$forOf =
+	function(
+		variable,
+		object,
+		block
+	)
+{
+	return this.append( shorthand.$forOf( variable, object, block ) );
+};
+
+
+/*
 | Returns the block with a for-in loop appended.
 */
 def.proto.$forInLet =

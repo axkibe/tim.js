@@ -1,5 +1,5 @@
 /*
-| An assignment in an abstract syntax tree.
+| Ast; an assignment.
 */
 'use strict';
 

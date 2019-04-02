@@ -32,6 +32,7 @@ module.exports =
 	'src/ast/fail.js',
 	'src/ast/for.js',
 	'src/ast/forIn.js',
+	'src/ast/forOf.js',
 	'src/ast/func.js',
 	'src/ast/funcArg.js',
 	'src/ast/generator.js',

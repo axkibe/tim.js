@@ -1,10 +1,10 @@
 /*
-| Ast; a for-in loop
+| Ast; a for-of loop
 */
 'use strict';
 
 
-tim.define( module, ( def, ast_forIn ) => {
+tim.define( module, ( def, ast_forOf ) => {
 
 
 if( TIM )
