@@ -9,6 +9,7 @@
 ./fail
 ./for
 ./forIn
+./forOf
 ./if
 ./let
 ./return

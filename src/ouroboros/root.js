@@ -45,14 +45,19 @@ if( targetDir[ targetDir.length - 1 ] !== '/' )
 	process.exit( -1 );
 }
 
-let myDir = module.filename;
+let myDir;
 
-for( let a = 0; a < 3; a++ )
 {
-	myDir = myDir.substr( 0, myDir.lastIndexOf( '/' ) );
+	const ending = 'src/ouroboros/root.js';
+
+	const filename = module.filename;
+
+	// if this filename is not bootstrap.js something is seriously amiss.
+	if( !filename.endsWith( ending ) ) throw new Error( );
+
+	myDir = filename.substr( 0, filename.length - ending.length );
 }
 
-myDir += '/';
 
 if( targetDir !== myDir )
 {
@@ -65,10 +70,8 @@ const listing = require( targetDir + 'src/ouroboros/listing' );
 
 
 // "sub"-require
-// FIXME remove stim
 const srequire =
 	function(
-		stim,
 		inFilename,   // basename of the requiring module
 		requireName   // name of the required module
 	)
@@ -151,9 +154,11 @@ for( let a = 0, al = listing.length; a < al; a++ )
 	const smodule =
 	{
 		filename : inFilename,
-		require : srequire.bind( undefined, stim, inFilename ),
+		require : srequire.bind( undefined, inFilename ),
 		exports : { }
 	};
+
+	stim.require = smodule.require;
 
 	input( smodule, smodule.require, stim );
 

@@ -33,6 +33,9 @@ const tt_$_ast_for = require( './../ast/for' );
 const tt_$_ast_forIn = require( './../ast/forIn' );
 
 
+const tt_$_ast_forOf = require( './../ast/forOf' );
+
+
 const tt_$_ast_if = require( './../ast/if' );
 
 
@@ -347,6 +350,8 @@ prototype.create =
 /**/			o.timtype !== tt_$_ast_for
 /**/			&&
 /**/			o.timtype !== tt_$_ast_forIn
+/**/			&&
+/**/			o.timtype !== tt_$_ast_forOf
 /**/			&&
 /**/			o.timtype !== tt_$_ast_if
 /**/			&&

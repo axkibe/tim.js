@@ -578,9 +578,9 @@ def.static.$forOfLet =
 	)
 {
 	return(
-		ast_forIn.create(
+		ast_forOf.create(
 			'variable', parser.parse( variable ),
-			'letVar', false,
+			'letVar', true,
 			'object', parser.parse( object ),
 			'block', ensureBlock( block )
 		)

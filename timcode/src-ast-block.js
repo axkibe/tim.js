@@ -33,6 +33,9 @@ const tt_for = require( './for' );
 const tt_forIn = require( './forIn' );
 
 
+const tt_forOf = require( './forOf' );
+
+
 const tt_if = require( './if' );
 
 
@@ -344,6 +347,8 @@ prototype.create =
 /**/			o.timtype !== tt_for
 /**/			&&
 /**/			o.timtype !== tt_forIn
+/**/			&&
+/**/			o.timtype !== tt_forOf
 /**/			&&
 /**/			o.timtype !== tt_if
 /**/			&&

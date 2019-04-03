@@ -1757,6 +1757,7 @@ const formatStatement =
 		case ast_check :
 		case ast_for :
 		case ast_forIn :
+		case ast_forOf :
 		case ast_if :
 		case ast_switch :
 		case ast_while :

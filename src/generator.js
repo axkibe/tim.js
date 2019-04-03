@@ -3,6 +3,7 @@
 */
 'use strict';
 
+
 tim.define( module, ( def, self ) => {
 
 
@@ -22,33 +23,33 @@ if( TIM )
 }
 
 
-const ast_var = require( './ast/var' );
+const ast_var = tim.require( './ast/var' );
 
-const type_boolean = require( './type/boolean' );
+const type_boolean = tim.require( './type/boolean' );
 
-const type_date = require( './type/date' );
+const type_date = tim.require( './type/date' );
 
-const type_function = require( './type/function' );
+const type_function = tim.require( './type/function' );
 
-const type_integer = require( './type/integer' );
+const type_integer = tim.require( './type/integer' );
 
-const type_null = require( './type/null' );
+const type_null = tim.require( './type/null' );
 
-const type_number = require( './type/number' );
+const type_number = tim.require( './type/number' );
 
-const type_protean = require( './type/protean' );
+const type_protean = tim.require( './type/protean' );
 
-const type_set = require( './type/set' );
+const type_set = tim.require( './type/set' );
 
-const type_string = require( './type/string' );
+const type_string = tim.require( './type/string' );
 
-const type_tim = require( './type/tim' );
+const type_tim = tim.require( './type/tim' );
 
-const type_undefined = require( './type/undefined' );
+const type_undefined = tim.require( './type/undefined' );
 
-const parser_parser = require( './parser/parser' );
+const parser_parser = tim.require( './parser/parser' );
 
-const shorthand = require( './ast/shorthand' );
+const shorthand = tim.require( './ast/shorthand' );
 
 
 /*
@@ -1876,9 +1877,20 @@ def.proto.genTimProto =
 			.$( this.$protoSet( 'set', 'groupSet' ) )
 
 			.$comment( 'Returns the size of the group.')
-			.$( this.$protoLazyValueSet( '"size"', 'groupSize' ) );
+			.$( this.$protoLazyValueSet( '"size"', 'groupSize' ) )
 
-			// FIXME iterator
+			.$comment( 'Iterates over the group by sorted keys' )
+			.$(
+				'prototype[ Symbol.iterator ] =',
+				$generator(
+					$block
+					.$forOfLet(
+						'key',
+						'this.sortedKeys',
+						$block.$yield( 'this.get( key )' )
+					)
+				)
+			);
 	}
 
 	if( timspec.glist )

@@ -207,6 +207,14 @@ tim_proto.lazyValue( prototype, 'size', tim_proto.groupSize );
 
 
 /*
+| Iterates over the group by sorted keys
+*/
+prototype[ Symbol.iterator ] =
+	function*( ) { for( let key of this.sortedKeys )
+{ yield this.get( key ); } };
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =
