@@ -135,12 +135,8 @@ def.proto.genConstructor =
 	const attributes = timspec.attributes;
 
 	// assigns the variables
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let attr of  attributes )
 	{
-		const name = attributes.sortedKeys[ a ];
-
-		const attr = attributes.get( name );
-
 		const assign = $( 'this.', attr.assign, ' = ', attr.varRef );
 
 		block = block.append( assign );
@@ -188,12 +184,8 @@ def.proto.genConstructor =
 
 	let cf = $func( block );
 
-	const cList = this.constructorList;
-
-	for( let a = 0, al = cList.length; a < al; a++ )
+	for( let name of this.constructorList )
 	{
-		const name = cList[ a ];
-
 		switch( name )
 		{
 			case 'inherit' : cf = cf.$arg( 'inherit', 'inheritance' ); break;
@@ -298,17 +290,11 @@ def.proto.genCreatorVariables =
 
 	const timspec = this.timspec;
 
-	const attributes = timspec.attributes;
-
 	const varList = [ ];
 
-	const aKeys = attributes.keys;
-
-	for( let a = 0, al = aKeys.length; a < al; a++ )
+	for( let attr of timspec.attributes )
 	{
-		const name = aKeys[ a ];
-
-		varList.push( attributes.get( name ).varRef.name );
+		varList.push( attr.varRef.name );
 	}
 
 	varList.push( 'inherit' );
@@ -330,9 +316,9 @@ def.proto.genCreatorVariables =
 
 	let result = $block;
 
-	for( let a = 0, al = varList.length; a < al; a++ )
+	for( let varName of varList )
 	{
-		result = result.$let( varList[ a ] );
+		result = result.$let( varName );
 	}
 
 	return result;
@@ -403,19 +389,15 @@ def.proto.genCreatorInheritanceReceiver =
 		}
 	}
 
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let attr of attributes )
 	{
-		const name = attributes.sortedKeys[ a ];
-
-		const attr = attributes.get( name );
-
 		const val =
 			!attr.adjust
 			? $( 'this.', attr.assign )
 			: $(
 				'tim.hasLazyValueSet( this, ', attr.$name, ' )',
-				'? this.', name,
-				': this.', '__' + name
+				'? this.', attr.name,
+				': this.', '__' + attr.name
 			);
 
 		receiver = receiver.$( attr.varRef, ' = ', val );
@@ -451,22 +433,16 @@ def.proto.genCreatorFreeStringsParser =
 
 	const timspec = this.timspec;
 
-	const attributes = timspec.attributes;
-
 	let loop = $block.$let( 'arg', 'arguments[ a + 1 ]' );
 
 	let switchExpr = $switch( 'arguments[ a ]' );
 
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let attr of timspec.attributes )
 	{
-		const name = attributes.sortedKeys[ a ];
-
-		const attr = attributes.get( name );
-
 		switchExpr =
 			switchExpr
 			.$case(
-				$string( name ),
+				attr.$name,
 				$( 'if( arg !== pass ) {', attr.varRef, ' = arg; }' )
 			);
 	}
@@ -705,16 +681,10 @@ def.proto.genCreatorDefaults =
 /**/	if( arguments.length !== 0 ) throw new Error( );
 /**/}
 
-	const attributes = this.timspec.attributes;
-
 	let result = $block;
 
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let attr of this.timspec.attributes )
 	{
-		const name = attributes.sortedKeys[ a ];
-
-		const attr = attributes.get( name );
-
 		if(
 			attr.defaultValue !== undefined
 			&& !attr.defaultValue.equals( $undefined )
@@ -856,16 +826,10 @@ def.proto.genCreatorChecks =
 
 	const timspec = this.timspec;
 
-	const attributes = timspec.attributes;
-
 	let check = $block;
 
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let attr of timspec.attributes )
 	{
-		const name = attributes.sortedKeys[ a ];
-
-		const attr = attributes.get( name );
-
 		if( json && !attr.json ) continue;
 
 		if( attr.types.timtype === type_protean ) continue;
@@ -979,17 +943,11 @@ def.proto.genCreatorUnchanged =
 
 	if( timspec.gtwig ) cond = $( cond, '&& twigDup === false' );
 
-	const attributes = timspec.attributes;
-
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let attr of timspec.attributes )
 	{
-		const name = attributes.sortedKeys[ a ];
-
-		const attr = attributes.get( name );
-
 		const ceq =
 			this.genAttributeEquals(
-				name,
+				attr.name,
 				attr.varRef,
 				$( 'inherit.', attr.assign ),
 				'equals'
@@ -1056,8 +1014,6 @@ def.proto.genCreatorReturn =
 /**/	if( arguments.length !== 1 ) throw new Error( );
 /**/}
 
-	const argList = this.constructorList;
-
 	const timspec = this.timspec;
 
 	const attributes = timspec.attributes;
@@ -1076,10 +1032,8 @@ def.proto.genCreatorReturn =
 
 	let call = $( 'Constructor( )' );
 
-	for( let a = 0, al = argList.length; a < al; a++ )
+	for( let argName of this.constructorList )
 	{
-		const argName = argList[ a ];
-
 		switch( argName )
 		{
 			case 'group' :
@@ -1173,18 +1127,10 @@ def.proto.genFromJsonCreatorVariables =
 {
 	const timspec = this.timspec;
 
-	const attributes = timspec.attributes;
-
 	const varList = [ ];
 
-	const aKeys = attributes.keys;
-
-	for( let a = 0, al = aKeys.length; a < al; a++ )
+	for( let attr of timspec.attributes )
 	{
-		const name = aKeys[ a ];
-
-		const attr = attributes.get( name );
-
 		varList.push( attr.varRef.name );
 	}
 
@@ -1203,9 +1149,9 @@ def.proto.genFromJsonCreatorVariables =
 
 	let result = $block;
 
-	for( let a = 0, al = varList.length; a < al; a++ )
+	for( let varName of varList )
 	{
-		result = result.$let( varList[ a ] );
+		result = result.$let( varName );
 	}
 
 	return result;
@@ -1335,10 +1281,8 @@ def.proto.genFromJsonCreatorParser =
 			.$case( '"keys"', 'keys = arg' );
 	}
 
-	for( let a = 0, al = jsonList.length; a < al; a++ )
+	for( let name of jsonList )
 	{
-		const name = jsonList[ a ];
-
 		// FIXME make a table
 		if(
 			name === 'group'
@@ -1680,10 +1624,8 @@ def.proto.genFromJsonCreatorReturn =
 
 	let call = $( 'Constructor( )' );
 
-	for( let a = 0, al = this.constructorList.length; a < al; a++ )
+	for( let name of this.constructorList )
 	{
-		const name = this.constructorList[ a ];
-
 		switch( name )
 		{
 			case 'inherit' :
@@ -1730,18 +1672,12 @@ def.proto.genFromJsonCreator =
 {
 	const timspec = this.timspec;
 
-	const attributes = timspec.attributes;
-
 	// all attributes expected from json
 	const jsonList = [ ];
 
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let attr of timspec.attributes )
 	{
-		const name = attributes.sortedKeys[ a ];
-
-		const attr = attributes.get( name );
-
-		if( attr.json ) jsonList.push( name );
+		if( attr.json ) jsonList.push( attr.name );
 	}
 
 	if( timspec.gtwig ) jsonList.push( 'twig', 'keys' );
