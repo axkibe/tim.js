@@ -22,7 +22,7 @@ if( TIM )
 }
 
 
-const ast_funcArg = require( './funcArg' );
+const ast_funcArg = tim.require( './funcArg' );
 
 
 /*

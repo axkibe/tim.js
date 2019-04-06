@@ -20,9 +20,9 @@ if( TIM )
 }
 
 
-const ast_block = require( './block' );
+const ast_block = tim.require( './block' );
 
-const parser = require( '../parser/parser' );
+const parser = tim.require( '../parser/parser' );
 
 
 /*

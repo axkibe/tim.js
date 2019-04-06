@@ -20,7 +20,7 @@ if( TIM )
 }
 
 
-const ast_member = require( './member' );
+const ast_member = tim.require( './member' );
 
 
 /**

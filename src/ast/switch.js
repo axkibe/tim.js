@@ -23,11 +23,11 @@ if( TIM )
 }
 
 
-const ast_block = require( './block' );
+const ast_block = tim.require( './block' );
 
-const ast_case = require( './case' );
+const ast_case = tim.require( './case' );
 
-const parser = require( '../parser/parser' );
+const parser = tim.require( '../parser/parser' );
 
 
 /*

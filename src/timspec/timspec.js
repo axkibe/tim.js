@@ -87,36 +87,29 @@ if( TIM )
 	};
 }
 
-const ast_call = require( '../ast/call' );
-
-const ast_string = require( '../ast/string' );
-
-const ast_var = require( '../ast/var' );
-
 const fs = require( 'fs' );
 
-const parser_parser = require( '../parser/parser' );
+const $ = tim.require( '../ast/shorthand' );
 
-const shorthand = require( '../ast/shorthand' );
+const ast_call = tim.require( '../ast/call' );
 
-const string_set = require( '../string/set' );
+const ast_string = tim.require( '../ast/string' );
 
-const timspec_attribute = require( './attribute' );
+const ast_var = tim.require( '../ast/var' );
 
-const timspec_attributeGroup = require( './attributeGroup' );
+const string_set = tim.require( '../string/set' );
 
-const type_any = require( '../type/any' );
+const timspec_attribute = tim.require( './attribute' );
 
-const type_set = require( '../type/set' );
+const timspec_attributeGroup = tim.require( './attributeGroup' );
 
-const type_tim = require( '../type/tim' );
+const type_any = tim.require( '../type/any' );
 
-const validator = require( './validator' );
+const type_set = tim.require( '../type/set' );
 
-const $expr = parser_parser.parseExpr;
+const type_tim = tim.require( '../type/tim' );
 
-const $var = shorthand.$var;
-
+const validator = tim.require( './validator' );
 
 /*
 | Returns true if obj isn't empty.
@@ -312,7 +305,7 @@ def.static.createFromDef =
 
 		let defaultValue;
 
-		if( jdv ) defaultValue = $expr( jdv ).walk( transformDefaultValue );
+		if( jdv ) defaultValue = $.$expr( jdv ).walk( transformDefaultValue );
 
 		const attr =
 			timspec_attribute.create(
@@ -322,7 +315,7 @@ def.static.createFromDef =
 				'types', types,
 				'json', !!jAttr.json,
 				'name', name,
-				'varRef', $var( 'v_' + name )
+				'varRef', $.$var( 'v_' + name )
 			);
 
 		attributes = attributes.set( name, attr );
@@ -330,7 +323,7 @@ def.static.createFromDef =
 
 	if( def.abstract || def.group || def.list || def.set || def.twig ) singleton = false;
 
-	if( def.global ) global = $var( def.global );
+	if( def.global ) global = $.$var( def.global );
 
 	let ggroup, glist, gset, gtwig;
 

@@ -9,121 +9,122 @@ tim.define( module, ( def, format_formatter ) => {
 
 def.abstract = true;
 
+
 const MAX_TEXT_WIDTH = 99;
 
-const ast_and = require( '../ast/and' );
+const ast_and = tim.require( '../ast/and' );
 
-const ast_arrayLiteral = require( '../ast/arrayLiteral' );
+const ast_arrayLiteral = tim.require( '../ast/arrayLiteral' );
 
-const ast_assign = require( '../ast/assign' );
+const ast_assign = tim.require( '../ast/assign' );
 
-const ast_block = require( '../ast/block' );
+const ast_block = tim.require( '../ast/block' );
 
-const ast_boolean = require( '../ast/boolean' );
+const ast_boolean = tim.require( '../ast/boolean' );
 
-const ast_break = require( '../ast/break' );
+const ast_break = tim.require( '../ast/break' );
 
-const ast_call = require( '../ast/call' );
+const ast_call = tim.require( '../ast/call' );
 
-const ast_check = require( '../ast/check' );
+const ast_check = tim.require( '../ast/check' );
 
-const ast_comma = require( '../ast/comma' );
+const ast_comma = tim.require( '../ast/comma' );
 
-const ast_comment = require( '../ast/comment' );
+const ast_comment = tim.require( '../ast/comment' );
 
-const ast_condition = require( '../ast/condition' );
+const ast_condition = tim.require( '../ast/condition' );
 
-const ast_const = require( '../ast/const' );
+const ast_const = tim.require( '../ast/const' );
 
-const ast_continue = require( '../ast/continue' );
+const ast_continue = tim.require( '../ast/continue' );
 
-const ast_delete = require( '../ast/delete' );
+const ast_delete = tim.require( '../ast/delete' );
 
-const ast_divide = require( '../ast/divide' );
+const ast_divide = tim.require( '../ast/divide' );
 
-const ast_divideAssign = require( '../ast/divideAssign' );
+const ast_divideAssign = tim.require( '../ast/divideAssign' );
 
-const ast_differs = require( '../ast/differs' );
+const ast_differs = tim.require( '../ast/differs' );
 
-const ast_dot = require( '../ast/dot' );
+const ast_dot = tim.require( '../ast/dot' );
 
-const ast_equals = require( '../ast/equals' );
+const ast_equals = tim.require( '../ast/equals' );
 
-const ast_fail = require( '../ast/fail' );
+const ast_fail = tim.require( '../ast/fail' );
 
-const ast_for = require( '../ast/for' );
+const ast_for = tim.require( '../ast/for' );
 
-const ast_forIn = require( '../ast/forIn' );
+const ast_forIn = tim.require( '../ast/forIn' );
 
-const ast_forOf = require( '../ast/forOf' );
+const ast_forOf = tim.require( '../ast/forOf' );
 
-const ast_func = require( '../ast/func' );
+const ast_func = tim.require( '../ast/func' );
 
-const ast_generator = require( '../ast/generator' );
+const ast_generator = tim.require( '../ast/generator' );
 
-const ast_greaterThan = require( '../ast/greaterThan' );
+const ast_greaterThan = tim.require( '../ast/greaterThan' );
 
-const ast_if = require( '../ast/if' );
+const ast_if = tim.require( '../ast/if' );
 
-const ast_instanceof = require( '../ast/instanceof' );
+const ast_instanceof = tim.require( '../ast/instanceof' );
 
-const ast_lessThan = require( '../ast/lessThan' );
+const ast_lessThan = tim.require( '../ast/lessThan' );
 
-const ast_let = require( '../ast/let' );
+const ast_let = tim.require( '../ast/let' );
 
-const ast_member = require( '../ast/member' );
+const ast_member = tim.require( '../ast/member' );
 
-const ast_minus = require( '../ast/minus' );
+const ast_minus = tim.require( '../ast/minus' );
 
-const ast_minusAssign = require( '../ast/minusAssign' );
+const ast_minusAssign = tim.require( '../ast/minusAssign' );
 
-const ast_multiplyAssign = require( '../ast/multiplyAssign' );
+const ast_multiplyAssign = tim.require( '../ast/multiplyAssign' );
 
-const ast_multiply = require( '../ast/multiply' );
+const ast_multiply = tim.require( '../ast/multiply' );
 
-const ast_negate = require( '../ast/negate' );
+const ast_negate = tim.require( '../ast/negate' );
 
-const ast_new = require( '../ast/new' );
+const ast_new = tim.require( '../ast/new' );
 
-const ast_not = require( '../ast/not' );
+const ast_not = tim.require( '../ast/not' );
 
-const ast_null = require( '../ast/null' );
+const ast_null = tim.require( '../ast/null' );
 
-const ast_number = require( '../ast/number' );
+const ast_number = tim.require( '../ast/number' );
 
-const ast_objLiteral = require( '../ast/objLiteral' );
+const ast_objLiteral = tim.require( '../ast/objLiteral' );
 
-const ast_or = require( '../ast/or' );
+const ast_or = tim.require( '../ast/or' );
 
-const ast_plus = require( '../ast/plus' );
+const ast_plus = tim.require( '../ast/plus' );
 
-const ast_plusAssign = require( '../ast/plusAssign' );
+const ast_plusAssign = tim.require( '../ast/plusAssign' );
 
-const ast_postIncrement = require( '../ast/postIncrement' );
+const ast_postIncrement = tim.require( '../ast/postIncrement' );
 
-const ast_postDecrement = require( '../ast/postDecrement' );
+const ast_postDecrement = tim.require( '../ast/postDecrement' );
 
-const ast_preDecrement = require( '../ast/preDecrement' );
+const ast_preDecrement = tim.require( '../ast/preDecrement' );
 
-const ast_preIncrement = require( '../ast/preIncrement' );
+const ast_preIncrement = tim.require( '../ast/preIncrement' );
 
-const ast_return = require( '../ast/return' );
+const ast_return = tim.require( '../ast/return' );
 
-const ast_string = require( '../ast/string' );
+const ast_string = tim.require( '../ast/string' );
 
-const ast_switch = require( '../ast/switch' );
+const ast_switch = tim.require( '../ast/switch' );
 
-const ast_typeof = require( '../ast/typeof' );
+const ast_typeof = tim.require( '../ast/typeof' );
 
-const ast_var = require( '../ast/var' );
+const ast_var = tim.require( '../ast/var' );
 
-const ast_varDec = require( '../ast/varDec' );
+const ast_varDec = tim.require( '../ast/varDec' );
 
-const ast_while = require( '../ast/while' );
+const ast_while = tim.require( '../ast/while' );
 
-const ast_yield = require( '../ast/yield' );
+const ast_yield = tim.require( '../ast/yield' );
 
-const format_context = require( './context' );
+const format_context = tim.require( './context' );
 
 /*
 | Expression precedence table.

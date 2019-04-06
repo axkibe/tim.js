@@ -13,13 +13,13 @@ if( TIM )
 }
 
 
-const ast_comment = require( './comment' );
+const ast_comment = tim.require( './comment' );
 
-const ast_return = require( './return' );
+const ast_return = tim.require( './return' );
 
-const parser = require( '../parser/parser' );
+const parser = tim.require( '../parser/parser' );
 
-const shorthand = require( './shorthand' );
+const shorthand = tim.require( './shorthand' );
 
 
 /*

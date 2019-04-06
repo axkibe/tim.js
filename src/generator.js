@@ -57,7 +57,7 @@ const shorthand = tim.require( './ast/shorthand' );
 */
 const $ = parser_parser.parse;
 
-const $expr = parser_parser.parseExpr;
+const $expr = parser_parser.expr;
 
 const $and = shorthand.$and;
 

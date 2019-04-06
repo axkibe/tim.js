@@ -20,7 +20,7 @@ if( TIM )
 }
 
 
-const timspec_dir = require( './dir' );
+const timspec_dir = tim.require( './dir' );
 
 const timspec_rootDir = require( './rootDir' );
 

@@ -7,105 +7,105 @@
 tim.define( module, ( def, ast_shorthand ) => {
 
 
-const ast_and = require( './and' );
+const ast_and = tim.require( './and' );
 
-const ast_assign = require( './assign' );
+const ast_assign = tim.require( './assign' );
 
-const ast_block = require( './block' );
+const ast_block = tim.require( './block' );
 
-const ast_boolean = require( './boolean' );
+const ast_boolean = tim.require( './boolean' );
 
-const ast_break = require( './break' );
+const ast_break = tim.require( './break' );
 
-const ast_call = require( './call' );
+const ast_call = tim.require( './call' );
 
-const ast_check = require( './check' );
+const ast_check = tim.require( './check' );
 
-const ast_comma = require( './comma' );
+const ast_comma = tim.require( './comma' );
 
-const ast_comment = require( './comment' );
+const ast_comment = tim.require( './comment' );
 
-const ast_condition = require( './condition' );
+const ast_condition = tim.require( './condition' );
 
-const ast_const = require( './const' );
+const ast_const = tim.require( './const' );
 
-const ast_continue = require( './continue' );
+const ast_continue = tim.require( './continue' );
 
-const ast_delete = require( './delete' );
+const ast_delete = tim.require( './delete' );
 
-const ast_differs = require( './differs' );
+const ast_differs = tim.require( './differs' );
 
-const ast_dot = require( './dot' );
+const ast_dot = tim.require( './dot' );
 
-const ast_equals = require( './equals' );
+const ast_equals = tim.require( './equals' );
 
-const ast_fail = require( './fail' );
+const ast_fail = tim.require( './fail' );
 
-const ast_for = require( './for' );
+const ast_for = tim.require( './for' );
 
-const ast_forIn = require( './forIn' );
+const ast_forIn = tim.require( './forIn' );
 
-const ast_forOf = require( './forOf' );
+const ast_forOf = tim.require( './forOf' );
 
-const ast_func = require( './func' );
+const ast_func = tim.require( './func' );
 
-const ast_generator = require( './generator' );
+const ast_generator = tim.require( './generator' );
 
-const ast_greaterThan = require( './greaterThan' );
+const ast_greaterThan = tim.require( './greaterThan' );
 
-const ast_if = require( './if' );
+const ast_if = tim.require( './if' );
 
-const ast_instanceof = require( './instanceof' );
+const ast_instanceof = tim.require( './instanceof' );
 
-const ast_lessThan = require( './lessThan' );
+const ast_lessThan = tim.require( './lessThan' );
 
-const ast_let = require( './let' );
+const ast_let = tim.require( './let' );
 
-const ast_letEntry = require( './letEntry' );
+const ast_letEntry = tim.require( './letEntry' );
 
-const ast_member = require( './member' );
+const ast_member = tim.require( './member' );
 
-const ast_multiply = require( './multiply' );
+const ast_multiply = tim.require( './multiply' );
 
-const ast_multiplyAssign = require( './multiplyAssign' );
+const ast_multiplyAssign = tim.require( './multiplyAssign' );
 
-const ast_new = require( './new' );
+const ast_new = tim.require( './new' );
 
-const ast_not = require( './not' );
+const ast_not = tim.require( './not' );
 
-const ast_null = require( './null' );
+const ast_null = tim.require( './null' );
 
-const ast_number = require( './number' );
+const ast_number = tim.require( './number' );
 
-const ast_objLiteral = require( './objLiteral' );
+const ast_objLiteral = tim.require( './objLiteral' );
 
-const ast_or = require( './or' );
+const ast_or = tim.require( './or' );
 
-const ast_plus = require( './plus' );
+const ast_plus = tim.require( './plus' );
 
-const ast_plusAssign = require( './plusAssign' );
+const ast_plusAssign = tim.require( './plusAssign' );
 
-const ast_preIncrement = require( './preIncrement' );
+const ast_preIncrement = tim.require( './preIncrement' );
 
-const ast_return = require( './return' );
+const ast_return = tim.require( './return' );
 
-const ast_string = require( './string' );
+const ast_string = tim.require( './string' );
 
-const ast_switch = require( './switch' );
+const ast_switch = tim.require( './switch' );
 
-const ast_typeof = require( './typeof' );
+const ast_typeof = tim.require( './typeof' );
 
-const ast_undefined = require( './undefined' );
+const ast_undefined = tim.require( './undefined' );
 
-const ast_var = require( './var' );
+const ast_var = tim.require( './var' );
 
-const ast_varDec = require( './varDec' );
+const ast_varDec = tim.require( './varDec' );
 
-const ast_while = require( './while' );
+const ast_while = tim.require( './while' );
 
-const ast_yield = require( './yield' );
+const ast_yield = tim.require( './yield' );
 
-const parser = require( '../parser/parser' );
+const parser = tim.require( '../parser/parser' );
 
 
 /*
@@ -118,7 +118,7 @@ const ensureBlock =
 {
 	if( arg.timtype === ast_block ) return arg;
 
-	return ast_block.create( ).append( parser.parse( arg ) );
+	return ast_block.create( ).append( parser.statement( arg ) );
 };
 
 
@@ -140,8 +140,8 @@ def.static.$and =
 			0,
 			2,
 			ast_and.create(
-				'left', parser.parse( left ),
-				'right', parser.parse( right )
+				'left', parser.expr( left ),
+				'right', parser.expr( right )
 			)
 		);
 
@@ -150,8 +150,8 @@ def.static.$and =
 
 	return(
 		ast_and.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -168,8 +168,8 @@ def.static.$assign =
 {
 	return(
 		ast_assign.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -196,7 +196,7 @@ def.static.$call =
 		// args
 	)
 {
-	let call = ast_call.create( 'func', parser.parse( func ) );
+	let call = ast_call.create( 'func', parser.expr( func ) );
 
 	for( let a = 1, al = arguments.length; a < al; a++ )
 	{
@@ -237,8 +237,8 @@ def.static.$comma =
 			0,
 			2,
 			ast_comma.create(
-				'left', parser.parse( left ),
-				'right', parser.parse( right )
+				'left', parser.expr( left ),
+				'right', parser.expr( right )
 			)
 		);
 
@@ -247,8 +247,8 @@ def.static.$comma =
 
 	return(
 		ast_comma.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -373,6 +373,16 @@ def.static.$equals =
 			'right', parser.parse( right )
 		)
 	);
+};
+
+
+/*
+| Forward general expression parsing.
+*/
+def.static.$expr =
+	function( )
+{
+	return parser.expr.apply( parser, arguments );
 };
 
 

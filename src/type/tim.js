@@ -19,7 +19,7 @@ if( TIM )
 }
 
 
-const shorthand = require( '../ast/shorthand' );
+const shorthand = tim.require( '../ast/shorthand' );
 
 // FIXME only allows tim.js imports for now
 const pool = { '_' : { }, 'tim.js' : { } };

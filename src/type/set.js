@@ -13,11 +13,11 @@ if( TIM )
 }
 
 
-const any = require( './any' );
-
 const fs = require( 'fs' );
 
-const type_tim = require( './tim' );
+const any = tim.require( './any' );
+
+const type_tim = tim.require( './tim' );
 
 
 /*

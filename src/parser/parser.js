@@ -1189,7 +1189,8 @@ def.static.parseArray =
 /*
 | Parses code to create an ast tree.
 */
-def.static.parse =
+def.static.statement =
+def.static.parse =  // FIXME remove
 	function(
 		// list of strings to parse
 		// or ast subtrees.
@@ -1202,7 +1203,7 @@ def.static.parse =
 /*
 | Parses code as expression.
 */
-def.static.parseExpr =
+def.static.expr =
 	function(
 		// list of strings to parse
 		// or ast subtrees.

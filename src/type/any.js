@@ -7,25 +7,25 @@
 tim.define( module, ( def, type_any ) => {
 
 
-const type_boolean = require( './boolean' );
+const type_boolean = tim.require( './boolean' );
 
-const type_date = require( './date' );
+const type_date = tim.require( './date' );
 
-const type_function = require( './function' );
+const type_function = tim.require( './function' );
 
-const type_integer = require( './integer' );
+const type_integer = tim.require( './integer' );
 
-const type_null = require( './null' );
+const type_null = tim.require( './null' );
 
-const type_number = require( './number' );
+const type_number = tim.require( './number' );
 
-const type_protean = require( './protean' );
+const type_protean = tim.require( './protean' );
 
-const type_undefined = require( './undefined' );
+const type_undefined = tim.require( './undefined' );
 
-const type_string = require( './string' );
+const type_string = tim.require( './string' );
 
-const type_tim = require( './tim' );
+const type_tim = tim.require( './tim' );
 
 
 /*

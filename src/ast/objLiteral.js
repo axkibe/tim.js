@@ -13,7 +13,7 @@ if( TIM )
 }
 
 
-const parser = require( '../parser/parser' );
+const parser = tim.require( '../parser/parser' );
 
 
 /*

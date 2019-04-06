@@ -10,9 +10,9 @@ tim.define( module, ( def, lexer_lexer ) => {
 def.abstract = true;
 
 
-const token = require( './token' );
+const token = tim.require( './token' );
 
-const tokenList = require( './tokenList' );
+const tokenList = tim.require( './tokenList' );
 
 
 /*
