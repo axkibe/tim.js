@@ -20,7 +20,7 @@ if( TIM )
 }
 
 
-const ast_dot = require( './dot' );
+const ast_dot = tim.require( './dot' );
 
 
 /*

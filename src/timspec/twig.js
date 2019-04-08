@@ -14,9 +14,9 @@ if( TIM )
 }
 
 
-const timspec_timspec = require( './timspec' );
+const timspec_timspec = tim.require( './timspec' );
 
-const type_tim = require( '../type/tim' );
+const type_tim = tim.require( '../type/tim' );
 
 
 /*

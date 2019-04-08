@@ -17,11 +17,11 @@ if( TIM )
 }
 
 
-const parser = require( '../parser/parser' );
+const parser = tim.require( '../parser/parser' );
 
-const ast_dot = require( './dot' );
+const ast_dot = tim.require( './dot' );
 
-const ast_member = require( './member' );
+const ast_member = tim.require( './member' );
 
 
 /**

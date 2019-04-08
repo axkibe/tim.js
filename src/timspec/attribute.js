@@ -35,7 +35,7 @@ if( TIM )
 }
 
 
-const shorthand = require( '../ast/shorthand' );
+const shorthand = tim.require( '../ast/shorthand' );
 
 
 /*

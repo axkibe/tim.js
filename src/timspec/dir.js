@@ -13,7 +13,7 @@ if( TIM )
 }
 
 
-const timspec_provisional = require( './provisional' );
+const timspec_provisional = tim.require( './provisional' );
 
 
 /*

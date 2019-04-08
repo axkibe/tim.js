@@ -22,13 +22,13 @@ if( TIM )
 
 const timspec_dir = tim.require( './dir' );
 
-const timspec_rootDir = require( './rootDir' );
+const timspec_rootDir = tim.require( './rootDir' );
 
-const timspec_timspec = require( './timspec' );
+const timspec_timspec = tim.require( './timspec' );
 
-const tim_path = require( '../path/path' );
+const tim_path = tim.require( '../path/path' );
 
-const type_tim = require( '../type/tim' );
+const type_tim = tim.require( '../type/tim' );
 
 
 /*

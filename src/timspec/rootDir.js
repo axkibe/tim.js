@@ -30,9 +30,9 @@ if( TIM )
 	def.group = [ './dir', './provisional', './timspec' ];
 }
 
-const timspec_dir = require( './dir' );
+const timspec_dir = tim.require( './dir' );
 
-const timspec_provisional = require( './provisional' );
+const timspec_provisional = tim.require( './provisional' );
 
 
 /**
