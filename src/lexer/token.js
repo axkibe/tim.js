@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.define( module, ( def, token ) => {
+tim.define( module, ( def, lexer_token ) => {
 
 
 if( TIM )
@@ -20,71 +20,29 @@ if( TIM )
 }
 
 
-let allowedTokens;
+def.staticLazy.allowedTokens = ( ) =>
+	new Set( [
+		'=', '.', ',', '+', '-', '*', '/', '<', '>', '?',
+		':', ';', '!', '[', ']', '(', ')', '{', '}',
+		'++', '--', '+=', '-=', '*=', '/=', '<=', '>=',
+		'||', '&&', '===', '!==', 'if',
+		'for', 'let', 'new', 'else', 'null', 'true', 'const', 'false',
+		'delete', 'return', 'typeof', 'instanceof', 'number', 'string',
+		'identifier'
+	] );
 
 
+/*
+| Exta checking
+*/
+def.proto._check =
+	function( )
+{
 /**/if( CHECK )
 /**/{
-/**/	allowedTokens = { };
-/**/	allowedTokens[ '=' ] = true;
-/**/	allowedTokens[ '.' ] = true;
-/**/	allowedTokens[ ',' ] = true;
-/**/	allowedTokens[ '+' ] = true;
-/**/	allowedTokens[ '-' ] = true;
-/**/	allowedTokens[ '*' ] = true;
-/**/	allowedTokens[ '/' ] = true;
-/**/	allowedTokens[ '<' ] = true;
-/**/	allowedTokens[ '>' ] = true;
-/**/	allowedTokens[ '?' ] = true;
-/**/	allowedTokens[ ':' ] = true;
-/**/	allowedTokens[ ';' ] = true;
-/**/	allowedTokens[ '!' ] = true;
-/**/	allowedTokens[ '[' ] = true;
-/**/	allowedTokens[ ']' ] = true;
-/**/	allowedTokens[ '(' ] = true;
-/**/	allowedTokens[ ')' ] = true;
-/**/	allowedTokens[ '{' ] = true;
-/**/	allowedTokens[ '}' ] = true;
-/**/	allowedTokens[ '++' ] = true;
-/**/	allowedTokens[ '--' ] = true;
-/**/	allowedTokens[ '+=' ] = true;
-/**/	allowedTokens[ '-=' ] = true;
-/**/	allowedTokens[ '*=' ] = true;
-/**/	allowedTokens[ '/=' ] = true;
-/**/	allowedTokens[ '||' ] = true;
-/**/	allowedTokens[ '&&' ] = true;
-/**/	allowedTokens[ '===' ] = true;
-/**/	allowedTokens[ '!==' ] = true;
-/**/	allowedTokens[ 'if' ] = true;
-/**/	allowedTokens[ 'for' ] = true;
-/**/	allowedTokens[ 'let' ] = true;
-/**/	allowedTokens[ 'new' ] = true;
-/**/	allowedTokens[ 'else' ] = true;
-/**/	allowedTokens[ 'null' ] = true;
-/**/	allowedTokens[ 'true' ] = true;
-/**/	allowedTokens[ 'const' ] = true;
-/**/	allowedTokens[ 'false' ] = true;
-/**/	allowedTokens[ 'delete' ] = true;
-/**/	allowedTokens[ 'return' ] = true;
-/**/	allowedTokens[ 'typeof' ] = true;
-/**/	allowedTokens[ 'instanceof' ] = true;
-/**/	allowedTokens.number = true;
-/**/	allowedTokens.string = true;
-/**/	allowedTokens.identifier = true;
+/**/	if( !lexer_token.allowedTokens.has( this.type ) ) throw new Error( );
 /**/}
-
-
-/**
-*** Exta checking
-***/
-/**/if( CHECK )
-/**/{
-/**/	def.proto._check =
-/**/		function( )
-/**/	{
-/**/		if( !allowedTokens[ this.type ] ) throw new Error( );
-/**/	};
-/**/}
+};
 
 
 /*
@@ -96,7 +54,7 @@ def.static.tv =
 		v   // value maybe undefined
 	)
 {
-	return token.create( 'type', t, 'value', v );
+	return lexer_token.create( 'type', t, 'value', v );
 };
 
 

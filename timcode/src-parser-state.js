@@ -99,10 +99,16 @@ const tt_$_ast_func = require( './../ast/func' );
 const tt_$_ast_generator = require( './../ast/generator' );
 
 
+const tt_$_ast_greaterOrEqual = require( './../ast/greaterOrEqual' );
+
+
 const tt_$_ast_greaterThan = require( './../ast/greaterThan' );
 
 
 const tt_$_ast_instanceof = require( './../ast/instanceof' );
+
+
+const tt_$_ast_lessOrEqual = require( './../ast/lessOrEqual' );
 
 
 const tt_$_ast_lessThan = require( './../ast/lessThan' );
@@ -352,9 +358,13 @@ prototype.create =
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_generator
 /**/		&&
+/**/		v_ast.timtype !== tt_$_ast_greaterOrEqual
+/**/		&&
 /**/		v_ast.timtype !== tt_$_ast_greaterThan
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_instanceof
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_lessOrEqual
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_lessThan
 /**/		&&

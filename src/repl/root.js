@@ -22,11 +22,11 @@ require( '../ast/shorthand' );
 
 global.parser = require( '../parser/parser' );
 
-global.parse = global.parser.parse;
+global.parse = global.parser.statement;
 
 global.ast_block = require( '../ast/block' );
 
-global.$ = global.parser.parse;
+global.$ = global.parser.statement;
 
 global.$block = global.ast_block.create( );
 

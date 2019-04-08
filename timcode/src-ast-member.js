@@ -51,10 +51,16 @@ const tt_func = require( './func' );
 const tt_generator = require( './generator' );
 
 
+const tt_greaterOrEqual = require( './greaterOrEqual' );
+
+
 const tt_greaterThan = require( './greaterThan' );
 
 
 const tt_instanceof = require( './instanceof' );
+
+
+const tt_lessOrEqual = require( './lessOrEqual' );
 
 
 const tt_lessThan = require( './lessThan' );
@@ -249,9 +255,13 @@ prototype.create =
 /**/		&&
 /**/		v_expr.timtype !== tt_generator
 /**/		&&
+/**/		v_expr.timtype !== tt_greaterOrEqual
+/**/		&&
 /**/		v_expr.timtype !== tt_greaterThan
 /**/		&&
 /**/		v_expr.timtype !== tt_instanceof
+/**/		&&
+/**/		v_expr.timtype !== tt_lessOrEqual
 /**/		&&
 /**/		v_expr.timtype !== tt_lessThan
 /**/		&&
@@ -336,9 +346,13 @@ prototype.create =
 /**/		&&
 /**/		v_member.timtype !== tt_generator
 /**/		&&
+/**/		v_member.timtype !== tt_greaterOrEqual
+/**/		&&
 /**/		v_member.timtype !== tt_greaterThan
 /**/		&&
 /**/		v_member.timtype !== tt_instanceof
+/**/		&&
+/**/		v_member.timtype !== tt_lessOrEqual
 /**/		&&
 /**/		v_member.timtype !== tt_lessThan
 /**/		&&

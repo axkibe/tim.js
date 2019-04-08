@@ -62,11 +62,15 @@ const ast_func = tim.require( '../ast/func' );
 
 const ast_generator = tim.require( '../ast/generator' );
 
+const ast_greaterOrEqual = tim.require( '../ast/greaterOrEqual' );
+
 const ast_greaterThan = tim.require( '../ast/greaterThan' );
 
 const ast_if = tim.require( '../ast/if' );
 
 const ast_instanceof = tim.require( '../ast/instanceof' );
+
+const ast_lessOrEqual = tim.require( '../ast/lessOrEqual' );
 
 const ast_lessThan = tim.require( '../ast/lessThan' );
 
@@ -146,9 +150,11 @@ const precTable =
 		[ ast_equals,          9 ],
 		[ ast_func,            3 ],
 		[ ast_generator,       3 ],
+		[ ast_greaterOrEqual,  8 ],
 		[ ast_greaterThan,     8 ],
 //		[ ast_in,              8 ],
 		[ ast_instanceof,      8 ],
+		[ ast_lessOrEqual,     8 ],
 		[ ast_lessThan,        8 ],
 		[ ast_let,            -1 ],
 		[ ast_member,          1 ],
@@ -742,7 +748,7 @@ const formatExpression =
 
 	const pprec = precTable.get( ptimtype );
 
-	if( !prec ) throw new Error( 'X', ptimtype );
+	if( !prec ) throw new Error( ptimtype );
 
 	const formatter = exprFormatter.get( expr.timtype );
 
@@ -1164,11 +1170,13 @@ const formatMember =
 };
 
 
-let formatDualOpMap = () => {
+let formatDualOpMap = ( ) => {
 	const map = new Map( );
 
 	map.set( ast_divide, '/' );
+	map.set( ast_greaterOrEqual, '>=' );
 	map.set( ast_greaterThan, '>' );
+	map.set( ast_lessOrEqual, '<=' );
 	map.set( ast_lessThan, '<' );
 	map.set( ast_minus, '-' );
 	map.set( ast_multiply, '*' );
@@ -1225,11 +1233,7 @@ const formatNew =
 	return(
 		context.tab
 		+ 'new '
-		+ formatCall(
-			context,
-			expr.call,
-			true
-		)
+		+ formatCall( context, expr.call, true )
 	);
 };
 
@@ -1730,7 +1734,9 @@ const formatStatement =
 		case ast_divide :
 		case ast_dot :
 		case ast_fail :
+		case ast_greaterOrEqual :
 		case ast_greaterThan :
+		case ast_lessOrEqual :
 		case ast_lessThan :
 		case ast_let :
 		case ast_member :
@@ -2132,8 +2138,10 @@ const exprFormatter =
 		[ ast_equals,         formatEquals        ],
 		[ ast_func,           formatFunc          ],
 		[ ast_generator,      formatFunc          ],
+		[ ast_greaterOrEqual, formatDualOp        ],
 		[ ast_greaterThan,    formatDualOp        ],
 		[ ast_instanceof,     formatInstanceof    ],
+		[ ast_lessOrEqual,    formatDualOp        ],
 		[ ast_lessThan,       formatDualOp        ],
 		[ ast_let,            formatLet           ],
 		[ ast_member,         formatMember        ],

@@ -1937,6 +1937,18 @@ def.proto.genTimProto =
 						$block.$yield( 'this.atRank( a )' )
 					)
 				)
+			)
+			.$comment( 'Reverse iterates over the twig' )
+			.$(
+				'prototype.reverse =',
+				$generator(
+					$for(
+						'let a = this.length - 1',
+						'a >= 0',
+						'a--',
+						$block.$yield( 'this.atRank( a )' )
+					)
+				)
 			);
 	}
 

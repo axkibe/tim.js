@@ -350,6 +350,18 @@ a++
 
 
 /*
+| Reverse iterates over the twig
+*/
+prototype.reverse =
+	function*( ) { for(
+let a = this.length - 1;
+a >= 0;
+a--
+)
+{ yield this.atRank( a ); } };
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =

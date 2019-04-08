@@ -43,11 +43,15 @@ const ast_equals = tim.require( '../ast/equals' );
 
 const ast_for = tim.require( '../ast/for' );
 
+const ast_greaterOrEqual = tim.require( '../ast/greaterOrEqual' );
+
 const ast_greaterThan = tim.require( '../ast/greaterThan' );
 
 const ast_if = tim.require( '../ast/if' );
 
 const ast_instanceof = tim.require( '../ast/instanceof' );
+
+const ast_lessOrEqual = tim.require( '../ast/lessOrEqual' );
 
 const ast_lessThan = tim.require( '../ast/lessThan' );
 
@@ -948,7 +952,11 @@ rightSpecs[ '+' ] = createHandler( 'handleDualisticOps', 6, 'l2r', ast_plus );
 
 rightSpecs[ '-' ] = createHandler( 'handleDualisticOps', 6, 'l2r', ast_minus );
 
+rightSpecs[ '<=' ] = createHandler( 'handleDualisticOps', 8, 'l2r', ast_lessOrEqual );
+
 rightSpecs[ '<' ] = createHandler( 'handleDualisticOps', 8, 'l2r', ast_lessThan );
+
+rightSpecs[ '>=' ] = createHandler( 'handleDualisticOps', 8, 'l2r', ast_greaterOrEqual );
 
 rightSpecs[ '>' ] = createHandler( 'handleDualisticOps', 8, 'l2r', ast_greaterThan );
 

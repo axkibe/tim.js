@@ -16,6 +16,27 @@ const tokenList = tim.require( './tokenList' );
 
 
 /*
+| Set of all recognized keywords.
+*/
+def.staticLazy.keywords = ( ) =>
+	new Set( [
+		'const',
+		'delete',
+		'else',
+		'false',
+		'for',
+		'if',
+		'instanceof',
+		'let',
+		'new',
+		'null',
+		'return',
+		'true',
+		'typeof',
+	] );
+
+
+/*
 | Tokenizes a javascript string.
 |
 | Returns an array of tokens.
@@ -39,37 +60,18 @@ def.static.tokenize =
 			let value = ch;
 
 			// a name specifier
-			while( c + 1 < cl && code[ c+ 1 ].match( /[a-zA-Z0-9_$]/ ) )
+			while( c + 1 < cl && code[ c + 1 ].match( /[a-zA-Z0-9_$]/ ) )
 			{
 				value += code[ ++c ];
 			}
 
-			switch( value )
-			{
-				case 'const' :
-				case 'delete' :
-				case 'else' :
-				case 'false' :
-				case 'for' :
-				case 'if' :
-				case 'instanceof' :
-				case 'let' :
-				case 'new' :
-				case 'null' :
-				case 'return' :
-				case 'true' :
-				case 'typeof' :
+			tokens.push(
+				lexer_lexer.keywords.has( value )
+				? token.tv( value )
+				: token.tv( 'identifier', value )
+			);
 
-					tokens.push( token.tv( value ) );
-
-					continue;
-
-				default :
-
-					tokens.push( token.tv( 'identifier', value ) );
-
-					continue;
-			}
+			continue;
 		}
 
 		if( ch.match(/[0-9]/ ) )
@@ -115,8 +117,6 @@ def.static.tokenize =
 
 		switch( ch )
 		{
-			case '<' :
-			case '>' :
 			case '.' :
 			case '?' :
 			case ':' :
@@ -130,6 +130,36 @@ def.static.tokenize =
 			case '}' :
 
 				tokens.push( token.tv( ch ) );
+
+				continue;
+
+			case '<' :
+
+				if( c + 1 < cl && code[ c + 1 ] === '=' )
+				{
+					tokens.push( token.tv( '<=' ) );
+
+					c++;
+				}
+				else
+				{
+					tokens.push( token.tv( '<' ) );
+				}
+
+				continue;
+
+			case '>' :
+
+				if( c + 1 < cl && code[ c + 1 ] === '=' )
+				{
+					tokens.push( token.tv( '>=' ) );
+
+					c++;
+				}
+				else
+				{
+					tokens.push( token.tv( '>' ) );
+				}
 
 				continue;
 

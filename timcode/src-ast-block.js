@@ -99,10 +99,16 @@ const tt_func = require( './func' );
 const tt_generator = require( './generator' );
 
 
+const tt_greaterOrEqual = require( './greaterOrEqual' );
+
+
 const tt_greaterThan = require( './greaterThan' );
 
 
 const tt_instanceof = require( './instanceof' );
+
+
+const tt_lessOrEqual = require( './lessOrEqual' );
 
 
 const tt_lessThan = require( './lessThan' );
@@ -392,9 +398,13 @@ prototype.create =
 /**/			&&
 /**/			o.timtype !== tt_generator
 /**/			&&
+/**/			o.timtype !== tt_greaterOrEqual
+/**/			&&
 /**/			o.timtype !== tt_greaterThan
 /**/			&&
 /**/			o.timtype !== tt_instanceof
+/**/			&&
+/**/			o.timtype !== tt_lessOrEqual
 /**/			&&
 /**/			o.timtype !== tt_lessThan
 /**/			&&

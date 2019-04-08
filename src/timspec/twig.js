@@ -92,7 +92,7 @@ def.static.createByDependencyWalk =
 
 	let walk = dependencyWalk( self.create( ), entry, self.create( ) );
 
-	// sorts the walk by inheritance makind sure extended
+	// sorts the walk by inheritance making sure extended
 	// tims come first.
 	let restart = false;
 
@@ -118,10 +118,9 @@ def.static.createByDependencyWalk =
 			if( b > a )
 			{
 				walk =
-					walk.create(
-						'twig:remove', extendSpec.filename,
-						'twig:insert', extendSpec.filename, a - 1, extendSpec
-					);
+					walk
+					.create( 'twig:remove', extendSpec.filename )
+					.create( 'twig:insert', extendSpec.filename, a, extendSpec );
 
 				restart = true;
 			}

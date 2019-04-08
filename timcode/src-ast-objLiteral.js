@@ -51,10 +51,16 @@ const tt_func = require( './func' );
 const tt_generator = require( './generator' );
 
 
+const tt_greaterOrEqual = require( './greaterOrEqual' );
+
+
 const tt_greaterThan = require( './greaterThan' );
 
 
 const tt_instanceof = require( './instanceof' );
+
+
+const tt_lessOrEqual = require( './lessOrEqual' );
 
 
 const tt_lessThan = require( './lessThan' );
@@ -418,9 +424,13 @@ prototype.create =
 /**/			&&
 /**/			o.timtype !== tt_generator
 /**/			&&
+/**/			o.timtype !== tt_greaterOrEqual
+/**/			&&
 /**/			o.timtype !== tt_greaterThan
 /**/			&&
 /**/			o.timtype !== tt_instanceof
+/**/			&&
+/**/			o.timtype !== tt_lessOrEqual
 /**/			&&
 /**/			o.timtype !== tt_lessThan
 /**/			&&
@@ -547,6 +557,18 @@ prototype[ Symbol.iterator ] =
 let a = 0, al = this.length;
 a < al;
 a++
+)
+{ yield this.atRank( a ); } };
+
+
+/*
+| Reverse iterates over the twig
+*/
+prototype.reverse =
+	function*( ) { for(
+let a = this.length - 1;
+a >= 0;
+a--
 )
 { yield this.atRank( a ); } };
 

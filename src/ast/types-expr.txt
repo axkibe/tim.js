@@ -15,8 +15,10 @@
 ./equals
 ./func
 ./generator
+./greaterOrEqual
 ./greaterThan
 ./instanceof
+./lessOrEqual
 ./lessThan
 ./member
 ./minus
