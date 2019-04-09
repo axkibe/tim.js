@@ -1860,10 +1860,23 @@ def.proto.genTimProto =
 			.$comment( 'Returns a slice from the list.' )
 			.$( this.$protoSet( 'sort', 'listSort' ) )
 
+			// FUTURE maybe this can be simplified?
 			.$comment( 'Forwards the iterator.' )
 			.$(
 				'prototype[ Symbol.iterator ] =',
 				$func( $( 'return this._list[ Symbol.iterator ]( )' ) )
+			)
+			.$comment( 'Reverse iterates over the list.' )
+			.$(
+				'prototype.reverse =',
+				$generator(
+					$for(
+						'let a = this.length - 1',
+						'a >= 0',
+						'a--',
+						$block.$yield( 'this._list[ a ]' )
+					)
+				)
 			);
 	}
 
@@ -1926,7 +1939,7 @@ def.proto.genTimProto =
 			.$comment( 'Returns the twig with the element at key set.' )
 			.$( this.$protoSet( 'set', 'twigSet' ) )
 
-			.$comment( 'Iterates over the twig' )
+			.$comment( 'Iterates over the twig.' )
 			.$(
 				'prototype[ Symbol.iterator ] =',
 				$generator(
@@ -1938,7 +1951,7 @@ def.proto.genTimProto =
 					)
 				)
 			)
-			.$comment( 'Reverse iterates over the twig' )
+			.$comment( 'Reverse iterates over the twig.' )
 			.$(
 				'prototype.reverse =',
 				$generator(

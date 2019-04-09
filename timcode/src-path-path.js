@@ -313,6 +313,18 @@ prototype[ Symbol.iterator ] = function( ) { return this._list[ Symbol.iterator 
 
 
 /*
+| Reverse iterates over the list.
+*/
+prototype.reverse =
+	function*( ) { for(
+let a = this.length - 1;
+a >= 0;
+a--
+)
+{ yield this._list[ a ]; } };
+
+
+/*
 | Converts into json.
 */
 tim_proto.lazyValue(

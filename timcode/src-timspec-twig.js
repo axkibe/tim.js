@@ -338,7 +338,7 @@ prototype.set = tim_proto.twigSet;
 
 
 /*
-| Iterates over the twig
+| Iterates over the twig.
 */
 prototype[ Symbol.iterator ] =
 	function*( ) { for(
@@ -350,7 +350,7 @@ a++
 
 
 /*
-| Reverse iterates over the twig
+| Reverse iterates over the twig.
 */
 prototype.reverse =
 	function*( ) { for(
