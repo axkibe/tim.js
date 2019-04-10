@@ -96,11 +96,13 @@ def.lazy.pathStringBase =
 {
 	let p = '';
 
-	for( let a = 0, aZ = this.length; a < aZ; a++ )
-	{
-		if( a > 0 ) p += '/';
+	let first = true;
 
-		p += this.get( a );
+	for( let s of this )
+	{
+		if( first ) first = false; else p += '/';
+
+		p += s;
 	}
 
 	return p;
@@ -158,11 +160,11 @@ def.lazy.varname =
 {
 	let name = 'tt_';
 
-	for( let a = 0, al = this.length; a < al; a++ )
-	{
-		const s = this.get( a );
+	let first = true;
 
-		if( a > 0 ) name += '_';
+	for( let s of this )
+	{
+		if( first ) first = false; else name += '_';
 
 		name += s === '..' ? '$' : s;
 	}
