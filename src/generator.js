@@ -2398,19 +2398,15 @@ def.proto.genAttrAdjust =
 
 	let result;
 
-	for( let a = 0, aZ = attributes.size; a < aZ; a++ )
+	for( let name of attributes.sortedKeys )
 	{
-		const name = attributes.sortedKeys[ a ];
-
 		const attr = attributes.get( name );
 
 		if( !attr.adjust ) continue;
 
-		let b;
-
 		const $name = $string( name );
 
-		b =
+		let b =
 			$block
 			.$(
 				'tim_proto.lazyValue( ',
