@@ -33,11 +33,9 @@ def.proto.contains =
 		path
 	)
 {
-	for( let p = 0, pZ = this.length; p < pZ; p++ )
+	for( let p of this )
 	{
-		const pi = this.get( p );
-
-		if( pi.equals( path ) ) return true;
+		if( p.equals( path ) ) return true;
 	}
 
 	return false;
@@ -56,11 +54,9 @@ def.proto.combine =
 {
 	const addList = [ ];
 
-	for( let p = 0, pZ = pathList.length; p < pZ; p++ )
+	for( let p of this )
 	{
-		const path = pathList.get( p );
-
-		if( !this.contains( path ) ) addList.push( path );
+		if( !this.contains( p ) ) addList.push( p );
 	}
 
 	return(

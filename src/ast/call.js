@@ -97,11 +97,11 @@ def.proto.inspect =
 	{
 		result += '( ';
 
-		for( let r = 0, rZ = this.length; r < rZ; r++ )
-		{
-			const arg = this.get( r );
+		let first = true;
 
-			if( r > 0 ) result += ', ';
+		for( let arg of this )
+		{
+			if( first ) first = false; else result += ', ';
 
 			result += util.inspect( arg, opts );
 		}
