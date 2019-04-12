@@ -237,29 +237,22 @@ const formatArrayLiteral =
 /**/	if( expr.timtype !== ast_arrayLiteral ) throw new Error( );
 /**/}
 
-
 	if( expr.length === 0 ) return context.tab + '[ ]';
 
 	if( context.inline ) throw 'noinline';
 
 	text += context.tab + '[\n';
 
-	for( let a = 0, al = expr.length; a < al; a++ )
+	let first = true;
+
+	for( let e of this )
 	{
-		text +=
-			formatExpression(
-				context.inc,
-				expr.get( a ),
-				ast_arrayLiteral
-			)
-			+ (
-				a + 1 < al
-				? ',\n'
-				: '\n'
-			);
+		if( first ) first = false; else text += ',\n';
+
+		text += formatExpression( context.inc, e, ast_arrayLiteral );
 	}
 
-	return text + context.tab + ']';
+	return text + '\n' + context.tab + ']';
 };
 
 
@@ -277,10 +270,7 @@ const formatAssign =
 		+ ' ='
 		+ context.sep;
 
-	if( assign.right.timtype !== ast_assign )
-	{
-		context = context.incSame;
-	}
+	if( assign.right.timtype !== ast_assign ) context = context.incSame;
 
 	let subtext;
 
@@ -288,25 +278,15 @@ const formatAssign =
 	{
 		subtext =
 			context.tab
-			+ formatExpression(
-				context.setInline,
-				assign.right,
-				ast_assign
-			);
+			+ formatExpression( context.setInline, assign.right, ast_assign );
 	}
 	catch( e )
 	{
 		// rethrows any real error
-		if( e !== 'noinline' )
-		{
-			throw e;
-		}
+		if( e !== 'noinline' ) throw e;
 
 		// forwards noinline if this was a noinline
-		if( context.inline )
-		{
-			throw 'noinline';
-		}
+		if( context.inline ) throw 'noinline';
 	}
 
 	if( subtext !== undefined && textLen( subtext ) < MAX_TEXT_WIDTH )
@@ -355,7 +335,7 @@ const formatBlock =
 			formatStatement(
 				blockContext,
 				block.get( a ),
-				a > 0 ?  block.get( a - 1 ) : undefined,
+				a > 0 ? block.get( a - 1 ) : undefined,
 				a + 1 < al ?  block.get( a + 1 ) : undefined
 			);
 	}
@@ -450,14 +430,8 @@ const formatCall =
 		{
 			text += formatExpression( context.inc, call.get( a ) );
 
-			if( a + 1 < al )
-			{
-				text += ',' + context.sep;
-			}
-			else
-			{
-				text += context.sep;
-			}
+			if( a + 1 < al ) text += ',' + context.sep;
+			else text += context.sep;
 		}
 
 		text += context.tab + ')';
@@ -526,18 +500,10 @@ const formatComment =
 {
 	let text = context.tab + '/*' + '\n';
 
-	for( let a = 0, al = comment.length; a < al; a++ )
+	for( let c of comment )
 	{
-		const c = comment.get( a );
-
-		if( c === '' )
-		{
-			text += context.tab + '|' + '\n';
-		}
-		else
-		{
-			text += context.tab + '| ' + c + '\n';
-		}
+		if( c === '' ) text += context.tab + '|' + '\n';
+		else text += context.tab + '| ' + c + '\n';
 	}
 
 	text += context.tab + '*/' + '\n';
@@ -1947,10 +1913,7 @@ const formatObjLiteral =
 	{
 		const key = expr.getKey( a );
 
-		text +=
-			context.inc.tab
-			+ key
-			+ ' :\n';
+		text += context.inc.tab + key + ' :\n';
 
 		text +=
 			formatExpression(
