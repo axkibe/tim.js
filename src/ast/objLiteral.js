@@ -55,7 +55,7 @@ def.inspect =
 
 		postfix = ' }';
 
-		opts = tim.proto.copy( opts );
+		opts = tim.copy( opts );
 
 		opts.ast = true;
 	}
