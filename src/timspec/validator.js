@@ -63,6 +63,7 @@ const timWhitelist =
 		'group' : true,
 		'global' : true,
 		'inherit' : true,
+		'inspect' : true,
 		'json' : true,
 		'lazy' : true,
 		'lazyFuncInt' : true,
@@ -136,15 +137,10 @@ const checkGroup =
 
 	const map = { };
 
-	if( !( Array.isArray( group ) ) )
-	{
-		throw new Error( 'group definition must be an Array' );
-	}
+	if( !( Array.isArray( group ) ) ) throw new Error( 'group definition must be an Array' );
 
-	for( let a = 0, al = group.length; a < al; a++ )
+	for( let entry of group )
 	{
-		const entry = group[ a ];
-
 		if( typeof( entry ) !== 'string' )
 		{
 			throw new Error( 'group definition entry not a string' );
@@ -179,10 +175,8 @@ const checkList =
 		throw new Error( 'list definition must be an Array' );
 	}
 
-	for( let a = 0, al = list.length; a < al; a++ )
+	for( let entry of list )
 	{
-		const entry = list[ a ];
-
 		if( typeof( entry ) !== 'string' )
 		{
 			throw new Error( 'twig definition entry not a string');
@@ -216,10 +210,8 @@ const checkTwig =
 		throw new Error( 'twig definition must be an Array' );
 	}
 
-	for( let a = 0, al = twig.length; a < al; a++ )
+	for( let entry of twig )
 	{
-		const entry = twig[ a ];
-
 		if( typeof( entry ) !== 'string' )
 		{
 			throw new Error( 'twig definition entry not a string' );
@@ -322,10 +314,7 @@ const checkAttribute =
 	}
 	else if( Array.isArray( type ) )
 	{
-		for( let a = 0, al = type.length; a < al; a++ )
-		{
-			checkAttributeSingleType( name, type[ a ] );
-		}
+		for( let t of type ) checkAttributeSingleType( name, t );
 	}
 	else
 	{
@@ -361,9 +350,7 @@ const checkAttribute =
 			default :
 
 				throw new Error(
-					'attribute '
-					+ '"' + name + '"'
-					+ ' has invalid specifier: '
+					'attribute ' + '"' + name + '"' + ' has invalid specifier: '
 					+ '"' + key + '"'
 				);
 		}

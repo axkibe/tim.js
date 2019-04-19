@@ -24,9 +24,9 @@ const util = require( 'util' );
 
 
 /*
-| Custom inspect
+| Custom inspect.
 */
-def.proto.inspect =
+def.inspect =
 	function(
 		depth,
 		opts

@@ -48,10 +48,8 @@ def.static.createFromPath =
 
 	let p = pool[ imported ? imported : '_' ];
 
-	for( let a = 0, al = path.length; a < al; a++ )
+	for( let s of path )
 	{
-		let s = path[ a ];
-
 		let pn = p[ s ];
 
 		if( !pn ) pn = p[ s ] = { };

@@ -22,6 +22,8 @@ if( TIM )
 
 const ast_dot = tim.require( './dot' );
 
+const util = require( 'util' );
+
 
 /*
 | Creates a dot member access of a dot.
@@ -34,24 +36,6 @@ def.proto.$dot =
 	// checks if member is a string are done in 'ast_dot.create'
 	return ast_dot.create( 'expr', this, 'member', member );
 };
-
-
-/*
-| Walks the ast tree depth-first, pre-order
-| creating a transformed copy.
-*/
-def.proto.walk =
-	function(
-		transform	// a function to be called for all walked nodes.
-	)
-{
-	const expr = this.expr.walk( transform );
-
-	return transform( this.create( 'expr', expr ) );
-};
-
-
-const util = require( 'util' );
 
 
 /*
@@ -88,6 +72,22 @@ def.proto.inspect =
 
 	return result + postfix;
 };
+
+
+/*
+| Walks the ast tree depth-first, pre-order
+| creating a transformed copy.
+*/
+def.proto.walk =
+	function(
+		transform	// a function to be called for all walked nodes.
+	)
+{
+	const expr = this.expr.walk( transform );
+
+	return transform( this.create( 'expr', expr ) );
+};
+
 
 
 } );

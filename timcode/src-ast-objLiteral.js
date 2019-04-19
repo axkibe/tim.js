@@ -385,13 +385,9 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	for(
-/**/		let a = 0, al = keys.length;
-/**/		a < al;
-/**/		++a
-/**/	)
+/**/	for( let key of keys )
 /**/	{
-/**/		const o = twig[ keys[ a ] ];
+/**/		const o = twig[ key ];
 /**/
 /**/		if(
 /**/			o.timtype !== tt_and

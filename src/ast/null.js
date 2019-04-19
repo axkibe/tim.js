@@ -15,22 +15,9 @@ if( TIM )
 
 
 /*
-| Walks the ast tree depth-first, pre-order
-| creating a transformed copy.
+| Custom inspect.
 */
-def.proto.walk =
-	function(
-		transform	// a function to be called for all walked nodes.
-	)
-{
-	return transform( this );
-};
-
-
-/*
-| Custom inspect
-*/
-def.proto.inspect =
+def.inspect =
 	function(
 		depth,
 		opts
@@ -58,6 +45,19 @@ def.proto.inspect =
 	result += 'null';
 
 	return result + postfix;
+};
+
+
+/*
+| Walks the ast tree depth-first, pre-order
+| creating a transformed copy.
+*/
+def.proto.walk =
+	function(
+		transform	// a function to be called for all walked nodes.
+	)
+{
+	return transform( this );
 };
 
 

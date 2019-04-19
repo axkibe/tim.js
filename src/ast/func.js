@@ -12,10 +12,7 @@ if( TIM )
 	def.attributes =
 	{
 		// function code
-		block :
-		{
-			type : [ 'undefined', './block' ]
-		},
+		block : { type : [ 'undefined', './block' ] },
 	};
 
 	def.list = [ './funcArg' ];

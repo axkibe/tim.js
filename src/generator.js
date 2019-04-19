@@ -894,12 +894,10 @@ def.proto.genCreatorChecks =
 		// FUTURE check if ranks and twig keys match
 		check =
 			check
-			.$for(
-				'let a = 0, al = keys.length',
-				'a < al',
-				'++a',
+			.$forOfLet(
+				'key', 'keys',
 				$block
-				.$const( 'o', 'twig[ keys[ a ] ]' )
+				.$const( 'o', 'twig[ key ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.gtwig ),
 					$fail( )
@@ -907,14 +905,11 @@ def.proto.genCreatorChecks =
 			);
 	}
 
-	if( !json )
-	{
-		return check.length > 0 ? $block.$check( check ) : $block;
-	}
-	else
-	{
-		return check;
-	}
+	return(
+		json
+		? check
+		: check.length > 0 ? $block.$check( check ) : $block
+	);
 };
 
 
@@ -1142,7 +1137,7 @@ def.proto.genFromJsonCreatorVariables =
 
 		if( timspec.gset ) varList.push( 'jset', 'set' );
 
-		if( timspec.gtwig ) varList.push( 'key', 'jval', 'jwig', 'keys', 'twig' );
+		if( timspec.gtwig ) varList.push( 'jval', 'jwig', 'keys', 'twig' );
 	}
 
 	varList.sort( );
@@ -1587,7 +1582,6 @@ def.proto.genFromJsonCreatorTwigProcessing =
 
 	const loop =
 		$block
-		.$( 'key = keys[ a ]' )
 		.$if(
 			'!jwig[ key ]',
 			// json keys/twig mismatch
@@ -1604,12 +1598,7 @@ def.proto.genFromJsonCreatorTwigProcessing =
 			// ranks/twig information missing
 			$fail( )
 		)
-		.$for(
-			'let a = 0, al = keys.length',
-			'a < al',
-			'++a',
-			loop
-		)
+		.$forOfLet( 'key', 'keys', loop )
 	);
 };
 
@@ -2141,8 +2130,7 @@ def.proto.genEqualsFuncBody =
 					'this._list[ a ] !== obj._list[ a ]',
 					'&& (',
 						'!this._list[ a ].' + eqFuncName,
-						'||',
-						'!this._list[ a ].' + eqFuncName + '( obj._list[ a ] )',
+						'|| !this._list[ a ].' + eqFuncName + '( obj._list[ a ] )',
 					')'
 				),
 				$( 'return false' )
@@ -2150,12 +2138,8 @@ def.proto.genEqualsFuncBody =
 
 		const listTest =
 			$block
-			.$if(
-				'this.length !== obj.length',
-				$( 'return false' )
-			)
+			.$if( 'this.length !== obj.length', $( 'return false' ) )
 			.$for(
-				// this.length?
 				'let a = 0, al = this.length',
 				'a < al',
 				'++a',
@@ -2218,10 +2202,8 @@ def.proto.genEqualsFuncBody =
 
 	let cond;
 
-	for( let a = 0, as = attributes.size; a < as; a++ )
+	for( let name of attributes.sortedKeys )
 	{
-		const name = attributes.sortedKeys[ a ];
-
 		const attr = attributes.get( name );
 
 		if( mode === 'json' && !attr.json ) continue;
@@ -2240,14 +2222,7 @@ def.proto.genEqualsFuncBody =
 			: $( cond, '&&', ceq );
 	}
 
-	if( cond )
-	{
-		return body.$( 'return ', cond );
-	}
-	else
-	{
-		return body.$( 'return true' );
-	}
+	return body.$( 'return ', cond || 'true' );
 };
 
 
@@ -2329,10 +2304,8 @@ def.proto.genAlike =
 
 	let result = $block;
 
-	for( let a = 0, al = alikeList.length; a < al; a++ )
+	for( let alikeName of alikeList )
 	{
-		const alikeName = alikeList[ a ];
-
 		const ignores = timspec.alike[ alikeName ].ignores;
 
 		result = result.$comment( 'Tests partial equality.' );
@@ -2354,10 +2327,8 @@ def.proto.genAlike =
 
 		const attributes = this.timspec.attributes;
 
-		for( let b = 0, bZ = attributes.size; b < bZ; b++ )
+		for( let name of attributes.sortedKeys )
 		{
-			const name = attributes.sortedKeys[ b ];
-
 			const attr = attributes.get( name );
 
 			if( ignores[ name ] ) continue;

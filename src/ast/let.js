@@ -17,9 +17,9 @@ const util = require( 'util' );
 
 
 /*
-| Custom inspect
+| Custom inspect.
 */
-def.proto.inspect =
+def.inspect =
 	function(
 		depth,
 		opts
@@ -46,11 +46,13 @@ def.proto.inspect =
 
 	result += 'let ';
 
-	for( let a = 0, al = this.length; a < al; a++ )
-	{
-		if( a > 0 ) result += ', ';
+	let first = true;
 
-		result += util.inspect( this.get( a ), opts );
+	for( let e of this )
+	{
+		if( first ) first = false; else result += ', ';
+
+		result += util.inspect( e, opts );
 	}
 
 	return result + postfix;

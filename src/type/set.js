@@ -55,9 +55,9 @@ def.static.createFromArray =
 
 			const lines = ( fs.readFileSync( mpath + filename ) + '' ).split( '\n' );
 
-			for( let a = 0, al = lines.length; a < al; a++ )
+			for( let line of lines )
 			{
-				const line = lines[ a ].trim( );
+				line = line.trim( );
 
 				if( line === '' || line[ 0 ] === '#' ) continue;
 

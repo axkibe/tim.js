@@ -23,27 +23,24 @@ if( TIM )
 const ast_member = tim.require( './member' );
 
 
-/**
-*** Exta checking
-***/
-/**/if( CHECK )
-/**/{
-/**/	def.proto._check =
-/**/		function( )
-/**/	{
-/**/		const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
-/**/
-/**/		if( !regex.test( this.member ) ) throw new Error( 'invalid member name' );
-/**/
-/**/		switch( this.name )
-/**/		{
-/**/			case 'true' :
-/**/			case 'false' :
-/**/
-/**/				throw new Error( 'member must not be a literal' );
-/**/		}
-/**/	};
-/**/}
+/*
+| Exta checking
+*/
+def.proto._check =
+	function( )
+{
+	const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
+
+	if( !regex.test( this.member ) ) throw new Error( 'invalid member name' );
+
+	switch( this.name )
+	{
+		case 'true' :
+		case 'false' :
+
+			throw new Error( 'member must not be a literal' );
+	}
+};
 
 
 /*
@@ -91,9 +88,9 @@ const util = require( 'util' );
 
 
 /*
-| Custom inspect
+| Custom inspect.
 */
-def.proto.inspect =
+def.inspect =
 	function(
 		depth,
 		opts

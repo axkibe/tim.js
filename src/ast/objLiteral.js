@@ -37,23 +37,9 @@ const util = require( 'util' );
 
 
 /*
-| Walks the ast tree depth-first, pre-order
-| creating a transformed copy.
-*/
-def.proto.walk =
-	function(
-		transform	// a function to be called for all walked nodes.
-	)
-{
-	// FIXME actually walk through the objects
-	return transform( this );
-};
-
-
-/*
 | Custom inspect
 */
-def.proto.inspect =
+def.inspect =
 	function(
 		depth,
 		opts
@@ -86,11 +72,11 @@ def.proto.inspect =
 	{
 		result += '{ ';
 
-		for( let r = 0, rZ = this.length; r < rZ; r++ )
-		{
-			const arg = this.atRank( r );
+		let first = true;
 
-			if( r > 0 ) result += ', ';
+		for( let arg of this )
+		{
+			if( first ) first = false; else result += ', ';
 
 			result += util.inspect( arg, opts );
 		}
@@ -99,6 +85,20 @@ def.proto.inspect =
 	}
 
 	return result + postfix;
+};
+
+
+/*
+| Walks the ast tree depth-first, pre-order
+| creating a transformed copy.
+*/
+def.proto.walk =
+	function(
+		transform	// a function to be called for all walked nodes.
+	)
+{
+	// FIXME actually walk through the objects
+	return transform( this );
 };
 
 

@@ -17,9 +17,9 @@ if( TIM )
 
 
 /*
-| Custom inspect
+| Custom inspect.
 */
-def.proto.inspect =
+def.inspect =
 	function(
 		depth,
 		opts

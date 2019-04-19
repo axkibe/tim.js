@@ -4,6 +4,9 @@
 'use strict';
 
 
+const util = NODE && require( 'util' );
+
+
 /*
 | A lazy value is computed and fixated before it is needed.
 */
@@ -109,7 +112,7 @@ tim.hasLazyValueSet =
 
 
 /*
-| Prepares a tim to be ran in current node instance.
+| Prepares a tim to be ran.
 */
 tim._prepare =
 	function(
@@ -181,6 +184,8 @@ tim._prepare =
 		{
 			if( !def.adjust[ name ] ) def.adjust[ name ] = extend.adjust[ name ];
 		}
+
+		if( NODE && extend.inspect && !def.inspect ) def.inspect = extend.inspect;
 	}
 
 	// assigns statics
@@ -199,6 +204,8 @@ tim._prepare =
 		);
 	}
 
+	const prototype = exports.prototype;
+
 	// in case of abstracts doing static stuff was all
 	// that was needed
 	if( def.abstract ) return exports;
@@ -206,25 +213,25 @@ tim._prepare =
 	// assigns lazy values to the prototype
 	for( let name in def.lazy )
 	{
-		tim.proto.lazyValue( exports.prototype, name, def.lazy[ name ] );
+		tim.proto.lazyValue( prototype, name, def.lazy[ name ] );
 	}
 
 	// assigns lazy integer functions to the prototype
 	for( let name in def.lazyFuncInt )
 	{
-		tim.proto.lazyFunctionInteger( exports.prototype, name, def.lazyFuncInt[ name ] );
+		tim.proto.lazyFunctionInteger( prototype, name, def.lazyFuncInt[ name ] );
 	}
 
 	// assigns lazy string functions to the prototype
 	for( let name in def.lazyFuncStr )
 	{
-		tim.proto.lazyFunctionString( exports.prototype, name, def.lazyFuncStr[ name ] );
+		tim.proto.lazyFunctionString( prototype, name, def.lazyFuncStr[ name ] );
 	}
 
 	// assigns functions to the prototype
 	for( let name in def.proto )
 	{
-		exports.prototype[ name ] = def.proto[ name ];
+		prototype[ name ] = def.proto[ name ];
 	}
 
 	// assigns adjustments to the prototype
@@ -232,14 +239,16 @@ tim._prepare =
 	{
 		const tname = '__adjust_' + name;
 
-		exports.prototype[ tname ] = def.adjust[ name ];
+		prototype[ tname ] = def.adjust[ name ];
 	}
 
 	// assigns inherit optimizations to the prototype
 	for( let name in def.inherit )
 	{
-		exports.prototype[ '__inherit_' + name ] = def.inherit[ name ];
+		prototype[ '__inherit_' + name ] = def.inherit[ name ];
 	}
+
+	if( NODE && def.inspect ) prototype[ util.inspect.custom ] = def.inspect;
 
 	return exports;
 };

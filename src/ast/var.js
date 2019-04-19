@@ -24,30 +24,28 @@ const ast_dot = tim.require( './dot' );
 const ast_member = tim.require( './member' );
 
 
-/**
-*** Exta checking
-***/
-/**/if( CHECK )
-/**/{
-/**/	def.proto._check =
-/**/		function( )
-/**/	{
-/**/		const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
-/**/
-/**/		if( !regex.test( this.name ) )
-/**/		{
-/**/			throw new Error( 'invalid variable name "' + this.name + '"' );
-/**/		}
-/**/
-/**/		switch( this.name )
-/**/		{
-/**/			case 'true' :
-/**/			case 'false' :
-/**/
-/**/				throw new Error( 'var must not be a literal' );
-/**/		}
-/**/	};
-/**/}
+/*
+| Exta checking.
+*/
+def.proto._check =
+	function( )
+{
+	const regex = /^([a-zA-Z_$])([a-zA-Z0-9_$])*$/;
+
+	if( !regex.test( this.name ) )
+	{
+		throw new Error( 'invalid variable name "' + this.name + '"' );
+	}
+
+	switch( this.name )
+	{
+		case 'true' :
+		case 'false' :
+
+			throw new Error( 'var must not be a literal' );
+	}
+};
+
 
 
 /*
@@ -82,22 +80,9 @@ def.proto.$member =
 
 
 /*
-| Walks the ast tree depth-first, pre-order
-| creating a transformed copy.
+| Custom inspect.
 */
-def.proto.walk =
-	function(
-		transform	// a function to be called for all walked nodes.
-	)
-{
-	return transform( this );
-};
-
-
-/*
-| Custom inspect
-*/
-def.proto.inspect =
+def.inspect =
 	function(
 		depth,
 		opts
@@ -125,6 +110,19 @@ def.proto.inspect =
 	result += this.name;
 
 	return result + postfix;
+};
+
+
+/*
+| Walks the ast tree depth-first, pre-order
+| creating a transformed copy.
+*/
+def.proto.walk =
+	function(
+		transform	// a function to be called for all walked nodes.
+	)
+{
+	return transform( this );
 };
 
 
