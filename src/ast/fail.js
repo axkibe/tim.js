@@ -7,6 +7,8 @@
 tim.define( module, ( def, ast_fail ) => {
 
 
+def.extend = './node';
+
 
 if( TIM )
 {
@@ -16,6 +18,19 @@ if( TIM )
 		message : { type : [ '< ./types-expr', 'undefined' ] },
 	};
 }
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	if( this.message ) return 'throw new Error( ' + recurse( this.message ) + ' )';
+	else return 'throw new Error( )';
+};
 
 
 } );

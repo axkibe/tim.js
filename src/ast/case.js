@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_case ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 
@@ -19,6 +22,22 @@ if( TIM )
 	// list of case values
 	def.list =  [ '< ./types-expr' ];
 }
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	let result = '';
+
+	for( let e of this ) result += 'case ' + recurse( e ) + ': ';
+
+	return result + recurse( this.block );
+};
 
 
 } );

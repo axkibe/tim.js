@@ -7,7 +7,19 @@
 tim.define( module, ( def, ast_continue ) => {
 
 
-// it's just an empty tim.
+def.extend = './node';
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return 'continue';
+};
 
 
 } );

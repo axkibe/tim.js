@@ -7,43 +7,16 @@
 tim.define( module, ( def, ast_boolean ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
 	{
-		'boolean' : { type : 'boolean' }
+		'boolean' : { type : 'boolean' },
 	};
 }
-
-
-/*
-| Custom inspect.
-*/
-def.inspect =
-	function(
-		depth,
-		opts
-	)
-{
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += this.boolean ? 'true' : 'false';
-
-	return result + postfix;
-};
 
 
 /*
@@ -56,6 +29,18 @@ def.proto.walk =
 	)
 {
 	return transform( this );
+};
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return this.boolean ? 'true' : 'false';
 };
 
 

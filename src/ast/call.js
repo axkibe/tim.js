@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_call ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -57,42 +60,19 @@ def.proto.walk =
 };
 
 
-const util = require( 'util' );
-
-
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += '( ' +  util.inspect( this.func, opts ) + ' )';
+	let result = '( ' + recurse( this.func ) + ' )';
 
 	if( this.length === 0 )
 	{
-		result += '( )';
+		return result + '( )';
 	}
 	else
 	{
@@ -104,13 +84,13 @@ def.inspect =
 		{
 			if( first ) first = false; else result += ', ';
 
-			result += util.inspect( arg, opts );
+			result += recurse( arg );
 		}
 
 		result += ' )';
 	}
 
-	return result + postfix;
+	return result;
 };
 
 

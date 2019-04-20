@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_block ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.list = [ '< ./types-statement', '< ./types-expr' ];
@@ -342,47 +345,19 @@ def.proto.$yield =
 };
 
 
-const util = require( 'util' );
-
-
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
+	let result = '{ ';
 
-	let result;
+	for( let s of this ) result += recurse( s ) + '; ';
 
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += '{ ';
-
-	for( let a = 0, al = this.length; a < al; a++ )
-	{
-		result += util.inspect( this.get( a ), opts ) + '; ';
-	}
-
-	result += '} ';
-
-	return result + postfix;
+	return result + '} ';
 };
 
 

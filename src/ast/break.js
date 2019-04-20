@@ -7,20 +7,18 @@
 tim.define( module, ( def, ast_break ) => {
 
 
+def.extend = './node';
+
+
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	return(
-		( opts.ast ? '' : 'ast{ ' )
-		+ 'break'
-		+ ( opts.ast ? '' : ' }' )
-	);
+	return 'break';
 };
 
 

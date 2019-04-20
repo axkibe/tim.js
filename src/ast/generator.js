@@ -1,12 +1,13 @@
 /*
 | Ast; a generator function.
-|
-| Bootstrap shenanigans hinder this to extend ./func
 */
 'use strict';
 
 
 tim.define( module, ( def, ast_generator ) => {
+
+
+def.extend = './func';
 
 
 if( TIM )
@@ -19,31 +20,6 @@ if( TIM )
 
 	def.list = [ './funcArg' ];
 }
-
-
-const ast_funcArg = tim.require( './funcArg' );
-
-
-/*
-| Convenience shortcut.
-|
-| Returns the function with an argument appended.
-*/
-def.proto.$arg =
-	function(
-		name,
-		comment
-	)
-{
-	return(
-		this.append(
-			ast_funcArg.create(
-				'name', name,
-				'comment', comment
-			)
-		)
-	);
-};
 
 
 } );

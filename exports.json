@@ -1,0 +1,7 @@
+{
+	"path"        : "src/path/path",
+	"pathList"    : "src/path/list",
+	"stringList"  : "src/string/list",
+	"stringSet"   : "src/string/set",
+	"timspecTwig" : "src/timspec/twig"
+}

@@ -50,6 +50,7 @@ module.exports =
 	'src/ast/multiplyAssign.js',
 	'src/ast/negate.js',
 	'src/ast/new.js',
+	'src/ast/node.js',
 	'src/ast/not.js',
 	'src/ast/null.js',
 	'src/ast/number.js',

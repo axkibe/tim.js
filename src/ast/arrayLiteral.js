@@ -7,42 +7,24 @@
 tim.define( module, ( def, ast_arrayLiteral ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.twig = [ '< ./types-expr' ];
 }
 
 
-const util = require( 'util' );
-
-
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
+	let result = '';
 
 	if( this.length === 0 )
 	{
@@ -58,13 +40,13 @@ def.inspect =
 		{
 			if( first ) first = false; else result += ', ';
 
-			result += util.inspect( arg, opts );
+			result += recurse( arg );
 		}
 
 		result += ' ]';
 	}
 
-	return result + postfix;
+	return result;
 };
 
 
