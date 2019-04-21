@@ -20,7 +20,11 @@ if( TIM )
 }
 
 
+const fs = require( 'fs' );
+
 const timspec_dir = tim.require( './dir' );
+
+const timspec_exports = tim.require( './exports' );
 
 const timspec_rootDir = tim.require( './rootDir' );
 
@@ -48,8 +52,24 @@ def.proto.addRootDir =
 /**/	if( arguments.length < 3 ) throw new Error( );
 /**/}
 
+	let exports, exportsStat;
+
+	const exportsFilename = realpath + 'exports.json';
+
+	try
+	{
+		exportsStat = fs.statSync( exportsFilename );
+	}
+	catch( e )
+	{
+		// ignore
+	}
+
+	if( exportsStat ) exports = timspec_exports.createFromFile( exportsFilename );
+
 	const tsRoot =
 		timspec_rootDir.create(
+			'exports', exports,
 			'id', id,
 			'noTimcodeGen', noTimcodeGen,
 			'realpath', realpath,

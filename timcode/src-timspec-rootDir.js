@@ -6,6 +6,9 @@
 |
 | Editing this might be rather futile.
 */
+const tt_exports = require( './exports' );
+
+
 const tt_dir = require( './dir' );
 
 
@@ -24,6 +27,7 @@ const tim_proto = tim.proto;
 const Constructor =
 	function(
 		group, // group
+		v_exports,
 		v_id,
 		v_noTimcodeGen,
 		v_realpath,
@@ -31,6 +35,8 @@ const Constructor =
 	)
 {
 	this.__lazy = { };
+
+	this.exports = v_exports;
 
 	this.id = v_id;
 
@@ -75,6 +81,8 @@ prototype.create =
 
 	let inherit;
 
+	let v_exports;
+
 	let v_id;
 
 	let v_noTimcodeGen;
@@ -90,6 +98,8 @@ prototype.create =
 		group = inherit._group;
 
 		groupDup = false;
+
+		v_exports = this.exports;
 
 		v_id = this.id;
 
@@ -116,6 +126,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'exports' :
+
+				if( arg !== pass )
+				{
+					v_exports = arg;
+				}
+
+				break;
+
 			case 'id' :
 
 				if( arg !== pass )
@@ -199,6 +218,11 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( v_exports !== undefined && v_exports.timtype !== tt_exports )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_id ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
@@ -235,6 +259,12 @@ prototype.create =
 		&&
 		groupDup === false
 		&&
+		(
+			v_exports === inherit.exports
+			||
+			v_exports !== undefined && v_exports.timtype && v_exports.equals( inherit.exports )
+		)
+		&&
 		v_id === inherit.id
 		&&
 		v_noTimcodeGen === inherit.noTimcodeGen
@@ -247,7 +277,7 @@ prototype.create =
 		return inherit;
 	}
 
-	return new Constructor( group, v_id, v_noTimcodeGen, v_realpath, v_timcodePath );
+	return new Constructor( group, v_exports, v_id, v_noTimcodeGen, v_realpath, v_timcodePath );
 };
 
 
@@ -368,6 +398,12 @@ prototype.equals =
 	}
 
 	return (
+		(
+			this.exports === obj.exports
+			||
+			this.exports !== undefined && this.exports.timtype && this.exports.equals( obj.exports )
+		)
+		&&
 		this.id === obj.id
 		&&
 		this.noTimcodeGen === obj.noTimcodeGen
