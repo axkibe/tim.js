@@ -4,7 +4,7 @@
 'use strict';
 
 
-tim.define( module, ( def, self ) => {
+tim.define( module, ( def, export_group ) => {
 
 
 if( TIM )
@@ -15,19 +15,20 @@ if( TIM )
 
 const fs = require( 'fs' );
 
-const util = require( 'util' );
-
-const fsReadFile = util.promisify( fs.readFile );
-
 
 /*
 | Creates it from a "exports.json" file
 */
 def.static.createFromFile =
-	async function(
+	function(
 		filename
 	)
 {
+	const text = fs.readFileSync( filename );
+
+	const group = JSON.parse( text );
+
+	return export_group.create( 'group:init', group );
 };
 
 

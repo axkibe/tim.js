@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_for ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -26,48 +29,21 @@ if( TIM )
 }
 
 
-const util = require( 'util' );
-
-
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result +=
+	return(
 		'for( '
-		+ util.inspect( this.init, opts )
-		+ ' ; '
-		+ util.inspect( this.condition, opts )
-		+ ' ; '
-		+ util.inspect( this.iterate, opts )
-		+ ' ) '
-		+ util.inspect( this.block, opts ) + ' ';
-
-	return result + postfix;
+		+ recurse( this.init ) + ' ; '
+		+ recurse( this.condition ) + ' ; '
+		+ recurse( this.iterate ) + ' ) '
+		+ recurse( this.block ) + ' '
+	);
 };
 
 } );

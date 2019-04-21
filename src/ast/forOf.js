@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_forOf ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -24,6 +27,23 @@ if( TIM )
 		block : { type : './block' },
 	};
 }
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return(
+		'for( '
+		+ ( this.letVar ? 'let ' : '' ) + recurse( this.variable )
+		+ ' of ( ' + recurse( this.object ) + ' ) )'
+		+ recurse( this.block ) + ' '
+	);
+};
 
 
 } );

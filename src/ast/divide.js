@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_and ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
