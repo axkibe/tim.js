@@ -13,6 +13,9 @@ if( TIM )
 {
 	def.attributes =
 	{
+		// exports group
+		//exports : { type : 'undefined', 'exports' );
+
 		// an id for this tree
 		id : { type : 'string' },
 

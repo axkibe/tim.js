@@ -92,6 +92,7 @@ module.exports =
 	'src/timspec/attributeGroup.js',
 	'src/timspec/catalog.js',
 	'src/timspec/dir.js',
+	'src/timspec/exports.js',
 	'src/timspec/provisional.js',
 	'src/timspec/rootDir.js',
 	'src/timspec/timspec.js',
