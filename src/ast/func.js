@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_func ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -41,6 +44,36 @@ def.proto.$arg =
 			)
 		)
 	);
+};
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	let text = 'function( ';
+
+	if( this.length === 0 )
+	{
+		text += ')';
+	}
+	else
+	{
+		let first = true;
+
+		for( let arg of this )
+		{
+			if( first ) first = false; else text += ', ';
+
+			text += recurse( arg );
+		}
+	}
+
+	return text + recurse( this.block );
 };
 
 

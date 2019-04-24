@@ -192,23 +192,12 @@ def.proto.getByRealpath =
 		if( realpath.startsWith( t.realpath ) ) { tsr = t; break; }
 	}
 
-	// no match rootDir found!
+	// no matching rootDir found!
 	if( !tsr ) throw new Error( );
 
 	let path = realpath.substr( tsr.realpath.length );
 
-	path = path.split( '/' );
-
-	let entry = tsr;
-
-	for( let p = 0, pl = path.length; p < pl; p++ )
-	{
-		entry = entry.get( path[ p ] );
-
-		if( !entry ) return;
-	}
-
-	return entry;
+	return tsr.getByPath( path );
 };
 
 
@@ -385,11 +374,8 @@ def.proto.getBrowserInitCode =
 	{
 		const tsr = tim.catalog.get( t );
 
-		// in case the name has a dot single quotes are put around it
-		const sq =
-			tsr.id.indexOf( '.' ) >= 0
-			? '\''
-			: '';
+		// in case the name has a dot, single quotes are put around it
+		const sq = tsr.id.indexOf( '.' ) >= 0 ? '\'' : '';
 
 		text += '\t' + sq + tsr.id + sq + ': {\n';
 

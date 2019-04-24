@@ -7,44 +7,24 @@
 tim.define( module, ( def, ast_let ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.list = [ './letEntry' ];
 }
 
 
-const util = require( 'util' );
-
-
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += 'let ';
+	let result = 'let ';
 
 	let first = true;
 
@@ -52,10 +32,10 @@ def.inspect =
 	{
 		if( first ) first = false; else result += ', ';
 
-		result += util.inspect( e, opts );
+		result += recurse( e );
 	}
 
-	return result + postfix;
+	return result;
 };
 
 

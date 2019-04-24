@@ -38,19 +38,19 @@ const timspec_dir = tim.require( './dir' );
 const timspec_provisional = tim.require( './provisional' );
 
 
-/**
-*** Exta checking
-***/
+/*
+| Exta checking
+*/
+def.proto._check =
+	function( )
+{
 /**/if( CHECK )
 /**/{
-/**/	def.proto._check =
-/**/		function( )
-/**/	{
-/**/		if( this.realpath[ this.realpath.length - 1 ] !== '/' ) throw new Error( );
+/**/	if( this.realpath[ this.realpath.length - 1 ] !== '/' ) throw new Error( );
 /**/
-/**/		if( this.timcodePath[ this.timcodePath.length - 1 ] !== '/' ) throw new Error( );
-/**/	};
+/**/	if( this.timcodePath[ this.timcodePath.length - 1 ] !== '/' ) throw new Error( );
 /**/}
+};
 
 
 /*
@@ -96,6 +96,29 @@ def.proto.addEntry =
 	const dir = this.get( key ) || timspec_dir.empty;
 
 	return this.create( 'group:set', key, dir.addEntry( entry, 2 ) );
+};
+
+
+/*
+| Returns the timspec for a given realpath.
+*/
+def.proto.getByPath =
+	function(
+		path   // of type string
+	)
+{
+	path = path.split( '/' );
+
+	let entry = this;
+
+	for( let p of path )
+	{
+		entry = entry.get( p );
+
+		if( !entry ) return;
+	}
+
+	return entry;
 };
 
 

@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_member ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -22,8 +25,6 @@ if( TIM )
 
 const ast_dot = tim.require( './dot' );
 
-const util = require( 'util' );
-
 
 /*
 | Creates a dot member access of a dot.
@@ -37,41 +38,6 @@ def.proto.$dot =
 	return ast_dot.create( 'expr', this, 'member', member );
 };
 
-
-/*
-| Custom inspect
-*/
-def.proto.inspect =
-	function(
-		depth,
-		opts
-	)
-{
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += '( ' + util.inspect( this.expr, opts ) + ' )';
-
-	result += '[ ' + util.inspect( this.member, opts ) + ' ]';
-
-	return result + postfix;
-};
 
 
 /*
@@ -88,6 +54,20 @@ def.proto.walk =
 	return transform( this.create( 'expr', expr ) );
 };
 
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return(
+		'( ' + recurse( this.expr ) + ' )'
+		+ '[ ' + recurse( this.member ) + ' ]'
+	);
+};
 
 
 } );

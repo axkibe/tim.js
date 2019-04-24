@@ -83,6 +83,86 @@ const createTimcode =
 
 
 /*
+| A wrapper around require.
+|
+| This tracks dependencies so they can be walked for building a browser bundle.
+|
+| In case of tim.requiring other tims, which have not been loaded already, it hands
+| out provisionals, so circular depencies are lifted.
+|
+| Has to be bound.
+*/
+const overloadRequire =
+	function(
+		module,          // to be bound to the module
+		requires,        // to be bound to the table of requires (or undefined)
+		provisionals,    // to be bound to the array of provisionals
+		previousRequire, // to be bound to the overloaded require
+		bootstrap,       // to be bound to the bootstrap boolean
+		required         // the one actual requirement
+	)
+{
+	const ioSlash = required.indexOf( '/' );
+
+	// is this actually a classical require?
+	if( ioSlash < 0 ) return previousRequire.call( module, required );
+
+	if( !tim_path ) tim_path = require( './path/path' );
+	if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
+
+	if( requires ) requires[ required ] = true;
+
+	if( bootstrap ) return previousRequire.call( module, required );
+
+	let entry, realpath;
+
+	if( required[ 0 ] !== '.' )
+	{
+		// this is an import
+		const rootId = required.substr( 0, ioSlash );
+
+		const imp = required.substr( ioSlash + 1 );
+
+		const rootDir = tim.catalog.getRootDir( rootId );
+
+		if( !rootDir ) throw new Error( );
+
+		const replace = rootDir.exports.get( imp );
+
+		if( !replace ) throw new Error( );
+
+		entry = rootDir.getByPath( replace );
+
+		if( entry ) return entry.placeholder || entry._module.exports;
+
+		realpath = rootDir.realpath + replace;
+	}
+	else
+	{
+		entry =
+			tim.catalog.getByRelativePath(
+				module.filename,
+				tim_path.createFromString( required )
+			);
+
+		// already in the catalog
+		// FIXME XXX privacy violation
+		if( entry ) return entry.placeholder || entry._module.exports;
+
+		realpath = getRealpath( module.filename, required );
+	}
+
+	entry = timspec_provisional.create( 'filename', realpath, 'placeholder', { } );
+
+	provisionals.push( entry );
+
+	tim.catalog.addEntry( entry );
+
+	return entry.placeholder;
+};
+
+
+/*
 | Loads the timcode.
 */
 const loadTimcode =
@@ -103,51 +183,15 @@ const loadTimcode =
 		+ fs.readFileSync( timcodeRealFilename, readOptions )
 		+ '\n} )';
 
-	input =
-		vm.runInThisContext(
-			input,
-			{ filename: timcodeRealFilename }
-		);
+	input = vm.runInThisContext( input, { filename: timcodeRealFilename } );
 
 	const subrequire =
-		function(
-			required
-		)
-	{
-		// is this actually a classical require?
-		if( required.indexOf( '/' ) < 0 ) return module.require.call( module, required );
+		overloadRequire.bind(
+			undefined,
+			module, undefined, provisionals, module.require, bootstrap
+		);
 
-		if( !tim_path ) tim_path = require( './path/path' );
-		if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
-
-		if( required === 'tim.js/path' ) return tim_path;
-		if( required === 'tim.js/pathList' ) return require( './path/list' );
-		if( required === 'tim.js/stringList' ) return require( './string/list' );
-		if( required === 'tim.js/stringSet' ) return require( './string/set' );
-		if( required === 'tim.js/timspecTwig' ) return require( './timspec/twig' );
-
-		let entry =
-			tim.catalog.getByRelativePath(
-				module.filename,
-				tim_path.createFromString( required )
-			);
-
-		// already in the catalog
-		// FIXME XXX privacy violation
-		if( entry ) return entry.placeholder || entry._module.exports;
-
-		const realpath = getRealpath( module.filename, required );
-
-		entry = timspec_provisional.create( 'filename', realpath, 'placeholder', { } );
-
-		provisionals.push( entry );
-
-		tim.catalog.addEntry( entry );
-
-		return entry.placeholder;
-	};
-
-	input( module.exports, bootstrap ? module.require.bind( module ) : subrequire );
+	input( module.exports, subrequire );
 };
 
 
@@ -213,44 +257,10 @@ module.exports =
 		};
 
 		tim.require =
-			function( required )
-		{
-			// is this actually a classical require?
-			if( required.indexOf( '/' ) < 0 ) return previousRequire.call( module, required );
-
-			if( !tim_path ) tim_path = require( './path/path' );
-			if( !timspec_provisional ) timspec_provisional = require( './timspec/provisional' );
-
-			requires[ required ] = true;
-
-			if( bootstrap ) return previousRequire.call( module, required );
-
-			if( required === 'tim.js/path' ) return tim_path;
-			if( required === 'tim.js/pathList' ) return require( './path/list' );
-			if( required === 'tim.js/stringList' ) return require( './string/list' );
-			if( required === 'tim.js/stringSet' ) return require( './string/set' );
-			if( required === 'tim.js/timspecTwig' ) return require( './timspec/twig' );
-
-			let entry =
-				tim.catalog.getByRelativePath(
-					module.filename,
-					tim_path.createFromString( required )
-				);
-
-			// already in the catalog
-			// FIXME XXX privacy violation
-			if( entry ) return entry.placeholder || entry._module.exports;
-
-			const realpath = getRealpath( module.filename, required );
-
-			entry = timspec_provisional.create( 'filename', realpath, 'placeholder', { } );
-
-			provisionals.push( entry );
-
-			tim.catalog.addEntry( entry );
-
-			return entry.placeholder;
-		};
+			overloadRequire.bind(
+				undefined,
+				module, requires, provisionals, previousRequire, bootstrap
+			);
 
 		definer( def, provisional ? provisional.placeholder : module.exports );
 
