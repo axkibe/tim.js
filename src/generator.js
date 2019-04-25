@@ -1882,10 +1882,6 @@ def.proto.genTimProto =
 			.$comment( 'Returns true if the set has an element.' )
 			.$( this.$protoSet( 'has', 'setHas' ) )
 
-			// FIXME use a real iterator
-			.$comment( 'Returns an iterator for the set.' )
-			.$( this.$protoSet( 'iterator', 'setIterator' ) )
-
 			.$comment( 'Returns the set with one element removed.' )
 			.$( this.$protoSet( 'remove', 'setRemove' ) )
 
@@ -2154,11 +2150,8 @@ def.proto.genEqualsFuncBody =
 		const setTest =
 			$block
 			.$( 'if( this.size !== obj.size ) return false;' )
-			.$const( 'it', 'this.iterator( )' )
-			.$for( 'let i = it.next( )', '!i.done', 'i = it.next( )',
-				$block
-				.$const( 'v', 'i.value' )
-				.$( 'if( !obj.has( v ) ) return false;' )
+			.$forOfLet( 'v', 'this',
+				$block.$( 'if( !obj.has( v ) ) return false;' )
 			);
 
 		body = body.$if( 'this._set !== obj._set', setTest );

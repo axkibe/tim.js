@@ -143,13 +143,9 @@ for( let a = 0, al = listing.length; a < al; a++ )
 	};
 
 	stim.define = sdefine.bind( undefined, def );
-	stim.copy = tim.copy; // FIXME needed?
+	stim.copy = tim.copy;
 
-	input =
-		vm.runInThisContext(
-			input,
-			{ filename: inFilename }
-		);
+	input = vm.runInThisContext( input, { filename: inFilename } );
 
 	const smodule =
 	{

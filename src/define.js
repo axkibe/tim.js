@@ -123,19 +123,19 @@ const overloadRequire =
 
 		const imp = required.substr( ioSlash + 1 );
 
-		const rootDir = tim.catalog.getRootDir( rootId );
+		const rd = tim.catalog.getRootDir( rootId );
 
-		if( !rootDir ) throw new Error( );
+		if( !rd ) throw new Error( );
 
-		const replace = rootDir.exports.get( imp );
+		const replace = rd.exports.get( imp );
 
 		if( !replace ) throw new Error( );
 
-		entry = rootDir.getByPath( replace );
+		entry = rd.getByPath( replace );
 
-		if( entry ) return entry.placeholder || entry._module.exports;
+		if( entry ) return entry.placeholder || entry.module.exports;
 
-		realpath = rootDir.realpath + replace;
+		realpath = rd.realpath + replace;
 	}
 	else
 	{
@@ -146,8 +146,7 @@ const overloadRequire =
 			);
 
 		// already in the catalog
-		// FIXME XXX privacy violation
-		if( entry ) return entry.placeholder || entry._module.exports;
+		if( entry ) return entry.placeholder || entry.module.exports;
 
 		realpath = getRealpath( module.filename, required );
 	}
@@ -271,7 +270,7 @@ module.exports =
 		module.require = previousRequire;
 	}
 
-	let rootDir, rootPath, timspec, timcodePath;
+	let rd, rootPath, timspec, timcodePath;
 
 	if( !bootstrap )
 	{
@@ -282,11 +281,11 @@ module.exports =
 
 		timspec = tim.catalog.addEntry( timspec );
 
-		rootDir = tim.catalog.getRootDir( timspec );
+		rd = tim.catalog.getRootDir( timspec );
 
-		rootPath = rootDir.realpath;
+		rootPath = rd.realpath;
 
-		timcodePath = rootDir.timcodePath;
+		timcodePath = rd.timcodePath;
 	}
 	else
 	{
@@ -309,10 +308,7 @@ module.exports =
 
 	const timcodeRealFilename = timcodePath + timcodeFilename;
 
-	if( rootDir && !rootDir.noTimcodeGen && timspec )
-	{
-		createTimcode( timspec, module, timcodeRealFilename );
-	}
+	if( rd && !rd.noTimcodeGen && timspec ) createTimcode( timspec, module, timcodeRealFilename );
 
 	if( provisional ) module.exports = provisional.placeholder;
 
@@ -320,10 +316,7 @@ module.exports =
 
 	const result = tim._prepare( module, def, module.exports );
 
-	for( let a = 0, al = provisionals.length; a < al; a++ )
-	{
-		module.require( provisionals[ a ].filename );
-	}
+	for( let p of provisionals ) module.require( p.filename );
 
 	module.exports.timcodeFilename = timcodeFilename;
 

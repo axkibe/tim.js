@@ -259,41 +259,18 @@ def.proto.getByTimtype =
 
 	if( timtype.imported )
 	{
-		//let entry = catalog.getRootDir( timtype.imported );
-
 		if( timtype.imported !== 'tim.js' ) throw new Error( );
 
 		// place holder system for something more elaborate
 		if( timtype.length !== 1 ) throw new Error( );
 
-		// FIXME duplicate code to timspec_timspec
-		switch( timtype.pathString )
-		{
-			case 'path.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'path.js' );
+		const rd = tim.catalog.getRootDir( 'tim.js' );
 
-			case 'pathList.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'list.js' );
+		const replace = rd.exports.get( timtype.get( 0 ) );
 
-			case 'stringList.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
+		if( !replace ) throw new Error( );
 
-			case 'stringSet.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'set.js' );
-
-			case 'timspecTwig.js' : return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'timspec' ).get( 'twig.js' );
-
-			default : throw new Error( );
-		}
-
-		/*
-		for( let p = 0, pl = timtype.length; p < pl; p++ )
-		{
-			let key = timtype.get( p );
-
-			if( p + 1 >= pl ) key = key + '.js';
-
-			entry = entry.get( key );
-		}
-
-		return entry;
-		*/
+		return rd.getByPath( replace );
 	}
 
 	// first the directory of the base

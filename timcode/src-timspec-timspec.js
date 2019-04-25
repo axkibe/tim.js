@@ -35,7 +35,6 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v__module,
 		v_abstract,
 		v_alike,
 		v_attributes,
@@ -54,14 +53,13 @@ const Constructor =
 		v_inherits,
 		v_isAdjusting,
 		v_json,
+		v_module,
 		v_path,
 		v_requires,
 		v_singleton
 	)
 {
 	this.__lazy = { };
-
-	this._module = v__module;
 
 	this.abstract = v_abstract;
 
@@ -99,6 +97,8 @@ const Constructor =
 
 	this.json = v_json;
 
+	this.module = v_module;
+
 	this.path = v_path;
 
 	this.requires = v_requires;
@@ -128,8 +128,6 @@ prototype.create =
 	)
 {
 	let inherit;
-
-	let v__module;
 
 	let v_abstract;
 
@@ -167,6 +165,8 @@ prototype.create =
 
 	let v_json;
 
+	let v_module;
+
 	let v_path;
 
 	let v_requires;
@@ -176,8 +176,6 @@ prototype.create =
 	if( this !== self )
 	{
 		inherit = this;
-
-		v__module = this._module;
 
 		v_abstract = this.abstract;
 
@@ -215,6 +213,8 @@ prototype.create =
 
 		v_json = this.json;
 
+		v_module = this.module;
+
 		v_path = this.path;
 
 		v_requires = this.requires;
@@ -232,15 +232,6 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case '_module' :
-
-				if( arg !== pass )
-				{
-					v__module = arg;
-				}
-
-				break;
-
 			case 'abstract' :
 
 				if( arg !== pass )
@@ -403,6 +394,15 @@ prototype.create =
 
 				break;
 
+			case 'module' :
+
+				if( arg !== pass )
+				{
+					v_module = arg;
+				}
+
+				break;
+
 			case 'path' :
 
 				if( arg !== pass )
@@ -547,8 +547,6 @@ prototype.create =
 	if(
 		inherit
 		&&
-		v__module === inherit._module
-		&&
 		v_abstract === inherit.abstract
 		&&
 		v_alike === inherit.alike
@@ -629,6 +627,8 @@ prototype.create =
 		&&
 		v_json === inherit.json
 		&&
+		v_module === inherit.module
+		&&
 		(
 			v_path === inherit.path
 			||
@@ -649,7 +649,6 @@ prototype.create =
 
 	return (
 		new Constructor(
-			v__module,
 			v_abstract,
 			v_alike,
 			v_attributes,
@@ -668,6 +667,7 @@ prototype.create =
 			v_inherits,
 			v_isAdjusting,
 			v_json,
+			v_module,
 			v_path,
 			v_requires,
 			v_singleton
@@ -718,8 +718,6 @@ prototype.equals =
 	}
 
 	return (
-		this._module === obj._module
-		&&
 		this.abstract === obj.abstract
 		&&
 		this.alike === obj.alike
@@ -799,6 +797,8 @@ prototype.equals =
 		this.isAdjusting === obj.isAdjusting
 		&&
 		this.json === obj.json
+		&&
+		this.module === obj.module
 		&&
 		(
 			this.path === obj.path

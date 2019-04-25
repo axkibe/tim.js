@@ -295,15 +295,9 @@ proto.groupAddGroup =
 
 	const g = { };
 
-	for( let k in this._group )
-	{
-		g[ k ] = this._group[ k ];
-	}
+	for( let k in this._group ) g[ k ] = this._group[ k ];
 
-	for( let k in group._group )
-	{
-		g[ k ] = group._group[ k ];
-	}
+	for( let k in group._group ) g[ k ] = group._group[ k ];
 
 	return this.create( 'group:init', g );
 };
@@ -312,80 +306,43 @@ proto.groupAddGroup =
 /*
 | Gets one entry from the group.
 */
-proto.groupGet =
-	function(
-		key
-	)
-{
-	return this._group[ key ];
-};
+proto.groupGet = function( key ) { return this._group[ key ]; };
 
 
 /*
 | Returns the group keys.
 */
-proto.groupKeys =
-	function( )
-{
-	return Object.freeze( Object.keys( this._group ) );
-};
+proto.groupKeys = function( ) { return Object.freeze( Object.keys( this._group ) ); };
 
 
 /*
 | Returns the sorted group key.
 */
-proto.groupSortedKeys =
-	function( )
-{
-	return Object.freeze( this.keys.slice( ).sort( ) );
-};
+proto.groupSortedKeys = function( ) { return Object.freeze( this.keys.slice( ).sort( ) ); };
 
 
 /*
 | Returns the group with one element removed.
 */
-proto.groupRemove =
-	function(
-		key
-	)
-{
-	return this.create( 'group:remove', key );
-};
+proto.groupRemove = function( key ) { return this.create( 'group:remove', key ); };
 
 
 /*
 | Returns the group with one element set.
 */
-proto.groupSet =
-	function(
-		key,
-		e
-	)
-{
-	return this.create( 'group:set', key, e );
-};
+proto.groupSet = function( key, e ) { return this.create( 'group:set', key, e ); };
 
 
 /*
 | Returns the size of the group.
 */
-proto.groupSize =
-	function( )
-{
-	return this.keys.length;
-};
+proto.groupSize = function( ) { return this.keys.length; };
 
 
 /*
 | Returns the list with an element appended.
 */
-proto.listAppend =
-	function(
-		e
-	)
-{
-	return this.create( 'list:append', e );
-};
+proto.listAppend = function( e ) { return this.create( 'list:append', e ); };
 
 
 /*
@@ -403,11 +360,7 @@ proto.listAppendList =
 /*
 | Returns the length of the list.
 */
-proto.listLength =
-	function( )
-{
-	return this._list.length;
-};
+proto.listLength = function( ) { return this._list.length; };
 
 
 /*
@@ -548,52 +501,26 @@ proto.setAddSet =
 /*
 | Returns true if the set has an element.
 */
-proto.setHas =
-	function( e )
-{
-	return this._set.has( e );
-};
+proto.setHas = function( e ) { return this._set.has( e ); };
 
 
 /*
-| Returns an iterator for the set.
-| FIXME remove
-*/
-proto.setIterator =
-	function( )
-{
-	return this._set.keys( );
-};
-
-
 /*
 | Returns the set with one element removed.
 */
-proto.setRemove =
-	function( e )
-{
-	return this.create( 'set:remove', e );
-};
+proto.setRemove = function( e ) { return this.create( 'set:remove', e ); };
 
 
 /*
 | Returns the set with one element added.
 */
-proto.setAdd =
-	function( e )
-{
-	return this.create( 'set:add', e );
-};
+proto.setAdd = function( e ) { return this.create( 'set:add', e ); };
 
 
 /*
 | Returns the size of the group.
 */
-proto.setSize =
-	function( )
-{
-	return this._set.size;
-};
+proto.setSize = function( ) { return this._set.size; };
 
 
 /*
@@ -611,26 +538,14 @@ proto.setTrivial =
 /*
 | Returns the element at rank.
 */
-proto.twigAtRank =
-	function(
-		rank
-	)
-{
-	return this.get( this.keys[ rank ] );
-};
+proto.twigAtRank = function( rank ) { return this.get( this.keys[ rank ] ); };
 
 
 
 /*
 | Returns the element by key.
 */
-proto.twigGet =
-	function(
-		key
-	)
-{
-	return this._twig[ key ];
-};
+proto.twigGet = function( key ) { return this._twig[ key ]; };
 
 
 /*
@@ -653,23 +568,13 @@ proto.twigAdjustGet =
 /*
 | Returns the key at a rank.
 */
-proto.twigGetKey =
-	function(
-		idx
-	)
-{
-	return this.keys[ idx ];
-};
+proto.twigGetKey = function( idx ) { return this.keys[ idx ]; };
 
 
 /*
 | Returns the length of the twig.
 */
-proto.twigLength =
-	function( )
-{
-	return this.keys.length;
-};
+proto.twigLength = function( ) { return this.keys.length; };
 
 
 /*

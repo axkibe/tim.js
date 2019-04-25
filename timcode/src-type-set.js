@@ -237,12 +237,6 @@ prototype.has = tim_proto.setHas;
 
 
 /*
-| Returns an iterator for the set.
-*/
-prototype.iterator = tim_proto.setIterator;
-
-
-/*
 | Returns the set with one element removed.
 */
 prototype.remove = tim_proto.setRemove;
@@ -296,16 +290,8 @@ prototype.equals =
 			return false;
 		}
 
-		const it = this.iterator( );
-
-		for(
-			let i = it.next( );
-			!i.done;
-			i = it.next( )
-		)
+		for( let v of this )
 		{
-			const v = i.value;
-
 			if( !obj.has( v ) )
 			{
 				return false;

@@ -77,13 +77,12 @@ if( TIM )
 		singleton : { type : 'boolean' },
 
 		// the node.js module that defined this tim.
-		// FIXME make non private
-		_module : { type : 'protean' },
+		module : { type : 'protean' },
 	};
 
 	def.alike =
 	{
-		alikeIgnoringProteans : { ignores : { 'alike' : true, '_module' : true } }
+		alikeIgnoringProteans : { ignores : { 'alike' : true, 'module' : true } }
 	};
 }
 
@@ -134,49 +133,29 @@ const getTimspec =
 		module
 	)
 {
+	const imported = timtype.imported;
+
 	// makes sure the leaf is loaded
-	if( timtype.imported )
+	if( imported )
 	{
-		// FIXME placeholder for something more general
-		switch( timtype.pathString )
-		{
-			case 'path.js' :
+		const rd = tim.catalog.getRootDir( imported );
 
-				require( '../path/path' );
+		if( !rd ) throw new Error( );
 
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'path.js' );
+		const replace = rd.exports.get( timtype.pathString );
 
-			case 'pathList.js' :
+		const ts = rd.getByPath( replace );
 
-				require( '../path/list' );
+		if( !ts ) throw new Error( );
 
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'path' ).get( 'list.js' );
+		require( ts.filename );
 
-			case 'stringList.js' :
-
-				require( '../string/list' );
-
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'list.js' );
-
-			case 'stringSet.js' :
-
-				require( '../string/set' );
-
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'string' ).get( 'set.js' );
-
-			case 'timspecTwig.js' :
-
-				require( '../timspec/twig' );
-
-				return tim.catalog.getRootDir( 'tim.js' ).get( 'src' ).get( 'timspec' ).get( 'twig.js' );
-
-			default : throw new Error( );
-		}
-		// module.require( imported + '/' + timtype.pathString );
+		return rd.getByPath( replace );
 	}
 	else
 	{
 		module.require( './' + timtype.pathString );
+
 		return tim.catalog.getByTimtype( module.filename, timtype );
 	}
 };
@@ -399,9 +378,9 @@ def.static.createFromDef =
 			'inherits', inherits,
 			'isAdjusting', isAdjusting,
 			'json', def.json,
+			'module', module,
 			'requires', string_set.createFromProtean( requires ),
-			'singleton', singleton,
-			'_module', module
+			'singleton', singleton
 		)
 	);
 };
@@ -410,7 +389,7 @@ def.static.createFromDef =
 /*
 | Realpath of the tim definer.
 */
-def.lazy.filename = function( ) { return this._module.filename; };
+def.lazy.filename = function( ) { return this.module.filename; };
 
 
 /*
@@ -421,7 +400,7 @@ def.proto.getTimspec =
 		timtype
 	)
 {
-	return getTimspec( timtype, this._module );
+	return getTimspec( timtype, this.module );
 };
 
 
