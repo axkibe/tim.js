@@ -123,30 +123,7 @@ def.lazy.pathString =
 def.lazy.require =
 	function( )
 {
-	if( this.imported )
-	{
-		// FIXME placeholder for future
-		if( this.imported !== 'tim.js' ) throw new Error( );
-
-		if( this.length !== 1 ) throw new Error( );
-
-		switch( this.get( 0 ) )
-		{
-			case 'path' : return 'require( "tim.js/path" )';
-
-			case 'pathList' : return 'require( "tim.js/pathList" )';
-
-			case 'stringList' : return 'require( "tim.js/stringList" )';
-
-			case 'stringSet' : return 'require( "tim.js/stringSet" )';
-
-			default : throw new Error( );
-		}
-	}
-	else
-	{
-		return 'require( "./' + this.pathStringBase + '" )';
-	}
+	return 'require( "' + ( this.imported || '.' ) + '/' + this.pathStringBase + '" )';
 };
 
 
