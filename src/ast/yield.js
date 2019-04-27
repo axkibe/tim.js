@@ -17,40 +17,15 @@ if( TIM )
 }
 
 
-const util = require( 'util' );
-
-
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'yield{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += 'new ( ' +  util.inspect( this.expr, opts ) + ' )';
-
-	return result + postfix;
+	return 'yield ( ' +  recurse( this.expr ) + ' )';
 };
 
 

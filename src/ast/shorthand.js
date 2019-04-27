@@ -505,9 +505,9 @@ def.static.$for =
 {
 	return(
 		ast_for.create(
-			'init', parser.parse( init ),
-			'condition', parser.parse( condition ),
-			'iterate', parser.parse( iterate ),
+			'init', parser.statement( init ), // FIXME its not
+			'condition', parser.expr( condition ),
+			'iterate', parser.expr( iterate ),
 			'block', ensureBlock( block )
 		)
 	);
@@ -526,9 +526,9 @@ def.static.$forIn =
 {
 	return(
 		ast_forIn.create(
-			'variable', parser.parse( variable ),
+			'variable', parser.expr( variable ),
 			'letVar', false,
-			'object', parser.parse( object ),
+			'object', parser.expr( object ),
 			'block', ensureBlock( block )
 		)
 	);
@@ -547,9 +547,9 @@ def.static.$forInLet =
 {
 	return(
 		ast_forIn.create(
-			'variable', parser.parse( variable ),
+			'variable', parser.expr( variable ),
 			'letVar', true,
-			'object', parser.parse( object ),
+			'object', parser.expr( object ),
 			'block', ensureBlock( block )
 		)
 	);
@@ -568,9 +568,9 @@ def.static.$forOf =
 {
 	return(
 		ast_forOf.create(
-			'variable', parser.parse( variable ),
+			'variable', parser.expr( variable ),
 			'letVar', false,
-			'object', parser.parse( object ),
+			'object', parser.expr( object ),
 			'block', ensureBlock( block )
 		)
 	);
@@ -589,9 +589,9 @@ def.static.$forOfLet =
 {
 	return(
 		ast_forOf.create(
-			'variable', parser.parse( variable ),
+			'variable', parser.expr( variable ),
 			'letVar', true,
-			'object', parser.parse( object ),
+			'object', parser.expr( object ),
 			'block', ensureBlock( block )
 		)
 	);
@@ -633,8 +633,8 @@ def.static.$instanceof =
 {
 	return(
 		ast_instanceof.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -672,8 +672,8 @@ def.static.$multiply =
 			0,
 			2,
 			ast_multiply.create(
-				'left', parser.parse( left ),
-				'right', parser.parse( right )
+				'left', parser.expr( left ),
+				'right', parser.expr( right )
 			)
 		);
 
@@ -682,8 +682,8 @@ def.static.$multiply =
 
 	return(
 		ast_multiply.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -700,8 +700,8 @@ def.static.$multiplyAssign =
 {
 	return(
 		ast_multiplyAssign.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -727,7 +727,7 @@ def.static.$not =
 		expr
 	)
 {
-	return ast_not.create( 'expr', parser.parse( expr ) );
+	return ast_not.create( 'expr', parser.expr( expr ) );
 };
 
 
@@ -773,12 +773,10 @@ def.static.$or =
 	{
 		const args = Array.prototype.slice.call( arguments );
 
-		args.splice(
-			0,
-			2,
+		args.splice( 0, 2,
 			ast_or.create(
-				'left', parser.parse( left ),
-				'right', parser.parse( right )
+				'left', parser.expr( left ),
+				'right', parser.expr( right )
 			)
 		);
 
@@ -787,8 +785,8 @@ def.static.$or =
 
 	return(
 		ast_or.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -812,8 +810,8 @@ def.static.$plus =
 			0,
 			2,
 			ast_plus.create(
-				'left', parser.parse( left ),
-				'right', parser.parse( right )
+				'left', parser.expr( left ),
+				'right', parser.expr( right )
 			)
 		);
 
@@ -822,8 +820,8 @@ def.static.$plus =
 
 	return(
 		ast_plus.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -840,8 +838,8 @@ def.static.$plusAssign =
 {
 	return(
 		ast_plusAssign.create(
-			'left', parser.parse( left ),
-			'right', parser.parse( right )
+			'left', parser.expr( left ),
+			'right', parser.expr( right )
 		)
 	);
 };
@@ -856,7 +854,7 @@ def.static.$preIncrement =
 		expr
 	)
 {
-	expr = parser.parse( expr );
+	expr = parser.expr( expr );
 
 	return ast_preIncrement.create( 'expr', expr );
 };
@@ -870,7 +868,7 @@ def.static.$return =
 		expr
 	)
 {
-	return ast_return.create( 'expr', parser.parse( expr ) );
+	return ast_return.create( 'expr', parser.expr( expr ) );
 };
 
 
@@ -895,7 +893,7 @@ def.static.$switch =
 		statement
 	)
 {
-	return ast_switch.create( 'statement', parser.parse( statement ) );
+	return ast_switch.create( 'statement', parser.statement( statement ) );
 };
 
 
@@ -914,7 +912,7 @@ def.static.$typeof =
 		expr
 	)
 {
-	return ast_typeof.create( 'expr', parser.parse( expr ) );
+	return ast_typeof.create( 'expr', parser.expr( expr ) );
 };
 
 
@@ -948,10 +946,7 @@ def.static.$varDec =
 	return(
 		ast_varDec.create(
 			'name', name,
-			'assign',
-				arguments.length > 1
-				? parser.parse( assign )
-				: undefined
+			'assign', arguments.length > 1 ? parser.expr( assign ) : undefined
 		)
 	);
 };
@@ -968,7 +963,7 @@ def.static.$while =
 {
 	return(
 		ast_while.create(
-			'condition', parser.parse( condition ),
+			'condition', parser.expr( condition ),
 			'block', ensureBlock( block )
 		)
 	);
@@ -983,7 +978,7 @@ def.static.$yield =
 		expr
 	)
 {
-	return ast_yield.create( 'expr', parser.parse( expr ) );
+	return ast_yield.create( 'expr', parser.expr( expr ) );
 };
 
 

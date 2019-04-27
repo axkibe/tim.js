@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_undefined ) => {
 
 
+def.extend = './node';
+
+
 /*
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
@@ -23,34 +26,12 @@ def.proto.walk =
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += 'undefined';
-
-	return result + postfix;
+	return 'undefined';
 };
 
 

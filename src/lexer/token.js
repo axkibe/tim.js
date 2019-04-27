@@ -25,7 +25,7 @@ def.staticLazy.allowedTokens = ( ) =>
 		'=', '.', ',', '+', '-', '*', '/', '<', '>', '?',
 		':', ';', '!', '[', ']', '(', ')', '{', '}',
 		'++', '--', '+=', '-=', '*=', '/=', '<=', '>=',
-		'||', '&&', '===', '!==', 'if',
+		'||', '&&', '===', '!==', 'if', 'in', 'of',
 		'for', 'let', 'new', 'else', 'null', 'true', 'const', 'false',
 		'delete', 'return', 'typeof', 'instanceof', 'number', 'string',
 		'identifier'

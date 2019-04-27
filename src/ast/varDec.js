@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_varDec ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -20,47 +23,19 @@ if( TIM )
 }
 
 
-const util = require( 'util' );
-
-
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
+	let result = 'var ' + name;
 
-	let result;
+	if( this.assign ) result += recurse( this.assign );
 
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += 'var ';
-
-	result += this.name;
-
-	if( this.assign )
-	{
-		result += util.inspect( this.assign, opts );
-	}
-
-	return result + postfix;
+	return result;
 };
 
 

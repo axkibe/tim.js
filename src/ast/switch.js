@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_switch ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -85,6 +88,18 @@ def.proto.$default =
 	}
 
 	return this.create( 'defaultCase', block );
+};
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return 'FIXME';
 };
 
 

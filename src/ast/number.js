@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_number ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -19,47 +22,12 @@ if( TIM )
 /*
 | Custom inspect.
 */
-def.inspect =
+def.proto._inspect =
 	function(
-		depth,
-		opts
+		recurse
 	)
 {
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += this.number;
-
-	return result + postfix;
-};
-
-
-/*
-| Walks the ast tree depth-first, pre-order
-| creating a transformed copy.
-*/
-def.proto.walk =
-	function(
-		transform	// a function to be called for all walked nodes.
-	)
-{
-	return transform( this );
+	return '' + this.number;
 };
 
 

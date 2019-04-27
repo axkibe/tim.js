@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_string ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -14,40 +17,6 @@ if( TIM )
 		string : { type : 'string' }
 	};
 }
-
-
-/*
-| Custom inspect.
-*/
-def.inspect =
-	function(
-		depth,
-		opts
-	)
-{
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += '"' + this.string + '"';
-
-	return result + postfix;
-};
 
 
 /*
@@ -60,6 +29,18 @@ def.proto.walk =
 	)
 {
 	return transform( this );
+};
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return '"' + this.string + '"';
 };
 
 

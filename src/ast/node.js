@@ -45,4 +45,16 @@ def.inspect =
 };
 
 
+/*
+| Default walk, this is an end node.
+*/
+def.proto.walk =
+	function(
+		transform	// a function to be called for all walked nodes.
+	)
+{
+	return transform( this );
+};
+
+
 } );

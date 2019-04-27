@@ -7,45 +7,7 @@
 tim.define( module, ( def, ast_null ) => {
 
 
-if( TIM )
-{
-	// there are not attributes
-	def.attributes = { };
-}
-
-
-/*
-| Custom inspect.
-*/
-def.inspect =
-	function(
-		depth,
-		opts
-	)
-{
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	result += 'null';
-
-	return result + postfix;
-};
+def.extend = './node';
 
 
 /*
@@ -58,6 +20,18 @@ def.proto.walk =
 	)
 {
 	return transform( this );
+};
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return 'null';
 };
 
 

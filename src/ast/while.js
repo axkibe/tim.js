@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_while ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.attributes =
@@ -18,6 +21,23 @@ if( TIM )
 		block : { type : './block' }
 	};
 }
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	return(
+		'while( '
+		+ recurse( this.condition )
+		+ ' ) ' + recurse( this.block )
+		+ ' '
+	);
+};
 
 
 } );

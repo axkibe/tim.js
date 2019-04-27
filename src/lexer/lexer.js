@@ -26,10 +26,12 @@ def.staticLazy.keywords = ( ) =>
 		'false',
 		'for',
 		'if',
+		'in',
 		'instanceof',
 		'let',
 		'new',
 		'null',
+		'of',
 		'return',
 		'true',
 		'typeof',
@@ -79,10 +81,7 @@ def.static.tokenize =
 			// a number
 			let value = ch;
 
-			while( c + 1 < cl && code[ c + 1 ].match( /[0-9]/ ) )
-			{
-				value += code[ ++c ];
-			}
+			while( c + 1 < cl && code[ c + 1 ].match( /[0-9]/ ) ) value += code[ ++c ];
 
 			value = parseInt( value, 10 );
 

@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_objLiteral ) => {
 
 
+def.extend = './node';
+
+
 if( TIM )
 {
 	def.twig = [ '< ./types-expr' ];
@@ -33,61 +36,6 @@ def.proto.add =
 };
 
 
-const util = require( 'util' );
-
-
-/*
-| Custom inspect
-*/
-def.inspect =
-	function(
-		depth,
-		opts
-	)
-{
-	let postfix;
-
-	let result;
-
-	if( !opts.ast )
-	{
-		result = 'ast{ ';
-
-		postfix = ' }';
-
-		opts = tim.copy( opts );
-
-		opts.ast = true;
-	}
-	else
-	{
-		result = postfix = '';
-	}
-
-	if( this.length === 0 )
-	{
-		result += '{ }';
-	}
-	else
-	{
-		result += '{ ';
-
-		let first = true;
-
-		for( let arg of this )
-		{
-			if( first ) first = false; else result += ', ';
-
-			result += util.inspect( arg, opts );
-		}
-
-		result += ' }';
-	}
-
-	return result + postfix;
-};
-
-
 /*
 | Walks the ast tree depth-first, pre-order
 | creating a transformed copy.
@@ -99,6 +47,33 @@ def.proto.walk =
 {
 	// FIXME actually walk through the objects
 	return transform( this );
+};
+
+
+/*
+| Custom inspect.
+*/
+def.proto._inspect =
+	function(
+		recurse
+	)
+{
+	if( this.length === 0 ) return '{ }';
+
+	let result = '{ ';
+
+	let first = true;
+
+	for( let key of this.keys )
+	{
+		if( first ) first = false; else result += ', ';
+
+		const arg = this.get( key );
+
+		result += key + ' : ' + recurse( arg );
+	}
+
+	return result + ' }';
 };
 
 

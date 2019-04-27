@@ -118,9 +118,7 @@ const parser_spec = tim.require( './spec' );
 | Forces expr into a block.
 */
 const forceBlock =
-	function(
-		expr
-	)
+	( expr ) =>
 {
 	if( expr.timtype === ast_block ) return expr;
 
@@ -130,8 +128,7 @@ const forceBlock =
 /*
 | Ast nodes which ate their semicolon.
 */
-const noSemicolon =
-	( function( )
+def.staticLazy.noSemicolon = ( ) =>
 {
 	const set = new Set( );
 
@@ -139,7 +136,7 @@ const noSemicolon =
 	set.add( ast_if );
 
 	return set;
-} )( );
+};
 
 
 /*
@@ -536,28 +533,23 @@ def.static.handleFor =
 
 	if( state.reachedEnd ) throw new Error( 'unexpected end of file' );
 
-	switch( state.current.type )
+	if( state.current.type === 'let' )
 	{
-		case 'let' :
-
-			state = parser.handleLet( state );
-
-			if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
-
-			state = state.advance( );
-
-			break;
-
-		default :
-
-			state = parseToken( state, parser.parseExprStart );
-
-			if( state.current.type !== ';' ) throw new Error( 'missing ";"' );
-
-			state = state.advance( );
-
-			break;
+		state = parser.handleLet( state );
 	}
+	else
+	{
+		state = parseToken( state, parser.parseExprStart );
+	}
+
+	if( state.current.type === 'in' || state.current.type === 'of' )
+	{
+		throw new Error( 'FIXME' );
+	}
+
+	if( state.current.type !== ';' ) throw new Error( '";" or "in" or "of" expected' );
+
+	state = state.advance( );
 
 	const init = state.ast;
 
@@ -577,7 +569,7 @@ def.static.handleFor =
 
 	const block = state.ast;
 
-	if( !noSemicolon.has( block.timtype ) )
+	if( !parser.noSemicolon.has( block.timtype ) )
 	{
 		if( !state.current || state.current.type !== ';' ) throw new Error( 'missing ";"' );
 
@@ -630,7 +622,7 @@ def.static.handleIf =
 
 	const then = state.ast;
 
-	if( !noSemicolon.has( then.timtype ) )
+	if( !parser.noSemicolon.has( then.timtype ) )
 	{
 		if( !state.current || state.current.type !== ';' ) throw new Error( 'missing ";"' );
 
@@ -645,7 +637,7 @@ def.static.handleIf =
 
 		elsewise = state.ast;
 
-		if( !noSemicolon.has( elsewise.timtype ) )
+		if( !parser.noSemicolon.has( elsewise.timtype ) )
 		{
 			if( !state.current || state.current.type !== ';' ) throw new Error( 'missing ";"' );
 
@@ -999,6 +991,10 @@ def.staticLazy.rightSpecs = ( ) =>
 	s[ ':' ] = c( 'handlePass', 98 );
 
 	s[ ';' ] = c( 'handlePass', 101 );
+
+	s[ 'of' ] = c( 'handlePass', 101 );
+
+	s[ 'in' ] = c( 'handlePass', 101 );
 
 	s[ '}' ] = c( 'handlePass', 101 );
 
