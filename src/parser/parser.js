@@ -43,6 +43,10 @@ const ast_equals = tim.require( '../ast/equals' );
 
 const ast_for = tim.require( '../ast/for' );
 
+const ast_forIn = tim.require( '../ast/forIn' );
+
+const ast_forOf = tim.require( '../ast/forOf' );
+
 const ast_greaterOrEqual = tim.require( '../ast/greaterOrEqual' );
 
 const ast_greaterThan = tim.require( '../ast/greaterThan' );
@@ -544,7 +548,76 @@ def.static.handleFor =
 
 	if( state.current.type === 'in' || state.current.type === 'of' )
 	{
-		throw new Error( 'FIXME' );
+		let loopVar = state.ast;
+
+		let letVar = false;
+
+		const forType = state.current.type;
+
+		if( loopVar.timtype === ast_let )
+		{
+			if( loopVar.length !== 1 ) throw new Error( 'invalid let in for of/in loop' );
+
+			const letEntry = loopVar.get( 0 );
+
+			if( letEntry.assign ) throw new Error( 'invalid assignment in for of/in loop' );
+
+			loopVar = ast_var.create( 'name', letEntry.name );
+
+			letVar = true;
+		}
+		else if( loopVar.timtype !== ast_var )
+		{
+			throw new Error( 'invalid loop variable' );
+		}
+
+		state = parseToken( state.advance( undefined ), parser.parseExprStart );
+
+		const obj = state.ast;
+
+		if( state.current.type !== ')' ) throw new Error( '")" expected' );
+
+		state = parseToken( state.advance( undefined ), parser.parseStatementStart );
+
+		const block = state.ast;
+
+		if( !parser.noSemicolon.has( block.timtype ) )
+		{
+			if( !state.current || state.current.type !== ';' ) throw new Error( 'missing ";"' );
+
+			state = state.advance( );
+		}
+
+		switch( forType )
+		{
+			case 'in' :
+
+				return(
+					state.stay(
+						ast_forIn.create(
+							'variable', loopVar,
+							'letVar', letVar,
+							'object', obj,
+							'block', forceBlock( block )
+						)
+					)
+				);
+
+			case 'of' :
+
+				return(
+					state.stay(
+						ast_forOf.create(
+							'variable', loopVar,
+							'letVar', letVar,
+							'object', obj,
+							'block', forceBlock( block )
+						)
+					)
+				);
+
+			default : throw new Error( );
+		}
 	}
 
 	if( state.current.type !== ';' ) throw new Error( '";" or "in" or "of" expected' );
@@ -665,14 +738,16 @@ def.static.handleLet =
 		state // current parser state
 	)
 {
+	const type = state.current.type;
+
 /**/if( CHECK )
 /**/{
 /**/	if( state.ast ) throw new Error( );
 /**/
-/**/	if( state.current.type !== 'let' ) throw new Error( );
+/**/	if( type !== 'const' && type !== 'let' ) throw new Error( );
 /**/}
 
-	let _let = ast_let.create( );
+	let _let = ast_let.create( 'isConst', type === 'const' );
 
 	state = state.advance( );
 
@@ -716,25 +791,21 @@ def.static.handleLet =
 			{
 				state = state.advance( undefined );
 
-				let entry = ast_letEntry.create( 'name', name );
-
-				_let = _let.append( entry );
+				_let = _let.append( ast_letEntry.create( 'name', name ) );
 
 				break;
 			}
 
 			case ';' :
+			case 'of' :
+			case 'in' :
 			{
-				let entry = ast_letEntry.create( 'name', name );
-
-				_let = _let.append( entry );
+				_let = _let.append( ast_letEntry.create( 'name', name ) );
 
 				return state.stay( _let );
 			}
 
-			default :
-
-				throw new Error( 'unexpected token', state.current.type );
+			default : throw new Error( 'unexpected token', state.current.type );
 		}
 	}
 };
@@ -1030,6 +1101,7 @@ def.staticLazy.statementSpecs = ( ) =>
 
 	// 18... one stronger than comma, so multiple let definitions are
 	//       not treated as comma operator
+	s[ 'const' ] =
 	s[ 'let' ] = parser_spec.create( 'handler', 'handleLet', 'prec', 18 );
 
 	s[ 'return' ] = parser_spec.create( 'handler', 'handleReturn' );

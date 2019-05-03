@@ -171,14 +171,8 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	for(
-/**/		let r = 0, rl = list.length;
-/**/		r < rl;
-/**/		++r
-/**/	)
+/**/	for( let o of list )
 /**/	{
-/**/		const o = list[ r ];
-/**/
 /**/		if( typeof( o ) !== 'string' )
 /**/		{
 /**/			throw new Error( );

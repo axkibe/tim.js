@@ -124,16 +124,8 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	const it = set.keys( );
-/**/
-/**/	for(
-/**/		let i = it.next( );
-/**/		!i.done;
-/**/		i = it.next( )
-/**/	)
+/**/	for( let v of set )
 /**/	{
-/**/		const v = i.value;
-/**/
 /**/		if( typeof( v ) !== 'string' )
 /**/		{
 /**/			throw new Error( );
@@ -192,16 +184,8 @@ self.createFromJSON =
 
 	set = new Set( jset );
 
-	const it = set.keys( );
-
-	for(
-		let i = it.next( );
-		!i.done;
-		i = it.next( )
-	)
+	for( let v of set )
 	{
-		const v = i.value;
-
 		if( typeof( v ) !== 'string' )
 		{
 			throw new Error( );

@@ -12,6 +12,12 @@ def.extend = './node';
 
 if( TIM )
 {
+	def.attributes =
+	{
+		// is actually const
+		isConst : { type : 'boolean', defaultValue : 'false' },
+	};
+
 	def.list = [ './letEntry' ];
 }
 
@@ -24,7 +30,7 @@ def.proto._inspect =
 		recurse
 	)
 {
-	let result = 'let ';
+	let result = this.isConst ? 'const ' : 'let ';
 
 	let first = true;
 

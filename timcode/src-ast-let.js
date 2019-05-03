@@ -17,10 +17,13 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		list // list
+		list, // list
+		v_isConst
 	)
 {
 	this.__lazy = { };
+
+	this.isConst = v_isConst;
 
 	this._list = list;
 
@@ -52,6 +55,8 @@ prototype.create =
 
 	let listDup;
 
+	let v_isConst;
+
 	if( this !== self )
 	{
 		inherit = this;
@@ -59,6 +64,8 @@ prototype.create =
 		list = inherit._list;
 
 		listDup = false;
+
+		v_isConst = this.isConst;
 	}
 	else
 	{
@@ -77,6 +84,15 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
+			case 'isConst' :
+
+				if( arg !== pass )
+				{
+					v_isConst = arg;
+				}
+
+				break;
+
 			case 'list:init' :
 
 /**/			if( CHECK )
@@ -151,16 +167,20 @@ prototype.create =
 		}
 	}
 
+	if( v_isConst === undefined )
+	{
+		v_isConst = false;
+	}
+
 /**/if( CHECK )
 /**/{
-/**/	for(
-/**/		let r = 0, rl = list.length;
-/**/		r < rl;
-/**/		++r
-/**/	)
+/**/	if( typeof( v_isConst ) !== 'boolean' )
 /**/	{
-/**/		const o = list[ r ];
+/**/		throw new Error( );
+/**/	}
 /**/
+/**/	for( let o of list )
+/**/	{
 /**/		if( o.timtype !== tt_letEntry )
 /**/		{
 /**/			throw new Error( );
@@ -168,12 +188,12 @@ prototype.create =
 /**/	}
 /**/}
 
-	if( inherit && listDup === false )
+	if( inherit && listDup === false && v_isConst === inherit.isConst )
 	{
 		return inherit;
 	}
 
-	return new Constructor( list );
+	return new Constructor( list, v_isConst );
 };
 
 
@@ -318,5 +338,5 @@ prototype.equals =
 		}
 	}
 
-	return true;
+	return this.isConst === obj.isConst;
 };

@@ -27,8 +27,6 @@ const ast_comment = tim.require( './comment' );
 
 const ast_condition = tim.require( './condition' );
 
-const ast_const = tim.require( './const' );
-
 const ast_continue = tim.require( './continue' );
 
 const ast_delete = tim.require( './delete' );
@@ -301,9 +299,15 @@ def.static.$const =
 	)
 {
 	return(
-		ast_const.create(
-			'name', name,
-			'assign', assign && parser.parse( assign )
+		ast_let.create(
+			'isConst', true,
+			'list:init',
+			[
+				ast_letEntry.create(
+					'name', name,
+					'assign', assign && parser.parse( assign )
+				)
+			]
 		)
 	);
 };

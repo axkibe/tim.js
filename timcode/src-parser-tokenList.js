@@ -18,9 +18,6 @@ const tt_$_ast_check = require( './../ast/check' );
 const tt_$_ast_comment = require( './../ast/comment' );
 
 
-const tt_$_ast_const = require( './../ast/const' );
-
-
 const tt_$_ast_continue = require( './../ast/continue' );
 
 
@@ -330,14 +327,8 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	for(
-/**/		let r = 0, rl = list.length;
-/**/		r < rl;
-/**/		++r
-/**/	)
+/**/	for( let o of list )
 /**/	{
-/**/		const o = list[ r ];
-/**/
 /**/		if(
 /**/			o.timtype !== tt_$_ast_block
 /**/			&&
@@ -346,8 +337,6 @@ prototype.create =
 /**/			o.timtype !== tt_$_ast_check
 /**/			&&
 /**/			o.timtype !== tt_$_ast_comment
-/**/			&&
-/**/			o.timtype !== tt_$_ast_const
 /**/			&&
 /**/			o.timtype !== tt_$_ast_continue
 /**/			&&

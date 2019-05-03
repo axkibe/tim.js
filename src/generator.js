@@ -109,7 +109,7 @@ def.proto.genRequires =
 		block = block.$const( type.varname, type.require );
 	}
 
-	if( !timspec.abstract ) block = block.$const( 'tim_proto', 'tim.proto' );
+	if( !timspec.abstract ) block = block.$( 'const tim_proto = tim.proto' );
 
 	return block;
 };
@@ -254,9 +254,9 @@ def.proto.genConstructor =
 	return(
 		$block
 		.$comment( 'Constructor.' )
-		.$const( 'Constructor', cf )
+		.$( 'const Constructor =', cf )
 		.$comment( 'Prototype shortcut' )
-		.$const( 'prototype', 'Constructor.prototype' )
+		.$( 'const prototype = Constructor.prototype' )
 		.$( 'self.prototype = prototype' )
 	);
 };
@@ -843,10 +843,10 @@ def.proto.genCreatorChecks =
 	{
 		check =
 			check
-			.$forInLet(
-				'k', 'group',
+			// for of loop in js tables not possible
+			.$( 'for( let k in group )',
 				$block
-				.$const( 'o', 'group[ k ]' )
+				.$( 'const o = group[ k ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.ggroup ),
 					$fail( )
@@ -858,12 +858,8 @@ def.proto.genCreatorChecks =
 	{
 		check =
 			check
-			.$for(
-				'let r = 0, rl = list.length',
-				'r < rl',
-				'++r',
+			.$( 'for( let o of list )',
 				$block
-				.$const( 'o', 'list[ r ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.glist ),
 					$fail( )
@@ -875,13 +871,9 @@ def.proto.genCreatorChecks =
 	{
 		check =
 			check
-			.$const( 'it', 'set.keys( )' )
-			.$for(
-				'let i = it.next( )',
-				'!i.done',
-				'i = it.next( )',
+			.$(
+				'for( let v of set )',
 				$block
-				.$const( 'v', 'i.value' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'v' ), timspec.gset ),
 					$fail( )
@@ -894,10 +886,10 @@ def.proto.genCreatorChecks =
 		// FUTURE check if ranks and twig keys match
 		check =
 			check
-			.$forOfLet(
-				'key', 'keys',
+			.$(
+				'for( let key of keys )',
 				$block
-				.$const( 'o', 'twig[ key ]' )
+				.$( 'const o = twig[ key ]' )
 				.$if(
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.gtwig ),
 					$fail( )
@@ -1061,7 +1053,7 @@ def.proto.genCreatorReturn =
 	{
 		return(
 			$block
-			.$const( 'newtim', $( 'new', call ) )
+			.$( 'const newtim = new', call )
 			.$( optimization )
 			.$( 'return newtim' )
 		);
@@ -1301,11 +1293,10 @@ def.proto.genFromJsonCreatorParser =
 	}
 
 	return(
-		$block.$forInLet(
-			'name',
-			'json',
+		$block
+		.$( 'for( let name in json )',
 			$block
-			.$const( 'arg', 'json[ name ]' )
+			.$( 'const arg = json[ name ]' )
 			.append( nameSwitch )
 		)
 	);
@@ -1431,7 +1422,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 			.$( loopSwitch );
 	}
 
-	return result.$forInLet( 'k', 'jgroup', loopBody );
+	return result.$( 'for( let in k jgroup )', loopBody );
 };
 
 
@@ -1598,7 +1589,7 @@ def.proto.genFromJsonCreatorTwigProcessing =
 			// ranks/twig information missing
 			$fail( )
 		)
-		.$forOfLet( 'key', 'keys', loop )
+		.$( 'for( let key of keys )', loop )
 	);
 };
 
@@ -1809,9 +1800,7 @@ def.proto.genTimProto =
 				'prototype[ Symbol.iterator ] =',
 				$generator(
 					$block
-					.$forOfLet(
-						'key',
-						'this.sortedKeys',
+					.$( 'for( let key of this.sortedKeys )',
 						$block.$yield( 'this.get( key )' )
 					)
 				)
@@ -1993,7 +1982,7 @@ def.proto.genToJson =
 
 	let block =
 		$block
-		.$const( 'json', olit )
+		.$( 'const json =', olit )
 		.$( 'return', $func( 'return Object.freeze( json )' ) );
 
 	return(
@@ -2112,7 +2101,7 @@ def.proto.genEqualsFuncBody =
 				'this.size !== obj.size',
 				$( 'return false' )
 			)
-			.$forInLet( 'k', 'this._group', groupTestLoopBody );
+			.$( 'for( let k in this._group )', groupTestLoopBody );
 
 		body = body.$if( 'this._group !== obj._group', groupTest );
 	}
@@ -2150,7 +2139,7 @@ def.proto.genEqualsFuncBody =
 		const setTest =
 			$block
 			.$( 'if( this.size !== obj.size ) return false;' )
-			.$forOfLet( 'v', 'this',
+			.$( 'for( let v of this )',
 				$block.$( 'if( !obj.has( v ) ) return false;' )
 			);
 
@@ -2161,10 +2150,10 @@ def.proto.genEqualsFuncBody =
 	{
 		const twigTestLoopBody =
 			$block
-			.$const( 'key', 'this.keys[ a ]' )
+			.$( 'const key = this.keys[ a ]' )
 			.$( 'if( key !== obj.keys[ a ] ) return false;' )
-			.$const( 'ti', 'this._twig[ key ]' )
-			.$const( 'oi', 'obj._twig[ key ]' )
+			.$( 'const ti = this._twig[ key ]' )
+			.$( 'const oi = obj._twig[ key ]' )
 			.$(
 				'if (',
 					'( ti && ti.', eqFuncName, ' )',
@@ -2305,8 +2294,8 @@ def.proto.genAlike =
 
 		let block =
 			$block
-			.$if( 'this === obj', $( 'return true') )
-			.$if( '!obj', $(' return false' ) );
+			.$( 'if( this === obj ) return true;' )
+			.$( 'if( !obj ) return false;' );
 
 		if( timspec.gtwig )
 		{

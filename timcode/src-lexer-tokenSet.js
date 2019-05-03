@@ -127,16 +127,8 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	const it = set.keys( );
-/**/
-/**/	for(
-/**/		let i = it.next( );
-/**/		!i.done;
-/**/		i = it.next( )
-/**/	)
+/**/	for( let v of set )
 /**/	{
-/**/		const v = i.value;
-/**/
 /**/		if( v.timtype !== tt_token )
 /**/		{
 /**/			throw new Error( );

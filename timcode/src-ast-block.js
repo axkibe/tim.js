@@ -18,9 +18,6 @@ const tt_check = require( './check' );
 const tt_comment = require( './comment' );
 
 
-const tt_const = require( './const' );
-
-
 const tt_continue = require( './continue' );
 
 
@@ -327,14 +324,8 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
-/**/	for(
-/**/		let r = 0, rl = list.length;
-/**/		r < rl;
-/**/		++r
-/**/	)
+/**/	for( let o of list )
 /**/	{
-/**/		const o = list[ r ];
-/**/
 /**/		if(
 /**/			o.timtype !== tt_block
 /**/			&&
@@ -343,8 +334,6 @@ prototype.create =
 /**/			o.timtype !== tt_check
 /**/			&&
 /**/			o.timtype !== tt_comment
-/**/			&&
-/**/			o.timtype !== tt_const
 /**/			&&
 /**/			o.timtype !== tt_continue
 /**/			&&

@@ -18,9 +18,6 @@ const tt_$_ast_check = require( './../ast/check' );
 const tt_$_ast_comment = require( './../ast/comment' );
 
 
-const tt_$_ast_const = require( './../ast/const' );
-
-
 const tt_$_ast_continue = require( './../ast/continue' );
 
 
@@ -303,8 +300,6 @@ prototype.create =
 /**/		v_ast.timtype !== tt_$_ast_check
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_comment
-/**/		&&
-/**/		v_ast.timtype !== tt_$_ast_const
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_continue
 /**/		&&

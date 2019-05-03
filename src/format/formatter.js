@@ -34,8 +34,6 @@ const ast_comment = tim.require( '../ast/comment' );
 
 const ast_condition = tim.require( '../ast/condition' );
 
-const ast_const = tim.require( '../ast/const' );
-
 const ast_continue = tim.require( '../ast/continue' );
 
 const ast_delete = tim.require( '../ast/delete' );
@@ -544,49 +542,6 @@ const formatCondition =
 
 
 /*
-| Formats a constant variable declaration.
-*/
-const formatConst =
-	function(
-		context,
-		expr
-	)
-{
-	let text = context.tab + 'const ' + expr.name;
-
-	if( expr.assign )
-	{
-		text += ' =' + context.sep;
-
-		if( expr.assign.timtype !== ast_assign ) context = context.inc;
-
-		let aText;
-
-		try
-		{
-			aText =
-				context.tab
-				+ formatExpression( context.setInline, expr.assign );
-		}
-		catch( e )
-		{
-			// rethrows any real error
-			if( e !== 'noinline' ) throw e;
-		}
-
-		if( aText === undefined || textLen( aText ) > MAX_TEXT_WIDTH )
-		{
-			aText = formatExpression( context, expr.assign );
-		}
-
-		text += aText;
-	}
-
-	return text;
-};
-
-
-/*
 | Formats a continue statement.
 */
 const formatContinue =
@@ -1067,7 +1022,7 @@ const formatLet =
 		expr
 	)
 {
-	let text = context.tab + 'let ';
+	let text = context.tab + ( expr.isConst ? 'const ' : 'let ' );
 
 	for( let a = 0, al = expr.length; a < al; a++ )
 	{
@@ -1558,29 +1513,6 @@ const formatStatement =
 
 		case ast_check : text += formatCheck( context, statement ); break;
 
-		case ast_const :
-
-			try
-			{
-				subtext = context.tab + formatConst( context.setInline, statement );
-			}
-			catch( e )
-			{
-				// rethrows any real error
-				if( e !== 'noinline' ) throw e;
-			}
-
-			if( subtext !== undefined && textLen( subtext ) < MAX_TEXT_WIDTH )
-			{
-				text += subtext;
-			}
-			else
-			{
-				text += formatConst( context, statement );
-			}
-
-			break;
-
 		case ast_continue : text += formatContinue( context, statement ); break;
 
 		case ast_if : text += formatIf( context, statement ); break;
@@ -1694,7 +1626,6 @@ const formatStatement =
 		case ast_boolean :
 		case ast_break :
 		case ast_call :
-		case ast_const :
 		case ast_continue :
 		case ast_delete :
 		case ast_divide :
