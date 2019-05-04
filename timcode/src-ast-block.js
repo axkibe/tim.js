@@ -21,9 +21,6 @@ const tt_comment = require( './comment' );
 const tt_continue = require( './continue' );
 
 
-const tt_fail = require( './fail' );
-
-
 const tt_for = require( './for' );
 
 
@@ -43,6 +40,9 @@ const tt_return = require( './return' );
 
 
 const tt_switch = require( './switch' );
+
+
+const tt_throw = require( './throw' );
 
 
 const tt_varDec = require( './varDec' );
@@ -337,8 +337,6 @@ prototype.create =
 /**/			&&
 /**/			o.timtype !== tt_continue
 /**/			&&
-/**/			o.timtype !== tt_fail
-/**/			&&
 /**/			o.timtype !== tt_for
 /**/			&&
 /**/			o.timtype !== tt_forIn
@@ -352,6 +350,8 @@ prototype.create =
 /**/			o.timtype !== tt_return
 /**/			&&
 /**/			o.timtype !== tt_switch
+/**/			&&
+/**/			o.timtype !== tt_throw
 /**/			&&
 /**/			o.timtype !== tt_varDec
 /**/			&&

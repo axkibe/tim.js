@@ -21,9 +21,6 @@ const tt_$_ast_comment = require( './../ast/comment' );
 const tt_$_ast_continue = require( './../ast/continue' );
 
 
-const tt_$_ast_fail = require( './../ast/fail' );
-
-
 const tt_$_ast_for = require( './../ast/for' );
 
 
@@ -43,6 +40,9 @@ const tt_$_ast_return = require( './../ast/return' );
 
 
 const tt_$_ast_switch = require( './../ast/switch' );
+
+
+const tt_$_ast_throw = require( './../ast/throw' );
 
 
 const tt_$_ast_varDec = require( './../ast/varDec' );
@@ -303,8 +303,6 @@ prototype.create =
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_continue
 /**/		&&
-/**/		v_ast.timtype !== tt_$_ast_fail
-/**/		&&
 /**/		v_ast.timtype !== tt_$_ast_for
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_forIn
@@ -318,6 +316,8 @@ prototype.create =
 /**/		v_ast.timtype !== tt_$_ast_return
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_switch
+/**/		&&
+/**/		v_ast.timtype !== tt_$_ast_throw
 /**/		&&
 /**/		v_ast.timtype !== tt_$_ast_varDec
 /**/		&&

@@ -252,18 +252,19 @@ prototype.create =
 
 /**/			if( CHECK )
 /**/			{
+/**/				if( !Array.isArray( keys ) )
+/**/				{
+/**/					throw new Error( );
+/**/				}
+/**/
 /**/				if( Object.keys( twig ).length !== keys.length )
 /**/				{
 /**/					throw new Error( );
 /**/				}
 /**/
-/**/				for(
-/**/					let t = 0, tl = keys.length;
-/**/					t < tl;
-/**/					t++
-/**/				)
+/**/				for( let key of keys )
 /**/				{
-/**/					if( twig[ keys[ t ] ] === undefined )
+/**/					if( twig[ key ] === undefined )
 /**/					{
 /**/						throw new Error( );
 /**/					}

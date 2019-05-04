@@ -33,6 +33,7 @@ def.staticLazy.keywords = ( ) =>
 		'null',
 		'of',
 		'return',
+		'throw',
 		'true',
 		'typeof',
 	] );

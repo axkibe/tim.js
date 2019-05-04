@@ -143,10 +143,10 @@ const tim_proto = tim.proto;
 */
 const Constructor =
 	function(
-		v_message
+		v_expr
 	)
 {
-	this.message = v_message;
+	this.expr = v_expr;
 
 	Object.freeze( this );
 };
@@ -172,13 +172,13 @@ prototype.create =
 {
 	let inherit;
 
-	let v_message;
+	let v_expr;
 
 	if( this !== self )
 	{
 		inherit = this;
 
-		v_message = this.message;
+		v_expr = this.expr;
 	}
 
 	for(
@@ -191,11 +191,11 @@ prototype.create =
 
 		switch( arguments[ a ] )
 		{
-			case 'message' :
+			case 'expr' :
 
 				if( arg !== pass )
 				{
-					v_message = arg;
+					v_expr = arg;
 				}
 
 				break;
@@ -209,113 +209,103 @@ prototype.create =
 /**/if( CHECK )
 /**/{
 /**/	if(
-/**/		v_message !== undefined
+/**/		v_expr.timtype !== tt_and
 /**/		&&
-/**/		v_message.timtype !== tt_and
+/**/		v_expr.timtype !== tt_arrayLiteral
 /**/		&&
-/**/		v_message.timtype !== tt_arrayLiteral
+/**/		v_expr.timtype !== tt_assign
 /**/		&&
-/**/		v_message.timtype !== tt_assign
+/**/		v_expr.timtype !== tt_boolean
 /**/		&&
-/**/		v_message.timtype !== tt_boolean
+/**/		v_expr.timtype !== tt_call
 /**/		&&
-/**/		v_message.timtype !== tt_call
+/**/		v_expr.timtype !== tt_comma
 /**/		&&
-/**/		v_message.timtype !== tt_comma
+/**/		v_expr.timtype !== tt_condition
 /**/		&&
-/**/		v_message.timtype !== tt_condition
+/**/		v_expr.timtype !== tt_delete
 /**/		&&
-/**/		v_message.timtype !== tt_delete
+/**/		v_expr.timtype !== tt_differs
 /**/		&&
-/**/		v_message.timtype !== tt_differs
+/**/		v_expr.timtype !== tt_divide
 /**/		&&
-/**/		v_message.timtype !== tt_divide
+/**/		v_expr.timtype !== tt_divideAssign
 /**/		&&
-/**/		v_message.timtype !== tt_divideAssign
+/**/		v_expr.timtype !== tt_dot
 /**/		&&
-/**/		v_message.timtype !== tt_dot
+/**/		v_expr.timtype !== tt_equals
 /**/		&&
-/**/		v_message.timtype !== tt_equals
+/**/		v_expr.timtype !== tt_func
 /**/		&&
-/**/		v_message.timtype !== tt_func
+/**/		v_expr.timtype !== tt_generator
 /**/		&&
-/**/		v_message.timtype !== tt_generator
+/**/		v_expr.timtype !== tt_greaterOrEqual
 /**/		&&
-/**/		v_message.timtype !== tt_greaterOrEqual
+/**/		v_expr.timtype !== tt_greaterThan
 /**/		&&
-/**/		v_message.timtype !== tt_greaterThan
+/**/		v_expr.timtype !== tt_instanceof
 /**/		&&
-/**/		v_message.timtype !== tt_instanceof
+/**/		v_expr.timtype !== tt_lessOrEqual
 /**/		&&
-/**/		v_message.timtype !== tt_lessOrEqual
+/**/		v_expr.timtype !== tt_lessThan
 /**/		&&
-/**/		v_message.timtype !== tt_lessThan
+/**/		v_expr.timtype !== tt_member
 /**/		&&
-/**/		v_message.timtype !== tt_member
+/**/		v_expr.timtype !== tt_minus
 /**/		&&
-/**/		v_message.timtype !== tt_minus
+/**/		v_expr.timtype !== tt_minusAssign
 /**/		&&
-/**/		v_message.timtype !== tt_minusAssign
+/**/		v_expr.timtype !== tt_multiply
 /**/		&&
-/**/		v_message.timtype !== tt_multiply
+/**/		v_expr.timtype !== tt_multiplyAssign
 /**/		&&
-/**/		v_message.timtype !== tt_multiplyAssign
+/**/		v_expr.timtype !== tt_negate
 /**/		&&
-/**/		v_message.timtype !== tt_negate
+/**/		v_expr.timtype !== tt_new
 /**/		&&
-/**/		v_message.timtype !== tt_new
+/**/		v_expr.timtype !== tt_not
 /**/		&&
-/**/		v_message.timtype !== tt_not
+/**/		v_expr.timtype !== tt_null
 /**/		&&
-/**/		v_message.timtype !== tt_null
+/**/		v_expr.timtype !== tt_number
 /**/		&&
-/**/		v_message.timtype !== tt_number
+/**/		v_expr.timtype !== tt_objLiteral
 /**/		&&
-/**/		v_message.timtype !== tt_objLiteral
+/**/		v_expr.timtype !== tt_or
 /**/		&&
-/**/		v_message.timtype !== tt_or
+/**/		v_expr.timtype !== tt_plus
 /**/		&&
-/**/		v_message.timtype !== tt_plus
+/**/		v_expr.timtype !== tt_plusAssign
 /**/		&&
-/**/		v_message.timtype !== tt_plusAssign
+/**/		v_expr.timtype !== tt_postDecrement
 /**/		&&
-/**/		v_message.timtype !== tt_postDecrement
+/**/		v_expr.timtype !== tt_postIncrement
 /**/		&&
-/**/		v_message.timtype !== tt_postIncrement
+/**/		v_expr.timtype !== tt_preDecrement
 /**/		&&
-/**/		v_message.timtype !== tt_preDecrement
+/**/		v_expr.timtype !== tt_preIncrement
 /**/		&&
-/**/		v_message.timtype !== tt_preIncrement
+/**/		v_expr.timtype !== tt_string
 /**/		&&
-/**/		v_message.timtype !== tt_string
+/**/		v_expr.timtype !== tt_typeof
 /**/		&&
-/**/		v_message.timtype !== tt_typeof
+/**/		v_expr.timtype !== tt_undefined
 /**/		&&
-/**/		v_message.timtype !== tt_undefined
+/**/		v_expr.timtype !== tt_var
 /**/		&&
-/**/		v_message.timtype !== tt_var
-/**/		&&
-/**/		v_message.timtype !== tt_yield
+/**/		v_expr.timtype !== tt_yield
 /**/	)
 /**/	{
 /**/		throw new Error( );
 /**/	}
 /**/}
 
-	if(
-		inherit
-		&&
-		(
-			v_message === inherit.message
-			||
-			v_message !== undefined && v_message.timtype && v_message.equals( inherit.message )
-		)
-	)
+	if( inherit && ( v_expr === inherit.expr || v_expr.equals( inherit.expr ) ) )
 	{
 		return inherit;
 	}
 
-	return new Constructor( v_message );
+	return new Constructor( v_expr );
 };
 
 
@@ -360,9 +350,5 @@ prototype.equals =
 		return false;
 	}
 
-	return (
-		this.message === obj.message
-		||
-		this.message !== undefined && this.message.timtype && this.message.equals( obj.message )
-	);
+	return this.expr === obj.expr || this.expr.equals( obj.expr );
 };

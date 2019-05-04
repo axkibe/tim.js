@@ -379,8 +379,7 @@ def.proto.genCreatorInheritanceReceiver =
 		{
 			receiver =
 				receiver
-				.$if(
-					'!tim_proto.isEmpty( inherit._ttwig )',
+				.$( 'if( !tim_proto.isEmpty( inherit._ttwig ) )',
 					$block
 					.$( 'twigDup = true' )
 					.$( !timspec.hasProxyRanks ? 'keys = keys.slice( )' : undefined )
@@ -450,21 +449,11 @@ def.proto.genCreatorFreeStringsParser =
 	if( timspec.ggroup )
 	{
 		const groupDupCheck =
-			$if(
-				'!groupDup',
-				$block
-				.$( 'group = tim.copy( group )' )
-				.$( 'groupDup = true' )
-			);
+			$( 'if( !groupDup ) { group = tim.copy( group ); groupDup = true; }' );
 
 		switchExpr =
 			switchExpr
-			.$case(
-				'"group:init"',
-				$block
-				.$( 'group = arg' )
-				.$( 'groupDup = true' )
-			)
+			.$case( '"group:init"', $( '{ group = arg; groupDup = true; }' ) )
 			.$case(
 				'"group:set"',
 				$block
@@ -481,7 +470,8 @@ def.proto.genCreatorFreeStringsParser =
 
 	if( timspec.glist )
 	{
-		const listDupCheck = $( 'if( !listDup ) { list = list.slice( ); listDup = true; }' );
+		const listDupCheck =
+			$( '{ if( !listDup ) { list = list.slice( ); listDup = true; } }' );
 
 		switchExpr =
 			switchExpr
@@ -489,81 +479,62 @@ def.proto.genCreatorFreeStringsParser =
 				'"list:init"',
 				$block
 				.$check(
-					$if( '!Array.isArray( arg )', $fail( ) )
+					$( 'if( !Array.isArray( arg ) ) throw new Error( );' )
 				)
 				.$( 'list = arg' )
 				.$( 'listDup = true' )
 			)
 			.$case(
 				'"list:append"',
-				$block
-				.append( listDupCheck )
-				.$( 'list.push( arg )' )
+				listDupCheck.$( 'list.push( arg )' )
 			)
 			.$case(
 				'"list:insert"',
-				$block
-				.append( listDupCheck )
-				.$( 'list.splice( arg, 0, arguments[ ++a + 1 ] )' )
+				listDupCheck.$( 'list.splice( arg, 0, arguments[ ++a + 1 ] )' )
 			)
 			.$case(
 				'"list:remove"',
-				$block
-				.append( listDupCheck )
-				.$( 'list.splice( arg, 1 ) ' )
+				listDupCheck.$( 'list.splice( arg, 1 ) ' )
 			)
 			.$case(
 				'"list:set"',
-				$block
-				.append( listDupCheck )
-				.$( 'list[ arg ] = arguments[ ++a + 1 ]' )
+				listDupCheck.$( 'list[ arg ] = arguments[ ++a + 1 ]' )
 			);
 	}
 
 	if( timspec.gset )
 	{
 		const setDupCheck =
-			$if(
-				'!setDup',
-				$block
-				.$( 'set = new Set( set )' )
-				.$( 'setDup = true' )
-			);
+			$( '{ if( !setDup ) { set = new Set( set ); setDup = true; } }' );
 
 		switchExpr =
 			switchExpr
 			.$case(
 				'"set:add"',
-				$block
-				.append( setDupCheck )
-				.$( 'set.add( arg, arguments[ a + 1 ] )' )
+				setDupCheck.$( 'set.add( arg, arguments[ a + 1 ] )' )
 			)
 			.$case(
 				'"set:init"',
 				$block
 				.$check(
-					$if( '!( arg instanceof Set )', $fail( ) )
+					$( 'if( !( arg instanceof Set ) ) throw new Error( );' )
 				)
 				.$( 'set = arg' )
 				.$( 'setDup = true' )
 			)
-			.$case(
-				'"set:remove"',
-				$block
-				.append( setDupCheck )
-				.$( 'set.delete( arg )' )
-			);
+			.$case( '"set:remove"', setDupCheck.$( 'set.delete( arg )' ) );
 	}
 
 	if( timspec.gtwig )
 	{
 		const twigDupCheck =
-			$if(
-				'twigDup !== true',
-				$block
-				.$( 'twig = tim.copy( twig )' )
-				.$( 'keys = keys.slice( )' )
-				.$( 'twigDup = true' )
+			$(
+				'{ if( twigDup !== true )',
+				'{',
+				'  twig = tim.copy( twig );',
+				'  keys = keys.slice( );',
+				'  twigDup = true;',
+				'} }'
 			);
 
 		if( !timspec.hasProxyRanks )
@@ -572,11 +543,10 @@ def.proto.genCreatorFreeStringsParser =
 				switchExpr
 				.$case(
 					'"twig:add"',
-					$block
-					.$( twigDupCheck )
+					twigDupCheck
 					.$( 'key = arg' )
 					.$( 'arg = arguments[ ++a + 1 ]' )
-					.$if( 'twig[ key ] !== undefined', $fail( ) )
+					.$( 'if( twig[ key ] !== undefined ) throw new Error( );' )
 					.$( 'twig[ key ] = arg' )
 					.$( 'keys.push( key )' )
 				)
@@ -588,37 +558,32 @@ def.proto.genCreatorFreeStringsParser =
 					.$( 'keys = arguments[ ++a + 1 ]' )
 					.$check(
 						$block
-						.$if( 'Object.keys( twig ).length !== keys.length', $fail( ) )
-						.$for(
-							'let t = 0, tl = keys.length',
-							't < tl',
-							't++',
+						.$( 'if( !Array.isArray( keys ) ) throw new Error( );' )
+						.$(
+							'if( Object.keys( twig ).length !== keys.length ) throw new Error( );'
+						)
+						.$( 'for( let key of keys )',
 							$block
-							.$if(
-								'twig[ keys[ t ] ] === undefined',
-								$fail( )
-							)
+							.$( 'if( twig[ key ] === undefined ) throw new Error( );' )
 						)
 					)
 				)
 				.$case(
 					'"twig:insert"',
-					$block
-					.append( twigDupCheck )
+					twigDupCheck
 					.$( 'key = arg' )
 					.$( 'rank = arguments[ a + 2 ]' )
 					.$( 'arg = arguments[ a +  3 ]' )
 					.$( 'a += 2' )
-					.$if( 'twig[ key ] !== undefined', $fail( ) )
-					.$if( 'rank < 0 || rank > keys.length', $fail( ) )
+					.$( 'if( twig[ key ] !== undefined ) throw new Error( );' )
+					.$( 'if( rank < 0 || rank > keys.length ) throw new Error( );' )
 					.$( 'twig[ key ] = arg' )
 					.$( 'keys.splice( rank, 0, key )' )
 				)
 				.$case(
 					'"twig:remove"',
-					$block
-					.append( twigDupCheck )
-					.$if( 'twig[ arg ] === undefined', $fail( ) )
+					twigDupCheck
+					.$( 'if( twig[ arg ] === undefined ) throw new Error( );' )
 					.$( 'delete twig[ arg ]' )
 					.$( 'keys.splice( keys.indexOf( arg ), 1 )' )
 				);
@@ -628,8 +593,7 @@ def.proto.genCreatorFreeStringsParser =
 			switchExpr
 			.$case(
 				'"twig:set+"',
-				$block
-				.$( twigDupCheck )
+				twigDupCheck
 				.$( 'key = arg' )
 				.$( 'arg = arguments[ ++a + 1 ]' )
 				.$if(
@@ -640,21 +604,17 @@ def.proto.genCreatorFreeStringsParser =
 			)
 			.$case(
 				'"twig:set"',
-				$block
-				.$( twigDupCheck )
+				twigDupCheck
 				.$( 'key = arg' )
 				.$( 'arg = arguments[ ++a + 1 ]' )
-				.$if(
-					'twig[ key ] === undefined',
-					$fail( )
-				)
+				.$( 'if( twig[ key ] === undefined ) throw new Error( );' )
 				.$( 'twig[ key ] = arg' )
 			);
 	}
 
 	switchExpr =
 		switchExpr
-		.$default( $block.$fail( ) );
+		.$default( 'throw new Error( )' );
 
 	loop = loop.append( switchExpr );
 
@@ -1194,7 +1154,7 @@ def.proto.genFromJsonCreatorAttributeParser =
 
 			default :
 			{
-				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( $fail( ) );
+				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( 'throw new Error( );' );
 
 				const jsontype = timspec.getJsonTypeOf( type );
 
@@ -1337,7 +1297,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 
 	const result =
 		$block
-		.$if( '!jgroup', $fail( ) )
+		.$( 'if( !jgroup ) throw new Error( );' )
 		.$( 'group = { }' );
 
 	let loopSwitch = $switch( 'jgroup[ k ].type' );
@@ -1441,14 +1401,14 @@ def.proto.genFromJsonCreatorListProcessing =
 	{
 		return(
 			$block
-			.$if( '!jlist', $fail( ) )
+			.$( 'if( !jlist ) throw new Error( );' )
 			.$( 'list = jlist' )
 		);
 	}
 
 	const result =
 		$block
-		.$if( '!jlist', $fail( ) )
+		.$( 'if( !jlist ) throw new Error( );' )
 		.$( 'list = [ ]' );
 
 	let loopSwitch =
@@ -1539,7 +1499,7 @@ def.proto.genFromJsonCreatorSetProcessing =
 
 	return(
 		$block
-		.$if( '!jset', $fail( ) )
+		.$( 'if( !jset ) throw new Error( );' )
 		.$( 'set = new Set( jset )' )
 	);
 };
@@ -1573,9 +1533,9 @@ def.proto.genFromJsonCreatorTwigProcessing =
 
 	const loop =
 		$block
+		// json keys/twig mismatch
 		.$if(
 			'!jwig[ key ]',
-			// json keys/twig mismatch
 			$fail( )
 		)
 		.$( 'jval = jwig[ key ]' )

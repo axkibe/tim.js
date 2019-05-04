@@ -37,8 +37,6 @@ const ast_dot = tim.require( './dot' );
 
 const ast_equals = tim.require( './equals' );
 
-const ast_fail = tim.require( './fail' );
-
 const ast_for = tim.require( './for' );
 
 const ast_forIn = tim.require( './forIn' );
@@ -90,6 +88,8 @@ const ast_return = tim.require( './return' );
 const ast_string = tim.require( './string' );
 
 const ast_switch = tim.require( './switch' );
+
+const ast_throw = tim.require( './throw' );
 
 const ast_typeof = tim.require( './typeof' );
 
@@ -404,16 +404,16 @@ def.static.$fail =
 		message
 	)
 {
-	if( !message )
+	let call = ast_call.create( 'func', ast_var.create( 'name', 'Error' ) );
+
+	if( message )
 	{
-		message = undefined;
-	}
-	else if( typeof( message ) === 'string' )
-	{
-		message = ast_string.create( 'string', message );
+		if( typeof( message ) === 'string' ) message = ast_string.create( 'string', message );
+
+		call = call.$arg( message );
 	}
 
-	return ast_fail.create( 'message', message );
+	return ast_throw.create( 'expr', ast_new.create( 'call', call ) );
 };
 
 

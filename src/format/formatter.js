@@ -48,8 +48,6 @@ const ast_dot = tim.require( '../ast/dot' );
 
 const ast_equals = tim.require( '../ast/equals' );
 
-const ast_fail = tim.require( '../ast/fail' );
-
 const ast_for = tim.require( '../ast/for' );
 
 const ast_forIn = tim.require( '../ast/forIn' );
@@ -115,6 +113,8 @@ const ast_return = tim.require( '../ast/return' );
 const ast_string = tim.require( '../ast/string' );
 
 const ast_switch = tim.require( '../ast/switch' );
+
+const ast_throw = tim.require( '../ast/throw' );
 
 const ast_typeof = tim.require( '../ast/typeof' );
 
@@ -734,75 +734,6 @@ const formatExpression =
 
 
 /*
-| Formats a fail statement.
-*/
-const formatFail =
-	function(
-		context,
-		fail
-	)
-{
-/**/if( CHECK )
-/**/{
-/**/	if( fail.timtype !== ast_fail ) throw new Error( );
-/**/}
-
-	if( !fail.message ) return context.tab + 'throw new Error( )';
-
-	let checkContext;
-
-	let messageContext;
-
-	let result;
-
-	if( context.check )
-	{
-		messageContext = context;
-
-		result = '';
-	}
-	else
-	{
-		checkContext = context.create( 'check', true );
-
-		messageContext = checkContext.inc;
-
-		result =
-			checkContext.tab
-			+ 'if( CHECK )'
-			+ checkContext.sep
-			+ checkContext.tab
-			+ '{'
-			+ checkContext.sep;
-	}
-
-	result +=
-		messageContext.tab
-		+ 'throw new Error('
-		+ messageContext.sep
-		+ formatExpression( messageContext.inc, fail.message )
-		+ messageContext.sep
-		+ messageContext.tab
-		+ ')';
-
-	if( !context.check )
-	{
-		result +=
-			';'
-			+ checkContext.sep
-			+ checkContext.tab
-			+ '}'
-			+ checkContext.sep
-			+ checkContext.sep
-			+ context.tab
-			+ 'throw new Error( )';
-	}
-
-	return result;
-};
-
-
-/*
 | Formats a classical for loop.
 */
 const formatFor =
@@ -1302,10 +1233,7 @@ const formatOpAssign =
 		if( e !== 'noinline' ) throw e;
 	}
 
-	if( text !== undefined && textLen( text ) < MAX_TEXT_WIDTH )
-	{
-		return text;
-	}
+	if( text !== undefined && textLen( text ) < MAX_TEXT_WIDTH ) return text;
 
 	// caller requested inline, but cannot do.
 	if( context.inline ) throw 'noinline';
@@ -1433,22 +1361,13 @@ const formatReturn =
 	catch( e )
 	{
 		// rethrows any real error
-		if( e !== 'noinline' )
-		{
-			throw e;
-		}
+		if( e !== 'noinline' ) throw e;
 	}
 
-	if( text !== undefined && textLen( text ) < MAX_TEXT_WIDTH )
-	{
-		return text;
-	}
+	if( text !== undefined && textLen( text ) < MAX_TEXT_WIDTH ) return text;
 
 	// caller requested inline, but cannot do.
-	if( context.inline )
-	{
-		throw 'noinline';
-	}
+	if( context.inline ) throw 'noinline';
 
 	// no inline mode
 	text =
@@ -1517,29 +1436,6 @@ const formatStatement =
 
 		case ast_if : text += formatIf( context, statement ); break;
 
-		case ast_fail :
-
-			try
-			{
-				subtext = context.tab + formatFail( context.setInline, statement );
-			}
-			catch( e )
-			{
-				// rethrows any real error
-				if( e !== 'noinline' ) throw e;
-			}
-
-			if( subtext !== undefined && textLen( subtext ) < MAX_TEXT_WIDTH )
-			{
-				text += subtext;
-			}
-			else
-			{
-				text += formatFail( context, statement );
-			}
-
-			break;
-
 		case ast_for : text += formatFor( context, statement ); break;
 
 		case ast_forIn : text += formatForIn( context, statement ); break;
@@ -1573,6 +1469,8 @@ const formatStatement =
 
 		case ast_switch : text += formatSwitch( context, statement ); break;
 
+		case ast_throw : text += formatThrow( context, statement ); break;
+
 		case ast_varDec : text += formatVarDec( context, statement, lookBehind ); break;
 
 		case ast_while : text += formatWhile( context, statement ); break;
@@ -1589,10 +1487,7 @@ const formatStatement =
 			catch( e )
 			{
 				// rethrows any real error
-				if( e !== 'noinline' )
-				{
-					throw e;
-				}
+				if( e !== 'noinline' ) throw e;
 			}
 
 			if( subtext !== undefined && textLen( subtext ) < MAX_TEXT_WIDTH )
@@ -1630,7 +1525,6 @@ const formatStatement =
 		case ast_delete :
 		case ast_divide :
 		case ast_dot :
-		case ast_fail :
 		case ast_greaterOrEqual :
 		case ast_greaterThan :
 		case ast_lessOrEqual :
@@ -1653,6 +1547,7 @@ const formatStatement =
 		case ast_preDecrement :
 		case ast_return :
 		case ast_string :
+		case ast_throw :
 		case ast_var :
 		case ast_yield :
 
@@ -1754,6 +1649,54 @@ const formatSwitch =
 	}
 
 	text += context.tab + '}';
+
+	return text;
+};
+
+
+/*
+| Formats a throw statement.
+*/
+const formatThrow =
+	function(
+		context,
+		statement
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( statement.timtype !== ast_throw ) throw new Error( );
+/**/}
+
+	let text;
+
+	try
+	{
+		// first tries to inline
+		text =
+			context.tab
+			+ 'throw '
+			+ formatExpression( context.setInline, statement.expr );
+	}
+	catch( e )
+	{
+		// rethrows any real error
+		if( e !== 'noinline' ) throw e;
+	}
+
+	if( text !== undefined && textLen( text ) < MAX_TEXT_WIDTH ) return text;
+
+	// caller requested inline, but cannot do.
+	if( context.inline ) throw 'noinline';
+
+	// no inline mode
+	text =
+		context.tab
+		+ 'throw (\n'
+		+ formatExpression( context.inc, statement.expr )
+		+ '\n'
+		+ context.tab
+		+ ')';
 
 	return text;
 };
@@ -1960,10 +1903,7 @@ const formatVarDec =
 		catch( e )
 		{
 			// rethrows any real error
-			if( e !== 'noinline' )
-			{
-					throw e;
-			}
+			if( e !== 'noinline' ) throw e;
 		}
 
 		if( aText === undefined || textLen( aText ) > MAX_TEXT_WIDTH )

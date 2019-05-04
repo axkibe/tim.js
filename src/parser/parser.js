@@ -103,6 +103,8 @@ const ast_return = tim.require( '../ast/return' );
 
 const ast_string = tim.require( '../ast/string' );
 
+const ast_throw = tim.require( '../ast/throw' );
+
 const ast_typeof = tim.require( '../ast/typeof' );
 
 const ast_var = tim.require( '../ast/var' );
@@ -913,7 +915,7 @@ def.static.handlePass =
 
 
 /*
-| Handler for return
+| Handler for return.
 */
 def.static.handleReturn =
 	function(
@@ -945,6 +947,26 @@ def.static.handleString =
 	return state.advance( ast_string.create( 'string', state.current.value ) );
 };
 
+
+/*
+| Handler for throw.
+*/
+def.static.handleThrow =
+	function(
+		state // current parser state
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( state.ast ) throw new Error( );
+/**/
+/**/	if( state.current.type !== 'throw' ) throw new Error( );
+/**/}
+
+	state = parseToken( state.advance( ), parser.parseExprStart );
+
+	return state.stay( ast_throw.create( 'expr', state.ast ) );
+};
 
 
 /*
@@ -1105,6 +1127,8 @@ def.staticLazy.statementSpecs = ( ) =>
 	s[ 'let' ] = parser_spec.create( 'handler', 'handleLet', 'prec', 18 );
 
 	s[ 'return' ] = parser_spec.create( 'handler', 'handleReturn' );
+
+	s[ 'throw' ] = parser_spec.create( 'handler', 'handleThrow' );
 
 	s[ '{' ] = parser_spec.create( 'handler', 'handleBlock' );
 
