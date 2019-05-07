@@ -596,10 +596,7 @@ def.proto.genCreatorFreeStringsParser =
 				twigDupCheck
 				.$( 'key = arg' )
 				.$( 'arg = arguments[ ++a + 1 ]' )
-				.$if(
-					'twig[ key ] === undefined',
-					$( 'keys.push( key )' )
-				)
+				.$( 'if( twig[ key ] === undefined ) keys.push( key );' )
 				.$( 'twig[ key ] = arg' )
 			)
 			.$case(
@@ -796,7 +793,7 @@ def.proto.genCreatorChecks =
 
 		const tcheck = this.genTypeCheckFailCondition( attr.varRef, attr.types );
 
-		if( tcheck ) check = check.$if( tcheck, $fail( ) );
+		if( tcheck ) check = check.$( 'if(', tcheck, ') throw new Error( ); ' );
 	}
 
 	if( timspec.ggroup )
@@ -807,9 +804,9 @@ def.proto.genCreatorChecks =
 			.$( 'for( let k in group )',
 				$block
 				.$( 'const o = group[ k ]' )
-				.$if(
+				.$( 'if(',
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.ggroup ),
-					$fail( )
+					') throw new Error( );'
 				)
 			);
 	}
@@ -820,9 +817,9 @@ def.proto.genCreatorChecks =
 			check
 			.$( 'for( let o of list )',
 				$block
-				.$if(
+				.$( 'if(',
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.glist ),
-					$fail( )
+					') throw new Error( );'
 				)
 			);
 	}
@@ -834,9 +831,9 @@ def.proto.genCreatorChecks =
 			.$(
 				'for( let v of set )',
 				$block
-				.$if(
+				.$( 'if( ',
 					this.genTypeCheckFailCondition( $( 'v' ), timspec.gset ),
-					$fail( )
+					') throw new Error( );'
 				)
 			);
 	}
@@ -850,9 +847,9 @@ def.proto.genCreatorChecks =
 				'for( let key of keys )',
 				$block
 				.$( 'const o = twig[ key ]' )
-				.$if(
+				.$( 'if( ',
 					this.genTypeCheckFailCondition( $( 'o' ), timspec.gtwig ),
-					$fail( )
+					') throw new Error( );'
 				)
 			);
 	}
@@ -860,7 +857,7 @@ def.proto.genCreatorChecks =
 	return(
 		json
 		? check
-		: check.length > 0 ? $block.$check( check ) : $block
+		: ( check.length > 0 ? $block.$check( check ) : $block )
 	);
 };
 
