@@ -900,7 +900,7 @@ def.proto.genCreatorUnchanged =
 		cond = $( cond, '&&', ceq );
 	}
 
-	return $block.$if( cond, $( 'return inherit' ) );
+	return $block.$( 'if(', cond, ') return inherit;' );
 };
 
 
@@ -931,13 +931,13 @@ def.proto.genCreatorInheritOptimization =
 
 		result =
 			result.
-			$if(
-				$(
+			$(
+				'if(',
 					'inherit',
 					'&& tim.hasLazyValueSet( inherit, ', $v, ')',
 					'&& newtim[ "__inherit_" + ', $v, ']( inherit )',
-				),
-				$block.$( 'tim.aheadValue( newtim, ', $v, ', inherit.', v, ')' )
+				')',
+				'{ tim.aheadValue( newtim, ', $v, ', inherit.', v, ') }'
 			);
 	}
 
