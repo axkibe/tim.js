@@ -616,10 +616,9 @@ def.proto.genCreatorFreeStringsParser =
 	loop = loop.append( switchExpr );
 
 	return(
-		$block.$for(
-			'let a = 0, al = arguments.length',
-			'a < al',
-			'a += 2',
+		$block
+		.$(
+			'for( let a = 0, al = arguments.length; a < al; a += 2 )',
 			loop
 		)
 	);
@@ -966,10 +965,7 @@ def.proto.genCreatorReturn =
 	{
 		return(
 			$block
-			.$if(
-				'!_singleton',
-				$( '_singleton = new Constructor( )' )
-			)
+			.$( 'if( !_singleton ) _singleton = new Constructor( );' )
 			.$( 'return _singleton' )
 		);
 	}
@@ -1180,7 +1176,7 @@ def.proto.genFromJsonCreatorAttributeParser =
 		cond = $or( cond, $expr( pcs[ a ] ) );
 	}
 
-	const pcif = $if( cond, $( attr.varRef, ' = arg' ) );
+	const pcif = $( 'if( ', cond, ' )', attr.varRef, ' = arg;' );
 
 	if( !cSwitch ) return pcif;
 
@@ -1205,10 +1201,7 @@ def.proto.genFromJsonCreatorParser =
 		$switch( 'name' )
 		.$case(
 			'"type"',
-			$if(
-				$( 'arg !== ', $string( timspec.json ) ),
-				$fail( )
-			)
+			'if( arg !==', $string( timspec.json ), ') throw new Error( );'
 		);
 
 	if( timspec.ggroup ) nameSwitch = nameSwitch.$case( '"group"', 'jgroup = arg' );
@@ -1277,7 +1270,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 	{
 		return(
 			$block
-			.$if( '!jgroup', $fail( ) )
+			.$( 'if( !jgroup ) throw new Error( );' )
 			.$( 'group = jgroup' )
 		);
 	}
@@ -1287,7 +1280,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 	{
 		return(
 			$block
-			.$if( '!jgroup', $fail( ) )
+			.$( 'if( !jgroup ) throw new Error( );' )
 			.$( 'group = jgroup' )
 		);
 	}
@@ -1299,7 +1292,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 
 	let loopSwitch = $switch( 'jgroup[ k ].type' );
 
-	loopSwitch = loopSwitch.$default( $fail( ) );
+	loopSwitch = loopSwitch.$default( 'throw new Error( );' );
 
 	// FUTURE allow more than one non-tim type
 	let customDefault = false;
@@ -1317,10 +1310,11 @@ def.proto.genFromJsonCreatorGroupProcessing =
 			loopSwitch =
 				loopSwitch
 				.$default(
-					$if(
-						$( 'typeof( jgroup[ k ] ) === "string"' ),
-						$( 'group[ k ] = jgroup[ k ]' ),
-						$fail( )
+					$(
+						'if( typeof( jgroup[ k ] ) === "string" )',
+						'{ group[ k ] = jgroup[ k ]; }',
+						'else',
+						'{ throw new Error( ); }'
 					)
 				);
 
@@ -1451,13 +1445,8 @@ def.proto.genFromJsonCreatorListProcessing =
 	if( haveUndefined )
 	{
 		loopBody =
-			loopBody.
-			$if(
-				'jlist[ r ] === undefined',
-				$block
-				.$( 'list[ r ] = undefined' )
-				.$continue( )
-			);
+			loopBody
+			.$( 'if( jlist[ r ] === undefined ) { list[ r ] = undefined; continue; }' );
 	}
 
 	loopBody =
