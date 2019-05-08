@@ -1373,7 +1373,7 @@ def.proto.genFromJsonCreatorGroupProcessing =
 			.$( loopSwitch );
 	}
 
-	return result.$( 'for( let in k jgroup )', loopBody );
+	return result.$( 'for( let k in jgroup )', loopBody, ';' );
 };
 
 
