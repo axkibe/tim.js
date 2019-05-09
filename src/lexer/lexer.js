@@ -36,6 +36,7 @@ def.staticLazy.keywords = ( ) =>
 		'throw',
 		'true',
 		'typeof',
+		'yield',
 	] );
 
 
@@ -70,8 +71,8 @@ def.static.tokenize =
 
 			tokens.push(
 				lexer_lexer.keywords.has( value )
-				? token.tv( value )
-				: token.tv( 'identifier', value )
+				? token.createTv( value )
+				: token.createTv( 'identifier', value )
 			);
 
 			continue;
@@ -86,7 +87,7 @@ def.static.tokenize =
 
 			value = parseInt( value, 10 );
 
-			tokens.push( token.tv( 'number', value ) );
+			tokens.push( token.createTv( 'number', value ) );
 
 			continue;
 		}
@@ -110,7 +111,7 @@ def.static.tokenize =
 				if( c >= cl ) throw new Error( '" missing' );
 			}
 
-			tokens.push( token.tv( 'string', value ) );
+			tokens.push( token.createTv( 'string', value ) );
 
 			continue;
 		}
@@ -129,7 +130,7 @@ def.static.tokenize =
 			case '{' :
 			case '}' :
 
-				tokens.push( token.tv( ch ) );
+				tokens.push( token.createTv( ch ) );
 
 				continue;
 
@@ -137,13 +138,13 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token.tv( '<=' ) );
+					tokens.push( token.createTv( '<=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token.tv( '<' ) );
+					tokens.push( token.createTv( '<' ) );
 				}
 
 				continue;
@@ -152,13 +153,13 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token.tv( '>=' ) );
+					tokens.push( token.createTv( '>=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token.tv( '>' ) );
+					tokens.push( token.createTv( '>' ) );
 				}
 
 				continue;
@@ -169,7 +170,7 @@ def.static.tokenize =
 				{
 					if( c + 2 < cl && code[ c + 2 ] === '=' )
 					{
-						tokens.push( token.tv( '===' ) );
+						tokens.push( token.createTv( '===' ) );
 
 						c += 2;
 
@@ -182,7 +183,7 @@ def.static.tokenize =
 				}
 				else
 				{
-					tokens.push( token.tv( '=' ) );
+					tokens.push( token.createTv( '=' ) );
 				}
 
 				continue;
@@ -193,7 +194,7 @@ def.static.tokenize =
 				{
 					if( c + 2 < cl && code[ c + 2 ] === '=' )
 					{
-						tokens.push( token.tv( '!==' ) );
+						tokens.push( token.createTv( '!==' ) );
 
 						c += 2;
 
@@ -206,7 +207,7 @@ def.static.tokenize =
 				}
 				else
 				{
-					tokens.push( token.tv( '!' ) );
+					tokens.push( token.createTv( '!' ) );
 				}
 
 				continue;
@@ -215,19 +216,19 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '+' )
 				{
-					tokens.push( token.tv( '++' ) );
+					tokens.push( token.createTv( '++' ) );
 
 					c++;
 				}
 				else if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token.tv( '+=' ) );
+					tokens.push( token.createTv( '+=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token.tv( '+' ) );
+					tokens.push( token.createTv( '+' ) );
 				}
 
 				continue;
@@ -236,19 +237,19 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '-' )
 				{
-					tokens.push( token.tv( '--' ) );
+					tokens.push( token.createTv( '--' ) );
 
 					c++;
 				}
 				else if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token.tv( '-=' ) );
+					tokens.push( token.createTv( '-=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token.tv( '-' ) );
+					tokens.push( token.createTv( '-' ) );
 				}
 
 				continue;
@@ -257,13 +258,13 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token.tv( '*=' ) );
+					tokens.push( token.createTv( '*=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token.tv( '*' ) );
+					tokens.push( token.createTv( '*' ) );
 				}
 
 				continue;
@@ -272,13 +273,13 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '=' )
 				{
-					tokens.push( token.tv( '/=' ) );
+					tokens.push( token.createTv( '/=' ) );
 
 					c++;
 				}
 				else
 				{
-					tokens.push( token.tv( '/' ) );
+					tokens.push( token.createTv( '/' ) );
 				}
 
 				continue;
@@ -287,7 +288,7 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '|' )
 				{
-					tokens.push( token.tv( '||' ) );
+					tokens.push( token.createTv( '||' ) );
 
 					c++;
 				}
@@ -302,7 +303,7 @@ def.static.tokenize =
 
 				if( c + 1 < cl && code[ c + 1 ] === '&' )
 				{
-					tokens.push( token.tv( '&&' ) );
+					tokens.push( token.createTv( '&&' ) );
 
 					c++;
 				}

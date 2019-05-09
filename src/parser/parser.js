@@ -109,6 +109,8 @@ const ast_typeof = tim.require( '../ast/typeof' );
 
 const ast_var = tim.require( '../ast/var' );
 
+const ast_yield = tim.require( '../ast/yield' );
+
 const lexer_lexer = tim.require( '../lexer/lexer' );
 
 const lexer_token = tim.require( '../lexer/token' );
@@ -390,7 +392,7 @@ def.static.handleDot =
 	if( name.type === 'delete' )
 	{
 		// "delete" may be used as identifier here
-		name = lexer_token.tv( 'identifier', 'delete' );
+		name = lexer_token.createTv( 'identifier', 'delete' );
 	}
 	else if( name.type !== 'identifier' ) throw new Error( );
 
@@ -1010,6 +1012,8 @@ def.staticLazy.leftSpecs = ( ) =>
 	s[ 'delete' ] = c( 'handleMonoOps', 4, 'r2l', ast_delete );
 
 	s[ 'typeof' ] = c( 'handleMonoOps', 4, 'r2l', ast_typeof );
+
+	s[ 'yield' ] = c( 'handleMonoOps', 18, 'r2l', ast_yield );
 
 	s[ ',' ] = c( 'handleDualisticOps', 19, 'l2r', ast_comma );
 

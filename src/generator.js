@@ -65,8 +65,6 @@ const $block = shorthand.$block;
 
 const $fail = shorthand.$fail;
 
-const $for = shorthand.$for;
-
 const $func = shorthand.$func;
 
 const $generator = shorthand.$generator;
@@ -1454,15 +1452,7 @@ def.proto.genFromJsonCreatorListProcessing =
 		? loopBody.append( loopSwitch )
 		: loopSwitch;
 
-	return(
-		result
-		.$for(
-			'let r = 0, rl = jlist.length',
-			'r < rl',
-			'++r',
-			loopBody
-		)
-	);
+	return result.$( 'for( let r = 0, rl = jlist.length; r < rl; ++r )', loopBody, ';' );
 };
 
 
@@ -1745,10 +1735,7 @@ def.proto.genTimProto =
 			.$(
 				'prototype[ Symbol.iterator ] =',
 				$generator(
-					$block
-					.$( 'for( let key of this.sortedKeys )',
-						$block.$yield( 'this.get( key )' )
-					)
+					'for( let key of this.sortedKeys ) yield this.get( key );'
 				)
 			);
 	}
@@ -1794,12 +1781,7 @@ def.proto.genTimProto =
 			.$(
 				'prototype.reverse =',
 				$generator(
-					$for(
-						'let a = this.length - 1',
-						'a >= 0',
-						'a--',
-						$block.$yield( 'this._list[ a ]' )
-					)
+					'for( let a = this.length - 1; a >= 0; a-- ) yield this._list[ a ];'
 				)
 			);
 	}
@@ -1863,24 +1845,14 @@ def.proto.genTimProto =
 			.$(
 				'prototype[ Symbol.iterator ] =',
 				$generator(
-					$for(
-						'let a = 0, al = this.length',
-						'a < al',
-						'a++',
-						$block.$yield( 'this.atRank( a )' )
-					)
+					'for( let a = 0, al = this.length; a < al; a++ ) yield this.atRank( a );'
 				)
 			)
 			.$comment( 'Reverse iterates over the twig.' )
 			.$(
 				'prototype.reverse =',
 				$generator(
-					$for(
-						'let a = this.length - 1',
-						'a >= 0',
-						'a--',
-						$block.$yield( 'this.atRank( a )' )
-					)
+					'for( let a = this.length - 1; a >= 0; a-- ) yield this.atRank( a );'
 				)
 			);
 	}

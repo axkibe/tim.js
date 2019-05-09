@@ -27,8 +27,9 @@ def.staticLazy.allowedTokens = ( ) =>
 		'++', '--', '+=', '-=', '*=', '/=', '<=', '>=',
 		'||', '&&', '===', '!==', 'if', 'in', 'of',
 		'for', 'let', 'new', 'else', 'null', 'true', 'const', 'false',
-		'delete', 'return', 'throw', 'typeof', 'instanceof', 'number',
-		'string', 'identifier'
+		'throw', 'typeof', 'yield', 'string',
+		'delete', 'return', 'number',
+		'identifier', 'instanceof',
 	] );
 
 
@@ -48,7 +49,7 @@ def.proto._check =
 /*
 | Shortcut to create a token of type t with value v.
 */
-def.static.tv =
+def.static.createTv =
 	function(
 		t,  // type
 		v   // value maybe undefined
