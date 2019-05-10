@@ -74,11 +74,9 @@ repl = repl.start( 'repl> ' );
 
 repl.rli.history = hist.reverse( );
 
-// strange wording to make jshint happy
-//const defaultEval = repl[ '_eval'.substr( 1 ) ];
 const defaultEval = repl.eval;
 
-repl[ '_eval'.substr( 1 ) ] =
+repl.eval =
 	function( cmd, context, filename, callback )
 {
 	const c = cmd.trim( );

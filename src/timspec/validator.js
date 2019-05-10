@@ -110,6 +110,8 @@ const checkAlikes =
 			throw new Error( 'alike ' + name + ' misses ignores.' );
 		}
 
+		/*
+		// FIXME check in timspec
 		for( let attr in ignores )
 		{
 			if( !def.attributes[ attr ] )
@@ -117,6 +119,7 @@ const checkAlikes =
 				throw new Error( 'alike ' + name + ' ignores unknown attribute ' + attr );
 			}
 		}
+		*/
 	}
 };
 

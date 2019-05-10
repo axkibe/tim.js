@@ -118,7 +118,7 @@ const isntEmpty =
 		obj
 	)
 {
-	for( let _ in obj ) return true; /* jshint ignore:line */
+	for( let _ in obj ) return true;
 
 	return false;
 };
@@ -179,6 +179,8 @@ def.static.createFromDef =
 	validator.check( def );
 
 	const creator = def.create ? def.create[ 0 ] : 'create';
+
+	const abstract = !!def.abstract;
 
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
@@ -250,13 +252,13 @@ def.static.createFromDef =
 		{
 			types = type_any.createFromString( jType );
 
-			imports = imports.add( types );
+			if( !abstract ) imports = imports.add( types );
 		}
 		else
 		{
 			types = type_set.createFromArray( module, jType );
 
-			imports = imports.addSet( types );
+			if( !abstract ) imports = imports.addSet( types );
 
 			// if there is just one type, replaces the set with that type
 			types = types.trivial;
@@ -300,7 +302,24 @@ def.static.createFromDef =
 		attributes = attributes.set( name, attr );
 	}
 
-	if( def.abstract || def.group || def.list || def.set || def.twig ) singleton = false;
+	if( extendSpec )
+	{
+		const exAttributes = extendSpec.attributes;
+
+		for( let name of exAttributes.sortedKeys )
+		{
+			if( attributes.get( name ) ) continue;
+
+			const attr = exAttributes.get( name );
+
+			if( !abstract ) imports = imports.addSet( attr.types );
+
+			attributes = attributes.set( name, attr );
+		}
+	}
+
+
+	if( abstract || def.group || def.list || def.set || def.twig ) singleton = false;
 
 	if( def.global ) global = $.$var( def.global );
 
@@ -344,7 +363,7 @@ def.static.createFromDef =
 	}
 
 	const hasLazy =
-		!!(extendSpec && extendSpec.hasLazy )
+		!!( extendSpec && extendSpec.hasLazy )
 		|| ( !!def.group )
 		|| ( !!def.list )
 		|| ( !!def.set )
@@ -360,7 +379,7 @@ def.static.createFromDef =
 
 	return(
 		timspec_timspec.create(
-			'abstract', !!def.abstract,
+			'abstract', abstract,
 			'alike', def.alike,
 			'attributes', attributes,
 			'check', !!def.proto._check,

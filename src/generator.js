@@ -63,13 +63,9 @@ const $and = shorthand.$and;
 
 const $block = shorthand.$block;
 
-const $fail = shorthand.$fail;
-
 const $func = shorthand.$func;
 
 const $generator = shorthand.$generator;
-
-const $if = shorthand.$if;
 
 const $objLiteral = shorthand.$objLiteral;
 
@@ -1328,11 +1324,8 @@ def.proto.genFromJsonCreatorGroupProcessing =
 			loopSwitch =
 				loopSwitch
 				.$default(
-					$if(
-						$( 'typeof( jgroup[ k ] ) === "boolean"' ),
-						$( 'group[ k ] = jgroup[ k ]' ),
-						$fail( )
-					)
+					'if( typeof( jgroup[ k ] ) === "boolean" ) group[ k ] = jgroup[ k ];',
+					'else throw new Error( );'
 				);
 
 			continue;
@@ -1402,7 +1395,7 @@ def.proto.genFromJsonCreatorListProcessing =
 
 	let loopSwitch =
 		$switch( 'jlist[ r ].type' )
-		.$default( $fail( ) );
+		.$default( 'throw new Error( )' );
 
 	let haveNull = false;
 
@@ -1505,26 +1498,20 @@ def.proto.genFromJsonCreatorTwigProcessing =
 	}
 
 	// invalid twig type
-	switchExpr = switchExpr.$default( $fail( ) );
+	switchExpr = switchExpr.$default( 'throw new Error( );' );
 
 	const loop =
 		$block
 		// json keys/twig mismatch
-		.$if(
-			'!jwig[ key ]',
-			$fail( )
-		)
+		.$( 'if( !jwig[ key ] ) throw new Error( );' )
 		.$( 'jval = jwig[ key ]' )
 		.append( switchExpr );
 
 	return(
 		$block
 		.$( 'twig = { }' )
-		.$if(
-			'!jwig || !keys',
-			// ranks/twig information missing
-			$fail( )
-		)
+		// ranks/twig information missing
+		.$( 'if( !jwig || !keys ) throw new Error( );' )
 		.$( 'for( let key of keys )', loop )
 	);
 };
@@ -1657,37 +1644,6 @@ def.proto.genReflection =
 
 
 /*
-| Generates code for setting the prototype
-| entry 'key' to 'value'
-*/
-def.proto.$protoSet =
-	function(
-		key,
-		value
-	)
-{
-	return $( 'prototype.', key, ' = ', 'tim_proto.', value );
-};
-
-
-/*
-| Generates code for setting the prototype
-| lazy value named 'name' to 'func'.
-*/
-def.proto.$protoLazyValueSet =
-	function(
-		name,  // FIXME, make a $string here around it
-		func
-	)
-{
-	return(
-		$block
-		.$( 'tim_proto.lazyValue( prototype,', name, ', tim_proto.', func, ')' )
-	);
-};
-
-
-/*
 | Generates the timProto stuff.
 */
 def.proto.genTimProto =
@@ -1698,9 +1654,9 @@ def.proto.genTimProto =
 	let result =
 		$block
 		.$comment( 'Sets values by path.' )
-		.$( this.$protoSet( 'setPath', 'setPath' ) )
+		.$( this._protoSet( 'setPath', 'setPath' ) )
 		.$comment( 'Gets values by path' )
-		.$( this.$protoSet( 'getPath', 'getPath' ) );
+		.$( this._protoSet( 'getPath', 'getPath' ) );
 
 	if( timspec.ggroup )
 	{
@@ -1711,25 +1667,25 @@ def.proto.genTimProto =
 				'Returns the group with another group added,',
 				'overwriting collisions.'
 			)
-			.$( this.$protoSet( 'addGroup', 'groupAddGroup' ) )
+			.$( this._protoSet( 'addGroup', 'groupAddGroup' ) )
 
 			.$comment( 'Gets one element from the group.' )
-			.$( this.$protoSet( 'get', 'groupGet' ) )
+			.$( this._protoSet( 'get', 'groupGet' ) )
 
 			.$comment( 'Returns the group keys.')
-			.$( this.$protoLazyValueSet( '"keys"', 'groupKeys' ) )
+			.$( this._protoLazyValueSet( 'keys', 'groupKeys' ) )
 
 			.$comment( 'Returns the sorted group keys.')
-			.$( this.$protoLazyValueSet( '"sortedKeys"', 'groupSortedKeys' ) )
+			.$( this._protoLazyValueSet( 'sortedKeys', 'groupSortedKeys' ) )
 
 			.$comment( 'Returns the group with one element removed.' )
-			.$( this.$protoSet( 'remove', 'groupRemove' ) )
+			.$( this._protoSet( 'remove', 'groupRemove' ) )
 
 			.$comment( 'Returns the group with one element set.' )
-			.$( this.$protoSet( 'set', 'groupSet' ) )
+			.$( this._protoSet( 'set', 'groupSet' ) )
 
 			.$comment( 'Returns the size of the group.')
-			.$( this.$protoLazyValueSet( '"size"', 'groupSize' ) )
+			.$( this._protoLazyValueSet( 'size', 'groupSize' ) )
 
 			.$comment( 'Iterates over the group by sorted keys' )
 			.$(
@@ -1745,31 +1701,31 @@ def.proto.genTimProto =
 		result =
 			result
 			.$comment( 'Returns the list with an element appended.' )
-			.$( this.$protoSet( 'append', 'listAppend' ) )
+			.$( this._protoSet( 'append', 'listAppend' ) )
 
 			.$comment( 'Returns the list with another list appended.' )
-			.$( this.$protoSet( 'appendList', 'listAppendList' ) )
+			.$( this._protoSet( 'appendList', 'listAppendList' ) )
 
 			.$comment( 'Returns one element from the list.' )
-			.$( this.$protoSet( 'get', 'listGet' ) )
+			.$( this._protoSet( 'get', 'listGet' ) )
 
 			.$comment( 'Returns the list with one element inserted.' )
-			.$( this.$protoSet( 'insert', 'listInsert' ) )
+			.$( this._protoSet( 'insert', 'listInsert' ) )
 
 			.$comment( 'Returns the length of the list.')
-			.$( this.$protoLazyValueSet( '"length"', 'listLength' ) )
+			.$( this._protoLazyValueSet( 'length', 'listLength' ) )
 
 			.$comment( 'Returns the list with one element removed.' )
-			.$( this.$protoSet( 'remove', 'listRemove' ) )
+			.$( this._protoSet( 'remove', 'listRemove' ) )
 
 			.$comment( 'Returns the list with one element set.' )
-			.$( this.$protoSet( 'set', 'listSet' ) )
+			.$( this._protoSet( 'set', 'listSet' ) )
 
 			.$comment( 'Returns a slice from the list.' )
-			.$( this.$protoSet( 'slice', 'listSlice' ) )
+			.$( this._protoSet( 'slice', 'listSlice' ) )
 
 			.$comment( 'Returns a slice from the list.' )
-			.$( this.$protoSet( 'sort', 'listSort' ) )
+			.$( this._protoSet( 'sort', 'listSort' ) )
 
 			// FUTURE maybe this can be simplified?
 			.$comment( 'Forwards the iterator.' )
@@ -1791,22 +1747,22 @@ def.proto.genTimProto =
 		result =
 			result
 			.$comment( 'Returns the set with one element added.' )
-			.$( this.$protoSet( 'add', 'setAdd' ) )
+			.$( this._protoSet( 'add', 'setAdd' ) )
 
 			.$comment( 'Returns the set with another set added.' )
-			.$( this.$protoSet( 'addSet', 'setAddSet' ) )
+			.$( this._protoSet( 'addSet', 'setAddSet' ) )
 
 			.$comment( 'Returns true if the set has an element.' )
-			.$( this.$protoSet( 'has', 'setHas' ) )
+			.$( this._protoSet( 'has', 'setHas' ) )
 
 			.$comment( 'Returns the set with one element removed.' )
-			.$( this.$protoSet( 'remove', 'setRemove' ) )
+			.$( this._protoSet( 'remove', 'setRemove' ) )
 
 			.$comment( 'Returns the size of the set.' )
-			.$( this.$protoLazyValueSet( '"size"', 'setSize' ) )
+			.$( this._protoLazyValueSet( 'size', 'setSize' ) )
 
 			.$comment( 'Returns the one and only element or the set if size != 1.' )
-			.$( this.$protoLazyValueSet( '"trivial"', 'setTrivial' ) )
+			.$( this._protoLazyValueSet( 'trivial', 'setTrivial' ) )
 
 			.$comment( 'Forwards the iterator.' )
 			.$(
@@ -1820,16 +1776,16 @@ def.proto.genTimProto =
 		result =
 			result
 			.$comment( 'Returns the element at rank.' )
-			.$( this.$protoSet( 'atRank', 'twigAtRank' ) )
+			.$( this._protoSet( 'atRank', 'twigAtRank' ) )
 
 			.$comment( 'Returns the element by key.' )
-			.$( this.$protoSet( 'get', timspec.isAdjusting ? 'twigAdjustGet' : 'twigGet' ) )
+			.$( this._protoSet( 'get', timspec.isAdjusting ? 'twigAdjustGet' : 'twigGet' ) )
 
 			.$comment( 'Returns the key at a rank.' )
-			.$( this.$protoSet( 'getKey', 'twigGetKey' ) )
+			.$( this._protoSet( 'getKey', 'twigGetKey' ) )
 
 			.$comment( 'Returns the length of the twig.')
-			.$( this.$protoLazyValueSet( '"length"', 'twigLength' ) )
+			.$( this._protoLazyValueSet( 'length', 'twigLength' ) )
 
 			.$comment( 'Returns the rank of the key.' )
 			.$(
@@ -1839,7 +1795,7 @@ def.proto.genTimProto =
 			)
 
 			.$comment( 'Returns the twig with the element at key set.' )
-			.$( this.$protoSet( 'set', 'twigSet' ) )
+			.$( this._protoSet( 'set', 'twigSet' ) )
 
 			.$comment( 'Iterates over the twig.' )
 			.$(
@@ -2330,7 +2286,7 @@ def.lazy.ast =
 
 	code = code.$( this.genRequires( ) );
 
-	code = code.$( this.genConstructor( ) );
+	if( !timspec.abstract ) code = code.$( this.genConstructor( ) );
 
 	if( timspec.singleton ) code = code.$( this.genSingleton( )  );
 
@@ -2344,7 +2300,7 @@ def.lazy.ast =
 
 	if( timspec.json ) code = code.$( this.genToJson( ) );
 
-	code = code.$( this.genEquals( ) );
+	if( !timspec.abstract) code = code.$( this.genEquals( ) );
 
 	if( timspec.alike ) code = code.$( this.genAlike( ) );
 
@@ -2404,6 +2360,37 @@ def.static.createGenerator =
 			'creatorHasFreeStringsParser', haveFreeStringsParser,
 			'timspec', timspec
 		)
+	);
+};
+
+
+/*
+| Generates code for setting the prototype
+| entry 'key' to 'value'
+*/
+def.proto._protoSet =
+	function(
+		key,
+		value
+	)
+{
+	return $( 'prototype.', key, ' = ', 'tim_proto.', value );
+};
+
+
+/*
+| Generates code for setting the prototype
+| lazy value named 'name' to 'func'.
+*/
+def.proto._protoLazyValueSet =
+	function(
+		name,  // lazy value name as string
+		func   // lazy value function name
+	)
+{
+	return(
+		$block
+		.$( 'tim_proto.lazyValue( prototype,', $string( name ), ', tim_proto.', func, ')' )
 	);
 };
 
