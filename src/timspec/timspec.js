@@ -312,7 +312,13 @@ def.static.createFromDef =
 
 			const attr = exAttributes.get( name );
 
-			if( !abstract ) imports = imports.addSet( attr.types );
+			if( !abstract )
+			{
+				const types = attr.types;
+
+				if( types.timtype === type_set ) imports = imports.addSet( types );
+				else imports = imports.add( types );
+			}
 
 			attributes = attributes.set( name, attr );
 		}
