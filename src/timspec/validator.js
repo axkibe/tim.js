@@ -384,6 +384,8 @@ const checkAdjust =
 		def
 	)
 {
+	/*
+	// FIXME redo with inheritance in timspec
 	for( let name in def.adjust )
 	{
 		if( name === 'get' )
@@ -398,6 +400,7 @@ const checkAdjust =
 			throw new Error( 'adjust without attribute!"' );
 		}
 	}
+	*/
 };
 
 

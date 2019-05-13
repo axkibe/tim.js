@@ -325,8 +325,6 @@ def.static.createFromDef =
 	}
 
 
-	if( abstract || def.group || def.list || def.set || def.twig ) singleton = false;
-
 	if( def.global ) global = $.$var( def.global );
 
 	let ggroup, glist, gset, gtwig;
@@ -334,30 +332,48 @@ def.static.createFromDef =
 	if( def.group )
 	{
 		ggroup = type_set.createFromArray( module, def.group );
-
-		imports = imports.addSet( ggroup );
+	}
+	else if( extendSpec && extendSpec.ggroup )
+	{
+		ggroup = extendSpec.ggroup;
 	}
 
 	if( def.list )
 	{
 		glist = type_set.createFromArray( module, def.list );
-
-		imports = imports.addSet( glist );
+	}
+	else if( extendSpec && extendSpec.glist )
+	{
+		glist = extendSpec.glist;
 	}
 
 	if( def.set )
 	{
 		gset = type_set.createFromArray( module, def.set );
-
-		imports = imports.addSet( gset );
+	}
+	else if( extendSpec && extendSpec.gset )
+	{
+		gset = extendSpec.gset;
 	}
 
 	if( def.twig )
 	{
 		gtwig = type_set.createFromArray( module, def.twig );
-
-		imports = imports.addSet( gtwig );
 	}
+	else if( extendSpec && extendSpec.gtwig )
+	{
+		gtwig = extendSpec.gtwig;
+	}
+
+	if( ggroup && !abstract) imports = imports.addSet( ggroup );
+
+	if( glist && !abstract) imports = imports.addSet( glist );
+
+	if( gset && !abstract) imports = imports.addSet( gset );
+
+	if( gtwig && !abstract ) imports = imports.addSet( gtwig );
+
+	if( abstract || ggroup || glist || gset || gtwig ) singleton = false;
 
 	const inheritKeys = Object.keys( def.inherit );
 
@@ -370,10 +386,10 @@ def.static.createFromDef =
 
 	const hasLazy =
 		!!( extendSpec && extendSpec.hasLazy )
-		|| ( !!def.group )
-		|| ( !!def.list )
-		|| ( !!def.set )
-		|| ( !!def.twig )
+		|| ( !!ggroup )
+		|| ( !!glist )
+		|| ( !!gset )
+		|| ( !!gtwig )
 		|| ( !!def.json )
 		|| isntEmpty( def.adjust )
 		|| isntEmpty( def.lazy )
