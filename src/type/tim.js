@@ -35,6 +35,18 @@ def.static.createFromPath =
 {
 	let imported;
 
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 1 ) throw new Error( );
+/**/
+/**/	if( !Array.isArray( path ) ) throw new Error( );
+/**/
+/**/	for( let p of path )
+/**/	{
+/**/		if( p === '' ) throw new Error( );
+/**/	}
+/**/}
+
 	path = path.slice( );
 
 	switch( path[ 0 ] )

@@ -250,17 +250,18 @@ prototype.create =
 		{
 			case 'list:init' :
 
-/**/			if( CHECK )
-/**/			{
-/**/				if( !Array.isArray( arg ) )
-/**/				{
-/**/					throw new Error( );
-/**/				}
-/**/			}
+				if( Array.isArray( arg ) )
+				{
+					list = arg;
 
-				list = arg;
+					listDup = true;
+				}
+				else
+				{
+					list = arg._list;
 
-				listDup = true;
+					listDup = false;
+				}
 
 				break;
 

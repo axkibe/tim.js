@@ -221,7 +221,6 @@ module.exports =
 
 	const bootstrap = tim._BOOTSTRAP;
 
-	// FIXME
 	const provisionals = [ ];
 
 	let provisional;

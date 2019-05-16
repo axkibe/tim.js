@@ -887,11 +887,8 @@ const formatIf =
 			+ formatExpression( context.setInline, cond )
 			+ ' )\n';
 	}
-	catch ( e )
-	{
-		// rethrows any real error
-		if( e !== 'noinline' ) throw e;
-	}
+	// rethrows any real error
+	catch ( e ) { if( e !== 'noinline' ) throw e; }
 
 	if( text === undefined || textLen( text ) > MAX_TEXT_WIDTH )
 	{

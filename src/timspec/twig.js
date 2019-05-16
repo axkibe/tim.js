@@ -25,7 +25,7 @@ const type_tim = tim.require( '../type/tim' );
 const dependencyWalk =
 	function(
 		twig,     // the twig being built
-		timspec,  // timspec currently inspecting
+		timspec,  // timspec currently been inspected
 		parents   // a twig of parents already walked (the open circles)
 	)
 {
@@ -49,16 +49,14 @@ const dependencyWalk =
 		}
 	}
 
+	for( let filename of timspec.requires )
 	{
-		for( let filename of timspec.requires )
-		{
-			const type = type_tim.createFromPath( filename.split( '/' ) );
+		const type = type_tim.createFromPath( filename.split( '/' ) );
 
-			// FIXME use getByRelativePath
-			const ts = tim.catalog.getByTimtype( timspec.filename, type );
+		// FIXME use getByRelativePath
+		const ts = tim.catalog.getByTimtype( timspec.filename, type );
 
-			twig = dependencyWalk( twig, ts, parents );
-		}
+		twig = dependencyWalk( twig, ts, parents );
 	}
 
 	if( timspec.extend )

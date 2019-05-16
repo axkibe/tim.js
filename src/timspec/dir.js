@@ -49,7 +49,7 @@ def.proto.addEntry =
 		const ts = this.get( key );
 
 		// already there?
-		if( ts && ts.timtype !== timspec_provisional )
+		if( ts && ts.timtype !== timspec_provisional && entry.timtype !== timspec_provisional )
 		{
 /**/		if( CHECK )
 /**/		{

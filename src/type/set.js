@@ -80,22 +80,26 @@ def.static.createFromArray =
 
 				const la = line.split( '/' );
 
-				// just cut out all the '.' path parts
+				// just cut out all the '.' and empty path parts
 				for( let a = 0, al = rpa.length; a < al; a++ )
 				{
-					if( rpa[ a ] !== '.' ) continue;
+					const e = rpa[ a ];
+
+					if( e !== '' && e !== '.' ) continue;
 
 					rpa.splice( a, 1 ); a--; al--;
 				}
 
 				for( let a = 0, al = la.length; a < al; a++ )
 				{
-					if( la[ a ] !== '.' ) continue;
+					const e = la[ a ];
+
+					if( e !== '' && e !== '.' ) continue;
 
 					la.splice( a, 1 ); a--; al--;
 				}
 
-				const id = type_tim.createFromPath(  [ '.' ].concat( rpa ).concat( la ) );
+				const id = type_tim.createFromPath( [ '.' ].concat( rpa ).concat( la ) );
 
 				types.add( id );
 			}

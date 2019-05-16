@@ -434,31 +434,24 @@ def.proto.genCreatorFreeStringsParser =
 	{
 		switchExpr =
 			switchExpr
-			.$case(
-				attr.$name,
-				$( 'if( arg !== pass ) {', attr.varRef, ' = arg; }' )
-			);
+			.$case( attr.$name, 'if( arg !== pass ) {', attr.varRef, ' = arg; }' );
 	}
 
 	if( timspec.ggroup )
 	{
 		const groupDupCheck =
-			$( 'if( !groupDup ) { group = tim.copy( group ); groupDup = true; }' );
+			$( '{ if( !groupDup ) { group = tim.copy( group ); groupDup = true; } }' );
 
 		switchExpr =
 			switchExpr
-			.$case( '"group:init"', $( '{ group = arg; groupDup = true; }' ) )
+			.$case( '"group:init"', '{ group = arg; groupDup = true; }' )
 			.$case(
 				'"group:set"',
-				$block
-				.append( groupDupCheck )
-				.$( 'group[ arg ] = arguments[ ++a + 1 ]' )
+				groupDupCheck.$( 'group[ arg ] = arguments[ ++a + 1 ]' )
 			)
 			.$case(
 				'"group:remove"',
-				$block
-				.append( groupDupCheck )
-				.$( 'delete group[ arg ]' )
+				groupDupCheck.$( 'delete group[ arg ]' )
 			);
 	}
 
@@ -471,12 +464,9 @@ def.proto.genCreatorFreeStringsParser =
 			switchExpr
 			.$case(
 				'"list:init"',
-				$block
-				.$check(
-					$( 'if( !Array.isArray( arg ) ) throw new Error( );' )
-				)
-				.$( 'list = arg' )
-				.$( 'listDup = true' )
+				'if( Array.isArray( arg ) )',
+				'{ list = arg; listDup = true; }',
+				'else { list = arg._list; listDup = false; }'
 			)
 			.$case(
 				'"list:append"',
