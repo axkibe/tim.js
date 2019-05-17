@@ -842,7 +842,7 @@ def.static.handleNull =
 		// spec   // operator spec
 	)
 {
-	return state.advance( ast_null.create( ) );
+	return state.advance( ast_null.singleton );
 };
 
 

@@ -30,11 +30,14 @@ self.prototype = prototype;
 let _singleton;
 
 
+tim_proto.lazyStaticValue( self, 'singleton', function( ) { return self._create( ); } );
+
+
 /*
 | Creates a new object.
 */
-self.create =
-prototype.create =
+self._create =
+prototype._create =
 	function(
 		// free strings
 	)

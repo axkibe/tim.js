@@ -7,6 +7,9 @@
 tim.define( module, ( def, type_string ) => {
 
 
+def.singleton = true;
+
+
 def.proto.equalsConvention = 'mustnot';
 
 

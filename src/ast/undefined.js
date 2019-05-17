@@ -9,6 +9,8 @@ tim.define( module, ( def, ast_undefined ) => {
 
 def.extend = './node';
 
+def.singleton = true;
+
 
 /*
 | Walks the ast tree depth-first, pre-order

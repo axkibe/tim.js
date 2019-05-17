@@ -7,6 +7,9 @@
 tim.define( module, ( def, ast_shorthand ) => {
 
 
+def.abstract = true;
+
+
 const ast_and = tim.require( './and' );
 
 const ast_assign = tim.require( './assign' );
@@ -182,7 +185,7 @@ def.staticLazy.$block = ( ) => ast_block.create( );
 /*
 | Shorthand for ast break.
 */
-def.staticLazy.$break = ( ) => ast_break.create( );
+def.staticLazy.$break = ( ) => ast_break.singleton;
 
 
 /*
@@ -316,7 +319,7 @@ def.static.$const =
 /*
 | Shorthand for ast continue.
 */
-def.staticLazy.$continue = ( ) => ast_continue.create( );
+def.staticLazy.$continue = ( ) => ast_continue.singleton;
 
 
 /*
@@ -738,7 +741,7 @@ def.static.$not =
 /*
 | Shorthand for ast nulls.
 */
-def.staticLazy.$null = ( ) => ast_null.create( );
+def.staticLazy.$null = ( ) => ast_null.singleton;
 
 
 /*
@@ -923,7 +926,7 @@ def.static.$typeof =
 /*
 | Shorthand for 'undefined'
 */
-def.staticLazy.$undefined = ( ) => ast_undefined.create( );
+def.staticLazy.$undefined = ( ) => ast_undefined.singleton;
 
 
 /*

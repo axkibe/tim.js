@@ -81,9 +81,9 @@ const $undefined = shorthand.$undefined;
 /*
 | Type singletons
 */
-const tsUndefined = type_undefined.create( );
+const tsUndefined = type_undefined.singleton;
 
-const tsNull = type_null.create( );
+const tsNull = type_null.singleton;
 
 
 /*
@@ -267,6 +267,11 @@ def.proto.genSingleton =
 		$block
 		.$comment( 'Singleton' )
 		.$let( '_singleton' )
+		.$(
+			'tim_proto.lazyStaticValue( self, "singleton", ',
+			$func( $( '{ return self._create( ); }' ) ),
+			')'
+		)
 	);
 };
 
@@ -1513,6 +1518,8 @@ def.proto.genFromJsonCreatorTwigProcessing =
 def.proto.genFromJsonCreatorReturn =
 	function( )
 {
+	if( this.timspec.singleton ) return $( 'self.singleton' );
+
 	const attributes = this.timspec.attributes;
 
 	let call = $( 'Constructor( )' );

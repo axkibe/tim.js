@@ -178,7 +178,7 @@ def.static.createFromDef =
 
 	validator.check( def );
 
-	const creator = def.create ? def.create[ 0 ] : 'create';
+	let creator = def.create ? def.create[ 0 ] : 'create';
 
 	const abstract = !!def.abstract;
 
@@ -365,13 +365,16 @@ def.static.createFromDef =
 		gtwig = extendSpec.gtwig;
 	}
 
-	if( ggroup && !abstract) imports = imports.addSet( ggroup );
+	if( !abstract )
+	{
+		if( ggroup ) imports = imports.addSet( ggroup );
 
-	if( glist && !abstract) imports = imports.addSet( glist );
+		if( glist ) imports = imports.addSet( glist );
 
-	if( gset && !abstract) imports = imports.addSet( gset );
+		if( gset ) imports = imports.addSet( gset );
 
-	if( gtwig && !abstract ) imports = imports.addSet( gtwig );
+		if( gtwig ) imports = imports.addSet( gtwig );
+	}
 
 	if( abstract || ggroup || glist || gset || gtwig ) singleton = false;
 
@@ -398,6 +401,16 @@ def.static.createFromDef =
 
 	// isAdjusting when defined here or by a parent
 	const isAdjusting = !!( def.adjust.get || ( extendSpec && extendSpec.isAdjusting ) );
+
+	if( singleton && !def.singleton ) throw new Error( 'this is a singleton' );
+
+	if( !singleton && def.singleton ) throw new Error( 'this is not a singleton' );
+
+	if( def.abstract && def.singleton ) throw new Error( 'abstract and singleton are exclusive' );
+
+	if( singleton && def.creator ) throw new Error( 'singletons cannot have creators' );
+
+	if( singleton ) creator = '_create';
 
 	return(
 		timspec_timspec.create(

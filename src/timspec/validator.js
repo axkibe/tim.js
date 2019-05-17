@@ -7,6 +7,9 @@
 tim.define( module, ( def, self ) => {
 
 
+def.abstract = true;
+
+
 /*
 | Attributes must not be named like these.
 */
@@ -70,6 +73,7 @@ const timWhitelist =
 		'lazyFuncStr' : true,
 		'list' : true,
 		'set' : true,
+		'singleton' : true,
 		'static' : true,
 		'staticLazy' : true,
 		'twig' : true,

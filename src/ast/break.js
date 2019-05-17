@@ -9,6 +9,8 @@ tim.define( module, ( def, ast_break ) => {
 
 def.extend = './node';
 
+def.singleton = true;
+
 
 /*
 | Custom inspect.
