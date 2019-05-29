@@ -3,3 +3,4 @@ FIXME find why requie( 'X' ).muh makes brackets
 FIXME ensure that anything exporting json has a json string set
 FIXME generated timcode no longer needs Capsules
 FIXME generated timcode, make "self" a const
+FIXME make first/last lazy values for lists

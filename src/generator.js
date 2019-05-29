@@ -1728,7 +1728,7 @@ def.proto.genTimProto =
 			.$comment( 'Forwards the iterator.' )
 			.$(
 				'prototype[ Symbol.iterator ] =',
-				$func( $( 'return this._list[ Symbol.iterator ]( )' ) )
+				$func( 'return this._list[ Symbol.iterator ]( )' )
 			)
 			.$comment( 'Reverse iterates over the list.' )
 			.$(
@@ -1749,6 +1749,9 @@ def.proto.genTimProto =
 			.$comment( 'Returns the set with another set added.' )
 			.$( this._protoSet( 'addSet', 'setAddSet' ) )
 
+			.$comment( 'Returns a clone primitive.' )
+			.$( 'prototype.clone = ', $func( 'return new Set( this._set );' ) )
+
 			.$comment( 'Returns true if the set has an element.' )
 			.$( this._protoSet( 'has', 'setHas' ) )
 
@@ -1764,7 +1767,7 @@ def.proto.genTimProto =
 			.$comment( 'Forwards the iterator.' )
 			.$(
 				'prototype[ Symbol.iterator ] =',
-				$func( $( 'return this._set[ Symbol.iterator ]( )' ) )
+				$func( 'return this._set[ Symbol.iterator ]( )' )
 			);
 	}
 

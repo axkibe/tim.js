@@ -223,6 +223,12 @@ prototype.addSet = tim_proto.setAddSet;
 
 
 /*
+| Returns a clone primitive.
+*/
+prototype.clone = function( ) { return new Set( this._set ); };
+
+
+/*
 | Returns true if the set has an element.
 */
 prototype.has = tim_proto.setHas;
