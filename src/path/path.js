@@ -19,7 +19,9 @@ if( TIM )
 | Returns a path with key appended
 */
 def.lazyFuncStr.append =
-	function( key )
+	function(
+		key
+	)
 {
 	const result = this.create( 'list:append', key );
 
@@ -112,6 +114,16 @@ def.lazy.isEmpty =
 
 
 /*
+| The last entry.
+*/
+def.lazy.last =
+	function( )
+{
+	return this.get( this.length - 1 );
+};
+
+
+/*
 | Returns a path limited to a specific length.
 |
 | FUTURE cache
@@ -141,7 +153,9 @@ def.proto.limit =
 | Returns a path with an entry prepended.
 */
 def.lazyFuncStr.prepend =
-	function( entry )
+	function(
+		entry
+	)
 {
 	const result = this.create( 'list:insert', 0, entry );
 
@@ -167,6 +181,25 @@ def.lazy.shorten =
 	// FUTURE aheadLazyStringFunc
 
 	return result;
+};
+
+
+/*
+| Turns the path to a string.
+*/
+def.lazy.string =
+	function( )
+{
+	const b = [ '[' ];
+
+	for( let a = 0, al = this.length; a < al; a++ )
+	{
+		b.push( ( a > 0 ?  ', ' : ' ' ), this.get( a ) );
+	}
+
+	b.push( ' ]' );
+
+	return b.join( '' );
 };
 
 
@@ -198,25 +231,6 @@ def.proto.subPathOf =
 	}
 
 	return true;
-};
-
-
-/*
-| Turns the path to a string.
-*/
-def.lazy.string =
-	function( )
-{
-	const b = [ '[' ];
-
-	for( let a = 0, al = this.length; a < al; a++ )
-	{
-		b.push( ( a > 0 ?  ', ' : ' ' ), this.get( a ) );
-	}
-
-	b.push( ' ]' );
-
-	return b.join( '' );
 };
 
 
