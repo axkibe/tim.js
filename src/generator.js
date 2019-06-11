@@ -1703,11 +1703,17 @@ def.proto.genTimProto =
 			.$comment( 'Returns the list with another list appended.' )
 			.$( this._protoSet( 'appendList', 'listAppendList' ) )
 
+			.$comment( 'Returns the first element of the list.')
+			.$( this._protoLazyValueSet( 'first', 'listFirst' ) )
+
 			.$comment( 'Returns one element from the list.' )
 			.$( this._protoSet( 'get', 'listGet' ) )
 
 			.$comment( 'Returns the list with one element inserted.' )
 			.$( this._protoSet( 'insert', 'listInsert' ) )
+
+			.$comment( 'Returns the last element of the list.')
+			.$( this._protoLazyValueSet( 'last', 'listLast' ) )
 
 			.$comment( 'Returns the length of the list.')
 			.$( this._protoLazyValueSet( 'length', 'listLength' ) )

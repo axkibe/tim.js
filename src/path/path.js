@@ -114,16 +114,6 @@ def.lazy.isEmpty =
 
 
 /*
-| The last entry.
-*/
-def.lazy.last =
-	function( )
-{
-	return this.get( this.length - 1 );
-};
-
-
-/*
 | Returns a path limited to a specific length.
 |
 | FUTURE cache

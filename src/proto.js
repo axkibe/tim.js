@@ -358,9 +358,18 @@ proto.listAppendList =
 
 
 /*
-| Returns the length of the list.
+| Returns last element of the list.
 */
-proto.listLength = function( ) { return this._list.length; };
+proto.listFirst =
+	function( )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( this.length === 0 ) throw new Error( );
+/**/}
+
+	return this._list[ 0 ];
+};
 
 
 /*
@@ -392,6 +401,27 @@ proto.listInsert =
 	)
 {
 	return this.create( 'list:insert', idx, e );
+};
+
+
+/*
+| Returns the length of the list.
+*/
+proto.listLength = function( ) { return this._list.length; };
+
+
+/*
+| Returns last element of the list.
+*/
+proto.listLast =
+	function( )
+{
+/**/if( CHECK )
+/**/{
+/**/	if( this.length === 0 ) throw new Error( );
+/**/}
+
+	return this._list[ this.length - 1 ];
 };
 
 

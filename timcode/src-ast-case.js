@@ -449,6 +449,12 @@ prototype.appendList = tim_proto.listAppendList;
 
 
 /*
+| Returns the first element of the list.
+*/
+tim_proto.lazyValue( prototype, 'first', tim_proto.listFirst );
+
+
+/*
 | Returns one element from the list.
 */
 prototype.get = tim_proto.listGet;
@@ -458,6 +464,12 @@ prototype.get = tim_proto.listGet;
 | Returns the list with one element inserted.
 */
 prototype.insert = tim_proto.listInsert;
+
+
+/*
+| Returns the last element of the list.
+*/
+tim_proto.lazyValue( prototype, 'last', tim_proto.listLast );
 
 
 /*
