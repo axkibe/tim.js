@@ -36,10 +36,5 @@ tim.define =
 
 	tim._prepare( module, def, module );
 
-/**/if( CHECK && module.prototype )
-/**/{
-/**/	module.prototype.__DEBUG_DEFINER__ = definer;
-/**/}
-
 	module._def = def;
 };

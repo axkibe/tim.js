@@ -245,14 +245,27 @@ def.proto.genConstructor =
 		}
 	}
 
-	return(
+	block =
 		$block
 		.$comment( 'Constructor.' )
 		.$( 'const Constructor =', cf )
 		.$comment( 'Prototype shortcut' )
 		.$( 'const prototype = Constructor.prototype' )
-		.$( 'self.prototype = prototype' )
-	);
+		.$( 'self.prototype = prototype' );
+
+	if( timspec.path )
+	{
+		block =
+			block
+			.$comment( 'Reflection for visual debugging' )
+			.$check(
+				'self.__DEBUG_PATH__ = ',
+				'prototype.__DEBUG_PATH__ = ',
+				$string( timspec.path.filepath )
+			);
+	}
+
+	return block;
 };
 
 

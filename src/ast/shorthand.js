@@ -216,7 +216,9 @@ def.static.$check =
 		arg
 	)
 {
-	return ast_check.create( 'block', ensureBlock( arg ) );
+	const ast = parser.statement.apply( parser, arguments );
+
+	return ast_check.create( 'block', ensureBlock( ast ) );
 };
 
 
