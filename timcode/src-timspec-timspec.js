@@ -40,6 +40,7 @@ const Constructor =
 		v_attributes,
 		v_check,
 		v_creator,
+		v_customAsJSON,
 		v_extend,
 		v_extendSpec,
 		v_ggroup,
@@ -70,6 +71,8 @@ const Constructor =
 	this.check = v_check;
 
 	this.creator = v_creator;
+
+	this.customAsJSON = v_customAsJSON;
 
 	this.extend = v_extend;
 
@@ -139,6 +142,8 @@ prototype.create =
 
 	let v_creator;
 
+	let v_customAsJSON;
+
 	let v_extend;
 
 	let v_extendSpec;
@@ -186,6 +191,8 @@ prototype.create =
 		v_check = this.check;
 
 		v_creator = this.creator;
+
+		v_customAsJSON = this.customAsJSON;
 
 		v_extend = this.extend;
 
@@ -273,6 +280,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_creator = arg;
+				}
+
+				break;
+
+			case 'customAsJSON' :
+
+				if( arg !== pass )
+				{
+					v_customAsJSON = arg;
 				}
 
 				break;
@@ -463,6 +479,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( typeof( v_customAsJSON ) !== 'boolean' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_extend !== undefined && v_extend.timtype !== tt_$_type_tim )
 /**/	{
 /**/		throw new Error( );
@@ -561,6 +582,8 @@ prototype.create =
 		&&
 		v_creator === inherit.creator
 		&&
+		v_customAsJSON === inherit.customAsJSON
+		&&
 		(
 			v_extend === inherit.extend
 			||
@@ -654,6 +677,7 @@ prototype.create =
 			v_attributes,
 			v_check,
 			v_creator,
+			v_customAsJSON,
 			v_extend,
 			v_extendSpec,
 			v_ggroup,
@@ -731,6 +755,8 @@ prototype.equals =
 		this.check === obj.check
 		&&
 		this.creator === obj.creator
+		&&
+		this.customAsJSON === obj.customAsJSON
 		&&
 		(
 			this.extend === obj.extend
@@ -847,6 +873,8 @@ prototype.alikeIgnoringProteans =
 		this.check === obj.check
 		&&
 		this.creator === obj.creator
+		&&
+		this.customAsJSON === obj.customAsJSON
 		&&
 		(
 			this.extend === obj.extend

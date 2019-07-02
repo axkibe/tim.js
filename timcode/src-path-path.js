@@ -330,7 +330,7 @@ a--
 */
 tim_proto.lazyValue(
 	prototype,
-	'toJSON',
+	'_asJSON',
 	function( )
 {
 	const json =
@@ -341,9 +341,15 @@ tim_proto.lazyValue(
 				this._list
 		};
 
-	return function( ) { return Object.freeze( json ); };
+	return Object.freeze( json );
 }
 );
+
+
+/*
+| Adapter for JSON.stringify
+*/
+prototype.toJSON = function( ) { return this._asJSON; };
 
 
 /*

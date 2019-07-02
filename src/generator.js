@@ -1531,7 +1531,7 @@ def.proto.genFromJsonCreatorTwigProcessing =
 def.proto.genFromJsonCreatorReturn =
 	function( )
 {
-	if( this.timspec.singleton ) return $( 'self.singleton' );
+	if( this.timspec.singleton ) return $( 'return self.singleton' );
 
 	const attributes = this.timspec.attributes;
 
@@ -1873,18 +1873,37 @@ def.proto.genToJson =
 			.add( 'twig', 'this._twig' );
 	}
 
-	let block =
-		$block
-		.$( 'const json =', olit )
-		.$( 'return', $func( 'return Object.freeze( json )' ) );
+	let block;
 
-	return(
-		$block
-		.$comment( 'Converts into json.' )
+	if( !timspec.customAsJSON )
+	{
+		block =
+			$block
+			.$comment( 'Converts into json.' )
+			.$(
+				'tim_proto.lazyValue( prototype, "asJSON", ',
+					$func(
+						$block
+						.$( 'const json =', olit )
+						.$( 'return Object.freeze( json )' )
+					),
+				')'
+			);
+	}
+	else
+	{
+		block = $block;
+	}
+
+	block =
+		block
+		.$comment( 'Adapter for JSON.stringify' )
 		.$(
-			'tim_proto.lazyValue( prototype, "toJSON", ', $func( block ), ')'
-		)
-	);
+			'prototype.toJSON =',
+			$func( 'return this.asJSON' )
+		);
+
+	return block;
 };
 
 
@@ -2317,7 +2336,7 @@ def.lazy.ast =
 
 	if( !timspec.abstract ) code = code.$( this.genTimProto( ) );
 
-	if( timspec.json ) code = code.$( this.genToJson( ) );
+	if( timspec.json && !timspec.customToJSON ) code = code.$( this.genToJson( ) );
 
 	if( !timspec.abstract) code = code.$( this.genEquals( ) );
 

@@ -267,7 +267,7 @@ prototype[ Symbol.iterator ] = function( ) { return this._set[ Symbol.iterator ]
 */
 tim_proto.lazyValue(
 	prototype,
-	'toJSON',
+	'_asJSON',
 	function( )
 {
 	const json =
@@ -280,9 +280,15 @@ tim_proto.lazyValue(
 				)
 		};
 
-	return function( ) { return Object.freeze( json ); };
+	return Object.freeze( json );
 }
 );
+
+
+/*
+| Adapter for JSON.stringify
+*/
+prototype.toJSON = function( ) { return this._asJSON; };
 
 
 /*

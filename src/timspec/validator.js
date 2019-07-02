@@ -1,5 +1,7 @@
 /*
 | Checks if a tim definition looks ok.
+|
+| FIXME move all to timspec.validate( )
 */
 'use strict';
 
@@ -10,16 +12,6 @@ tim.define( module, ( def, self ) => {
 def.abstract = true;
 
 
-/*
-| Attributes must not be named like these.
-*/
-const attributeBlacklist =
-	Object.freeze( {
-		'create' : true,
-		'getPath' : true,
-		'inherit' : true,
-		'setPath' : true
-	} );
 
 /*
 | Groups must not have these attributes.
@@ -291,11 +283,6 @@ const checkAttribute =
 		name	// the attribute name
 	)
 {
-	if( attributeBlacklist[ name ] )
-	{
-		throw new Error( 'attribute must not be named "' + name + '"' );
-	}
-
 	if( def.group && attributeGroupBlacklist[ name ] )
 	{
 		throw new Error( 'groups must not have an attribute named "' + name + '"' );

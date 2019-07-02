@@ -26,6 +26,9 @@ if( TIM )
 		// for now only a rename of the default creator possible
 		creator : { type : 'string' },
 
+		// true if this tim has a custom to JSON converter.
+		customAsJSON : { type : [ 'boolean' ] },
+
 		// if set extends this tim
 		extend : { type : [ '../type/tim', 'undefined' ] },
 
@@ -176,7 +179,9 @@ def.static.createFromDef =
 /**/	if( arguments.length !== 3 ) throw new Error( );
 /**/}
 
-	validator.check( def );
+	validator.check( def );  // FIXME remove
+
+	timspec_timspec._validate( def );
 
 	let creator = def.create ? def.create[ 0 ] : 'create';
 
@@ -412,13 +417,14 @@ def.static.createFromDef =
 
 	if( singleton ) creator = '_create';
 
-	return(
+	const timspec =
 		timspec_timspec.create(
 			'abstract', abstract,
 			'alike', def.alike,
 			'attributes', attributes,
 			'check', !!def.proto._check,
 			'creator', creator,
+			'customAsJSON', !!def.lazy.asJSON,
 			'extend', extend,
 			'extendSpec', extendSpec,
 			'ggroup', ggroup,
@@ -435,8 +441,12 @@ def.static.createFromDef =
 			'module', module,
 			'requires', string_set.createFromProtean( requires ),
 			'singleton', singleton
-		)
-	);
+		);
+
+
+	timspec._validate( );
+
+	return timspec;
 };
 
 
@@ -512,7 +522,7 @@ def.proto.getJsonTypeOf =
 		match = ca[ 1 ];
 	}
 
-	if( !match ) throw new Error( 'no def.json match' );
+	if( !match ) throw new Error( 'no def.json match in "' + filename + '"' );
 
 	return match;
 };
@@ -557,6 +567,94 @@ def.proto.getBrowserPreamble =
 		+ ' );';
 
 	return text;
+};
+
+
+/*
+| Attributes must not be named like these.
+*/
+def.static._validateAttributeBlacklist =
+	Object.freeze( {
+		'create' : true,
+		'getPath' : true,
+		'inherit' : true,
+		'setPath' : true
+	} );
+
+
+/*
+| Checks if a tim attribute definition looks ok.
+*/
+def.static._validateAttribute =
+	function(
+		def,	// the tim definition
+		name	// the attribute name
+	)
+{
+	if( timspec_timspec._validateAttributeBlacklist[ name ] )
+	{
+		throw new Error( 'attribute must not be named "' + name + '"' );
+	}
+};
+
+
+/*
+| Throws an error if something doesn't seem right
+| with the tim definition.
+|
+| This part of the validation is done before the timspec is created.
+*/
+def.static._validate =
+	function(
+		def
+	)
+{
+	const attr = def.attributes;
+
+	if( attr )
+	{
+		for( let name in attr ) timspec_timspec._validateAttribute( def, name );
+	}
+
+	if(
+		def.proto.asJSON !== undefined
+		|| def.static.asJSON !== undefined
+		|| def.staticLazy.asJSON !== undefined
+		|| def.lazyFuncInt.asJSON !== undefined
+		|| def.lazyFuncStr.asJSON !== undefined
+	)
+	{
+		throw new Error( '"asJSON" can only be lazy' );
+	}
+
+	if(
+		def.proto.toJSON !== undefined
+		|| def.lazy.toJSON !== undefined
+		|| def.static.toJSON !== undefined
+		|| def.staticLazy.toJSON !== undefined
+		|| def.lazyFuncInt.toJSON !== undefined
+		|| def.lazyFuncStr.toJSON !== undefined
+	)
+	{
+		throw new Error( '"toJSON" forbidden, use "asJSON"' );
+	}
+
+};
+
+
+/*
+| Throws an error if something doesn't seem right
+| with the timspec.
+|
+| This part of the validation is done after the timspec is created.
+*/
+def.proto._validate =
+	function( )
+{
+	if( this.customAsJSON && !this.json )
+	{
+		throw new Error( 'custom toJSON converter but no json name defined' );
+	}
 };
 
 
