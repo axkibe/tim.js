@@ -26,8 +26,8 @@ if( TIM )
 		// for now only a rename of the default creator possible
 		creator : { type : 'string' },
 
-		// true if this tim has a custom to JSON converter.
-		customAsJSON : { type : [ 'boolean' ] },
+		// true if this tim has a custom from/to JSON converters.
+		customJSON : { type : 'boolean' },
 
 		// if set extends this tim
 		extend : { type : [ '../type/tim', 'undefined' ] },
@@ -66,8 +66,8 @@ if( TIM )
 		// true if this is a adjusting group/list/set/twig
 		isAdjusting : { type : 'boolean' },
 
-		// json name of this tim
-		json : { type : [ 'undefined', 'string' ] },
+		// json name of this tim, or base timspec to forward to
+		json : { type : [ 'undefined', 'string', './timspec' ] },
 
 		// stuff required in this tim implementation
 		requires : { type : [ '../string/set' ] },
@@ -180,8 +180,6 @@ def.static.createFromDef =
 /**/}
 
 	validator.check( def );  // FIXME remove
-
-	timspec_timspec._validate( def );
 
 	let creator = def.create ? def.create[ 0 ] : 'create';
 
@@ -417,6 +415,35 @@ def.static.createFromDef =
 
 	if( singleton ) creator = '_create';
 
+	let json = def.json;
+
+	if( json )
+	{
+		if( json.indexOf( '/' ) >= 0 )
+		{
+			const type = type_tim.createFromPath( def.json.split( '/' ) );
+
+			json = getTimspec( type, module );
+		}
+
+		for( let attr of attributes )
+		{
+			if( !attr.json ) continue;
+
+			if( attr.types.length > 0 )
+			{
+				for( let type of attr.types )
+				{
+					if( type.timtype !== type_tim ) continue;
+
+					//const typeSpec =
+					getTimspec( type, module );
+				}
+			}
+		}
+	}
+
+
 	const timspec =
 		timspec_timspec.create(
 			'abstract', abstract,
@@ -424,7 +451,7 @@ def.static.createFromDef =
 			'attributes', attributes,
 			'check', !!def.proto._check,
 			'creator', creator,
-			'customAsJSON', !!def.lazy.asJSON,
+			'customJSON', !!def.lazy.asJSON,
 			'extend', extend,
 			'extendSpec', extendSpec,
 			'ggroup', ggroup,
@@ -437,14 +464,14 @@ def.static.createFromDef =
 			'imports', imports,
 			'inherits', inherits,
 			'isAdjusting', isAdjusting,
-			'json', def.json,
+			'json', json,
 			'module', module,
 			'requires', string_set.createFromProtean( requires ),
 			'singleton', singleton
 		);
 
 
-	timspec._validate( );
+	timspec._validate( def );
 
 	return timspec;
 };
@@ -473,24 +500,25 @@ def.proto.getTimspec =
 | Unlike requesting the whole timspec this doesn't need to fully
 | load the tim definition, solving dependency circles.
 */
-def.proto.getJsonTypeOf =
+def.static.getJsonTypeOf =
 	function(
-		timtype
+		timtype,
+		filename
 	)
 {
 /**/if( CHECK )
 /**/{
-/**/	if( arguments.length !== 1 ) throw new Error( );
+/**/	if( arguments.length !== 2 ) throw new Error( );
 /**/
 /**/	if( timtype.timtype !== type_tim ) throw new Error( );
+/**/
+/**/	if( typeof( filename ) !== 'string' ) throw new Error( );
 /**/}
 
 	const entry = tim.catalog.getByTimtype( module.filename, timtype );
 
 	// has already been loaded
 	if( entry && entry.timtype === timspec_timspec ) return entry.json;
-
-	let filename = this.filename;
 
 	filename = filename.substr( 0, filename.lastIndexOf( '/' ) );
 
@@ -527,6 +555,26 @@ def.proto.getJsonTypeOf =
 	return match;
 };
 
+
+/*
+| Gets the JSON type of a timtype with this timspec as base.
+| Unlike requesting the whole timspec this doesn't need to fully
+| load the tim definition, solving dependency circles.
+*/
+def.proto.getJsonTypeOf =
+	function(
+		timtype
+	)
+{
+/**/if( CHECK )
+/**/{
+/**/	if( arguments.length !== 1 ) throw new Error( );
+/**/
+/**/	if( timtype.timtype !== type_tim ) throw new Error( );
+/**/}
+
+	return timspec_timspec.getJsonTypeOf( timtype, this.filename );
+};
 
 /*
 | Returns the preamble to be prepended
@@ -600,15 +648,17 @@ def.static._validateAttribute =
 
 /*
 | Throws an error if something doesn't seem right
-| with the tim definition.
+| with the timspec.
 |
-| This part of the validation is done before the timspec is created.
+| This part of the validation is done after the timspec is created.
 */
-def.static._validate =
+def.proto._validate =
 	function(
-		def
+		def // the definition
 	)
 {
+	// FIXME
+
 	const attr = def.attributes;
 
 	if( attr )
@@ -624,7 +674,7 @@ def.static._validate =
 		|| def.lazyFuncStr.asJSON !== undefined
 	)
 	{
-		throw new Error( '"asJSON" can only be lazy' );
+		throw new Error( '"asJSON" must be lazy' );
 	}
 
 	if(
@@ -639,22 +689,33 @@ def.static._validate =
 		throw new Error( '"toJSON" forbidden, use "asJSON"' );
 	}
 
-};
-
-
-/*
-| Throws an error if something doesn't seem right
-| with the timspec.
-|
-| This part of the validation is done after the timspec is created.
-*/
-def.proto._validate =
-	function( )
-{
-	if( this.customAsJSON && !this.json )
+	if(
+		def.proto.createFromJSON !== undefined
+		|| def.lazy.createFromJSON !== undefined
+		|| def.staticLazy.createFromJSON !== undefined
+		|| def.lazyFuncInt.createFromJSON !== undefined
+		|| def.lazyFuncStr.createFromJSON !== undefined
+	)
 	{
-		throw new Error( 'custom toJSON converter but no json name defined' );
+		throw new Error( '"createFromJSON" must be static' );
 	}
+
+	/*
+	if( def.lazy.asJSON && !def.static.createFromJSON )
+	{
+		throw new Error( 'custom asJSON converter but no createFromJSON' );
+	}
+
+	if( !def.lazy.asJSON && def.static.createFromJSON )
+	{
+		throw new Error( 'createFromJSON converter but no asJSON' );
+	}
+
+	if( def.lazy.customAsJSON && !def.json )
+	{
+		throw new Error( 'custom JSON converter but no json name defined' );
+	}
+	*/
 };
 
 

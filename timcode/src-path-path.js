@@ -330,7 +330,7 @@ a--
 */
 tim_proto.lazyValue(
 	prototype,
-	'_asJSON',
+	'asJSON',
 	function( )
 {
 	const json =
@@ -349,7 +349,7 @@ tim_proto.lazyValue(
 /*
 | Adapter for JSON.stringify
 */
-prototype.toJSON = function( ) { return this._asJSON; };
+prototype.toJSON = function( ) { return this.asJSON; };
 
 
 /*

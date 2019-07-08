@@ -267,7 +267,7 @@ prototype[ Symbol.iterator ] = function( ) { return this._set[ Symbol.iterator ]
 */
 tim_proto.lazyValue(
 	prototype,
-	'_asJSON',
+	'asJSON',
 	function( )
 {
 	const json =
@@ -288,7 +288,7 @@ tim_proto.lazyValue(
 /*
 | Adapter for JSON.stringify
 */
-prototype.toJSON = function( ) { return this._asJSON; };
+prototype.toJSON = function( ) { return this.asJSON; };
 
 
 /*

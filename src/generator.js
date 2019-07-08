@@ -1130,6 +1130,10 @@ def.proto.genFromJsonCreatorAttributeParser =
 	// primitive checks
 	const pcs = [ ];
 
+	// table of already generated Json types
+	// FUTURE check if all are the same
+	const generatedJsonTypes = { };
+
 	for( let type of attr.types )
 	{
 		switch( type.timtype )
@@ -1151,18 +1155,44 @@ def.proto.genFromJsonCreatorAttributeParser =
 			{
 				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( 'throw new Error( );' );
 
-				const jsontype = timspec.getJsonTypeOf( type );
+				let jsontype = timspec.getJsonTypeOf( type );
 
-				cSwitch =
-					cSwitch
-					.$case(
-						$string( jsontype ),
-						$(
-							attr.varRef, ' = ',
-							type.$varname,
-							'.createFromJSON', '( arg )'
-						)
-					);
+				if( jsontype.indexOf( '/' ) < 0 )
+				{
+					cSwitch =
+						cSwitch
+						.$case(
+							$string( jsontype ),
+							$(
+								attr.varRef, ' = ',
+								type.$varname,
+								'.createFromJSON', '( arg )'
+							)
+						);
+				}
+				else
+				{
+					const typeSpec = timspec.getTimspec( type );
+
+					const jsonTimType = type_tim.createFromPath( jsontype.split( '/' ) );
+
+					const jsonSpec = typeSpec.getTimspec( jsonTimType );
+
+					if( generatedJsonTypes[ jsonSpec.json ] ) continue;
+
+					generatedJsonTypes[ jsonSpec.json ] = true;
+
+					cSwitch =
+						cSwitch
+						.$case(
+							$string( jsonSpec.json ),
+							$(
+								attr.varRef, ' = ',
+								jsonTimType.$varname,
+								'.createFromJSON', '( arg )'
+							)
+						);
+				}
 			}
 		}
 	}
@@ -1846,7 +1876,18 @@ def.proto.genToJson =
 
 	const attributes = timspec.attributes;
 
-	let olit = $objLiteral( ).add( 'type', $string( timspec.json ) );
+	let jsontype;
+
+	if( typeof( timspec.json ) === 'string' )
+	{
+		jsontype = timspec.json;
+	}
+	else
+	{
+		jsontype = timspec.json.json;
+	}
+
+	let olit = $objLiteral( ).add( 'type', $string( jsontype ) );
 
 	for( let a = 0, as = attributes.size; a < as; a++ )
 	{
@@ -1875,7 +1916,7 @@ def.proto.genToJson =
 
 	let block;
 
-	if( !timspec.customAsJSON )
+	if( !timspec.customJSON )
 	{
 		block =
 			$block
@@ -2328,17 +2369,20 @@ def.lazy.ast =
 
 	if( timspec.singleton ) code = code.$( this.genSingleton( )  );
 
-	if( !timspec.abstract ) code = code.$( this.genCreator( ) );
+	if( !timspec.abstract )
+	{
+		code = code.$( this.genCreator( ) );
 
-	if( !timspec.abstract && timspec.json ) code = code.$( this.genFromJsonCreator( ) );
+		if( timspec.json && !timspec.customJSON ) code = code.$( this.genFromJsonCreator( ) );
 
-	if( !timspec.abstract ) code = code.$( this.genReflection( ) );
+		code = code.$( this.genReflection( ) );
 
-	if( !timspec.abstract ) code = code.$( this.genTimProto( ) );
+		code = code.$( this.genTimProto( ) );
 
-	if( timspec.json && !timspec.customToJSON ) code = code.$( this.genToJson( ) );
+		if( timspec.json ) code = code.$( this.genToJson( ) );
 
-	if( !timspec.abstract) code = code.$( this.genEquals( ) );
+		code = code.$( this.genEquals( ) );
+	}
 
 	if( timspec.alike ) code = code.$( this.genAlike( ) );
 

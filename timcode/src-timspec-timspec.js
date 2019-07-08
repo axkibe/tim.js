@@ -40,7 +40,7 @@ const Constructor =
 		v_attributes,
 		v_check,
 		v_creator,
-		v_customAsJSON,
+		v_customJSON,
 		v_extend,
 		v_extendSpec,
 		v_ggroup,
@@ -72,7 +72,7 @@ const Constructor =
 
 	this.creator = v_creator;
 
-	this.customAsJSON = v_customAsJSON;
+	this.customJSON = v_customJSON;
 
 	this.extend = v_extend;
 
@@ -142,7 +142,7 @@ prototype.create =
 
 	let v_creator;
 
-	let v_customAsJSON;
+	let v_customJSON;
 
 	let v_extend;
 
@@ -192,7 +192,7 @@ prototype.create =
 
 		v_creator = this.creator;
 
-		v_customAsJSON = this.customAsJSON;
+		v_customJSON = this.customJSON;
 
 		v_extend = this.extend;
 
@@ -284,11 +284,11 @@ prototype.create =
 
 				break;
 
-			case 'customAsJSON' :
+			case 'customJSON' :
 
 				if( arg !== pass )
 				{
-					v_customAsJSON = arg;
+					v_customJSON = arg;
 				}
 
 				break;
@@ -479,7 +479,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( typeof( v_customAsJSON ) !== 'boolean' )
+/**/	if( typeof( v_customJSON ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -544,7 +544,13 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if( v_json !== undefined && typeof( v_json ) !== 'string' )
+/**/	if(
+/**/		v_json !== undefined
+/**/		&&
+/**/		typeof( v_json ) !== 'string'
+/**/		&&
+/**/		v_json.timtype !== tt_timspec
+/**/	)
 /**/	{
 /**/		throw new Error( );
 /**/	}
@@ -582,7 +588,7 @@ prototype.create =
 		&&
 		v_creator === inherit.creator
 		&&
-		v_customAsJSON === inherit.customAsJSON
+		v_customJSON === inherit.customJSON
 		&&
 		(
 			v_extend === inherit.extend
@@ -648,7 +654,11 @@ prototype.create =
 		&&
 		v_isAdjusting === inherit.isAdjusting
 		&&
-		v_json === inherit.json
+		(
+			v_json === inherit.json
+			||
+			v_json !== undefined && v_json.timtype && v_json.equals( inherit.json )
+		)
 		&&
 		v_module === inherit.module
 		&&
@@ -677,7 +687,7 @@ prototype.create =
 			v_attributes,
 			v_check,
 			v_creator,
-			v_customAsJSON,
+			v_customJSON,
 			v_extend,
 			v_extendSpec,
 			v_ggroup,
@@ -756,7 +766,7 @@ prototype.equals =
 		&&
 		this.creator === obj.creator
 		&&
-		this.customAsJSON === obj.customAsJSON
+		this.customJSON === obj.customJSON
 		&&
 		(
 			this.extend === obj.extend
@@ -822,7 +832,11 @@ prototype.equals =
 		&&
 		this.isAdjusting === obj.isAdjusting
 		&&
-		this.json === obj.json
+		(
+			this.json === obj.json
+			||
+			this.json !== undefined && this.json.timtype && this.json.equals( obj.json )
+		)
 		&&
 		this.module === obj.module
 		&&
@@ -874,7 +888,7 @@ prototype.alikeIgnoringProteans =
 		&&
 		this.creator === obj.creator
 		&&
-		this.customAsJSON === obj.customAsJSON
+		this.customJSON === obj.customJSON
 		&&
 		(
 			this.extend === obj.extend
@@ -940,7 +954,11 @@ prototype.alikeIgnoringProteans =
 		&&
 		this.isAdjusting === obj.isAdjusting
 		&&
-		this.json === obj.json
+		(
+			this.json === obj.json
+			||
+			this.json !== undefined && this.json.timtype && this.json.equals( obj.json )
+		)
 		&&
 		(
 			this.path === obj.path
