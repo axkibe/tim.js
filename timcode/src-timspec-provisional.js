@@ -123,6 +123,11 @@ prototype.create =
 /**/	{
 /**/		throw new Error( );
 /**/	}
+/**/
+/**/	if( typeof( v_placeholder ) !== 'object' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
 /**/}
 
 	if(

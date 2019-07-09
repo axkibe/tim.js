@@ -135,36 +135,6 @@ const tt_$_ast_var = require( './../ast/var' );
 const tt_$_ast_yield = require( './../ast/yield' );
 
 
-const tt_$_type_boolean = require( './../type/boolean' );
-
-
-const tt_$_type_date = require( './../type/date' );
-
-
-const tt_$_type_function = require( './../type/function' );
-
-
-const tt_$_type_integer = require( './../type/integer' );
-
-
-const tt_$_type_null = require( './../type/null' );
-
-
-const tt_$_type_number = require( './../type/number' );
-
-
-const tt_$_type_protean = require( './../type/protean' );
-
-
-const tt_$_type_undefined = require( './../type/undefined' );
-
-
-const tt_$_type_string = require( './../type/string' );
-
-
-const tt_$_type_tim = require( './../type/tim' );
-
-
 const tt_$_type_set = require( './../type/set' );
 
 
@@ -457,29 +427,7 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
-/**/	if(
-/**/		v_types.timtype !== tt_$_type_boolean
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_date
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_function
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_integer
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_null
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_number
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_protean
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_undefined
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_string
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_tim
-/**/		&&
-/**/		v_types.timtype !== tt_$_type_set
-/**/	)
+/**/	if( v_types.timtype !== tt_$_type_set )
 /**/	{
 /**/		throw new Error( );
 /**/	}

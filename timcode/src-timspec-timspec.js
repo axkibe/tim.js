@@ -555,6 +555,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( typeof( v_module ) !== 'object' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( v_path !== undefined && v_path.timtype !== tt_$_path_path )
 /**/	{
 /**/		throw new Error( );

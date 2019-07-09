@@ -116,6 +116,11 @@ prototype.create =
 
 /**/if( CHECK )
 /**/{
+/**/	if( typeof( v_constructorList ) !== 'object' )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_creatorHasFreeStringsParser ) !== 'boolean' )
 /**/	{
 /**/		throw new Error( );

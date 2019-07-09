@@ -20,14 +20,16 @@ if( TIM )
 		// default value
 		defaultValue : { type : [ '< ../ast/types-expr', 'undefined' ] },
 
-		// include in JSON export/import
+		// create JSON converters
 		json : { type : 'boolean', defaultValue : 'false' },
+
+		jsonTypes : { type : [ 'undefined' ] },
 
 		// attribute name
 		name : { type : 'string' },
 
 		// attribute types
-		types : { type : [ '< ../type/types', '../type/set' ] },
+		types : { type : '../type/set' },
 
 		// attribute variable used in generate
 		varRef : { type : '../ast/var' },

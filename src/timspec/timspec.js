@@ -128,6 +128,59 @@ const isntEmpty =
 
 
 /*
+| Returns the realpath of a basefilename with a relative path.
+*/
+const getRealpath =
+	function(
+		base,    // the filename of the base
+		relative // the relative path
+	)
+{
+	// first the directory of the base
+	base = base.substr( 0, base.lastIndexOf( '/' ) );
+
+	return fs.realpathSync( base + '/' + relative ) + '';
+};
+
+
+/*
+| Creates a type_tim, from basename to filename.
+*/
+const makeRelativeTypeTim =
+	function(
+		basename,
+		filename
+	)
+{
+	const b = basename.split( '/' );
+	const f = filename.split( '/' );
+
+	// removes the common part
+	while( b[ 0 ] === f[ 0 ] ) { b.shift( ); f.shift( ); }
+
+	// removes the base file
+	b.pop( );
+
+	// for each part in base goes one upward
+	for( let _ in b ) { f.unshift( '..' ); }
+
+	let last = f[ f.length - 1 ];
+
+	console.log( '...', last );
+
+	if( last.substr( last.length - 3 ) === '.js' )
+	{
+		last = last.substr( 0, last.length - 3 );
+		console.log( '.:.', last );
+
+		f[ f.length - 1 ] = last;
+	}
+
+	return type_tim.createFromPath( f );
+};
+
+
+/*
 | Returns the timspec of a timtype.
 */
 const getTimspec =
@@ -145,8 +198,11 @@ const getTimspec =
 
 		if( !rd ) throw new Error( );
 
-		const replace = rd.exports.get( timtype.pathString );
+		console.log( 'YY1', timtype.pathStringBase );
+		console.log( 'YY2', rd.exports );
+		const replace = rd.exports.get( timtype.pathStringBase );
 
+		console.log( 'YY3', replace );
 		const ts = rd.getByPath( replace );
 
 		if( !ts ) throw new Error( );
@@ -253,18 +309,17 @@ def.static.createFromDef =
 
 		if( !Array.isArray( jType ) )
 		{
-			types = type_any.createFromString( jType );
+			const type = type_any.createFromString( jType );
 
-			if( !abstract ) imports = imports.add( types );
+			types = type_set.create( 'set:add', type );
+
+			if( !abstract ) imports = imports.add( type );
 		}
 		else
 		{
 			types = type_set.createFromArray( module, jType );
 
 			if( !abstract ) imports = imports.addSet( types );
-
-			// if there is just one type, replaces the set with that type
-			types = types.trivial;
 		}
 
 		// sees if this is an adjusted attribute
@@ -290,6 +345,24 @@ def.static.createFromDef =
 		let defaultValue;
 
 		if( jdv ) defaultValue = $.$expr( jdv ).walk( transformDefaultValue );
+
+		if( jAttr.json )
+		{
+			for( let type of types )
+			{
+				if( type.timtype !== type_tim ) continue;
+
+				const attrPath = getRealpath( module.filename, type.pathString );
+
+				const jsonType = timspec_timspec.getJsonTypeOf( type, module.filename );
+
+				const jPath = getRealpath( attrPath, jsonType + '.js' );
+
+				const jType = makeRelativeTypeTim( module.filename, jPath );
+
+				imports = imports.add( jType );
+			}
+		}
 
 		const attr =
 			timspec_attribute.create(
@@ -417,6 +490,8 @@ def.static.createFromDef =
 
 	let json = def.json;
 
+
+	// gets additional imports from json forwarders
 	if( json )
 	{
 		if( json.indexOf( '/' ) >= 0 )
@@ -424,22 +499,6 @@ def.static.createFromDef =
 			const type = type_tim.createFromPath( def.json.split( '/' ) );
 
 			json = getTimspec( type, module );
-		}
-
-		for( let attr of attributes )
-		{
-			if( !attr.json ) continue;
-
-			if( attr.types.length > 0 )
-			{
-				for( let type of attr.types )
-				{
-					if( type.timtype !== type_tim ) continue;
-
-					//const typeSpec =
-					getTimspec( type, module );
-				}
-			}
 		}
 	}
 
