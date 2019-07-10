@@ -135,6 +135,9 @@ const tt_$_ast_var = require( './../ast/var' );
 const tt_$_ast_yield = require( './../ast/yield' );
 
 
+const tt_$_type_group = require( './../type/group' );
+
+
 const tt_$_type_set = require( './../type/set' );
 
 
@@ -150,6 +153,7 @@ const Constructor =
 		v_assign,
 		v_defaultValue,
 		v_json,
+		v_jsonTypes,
 		v_name,
 		v_types,
 		v_varRef
@@ -164,6 +168,8 @@ const Constructor =
 	this.defaultValue = v_defaultValue;
 
 	this.json = v_json;
+
+	this.jsonTypes = v_jsonTypes;
 
 	this.name = v_name;
 
@@ -203,6 +209,8 @@ prototype.create =
 
 	let v_json;
 
+	let v_jsonTypes;
+
 	let v_name;
 
 	let v_types;
@@ -220,6 +228,8 @@ prototype.create =
 		v_defaultValue = this.defaultValue;
 
 		v_json = this.json;
+
+		v_jsonTypes = this.jsonTypes;
 
 		v_name = this.name;
 
@@ -270,6 +280,15 @@ prototype.create =
 				if( arg !== pass )
 				{
 					v_json = arg;
+				}
+
+				break;
+
+			case 'jsonTypes' :
+
+				if( arg !== pass )
+				{
+					v_jsonTypes = arg;
 				}
 
 				break;
@@ -422,6 +441,11 @@ prototype.create =
 /**/		throw new Error( );
 /**/	}
 /**/
+/**/	if( v_jsonTypes !== undefined && v_jsonTypes.timtype !== tt_$_type_group )
+/**/	{
+/**/		throw new Error( );
+/**/	}
+/**/
 /**/	if( typeof( v_name ) !== 'string' )
 /**/	{
 /**/		throw new Error( );
@@ -457,6 +481,12 @@ prototype.create =
 		&&
 		v_json === inherit.json
 		&&
+		(
+			v_jsonTypes === inherit.jsonTypes
+			||
+			v_jsonTypes !== undefined && v_jsonTypes.timtype && v_jsonTypes.equals( inherit.jsonTypes )
+		)
+		&&
 		v_name === inherit.name
 		&&
 		(
@@ -481,6 +511,7 @@ prototype.create =
 			v_assign,
 			v_defaultValue,
 			v_json,
+			v_jsonTypes,
 			v_name,
 			v_types,
 			v_varRef
@@ -546,6 +577,16 @@ prototype.equals =
 		)
 		&&
 		this.json === obj.json
+		&&
+		(
+			this.jsonTypes === obj.jsonTypes
+			||
+			this.jsonTypes !== undefined
+			&&
+			this.jsonTypes.timtype
+			&&
+			this.jsonTypes.equals( obj.jsonTypes )
+		)
 		&&
 		this.name === obj.name
 		&&

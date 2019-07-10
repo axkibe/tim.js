@@ -1151,48 +1151,52 @@ def.proto.genFromJsonCreatorAttributeParser =
 
 			case type_undefined : pcs.push( 'arg === undefined' ); break;
 
+			// FIXME make this type_tim? default, error?
 			default :
 			{
 				if( !cSwitch ) cSwitch = $switch( 'arg.type' ).$default( 'throw new Error( );' );
 
-				let jsontype = timspec.getJsonTypeOf( type );
+				let typeForward;
 
-				if( jsontype.indexOf( '/' ) < 0 )
+				if( attr.jsonTypes && ( typeForward = attr.jsonTypes.get( type.pathString ) ) )
 				{
+					let jsontype = timspec.getJsonTypeOf( typeForward );
+
+					if( generatedJsonTypes[ jsontype ] ) continue;
+
+					generatedJsonTypes[ jsontype ] = true;
+
 					cSwitch =
 						cSwitch
 						.$case(
 							$string( jsontype ),
 							$(
 								attr.varRef, ' = ',
-								type.$varname,
+								typeForward.$varname,
 								'.createFromJSON', '( arg )'
 							)
 						);
+
+					continue;
 				}
-				else
-				{
-					const typeSpec = timspec.getTimspec( type );
 
-					const jsonTimType = type_tim.createFromPath( jsontype.split( '/' ) );
+				let jsontype = timspec.getJsonTypeOf( type );
 
-					const jsonSpec = typeSpec.getTimspec( jsonTimType );
+/**/			if( CHECK )
+/**/			{
+/**/				if( jsontype.indexOf( '/' ) >= 0 ) throw new Error( );
+/**/			}
 
-					if( generatedJsonTypes[ jsonSpec.json ] ) continue;
-
-					generatedJsonTypes[ jsonSpec.json ] = true;
-
-					cSwitch =
-						cSwitch
-						.$case(
-							$string( jsonSpec.json ),
-							$(
-								attr.varRef, ' = ',
-								jsonTimType.$varname,
-								'.createFromJSON', '( arg )'
-							)
-						);
-				}
+				cSwitch =
+					cSwitch
+					.$case(
+						$string( jsontype ),
+						$(
+							attr.varRef, ' = ',
+							type.$varname,
+							'.createFromJSON', '( arg )'
+						)
+					);
 			}
 		}
 	}

@@ -107,6 +107,8 @@ const timspec_attributeGroup = tim.require( './attributeGroup' );
 
 const type_any = tim.require( '../type/any' );
 
+const type_group = tim.require( '../type/group' );
+
 const type_set = tim.require( '../type/set' );
 
 const type_tim = tim.require( '../type/tim' );
@@ -166,12 +168,9 @@ const makeRelativeTypeTim =
 
 	let last = f[ f.length - 1 ];
 
-	console.log( '...', last );
-
 	if( last.substr( last.length - 3 ) === '.js' )
 	{
 		last = last.substr( 0, last.length - 3 );
-		console.log( '.:.', last );
 
 		f[ f.length - 1 ] = last;
 	}
@@ -198,11 +197,8 @@ const getTimspec =
 
 		if( !rd ) throw new Error( );
 
-		console.log( 'YY1', timtype.pathStringBase );
-		console.log( 'YY2', rd.exports );
 		const replace = rd.exports.get( timtype.pathStringBase );
 
-		console.log( 'YY3', replace );
 		const ts = rd.getByPath( replace );
 
 		if( !ts ) throw new Error( );
@@ -346,21 +342,31 @@ def.static.createFromDef =
 
 		if( jdv ) defaultValue = $.$expr( jdv ).walk( transformDefaultValue );
 
+		let jsonTypes;
+
 		if( jAttr.json )
 		{
 			for( let type of types )
 			{
 				if( type.timtype !== type_tim ) continue;
 
+				if( type.imported ) continue;
+
 				const attrPath = getRealpath( module.filename, type.pathString );
 
 				const jsonType = timspec_timspec.getJsonTypeOf( type, module.filename );
+
+				if( jsonType.indexOf( '/' ) < 0 ) continue;
 
 				const jPath = getRealpath( attrPath, jsonType + '.js' );
 
 				const jType = makeRelativeTypeTim( module.filename, jPath );
 
 				imports = imports.add( jType );
+
+				if( !jsonTypes ) jsonTypes = type_group.create( );
+
+				jsonTypes = jsonTypes.create( 'group:set', type.pathString, jType );
 			}
 		}
 
@@ -371,6 +377,7 @@ def.static.createFromDef =
 				'defaultValue', defaultValue,
 				'types', types,
 				'json', !!jAttr.json,
+				'jsonTypes', jsonTypes,
 				'name', name,
 				'varRef', $.$var( 'v_' + name )
 			);

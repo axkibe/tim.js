@@ -23,7 +23,8 @@ if( TIM )
 		// create JSON converters
 		json : { type : 'boolean', defaultValue : 'false' },
 
-		jsonTypes : { type : [ 'undefined' ] },
+		// a mapping of types for forwarded json converters
+		jsonTypes : { type : [ 'undefined', '../type/group' ] },
 
 		// attribute name
 		name : { type : 'string' },
