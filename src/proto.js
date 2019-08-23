@@ -304,6 +304,23 @@ proto.groupAddGroup =
 
 
 /*
+| If this group is in adjustment mode, returns the element by key
+| going through the adjust.get function.
+*/
+proto.groupAdjustGet =
+	function(
+		key
+	)
+{
+	const tval = this._agroup[ key ];
+
+	if( tval !== undefined ) return tval;
+
+	return( this._agroup[ key ] = this.__adjust_get( key, this._group[ key ] ) );
+};
+
+
+/*
 | Gets one entry from the group.
 */
 proto.groupGet = function( key ) { return this._group[ key ]; };
@@ -571,28 +588,27 @@ proto.setTrivial =
 proto.twigAtRank = function( rank ) { return this.get( this.keys[ rank ] ); };
 
 
-
-/*
-| Returns the element by key.
-*/
-proto.twigGet = function( key ) { return this._twig[ key ]; };
-
-
 /*
 | If this tim twig is in adjustment mode, returns the element by key
-| going through the adjust.get functin.
+| going through the adjust.get function.
 */
 proto.twigAdjustGet =
 	function(
 		key
 	)
 {
-	const tval = this._ttwig[ key ];
+	const tval = this._atwig[ key ];
 
 	if( tval !== undefined ) return tval;
 
-	return( this._ttwig[ key ] = this[ '__adjust' + '_get' ]( key, this._twig[ key ] ) );
+	return( this._atwig[ key ] = this.__adjust_get( key, this._twig[ key ] ) );
 };
+
+
+/*
+| Returns the element by key.
+*/
+proto.twigGet = function( key ) { return this._twig[ key ]; };
 
 
 /*

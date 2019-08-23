@@ -136,7 +136,12 @@ def.proto.genConstructor =
 		block = block.append( assign );
 	}
 
-	if( timspec.ggroup ) block = block.$( 'this._group = group' );
+	if( timspec.ggroup )
+	{
+		block = block.$( 'this._group = group' );
+
+		if( timspec.isAdjusting ) block = block.$( 'this._agroup = { }' );
+	}
 
 	if( timspec.glist ) block = block.$( 'this._list = list' );
 
@@ -148,7 +153,7 @@ def.proto.genConstructor =
 
 		if( !timspec.hasProxyRanks ) block = block.$( 'this.keys = keys' );
 
-		if( timspec.isAdjusting ) block = block.$( 'this._ttwig = { }' );
+		if( timspec.isAdjusting ) block = block.$( 'this._atwig = { }' );
 	}
 
 	if( timspec.global ) block = block.$( this.timspec.global, '= this' );
@@ -361,6 +366,17 @@ def.proto.genCreatorInheritanceReceiver =
 			receiver
 			.$( 'group = inherit._group' )
 			.$( 'groupDup = false' );
+
+		if( timspec.isAdjusting )
+		{
+			receiver =
+				receiver
+				.$( 'if( !tim_proto.isEmpty( inherit._agroup ) )',
+					$block
+					.$( 'groupDup = true' )
+					.$( 'group = tim.copy2( group, inherit._agroup )' )
+				);
+		}
 	}
 
 	if( timspec.glist )
@@ -391,11 +407,11 @@ def.proto.genCreatorInheritanceReceiver =
 		{
 			receiver =
 				receiver
-				.$( 'if( !tim_proto.isEmpty( inherit._ttwig ) )',
+				.$( 'if( !tim_proto.isEmpty( inherit._atwig ) )',
 					$block
 					.$( 'twigDup = true' )
 					.$( !timspec.hasProxyRanks ? 'keys = keys.slice( )' : undefined )
-					.$( 'twig = tim.copy2( twig, inherit._ttwig )' )
+					.$( 'twig = tim.copy2( twig, inherit._atwig )' )
 				);
 		}
 	}
@@ -978,6 +994,7 @@ def.proto.genCreatorReturn =
 	{
 		switch( argName )
 		{
+			case 'atwig' :
 			case 'group' :
 			case 'groupDup' :
 			case 'inherit' :
@@ -987,7 +1004,6 @@ def.proto.genCreatorReturn =
 			case 'set' :
 			case 'setDup' :
 			case 'twig' :
-			case 'ttwig' :
 			case 'twigDup' :
 
 				call = call.$argument( argName );
