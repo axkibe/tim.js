@@ -1730,7 +1730,7 @@ def.proto.genTimProto =
 			.$( this._protoSet( 'addGroup', 'groupAddGroup' ) )
 
 			.$comment( 'Gets one element from the group.' )
-			.$( this._protoSet( 'get', 'groupGet' ) )
+			.$( this._protoSet( 'get', timspec.isAdjusting ? 'groupAdjustGet' : 'groupGet' ) )
 
 			.$comment( 'Returns the group keys.')
 			.$( this._protoLazyValueSet( 'keys', 'groupKeys' ) )
