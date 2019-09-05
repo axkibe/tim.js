@@ -562,6 +562,13 @@ a--
 
 
 /*
+| Creates the list with direct elements
+*/
+self.createWithElements =
+	function( ) { return self.create( 'list:init', Array.prototype.slice.call( arguments ) ); };
+
+
+/*
 | Tests equality of object.
 */
 prototype.equals =

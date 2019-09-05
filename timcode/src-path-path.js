@@ -326,6 +326,13 @@ a--
 
 
 /*
+| Creates the list with direct elements
+*/
+self.createWithElements =
+	function( ) { return self.create( 'list:init', Array.prototype.slice.call( arguments ) ); };
+
+
+/*
 | Converts into json.
 */
 tim_proto.lazyValue(

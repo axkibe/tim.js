@@ -1806,6 +1806,18 @@ def.proto.genTimProto =
 					'for( let a = this.length - 1; a >= 0; a-- ) yield this._list[ a ];'
 				)
 			);
+
+		if( timspec.attributes.size === 0 )
+		{
+			result =
+				result
+				.$comment( 'Creates the list with direct elements' )
+				.$( 'self.createWithElements = ',
+					$func(
+						'return self.create( "list:init", Array.prototype.slice.call( arguments) );'
+					)
+				);
+		}
 	}
 
 	if( timspec.gset )
