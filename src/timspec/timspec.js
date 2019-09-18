@@ -240,9 +240,7 @@ def.static.createFromDef =
 	// in case of attributes, group, list, set or twig
 	// it will be turned off again
 	let singleton = true;
-
 	let attributes = timspec_attributeGroup.create( );
-
 	let global;
 
 	// foreign timtypes to be imported
@@ -253,7 +251,6 @@ def.static.createFromDef =
 	if( def.extend )
 	{
 		extend = type_tim.createFromPath( def.extend.split( '/' ) );
-
 		extendSpec = getTimspec( extend, module );
 	}
 
@@ -269,7 +266,6 @@ def.static.createFromDef =
 		const func = node.func;
 
 		if( func.timtype !== ast_var ) return node;
-
 		if( func.name !== 'require' ) return node;
 
 		if( node.length !== 1 )
@@ -297,7 +293,6 @@ def.static.createFromDef =
 		singleton = false;
 
 		const jAttr = def.attributes[ name ];
-
 		const jType = jAttr.type;
 
 		// attribute types
@@ -335,7 +330,6 @@ def.static.createFromDef =
 		}
 
 		const assign = adjust ? '__' + name : name;
-
 		const jdv = jAttr.defaultValue;
 
 		let defaultValue;
@@ -349,17 +343,14 @@ def.static.createFromDef =
 			for( let type of types )
 			{
 				if( type.timtype !== type_tim ) continue;
-
 				if( type.imported ) continue;
 
 				const attrPath = getRealpath( module.filename, type.pathString );
-
 				const jsonType = timspec_timspec.getJsonTypeOf( type, module.filename );
 
 				if( jsonType.indexOf( '/' ) < 0 ) continue;
 
 				const jPath = getRealpath( attrPath, jsonType + '.js' );
-
 				const jType = makeRelativeTypeTim( module.filename, jPath );
 
 				imports = imports.add( jType );
@@ -412,54 +403,39 @@ def.static.createFromDef =
 
 	let ggroup, glist, gset, gtwig;
 
-	if( def.group )
-	{
-		ggroup = type_set.createFromArray( module, def.group );
-	}
-	else if( extendSpec && extendSpec.ggroup )
-	{
-		ggroup = extendSpec.ggroup;
-	}
+	if( def.group ) ggroup = type_set.createFromArray( module, def.group );
+	else if( extendSpec && extendSpec.ggroup ) ggroup = extendSpec.ggroup;
 
-	if( def.list )
-	{
-		glist = type_set.createFromArray( module, def.list );
-	}
-	else if( extendSpec && extendSpec.glist )
-	{
-		glist = extendSpec.glist;
-	}
+	if( def.list ) glist = type_set.createFromArray( module, def.list );
+	else if( extendSpec && extendSpec.glist ) glist = extendSpec.glist;
 
-	if( def.set )
-	{
-		gset = type_set.createFromArray( module, def.set );
-	}
-	else if( extendSpec && extendSpec.gset )
-	{
-		gset = extendSpec.gset;
-	}
+	if( def.set ) gset = type_set.createFromArray( module, def.set );
+	else if( extendSpec && extendSpec.gset ) gset = extendSpec.gset;
 
-	if( def.twig )
-	{
-		gtwig = type_set.createFromArray( module, def.twig );
-	}
-	else if( extendSpec && extendSpec.gtwig )
-	{
-		gtwig = extendSpec.gtwig;
-	}
+	if( def.twig ) gtwig = type_set.createFromArray( module, def.twig );
+	else if( extendSpec && extendSpec.gtwig ) gtwig = extendSpec.gtwig;
 
 	if( !abstract )
 	{
 		if( ggroup ) imports = imports.addSet( ggroup );
-
 		if( glist ) imports = imports.addSet( glist );
-
 		if( gset ) imports = imports.addSet( gset );
-
 		if( gtwig ) imports = imports.addSet( gtwig );
 	}
 
 	if( abstract || ggroup || glist || gset || gtwig ) singleton = false;
+
+	// if extending a non-singleton this can't be one either
+	if(
+		singleton && extendSpec
+		&& (
+			extendSpec.attributes.size > 0
+			|| extendSpec.ggroup
+			|| extendSpec.glist
+			|| extendSpec.gset
+			|| extendSpec.gtwig
+		)
+	) singleton = false;
 
 	const inheritKeys = Object.keys( def.inherit );
 
@@ -486,17 +462,13 @@ def.static.createFromDef =
 	const isAdjusting = !!( def.adjust.get || ( extendSpec && extendSpec.isAdjusting ) );
 
 	if( singleton && !def.singleton ) throw new Error( 'this is a singleton' );
-
 	if( !singleton && def.singleton ) throw new Error( 'this is not a singleton' );
-
 	if( def.abstract && def.singleton ) throw new Error( 'abstract and singleton are exclusive' );
-
 	if( singleton && def.creator ) throw new Error( 'singletons cannot have creators' );
 
 	if( singleton ) creator = '_create';
 
 	let json = def.json;
-
 
 	// gets additional imports from json forwarders
 	if( json )
@@ -504,11 +476,9 @@ def.static.createFromDef =
 		if( json.indexOf( '/' ) >= 0 )
 		{
 			const type = type_tim.createFromPath( def.json.split( '/' ) );
-
 			json = getTimspec( type, module );
 		}
 	}
-
 
 	const timspec =
 		timspec_timspec.create(
@@ -535,7 +505,6 @@ def.static.createFromDef =
 			'requires', string_set.createFromProtean( requires ),
 			'singleton', singleton
 		);
-
 
 	timspec._validate( def );
 

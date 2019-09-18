@@ -9,7 +9,6 @@ tim.define( module, ( def ) => {
 
 def.abstract = true;
 
-
 const util = require( 'util' );
 
 
@@ -23,17 +22,13 @@ def.inspect =
 	)
 {
 	let postfix;
-
 	let result;
 
 	if( !opts.ast )
 	{
 		result = 'ast{ ';
-
 		postfix = ' }';
-
 		opts = tim.copy( opts );
-
 		opts.ast = true;
 	}
 	else
