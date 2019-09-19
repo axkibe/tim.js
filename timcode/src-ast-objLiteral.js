@@ -537,7 +537,7 @@ tim_proto.lazyValue( prototype, 'length', tim_proto.twigLength );
 /*
 | Returns the rank of the key.
 */
-tim_proto.lazyFunctionString( prototype, 'rankOf', tim_proto.twigRankOf );
+tim_proto.lazyFunction( prototype, 'rankOf', tim_proto.twigRankOf );
 
 
 /*

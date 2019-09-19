@@ -18,7 +18,7 @@ if( TIM )
 /*
 | Returns a path with key appended
 */
-def.lazyFuncStr.append =
+def.lazyFunc.append =
 	function(
 		key
 	)
@@ -142,7 +142,7 @@ def.proto.limit =
 /*
 | Returns a path with an entry prepended.
 */
-def.lazyFuncStr.prepend =
+def.lazyFunc.prepend =
 	function(
 		entry
 	)

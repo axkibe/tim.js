@@ -455,8 +455,7 @@ def.static.createFromDef =
 		|| ( !!def.json )
 		|| isntEmpty( def.adjust )
 		|| isntEmpty( def.lazy )
-		|| isntEmpty( def.lazyFuncInt )
-		|| isntEmpty( def.lazyFuncStr );
+		|| isntEmpty( def.lazyFunc );
 
 	// isAdjusting when defined here or by a parent
 	const isAdjusting = !!( def.adjust.get || ( extendSpec && extendSpec.isAdjusting ) );
@@ -705,8 +704,7 @@ def.proto._validate =
 		def.proto.asJSON !== undefined
 		|| def.static.asJSON !== undefined
 		|| def.staticLazy.asJSON !== undefined
-		|| def.lazyFuncInt.asJSON !== undefined
-		|| def.lazyFuncStr.asJSON !== undefined
+		|| def.lazyFunc.asJSON !== undefined
 	)
 	{
 		throw new Error( '"asJSON" must be lazy' );
@@ -717,8 +715,7 @@ def.proto._validate =
 		|| def.lazy.toJSON !== undefined
 		|| def.static.toJSON !== undefined
 		|| def.staticLazy.toJSON !== undefined
-		|| def.lazyFuncInt.toJSON !== undefined
-		|| def.lazyFuncStr.toJSON !== undefined
+		|| def.lazyFunc.toJSON !== undefined
 	)
 	{
 		throw new Error( '"toJSON" forbidden, use "asJSON"' );
@@ -728,8 +725,7 @@ def.proto._validate =
 		def.proto.createFromJSON !== undefined
 		|| def.lazy.createFromJSON !== undefined
 		|| def.staticLazy.createFromJSON !== undefined
-		|| def.lazyFuncInt.createFromJSON !== undefined
-		|| def.lazyFuncStr.createFromJSON !== undefined
+		|| def.lazyFunc.createFromJSON !== undefined
 	)
 	{
 		throw new Error( '"createFromJSON" must be static' );

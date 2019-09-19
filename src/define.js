@@ -211,8 +211,7 @@ module.exports =
 		inherit : { },
 		proto : { },
 		lazy : { },
-		lazyFuncInt : { },
-		lazyFuncStr : { },
+		lazyFunc : { },
 		static : { },
 		staticLazy : { },
 	};

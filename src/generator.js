@@ -1869,11 +1869,7 @@ def.proto.genTimProto =
 			.$( this._protoLazyValueSet( 'length', 'twigLength' ) )
 
 			.$comment( 'Returns the rank of the key.' )
-			.$(
-				'tim_proto.lazyFunctionString(',
-					'prototype, "rankOf", tim_proto.twigRankOf ',
-				')'
-			)
+			.$( 'tim_proto.lazyFunction( prototype, "rankOf", tim_proto.twigRankOf )' )
 
 			.$comment( 'Returns the twig with the element at key set.' )
 			.$( this._protoSet( 'set', 'twigSet' ) )

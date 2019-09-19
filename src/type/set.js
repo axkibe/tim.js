@@ -75,9 +75,7 @@ def.static.createFromArray =
 				// be combined with the relative path of tims
 
 				const rpath = filename.substr( 0, filename.lastIndexOf( '/' ) );
-
 				const rpa = rpath.split( '/' );
-
 				const la = line.split( '/' );
 
 				// just cut out all the '.' and empty path parts
@@ -100,7 +98,6 @@ def.static.createFromArray =
 				}
 
 				const id = type_tim.createFromPath( [ '.' ].concat( rpa ).concat( la ) );
-
 				types.add( id );
 			}
 
@@ -108,7 +105,6 @@ def.static.createFromArray =
 		}
 
 		const id = any.createFromString( array[ a ] );
-
 		types.add( id );
 	}
 

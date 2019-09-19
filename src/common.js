@@ -141,8 +141,7 @@ tim._prepare =
 		for( let name in def.static ) staticMask[ name ] = true;
 		for( let name in def.staticLazy ) staticMask[ name ] = true;
 		for( let name in def.lazy ) protoMask[ name ] = true;
-		for( let name in def.lazyFuncInt ) protoMask[ name ] = true;
-		for( let name in def.lazyFuncStr ) protoMask[ name ] = true;
+		for( let name in def.lazyFunc ) protoMask[ name ] = true;
 		for( let name in def.proto ) protoMask[ name ] = true;
 
 		for( let name in extend.static )
@@ -160,14 +159,9 @@ tim._prepare =
 			if( !protoMask[ name ] ) def.lazy[ name ] = extend.lazy[ name ];
 		}
 
-		for( let name in extend.lazyFuncInt )
+		for( let name in extend.lazyFunc )
 		{
-			if( !protoMask[ name ] ) def.lazyFuncInt[ name ] = extend.lazyFuncInt[ name ];
-		}
-
-		for( let name in extend.lazyFuncStr )
-		{
-			if( !protoMask[ name ] ) def.lazyFuncStr[ name ] = extend.lazyFuncStr[ name ];
+			if( !protoMask[ name ] ) def.lazyFunc[ name ] = extend.lazyFunc[ name ];
 		}
 
 		for( let name in extend.proto )
@@ -217,15 +211,9 @@ tim._prepare =
 	}
 
 	// assigns lazy integer functions to the prototype
-	for( let name in def.lazyFuncInt )
+	for( let name in def.lazyFunc )
 	{
-		tim.proto.lazyFunctionInteger( prototype, name, def.lazyFuncInt[ name ] );
-	}
-
-	// assigns lazy string functions to the prototype
-	for( let name in def.lazyFuncStr )
-	{
-		tim.proto.lazyFunctionString( prototype, name, def.lazyFuncStr[ name ] );
+		tim.proto.lazyFunction( prototype, name, def.lazyFunc[ name ] );
 	}
 
 	// assigns functions to the prototype

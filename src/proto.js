@@ -54,50 +54,14 @@ proto.lazyValue =
 
 
 /*
-| A function taking a string and no side effects.
+| A function taking a key and no side effects.
 |
 | Computed values are cached.
 */
-proto.lazyFunctionString =
+proto.lazyFunction =
 	function(
 		proto,
-		key,
-		getter
-	)
-{
-/**/if( CHECK )
-/**/{
-/**/	// lazy valued stuff must be tims
-/**/	if( !proto.create ) throw new Error( );
-/**/
-/**/	// there is something amiss if static and tim
-/**/	// lazyness is used together
-/**/	if( proto.__lazy ) throw new Error( );
-/**/}
-
-	proto[ key ] =
-		function( str )
-	{
-		const ckey = key + '__' + str;
-
-		const val = this.__lazy[ ckey ];
-
-		if( val !== undefined ) return val;
-
-		return( this.__lazy[ ckey ] = getter.call( this, str ) );
-	};
-};
-
-
-/*
-| A function taking an integer and no side effects.
-|
-| Computed values are cached.
-*/
-proto.lazyFunctionInteger =
-	function(
-		proto,
-		key,
+		name,
 		getter
 	)
 {
@@ -112,26 +76,24 @@ proto.lazyFunctionInteger =
 /**/	if( proto.__lazy ) throw new Error( );
 /**/}
 
-	proto[ key ] =
-		function( integer )
+	proto[ name ] =
+		function(
+			key
+		)
 	{
-/**/	if( CHECK )
-/**/	{
-/**/		if(
-/**/			typeof( integer ) !== 'number'
-/**/			|| Math.floor( integer ) !== integer
-/**/		) throw new Error( );
-/**/	}
+		let c = this.__lazy[ name ];
 
-		let cArr = this.__lazy[ key ];
+		if( !c ) c = this.__lazy[ name ] = new Map( );
 
-		if( !cArr ) cArr = this.__lazy[ key ] = [ ];
+		let v = c.get( key );
 
-		const val = cArr[ integer ];
+		if( v !== undefined ) return v;
 
-		if( val !== undefined ) return val;
+		v = getter.call( this, key );
 
-		return( cArr[ integer ] = getter.call( this, integer ) );
+		c.set( key, v );
+
+		return v;
 	};
 };
 
