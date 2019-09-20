@@ -13,7 +13,7 @@ const util = NODE && require( 'util' );
 tim.aheadValue =
 	function(
 		obj,   // object to ahead the lazy value for
-		key,   // key to ahead
+		name,  // name to ahead
 		value  // value to ahead
 	)
 {
@@ -24,34 +24,36 @@ tim.aheadValue =
 
 	// FUTURE CHECK if value is already set.
 
-	return( obj.__lazy[ key ] = value );
+	return( obj.__lazy[ name ] = value );
 };
 
 
 /*
-| A function taking an integer and no side effects
+| A function taking a key and no side effects
 | is computed for a value and fixated before it is needed.
 */
-tim.aheadFunctionInteger =
+tim.aheadFunction =
 	function(
 		obj,      // object to ahead for
-		key,      // property to ahead
-		integer,  // function ( integer ) value to ahead
+		name,     // property to ahead
+		key,      // function ( key ) value to ahead
 		value     // value ( result ) to ahead
 	)
 {
 /**/if( CHECK )
 /**/{
+/**/	if( name === undefined ) throw new Error( );
+/**/	if( key === undefined ) throw new Error( );
 /**/	if( value === undefined ) throw new Error( );
-/**/
-/**/	if( integer === undefined ) throw new Error( );
 /**/}
 
-	let cArr = obj.__lazy[ key ];
+	let c = obj.__lazy[ name ];
 
-	if( !cArr ) cArr = obj.__lazy[ key ] = [ ];
+	if( !c ) c = obj.__lazy[ name ] = new Map( );
 
-	return( cArr[ integer ] = value );
+	c.set( key, value );
+
+	return value;
 };
 
 
@@ -104,10 +106,10 @@ tim.copy2 =
 tim.hasLazyValueSet =
 	function(
 		obj,
-		key
+		name
 	)
 {
-	return obj.__lazy[ key ] !== undefined;
+	return obj.__lazy[ name ] !== undefined;
 };
 
 
