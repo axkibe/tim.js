@@ -14,111 +14,58 @@ def.abstract = true;
 
 
 const ast_and = tim.require( '../ast/and' );
-
 const ast_arrayLiteral = tim.require( '../ast/arrayLiteral' );
-
 const ast_assign = tim.require( '../ast/assign' );
-
 const ast_block = tim.require( '../ast/block' );
-
 const ast_boolean = tim.require( '../ast/boolean' );
-
 const ast_call = tim.require( '../ast/call' );
-
 const ast_comma = tim.require( '../ast/comma' );
-
 const ast_condition = tim.require( '../ast/condition' );
-
 const ast_delete = tim.require( '../ast/delete' );
-
 const ast_differs = tim.require( '../ast/differs' );
-
 const ast_divide = tim.require( '../ast/divide' );
-
 const ast_divideAssign = tim.require( '../ast/divideAssign' );
-
 const ast_dot = tim.require( '../ast/dot' );
-
 const ast_equals = tim.require( '../ast/equals' );
-
 const ast_for = tim.require( '../ast/for' );
-
 const ast_forIn = tim.require( '../ast/forIn' );
-
 const ast_forOf = tim.require( '../ast/forOf' );
-
 const ast_greaterOrEqual = tim.require( '../ast/greaterOrEqual' );
-
 const ast_greaterThan = tim.require( '../ast/greaterThan' );
-
 const ast_if = tim.require( '../ast/if' );
-
 const ast_instanceof = tim.require( '../ast/instanceof' );
-
 const ast_lessOrEqual = tim.require( '../ast/lessOrEqual' );
-
 const ast_lessThan = tim.require( '../ast/lessThan' );
-
 const ast_let = tim.require( '../ast/let' );
-
 const ast_letEntry = tim.require( '../ast/letEntry' );
-
 const ast_member = tim.require( '../ast/member' );
-
 const ast_minus = tim.require( '../ast/minus' );
-
 const ast_minusAssign = tim.require( '../ast/minusAssign' );
-
 const ast_multiply = tim.require( '../ast/multiply' );
-
 const ast_multiplyAssign = tim.require( '../ast/multiplyAssign' );
-
 const ast_negate = tim.require( '../ast/negate' );
-
 const ast_new = tim.require( '../ast/new' );
-
 const ast_not = tim.require( '../ast/not' );
-
 const ast_null = tim.require( '../ast/null' );
-
 const ast_number = tim.require( '../ast/number' );
-
 const ast_objLiteral = tim.require( '../ast/objLiteral' );
-
 const ast_or = tim.require( '../ast/or' );
-
 const ast_plus = tim.require( '../ast/plus' );
-
 const ast_plusAssign = tim.require( '../ast/plusAssign' );
-
 const ast_postDecrement = tim.require( '../ast/postDecrement' );
-
 const ast_postIncrement = tim.require( '../ast/postIncrement' );
-
 const ast_preDecrement = tim.require( '../ast/preDecrement' );
-
 const ast_preIncrement = tim.require( '../ast/preIncrement' );
-
 const ast_return = tim.require( '../ast/return' );
-
 const ast_string = tim.require( '../ast/string' );
-
 const ast_throw = tim.require( '../ast/throw' );
-
 const ast_typeof = tim.require( '../ast/typeof' );
-
 const ast_var = tim.require( '../ast/var' );
-
 const ast_yield = tim.require( '../ast/yield' );
-
 const lexer_lexer = tim.require( '../lexer/lexer' );
-
 const lexer_token = tim.require( '../lexer/token' );
-
 const parser_state = tim.require( './state' );
-
 const parser_tokenList = tim.require( './tokenList' );
-
 const parser_spec = tim.require( './spec' );
 
 
@@ -982,39 +929,22 @@ def.staticLazy.leftSpecs = ( ) =>
 	const s = { };
 
 	s.identifier = c( 'handleIdentifier', -1 );
-
 	s.null = c( 'handleNull', -1 );
-
 	s.number = c( 'handleNumber', -1 );
-
 	s.string = c( 'handleString', -1 );
-
 	s[ 'true' ] = c( 'handleBooleanLiteral', -1 );
-
 	s[ 'false' ] = c( 'handleBooleanLiteral', -1 );
-
 	s[ '[' ] = c( 'handleArrayLiteral', 1, 'l2r' );
-
 	s[ '{' ] = c( 'handleObjectLiteral', -1 );
-
 	s[ '(' ] = c( 'handleGrouping', 0, 'l2r' );
-
 	s[ 'new' ] = c( 'handleNew', 2, 'r2l' );
-
 	s[ '++' ] = c( 'handleMonoOps', 4, 'n/a', ast_preIncrement );
-
 	s[ '--' ] = c( 'handleMonoOps', 4, 'n/a', ast_preDecrement );
-
 	s[ '-' ] = c( 'handleMonoOps', 4, 'r2l', ast_negate );
-
 	s[ '!' ] = c( 'handleMonoOps', 4, 'r2l', ast_not );
-
 	s[ 'delete' ] = c( 'handleMonoOps', 4, 'r2l', ast_delete );
-
 	s[ 'typeof' ] = c( 'handleMonoOps', 4, 'r2l', ast_typeof );
-
 	s[ 'yield' ] = c( 'handleMonoOps', 18, 'r2l', ast_yield );
-
 	s[ ',' ] = c( 'handleDualisticOps', 19, 'l2r', ast_comma );
 
 	return s;
@@ -1028,73 +958,40 @@ def.staticLazy.leftSpecs = ( ) =>
 def.staticLazy.rightSpecs = ( ) =>
 {
 	const c = parser_spec.createHandler;
-
 	const s = { };
 
 	s[ '(' ] = c( 'handleCall', 1, 'l2r' );
-
 	s[ '[' ] = c( 'handleMember', 1, 'l2r' );
-
 	s[ ']' ] = c( 'handlePass', 1 ); // 98?
-
 	s[ '.' ] = c( 'handleDot', 1, 'l2r' );
-
 	s[ '++' ] = c( 'handleMonoOps', 3, 'n/a', ast_postIncrement );
-
 	s[ '--' ] = c( 'handleMonoOps', 3, 'n/a', ast_postDecrement );
-
 	s[ '*' ] = c( 'handleDualisticOps', 5, 'l2r', ast_multiply );
-
 	s[ '/' ] = c( 'handleDualisticOps', 5, 'l2r', ast_divide );
-
 	s[ '+' ] = c( 'handleDualisticOps', 6, 'l2r', ast_plus );
-
 	s[ '-' ] = c( 'handleDualisticOps', 6, 'l2r', ast_minus );
-
 	s[ '<=' ] = c( 'handleDualisticOps', 8, 'l2r', ast_lessOrEqual );
-
 	s[ '<' ] = c( 'handleDualisticOps', 8, 'l2r', ast_lessThan );
-
 	s[ '>=' ] = c( 'handleDualisticOps', 8, 'l2r', ast_greaterOrEqual );
-
 	s[ '>' ] = c( 'handleDualisticOps', 8, 'l2r', ast_greaterThan );
-
 	s[ '===' ] = c( 'handleDualisticOps', 9, 'l2r', ast_equals );
-
 	s[ '!==' ] = c( 'handleDualisticOps', 9, 'l2r', ast_differs );
-
 	s[ 'instanceof' ] = c( 'handleDualisticOps', 11, 'l2r', ast_instanceof );
-
 	s[ '&&' ] = c( 'handleDualisticOps', 13, 'l2r', ast_and );
-
 	s[ '||' ] = c( 'handleDualisticOps', 14, 'l2r', ast_or );
-
 	s[ '?' ] = c( 'handleCondition', 15, 'l2r' );
-
 	s[ '=' ] = c( 'handleDualisticOps', 16, 'r2l', ast_assign );
-
 	s[ '+=' ] = c( 'handleDualisticOps', 16, 'r2l', ast_plusAssign );
-
 	s[ '-=' ] = c( 'handleDualisticOps', 16, 'r2l', ast_minusAssign );
-
 	s[ '*=' ] = c( 'handleDualisticOps', 16, 'r2l', ast_multiplyAssign );
-
 	s[ '/=' ] = c( 'handleDualisticOps', 16, 'r2l', ast_divideAssign );
-
 	s[ ',' ] = c( 'handeDualisticOps', 19, 'l2r', ast_comma );
-
 	s[ ')' ] = c( 'handlePass', 98 );
-
 	s[ ':' ] = c( 'handlePass', 98 );
-
 	s[ ';' ] = c( 'handlePass', 101 );
-
 	s[ 'of' ] = c( 'handlePass', 101 );
-
 	s[ 'in' ] = c( 'handlePass', 101 );
-
 	s[ '}' ] = c( 'handlePass', 101 );
-
 	s[ 'else' ] = c( 'handlePass', 101 );
 
 	return s;
@@ -1122,20 +1019,16 @@ def.staticLazy.statementSpecs = ( ) =>
 	const s = { };
 
 	s[ 'if' ] = parser_spec.create( 'handler', 'handleIf' );
-
 	s[ 'for' ] = parser_spec.create( 'handler', 'handleFor' );
 
 	// 18... one stronger than comma, so multiple let definitions are
 	//       not treated as comma operator
 	s[ 'const' ] =
-	s[ 'let' ] = parser_spec.create( 'handler', 'handleLet', 'prec', 18 );
-
+	s[ 'let' ] =
+		parser_spec.create( 'handler', 'handleLet', 'prec', 18 );
 	s[ 'return' ] = parser_spec.create( 'handler', 'handleReturn' );
-
 	s[ 'throw' ] = parser_spec.create( 'handler', 'handleThrow' );
-
 	s[ '{' ] = parser_spec.create( 'handler', 'handleBlock' );
-
 	//s[ '}' ] = parser_spec.create( 'handler', 'handlePass', 'prec', 101 );
 
 	return s;

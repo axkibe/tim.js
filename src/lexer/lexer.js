@@ -20,23 +20,10 @@ const tokenList = tim.require( './tokenList' );
 */
 def.staticLazy.keywords = ( ) =>
 	new Set( [
-		'const',
-		'delete',
-		'else',
-		'false',
-		'for',
-		'if',
-		'in',
-		'instanceof',
-		'let',
-		'new',
-		'null',
-		'of',
-		'return',
-		'throw',
-		'true',
-		'typeof',
-		'yield',
+		'const', 'delete', 'else', 'false', 'for',
+		'if', 'in', 'instanceof', 'let', 'new',
+		'null', 'of', 'return', 'throw', 'true',
+		'typeof', 'yield',
 	] );
 
 
@@ -84,8 +71,19 @@ def.static.tokenize =
 			let value = ch;
 
 			while( c + 1 < cl && code[ c + 1 ].match( /[0-9]/ ) ) value += code[ ++c ];
-
 			value = parseInt( value, 10 );
+
+			if( c + 1 < cl && code[ c + 1 ] === '.' )
+			{
+				// it's a comma value
+				c++; // skips the comma
+				let cv = code[ ++c ];
+				while( c + 1 < cl && code[ c + 1 ].match( /[0-9]/ ) ) cv += code[ ++c ];
+				let cvl = cv.length;
+				cv = parseInt( cv, 10 );
+				while( cvl > 0 ) { cv /= 10; cvl--; }
+				value += cv;
+			}
 
 			tokens.push( token.createTv( 'number', value ) );
 
